@@ -180,16 +180,6 @@ namespace ProductDataWarehouse.Controllers
 		{
 			return ImageRepository.ImageTypes.Select( it => new SelectListItem() { Value = it.Abbreviation, Text = it.Description } );
 		}
-
-		static public IEnumerable<SelectListItem> GetImageRatioList()
-		{
-			return ImageRepository.ImageSizes.Select( imgSize => new SelectListItem() { Text = imgSize.Description + ": ", Value = imgSize.Suffix } );
-		}
-
-		static public IEnumerable<SelectListItem> GetImageCropLocations()
-		{
-			return ImageRepository.CropLocations.Select( cl => new SelectListItem() { Text = cl, Value = cl } );
-		}
 	}
 
 }

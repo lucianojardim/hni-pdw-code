@@ -210,29 +210,6 @@ namespace PWDRepositories
 			}
 		}
 
-		public class ImageSizeAndRatio
-		{
-			public string Description { get; set; }
-			public string Suffix { get; set; }
-			public int RatioHeight { get; set; }
-			public int RatioWidth { get; set; }
-			public int MaxHeight { get; set; }
-			public int MaxWidth { get; set; }
-		}
-
-		static public List<ImageSizeAndRatio> ImageSizes = new List<ImageSizeAndRatio>()
-		{
-			new ImageSizeAndRatio() { Description = "Small 1:1", Suffix = "s1to1", RatioWidth = 1, RatioHeight = 1, MaxHeight = 200, MaxWidth = 200 },
-			new ImageSizeAndRatio() { Description = "Small 3:4", Suffix = "s3to4", RatioWidth = 3, RatioHeight = 4, MaxHeight = 200, MaxWidth = 200 },
-			new ImageSizeAndRatio() { Description = "Small 4:3", Suffix = "s4to3", RatioWidth = 4, RatioHeight = 3, MaxHeight = 200, MaxWidth = 200 },
-			new ImageSizeAndRatio() { Description = "Small 16:9", Suffix = "s16to9", RatioWidth = 16, RatioHeight = 9, MaxHeight = 200, MaxWidth = 200 },
-		};
-
-		static public List<string> CropLocations = new List<string>()
-		{
-			"Center", "Top", "Left", "Right", "Bottom"
-		};
-
 		public void UploadImageFile( int id, Stream fStream, int fileLength, string origFileName )
 		{
 			ImageFile imgData = database.ImageFiles.FirstOrDefault( i => i.ImageID == id );
@@ -350,10 +327,11 @@ namespace PWDRepositories
 			Image fullSizeImg = Image.FromStream( fStream );
 			fullSizeImg.Save( Path.Combine( ConfigurationManager.AppSettings["ImageFileLocation"], imageName + Path.GetExtension( origFileName ) ) );
 
-			foreach( var iSize in ImageSizes )
+			var ImageSizes = (ImageCropConfiguration)ConfigurationManager.GetSection( "imageCropSettings" );
+			foreach( PDWInfrastructure.ImageCropConfiguration.CropSettingElement iSize in ImageSizes.ImageSizes )
 			{
 				ResizeImage( Path.Combine( ConfigurationManager.AppSettings["ImageFileLocation"], imageName + "_" + iSize.Suffix + ".png" ),
-					fullSizeImg, iSize.RatioWidth, iSize.RatioHeight, iSize.MaxWidth, iSize.MaxHeight, "Center" );
+					fullSizeImg, iSize.RatioWidth, iSize.RatioHeight, iSize.MaxWidth, iSize.MaxHeight, iSize.CropType );
 			}
 		}
 
