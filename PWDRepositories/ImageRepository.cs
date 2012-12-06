@@ -319,13 +319,15 @@ namespace PWDRepositories
 		private void UploadImage( string imageName, Stream fStream, int fileLength, string origFileName )
 		{
 			DirectoryInfo dInfo = new DirectoryInfo( ConfigurationManager.AppSettings["ImageFileLocation"] );
-			foreach( var f in dInfo.EnumerateFiles( "*" + imageName + "*.*" ).ToList() )
+			string prependImageName = ConfigurationManager.AppSettings["PrependImageName"];
+
+			foreach( var f in dInfo.EnumerateFiles( "*" + prependImageName + " " + imageName + "*.*" ).ToList() )
 			{
 				f.Delete();
 			}
 
 			Image fullSizeImg = Image.FromStream( fStream );
-			fullSizeImg.Save( Path.Combine( ConfigurationManager.AppSettings["ImageFileLocation"], imageName + Path.GetExtension( origFileName ) ) );
+			fullSizeImg.Save( Path.Combine( ConfigurationManager.AppSettings["ImageFileLocation"], prependImageName + " " + imageName + Path.GetExtension( origFileName ) ) );
 
 			var ImageSizes = (ImageCropConfiguration)ConfigurationManager.GetSection( "imageCropSettings" );
 			foreach( PDWInfrastructure.ImageCropConfiguration.CropSettingElement iSize in ImageSizes.ImageSizes )

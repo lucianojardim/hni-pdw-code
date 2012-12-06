@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Configuration;
 
 namespace PDWDBContext
 {
@@ -9,7 +10,8 @@ namespace PDWDBContext
 	{
 		public string ThumbnailImageName( string suffix )
 		{
-			return Name + "_" + suffix + ".png";
+			string prependImageName = ConfigurationManager.AppSettings["PrependImageName"];
+			return prependImageName + " " + Name + "_" + suffix + ".png";
 		}
 	}
 }

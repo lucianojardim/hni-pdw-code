@@ -22,7 +22,8 @@
     <add key="webpages:Version" value="1.0.0.0"/>
     <add key="ClientValidationEnabled" value="true"/>
     <add key="UnobtrusiveJavaScriptEnabled" value="true"/>
-    <add key="ImageFileLocation" value="C:\Projects\Paoli\PublishWebSite\Content\Images"/>
+    <add key="ImageFileLocation" value="C:\Projects\Paoli\PublishWebSite\Content\PDWImages"/>
+    <add key="PrependImageName" value="Paoli"/>
   </appSettings>
 
   <connectionStrings>

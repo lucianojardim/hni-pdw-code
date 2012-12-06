@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Configuration;
 
 namespace PDWDBContext
 {
@@ -52,7 +53,8 @@ namespace PDWDBContext
 				var fImg = SeriesImageFiles.FirstOrDefault( i => i.IsFeatured );
 				if( fImg != null )
 				{
-					return fImg.ImageFile.Name + fImg.ImageFile.OriginalExtension;
+					string prependImageName = ConfigurationManager.AppSettings["PrependImageName"];
+					return prependImageName + " " + fImg.ImageFile.Name + fImg.ImageFile.OriginalExtension;
 				}
 
 				return null;
