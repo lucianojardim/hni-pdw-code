@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PWDRepositories;
+using PDWInfrastructure;
+using PDWModels.Images;
 
 namespace ProductDataWarehouse.Controllers
 {
@@ -41,22 +43,49 @@ namespace ProductDataWarehouse.Controllers
 			return View();
 		}
 
+		public ActionResult Images()
+		{
+			return View();
+		}
+
+		public JsonResult FullImageList( DataTableParams param )
+		{
+			int totalCount = 0, filteredCount = 0;
+
+			ImageRepository iRepository = new ImageRepository();
+
+			var results = iRepository.GetFullImageList( 
+				param, out totalCount, out filteredCount );
+
+			return Json( new
+			{
+				sEcho = param.sEcho,
+				iTotalRecords = totalCount,
+				iTotalDisplayRecords = filteredCount,
+				aaData = results
+			},
+				JsonRequestBehavior.AllowGet );
+		}
+
+		public ActionResult AddImage()
+		{
+			return View( new ImageInformation() );
+		}
+
 		[HttpPost]
-		public ActionResult UploadFile( string imageName, HttpPostedFileBase imageFile, string caption, bool? hasPeople, string imageType, FormCollection theFields )
+		public ActionResult AddImage( ImageInformation imgInfo, HttpPostedFileBase imageFile )
 		{
 			if( ModelState.IsValid )
 			{
 				try
 				{
-					ImportRepository iRepo = new ImportRepository();
+					ImageRepository iRepo = new ImageRepository();
 
-					Dictionary<string, string> cropLocations = new Dictionary<string, string>();
-					theFields.AllKeys.Where( k => GetImageRatioList().Select( r => r.Value ).Contains( k ) ).ToList().ForEach( cl => cropLocations.Add( cl, theFields[cl] ) );
+					iRepo.ImportImageFileData( imgInfo, imageFile.InputStream, imageFile.ContentLength, imageFile.FileName );
 
-					iRepo.ImportImageFileData( imageName, imageFile.InputStream, imageFile.ContentLength, imageFile.FileName,
-						caption, hasPeople ?? false, imageType, cropLocations );
+					ViewBag.CloseFancyBox = true;
 
-					return RedirectToAction( "Index" );
+					return View();
 				}
 				catch( Exception ex )
 				{
@@ -67,29 +96,99 @@ namespace ProductDataWarehouse.Controllers
 					}
 				}
 			}
-			return View( viewName: "Index" );
+			return View();
+		}
+
+		public ActionResult EditImage( int id )
+		{
+			ImageRepository iRepo = new ImageRepository();
+
+			return View( iRepo.GetImageInformation( id ) );
+		}
+
+		[HttpPost]
+		public ActionResult EditImage( ImageInformation imgInfo )
+		{
+			if( ModelState.IsValid )
+			{
+				try
+				{
+					ImageRepository iRepo = new ImageRepository();
+
+					iRepo.UpdateImageFile( imgInfo );
+
+					ViewBag.CloseFancyBox = true;
+
+					return View();
+				}
+				catch( Exception ex )
+				{
+					ModelState.AddModelError( "", ex.Message );
+					if( ex.InnerException != null )
+					{
+						ModelState.AddModelError( "", ex.InnerException.Message );
+					}
+				}
+			}
+			return View();
+		}
+
+		public ActionResult UploadImage( int id )
+		{
+			ImageRepository iRepo = new ImageRepository();
+
+			return View( iRepo.GetImageInformation( id ) );
+		}
+
+		[HttpPost]
+		public ActionResult UploadImage( int ImageID, HttpPostedFileBase imageFile )
+		{
+			if( ModelState.IsValid )
+			{
+				try
+				{
+					ImageRepository iRepo = new ImageRepository();
+
+					iRepo.UploadImageFile( ImageID, imageFile.InputStream, imageFile.ContentLength, imageFile.FileName );
+
+					ViewBag.CloseFancyBox = true;
+
+					return View();
+				}
+				catch( Exception ex )
+				{
+					ModelState.AddModelError( "", ex.Message );
+					if( ex.InnerException != null )
+					{
+						ModelState.AddModelError( "", ex.InnerException.Message );
+					}
+				}
+			}
+			return View();
+		}
+
+		public ActionResult DeleteImage( int id )
+		{
+			ImageRepository iRepo = new ImageRepository();
+
+			iRepo.DeleteImageFile( id );
+
+			return RedirectToAction( "Images" );
 		}
 
 		static public IEnumerable<SelectListItem> GetImageTypeList()
 		{
-			return new List<SelectListItem>()
-			{
-				new SelectListItem() { Value = "Env", Text = "Environmental" },
-				new SelectListItem() { Value = "WS", Text = "White Sweep" },
-				new SelectListItem() { Value = "Det", Text = "Detail" },
-				new SelectListItem() { Value = "ILD", Text = "Isometric Line Drawing" },
-				new SelectListItem() { Value = "OFp", Text = "Overhead Footprint" },
-			};
+			return ImageRepository.ImageTypes.Select( it => new SelectListItem() { Value = it.Abbreviation, Text = it.Description } );
 		}
 
 		static public IEnumerable<SelectListItem> GetImageRatioList()
 		{
-			return ImportRepository.ImageSizes.Select( imgSize => new SelectListItem() { Text = imgSize.Description + ": ", Value = imgSize.Suffix } );
+			return ImageRepository.ImageSizes.Select( imgSize => new SelectListItem() { Text = imgSize.Description + ": ", Value = imgSize.Suffix } );
 		}
 
 		static public IEnumerable<SelectListItem> GetImageCropLocations()
 		{
-			return ImportRepository.CropLocations.Select( cl => new SelectListItem() { Text = cl, Value = cl } );
+			return ImageRepository.CropLocations.Select( cl => new SelectListItem() { Text = cl, Value = cl } );
 		}
 	}
 

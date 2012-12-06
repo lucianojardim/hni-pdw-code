@@ -92,6 +92,7 @@
           <Property Name="Caption" Type="nvarchar" Nullable="false" MaxLength="1000" />
           <Property Name="HasPeople" Type="bit" Nullable="false" />
           <Property Name="ImageType" Type="nvarchar" Nullable="false" MaxLength="10" />
+          <Property Name="Keyword" Type="nvarchar" Nullable="false" MaxLength="1000" />
         </EntityType>
         <EntityType Name="Serieses">
           <Key>
@@ -525,6 +526,7 @@
           <Property Type="String" Name="Caption" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Type="Boolean" Name="HasPeople" Nullable="false" />
           <Property Type="String" Name="ImageType" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Keyword" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SeriesImageFile">
           <Key>
@@ -607,6 +609,7 @@
           <EntitySetMapping Name="ImageFiles">
             <EntityTypeMapping TypeName="PaoliPDWModel.ImageFile">
               <MappingFragment StoreEntitySet="ImageFiles">
+                <ScalarProperty Name="Keyword" ColumnName="Keyword" />
                 <ScalarProperty Name="ImageType" ColumnName="ImageType" />
                 <ScalarProperty Name="HasPeople" ColumnName="HasPeople" />
                 <ScalarProperty Name="Caption" ColumnName="Caption" />

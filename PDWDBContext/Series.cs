@@ -21,9 +21,17 @@ namespace PDWDBContext
 			}
 		}
 
-		public IEnumerable<string> ImageListForSize( string suffix )
+		public IEnumerable<string> ImageListForSize( string suffix, int maxImageCount = 0 )
 		{
-			return SeriesImageFiles.Where( s => !s.IsFeatured ).Select( i => i.ImageFile.ThumbnailImageName( suffix ) );
+			var imgList = SeriesImageFiles.Where( s => !s.IsFeatured );
+
+			if( (maxImageCount > 0) )
+			{
+				var randNum = new Random();
+				imgList = imgList.OrderBy( i => randNum.Next() ).Take( maxImageCount );
+			}
+
+			return imgList.Select( i => i.ImageFile.ThumbnailImageName( suffix ) );
 		}
 
 		public string FeaturedImageForSize( string suffix )

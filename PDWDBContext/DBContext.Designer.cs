@@ -774,7 +774,8 @@ namespace PDWDBContext
         /// <param name="caption">Initial value of the Caption property.</param>
         /// <param name="hasPeople">Initial value of the HasPeople property.</param>
         /// <param name="imageType">Initial value of the ImageType property.</param>
-        public static ImageFile CreateImageFile(global::System.Int32 imageID, global::System.String name, global::System.String originalExtension, global::System.String caption, global::System.Boolean hasPeople, global::System.String imageType)
+        /// <param name="keyword">Initial value of the Keyword property.</param>
+        public static ImageFile CreateImageFile(global::System.Int32 imageID, global::System.String name, global::System.String originalExtension, global::System.String caption, global::System.Boolean hasPeople, global::System.String imageType, global::System.String keyword)
         {
             ImageFile imageFile = new ImageFile();
             imageFile.ImageID = imageID;
@@ -783,6 +784,7 @@ namespace PDWDBContext
             imageFile.Caption = caption;
             imageFile.HasPeople = hasPeople;
             imageFile.ImageType = imageType;
+            imageFile.Keyword = keyword;
             return imageFile;
         }
 
@@ -935,6 +937,30 @@ namespace PDWDBContext
         private global::System.String _ImageType;
         partial void OnImageTypeChanging(global::System.String value);
         partial void OnImageTypeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Keyword
+        {
+            get
+            {
+                return _Keyword;
+            }
+            set
+            {
+                OnKeywordChanging(value);
+                ReportPropertyChanging("Keyword");
+                _Keyword = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Keyword");
+                OnKeywordChanged();
+            }
+        }
+        private global::System.String _Keyword;
+        partial void OnKeywordChanging(global::System.String value);
+        partial void OnKeywordChanged();
 
         #endregion
     

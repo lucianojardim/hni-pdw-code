@@ -65,7 +65,7 @@ namespace PWDRepositories
 				sInfo.Name = theData.Name;
 				sInfo.Category = theData.Category.Name;
 				sInfo.FeaturedImageFileName = theData.FeaturedImageFileName;
-				sInfo.Images = theData.ImageListForSize( "s1to1" );
+				sInfo.Images = theData.ImageListForSize( "s1to1", 3 );
 				sInfo.Options = new Dictionary<string, IEnumerable<string>>();
 
 				foreach( var attr in theData.SeriesOptionAttributes.Select( soa => soa.Attribute ).Distinct() )
@@ -97,6 +97,17 @@ namespace PWDRepositories
 			}
 
 			return sInfo;
+		}
+
+		public IEnumerable<string> GetFullSeriesImageList( int id )
+		{
+			var theData = database.Serieses.FirstOrDefault( s => s.SeriesID == id );
+			if( theData != null )
+			{
+				return theData.ImageListForSize( "s1to1" );
+			}
+
+			return new List<string>();
 		}
 	}
 }

@@ -1,0 +1,33 @@
+﻿@model PDWModels.Images.ImageInformation
+@{
+    ViewBag.Title = "EditImage";
+}
+@using ProductDataWarehouse.Controllers
+
+@if( ViewBag.CloseFancyBox ?? false )
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            parent.$.fancybox.close();
+            if (parent.loadImages) {
+                parent.loadImages();
+            }
+        });
+    </script>
+}
+
+    <h2>Edit Image File</h2>
+
+    @using( Html.BeginForm( "EditImage", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
+    {
+        @Html.HiddenFor( m => m.ImageID )
+        @Html.LabelFor( m => m.ImageName )<text>: </text>@Html.TextBoxFor( m => m.ImageName )<br />
+        @Html.LabelFor( m => m.Caption )<text>: </text>@Html.TextAreaFor( m => m.Caption )<br />
+        @Html.LabelFor( m => m.Keywords )<text>: </text>@Html.TextAreaFor( m => m.Keywords )<br />
+        @Html.LabelFor( m => m.ImageType )<text>: </text>@Html.DropDownListFor( m => m.ImageType, ImportController.GetImageTypeList() )<br />
+        @Html.LabelFor( m => m.HasPeople )<text>: </text>@Html.CheckBoxFor( m => m.HasPeople )<br />
+        @Html.LabelFor( m => m.SeriesList )<text>: </text>@Html.TextBoxFor( m => m.SeriesList )<br />
+        <div style="padding-left:30px;font-style:italic;">Place an asterisk after those series for which this is the featured image.</div>
+@Html.ValidationSummary()
+        <input type="submit" value="Save" />
+    }

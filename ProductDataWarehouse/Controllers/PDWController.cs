@@ -74,5 +74,41 @@ namespace ProductDataWarehouse.Controllers
 				JsonRequestBehavior = JsonRequestBehavior.AllowGet
 			};
 		}
+
+		public JsonpResult GetFullSeriesImageList( int id )
+		{
+			SeriesRepository sRepo = new SeriesRepository();
+
+			var theData = sRepo.GetFullSeriesImageList( id );
+
+			return new JsonpResult()
+			{
+				Data = theData,
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
+
+		public JsonpResult GetImageFormatList()
+		{
+			return new JsonpResult()
+			{
+				Data = ImageRepository.ImageTypes,
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
+
+		public JsonpResult GetGalleryImageList( string categories, string imageTypes, int? seriesId )
+		{
+			ImageRepository iRepo = new ImageRepository();
+
+			var theData = iRepo.GetImageList( categories, imageTypes, seriesId );
+
+			return new JsonpResult()
+			{
+				Data = theData,
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+
+		}
     }
 }

@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{60974F7F-6786-4712-9B51-DFB733CEDC79}</ProjectGuid>
+    <ProjectGuid>{67C436B4-9FD8-4D29-A573-3FF721D04835}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PWDRepositories</RootNamespace>
-    <AssemblyName>PWDRepositories</AssemblyName>
+    <RootNamespace>PDWModels</RootNamespace>
+    <AssemblyName>PDWModels</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,14 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LumenWorks.Framework.IO">
-      <HintPath>..\Externals\LumenWorks.Framework.IO.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,25 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttributeRepository.cs" />
-    <Compile Include="ImageRepository.cs" />
-    <Compile Include="ImportRepository.cs" />
-    <Compile Include="SeriesRepository.cs" />
+    <Compile Include="Images\ImageDetail.cs" />
+    <Compile Include="Images\ImageInformation.cs" />
+    <Compile Include="Images\ImageSummary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\PDWDBContext\PDWDBContext.csproj">
-      <Project>{E5529190-3BF8-40D3-A334-A47DC3F230DA}</Project>
-      <Name>PDWDBContext</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PDWInfrastructure\PDWInfrastructure.csproj">
-      <Project>{64E12C25-AA09-4262-9045-77C987AF022E}</Project>
-      <Name>PDWInfrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PDWModels\PDWModels.csproj">
-      <Project>{67C436B4-9FD8-4D29-A573-3FF721D04835}</Project>
-      <Name>PDWModels</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
