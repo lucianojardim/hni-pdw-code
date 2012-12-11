@@ -1,2 +1,3 @@
-update ImageFiles set CreatedDate = DATEADD( day, 0-imageid, CreatedDate )
-select * from ImageFiles
+alter table [ImageFiles] add [CreatedDate] [datetime] not null constraint [defCD] default(getDate())
+alter table [ImageFiles] drop constraint [defCD]
+go
