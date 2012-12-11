@@ -94,6 +94,7 @@
           <Property Name="ImageType" Type="nvarchar" Nullable="false" MaxLength="10" />
           <Property Name="Keyword" Type="nvarchar" Nullable="false" MaxLength="1000" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="1000" />
         </EntityType>
         <EntityType Name="Serieses">
           <Key>
@@ -529,6 +530,7 @@
           <Property Type="String" Name="ImageType" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Keyword" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SeriesImageFile">
           <Key>
@@ -611,6 +613,7 @@
           <EntitySetMapping Name="ImageFiles">
             <EntityTypeMapping TypeName="PaoliPDWModel.ImageFile">
               <MappingFragment StoreEntitySet="ImageFiles">
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="Keyword" ColumnName="Keyword" />
                 <ScalarProperty Name="ImageType" ColumnName="ImageType" />

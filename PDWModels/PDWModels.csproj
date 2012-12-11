@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Images\ImageDetail.cs" />
+    <Compile Include="Images\ImageListGallery.cs" />
+    <Compile Include="Images\ImageListSummary.cs" />
     <Compile Include="Images\ImageThumbnailGallery.cs" />
     <Compile Include="Images\ImageInformation.cs" />
     <Compile Include="Images\ImageSummary.cs" />

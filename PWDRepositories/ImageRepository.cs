@@ -106,6 +106,51 @@ namespace PWDRepositories
 			return gallery;
 		}
 
+		public ImageListGallery GetImageDetailList( string categories, string imageTypes, int? seriesId, string sortBy, int pageNum, int pageSize )
+		{
+			ImageListGallery gallery = new ImageListGallery();
+
+			var imgList = database.ImageFiles.AsQueryable();
+			gallery.TotalImageCount = imgList.Count();
+
+			if( (imageTypes ?? "").Any() )
+			{
+				var imgTypeList = imageTypes.ToLower().Split( ',' );
+				imgList = imgList.Where( img => imgTypeList.Contains( img.ImageType ) );
+			}
+			if( seriesId.HasValue )
+			{
+				imgList = imgList.Where( img => img.SeriesImageFiles.Any( s => s.SeriesID == seriesId.Value ) );
+			}
+			if( (categories ?? "").Any() )
+			{
+				var catList = categories.Split( ',' );
+				imgList = imgList.Where( img => catList.Intersect( img.SeriesImageFiles.Select( s => s.Series.Category.Name ) ).Any() );
+			}
+
+			gallery.FilteredImageCount = imgList.Count();
+			var orderedList = imgList
+				.OrderBy( i => i.Name );
+			switch( (sortBy ?? "").ToLower() )
+			{
+				case "mostpopular":
+					orderedList = orderedList
+						.OrderByDescending( i => i.SeriesImageFiles.Max( sif => sif.Series.SeriesIntAttributes.FirstOrDefault( a => a.Attribute.Name == "Ranking" ).Value ) );
+					break;
+				case "mostrecent":
+					orderedList = orderedList
+						.OrderByDescending( i => i.CreatedDate );
+					break;
+			}
+			gallery.GalleryOfImages = orderedList
+				.Skip( (pageNum - 1) * pageSize )
+				.Take( pageSize )
+				.ToList()
+				.Select( img => new ImageListSummary() { Caption = img.Caption, FileName = img.ThumbnailImageName( "s1to1" ), Description = img.Description } );
+
+			return gallery;
+		}
+
 		public IEnumerable<ImageDetail> GetFullImageList( DataTableParams param,
 			out int totalRecords, out int displayedRecords )
 		{
