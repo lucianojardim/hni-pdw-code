@@ -97,11 +97,11 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
-		public JsonpResult GetGalleryImageList( string categories, string imageTypes, int? seriesId )
+		public JsonpResult GetImageThumbnailList( string categories, string imageTypes, int? seriesId, string sortBy, int? pageNum = 1, int? pageSize = 28 )
 		{
 			ImageRepository iRepo = new ImageRepository();
 
-			var theData = iRepo.GetImageList( categories, imageTypes, seriesId );
+			var theData = iRepo.GetImageThumbnailList( categories, imageTypes, seriesId, sortBy, pageNum.Value, pageSize.Value );
 
 			return new JsonpResult()
 			{

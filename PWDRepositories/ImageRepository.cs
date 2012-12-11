@@ -61,17 +61,49 @@ namespace PWDRepositories
 			};
 		}
 
-		public IEnumerable<ImageSummary> GetImageList( string categories, string imageTypes, int? seriesId )
+		public ImageThumbnailGallery GetImageThumbnailList( string categories, string imageTypes, int? seriesId, string sortBy, int pageNum, int pageSize )
 		{
+			ImageThumbnailGallery gallery = new ImageThumbnailGallery();
+
 			var imgList = database.ImageFiles.AsQueryable();
+			gallery.TotalImageCount = imgList.Count();
 
 			if( (imageTypes ?? "").Any() )
 			{
-				var imgTypeList = imageTypes.Split( ',' );
+				var imgTypeList = imageTypes.ToLower().Split( ',' );
 				imgList = imgList.Where( img => imgTypeList.Contains( img.ImageType ) );
 			}
+			if( seriesId.HasValue )
+			{
+				imgList = imgList.Where( img => img.SeriesImageFiles.Any( s => s.SeriesID == seriesId.Value ) );
+			}
+			if( (categories ?? "").Any() )
+			{
+				var catList = categories.Split( ',' );
+				imgList = imgList.Where( img => catList.Intersect( img.SeriesImageFiles.Select( s => s.Series.Category.Name ) ).Any() );
+			}
 
-			return imgList.ToList().Select( img => new ImageSummary() { Caption = img.Caption, FileName = img.ThumbnailImageName( "s1to1" ) } );
+			gallery.FilteredImageCount = imgList.Count();
+			var orderedList = imgList
+				.OrderBy( i => i.Name );
+			switch( (sortBy ?? "").ToLower() )
+			{
+				case "mostpopular":
+					orderedList = orderedList
+						.OrderByDescending( i => i.SeriesImageFiles.Max( sif => sif.Series.SeriesIntAttributes.FirstOrDefault( a => a.Attribute.Name == "Ranking" ).Value ) );
+					break;
+				case "mostrecent":
+					orderedList = orderedList
+						.OrderByDescending( i => i.CreatedDate );
+					break;
+			}
+			gallery.GalleryOfImages = orderedList
+				.Skip( (pageNum - 1) * pageSize )
+				.Take( pageSize )
+				.ToList()
+				.Select( img => new ImageSummary() { Caption = img.Caption, FileName = img.ThumbnailImageName( "s1to1" ) } );
+
+			return gallery;
 		}
 
 		public IEnumerable<ImageDetail> GetFullImageList( DataTableParams param,
@@ -235,6 +267,7 @@ namespace PWDRepositories
 			imgData.HasPeople = imgInfo.HasPeople;
 			imgData.ImageType = imgInfo.ImageType;
 			imgData.Keyword = imgInfo.Keywords;
+			imgData.CreatedDate = DateTime.Now;
 
 			var seriesList = (imgInfo.SeriesList ?? "").Split( ',' ).ToList();
 			foreach( var series in seriesList )
