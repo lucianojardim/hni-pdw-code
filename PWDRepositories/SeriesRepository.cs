@@ -37,7 +37,7 @@ namespace PWDRepositories
 					SeriesID = s.SeriesID, 
 					Name = s.Name, 
 					Category = s.Category.Name, 
-					ImageFileName = s.FeaturedImageForSize( "s1to1" ), 
+					ImageFileName = s.FeaturedImageForSize( "m4to3" ), 
 					DateCreated = s.CreatedDate,
  					Ranking = s.Ranking,
 					Style = s.AttributeSet( "Style" )
@@ -55,8 +55,8 @@ namespace PWDRepositories
 				sInfo.SeriesID = theData.SeriesID;
 				sInfo.Name = theData.Name;
 				sInfo.Category = theData.Category.Name;
-				sInfo.FeaturedImageFileName = theData.FeaturedImageFileName;
-				sInfo.Images = theData.ImageListForSize( "s1to1", 3 );
+				sInfo.FeaturedImageFileName = theData.FeaturedImageForSize( "l16to9" );
+				sInfo.Images = theData.ImageListForSize( "m16to9", 3 );
 				sInfo.Options = new Dictionary<string, IEnumerable<string>>();
 				sInfo.Details = new Dictionary<string, IEnumerable<string>>();
 
@@ -125,7 +125,7 @@ namespace PWDRepositories
 					{
 						SeriesID = cs.SeriesID,
 						Name = cs.Name,
-						ImageFileName = cs.FeaturedImageForSize( "s1to1" )
+						ImageFileName = cs.FeaturedImageForSize( "m4to3" )
 					} );
 			}
 
@@ -137,7 +137,7 @@ namespace PWDRepositories
 			var theData = database.Serieses.FirstOrDefault( s => s.SeriesID == id );
 			if( theData != null )
 			{
-				return theData.ImageListForSize( "s1to1" );
+				return theData.ImageListForSize( "m4to3" );
 			}
 
 			return new List<string>();

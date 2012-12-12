@@ -65,7 +65,7 @@ namespace PWDRepositories
 		{
 			return new ImageItemDetails()
 			{
-				FileName = img.ThumbnailImageName( "s1to1" ),
+				FileName = img.ThumbnailImageName( "l16to9" ),
 				Caption = img.Caption,
 				Description = img.Description,
 				SeriesList = img.SeriesImageFiles.Select( s => s.Series.Name ).ToList(),
@@ -113,7 +113,7 @@ namespace PWDRepositories
 				.Skip( (pageNum - 1) * pageSize )
 				.Take( pageSize )
 				.ToList()
-				.Select( img => new ImageSummary() { Caption = img.Caption, FileName = img.ThumbnailImageName( "s1to1" ) } );
+				.Select( img => new ImageSummary() { Caption = img.Caption, FileName = img.ThumbnailImageName( "m4to3" ) } );
 
 			return gallery;
 		}
@@ -158,7 +158,7 @@ namespace PWDRepositories
 				.Skip( (pageNum - 1) * pageSize )
 				.Take( pageSize )
 				.ToList()
-				.Select( img => new ImageListSummary() { Caption = img.Caption, FileName = img.ThumbnailImageName( "s1to1" ), Description = img.Description } );
+				.Select( img => new ImageListSummary() { Caption = img.Caption, FileName = img.ThumbnailImageName( "m4to3" ), Description = img.Description } );
 
 			return gallery;
 		}

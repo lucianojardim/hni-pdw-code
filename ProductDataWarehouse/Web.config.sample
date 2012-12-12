@@ -11,10 +11,15 @@
 
   <imageCropSettings>
     <ImageSizes>
-      <CropSetting Description="Small 1:1" Suffix="s1to1" RatioWidth="1" RatioHeight="1" MaxHeight="200" MaxWidth="200" CropType="Bottom" />
-      <CropSetting Description="Small 3:4" Suffix="s3to4" RatioWidth="3" RatioHeight="4" MaxHeight="200" MaxWidth="200" CropType="Left" />
-      <CropSetting Description="Small 4:3" Suffix="s4to3" RatioWidth="4" RatioHeight="3" MaxHeight="200" MaxWidth="200" CropType="Center" />
-      <CropSetting Description="Small 16:9" Suffix="s16to9" RatioWidth="16" RatioHeight="9" MaxHeight="200" MaxWidth="200" CropType="Top" />
+      <CropSetting Description="Small 1:1" Suffix="s1to1" RatioWidth="1" RatioHeight="1" MaxHeight="150" MaxWidth="150" CropType="Center" />
+      <CropSetting Description="Small 4:3" Suffix="s4to3" RatioWidth="4" RatioHeight="3" MaxHeight="150" MaxWidth="150" CropType="Center" />
+      <CropSetting Description="Small 16:9" Suffix="s16to9" RatioWidth="16" RatioHeight="9" MaxHeight="150" MaxWidth="150" CropType="Center" />
+      <CropSetting Description="Medium 1:1" Suffix="m1to1" RatioWidth="1" RatioHeight="1" MaxHeight="300" MaxWidth="300" CropType="Center" />
+      <CropSetting Description="Medium 4:3" Suffix="m4to3" RatioWidth="4" RatioHeight="3" MaxHeight="300" MaxWidth="300" CropType="Center" />
+      <CropSetting Description="Medium 16:9" Suffix="m16to9" RatioWidth="16" RatioHeight="9" MaxHeight="300" MaxWidth="300" CropType="Center" />
+      <CropSetting Description="Large 1:1" Suffix="l1to1" RatioWidth="1" RatioHeight="1" MaxHeight="1024" MaxWidth="1024" CropType="Center" />
+      <CropSetting Description="Large 4:3" Suffix="l4to3" RatioWidth="4" RatioHeight="3" MaxHeight="1024" MaxWidth="1024" CropType="Center" />
+      <CropSetting Description="Large 16:9" Suffix="l16to9" RatioWidth="16" RatioHeight="9" MaxHeight="1024" MaxWidth="1024" CropType="Center" />
     </ImageSizes>
   </imageCropSettings>
 

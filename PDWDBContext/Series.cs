@@ -46,21 +46,6 @@ namespace PDWDBContext
 			return null;
 		}
 
-		public string FeaturedImageFileName
-		{
-			get
-			{
-				var fImg = SeriesImageFiles.FirstOrDefault( i => i.IsFeatured );
-				if( fImg != null )
-				{
-					string prependImageName = ConfigurationManager.AppSettings["PrependImageName"];
-					return prependImageName + " " + fImg.ImageFile.Name + fImg.ImageFile.OriginalExtension;
-				}
-
-				return null;
-			}
-		}
-
 		public IEnumerable<string> AttributeSet( string attName )
 		{
 			return SeriesOptionAttributes.Where( s => s.Attribute.Name == attName ).Select( a => a.AttributeOption.Name );
