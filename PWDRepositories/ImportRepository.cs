@@ -33,13 +33,19 @@ namespace PWDRepositories
 			DeleteAllObjects( "[SeriesIntAttributes]" );
 			DeleteAllObjects( "[AttributeOptions]" );
 			DeleteAllObjects( "[Attributes]" );
+			DeleteAllObjects( "[SeriesImageFiles]" );
+			DeleteAllObjects( "[RelatedSeries]" );
 			DeleteAllObjects( "[Serieses]" );
 			DeleteAllObjects( "[Categories]" );
+
+			Dictionary<int, string> mapRelatedSeries = new Dictionary<int, string>();
 
 			while( csvReader.ReadNextRecord() )
 			{
 				Series sData = new Series();
 				sData.CreatedDate = DateTime.Now;
+
+				string relatedSeries = "";
 
 				foreach( var header in csvReader.GetFieldHeaders() )
 				{
@@ -120,6 +126,12 @@ namespace PWDRepositories
 								database.SeriesIntAttributes.AddObject( attForSeries );
 							}
 							break;
+						case "related series":
+							if( (val ?? "").Any() )
+							{
+								relatedSeries = val;
+							}
+							break;
 						default:
 							if( (val ?? "").Any() )
 							{
@@ -158,7 +170,41 @@ namespace PWDRepositories
 				}
 				database.Serieses.AddObject( sData );
 				database.SaveChanges();
+				database.Refresh( RefreshMode.StoreWins, sData );
+
+				if( relatedSeries.Any() )
+				{
+					mapRelatedSeries.Add( sData.SeriesID, relatedSeries );
+				}
 			}
+
+			foreach( int seriesId in mapRelatedSeries.Keys )
+			{
+				var parentSeries = database.Serieses.FirstOrDefault( s => s.SeriesID == seriesId );
+				if( parentSeries != null )
+				{
+					var otherSeries = mapRelatedSeries[seriesId].Split( ',' );
+					foreach( var comboData in otherSeries.Select( o => o.Trim().Split( '-' ) ) )
+					{
+						if( comboData.Length == 2 )
+						{
+							string categoryName = comboData[0].Trim();
+							string seriesName = comboData[1].Trim();
+							var category = database.Categories.FirstOrDefault( c => c.Name == categoryName );
+							if( category != null )
+							{
+								var rSeries = category.Serieses.FirstOrDefault( s => s.Name == seriesName );
+								if( rSeries != null )
+								{
+									rSeries.ParentSerieses.Add( parentSeries );
+								}
+							}
+						}
+					}
+				}
+			}
+
+			database.SaveChanges();
 		}
 	}
 }

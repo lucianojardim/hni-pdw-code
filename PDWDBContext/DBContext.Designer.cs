@@ -29,6 +29,7 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSeries_Category", "Category", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.Category), "Series", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Series), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSIF_Image", "ImageFile", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.ImageFile), "SeriesImageFile", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SeriesImageFile), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSIF_Series", "Series", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.Series), "SeriesImageFile", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SeriesImageFile), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "RelatedSeries", "Series", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Series), "Series1", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Series))]
 
 #endregion
 
@@ -1298,6 +1299,50 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SeriesImageFile>("PaoliPDWModel.fkSIF_Series", "SeriesImageFile", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "RelatedSeries", "Series1")]
+        public EntityCollection<Series> ParentSerieses
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Series>("PaoliPDWModel.RelatedSeries", "Series1");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Series>("PaoliPDWModel.RelatedSeries", "Series1", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "RelatedSeries", "Series")]
+        public EntityCollection<Series> ChildSerieses
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Series>("PaoliPDWModel.RelatedSeries", "Series");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Series>("PaoliPDWModel.RelatedSeries", "Series", value);
                 }
             }
         }

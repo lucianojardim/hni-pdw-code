@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PDWDBContext;
+using PDWModels.Series;
 
 namespace PWDRepositories
 {
@@ -42,16 +43,6 @@ namespace PWDRepositories
 					Style = s.AttributeSet( "Style" )
 				} 
 			);
-		}
-
-		public class SeriesInformation
-		{
-			public int SeriesID { get; set; }
-			public string Name { get; set; }
-			public string Category { get; set; }
-			public string FeaturedImageFileName { get; set; }
-			public IEnumerable<string> Images { get; set; }
-			public Dictionary<string, IEnumerable<string>> Options { get; set; }
 		}
 
 		public SeriesInformation GetSeriesInfo( int id )
@@ -94,6 +85,14 @@ namespace PWDRepositories
 						   .Select( so => so.Value )
 					   ) );
 				}
+
+				sInfo.RelatedSeries = theData.ChildSerieses
+					.Select( cs => new SeriesInformation.RelatedSeriesInfo()
+					{
+						SeriesID = cs.SeriesID,
+						Name = cs.Name,
+						ImageFileName = cs.FeaturedImageForSize( "s1to1" )
+					} );
 			}
 
 			return sInfo;

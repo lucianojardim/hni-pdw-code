@@ -10,6 +10,7 @@
           <EntitySet Name="Attributes" EntityType="PaoliPDWModel.Store.Attributes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Categories" EntityType="PaoliPDWModel.Store.Categories" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ImageFiles" EntityType="PaoliPDWModel.Store.ImageFiles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="RelatedSeries" EntityType="PaoliPDWModel.Store.RelatedSeries" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Serieses" EntityType="PaoliPDWModel.Store.Serieses" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SeriesImageFiles" EntityType="PaoliPDWModel.Store.SeriesImageFiles" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SeriesIntAttributes" EntityType="PaoliPDWModel.Store.SeriesIntAttributes" store:Type="Tables" Schema="dbo" />
@@ -18,6 +19,14 @@
           <AssociationSet Name="fkOption_Attribute" Association="PaoliPDWModel.Store.fkOption_Attribute">
             <End Role="Attributes" EntitySet="Attributes" />
             <End Role="AttributeOptions" EntitySet="AttributeOptions" />
+          </AssociationSet>
+          <AssociationSet Name="fkRelatedSeries_Child" Association="PaoliPDWModel.Store.fkRelatedSeries_Child">
+            <End Role="Serieses" EntitySet="Serieses" />
+            <End Role="RelatedSeries" EntitySet="RelatedSeries" />
+          </AssociationSet>
+          <AssociationSet Name="fkRelatedSeries_Parent" Association="PaoliPDWModel.Store.fkRelatedSeries_Parent">
+            <End Role="Serieses" EntitySet="Serieses" />
+            <End Role="RelatedSeries" EntitySet="RelatedSeries" />
           </AssociationSet>
           <AssociationSet Name="fkSeries_Category" Association="PaoliPDWModel.Store.fkSeries_Category">
             <End Role="Categories" EntitySet="Categories" />
@@ -96,6 +105,14 @@
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="1000" />
         </EntityType>
+        <EntityType Name="RelatedSeries">
+          <Key>
+            <PropertyRef Name="ParentSeriesID" />
+            <PropertyRef Name="ChildSeriesID" />
+          </Key>
+          <Property Name="ParentSeriesID" Type="int" Nullable="false" />
+          <Property Name="ChildSeriesID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Serieses">
           <Key>
             <PropertyRef Name="SeriesID" />
@@ -150,6 +167,30 @@
             </Principal>
             <Dependent Role="AttributeOptions">
               <PropertyRef Name="AttributeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkRelatedSeries_Child">
+          <End Role="Serieses" Type="PaoliPDWModel.Store.Serieses" Multiplicity="1" />
+          <End Role="RelatedSeries" Type="PaoliPDWModel.Store.RelatedSeries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Serieses">
+              <PropertyRef Name="SeriesID" />
+            </Principal>
+            <Dependent Role="RelatedSeries">
+              <PropertyRef Name="ChildSeriesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkRelatedSeries_Parent">
+          <End Role="Serieses" Type="PaoliPDWModel.Store.Serieses" Multiplicity="1" />
+          <End Role="RelatedSeries" Type="PaoliPDWModel.Store.RelatedSeries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Serieses">
+              <PropertyRef Name="SeriesID" />
+            </Principal>
+            <Dependent Role="RelatedSeries">
+              <PropertyRef Name="ParentSeriesID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -331,6 +372,10 @@
             <End Role="Series" EntitySet="Serieses" />
             <End Role="SeriesImageFile" EntitySet="SeriesImageFiles" />
           </AssociationSet>
+          <AssociationSet Name="RelatedSeries" Association="PaoliPDWModel.RelatedSeries">
+            <End Role="Series" EntitySet="Serieses" />
+            <End Role="Series1" EntitySet="Serieses" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="AttributeOption">
           <Key>
@@ -374,6 +419,8 @@
           <Property Type="Int32" Name="CategoryID" Nullable="false" />
           <NavigationProperty Name="Category" Relationship="PaoliPDWModel.fkSeries_Category" FromRole="Series" ToRole="Category" />
           <NavigationProperty Name="SeriesImageFiles" Relationship="PaoliPDWModel.fkSIF_Series" FromRole="Series" ToRole="SeriesImageFile" />
+          <NavigationProperty Name="ParentSerieses" Relationship="PaoliPDWModel.RelatedSeries" FromRole="Series" ToRole="Series1" />
+          <NavigationProperty Name="ChildSerieses" Relationship="PaoliPDWModel.RelatedSeries" FromRole="Series1" ToRole="Series" />
         </EntityType>
         <EntityType Name="SeriesIntAttribute">
           <Key>
@@ -567,6 +614,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="RelatedSeries">
+          <End Type="PaoliPDWModel.Series" Role="Series" Multiplicity="*" />
+          <End Type="PaoliPDWModel.Series" Role="Series1" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -635,6 +686,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="RelatedSeries" TypeName="PaoliPDWModel.RelatedSeries" StoreEntitySet="RelatedSeries">
+            <EndProperty Name="Series1">
+              <ScalarProperty Name="SeriesID" ColumnName="ParentSeriesID" />
+            </EndProperty>
+            <EndProperty Name="Series">
+              <ScalarProperty Name="SeriesID" ColumnName="ChildSeriesID" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -657,81 +716,87 @@
     <Diagrams>
       <Diagram Name="DBContext">
         <EntityTypeShape EntityType="PaoliPDWModel.AttributeOption" Width="1.5" PointX="3" PointY="4" Height="1.7566536458333335" IsExpanded="true" />
-        <EntityTypeShape EntityType="PaoliPDWModel.Attribute" Width="1.5" PointX="0.75" PointY="4" Height="1.9210009765624996" IsExpanded="true" />
+        <EntityTypeShape EntityType="PaoliPDWModel.Attribute" Width="1.5" PointX="0.75" PointY="4.5" Height="1.9210009765624996" IsExpanded="true" />
         <EntityTypeShape EntityType="PaoliPDWModel.Category" Width="1.5" PointX="5.75" PointY="0.75" Height="1.2636116536458335" IsExpanded="true" />
         <EntityTypeShape EntityType="PaoliPDWModel.Series" Width="1.5" PointX="0.75" PointY="1" Height="1.9210009765624996" IsExpanded="true" />
         <EntityTypeShape EntityType="PaoliPDWModel.SeriesIntAttribute" Width="1.5" PointX="3" PointY="1" Height="1.9210009765624996" IsExpanded="true" />
         <EntityTypeShape EntityType="PaoliPDWModel.SeriesOptionAttribute" Width="1.5" PointX="5.25" PointY="3.875" Height="2.085348307291667" IsExpanded="true" />
         <EntityTypeShape EntityType="PaoliPDWModel.SeriesTextAttribute" Width="1.5" PointX="3" PointY="7" Height="1.9210009765624996" IsExpanded="true" />
         <AssociationConnector Association="PaoliPDWModel.fkOption_Attribute" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="7.3818058268229167" />
-          <ConnectorPoint PointX="2.6041666666666665" PointY="7.3818058268229159" />
-          <ConnectorPoint PointX="2.7708333333333335" PointY="7.3818058268229167" />
-          <ConnectorPoint PointX="3" PointY="7.3818058268229167" />
+          <ConnectorPoint PointX="2.25" PointY="5.1283268229166667" />
+          <ConnectorPoint PointX="2.6041666666666665" PointY="5.1283268229166659" />
+          <ConnectorPoint PointX="2.7708333333333335" PointY="5.1283268229166667" />
+          <ConnectorPoint PointX="3" PointY="5.1283268229166667" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkSOA_AttributeOption" ManuallyRouted="false">
           <ConnectorPoint PointX="4.5" PointY="4.8783268229166667" />
           <ConnectorPoint PointX="5.25" PointY="4.8783268229166667" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkSIA_Attribute" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="4" />
-          <ConnectorPoint PointX="2.625" PointY="3.625" />
-          <ConnectorPoint PointX="2.625" PointY="1.9605004882812498" />
-          <ConnectorPoint PointX="3" PointY="1.9605004882812498" />
+          <ConnectorPoint PointX="2.25" PointY="4.5" />
+          <ConnectorPoint PointX="2.625" PointY="4.125" />
+          <ConnectorPoint PointX="2.625" PointY="2.260659390869141" />
+          <ConnectorPoint PointX="3" PointY="2.260659390869141" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkSOA_Attribute" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="5.8700773111979165" />
-          <ConnectorPoint PointX="2.6041666666666665" PointY="5.8700773111979156" />
-          <ConnectorPoint PointX="2.7708333333333335" PointY="5.8700773111979165" />
-          <ConnectorPoint PointX="5.25" PointY="5.8700773111979165" />
+          <ConnectorPoint PointX="2.25" PointY="5.8897509765625005" />
+          <ConnectorPoint PointX="2.6041666666666665" PointY="5.8897509765625" />
+          <ConnectorPoint PointX="2.7708333333333335" PointY="5.8897509765625005" />
+          <ConnectorPoint PointX="5.25" PointY="5.8897509765625005" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkSTA_Attribute" ManuallyRouted="false">
-          <ConnectorPoint PointX="1.5" PointY="5.9210009765625" />
-          <ConnectorPoint PointX="1.5" PointY="8.4720032324218764" />
-          <ConnectorPoint PointX="3" PointY="8.4720032324218764" />
+          <ConnectorPoint PointX="1.5" PointY="6.4210009765625" />
+          <ConnectorPoint PointX="1.5" PointY="7.96050048828125" />
+          <ConnectorPoint PointX="3" PointY="7.96050048828125" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkSIA_Series" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="1.4177502441406249" />
-          <ConnectorPoint PointX="3" PointY="1.4177502441406249" />
+          <ConnectorPoint PointX="2.25" PointY="1.5378138051757815" />
+          <ConnectorPoint PointX="3" PointY="1.5378138051757815" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkSOA_Series" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="3.093002371004391" />
-          <ConnectorPoint PointX="2.5416666666666665" PointY="3.0930023710043906" />
-          <ConnectorPoint PointX="2.7083333333333335" PointY="3.093002371004391" />
-          <ConnectorPoint PointX="5.46875" PointY="3.093002371004391" />
+          <ConnectorPoint PointX="2.25" PointY="3.1054177199275577" />
+          <ConnectorPoint PointX="2.5416666666666665" PointY="3.1054177199275572" />
+          <ConnectorPoint PointX="2.7083333333333335" PointY="3.1054177199275577" />
+          <ConnectorPoint PointX="5.46875" PointY="3.1054177199275577" />
           <ConnectorPoint PointX="5.46875" PointY="3.875" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkSTA_Series" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="3.3517342764423068" />
-          <ConnectorPoint PointX="2.6875" PointY="3.7892342764423068" />
-          <ConnectorPoint PointX="2.6875" PointY="7.9269045296223961" />
-          <ConnectorPoint PointX="3" PointY="7.9269045296223961" />
+          <ConnectorPoint PointX="2.25" PointY="3.6804289379006407" />
+          <ConnectorPoint PointX="2.6875" PointY="4.1179289379006407" />
+          <ConnectorPoint PointX="2.6875" PointY="7.4489982441406237" />
+          <ConnectorPoint PointX="3" PointY="7.4489982441406237" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkSeries_Category" >
-          <ConnectorPoint PointX="6.5" PointY="2.177958984375" />
-          <ConnectorPoint PointX="6.5" PointY="3.2223683237233489" />
-          <ConnectorPoint PointX="5.552083333333333" PointY="3.2223683237233485" />
-          <ConnectorPoint PointX="5.385416666666667" PointY="3.2223683237233489" />
-          <ConnectorPoint PointX="2.7083333333333335" PointY="3.2223683237233485" />
-          <ConnectorPoint PointX="2.5416666666666665" PointY="3.2223683237233489" />
-          <ConnectorPoint PointX="2.25" PointY="3.2223683237233489" />
+          <ConnectorPoint PointX="6.359375" PointY="2.177958984375" />
+          <ConnectorPoint PointX="6.359375" PointY="3.2755557179744335" />
+          <ConnectorPoint PointX="5.552083333333333" PointY="3.275555717974433" />
+          <ConnectorPoint PointX="5.385416666666667" PointY="3.2755557179744335" />
+          <ConnectorPoint PointX="2.7083333333333335" PointY="3.275555717974433" />
+          <ConnectorPoint PointX="2.5416666666666665" PointY="3.2755557179744335" />
+          <ConnectorPoint PointX="2.25" PointY="3.2755557179744335" />
         </AssociationConnector>
         <EntityTypeShape EntityType="PaoliPDWModel.ImageFile" Width="1.5" PointX="5.625" PointY="11" Height="1.4279589843749996" />
         <EntityTypeShape EntityType="PaoliPDWModel.SeriesImageFile" Width="1.5" PointX="7.875" PointY="2.5" Height="1.9210009765624996" />
         <AssociationConnector Association="PaoliPDWModel.fkSIF_Image" >
           <ConnectorPoint PointX="6.96875" PointY="11" />
-          <ConnectorPoint PointX="6.96875" PointY="2.8611841618616745" />
-          <ConnectorPoint PointX="7.875" PointY="2.8611841618616745" />
+          <ConnectorPoint PointX="6.96875" PointY="2.8636672316463079" />
+          <ConnectorPoint PointX="7.875" PointY="2.8636672316463079" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkSIF_Series" >
-          <ConnectorPoint PointX="2.25" PointY="3.3807056462366742" />
-          <ConnectorPoint PointX="2.5416666666666665" PointY="3.3807056462366738" />
-          <ConnectorPoint PointX="2.7083333333333335" PointY="3.3807056462366742" />
-          <ConnectorPoint PointX="5.385416666666667" PointY="3.3807056462366738" />
-          <ConnectorPoint PointX="5.552083333333333" PointY="3.3807056462366742" />
-          <ConnectorPoint PointX="6.885416666666667" PointY="3.3807056462366738" />
-          <ConnectorPoint PointX="7.052083333333333" PointY="3.3807056462366742" />
-          <ConnectorPoint PointX="7.875" PointY="3.3807056462366742" />
+          <ConnectorPoint PointX="2.25" PointY="3.5403941740913822" />
+          <ConnectorPoint PointX="2.5416666666666665" PointY="3.5403941740913818" />
+          <ConnectorPoint PointX="2.7083333333333335" PointY="3.5403941740913822" />
+          <ConnectorPoint PointX="5.385416666666667" PointY="3.5403941740913818" />
+          <ConnectorPoint PointX="5.552083333333333" PointY="3.5403941740913822" />
+          <ConnectorPoint PointX="6.885416666666667" PointY="3.5403941740913818" />
+          <ConnectorPoint PointX="7.052083333333333" PointY="3.5403941740913822" />
+          <ConnectorPoint PointX="7.875" PointY="3.5403941740913822" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.RelatedSeries" >
+          <ConnectorPoint PointX="1.2819230769230767" PointY="3.7427376302083331" />
+          <ConnectorPoint PointX="1.2819230769230767" PointY="3.9927376302083335" />
+          <ConnectorPoint PointX="1.7284615384615383" PointY="3.9927376302083335" />
+          <ConnectorPoint PointX="1.7284615384615383" PointY="3.7427376302083331" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>
