@@ -13,5 +13,14 @@ namespace PDWDBContext
 			string prependImageName = ConfigurationManager.AppSettings["PrependImageName"];
 			return prependImageName + " " + Name + "_" + suffix + ".png";
 		}
+
+		public string OriginalImage
+		{
+			get
+			{
+				string prependImageName = ConfigurationManager.AppSettings["PrependImageName"];
+				return prependImageName + " " + Name + OriginalExtension;
+			}
+		}
 	}
 }

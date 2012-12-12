@@ -61,6 +61,18 @@ namespace PWDRepositories
 			};
 		}
 
+		private ImageItemDetails ToImageItemDetails( ImageFile img )
+		{
+			return new ImageItemDetails()
+			{
+				FileName = img.ThumbnailImageName( "s1to1" ),
+				Caption = img.Caption,
+				Description = img.Description,
+				SeriesList = img.SeriesImageFiles.Select( s => s.Series.Name ).ToList(),
+				HiResFileName = img.OriginalImage
+			};
+		}
+
 		public ImageThumbnailGallery GetImageThumbnailList( string categories, string imageTypes, int? seriesId, string sortBy, int pageNum, int pageSize )
 		{
 			ImageThumbnailGallery gallery = new ImageThumbnailGallery();
@@ -149,6 +161,18 @@ namespace PWDRepositories
 				.Select( img => new ImageListSummary() { Caption = img.Caption, FileName = img.ThumbnailImageName( "s1to1" ), Description = img.Description } );
 
 			return gallery;
+		}
+
+		public ImageItemDetails GetImageDetailInfo( int imageId )
+		{
+			var img = database.ImageFiles.FirstOrDefault( i => i.ImageID == imageId );
+
+			if( img != null )
+			{
+				return ToImageItemDetails( img );
+			}
+
+			return null;
 		}
 
 		public IEnumerable<ImageDetail> GetFullImageList( DataTableParams param,

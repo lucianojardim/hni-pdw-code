@@ -124,5 +124,18 @@ namespace ProductDataWarehouse.Controllers
 			};
 
 		}
+
+		public JsonpResult GetImageDetailInfo( int imageId )
+		{
+			ImageRepository iRepo = new ImageRepository();
+
+			var theData = iRepo.GetImageDetailInfo( imageId );
+
+			return new JsonpResult()
+			{
+				Data = theData,
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
 	}
 }
