@@ -139,6 +139,20 @@ namespace PWDRepositories
 								if( attData == null )
 								{
 									attData = new PDWDBContext.Attribute();
+									switch( header.ToLower() )
+									{
+										case "price guide":
+										case "product technical spec sheet":
+										case "spec guide":
+										case "gsa spec sheet":
+										case "installation guide":
+										case "eds sheet":
+										case "control guide":
+											break;
+										default:
+											attData.DetailItem = true;
+											break;
+									}
 									attData.Name = header;
 									database.Attributes.AddObject( attData );
 								}

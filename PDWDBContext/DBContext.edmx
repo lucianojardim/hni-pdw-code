@@ -83,6 +83,7 @@
           </Key>
           <Property Name="AttributeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="DetailItem" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Categories">
           <Key>
@@ -397,6 +398,7 @@
           <NavigationProperty Name="SeriesIntAttributes" Relationship="PaoliPDWModel.fkSIA_Attribute" FromRole="Attributes" ToRole="SeriesIntAttributes" />
           <NavigationProperty Name="SeriesOptionAttributes" Relationship="PaoliPDWModel.fkSOA_Attribute" FromRole="Attributes" ToRole="SeriesOptionAttributes" />
           <NavigationProperty Name="SeriesTextAttributes" Relationship="PaoliPDWModel.fkSTA_Attribute" FromRole="Attributes" ToRole="SeriesTextAttributes" />
+          <Property Type="Boolean" Name="DetailItem" Nullable="false" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -630,7 +632,8 @@
             <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="Attributes"><EntityTypeMapping TypeName="PaoliPDWModel.Attribute"><MappingFragment StoreEntitySet="Attributes">
-            <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
+            <ScalarProperty Name="DetailItem" ColumnName="DetailItem" />
+                <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
             <ScalarProperty Name="Name" ColumnName="Name" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="Categories"><EntityTypeMapping TypeName="PaoliPDWModel.Category"><MappingFragment StoreEntitySet="Categories">

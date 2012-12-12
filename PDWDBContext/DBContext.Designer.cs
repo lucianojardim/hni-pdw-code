@@ -323,11 +323,13 @@ namespace PDWDBContext
         /// </summary>
         /// <param name="attributeID">Initial value of the AttributeID property.</param>
         /// <param name="name">Initial value of the Name property.</param>
-        public static Attribute CreateAttribute(global::System.Int32 attributeID, global::System.String name)
+        /// <param name="detailItem">Initial value of the DetailItem property.</param>
+        public static Attribute CreateAttribute(global::System.Int32 attributeID, global::System.String name, global::System.Boolean detailItem)
         {
             Attribute attribute = new Attribute();
             attribute.AttributeID = attributeID;
             attribute.Name = name;
+            attribute.DetailItem = detailItem;
             return attribute;
         }
 
@@ -384,6 +386,30 @@ namespace PDWDBContext
         private global::System.String _Name;
         partial void OnNameChanging(global::System.String value);
         partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean DetailItem
+        {
+            get
+            {
+                return _DetailItem;
+            }
+            set
+            {
+                OnDetailItemChanging(value);
+                ReportPropertyChanging("DetailItem");
+                _DetailItem = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("DetailItem");
+                OnDetailItemChanged();
+            }
+        }
+        private global::System.Boolean _DetailItem;
+        partial void OnDetailItemChanging(global::System.Boolean value);
+        partial void OnDetailItemChanged();
 
         #endregion
     

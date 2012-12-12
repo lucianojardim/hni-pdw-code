@@ -58,32 +58,66 @@ namespace PWDRepositories
 				sInfo.FeaturedImageFileName = theData.FeaturedImageFileName;
 				sInfo.Images = theData.ImageListForSize( "s1to1", 3 );
 				sInfo.Options = new Dictionary<string, IEnumerable<string>>();
+				sInfo.Details = new Dictionary<string, IEnumerable<string>>();
 
 				foreach( var attr in theData.SeriesOptionAttributes.Select( soa => soa.Attribute ).Distinct() )
 				{
-					sInfo.Options.Add( attr.Name, new List<string>(
-					   theData.SeriesOptionAttributes
-						   .Where( soa => soa.AttributeID == attr.AttributeID )
-						   .Select( so => so.AttributeOption.Name )
-					   ) );
+					if( attr.DetailItem )
+					{
+						sInfo.Details.Add( attr.Name, new List<string>(
+						   theData.SeriesOptionAttributes
+							   .Where( soa => soa.AttributeID == attr.AttributeID )
+							   .Select( so => so.AttributeOption.Name )
+						   ) );
+					}
+					else
+					{
+						sInfo.Options.Add( attr.Name, new List<string>(
+						   theData.SeriesOptionAttributes
+							   .Where( soa => soa.AttributeID == attr.AttributeID )
+							   .Select( so => so.AttributeOption.Name )
+						   ) );
+					}
 				}
 
 				foreach( var attr in theData.SeriesIntAttributes.Select( soa => soa.Attribute ).Distinct() )
 				{
-					sInfo.Options.Add( attr.Name, new List<string>(
-					   theData.SeriesIntAttributes
-						   .Where( soa => soa.AttributeID == attr.AttributeID )
-						   .Select( so => so.Value.ToString() )
-					   ) );
+					if( attr.DetailItem )
+					{
+						sInfo.Details.Add( attr.Name, new List<string>(
+						   theData.SeriesIntAttributes
+							   .Where( soa => soa.AttributeID == attr.AttributeID )
+							   .Select( so => so.Value.ToString() )
+						   ) );
+					}
+					else
+					{
+						sInfo.Options.Add( attr.Name, new List<string>(
+						   theData.SeriesIntAttributes
+							   .Where( soa => soa.AttributeID == attr.AttributeID )
+							   .Select( so => so.Value.ToString() )
+						   ) );
+					}
 				}
 
 				foreach( var attr in theData.SeriesTextAttributes.Select( soa => soa.Attribute ).Distinct() )
 				{
-					sInfo.Options.Add( attr.Name, new List<string>(
-					   theData.SeriesTextAttributes
-						   .Where( soa => soa.AttributeID == attr.AttributeID )
-						   .Select( so => so.Value )
-					   ) );
+					if( attr.DetailItem )
+					{
+						sInfo.Details.Add( attr.Name, new List<string>(
+						   theData.SeriesTextAttributes
+							   .Where( soa => soa.AttributeID == attr.AttributeID )
+							   .Select( so => so.Value )
+						   ) );
+					}
+					else
+					{
+						sInfo.Options.Add( attr.Name, new List<string>(
+						   theData.SeriesTextAttributes
+							   .Where( soa => soa.AttributeID == attr.AttributeID )
+							   .Select( so => so.Value )
+						   ) );
+					}
 				}
 
 				sInfo.RelatedSeries = theData.ChildSerieses

@@ -20,6 +20,7 @@ namespace PDWModels.Series
 		public string FeaturedImageFileName { get; set; }
 		public IEnumerable<string> Images { get; set; }
 		public Dictionary<string, IEnumerable<string>> Options { get; set; }
+		public Dictionary<string, IEnumerable<string>> Details { get; set; }
 		public IEnumerable<RelatedSeriesInfo> RelatedSeries { get; set; }
 	}
 }
