@@ -67,7 +67,7 @@ namespace PWDRepositories
 			{
 				FileName = img.ThumbnailImageName( "l16to9" ),
 				Caption = img.Caption,
-				Description = img.Description,
+				Name = img.Name,
 				SeriesList = img.SeriesImageFiles.Select( s => s.Series.Name ).ToList(),
 				HiResFileName = img.OriginalImage
 			};
@@ -158,7 +158,7 @@ namespace PWDRepositories
 				.Skip( (pageNum - 1) * pageSize )
 				.Take( pageSize )
 				.ToList()
-				.Select( img => new ImageListSummary() { Caption = img.Caption, FileName = img.ThumbnailImageName( "m4to3" ), Description = img.Description } );
+				.Select( img => new ImageListSummary() { Caption = img.Caption, FileName = img.ThumbnailImageName( "m4to3" ), Name = img.Name } );
 
 			return gallery;
 		}
@@ -434,7 +434,7 @@ namespace PWDRepositories
 			var ImageSizes = (ImageCropConfiguration)ConfigurationManager.GetSection( "imageCropSettings" );
 			foreach( PDWInfrastructure.ImageCropConfiguration.CropSettingElement iSize in ImageSizes.ImageSizes )
 			{
-				ResizeImage( Path.Combine( ConfigurationManager.AppSettings["ImageFileLocation"], imageName + "_" + iSize.Suffix + ".png" ),
+				ResizeImage( Path.Combine( ConfigurationManager.AppSettings["ImageFileLocation"], prependImageName + " " + imageName + "_" + iSize.Suffix + ".png" ),
 					fullSizeImg, iSize.RatioWidth, iSize.RatioHeight, iSize.MaxWidth, iSize.MaxHeight, iSize.CropType );
 			}
 		}

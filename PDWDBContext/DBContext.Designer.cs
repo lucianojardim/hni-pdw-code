@@ -803,8 +803,7 @@ namespace PDWDBContext
         /// <param name="imageType">Initial value of the ImageType property.</param>
         /// <param name="keyword">Initial value of the Keyword property.</param>
         /// <param name="createdDate">Initial value of the CreatedDate property.</param>
-        /// <param name="description">Initial value of the Description property.</param>
-        public static ImageFile CreateImageFile(global::System.Int32 imageID, global::System.String name, global::System.String originalExtension, global::System.String caption, global::System.Boolean hasPeople, global::System.String imageType, global::System.String keyword, global::System.DateTime createdDate, global::System.String description)
+        public static ImageFile CreateImageFile(global::System.Int32 imageID, global::System.String name, global::System.String originalExtension, global::System.String caption, global::System.Boolean hasPeople, global::System.String imageType, global::System.String keyword, global::System.DateTime createdDate)
         {
             ImageFile imageFile = new ImageFile();
             imageFile.ImageID = imageID;
@@ -815,7 +814,6 @@ namespace PDWDBContext
             imageFile.ImageType = imageType;
             imageFile.Keyword = keyword;
             imageFile.CreatedDate = createdDate;
-            imageFile.Description = description;
             return imageFile;
         }
 
@@ -1016,30 +1014,6 @@ namespace PDWDBContext
         private global::System.DateTime _CreatedDate;
         partial void OnCreatedDateChanging(global::System.DateTime value);
         partial void OnCreatedDateChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String Description
-        {
-            get
-            {
-                return _Description;
-            }
-            set
-            {
-                OnDescriptionChanging(value);
-                ReportPropertyChanging("Description");
-                _Description = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("Description");
-                OnDescriptionChanged();
-            }
-        }
-        private global::System.String _Description;
-        partial void OnDescriptionChanging(global::System.String value);
-        partial void OnDescriptionChanged();
 
         #endregion
     

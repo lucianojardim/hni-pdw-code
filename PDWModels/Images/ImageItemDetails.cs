@@ -9,7 +9,7 @@ namespace PDWModels.Images
 	{
 		public string FileName { get; set; }
 		public string Caption { get; set; }
-		public string Description { get; set; }
+		public string Name { get; set; }
 		public List<string> SeriesList { get; set; }
 		public string HiResFileName { get; set; }
 	}
