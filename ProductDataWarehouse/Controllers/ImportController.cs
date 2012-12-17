@@ -43,6 +43,32 @@ namespace ProductDataWarehouse.Controllers
 			return View();
 		}
 
+		[HttpPost]
+		public ActionResult Typicals( HttpPostedFileBase typicalFile )
+		{
+			if( ModelState.IsValid )
+			{
+				try
+				{
+					ImportRepository iRepo = new ImportRepository();
+
+					iRepo.ImportTypicalFileData( typicalFile.InputStream, typicalFile.ContentLength );
+
+					return RedirectToAction( "Index" );
+				}
+				catch( Exception ex )
+				{
+					ModelState.AddModelError( "", ex.Message );
+					if( ex.InnerException != null )
+					{
+						ModelState.AddModelError( "", ex.InnerException.Message );
+					}
+				}
+			}
+
+			return View( viewName: "Index" );
+		}
+
 		public ActionResult Images()
 		{
 			return View();

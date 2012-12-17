@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PDWModels.Images
+namespace PDWModels.Typicals
 {
-	public class ImageSummary
+	public class TypicalListData
 	{
-		public string FileName { get; set; }
+		public int TypicalID { get; set; }
 		public string Name { get; set; }
+		public string ImageFileName { get; set; }
 	}
 }

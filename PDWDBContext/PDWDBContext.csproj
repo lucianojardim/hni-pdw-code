@@ -53,6 +53,7 @@
     <Compile Include="ImageFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Series.cs" />
+    <Compile Include="Typical.cs" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="DBContext.edmx">

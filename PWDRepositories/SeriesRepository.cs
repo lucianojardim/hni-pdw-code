@@ -15,15 +15,9 @@ namespace PWDRepositories
 		{
 		}
 
-		public class SeriesListData
+		public IEnumerable<string> GetSeriesNameList()
 		{
-			public int SeriesID { get; set; }
-			public string Name { get; set; }
-			public string Category { get; set; }
-			public string ImageFileName { get; set; }
-			public DateTime DateCreated { get; set; }
-			public int Ranking { get; set; }
-			public IEnumerable<string> Style { get; set; }
+			return database.Serieses.Select( s => s.Name ).Distinct();
 		}
 
 		public IEnumerable<SeriesListData> GetSeriesData( string category )
@@ -126,6 +120,15 @@ namespace PWDRepositories
 						SeriesID = cs.SeriesID,
 						Name = cs.Name,
 						ImageFileName = cs.FeaturedImageForSize( "m4to3" )
+					} );
+
+				sInfo.Typicals = theData.SeriesTypicals
+					.OrderByDescending( st => st.IsPrimary )
+					.Select( t => new SeriesInformation.TypicalInfoForSeries()
+					{
+						TypicalID = t.TypicalID,
+						Name = t.Typical.Name,
+						ImageFileName = t.Typical.FeaturedImageForSize( "m4to3" )
 					} );
 			}
 

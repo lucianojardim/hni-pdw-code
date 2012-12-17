@@ -14,6 +14,13 @@ namespace PDWModels.Series
 			public string ImageFileName { get; set; }
 		}
 
+		public class TypicalInfoForSeries
+		{
+			public int TypicalID { get; set; }
+			public string Name { get; set; }
+			public string ImageFileName { get; set; }
+		}
+
 		public int SeriesID { get; set; }
 		public string Name { get; set; }
 		public string Category { get; set; }
@@ -22,5 +29,6 @@ namespace PDWModels.Series
 		public Dictionary<string, IEnumerable<string>> Options { get; set; }
 		public Dictionary<string, IEnumerable<string>> Details { get; set; }
 		public IEnumerable<RelatedSeriesInfo> RelatedSeries { get; set; }
+		public IEnumerable<TypicalInfoForSeries> Typicals { get; set; }
 	}
 }

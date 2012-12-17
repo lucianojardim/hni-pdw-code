@@ -30,6 +30,18 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSIF_Image", "ImageFile", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.ImageFile), "SeriesImageFile", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SeriesImageFile), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSIF_Series", "Series", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.Series), "SeriesImageFile", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SeriesImageFile), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "RelatedSeries", "Series", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Series), "Series1", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Series))]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkTIF_Image", "ImageFile", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.ImageFile), "TypicalImageFile", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.TypicalImageFile), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkTOA_AttributeOption", "TAttributeOption", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.TAttributeOption), "TypicalOptionAttribute", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.TypicalOptionAttribute), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkTOption_Attribute", "TAttribute", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.TAttribute), "TAttributeOption", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.TAttributeOption), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkTIA_Attribute", "TAttribute", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.TAttribute), "TypicalIntAttribute", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.TypicalIntAttribute), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkTOA_Attribute", "TAttribute", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.TAttribute), "TypicalOptionAttribute", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.TypicalOptionAttribute), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkTTA_Attribute", "TAttribute", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.TAttribute), "TypicalTextAttribute", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.TypicalTextAttribute), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkTIF_Typical", "Typical", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.Typical), "TypicalImageFile", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.TypicalImageFile), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkTIA_Typical", "Typical", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.Typical), "TypicalIntAttribute", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.TypicalIntAttribute), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkTOA_Typical", "Typical", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.Typical), "TypicalOptionAttribute", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.TypicalOptionAttribute), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkTTA_Typical", "Typical", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.Typical), "TypicalTextAttribute", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.TypicalTextAttribute), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkST_Series", "Series", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.Series), "SeriesTypical", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SeriesTypical), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkST_Typical", "Typical", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.Typical), "SeriesTypical", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SeriesTypical), true)]
 
 #endregion
 
@@ -224,6 +236,134 @@ namespace PDWDBContext
             }
         }
         private ObjectSet<SeriesImageFile> _SeriesImageFiles;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<TAttributeOption> TAttributeOptions
+        {
+            get
+            {
+                if ((_TAttributeOptions == null))
+                {
+                    _TAttributeOptions = base.CreateObjectSet<TAttributeOption>("TAttributeOptions");
+                }
+                return _TAttributeOptions;
+            }
+        }
+        private ObjectSet<TAttributeOption> _TAttributeOptions;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<TAttribute> TAttributes
+        {
+            get
+            {
+                if ((_TAttributes == null))
+                {
+                    _TAttributes = base.CreateObjectSet<TAttribute>("TAttributes");
+                }
+                return _TAttributes;
+            }
+        }
+        private ObjectSet<TAttribute> _TAttributes;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<TypicalImageFile> TypicalImageFiles
+        {
+            get
+            {
+                if ((_TypicalImageFiles == null))
+                {
+                    _TypicalImageFiles = base.CreateObjectSet<TypicalImageFile>("TypicalImageFiles");
+                }
+                return _TypicalImageFiles;
+            }
+        }
+        private ObjectSet<TypicalImageFile> _TypicalImageFiles;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<TypicalIntAttribute> TypicalIntAttributes
+        {
+            get
+            {
+                if ((_TypicalIntAttributes == null))
+                {
+                    _TypicalIntAttributes = base.CreateObjectSet<TypicalIntAttribute>("TypicalIntAttributes");
+                }
+                return _TypicalIntAttributes;
+            }
+        }
+        private ObjectSet<TypicalIntAttribute> _TypicalIntAttributes;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<TypicalOptionAttribute> TypicalOptionAttributes
+        {
+            get
+            {
+                if ((_TypicalOptionAttributes == null))
+                {
+                    _TypicalOptionAttributes = base.CreateObjectSet<TypicalOptionAttribute>("TypicalOptionAttributes");
+                }
+                return _TypicalOptionAttributes;
+            }
+        }
+        private ObjectSet<TypicalOptionAttribute> _TypicalOptionAttributes;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Typical> Typicals
+        {
+            get
+            {
+                if ((_Typicals == null))
+                {
+                    _Typicals = base.CreateObjectSet<Typical>("Typicals");
+                }
+                return _Typicals;
+            }
+        }
+        private ObjectSet<Typical> _Typicals;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<TypicalTextAttribute> TypicalTextAttributes
+        {
+            get
+            {
+                if ((_TypicalTextAttributes == null))
+                {
+                    _TypicalTextAttributes = base.CreateObjectSet<TypicalTextAttribute>("TypicalTextAttributes");
+                }
+                return _TypicalTextAttributes;
+            }
+        }
+        private ObjectSet<TypicalTextAttribute> _TypicalTextAttributes;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<SeriesTypical> SeriesTypicals
+        {
+            get
+            {
+                if ((_SeriesTypicals == null))
+                {
+                    _SeriesTypicals = base.CreateObjectSet<SeriesTypical>("SeriesTypicals");
+                }
+                return _SeriesTypicals;
+            }
+        }
+        private ObjectSet<SeriesTypical> _SeriesTypicals;
 
         #endregion
         #region AddTo Methods
@@ -298,6 +438,70 @@ namespace PDWDBContext
         public void AddToSeriesImageFiles(SeriesImageFile seriesImageFile)
         {
             base.AddObject("SeriesImageFiles", seriesImageFile);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the TAttributeOptions EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToTAttributeOptions(TAttributeOption tAttributeOption)
+        {
+            base.AddObject("TAttributeOptions", tAttributeOption);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the TAttributes EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToTAttributes(TAttribute tAttribute)
+        {
+            base.AddObject("TAttributes", tAttribute);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the TypicalImageFiles EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToTypicalImageFiles(TypicalImageFile typicalImageFile)
+        {
+            base.AddObject("TypicalImageFiles", typicalImageFile);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the TypicalIntAttributes EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToTypicalIntAttributes(TypicalIntAttribute typicalIntAttribute)
+        {
+            base.AddObject("TypicalIntAttributes", typicalIntAttribute);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the TypicalOptionAttributes EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToTypicalOptionAttributes(TypicalOptionAttribute typicalOptionAttribute)
+        {
+            base.AddObject("TypicalOptionAttributes", typicalOptionAttribute);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Typicals EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToTypicals(Typical typical)
+        {
+            base.AddObject("Typicals", typical);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the TypicalTextAttributes EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToTypicalTextAttributes(TypicalTextAttribute typicalTextAttribute)
+        {
+            base.AddObject("TypicalTextAttributes", typicalTextAttribute);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the SeriesTypicals EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToSeriesTypicals(SeriesTypical seriesTypical)
+        {
+            base.AddObject("SeriesTypicals", seriesTypical);
         }
 
         #endregion
@@ -1040,6 +1244,28 @@ namespace PDWDBContext
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkTIF_Image", "TypicalImageFile")]
+        public EntityCollection<TypicalImageFile> TypicalImageFiles
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TypicalImageFile>("PaoliPDWModel.fkTIF_Image", "TypicalImageFile");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TypicalImageFile>("PaoliPDWModel.fkTIF_Image", "TypicalImageFile", value);
+                }
+            }
+        }
 
         #endregion
     }
@@ -1343,6 +1569,28 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Series>("PaoliPDWModel.RelatedSeries", "Series", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkST_Series", "SeriesTypical")]
+        public EntityCollection<SeriesTypical> SeriesTypicals
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<SeriesTypical>("PaoliPDWModel.fkST_Series", "SeriesTypical");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SeriesTypical>("PaoliPDWModel.fkST_Series", "SeriesTypical", value);
                 }
             }
         }
@@ -2229,6 +2477,1692 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Series>("PaoliPDWModel.fkSTA_Series", "Serieses", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="SeriesTypical")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class SeriesTypical : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new SeriesTypical object.
+        /// </summary>
+        /// <param name="associationID">Initial value of the AssociationID property.</param>
+        /// <param name="isPrimary">Initial value of the IsPrimary property.</param>
+        /// <param name="seriesID">Initial value of the SeriesID property.</param>
+        /// <param name="typicalID">Initial value of the TypicalID property.</param>
+        public static SeriesTypical CreateSeriesTypical(global::System.Int32 associationID, global::System.Boolean isPrimary, global::System.Int32 seriesID, global::System.Int32 typicalID)
+        {
+            SeriesTypical seriesTypical = new SeriesTypical();
+            seriesTypical.AssociationID = associationID;
+            seriesTypical.IsPrimary = isPrimary;
+            seriesTypical.SeriesID = seriesID;
+            seriesTypical.TypicalID = typicalID;
+            return seriesTypical;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 AssociationID
+        {
+            get
+            {
+                return _AssociationID;
+            }
+            set
+            {
+                if (_AssociationID != value)
+                {
+                    OnAssociationIDChanging(value);
+                    ReportPropertyChanging("AssociationID");
+                    _AssociationID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("AssociationID");
+                    OnAssociationIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _AssociationID;
+        partial void OnAssociationIDChanging(global::System.Int32 value);
+        partial void OnAssociationIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsPrimary
+        {
+            get
+            {
+                return _IsPrimary;
+            }
+            set
+            {
+                OnIsPrimaryChanging(value);
+                ReportPropertyChanging("IsPrimary");
+                _IsPrimary = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsPrimary");
+                OnIsPrimaryChanged();
+            }
+        }
+        private global::System.Boolean _IsPrimary;
+        partial void OnIsPrimaryChanging(global::System.Boolean value);
+        partial void OnIsPrimaryChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 SeriesID
+        {
+            get
+            {
+                return _SeriesID;
+            }
+            set
+            {
+                OnSeriesIDChanging(value);
+                ReportPropertyChanging("SeriesID");
+                _SeriesID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("SeriesID");
+                OnSeriesIDChanged();
+            }
+        }
+        private global::System.Int32 _SeriesID;
+        partial void OnSeriesIDChanging(global::System.Int32 value);
+        partial void OnSeriesIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 TypicalID
+        {
+            get
+            {
+                return _TypicalID;
+            }
+            set
+            {
+                OnTypicalIDChanging(value);
+                ReportPropertyChanging("TypicalID");
+                _TypicalID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("TypicalID");
+                OnTypicalIDChanged();
+            }
+        }
+        private global::System.Int32 _TypicalID;
+        partial void OnTypicalIDChanging(global::System.Int32 value);
+        partial void OnTypicalIDChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkST_Series", "Series")]
+        public Series Series
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Series>("PaoliPDWModel.fkST_Series", "Series").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Series>("PaoliPDWModel.fkST_Series", "Series").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Series> SeriesReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Series>("PaoliPDWModel.fkST_Series", "Series");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Series>("PaoliPDWModel.fkST_Series", "Series", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkST_Typical", "Typical")]
+        public Typical Typical
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Typical>("PaoliPDWModel.fkST_Typical", "Typical").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Typical>("PaoliPDWModel.fkST_Typical", "Typical").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Typical> TypicalReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Typical>("PaoliPDWModel.fkST_Typical", "Typical");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Typical>("PaoliPDWModel.fkST_Typical", "Typical", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="TAttribute")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class TAttribute : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new TAttribute object.
+        /// </summary>
+        /// <param name="attributeID">Initial value of the AttributeID property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="detailItem">Initial value of the DetailItem property.</param>
+        public static TAttribute CreateTAttribute(global::System.Int32 attributeID, global::System.String name, global::System.Boolean detailItem)
+        {
+            TAttribute tAttribute = new TAttribute();
+            tAttribute.AttributeID = attributeID;
+            tAttribute.Name = name;
+            tAttribute.DetailItem = detailItem;
+            return tAttribute;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 AttributeID
+        {
+            get
+            {
+                return _AttributeID;
+            }
+            set
+            {
+                if (_AttributeID != value)
+                {
+                    OnAttributeIDChanging(value);
+                    ReportPropertyChanging("AttributeID");
+                    _AttributeID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("AttributeID");
+                    OnAttributeIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _AttributeID;
+        partial void OnAttributeIDChanging(global::System.Int32 value);
+        partial void OnAttributeIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean DetailItem
+        {
+            get
+            {
+                return _DetailItem;
+            }
+            set
+            {
+                OnDetailItemChanging(value);
+                ReportPropertyChanging("DetailItem");
+                _DetailItem = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("DetailItem");
+                OnDetailItemChanged();
+            }
+        }
+        private global::System.Boolean _DetailItem;
+        partial void OnDetailItemChanging(global::System.Boolean value);
+        partial void OnDetailItemChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkTOption_Attribute", "TAttributeOption")]
+        public EntityCollection<TAttributeOption> TAttributeOptions
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAttributeOption>("PaoliPDWModel.fkTOption_Attribute", "TAttributeOption");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAttributeOption>("PaoliPDWModel.fkTOption_Attribute", "TAttributeOption", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkTIA_Attribute", "TypicalIntAttribute")]
+        public EntityCollection<TypicalIntAttribute> TypicalIntAttributes
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TypicalIntAttribute>("PaoliPDWModel.fkTIA_Attribute", "TypicalIntAttribute");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TypicalIntAttribute>("PaoliPDWModel.fkTIA_Attribute", "TypicalIntAttribute", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkTOA_Attribute", "TypicalOptionAttribute")]
+        public EntityCollection<TypicalOptionAttribute> TypicalOptionAttributes
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TypicalOptionAttribute>("PaoliPDWModel.fkTOA_Attribute", "TypicalOptionAttribute");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TypicalOptionAttribute>("PaoliPDWModel.fkTOA_Attribute", "TypicalOptionAttribute", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkTTA_Attribute", "TypicalTextAttribute")]
+        public EntityCollection<TypicalTextAttribute> TypicalTextAttributes
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TypicalTextAttribute>("PaoliPDWModel.fkTTA_Attribute", "TypicalTextAttribute");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TypicalTextAttribute>("PaoliPDWModel.fkTTA_Attribute", "TypicalTextAttribute", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="TAttributeOption")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class TAttributeOption : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new TAttributeOption object.
+        /// </summary>
+        /// <param name="optionID">Initial value of the OptionID property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="attributeID">Initial value of the AttributeID property.</param>
+        public static TAttributeOption CreateTAttributeOption(global::System.Int32 optionID, global::System.String name, global::System.Int32 attributeID)
+        {
+            TAttributeOption tAttributeOption = new TAttributeOption();
+            tAttributeOption.OptionID = optionID;
+            tAttributeOption.Name = name;
+            tAttributeOption.AttributeID = attributeID;
+            return tAttributeOption;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 OptionID
+        {
+            get
+            {
+                return _OptionID;
+            }
+            set
+            {
+                if (_OptionID != value)
+                {
+                    OnOptionIDChanging(value);
+                    ReportPropertyChanging("OptionID");
+                    _OptionID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("OptionID");
+                    OnOptionIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _OptionID;
+        partial void OnOptionIDChanging(global::System.Int32 value);
+        partial void OnOptionIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 AttributeID
+        {
+            get
+            {
+                return _AttributeID;
+            }
+            set
+            {
+                OnAttributeIDChanging(value);
+                ReportPropertyChanging("AttributeID");
+                _AttributeID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("AttributeID");
+                OnAttributeIDChanged();
+            }
+        }
+        private global::System.Int32 _AttributeID;
+        partial void OnAttributeIDChanging(global::System.Int32 value);
+        partial void OnAttributeIDChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkTOA_AttributeOption", "TypicalOptionAttribute")]
+        public EntityCollection<TypicalOptionAttribute> TypicalOptionAttributes
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TypicalOptionAttribute>("PaoliPDWModel.fkTOA_AttributeOption", "TypicalOptionAttribute");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TypicalOptionAttribute>("PaoliPDWModel.fkTOA_AttributeOption", "TypicalOptionAttribute", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkTOption_Attribute", "TAttribute")]
+        public TAttribute TAttribute
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAttribute>("PaoliPDWModel.fkTOption_Attribute", "TAttribute").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAttribute>("PaoliPDWModel.fkTOption_Attribute", "TAttribute").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<TAttribute> TAttributeReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAttribute>("PaoliPDWModel.fkTOption_Attribute", "TAttribute");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<TAttribute>("PaoliPDWModel.fkTOption_Attribute", "TAttribute", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="Typical")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Typical : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Typical object.
+        /// </summary>
+        /// <param name="typicalID">Initial value of the TypicalID property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="createdDate">Initial value of the CreatedDate property.</param>
+        public static Typical CreateTypical(global::System.Int32 typicalID, global::System.String name, global::System.DateTime createdDate)
+        {
+            Typical typical = new Typical();
+            typical.TypicalID = typicalID;
+            typical.Name = name;
+            typical.CreatedDate = createdDate;
+            return typical;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 TypicalID
+        {
+            get
+            {
+                return _TypicalID;
+            }
+            set
+            {
+                if (_TypicalID != value)
+                {
+                    OnTypicalIDChanging(value);
+                    ReportPropertyChanging("TypicalID");
+                    _TypicalID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("TypicalID");
+                    OnTypicalIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _TypicalID;
+        partial void OnTypicalIDChanging(global::System.Int32 value);
+        partial void OnTypicalIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime CreatedDate
+        {
+            get
+            {
+                return _CreatedDate;
+            }
+            set
+            {
+                OnCreatedDateChanging(value);
+                ReportPropertyChanging("CreatedDate");
+                _CreatedDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CreatedDate");
+                OnCreatedDateChanged();
+            }
+        }
+        private global::System.DateTime _CreatedDate;
+        partial void OnCreatedDateChanging(global::System.DateTime value);
+        partial void OnCreatedDateChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkTIF_Typical", "TypicalImageFile")]
+        public EntityCollection<TypicalImageFile> TypicalImageFiles
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TypicalImageFile>("PaoliPDWModel.fkTIF_Typical", "TypicalImageFile");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TypicalImageFile>("PaoliPDWModel.fkTIF_Typical", "TypicalImageFile", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkTIA_Typical", "TypicalIntAttribute")]
+        public EntityCollection<TypicalIntAttribute> TypicalIntAttributes
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TypicalIntAttribute>("PaoliPDWModel.fkTIA_Typical", "TypicalIntAttribute");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TypicalIntAttribute>("PaoliPDWModel.fkTIA_Typical", "TypicalIntAttribute", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkTOA_Typical", "TypicalOptionAttribute")]
+        public EntityCollection<TypicalOptionAttribute> TypicalOptionAttributes
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TypicalOptionAttribute>("PaoliPDWModel.fkTOA_Typical", "TypicalOptionAttribute");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TypicalOptionAttribute>("PaoliPDWModel.fkTOA_Typical", "TypicalOptionAttribute", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkTTA_Typical", "TypicalTextAttribute")]
+        public EntityCollection<TypicalTextAttribute> TypicalTextAttributes
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TypicalTextAttribute>("PaoliPDWModel.fkTTA_Typical", "TypicalTextAttribute");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TypicalTextAttribute>("PaoliPDWModel.fkTTA_Typical", "TypicalTextAttribute", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkST_Typical", "SeriesTypical")]
+        public EntityCollection<SeriesTypical> SeriesTypicals
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<SeriesTypical>("PaoliPDWModel.fkST_Typical", "SeriesTypical");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SeriesTypical>("PaoliPDWModel.fkST_Typical", "SeriesTypical", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="TypicalImageFile")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class TypicalImageFile : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new TypicalImageFile object.
+        /// </summary>
+        /// <param name="associationID">Initial value of the AssociationID property.</param>
+        /// <param name="isFeatured">Initial value of the IsFeatured property.</param>
+        /// <param name="imageID">Initial value of the ImageID property.</param>
+        /// <param name="typicalID">Initial value of the TypicalID property.</param>
+        public static TypicalImageFile CreateTypicalImageFile(global::System.Int32 associationID, global::System.Boolean isFeatured, global::System.Int32 imageID, global::System.Int32 typicalID)
+        {
+            TypicalImageFile typicalImageFile = new TypicalImageFile();
+            typicalImageFile.AssociationID = associationID;
+            typicalImageFile.IsFeatured = isFeatured;
+            typicalImageFile.ImageID = imageID;
+            typicalImageFile.TypicalID = typicalID;
+            return typicalImageFile;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 AssociationID
+        {
+            get
+            {
+                return _AssociationID;
+            }
+            set
+            {
+                if (_AssociationID != value)
+                {
+                    OnAssociationIDChanging(value);
+                    ReportPropertyChanging("AssociationID");
+                    _AssociationID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("AssociationID");
+                    OnAssociationIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _AssociationID;
+        partial void OnAssociationIDChanging(global::System.Int32 value);
+        partial void OnAssociationIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsFeatured
+        {
+            get
+            {
+                return _IsFeatured;
+            }
+            set
+            {
+                OnIsFeaturedChanging(value);
+                ReportPropertyChanging("IsFeatured");
+                _IsFeatured = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsFeatured");
+                OnIsFeaturedChanged();
+            }
+        }
+        private global::System.Boolean _IsFeatured;
+        partial void OnIsFeaturedChanging(global::System.Boolean value);
+        partial void OnIsFeaturedChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ImageID
+        {
+            get
+            {
+                return _ImageID;
+            }
+            set
+            {
+                OnImageIDChanging(value);
+                ReportPropertyChanging("ImageID");
+                _ImageID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ImageID");
+                OnImageIDChanged();
+            }
+        }
+        private global::System.Int32 _ImageID;
+        partial void OnImageIDChanging(global::System.Int32 value);
+        partial void OnImageIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 TypicalID
+        {
+            get
+            {
+                return _TypicalID;
+            }
+            set
+            {
+                OnTypicalIDChanging(value);
+                ReportPropertyChanging("TypicalID");
+                _TypicalID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("TypicalID");
+                OnTypicalIDChanged();
+            }
+        }
+        private global::System.Int32 _TypicalID;
+        partial void OnTypicalIDChanging(global::System.Int32 value);
+        partial void OnTypicalIDChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkTIF_Image", "ImageFile")]
+        public ImageFile ImageFile
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ImageFile>("PaoliPDWModel.fkTIF_Image", "ImageFile").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ImageFile>("PaoliPDWModel.fkTIF_Image", "ImageFile").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<ImageFile> ImageFileReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ImageFile>("PaoliPDWModel.fkTIF_Image", "ImageFile");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<ImageFile>("PaoliPDWModel.fkTIF_Image", "ImageFile", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkTIF_Typical", "Typical")]
+        public Typical Typical
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Typical>("PaoliPDWModel.fkTIF_Typical", "Typical").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Typical>("PaoliPDWModel.fkTIF_Typical", "Typical").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Typical> TypicalReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Typical>("PaoliPDWModel.fkTIF_Typical", "Typical");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Typical>("PaoliPDWModel.fkTIF_Typical", "Typical", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="TypicalIntAttribute")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class TypicalIntAttribute : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new TypicalIntAttribute object.
+        /// </summary>
+        /// <param name="valueID">Initial value of the ValueID property.</param>
+        /// <param name="value">Initial value of the Value property.</param>
+        /// <param name="attributeID">Initial value of the AttributeID property.</param>
+        /// <param name="typicalID">Initial value of the TypicalID property.</param>
+        public static TypicalIntAttribute CreateTypicalIntAttribute(global::System.Int32 valueID, global::System.Int32 value, global::System.Int32 attributeID, global::System.Int32 typicalID)
+        {
+            TypicalIntAttribute typicalIntAttribute = new TypicalIntAttribute();
+            typicalIntAttribute.ValueID = valueID;
+            typicalIntAttribute.Value = value;
+            typicalIntAttribute.AttributeID = attributeID;
+            typicalIntAttribute.TypicalID = typicalID;
+            return typicalIntAttribute;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ValueID
+        {
+            get
+            {
+                return _ValueID;
+            }
+            set
+            {
+                if (_ValueID != value)
+                {
+                    OnValueIDChanging(value);
+                    ReportPropertyChanging("ValueID");
+                    _ValueID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ValueID");
+                    OnValueIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ValueID;
+        partial void OnValueIDChanging(global::System.Int32 value);
+        partial void OnValueIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Value
+        {
+            get
+            {
+                return _Value;
+            }
+            set
+            {
+                OnValueChanging(value);
+                ReportPropertyChanging("Value");
+                _Value = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Value");
+                OnValueChanged();
+            }
+        }
+        private global::System.Int32 _Value;
+        partial void OnValueChanging(global::System.Int32 value);
+        partial void OnValueChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 AttributeID
+        {
+            get
+            {
+                return _AttributeID;
+            }
+            set
+            {
+                OnAttributeIDChanging(value);
+                ReportPropertyChanging("AttributeID");
+                _AttributeID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("AttributeID");
+                OnAttributeIDChanged();
+            }
+        }
+        private global::System.Int32 _AttributeID;
+        partial void OnAttributeIDChanging(global::System.Int32 value);
+        partial void OnAttributeIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 TypicalID
+        {
+            get
+            {
+                return _TypicalID;
+            }
+            set
+            {
+                OnTypicalIDChanging(value);
+                ReportPropertyChanging("TypicalID");
+                _TypicalID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("TypicalID");
+                OnTypicalIDChanged();
+            }
+        }
+        private global::System.Int32 _TypicalID;
+        partial void OnTypicalIDChanging(global::System.Int32 value);
+        partial void OnTypicalIDChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkTIA_Attribute", "TAttribute")]
+        public TAttribute TAttribute
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAttribute>("PaoliPDWModel.fkTIA_Attribute", "TAttribute").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAttribute>("PaoliPDWModel.fkTIA_Attribute", "TAttribute").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<TAttribute> TAttributeReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAttribute>("PaoliPDWModel.fkTIA_Attribute", "TAttribute");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<TAttribute>("PaoliPDWModel.fkTIA_Attribute", "TAttribute", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkTIA_Typical", "Typical")]
+        public Typical Typical
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Typical>("PaoliPDWModel.fkTIA_Typical", "Typical").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Typical>("PaoliPDWModel.fkTIA_Typical", "Typical").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Typical> TypicalReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Typical>("PaoliPDWModel.fkTIA_Typical", "Typical");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Typical>("PaoliPDWModel.fkTIA_Typical", "Typical", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="TypicalOptionAttribute")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class TypicalOptionAttribute : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new TypicalOptionAttribute object.
+        /// </summary>
+        /// <param name="valueID">Initial value of the ValueID property.</param>
+        /// <param name="optionID">Initial value of the OptionID property.</param>
+        /// <param name="attributeID">Initial value of the AttributeID property.</param>
+        /// <param name="typicalID">Initial value of the TypicalID property.</param>
+        public static TypicalOptionAttribute CreateTypicalOptionAttribute(global::System.Int32 valueID, global::System.Int32 optionID, global::System.Int32 attributeID, global::System.Int32 typicalID)
+        {
+            TypicalOptionAttribute typicalOptionAttribute = new TypicalOptionAttribute();
+            typicalOptionAttribute.ValueID = valueID;
+            typicalOptionAttribute.OptionID = optionID;
+            typicalOptionAttribute.AttributeID = attributeID;
+            typicalOptionAttribute.TypicalID = typicalID;
+            return typicalOptionAttribute;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ValueID
+        {
+            get
+            {
+                return _ValueID;
+            }
+            set
+            {
+                if (_ValueID != value)
+                {
+                    OnValueIDChanging(value);
+                    ReportPropertyChanging("ValueID");
+                    _ValueID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ValueID");
+                    OnValueIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ValueID;
+        partial void OnValueIDChanging(global::System.Int32 value);
+        partial void OnValueIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 OptionID
+        {
+            get
+            {
+                return _OptionID;
+            }
+            set
+            {
+                OnOptionIDChanging(value);
+                ReportPropertyChanging("OptionID");
+                _OptionID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("OptionID");
+                OnOptionIDChanged();
+            }
+        }
+        private global::System.Int32 _OptionID;
+        partial void OnOptionIDChanging(global::System.Int32 value);
+        partial void OnOptionIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 AttributeID
+        {
+            get
+            {
+                return _AttributeID;
+            }
+            set
+            {
+                OnAttributeIDChanging(value);
+                ReportPropertyChanging("AttributeID");
+                _AttributeID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("AttributeID");
+                OnAttributeIDChanged();
+            }
+        }
+        private global::System.Int32 _AttributeID;
+        partial void OnAttributeIDChanging(global::System.Int32 value);
+        partial void OnAttributeIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 TypicalID
+        {
+            get
+            {
+                return _TypicalID;
+            }
+            set
+            {
+                OnTypicalIDChanging(value);
+                ReportPropertyChanging("TypicalID");
+                _TypicalID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("TypicalID");
+                OnTypicalIDChanged();
+            }
+        }
+        private global::System.Int32 _TypicalID;
+        partial void OnTypicalIDChanging(global::System.Int32 value);
+        partial void OnTypicalIDChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkTOA_AttributeOption", "TAttributeOption")]
+        public TAttributeOption TAttributeOption
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAttributeOption>("PaoliPDWModel.fkTOA_AttributeOption", "TAttributeOption").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAttributeOption>("PaoliPDWModel.fkTOA_AttributeOption", "TAttributeOption").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<TAttributeOption> TAttributeOptionReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAttributeOption>("PaoliPDWModel.fkTOA_AttributeOption", "TAttributeOption");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<TAttributeOption>("PaoliPDWModel.fkTOA_AttributeOption", "TAttributeOption", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkTOA_Attribute", "TAttribute")]
+        public TAttribute TAttribute
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAttribute>("PaoliPDWModel.fkTOA_Attribute", "TAttribute").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAttribute>("PaoliPDWModel.fkTOA_Attribute", "TAttribute").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<TAttribute> TAttributeReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAttribute>("PaoliPDWModel.fkTOA_Attribute", "TAttribute");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<TAttribute>("PaoliPDWModel.fkTOA_Attribute", "TAttribute", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkTOA_Typical", "Typical")]
+        public Typical Typical
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Typical>("PaoliPDWModel.fkTOA_Typical", "Typical").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Typical>("PaoliPDWModel.fkTOA_Typical", "Typical").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Typical> TypicalReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Typical>("PaoliPDWModel.fkTOA_Typical", "Typical");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Typical>("PaoliPDWModel.fkTOA_Typical", "Typical", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="TypicalTextAttribute")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class TypicalTextAttribute : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new TypicalTextAttribute object.
+        /// </summary>
+        /// <param name="valueID">Initial value of the ValueID property.</param>
+        /// <param name="value">Initial value of the Value property.</param>
+        /// <param name="attributeID">Initial value of the AttributeID property.</param>
+        /// <param name="typicalID">Initial value of the TypicalID property.</param>
+        public static TypicalTextAttribute CreateTypicalTextAttribute(global::System.Int32 valueID, global::System.String value, global::System.Int32 attributeID, global::System.Int32 typicalID)
+        {
+            TypicalTextAttribute typicalTextAttribute = new TypicalTextAttribute();
+            typicalTextAttribute.ValueID = valueID;
+            typicalTextAttribute.Value = value;
+            typicalTextAttribute.AttributeID = attributeID;
+            typicalTextAttribute.TypicalID = typicalID;
+            return typicalTextAttribute;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ValueID
+        {
+            get
+            {
+                return _ValueID;
+            }
+            set
+            {
+                if (_ValueID != value)
+                {
+                    OnValueIDChanging(value);
+                    ReportPropertyChanging("ValueID");
+                    _ValueID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ValueID");
+                    OnValueIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ValueID;
+        partial void OnValueIDChanging(global::System.Int32 value);
+        partial void OnValueIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Value
+        {
+            get
+            {
+                return _Value;
+            }
+            set
+            {
+                OnValueChanging(value);
+                ReportPropertyChanging("Value");
+                _Value = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Value");
+                OnValueChanged();
+            }
+        }
+        private global::System.String _Value;
+        partial void OnValueChanging(global::System.String value);
+        partial void OnValueChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 AttributeID
+        {
+            get
+            {
+                return _AttributeID;
+            }
+            set
+            {
+                OnAttributeIDChanging(value);
+                ReportPropertyChanging("AttributeID");
+                _AttributeID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("AttributeID");
+                OnAttributeIDChanged();
+            }
+        }
+        private global::System.Int32 _AttributeID;
+        partial void OnAttributeIDChanging(global::System.Int32 value);
+        partial void OnAttributeIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 TypicalID
+        {
+            get
+            {
+                return _TypicalID;
+            }
+            set
+            {
+                OnTypicalIDChanging(value);
+                ReportPropertyChanging("TypicalID");
+                _TypicalID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("TypicalID");
+                OnTypicalIDChanged();
+            }
+        }
+        private global::System.Int32 _TypicalID;
+        partial void OnTypicalIDChanging(global::System.Int32 value);
+        partial void OnTypicalIDChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkTTA_Attribute", "TAttribute")]
+        public TAttribute TAttribute
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAttribute>("PaoliPDWModel.fkTTA_Attribute", "TAttribute").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAttribute>("PaoliPDWModel.fkTTA_Attribute", "TAttribute").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<TAttribute> TAttributeReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAttribute>("PaoliPDWModel.fkTTA_Attribute", "TAttribute");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<TAttribute>("PaoliPDWModel.fkTTA_Attribute", "TAttribute", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkTTA_Typical", "Typical")]
+        public Typical Typical
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Typical>("PaoliPDWModel.fkTTA_Typical", "Typical").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Typical>("PaoliPDWModel.fkTTA_Typical", "Typical").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Typical> TypicalReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Typical>("PaoliPDWModel.fkTTA_Typical", "Typical");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Typical>("PaoliPDWModel.fkTTA_Typical", "Typical", value);
                 }
             }
         }

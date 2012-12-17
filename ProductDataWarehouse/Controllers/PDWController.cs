@@ -49,6 +49,53 @@ namespace ProductDataWarehouse.Controllers
 			};
         }
 
+		public JsonpResult GetTypicalList( string category, int? seriesId, string footprints,
+			int? minPrice, int? maxPrice,
+			string sortBy, int? pageNum = 1, int? pageSize = 28 )
+		{
+			TypicalRepository tRepo = new TypicalRepository();
+
+			var theList = tRepo.GetTypicalData( category, seriesId, footprints,
+				minPrice, maxPrice,
+				sortBy, pageNum.Value, pageSize.Value );
+
+			return new JsonpResult()
+			{
+				Data = theList,
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
+
+		public JsonpResult GetTypicalDetailList( string category, int? seriesId, string footprints,
+			int? minPrice, int? maxPrice,
+			string sortBy, int? pageNum = 1, int? pageSize = 28 )
+		{
+			TypicalRepository tRepo = new TypicalRepository();
+
+			var theList = tRepo.GetTypicalDetailData( category, seriesId, footprints,
+				minPrice, maxPrice,
+				sortBy, pageNum.Value, pageSize.Value );
+
+			return new JsonpResult()
+			{
+				Data = theList,
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
+
+		public JsonpResult GetSeriesNameList()
+		{
+			SeriesRepository sRepo = new SeriesRepository();
+
+			var theList = sRepo.GetSeriesNameList();
+
+			return new JsonpResult()
+			{
+				Data = theList,
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
+
 		public JsonpResult GetOptionList( string attr )
 		{
 			AttributeRepository aRepo = new AttributeRepository();
@@ -62,11 +109,37 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
+		public JsonpResult GetTypicalOptionList( string attr )
+		{
+			AttributeRepository aRepo = new AttributeRepository();
+
+			var theList = aRepo.GetTypicalOptionList( attr );
+
+			return new JsonpResult()
+			{
+				Data = theList,
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
+
 		public JsonpResult GetSeriesInfo( int id )
 		{
 			SeriesRepository sRepo = new SeriesRepository();
 
 			var theData = sRepo.GetSeriesInfo( id );
+
+			return new JsonpResult()
+			{
+				Data = theData,
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
+
+		public JsonpResult GetTypicalInfo( int id )
+		{
+			TypicalRepository tRepo = new TypicalRepository();
+
+			var theData = tRepo.GetTypicalInfo( id );
 
 			return new JsonpResult()
 			{

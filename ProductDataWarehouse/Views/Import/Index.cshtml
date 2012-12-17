@@ -33,6 +33,17 @@
     }
     </div>
 
+    <div style="border:1px solid gray; padding:10px; margin:20px 0px;">
+    <h2>Import Typical File</h2>
+
+    @using( Html.BeginForm( "Typicals", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
+    {
+        @Html.Label( "File Name: " )<input type="file" name="typicalFile" data-val-required="The File Name is a required field." data-val="true" /><br />
+@Html.ValidationSummary()
+        <input type="submit" value="Import" />
+    }
+    </div>
+
 <input type="button" onclick="DoAjaxCall();" value="Test Cross Domain" />
 <p id="ajaxResults"></p>
 

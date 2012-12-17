@@ -8,6 +8,7 @@ using LumenWorks.Framework.IO.Csv;
 using System.Data.Objects;
 using System.Configuration;
 using PDWModels.Images;
+using System.Diagnostics;
 
 namespace PWDRepositories
 {
@@ -132,6 +133,30 @@ namespace PWDRepositories
 								relatedSeries = val;
 							}
 							break;
+						case "price guide":
+						case "product technical spec sheet":
+						case "spec guide":
+						case "gsa spec sheet":
+						case "installation guide":
+						case "eds sheet":
+						case "control guide":
+							if( (val ?? "").Any() )
+							{
+								var attData = database.Attributes.FirstOrDefault( a => a.Name == header );
+								if( attData == null )
+								{
+									attData = new PDWDBContext.Attribute();
+									attData.Name = header;
+									database.Attributes.AddObject( attData );
+								}
+
+								var attForSeries = new SeriesTextAttribute();
+								attForSeries.Attribute = attData;
+								attForSeries.Value = val;
+								attForSeries.Series = sData;
+								database.SeriesTextAttributes.AddObject( attForSeries );
+							}
+							break;
 						default:
 							if( (val ?? "").Any() )
 							{
@@ -141,14 +166,6 @@ namespace PWDRepositories
 									attData = new PDWDBContext.Attribute();
 									switch( header.ToLower() )
 									{
-										case "price guide":
-										case "product technical spec sheet":
-										case "spec guide":
-										case "gsa spec sheet":
-										case "installation guide":
-										case "eds sheet":
-										case "control guide":
-											break;
 										default:
 											attData.DetailItem = true;
 											break;
@@ -198,27 +215,190 @@ namespace PWDRepositories
 				if( parentSeries != null )
 				{
 					var otherSeries = mapRelatedSeries[seriesId].Split( ',' );
-					foreach( var comboData in otherSeries.Select( o => o.Trim().Split( '-' ) ) )
+					foreach( var seriesName in otherSeries.Select( o => o.Trim() ) )
 					{
-						if( comboData.Length == 2 )
+						var rSeries = database.Serieses.FirstOrDefault( s => s.Name == seriesName );
+						if( rSeries != null )
 						{
-							string categoryName = comboData[0].Trim();
-							string seriesName = comboData[1].Trim();
-							var category = database.Categories.FirstOrDefault( c => c.Name == categoryName );
-							if( category != null )
-							{
-								var rSeries = category.Serieses.FirstOrDefault( s => s.Name == seriesName );
-								if( rSeries != null )
-								{
-									rSeries.ParentSerieses.Add( parentSeries );
-								}
-							}
+							rSeries.ParentSerieses.Add( parentSeries );
+						}
+						else
+						{
+							Debug.WriteLine( format: "Unable to find series: {0}", args: seriesName );
 						}
 					}
 				}
 			}
 
 			database.SaveChanges();
+		}
+
+		public void ImportTypicalFileData( Stream fStream, int fileLength )
+		{
+			var csvReader = new CsvReader( new StreamReader( fStream ), true );
+
+			DeleteAllObjects( "[TypicalOptionAttributes]" );
+			DeleteAllObjects( "[TypicalTextAttributes]" );
+			DeleteAllObjects( "[TypicalIntAttributes]" );
+			DeleteAllObjects( "[TAttributeOptions]" );
+			DeleteAllObjects( "[TAttributes]" );
+			DeleteAllObjects( "[TypicalImageFiles]" );
+			DeleteAllObjects( "[Typicals]" );
+
+			while( csvReader.ReadNextRecord() )
+			{
+				Typical tData = new Typical();
+				tData.CreatedDate = DateTime.Now;
+
+				string categoryName = null;
+				foreach( var header in csvReader.GetFieldHeaders() )
+				{
+					string val = csvReader[header];
+					switch( header.ToLower() )
+					{
+						case "category":
+							if( (val ?? "").Any() )
+							{
+								categoryName = val.Trim();
+							}
+							break;
+						case "series name":
+							if( (val ?? "").Any() )
+							{
+								string seriesName = val.Trim();
+								var category = database.Categories.FirstOrDefault( c => c.Name == categoryName );
+								if( category != null )
+								{
+									var rSeries = category.Serieses.FirstOrDefault( s => s.Name == seriesName );
+									if( rSeries != null )
+									{
+										SeriesTypical stData = new SeriesTypical();
+										stData.IsPrimary = true;
+										stData.Series = rSeries;
+										stData.Typical = tData;
+										database.SeriesTypicals.AddObject( stData );
+									}
+								}
+							}
+							break;
+						case "typical name":
+							tData.Name = val;
+							break;
+						case "top view":
+						case "iso view":
+						case "image":
+							if( (val ?? "").Any() )
+							{
+								var img = database.ImageFiles.FirstOrDefault( i => i.Name == val );
+								if( img != null )
+								{
+									TypicalImageFile sif = new TypicalImageFile();
+									sif.IsFeatured = (header.ToLower() == "image");
+									sif.ImageFile = img;
+									sif.Typical = tData;
+									database.TypicalImageFiles.AddObject( sif );
+								}
+							}
+							break;
+						case "pricing":
+							if( (val ?? "").Any() )
+							{
+								int price = 0;
+								
+								if( int.TryParse( val, System.Globalization.NumberStyles.Currency, null, out price ) )
+								{
+									var attData = database.TAttributes.FirstOrDefault( a => a.Name == header );
+									if( attData == null )
+									{
+										attData = new PDWDBContext.TAttribute();
+										attData.Name = header;
+										database.TAttributes.AddObject( attData );
+									}
+
+									var attForTypical = new TypicalIntAttribute();
+									attForTypical.TAttribute = attData;
+									attForTypical.Value = price;
+									attForTypical.Typical = tData;
+									database.TypicalIntAttributes.AddObject( attForTypical );
+								}
+							}
+							break;
+						case "price guide":
+						case "product technical spec sheet":
+						case "spec guide":
+						case "gsa spec sheet":
+						case "installation guide":
+						case "eds sheet":
+						case "control guide":
+						case "spec & price xls":
+						case "spec & price sif":
+						case "spec & price sp4":
+						case "spec & price pdf":
+						case "drawing dwg":
+						case "drawing pdf":
+							if( (val ?? "").Any() )
+							{
+								var attData = database.TAttributes.FirstOrDefault( a => a.Name == header );
+								if( attData == null )
+								{
+									attData = new PDWDBContext.TAttribute();
+									attData.Name = header;
+									database.TAttributes.AddObject( attData );
+								}
+
+								var attForTypical = new TypicalTextAttribute();
+								attForTypical.TAttribute = attData;
+								attForTypical.Value = val;
+								attForTypical.Typical = tData;
+								database.TypicalTextAttributes.AddObject( attForTypical );
+							}
+							break;
+						default:
+							if( (val ?? "").Any() )
+							{
+								var attData = database.TAttributes.FirstOrDefault( a => a.Name == header );
+								if( attData == null )
+								{
+									attData = new PDWDBContext.TAttribute();
+									switch( header.ToLower() )
+									{
+										default:
+											attData.DetailItem = true;
+											break;
+									}
+									attData.Name = header;
+									database.TAttributes.AddObject( attData );
+								}
+								var values = val.Split( ',' );
+								foreach( var indVal in values.Select( s => s.Trim() ) )
+								{
+									var optVal = attData.TAttributeOptions.FirstOrDefault( ao => ao.Name == indVal );
+									if( optVal == null )
+									{
+										if( indVal.Length > 100 )
+										{
+											throw new Exception( string.Format( "Cannot add option value {0} for {1}", indVal, header ) );
+										}
+										optVal = new TAttributeOption();
+										optVal.Name = indVal;
+										database.TAttributeOptions.AddObject( optVal );
+										attData.TAttributeOptions.Add( optVal );
+									}
+
+									var attForTypical = new TypicalOptionAttribute();
+									attForTypical.TAttribute = attData;
+									attForTypical.TAttributeOption = optVal;
+									attForTypical.Typical = tData;
+									database.TypicalOptionAttributes.AddObject( attForTypical );
+								}
+							}
+							break;
+					}
+				}
+
+				database.Typicals.AddObject( tData );
+				database.SaveChanges();
+			}
 		}
 	}
 }

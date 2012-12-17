@@ -25,5 +25,17 @@ namespace PWDRepositories
 
 			return new List<string>();
 		}
+
+		public IEnumerable<string> GetTypicalOptionList( string attr )
+		{
+			var attrData = database.TAttributes.FirstOrDefault( a => a.Name == attr );
+
+			if( attrData != null )
+			{
+				return attrData.TAttributeOptions.Select( ao => ao.Name );
+			}
+
+			return new List<string>();
+		}
 	}
 }
