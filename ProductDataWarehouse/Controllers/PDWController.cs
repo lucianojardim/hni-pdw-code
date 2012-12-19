@@ -126,7 +126,20 @@ namespace ProductDataWarehouse.Controllers
 		{
 			SeriesRepository sRepo = new SeriesRepository();
 
-			var theData = sRepo.GetSeriesInfo( id );
+			var theData = sRepo.GetSeriesInfo( id: id );
+
+			return new JsonpResult()
+			{
+				Data = theData,
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
+
+		public JsonpResult GetSeriesInfoByName( string seriesName )
+		{
+			SeriesRepository sRepo = new SeriesRepository();
+
+			var theData = sRepo.GetSeriesInfo( seriesName: seriesName );
 
 			return new JsonpResult()
 			{
@@ -170,11 +183,11 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
-		public JsonpResult GetImageThumbnailList( string categories, string imageTypes, int? seriesId, string sortBy, int? pageNum = 1, int? pageSize = 28 )
+		public JsonpResult GetImageThumbnailList( string categories, string imageTypes, int? seriesId, string sortBy, string keywords, int? pageNum = 1, int? pageSize = 28 )
 		{
 			ImageRepository iRepo = new ImageRepository();
 
-			var theData = iRepo.GetImageThumbnailList( categories, imageTypes, seriesId, sortBy, pageNum.Value, pageSize.Value );
+			var theData = iRepo.GetImageThumbnailList( categories, imageTypes, seriesId, sortBy, keywords, pageNum.Value, pageSize.Value );
 
 			return new JsonpResult()
 			{
@@ -184,11 +197,11 @@ namespace ProductDataWarehouse.Controllers
 
 		}
 
-		public JsonpResult GetImageDetailList( string categories, string imageTypes, int? seriesId, string sortBy, int? pageNum = 1, int? pageSize = 28 )
+		public JsonpResult GetImageDetailList( string categories, string imageTypes, int? seriesId, string sortBy, string keywords, int? pageNum = 1, int? pageSize = 28 )
 		{
 			ImageRepository iRepo = new ImageRepository();
 
-			var theData = iRepo.GetImageDetailList( categories, imageTypes, seriesId, sortBy, pageNum.Value, pageSize.Value );
+			var theData = iRepo.GetImageDetailList( categories, imageTypes, seriesId, sortBy, keywords, pageNum.Value, pageSize.Value );
 
 			return new JsonpResult()
 			{

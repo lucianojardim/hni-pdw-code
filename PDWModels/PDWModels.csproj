@@ -49,6 +49,7 @@
     <Compile Include="Images\ImageInformation.cs" />
     <Compile Include="Images\ImageSummary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Series\SeriesComboItem.cs" />
     <Compile Include="Series\SeriesInformation.cs" />
     <Compile Include="Series\SeriesListData.cs" />
     <Compile Include="Typicals\TypicalDetailListData.cs" />

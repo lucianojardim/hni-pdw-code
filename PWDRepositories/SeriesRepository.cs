@@ -15,9 +15,9 @@ namespace PWDRepositories
 		{
 		}
 
-		public IEnumerable<string> GetSeriesNameList()
+		public IEnumerable<SeriesComboItem> GetSeriesNameList()
 		{
-			return database.Serieses.Select( s => s.Name ).Distinct();
+			return database.Serieses.Select( s => new SeriesComboItem() { SeriesID = s.SeriesID, Name = s.Name } ).Distinct();
 		}
 
 		public IEnumerable<SeriesListData> GetSeriesData( string category )
@@ -39,11 +39,16 @@ namespace PWDRepositories
 			);
 		}
 
-		public SeriesInformation GetSeriesInfo( int id )
+		public SeriesInformation GetSeriesInfo( int? id = null, string seriesName = null )
 		{
 			SeriesInformation sInfo = new SeriesInformation();
 
-			var theData = database.Serieses.FirstOrDefault( s => s.SeriesID == id );
+			Series theData = null;
+			if( id.HasValue )
+				theData = database.Serieses.FirstOrDefault( s => s.SeriesID == id );
+			else if( (seriesName ?? "").Any() )
+				theData = database.Serieses.FirstOrDefault( s => s.Name == seriesName );
+
 			if( theData != null )
 			{
 				sInfo.SeriesID = theData.SeriesID;

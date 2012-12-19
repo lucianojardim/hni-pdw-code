@@ -82,7 +82,7 @@ namespace PWDRepositories
 			};
 		}
 
-		public ImageThumbnailGallery GetImageThumbnailList( string categories, string imageTypes, int? seriesId, string sortBy, int pageNum, int pageSize )
+		public ImageThumbnailGallery GetImageThumbnailList( string categories, string imageTypes, int? seriesId, string sortBy, string keywords, int pageNum, int pageSize )
 		{
 			ImageThumbnailGallery gallery = new ImageThumbnailGallery();
 
@@ -102,6 +102,11 @@ namespace PWDRepositories
 			{
 				var catList = categories.Split( ',' );
 				imgList = imgList.Where( img => catList.Intersect( img.SeriesImageFiles.Select( s => s.Series.Category.Name ) ).Any() );
+			}
+			if( (keywords ?? "").Any() )
+			{
+				var wordList = keywords.Split( ',' );
+				imgList = imgList.Where( img => wordList.Any( w => img.Keyword.Contains( w.Trim() ) ) );
 			}
 
 			gallery.FilteredImageCount = imgList.Count();
@@ -127,7 +132,7 @@ namespace PWDRepositories
 			return gallery;
 		}
 
-		public ImageListGallery GetImageDetailList( string categories, string imageTypes, int? seriesId, string sortBy, int pageNum, int pageSize )
+		public ImageListGallery GetImageDetailList( string categories, string imageTypes, int? seriesId, string sortBy, string keywords, int pageNum, int pageSize )
 		{
 			ImageListGallery gallery = new ImageListGallery();
 
@@ -147,6 +152,11 @@ namespace PWDRepositories
 			{
 				var catList = categories.Split( ',' );
 				imgList = imgList.Where( img => catList.Intersect( img.SeriesImageFiles.Select( s => s.Series.Category.Name ) ).Any() );
+			}
+			if( (keywords ?? "").Any() )
+			{
+				var wordList = keywords.Split( ',' );
+				imgList = imgList.Where( img => wordList.Any( w => img.Keyword.Contains( w.Trim() ) ) );
 			}
 
 			gallery.FilteredImageCount = imgList.Count();

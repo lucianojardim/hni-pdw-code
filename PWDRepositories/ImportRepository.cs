@@ -36,6 +36,7 @@ namespace PWDRepositories
 			DeleteAllObjects( "[Attributes]" );
 			DeleteAllObjects( "[SeriesImageFiles]" );
 			DeleteAllObjects( "[RelatedSeries]" );
+			DeleteAllObjects( "[SeriesTypicals]" );
 			DeleteAllObjects( "[Serieses]" );
 			DeleteAllObjects( "[Categories]" );
 
@@ -243,6 +244,7 @@ namespace PWDRepositories
 			DeleteAllObjects( "[TAttributeOptions]" );
 			DeleteAllObjects( "[TAttributes]" );
 			DeleteAllObjects( "[TypicalImageFiles]" );
+			DeleteAllObjects( "[SeriesTypicals]" );
 			DeleteAllObjects( "[Typicals]" );
 
 			while( csvReader.ReadNextRecord() )
@@ -362,6 +364,8 @@ namespace PWDRepositories
 									attData = new PDWDBContext.TAttribute();
 									switch( header.ToLower() )
 									{
+										case "footprint":
+											break;
 										default:
 											attData.DetailItem = true;
 											break;
