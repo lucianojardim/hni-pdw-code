@@ -33,6 +33,8 @@ namespace PWDRepositories
 				new PDWImageType() { Abbreviation= "Det", Description = "Detail" },
 				new PDWImageType() { Abbreviation= "ILD", Description = "Isometric Line Drawing" },
 				new PDWImageType() { Abbreviation= "OFp", Description = "Overhead Footprint" },
+				new PDWImageType() { Abbreviation= "RR", Description = "Rough Render" },
+				new PDWImageType() { Abbreviation= "LDr", Description = "Line Drawing" },
 			};
 
 		private ImageDetail ToImageDetail( ImageFile img )
@@ -42,7 +44,7 @@ namespace PWDRepositories
 				ImageID = img.ImageID,
 				Name = img.Name,
 				Caption = img.Caption,
-				Series = string.Join( ", ", img.SeriesImageFiles.Select( sif => sif.Series.Name + (sif.IsFeatured ? "*" : "") ) ),
+				Keywords = img.Keyword,
 				HasReferences = img.SeriesImageFiles.Any()
 			};
 		}
@@ -57,27 +59,55 @@ namespace PWDRepositories
 				Keywords = img.Keyword,
 				ImageType = img.ImageType,
 				HasPeople = img.HasPeople,
-				SeriesList = string.Join( ", ", img.SeriesImageFiles.Select( s => s.Series.Name + (s.IsFeatured ? "*" : "") ) )
 			};
 		}
 
 		private ImageItemDetails ToImageItemDetails( ImageFile img )
 		{
-			return new ImageItemDetails()
-			{
-				FileName = img.ThumbnailImageName( "l16to9" ),
-				Caption = img.Caption,
-				Name = img.Name,
-				SeriesList = img.SeriesImageFiles
+			var seriesList = img.SeriesImageFiles
 					.Select( s => new ImageItemDetails.ImageSeries()
 					{
+						SeriesID = s.SeriesID,
 						Name = s.Series.Name,
 						TypicalList = s.Series
 							.SeriesTypicals
-								.Where( st => st.IsPrimary )
 								.Where( t => t.Typical.TypicalImageFiles.Any( tif => tif.ImageID == s.ImageID ) )
 								.Select( st1 => st1.Typical.Name )
-					} ),
+					} ).ToList();
+
+			// add orphaned typicals
+			foreach( var typicalImage in img.TypicalImageFiles )
+			{
+				foreach( var typicalSeries in typicalImage.Typical.SeriesTypicals.Select( st => st.Series ) )
+				{
+					var imageSeries = seriesList.FirstOrDefault( s => typicalSeries.SeriesID == s.SeriesID );
+					if( imageSeries == null )
+					{
+						// series is not already listed
+						seriesList.Add( new ImageItemDetails.ImageSeries()
+						{
+							SeriesID = typicalSeries.SeriesID,
+							Name = typicalSeries.Name,
+							TypicalList = new List<string>() { typicalImage.Typical.Name }
+						} );
+					}
+					else
+					{
+						// make sure the typical is listed
+						if( !imageSeries.TypicalList.Contains( typicalImage.Typical.Name ) )
+						{
+							imageSeries.TypicalList = imageSeries.TypicalList.Union( new List<string>() { typicalImage.Typical.Name } );
+						}
+					}
+				}
+			}
+
+			return new ImageItemDetails()
+			{
+				FileName = img.ThumbnailImageData( "l16to9" ).FileName,
+				Caption = img.Caption,
+				Name = img.Name,
+				SeriesList = seriesList,
 				HiResFileName = img.OriginalImage
 			};
 		}
@@ -127,7 +157,7 @@ namespace PWDRepositories
 				.Skip( (pageNum - 1) * pageSize )
 				.Take( pageSize )
 				.ToList()
-				.Select( img => new ImageSummary() { Name = img.Name, FileName = img.ThumbnailImageName( "m4to3" ) } );
+				.Select( img => new ImageSummary() { Name = img.Name, FileName = img.ThumbnailImageData( "m4to3" ).FileName, ImageID = img.ImageID } );
 
 			return gallery;
 		}
@@ -177,7 +207,7 @@ namespace PWDRepositories
 				.Skip( (pageNum - 1) * pageSize )
 				.Take( pageSize )
 				.ToList()
-				.Select( img => new ImageListSummary() { Caption = img.Caption, FileName = img.ThumbnailImageName( "m4to3" ), Name = img.Name } );
+				.Select( img => new ImageListSummary() { Caption = img.Caption, FileName = img.ThumbnailImageData( "m4to3" ).FileName, Name = img.Name, ImageID = img.ImageID } );
 
 			return gallery;
 		}
@@ -194,6 +224,18 @@ namespace PWDRepositories
 			return null;
 		}
 
+		public HiResImageInfo GetHiResImageInfo( int imageId )
+		{
+			var img = database.ImageFiles.FirstOrDefault( i => i.ImageID == imageId );
+
+			if( img != null )
+			{
+				return new HiResImageInfo() { FileName = img.OriginalImage, MIMEType = img.MIMEType };
+			}
+
+			return null;
+		}
+
 		public IEnumerable<ImageDetail> GetFullImageList( DataTableParams param,
 			out int totalRecords, out int displayedRecords )
 		{
@@ -205,7 +247,10 @@ namespace PWDRepositories
 			totalRecords = imgList.Count();
 
 			if( !string.IsNullOrEmpty( param.sSearch ) )
-			{ 
+			{
+				imgList = imgList.Where( i => i.Keyword.Contains( param.sSearch ) ||
+					i.Name.Contains( param.sSearch ) ||
+					i.Caption.Contains( param.sSearch ) );
 			}
 			displayedRecords = imgList.Count();
 
@@ -330,7 +375,7 @@ namespace PWDRepositories
 			}
 		}
 
-		public void UploadImageFile( int id, Stream fStream, int fileLength, string origFileName )
+		public void UploadImageFile( int id, Stream fStream, int fileLength, string origFileName, string mimeType )
 		{
 			ImageFile imgData = database.ImageFiles.FirstOrDefault( i => i.ImageID == id );
 			if( imgData == null )
@@ -338,10 +383,15 @@ namespace PWDRepositories
 				throw new Exception( "Cannot find Image record." );
 			}
 
-			UploadImage( imgData.Name, fStream, fileLength, origFileName );
+			imgData.MIMEType = mimeType;
+
+			if( database.SaveChanges() > 0 )
+			{
+				UploadImage( imgData.Name, fStream, fileLength, origFileName );
+			}
 		}
 
-		public void ImportImageFileData( ImageInformation imgInfo, Stream fStream, int fileLength, string origFileName )
+		public void ImportImageFileData( ImageInformation imgInfo, Stream fStream, int fileLength, string origFileName, string mimeType )
 		{
 			if( database.ImageFiles.Any( i => i.Name == imgInfo.ImageName ) )
 			{
@@ -356,17 +406,7 @@ namespace PWDRepositories
 			imgData.ImageType = imgInfo.ImageType;
 			imgData.Keyword = imgInfo.Keywords;
 			imgData.CreatedDate = DateTime.Now;
-
-			var seriesList = (imgInfo.SeriesList ?? "").Split( ',' ).ToList();
-			foreach( var series in seriesList )
-			{
-				string tSeries = series.Trim( ' ', '*' );
-				var sData = database.Serieses.FirstOrDefault( s => s.Name == tSeries );
-				if( sData != null )
-				{
-					imgData.SeriesImageFiles.Add( new SeriesImageFile() { Series = sData, IsFeatured = series.Substring( series.Length - 1, 1 ) == "*" } );
-				}
-			}			
+			imgData.MIMEType = mimeType;
 
 			database.ImageFiles.AddObject( imgData );
 
@@ -382,39 +422,7 @@ namespace PWDRepositories
 			{
 				throw new Exception( "Cannot find Image record." );
 			}
-			if( imgData.Name != imgInfo.ImageName )
-			{
-				if( database.ImageFiles.Any( i => (i.ImageID != imgInfo.ImageID) && (i.Name == imgInfo.ImageName) ) )
-				{
-					throw new Exception( "Another image with this name already exists." );
-				}
-			}
 
-			var seriesList = (imgInfo.SeriesList ?? "").Split( ',' ).ToList();
-			foreach( var existing in imgData.SeriesImageFiles.Where( si => !seriesList.Select( s => s.Trim( ' ', '*' ) ).Contains( si.Series.Name ) ).ToList() )
-			{
-				database.SeriesImageFiles.DeleteObject( existing );
-			}
-
-			foreach( var series in seriesList )
-			{
-				string tSeries = series.Trim( ' ', '*' );
-				var sData = database.Serieses.FirstOrDefault( s => s.Name == tSeries );
-				if( sData != null )
-				{
-					var siFile = imgData.SeriesImageFiles.FirstOrDefault( sif => sif.Series.Name == tSeries );
-					if( siFile == null )
-					{
-						imgData.SeriesImageFiles.Add( new SeriesImageFile() { Series = sData, IsFeatured = series.Substring( series.Length - 1, 1 ) == "*" } );
-					}
-					else
-					{
-						siFile.IsFeatured = series.Substring( series.Length - 1, 1 ) == "*";
-					}
-				}
-			}
-
-			imgData.Name = imgInfo.ImageName;
 			imgData.Caption = imgInfo.Caption;
 			imgData.HasPeople = imgInfo.HasPeople;
 			imgData.ImageType = imgInfo.ImageType;

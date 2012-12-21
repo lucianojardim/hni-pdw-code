@@ -130,7 +130,7 @@
             <PropertyRef Name="OptionID" />
           </Key>
           <Property Name="OptionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="500" />
           <Property Name="AttributeID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Attributes">
@@ -160,6 +160,7 @@
           <Property Name="ImageType" Type="nvarchar" Nullable="false" MaxLength="10" />
           <Property Name="Keyword" Type="nvarchar" Nullable="false" MaxLength="1000" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="MIMEType" Type="nvarchar" Nullable="false" MaxLength="100" />
         </EntityType>
         <EntityType Name="RelatedSeries">
           <Key>
@@ -210,7 +211,7 @@
             <PropertyRef Name="ValueID" />
           </Key>
           <Property Name="ValueID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Value" Type="nvarchar" Nullable="false" MaxLength="500" />
+          <Property Name="Value" Type="nvarchar" Nullable="false" MaxLength="2000" />
           <Property Name="AttributeID" Type="int" Nullable="false" />
           <Property Name="SeriesID" Type="int" Nullable="false" />
         </EntityType>
@@ -228,7 +229,7 @@
             <PropertyRef Name="OptionID" />
           </Key>
           <Property Name="OptionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="500" />
           <Property Name="AttributeID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="TAttributes">
@@ -279,7 +280,7 @@
             <PropertyRef Name="ValueID" />
           </Key>
           <Property Name="ValueID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Value" Type="nvarchar" Nullable="false" MaxLength="500" />
+          <Property Name="Value" Type="nvarchar" Nullable="false" MaxLength="2000" />
           <Property Name="AttributeID" Type="int" Nullable="false" />
           <Property Name="TypicalID" Type="int" Nullable="false" />
         </EntityType>
@@ -707,7 +708,7 @@
             <PropertyRef Name="OptionID" />
           </Key>
           <Property Name="OptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
           <Property Name="AttributeID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Attribute" Relationship="PaoliPDWModel.fkOption_Attribute" FromRole="AttributeOptions" ToRole="Attributes" />
           <NavigationProperty Name="SeriesOptionAttributes" Relationship="PaoliPDWModel.fkSOA_AttributeOption" FromRole="AttributeOptions" ToRole="SeriesOptionAttributes" />
@@ -777,7 +778,7 @@
             <PropertyRef Name="ValueID" />
           </Key>
           <Property Name="ValueID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Value" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="2000" Unicode="true" FixedLength="false" />
           <Property Name="AttributeID" Type="Int32" Nullable="false" />
           <Property Name="SeriesID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Attribute" Relationship="PaoliPDWModel.fkSTA_Attribute" FromRole="SeriesTextAttributes" ToRole="Attributes" />
@@ -905,6 +906,7 @@
           <Property Type="String" Name="Keyword" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
           <NavigationProperty Name="TypicalImageFiles" Relationship="PaoliPDWModel.fkTIF_Image" FromRole="ImageFile" ToRole="TypicalImageFile" />
+          <Property Type="String" Name="MIMEType" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SeriesImageFile">
           <Key>
@@ -950,7 +952,7 @@
             <PropertyRef Name="OptionID" />
           </Key>
           <Property Type="Int32" Name="OptionID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="AttributeID" Nullable="false" />
           <NavigationProperty Name="TypicalOptionAttributes" Relationship="PaoliPDWModel.fkTOA_AttributeOption" FromRole="TAttributeOption" ToRole="TypicalOptionAttribute" />
           <NavigationProperty Name="TAttribute" Relationship="PaoliPDWModel.fkTOption_Attribute" FromRole="TAttributeOption" ToRole="TAttribute" />
@@ -1019,7 +1021,7 @@
             <PropertyRef Name="ValueID" />
           </Key>
           <Property Type="Int32" Name="ValueID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Value" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Value" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="AttributeID" Nullable="false" />
           <Property Type="Int32" Name="TypicalID" Nullable="false" />
           <NavigationProperty Name="TAttribute" Relationship="PaoliPDWModel.fkTTA_Attribute" FromRole="TypicalTextAttribute" ToRole="TAttribute" />
@@ -1227,6 +1229,7 @@
           <EntitySetMapping Name="ImageFiles">
             <EntityTypeMapping TypeName="PaoliPDWModel.ImageFile">
               <MappingFragment StoreEntitySet="ImageFiles">
+                <ScalarProperty Name="MIMEType" ColumnName="MIMEType" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="Keyword" ColumnName="Keyword" />
                 <ScalarProperty Name="ImageType" ColumnName="ImageType" />

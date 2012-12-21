@@ -5,10 +5,9 @@ using System.Text;
 
 namespace PDWModels.Images
 {
-	public class ImageSummary
+	public class HiResImageInfo
 	{
-		public int ImageID { get; set; }
 		public string FileName { get; set; }
-		public string Name { get; set; }
+		public string MIMEType { get; set; }
 	}
 }

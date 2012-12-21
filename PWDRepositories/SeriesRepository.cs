@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using PDWDBContext;
 using PDWModels.Series;
+using PDWModels.Images;
 
 namespace PWDRepositories
 {
@@ -31,7 +32,7 @@ namespace PWDRepositories
 					SeriesID = s.SeriesID, 
 					Name = s.Name, 
 					Category = s.Category.Name, 
-					ImageFileName = s.FeaturedImageForSize( "m4to3" ), 
+					ImageData = s.FeaturedImageForSize( "m4to3" ), 
 					DateCreated = s.CreatedDate,
  					Ranking = s.Ranking,
 					Style = s.AttributeSet( "Style" )
@@ -54,8 +55,8 @@ namespace PWDRepositories
 				sInfo.SeriesID = theData.SeriesID;
 				sInfo.Name = theData.Name;
 				sInfo.Category = theData.Category.Name;
-				sInfo.FeaturedImageFileName = theData.FeaturedImageForSize( "l16to9" );
-				sInfo.Images = theData.ImageListForSize( "m16to9", 3 );
+				sInfo.FeaturedImageFile = theData.FeaturedImageForSize( "l16to9" );
+				sInfo.Images = theData.ImageListForSize( "m16to9", 3 ).Select( i => (ImageComboItem)i);
 				sInfo.Options = new Dictionary<string, IEnumerable<string>>();
 				sInfo.Details = new Dictionary<string, IEnumerable<string>>();
 
@@ -124,7 +125,7 @@ namespace PWDRepositories
 					{
 						SeriesID = cs.SeriesID,
 						Name = cs.Name,
-						ImageFileName = cs.FeaturedImageForSize( "m4to3" )
+						ImageFileData = cs.FeaturedImageForSize( "m4to3" )
 					} );
 
 				sInfo.Typicals = theData.SeriesTypicals
@@ -133,22 +134,22 @@ namespace PWDRepositories
 					{
 						TypicalID = t.TypicalID,
 						Name = t.Typical.Name,
-						ImageFileName = t.Typical.FeaturedImageForSize( "m4to3" )
+						ImageFileData = t.Typical.FeaturedImageForSize( "m4to3" )
 					} );
 			}
 
 			return sInfo;
 		}
 
-		public IEnumerable<string> GetFullSeriesImageList( int id )
+		public IEnumerable<ImageComboItem> GetFullSeriesImageList( int id )
 		{
 			var theData = database.Serieses.FirstOrDefault( s => s.SeriesID == id );
 			if( theData != null )
 			{
-				return theData.ImageListForSize( "m4to3" );
+				return theData.ImageListForSize( "m4to3" ).Select( i => (ImageComboItem)i );
 			}
 
-			return new List<string>();
+			return new List<ImageComboItem>();
 		}
 	}
 }

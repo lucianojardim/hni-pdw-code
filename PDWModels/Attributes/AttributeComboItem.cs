@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PDWModels.Images
+namespace PDWModels.Attributes
 {
-	public class ImageSummary
+	public class AttributeComboItem
 	{
-		public int ImageID { get; set; }
-		public string FileName { get; set; }
+		public int ID { get; set; }
 		public string Name { get; set; }
 	}
 }

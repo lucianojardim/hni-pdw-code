@@ -2,7 +2,7 @@
     ViewBag.Title = "Images";
 }
 
-<h2>Images</h2>
+<h2>Paoli Image Engine</h2>
 
 <a href="@Url.Action( "AddImage", "Import" )?iframe" id="addNewImage">Add New</a>
 <div>
@@ -69,13 +69,18 @@
                 })
             },
             "bProcessing": false, // don't want to use the default progress indicator at this time
-            "aaSorting": [[0, "asc"]],
+            "aaSorting": [[1, "asc"]],
             "aoColumnDefs": [
-                    { "sName": "Name", "sTitle": "Image Name", "aTargets": [0], "mDataProp": "Name", "sWidth": "160px" },
-                    { "sName": "Caption", "sTitle": "Caption", "aTargets": [1], "mDataProp": "Caption", "bSortable": false, "sWidth": "120px" },
-                    { "sName": "Series", "sTitle": "Series", "aTargets": [2], "mDataProp": "Series", "bSortable": false, "sWidth": "120px" },
+                    { "sName": "Thumbnail", "sTitle": "", "aTargets": [0], "mDataProp": "Thumbnail", "sWidth": "50px",
+                        "fnRender": function (oObj) {
+                            return '<img src="/Content/PDWImages/Paoli ' + oObj.aData["Name"] + '_s1to1.png" width="50px"/>';
+                        }
+                    },
+                    { "sName": "Name", "sTitle": "Image Name", "aTargets": [1], "mDataProp": "Name", "sWidth": "100px" },
+                    { "sName": "Caption", "sTitle": "Caption", "aTargets": [2], "mDataProp": "Caption", "bSortable": false, "sWidth": "100px" },
+                    { "sName": "Keywords", "sTitle": "Keywords", "aTargets": [3], "mDataProp": "Keywords", "bSortable": false, "sWidth": "100px" },
                     { "sName": "ImageID",
-                        "aTargets": [3],
+                        "aTargets": [4],
                         "bSearchable": false,
                         "bSortable": false,
                         "mDataProp": "ImageID", "sWidth": "75px",
@@ -85,7 +90,7 @@
                             if (!oObj.aData["HasReferences"]) {
                                 s += '<a href=\"@Url.Action( "DeleteImage", "Import" )/' + oObj.aData["ImageID"] + '\" onclick="return confirm( \'Delete Image? \' );">Delete</a>&nbsp;|&nbsp;';
                             }
-                            s += '<a href=\"@Url.Action( "UploadImage", "Import" )/' + oObj.aData["ImageID"] + '/?iframe\" class="fbImageBtn">Upload</a>';
+                            s += '<a href=\"@Url.Action( "UploadImage", "Import" )/' + oObj.aData["ImageID"] + '/?iframe\" class="fbImageBtn">Replace Image</a>';
                             return s;
                         }
                     }

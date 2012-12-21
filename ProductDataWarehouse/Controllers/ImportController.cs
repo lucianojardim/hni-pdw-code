@@ -107,7 +107,7 @@ namespace ProductDataWarehouse.Controllers
 				{
 					ImageRepository iRepo = new ImageRepository();
 
-					iRepo.ImportImageFileData( imgInfo, imageFile.InputStream, imageFile.ContentLength, imageFile.FileName );
+					iRepo.ImportImageFileData( imgInfo, imageFile.InputStream, imageFile.ContentLength, imageFile.FileName, imageFile.ContentType );
 
 					ViewBag.CloseFancyBox = true;
 
@@ -175,7 +175,7 @@ namespace ProductDataWarehouse.Controllers
 				{
 					ImageRepository iRepo = new ImageRepository();
 
-					iRepo.UploadImageFile( ImageID, imageFile.InputStream, imageFile.ContentLength, imageFile.FileName );
+					iRepo.UploadImageFile( ImageID, imageFile.InputStream, imageFile.ContentLength, imageFile.FileName, imageFile.ContentType );
 
 					ViewBag.CloseFancyBox = true;
 

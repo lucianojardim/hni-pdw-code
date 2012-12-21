@@ -8,10 +8,16 @@ namespace PDWDBContext
 {
 	public partial class ImageFile
 	{
-		public string ThumbnailImageName( string suffix )
+		public class ImageData
+		{
+			public int ID { get; set; }
+			public string FileName { get; set; }
+		}
+
+		public ImageData ThumbnailImageData( string suffix )
 		{
 			string prependImageName = ConfigurationManager.AppSettings["PrependImageName"];
-			return prependImageName + " " + Name + "_" + suffix + ".png";
+			return new ImageData() { ID = ImageID, FileName = prependImageName + " " + Name + "_" + suffix + ".png" };
 		}
 
 		public string OriginalImage

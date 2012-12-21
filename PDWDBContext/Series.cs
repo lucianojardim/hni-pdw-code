@@ -22,7 +22,7 @@ namespace PDWDBContext
 			}
 		}
 
-		public IEnumerable<string> ImageListForSize( string suffix, int maxImageCount = 0 )
+		public IEnumerable<ImageFile.ImageData> ImageListForSize( string suffix, int maxImageCount = 0 )
 		{
 			var imgList = SeriesImageFiles.Where( s => !s.IsFeatured );
 
@@ -32,15 +32,15 @@ namespace PDWDBContext
 				imgList = imgList.OrderBy( i => randNum.Next() ).Take( maxImageCount );
 			}
 
-			return imgList.Select( i => i.ImageFile.ThumbnailImageName( suffix ) );
+			return imgList.Select( i => i.ImageFile.ThumbnailImageData( suffix ) );
 		}
 
-		public string FeaturedImageForSize( string suffix )
+		public ImageFile.ImageData FeaturedImageForSize( string suffix )
 		{
 			var fImg = SeriesImageFiles.FirstOrDefault( i => i.IsFeatured );
 			if( fImg != null )
 			{
-				return fImg.ImageFile.ThumbnailImageName( suffix );
+				return fImg.ImageFile.ThumbnailImageData( suffix );
 			}
 
 			return null;

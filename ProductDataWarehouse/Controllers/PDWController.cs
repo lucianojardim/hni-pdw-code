@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PWDRepositories;
+using System.Configuration;
 
 namespace ProductDataWarehouse.Controllers
 {
@@ -83,6 +84,23 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
+		public JsonpResult GetTypicalCoverList( string category, int? seriesId, string footprints,
+			int? minPrice, int? maxPrice,
+			string sortBy, int? typicalId, string itemList )
+		{
+			TypicalRepository tRepo = new TypicalRepository();
+
+			var theList = tRepo.GetTypicalCoverData( category, seriesId, footprints,
+				minPrice, maxPrice,
+				sortBy, typicalId, itemList );
+
+			return new JsonpResult()
+			{
+				Data = theList,
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
+
 		public JsonpResult GetSeriesNameList()
 		{
 			SeriesRepository sRepo = new SeriesRepository();
@@ -122,6 +140,19 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
+		public JsonpResult GetTypicalPriceRange()
+		{
+			AttributeRepository aRepo = new AttributeRepository();
+
+			var theList = aRepo.GetTypicalPriceRange();
+
+			return new JsonpResult()
+			{
+				Data = theList,
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
+
 		public JsonpResult GetSeriesInfo( int id )
 		{
 			SeriesRepository sRepo = new SeriesRepository();
@@ -152,7 +183,20 @@ namespace ProductDataWarehouse.Controllers
 		{
 			TypicalRepository tRepo = new TypicalRepository();
 
-			var theData = tRepo.GetTypicalInfo( id );
+			var theData = tRepo.GetTypicalInfo( id: id );
+
+			return new JsonpResult()
+			{
+				Data = theData,
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
+
+		public JsonpResult GetTypicalInfoByName( string typicalName )
+		{
+			TypicalRepository tRepo = new TypicalRepository();
+
+			var theData = tRepo.GetTypicalInfo( typicalName: typicalName );
 
 			return new JsonpResult()
 			{
@@ -222,6 +266,15 @@ namespace ProductDataWarehouse.Controllers
 				Data = theData,
 				JsonRequestBehavior = JsonRequestBehavior.AllowGet
 			};
+		}
+
+		public FileResult GetHiResImage( int imageId )
+		{
+			ImageRepository iRepo = new ImageRepository();
+
+			var theData = iRepo.GetHiResImageInfo( imageId );
+
+			return File( ConfigurationManager.AppSettings["ImageFileLocation"] + "/" + theData.FileName, theData.MIMEType, theData.FileName );
 		}
 	}
 }

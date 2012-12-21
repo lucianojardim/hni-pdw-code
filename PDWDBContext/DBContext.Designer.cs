@@ -1007,7 +1007,8 @@ namespace PDWDBContext
         /// <param name="imageType">Initial value of the ImageType property.</param>
         /// <param name="keyword">Initial value of the Keyword property.</param>
         /// <param name="createdDate">Initial value of the CreatedDate property.</param>
-        public static ImageFile CreateImageFile(global::System.Int32 imageID, global::System.String name, global::System.String originalExtension, global::System.String caption, global::System.Boolean hasPeople, global::System.String imageType, global::System.String keyword, global::System.DateTime createdDate)
+        /// <param name="mIMEType">Initial value of the MIMEType property.</param>
+        public static ImageFile CreateImageFile(global::System.Int32 imageID, global::System.String name, global::System.String originalExtension, global::System.String caption, global::System.Boolean hasPeople, global::System.String imageType, global::System.String keyword, global::System.DateTime createdDate, global::System.String mIMEType)
         {
             ImageFile imageFile = new ImageFile();
             imageFile.ImageID = imageID;
@@ -1018,6 +1019,7 @@ namespace PDWDBContext
             imageFile.ImageType = imageType;
             imageFile.Keyword = keyword;
             imageFile.CreatedDate = createdDate;
+            imageFile.MIMEType = mIMEType;
             return imageFile;
         }
 
@@ -1218,6 +1220,30 @@ namespace PDWDBContext
         private global::System.DateTime _CreatedDate;
         partial void OnCreatedDateChanging(global::System.DateTime value);
         partial void OnCreatedDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String MIMEType
+        {
+            get
+            {
+                return _MIMEType;
+            }
+            set
+            {
+                OnMIMETypeChanging(value);
+                ReportPropertyChanging("MIMEType");
+                _MIMEType = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("MIMEType");
+                OnMIMETypeChanged();
+            }
+        }
+        private global::System.String _MIMEType;
+        partial void OnMIMETypeChanging(global::System.String value);
+        partial void OnMIMETypeChanged();
 
         #endregion
     

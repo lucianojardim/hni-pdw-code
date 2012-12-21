@@ -9,8 +9,9 @@ namespace PDWModels.Images
 	{
 		public string Name { get; set; }
 		public string Caption { get; set; }
-		public string Series { get; set; }
+		public string Keywords { get; set; }
 		public int ImageID { get; set; }
 		public bool HasReferences { get; set; }
+		public string Thumbnail { get; set; }
 	}
 }

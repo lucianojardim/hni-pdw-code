@@ -55,6 +55,9 @@ namespace PWDRepositories
 					switch( header.ToLower() )
 					{
 						case "combo":
+						case "image-1":
+						case "image-2":
+						case "image-3":
 							// fields to skip
 							break;
 						case "category":
@@ -141,6 +144,7 @@ namespace PWDRepositories
 						case "installation guide":
 						case "eds sheet":
 						case "control guide":
+						case "brochure file name":
 							if( (val ?? "").Any() )
 							{
 								var attData = database.Attributes.FirstOrDefault( a => a.Name == header );
@@ -156,6 +160,49 @@ namespace PWDRepositories
 								attForSeries.Value = val;
 								attForSeries.Series = sData;
 								database.SeriesTextAttributes.AddObject( attForSeries );
+							}
+							break;
+						case "claires 5 favorites":
+							if( (val ?? "").Any() )
+							{
+								var attData = database.Attributes.FirstOrDefault( a => a.Name == header );
+								if( attData == null )
+								{
+									attData = new PDWDBContext.Attribute();
+									switch( header.ToLower() )
+									{
+										default:
+											attData.DetailItem = true;
+											break;
+									}
+									attData.Name = header;
+									database.Attributes.AddObject( attData );
+								}
+								var values = val.Split( '\r', '\n' );
+								foreach( var indVal in values.Select( s => s.Trim() ) )
+								{
+									if( indVal.Length > 0 )
+									{
+										var optVal = attData.AttributeOptions.FirstOrDefault( ao => ao.Name == indVal );
+										if( optVal == null )
+										{
+											if( indVal.Length > 500 )
+											{
+												throw new Exception( string.Format( "Cannot add option value {0} for {1}", indVal, header ) );
+											}
+											optVal = new AttributeOption();
+											optVal.Name = indVal;
+											database.AttributeOptions.AddObject( optVal );
+											attData.AttributeOptions.Add( optVal );
+										}
+
+										var attForSeries = new SeriesOptionAttribute();
+										attForSeries.Attribute = attData;
+										attForSeries.AttributeOption = optVal;
+										attForSeries.Series = sData;
+										database.SeriesOptionAttributes.AddObject( attForSeries );
+									}
+								}
 							}
 							break;
 						default:
@@ -180,7 +227,7 @@ namespace PWDRepositories
 									var optVal = attData.AttributeOptions.FirstOrDefault( ao => ao.Name == indVal );
 									if( optVal == null )
 									{
-										if( indVal.Length > 100 )
+										if( indVal.Length > 500 )
 										{
 											throw new Exception( string.Format( "Cannot add option value {0} for {1}", indVal, header ) );
 										}
@@ -286,19 +333,22 @@ namespace PWDRepositories
 						case "typical name":
 							tData.Name = val;
 							break;
-						case "top view":
-						case "iso view":
+						case "iso main image":
 						case "image":
 							if( (val ?? "").Any() )
 							{
-								var img = database.ImageFiles.FirstOrDefault( i => i.Name == val );
-								if( img != null )
+								var values = val.Split( ',' );
+								foreach( var indVal in values.Select( s => s.Trim() ) )
 								{
-									TypicalImageFile sif = new TypicalImageFile();
-									sif.IsFeatured = (header.ToLower() == "image");
-									sif.ImageFile = img;
-									sif.Typical = tData;
-									database.TypicalImageFiles.AddObject( sif );
+									var img = database.ImageFiles.FirstOrDefault( i => i.Name == indVal );
+									if( img != null )
+									{
+										TypicalImageFile sif = new TypicalImageFile();
+										sif.IsFeatured = (header.ToLower() == "iso main image");
+										sif.ImageFile = img;
+										sif.Typical = tData;
+										database.TypicalImageFiles.AddObject( sif );
+									}
 								}
 							}
 							break;
@@ -379,7 +429,7 @@ namespace PWDRepositories
 									var optVal = attData.TAttributeOptions.FirstOrDefault( ao => ao.Name == indVal );
 									if( optVal == null )
 									{
-										if( indVal.Length > 100 )
+										if( indVal.Length > 500 )
 										{
 											throw new Exception( string.Format( "Cannot add option value {0} for {1}", indVal, header ) );
 										}

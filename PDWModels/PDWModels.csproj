@@ -34,6 +34,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,6 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\AttributeComboItem.cs" />
+    <Compile Include="Images\HiResImageInfo.cs" />
+    <Compile Include="Images\ImageComboItem.cs" />
     <Compile Include="Images\ImageDetail.cs" />
     <Compile Include="Images\ImageItemDetails.cs" />
     <Compile Include="Images\ImageListGallery.cs" />
@@ -58,7 +62,12 @@
     <Compile Include="Typicals\TypicalListData.cs" />
     <Compile Include="Typicals\TypicalListGallery.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\PDWDBContext\PDWDBContext.csproj">
+      <Project>{E5529190-3BF8-40D3-A334-A47DC3F230DA}</Project>
+      <Name>PDWDBContext</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

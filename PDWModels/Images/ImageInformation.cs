@@ -24,7 +24,5 @@ namespace PDWModels.Images
 		[Required]
 		[DisplayName( "Image Type" )]
 		public string ImageType { get; set; }
-		[DisplayName( "Series List" )]
-		public string SeriesList { get; set; }
 	}
 }

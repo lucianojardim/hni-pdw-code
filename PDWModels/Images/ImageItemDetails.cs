@@ -9,6 +9,7 @@ namespace PDWModels.Images
 	{
 		public class ImageSeries
 		{
+			public int SeriesID { get; set; }
 			public string Name { get; set; }
 			public IEnumerable<string> TypicalList { get; set; }
 		}

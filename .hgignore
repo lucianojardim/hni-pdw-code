@@ -4,3 +4,4 @@ syntax: glob
 bin/*
 obj/*
 *.[Cc]onfig
+PDWImages/*
