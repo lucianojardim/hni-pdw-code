@@ -16,10 +16,12 @@ namespace PDWModels.Images
 		{
 			ID = img.ID;
 			Name = img.FileName;
+			CanLightbox = img.CanLightbox;
 		}
 
 		public int ID { get; set; }
 		public string Name { get; set; }
+		public bool CanLightbox { get; set; }
 
 		public static implicit operator ImageComboItem( ImageFile.ImageData img )
 		{

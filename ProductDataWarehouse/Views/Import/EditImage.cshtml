@@ -21,6 +21,7 @@
     @using( Html.BeginForm( "EditImage", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
     {
         @Html.HiddenFor( m => m.ImageID )
+        @Html.HiddenFor( m => m.ImageName )
         @Html.LabelFor( m => m.ImageName )<text>: </text>@Html.DisplayFor( m => m.ImageName )<br />
         @Html.LabelFor( m => m.Caption )<text>: </text>@Html.TextAreaFor( m => m.Caption )<br />
         @Html.LabelFor( m => m.Keywords )<text>: </text>@Html.TextAreaFor( m => m.Keywords )<br />

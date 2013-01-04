@@ -20,22 +20,13 @@ namespace PWDRepositories
 		{
 		}
 
-		public class PDWImageType
+		public class PublicImageType
 		{
 			public string Abbreviation { get; set; }
 			public string Description { get; set; }
 		}
 
-		public static List<PDWImageType> ImageTypes = new List<PDWImageType>()
-			{
-				new PDWImageType() { Abbreviation= "Env", Description = "Environmental" },
-				new PDWImageType() { Abbreviation= "WS", Description = "White Sweep" },
-				new PDWImageType() { Abbreviation= "Det", Description = "Detail" },
-				new PDWImageType() { Abbreviation= "ILD", Description = "Isometric Line Drawing" },
-				new PDWImageType() { Abbreviation= "OFp", Description = "Overhead Footprint" },
-				new PDWImageType() { Abbreviation= "RR", Description = "Rough Render" },
-				new PDWImageType() { Abbreviation= "LDr", Description = "Line Drawing" },
-			};
+		public static IEnumerable<PublicImageType> ImageTypes { get { return ImageFile.ImageTypes.Select( i => new PublicImageType() { Abbreviation = i.Abbreviation, Description = i.Description } ); } }
 
 		private ImageDetail ToImageDetail( ImageFile img )
 		{
@@ -157,7 +148,13 @@ namespace PWDRepositories
 				.Skip( (pageNum - 1) * pageSize )
 				.Take( pageSize )
 				.ToList()
-				.Select( img => new ImageSummary() { Name = img.Name, FileName = img.ThumbnailImageData( "m4to3" ).FileName, ImageID = img.ImageID } );
+				.Select( img => new ImageSummary() 
+				{ 
+					Name = img.Name, 
+					FileName = img.ThumbnailImageData( "m4to3" ).FileName, 
+					ImageID = img.ImageID, 
+					CanLightbox = ImageFile.ImageCanLightbox( img.ImageType ) 
+				} );
 
 			return gallery;
 		}
@@ -207,7 +204,14 @@ namespace PWDRepositories
 				.Skip( (pageNum - 1) * pageSize )
 				.Take( pageSize )
 				.ToList()
-				.Select( img => new ImageListSummary() { Caption = img.Caption, FileName = img.ThumbnailImageData( "m4to3" ).FileName, Name = img.Name, ImageID = img.ImageID } );
+				.Select( img => new ImageListSummary() 
+				{ 
+					Caption = img.Caption, 
+					FileName = img.ThumbnailImageData( "m4to3" ).FileName, 
+					Name = img.Name,
+					ImageID = img.ImageID,
+					CanLightbox = ImageFile.ImageCanLightbox( img.ImageType )
+				} );
 
 			return gallery;
 		}

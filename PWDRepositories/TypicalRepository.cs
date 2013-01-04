@@ -72,7 +72,8 @@ namespace PWDRepositories
 					Name = t.Name,
 					ImageFileData = t.FeaturedImageForSize( "m4to3" ),
 					Price = t.IntAttribute( "Pricing" ),
-					Footprints = t.AttributeSet( "Footprint" )
+					Footprints = t.AttributeSet( "Footprint" ),
+					SeriesList = t.SeriesTypicals.Select( st => st.Series.Name )
 				} );
 
 			return gallery;
