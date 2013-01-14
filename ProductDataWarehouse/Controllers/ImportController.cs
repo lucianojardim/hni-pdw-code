@@ -6,20 +6,49 @@ using System.Web.Mvc;
 using PWDRepositories;
 using PDWInfrastructure;
 using PDWModels.Images;
+using System.Threading;
+using System.Web.Security;
 
 namespace ProductDataWarehouse.Controllers
 {
     public class ImportController : Controller
     {
-        //
-        // GET: /Import/
+		public ActionResult Logon()
+		{
+			if( HttpContext.User.Identity.IsAuthenticated )
+			{
+				return RedirectToAction( "Index" );
+			}
 
+			return View();
+		}
+
+		[HttpPost]
+		public ActionResult Logon( string userName, string password )
+		{
+			if( ModelState.IsValid )
+			{
+				if( userName == "paoliUser" &&
+					password == "Paol!P@$$" )
+				{
+					FormsAuthentication.SetAuthCookie( userName, false );
+					return RedirectToAction( "Index" );
+				}
+				Thread.Sleep( 5000 );	// delay to prevent brute force attacks
+				ModelState.AddModelError( "", "Invalid username and/or password." );
+			}
+
+			return View();
+		}
+
+		[Authorize]
         public ActionResult Index()
         {
             return View();
         }
 
 		[HttpPost]
+		[Authorize]
 		public ActionResult Index( HttpPostedFileBase csvFile )
 		{
 			if( ModelState.IsValid )
@@ -44,6 +73,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[HttpPost]
+		[Authorize]
 		public ActionResult Typicals( HttpPostedFileBase typicalFile )
 		{
 			if( ModelState.IsValid )
@@ -69,11 +99,13 @@ namespace ProductDataWarehouse.Controllers
 			return View( viewName: "Index" );
 		}
 
+		[Authorize]
 		public ActionResult Images()
 		{
 			return View();
 		}
 
+		[Authorize]
 		public JsonResult FullImageList( DataTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -93,12 +125,14 @@ namespace ProductDataWarehouse.Controllers
 				JsonRequestBehavior.AllowGet );
 		}
 
+		[Authorize]
 		public ActionResult AddImage()
 		{
 			return View( new ImageInformation() );
 		}
 
 		[HttpPost]
+		[Authorize]
 		public ActionResult AddImage( ImageInformation imgInfo, HttpPostedFileBase imageFile )
 		{
 			if( ModelState.IsValid )
@@ -125,6 +159,7 @@ namespace ProductDataWarehouse.Controllers
 			return View();
 		}
 
+		[Authorize]
 		public ActionResult EditImage( int id )
 		{
 			ImageRepository iRepo = new ImageRepository();
@@ -133,6 +168,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[HttpPost]
+		[Authorize]
 		public ActionResult EditImage( ImageInformation imgInfo )
 		{
 			if( ModelState.IsValid )
@@ -159,6 +195,7 @@ namespace ProductDataWarehouse.Controllers
 			return View();
 		}
 
+		[Authorize]
 		public ActionResult UploadImage( int id )
 		{
 			ImageRepository iRepo = new ImageRepository();
@@ -167,6 +204,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[HttpPost]
+		[Authorize]
 		public ActionResult UploadImage( int ImageID, HttpPostedFileBase imageFile )
 		{
 			if( ModelState.IsValid )
@@ -193,6 +231,7 @@ namespace ProductDataWarehouse.Controllers
 			return View();
 		}
 
+		[Authorize]
 		public ActionResult DeleteImage( int id )
 		{
 			ImageRepository iRepo = new ImageRepository();
