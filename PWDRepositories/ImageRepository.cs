@@ -127,7 +127,7 @@ namespace PWDRepositories
 			if( (keywords ?? "").Any() )
 			{
 				var wordList = keywords.Split( ',' );
-				imgList = imgList.Where( img => wordList.Any( w => img.Keyword.Contains( w.Trim() ) ) );
+				imgList = imgList.Where( img => wordList.Any( w => img.Keyword.Contains( w.Trim() ) || img.Name.Contains( w.Trim() ) || img.Caption.Contains( w.Trim() ) ) );
 			}
 
 			gallery.FilteredImageCount = imgList.Count();
@@ -183,7 +183,7 @@ namespace PWDRepositories
 			if( (keywords ?? "").Any() )
 			{
 				var wordList = keywords.Split( ',' );
-				imgList = imgList.Where( img => wordList.Any( w => img.Keyword.Contains( w.Trim() ) ) );
+				imgList = imgList.Where( img => wordList.Any( w => img.Keyword.Contains( w.Trim() ) || img.Name.Contains( w.Trim() ) || img.Caption.Contains( w.Trim() ) ) );
 			}
 
 			gallery.FilteredImageCount = imgList.Count();
