@@ -114,6 +114,19 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
+		public JsonpResult GetSeriesNameListWithTypicals()
+		{
+			SeriesRepository sRepo = new SeriesRepository();
+
+			var theList = sRepo.GetSeriesNameListWithTypicals();
+
+			return new JsonpResult()
+			{
+				Data = theList,
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
+
 		public JsonpResult GetOptionList( string attr )
 		{
 			AttributeRepository aRepo = new AttributeRepository();
