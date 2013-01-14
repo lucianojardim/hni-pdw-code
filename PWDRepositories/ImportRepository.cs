@@ -89,7 +89,7 @@ namespace PWDRepositories
 
 								var attForSeries = new SeriesTextAttribute();
 								attForSeries.Attribute = attData;
-								attForSeries.Value = (val ?? "").Any() ? val : (header + " goes here");
+								attForSeries.Value = val ?? "";
 								attForSeries.Series = sData;
 								database.SeriesTextAttributes.AddObject( attForSeries );
 							}
