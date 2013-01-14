@@ -29,7 +29,7 @@
     {
         @Html.Label( "File Name: " )<input type="file" name="csvFile" data-val-required="The File Name is a required field." data-val="true" /><br />
 @Html.ValidationSummary()
-        <input type="submit" value="Import" />
+        <input type="submit" value="Import PDW" />
     }
     </div>
 
@@ -40,10 +40,12 @@
     {
         @Html.Label( "File Name: " )<input type="file" name="typicalFile" data-val-required="The File Name is a required field." data-val="true" /><br />
 @Html.ValidationSummary()
-        <input type="submit" value="Import" />
+        <input type="submit" value="Import Typicals" />
     }
     </div>
-
+<!--
 <input type="button" onclick="DoAjaxCall();" value="Test Cross Domain" />
+-->
+<a href="@Url.Action( "Images" )">Manage Images</a><br />
 <p id="ajaxResults"></p>
 
