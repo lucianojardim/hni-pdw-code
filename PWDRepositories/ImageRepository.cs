@@ -107,7 +107,11 @@ namespace PWDRepositories
 		{
 			ImageThumbnailGallery gallery = new ImageThumbnailGallery();
 
-			var imgList = database.ImageFiles.AsQueryable();
+			var imageTypeList = ImageFile.ImageTypes.Where( i => i.CanLightbox )
+					.Select( iType => iType.Abbreviation );
+			var imgList = database.ImageFiles
+				.Where( imgFile => imageTypeList.Any( it => it == imgFile.ImageType ) )
+				.AsQueryable();
 			gallery.TotalImageCount = imgList.Count();
 
 			if( (imageTypes ?? "").Any() )
@@ -163,7 +167,11 @@ namespace PWDRepositories
 		{
 			ImageListGallery gallery = new ImageListGallery();
 
-			var imgList = database.ImageFiles.AsQueryable();
+			var imageTypeList = ImageFile.ImageTypes.Where( i => i.CanLightbox )
+					.Select( iType => iType.Abbreviation );
+			var imgList = database.ImageFiles
+				.Where( imgFile => imageTypeList.Any( it => it == imgFile.ImageType ) )
+				.AsQueryable();
 			gallery.TotalImageCount = imgList.Count();
 
 			if( (imageTypes ?? "").Any() )
@@ -366,16 +374,20 @@ namespace PWDRepositories
 				scaledWidth = maxWidth;
 			}
 
+			EncoderParameters ep = new EncoderParameters();
+			ep.Param[0] = new EncoderParameter( System.Drawing.Imaging.Encoder.ColorDepth, 8 );
+			var enc = ImageCodecInfo.GetImageEncoders().Where( i => i.FormatID == ImageFormat.Png.Guid ).FirstOrDefault();
+
 			if( (scaledHeight != fullSizeImg.Height) || (scaledWidth != fullSizeImg.Width) )
 			{
 				Image.GetThumbnailImageAbort dummyCallBack = new Image.GetThumbnailImageAbort( ThumbnailCallback );
 				Image thumbNailImg = smImage.GetThumbnailImage( scaledWidth, scaledHeight, dummyCallBack, IntPtr.Zero );
 
-				thumbNailImg.Save( fileName, ImageFormat.Png );
+				thumbNailImg.Save( fileName, enc, ep );
 			}
 			else
 			{
-				smImage.Save( fileName, ImageFormat.Png );
+				smImage.Save( fileName, enc, ep );
 			}
 		}
 
