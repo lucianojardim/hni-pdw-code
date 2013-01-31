@@ -137,7 +137,7 @@ namespace PWDRepositories
 								relatedSeries = val;
 							}
 							break;
-						case "price guide":
+						case "price list":
 						case "product technical spec sheet":
 						case "spec guide":
 						case "gsa spec sheet":
@@ -375,7 +375,7 @@ namespace PWDRepositories
 								}
 							}
 							break;
-						case "price guide":
+						case "price list":
 						case "product technical spec sheet":
 						case "spec guide":
 						case "gsa spec sheet":
