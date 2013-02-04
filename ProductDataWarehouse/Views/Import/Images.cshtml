@@ -4,7 +4,8 @@
 
 <h2>Paoli Image Engine</h2>
 
-<a href="@Url.Action( "AddImage", "Import" )?iframe" id="addNewImage">Add New</a>
+<a href="@Url.Action( "AddImage", "Import" )?iframe" id="addNewImage">Add New</a><br />
+<a href="@Url.Action( "RebuildGallery", "Import" )" onclick="return confirm('Rebuild Image Gallery?');">Rebuild Image Gallery</a>
 <div>
     <table id="imageList">
     <thead></thead>
@@ -73,7 +74,7 @@
             "aoColumnDefs": [
                     { "sName": "Thumbnail", "sTitle": "", "aTargets": [0], "mDataProp": "Thumbnail", "sWidth": "50px",
                         "fnRender": function (oObj) {
-                            return '<img src="/Images/Paoli ' + oObj.aData["Name"] + '_s1to1.png" width="50px"/>';
+                            return '<img src="/Images/Paoli ' + oObj.aData["Name"] + '_s1to1.jpg" width="50px"/>';
                         }
                     },
                     { "sName": "Name", "sTitle": "Image Name", "aTargets": [1], "mDataProp": "Name", "sWidth": "100px" },

@@ -45,7 +45,7 @@ namespace PDWDBContext
 		public ImageData ThumbnailImageData( string suffix )
 		{
 			string prependImageName = ConfigurationManager.AppSettings["PrependImageName"];
-			return new ImageData() { ID = ImageID, FileName = prependImageName + " " + Name + "_" + suffix + ".png", CanLightbox = ImageCanLightbox( ImageType ) };
+			return new ImageData() { ID = ImageID, FileName = prependImageName + " " + Name + "_" + suffix + ".jpg", CanLightbox = ImageCanLightbox( ImageType ) };
 		}
 
 		public string OriginalImage

@@ -245,6 +245,16 @@ namespace ProductDataWarehouse.Controllers
 		{
 			return ImageRepository.ImageTypes.Select( it => new SelectListItem() { Value = it.Abbreviation, Text = it.Description } );
 		}
+
+		[Authorize]
+		public ActionResult RebuildGallery()
+		{
+			ImageRepository iRepo = new ImageRepository();
+
+			iRepo.RebuildImageGallery();
+
+			return RedirectToAction( "Images" );
+		}
 	}
 
 }

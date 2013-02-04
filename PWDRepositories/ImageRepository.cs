@@ -374,20 +374,16 @@ namespace PWDRepositories
 				scaledWidth = maxWidth;
 			}
 
-			EncoderParameters ep = new EncoderParameters();
-			ep.Param[0] = new EncoderParameter( System.Drawing.Imaging.Encoder.ColorDepth, 8 );
-			var enc = ImageCodecInfo.GetImageEncoders().Where( i => i.FormatID == ImageFormat.Png.Guid ).FirstOrDefault();
-
 			if( (scaledHeight != fullSizeImg.Height) || (scaledWidth != fullSizeImg.Width) )
 			{
 				Image.GetThumbnailImageAbort dummyCallBack = new Image.GetThumbnailImageAbort( ThumbnailCallback );
-				Image thumbNailImg = smImage.GetThumbnailImage( scaledWidth, scaledHeight, dummyCallBack, IntPtr.Zero );
+				var thumbNailImg = smImage.GetThumbnailImage( scaledWidth, scaledHeight, dummyCallBack, IntPtr.Zero );
 
-				thumbNailImg.Save( fileName, enc, ep );
+				thumbNailImg.Save( fileName, ImageFormat.Jpeg );
 			}
 			else
 			{
-				smImage.Save( fileName, enc, ep );
+				smImage.Save( fileName, ImageFormat.Jpeg );
 			}
 		}
 
@@ -477,7 +473,7 @@ namespace PWDRepositories
 			var ImageSizes = (ImageCropConfiguration)ConfigurationManager.GetSection( "imageCropSettings" );
 			foreach( PDWInfrastructure.ImageCropConfiguration.CropSettingElement iSize in ImageSizes.ImageSizes )
 			{
-				ResizeImage( Path.Combine( ConfigurationManager.AppSettings["ImageFileLocation"], prependImageName + " " + imageName + "_" + iSize.Suffix + ".png" ),
+				ResizeImage( Path.Combine( ConfigurationManager.AppSettings["ImageFileLocation"], prependImageName + " " + imageName + "_" + iSize.Suffix + ".jpg" ),
 					fullSizeImg, iSize.RatioWidth, iSize.RatioHeight, iSize.MaxWidth, iSize.MaxHeight, iSize.CropType );
 			}
 		}
@@ -485,6 +481,26 @@ namespace PWDRepositories
 		private bool ThumbnailCallback()
 		{
 			return false;
+		}
+
+		public void RebuildImageGallery()
+		{
+			string prependImageName = ConfigurationManager.AppSettings["PrependImageName"];
+			foreach( var imgData in database.ImageFiles )
+			{
+				FileStream fStream = new FileStream( 
+					Path.Combine( ConfigurationManager.AppSettings["ImageFileLocation"], prependImageName + " " + imgData.Name + Path.GetExtension( imgData.OriginalExtension ) ), 
+					FileMode.Open );
+				if( fStream != null )
+				{
+					MemoryStream stream = new MemoryStream();
+					fStream.CopyTo( stream );
+					
+					fStream.Close();
+
+					UploadImage( imgData.Name, stream, 0, imgData.OriginalExtension );
+				}
+			}
 		}
 	}
 }
