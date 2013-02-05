@@ -99,6 +99,7 @@ namespace PWDRepositories
 							if( (val ?? "").Any() )
 							{
 								var values = val.Split( ',' );
+								int displayOrder = 1;
 								foreach( var indVal in values.Select( s => s.Trim() ) )
 								{
 									var img = database.ImageFiles.FirstOrDefault( i => i.Name == indVal );
@@ -108,7 +109,10 @@ namespace PWDRepositories
 										sif.IsFeatured = (header.ToLower() == "image - featured");
 										sif.ImageFile = img;
 										sif.Series = sData;
+										sif.DisplayOrder = sif.IsFeatured ? 0 : displayOrder;
 										database.SeriesImageFiles.AddObject( sif );
+
+										displayOrder++;
 									}
 								}
 							}

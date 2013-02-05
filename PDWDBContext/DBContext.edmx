@@ -187,6 +187,7 @@
           <Property Name="IsFeatured" Type="bit" Nullable="false" />
           <Property Name="ImageID" Type="int" Nullable="false" />
           <Property Name="SeriesID" Type="int" Nullable="false" />
+          <Property Name="DisplayOrder" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="SeriesIntAttributes">
           <Key>
@@ -918,6 +919,7 @@
           <Property Type="Int32" Name="SeriesID" Nullable="false" />
           <NavigationProperty Name="ImageFile" Relationship="PaoliPDWModel.fkSIF_Image" FromRole="SeriesImageFile" ToRole="ImageFile" />
           <NavigationProperty Name="Series" Relationship="PaoliPDWModel.fkSIF_Series" FromRole="SeriesImageFile" ToRole="Series" />
+          <Property Type="Int32" Name="DisplayOrder" Nullable="false" />
         </EntityType>
         <Association Name="fkSIF_Image">
           <End Type="PaoliPDWModel.ImageFile" Role="ImageFile" Multiplicity="1" />
@@ -1244,6 +1246,7 @@
           <EntitySetMapping Name="SeriesImageFiles">
             <EntityTypeMapping TypeName="PaoliPDWModel.SeriesImageFile">
               <MappingFragment StoreEntitySet="SeriesImageFiles">
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
                 <ScalarProperty Name="SeriesID" ColumnName="SeriesID" />
                 <ScalarProperty Name="ImageID" ColumnName="ImageID" />
                 <ScalarProperty Name="IsFeatured" ColumnName="IsFeatured" />

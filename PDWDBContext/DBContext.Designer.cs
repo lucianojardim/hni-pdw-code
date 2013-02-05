@@ -1641,13 +1641,15 @@ namespace PDWDBContext
         /// <param name="isFeatured">Initial value of the IsFeatured property.</param>
         /// <param name="imageID">Initial value of the ImageID property.</param>
         /// <param name="seriesID">Initial value of the SeriesID property.</param>
-        public static SeriesImageFile CreateSeriesImageFile(global::System.Int32 associationID, global::System.Boolean isFeatured, global::System.Int32 imageID, global::System.Int32 seriesID)
+        /// <param name="displayOrder">Initial value of the DisplayOrder property.</param>
+        public static SeriesImageFile CreateSeriesImageFile(global::System.Int32 associationID, global::System.Boolean isFeatured, global::System.Int32 imageID, global::System.Int32 seriesID, global::System.Int32 displayOrder)
         {
             SeriesImageFile seriesImageFile = new SeriesImageFile();
             seriesImageFile.AssociationID = associationID;
             seriesImageFile.IsFeatured = isFeatured;
             seriesImageFile.ImageID = imageID;
             seriesImageFile.SeriesID = seriesID;
+            seriesImageFile.DisplayOrder = displayOrder;
             return seriesImageFile;
         }
 
@@ -1752,6 +1754,30 @@ namespace PDWDBContext
         private global::System.Int32 _SeriesID;
         partial void OnSeriesIDChanging(global::System.Int32 value);
         partial void OnSeriesIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 DisplayOrder
+        {
+            get
+            {
+                return _DisplayOrder;
+            }
+            set
+            {
+                OnDisplayOrderChanging(value);
+                ReportPropertyChanging("DisplayOrder");
+                _DisplayOrder = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("DisplayOrder");
+                OnDisplayOrderChanged();
+            }
+        }
+        private global::System.Int32 _DisplayOrder;
+        partial void OnDisplayOrderChanging(global::System.Int32 value);
+        partial void OnDisplayOrderChanged();
 
         #endregion
     

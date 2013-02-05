@@ -28,8 +28,7 @@ namespace PDWDBContext
 
 			if( (maxImageCount > 0) )
 			{
-				var randNum = new Random();
-				imgList = imgList.OrderBy( i => randNum.Next() ).Take( maxImageCount );
+				imgList = imgList.OrderBy( i => i.DisplayOrder ).Take( maxImageCount );
 			}
 
 			return imgList.Select( i => i.ImageFile.ThumbnailImageData( suffix ) );
