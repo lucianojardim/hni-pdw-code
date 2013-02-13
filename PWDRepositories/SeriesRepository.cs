@@ -40,6 +40,7 @@ namespace PWDRepositories
 					ImageData = s.FeaturedImageForSize( "m4to3" ), 
 					DateCreated = s.CreatedDate,
  					Ranking = s.Ranking,
+					Price = s.StartingPrice,
 					Style = s.AttributeSet( "Style" )
 				} 
 			);

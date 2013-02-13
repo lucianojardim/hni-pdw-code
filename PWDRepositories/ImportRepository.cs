@@ -44,6 +44,11 @@ namespace PWDRepositories
 
 			while( csvReader.ReadNextRecord() )
 			{
+				if( !csvReader["Series Name"].Any() )
+				{
+					continue;
+				}
+
 				Series sData = new Series();
 				sData.CreatedDate = DateTime.Now;
 
@@ -164,6 +169,43 @@ namespace PWDRepositories
 								attForSeries.Value = val;
 								attForSeries.Series = sData;
 								database.SeriesTextAttributes.AddObject( attForSeries );
+							}
+							break;
+						case "pricing range":
+							if( (val ?? "").Any() )
+							{
+								var attData = database.Attributes.FirstOrDefault( a => a.Name == header );
+								if( attData == null )
+								{
+									attData = new PDWDBContext.Attribute();
+									attData.Name = header;
+									database.Attributes.AddObject( attData );
+								}
+
+								var attForSeries = new SeriesTextAttribute();
+								attForSeries.Attribute = attData;
+								attForSeries.Value = val;
+								attForSeries.Series = sData;
+								database.SeriesTextAttributes.AddObject( attForSeries );
+
+								var startingPrice = string.Join( "", val.Intersect( "0123456789" ) );
+								int price = 0;
+								if( startingPrice.Any() && int.TryParse( startingPrice, out price ) )
+								{
+									var priceData = database.Attributes.FirstOrDefault( a => a.Name == "Starting Price" );
+									if( priceData == null )
+									{
+										priceData = new PDWDBContext.Attribute();
+										priceData.Name = "Starting Price";
+										database.Attributes.AddObject( priceData );
+									}
+
+									var priceForSeries = new SeriesIntAttribute();
+									priceForSeries.Attribute = priceData;
+									priceForSeries.Value = price;
+									priceForSeries.Series = sData;
+									database.SeriesIntAttributes.AddObject( priceForSeries );
+								}
 							}
 							break;
 						case "claires 5 favorites":
@@ -300,6 +342,11 @@ namespace PWDRepositories
 
 			while( csvReader.ReadNextRecord() )
 			{
+				if( !csvReader["Typical Name"].Any() )
+				{
+					continue;
+				}
+
 				Typical tData = new Typical();
 				tData.CreatedDate = DateTime.Now;
 

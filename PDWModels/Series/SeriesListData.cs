@@ -14,6 +14,7 @@ namespace PDWModels.Series
 		public ImageComboItem ImageData { get; set; }
 		public DateTime DateCreated { get; set; }
 		public int Ranking { get; set; }
+		public int Price { get; set; }
 		public IEnumerable<string> Style { get; set; }
 	}
 }

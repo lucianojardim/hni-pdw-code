@@ -22,6 +22,20 @@ namespace PDWDBContext
 			}
 		}
 
+		public int StartingPrice
+		{
+			get
+			{
+				var price = SeriesIntAttributes.FirstOrDefault( a => a.Attribute.Name == "Starting Price" );
+				if( price != null )
+				{
+					return price.Value;
+				}
+
+				return 0;
+			}
+		}
+
 		public IEnumerable<ImageFile.ImageData> ImageListForSize( string suffix, int maxImageCount = 0 )
 		{
 			var imgList = SeriesImageFiles.Where( s => !s.IsFeatured );
