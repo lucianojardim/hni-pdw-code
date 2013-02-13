@@ -462,15 +462,18 @@ namespace PWDRepositories
 			DirectoryInfo dInfo = new DirectoryInfo( ConfigurationManager.AppSettings["ImageFileLocation"] );
 			string prependImageName = ConfigurationManager.AppSettings["PrependImageName"];
 
-			foreach( var f in dInfo.EnumerateFiles( "*" + prependImageName + " " + imageName + "*.*" ).ToList() )
+			var ImageSizes = (ImageCropConfiguration)ConfigurationManager.GetSection( "imageCropSettings" );
+			foreach( PDWInfrastructure.ImageCropConfiguration.CropSettingElement iSize in ImageSizes.ImageSizes )
 			{
-				f.Delete();
+				foreach( var f in dInfo.EnumerateFiles( prependImageName + " " + imageName + "_" + iSize.Suffix + ".jpg" ).ToList() )
+				{
+					f.Delete();
+				}
 			}
 
 			Image fullSizeImg = Image.FromStream( fStream );
 			fullSizeImg.Save( Path.Combine( ConfigurationManager.AppSettings["ImageFileLocation"], prependImageName + " " + imageName + Path.GetExtension( origFileName ) ) );
 
-			var ImageSizes = (ImageCropConfiguration)ConfigurationManager.GetSection( "imageCropSettings" );
 			foreach( PDWInfrastructure.ImageCropConfiguration.CropSettingElement iSize in ImageSizes.ImageSizes )
 			{
 				ResizeImage( Path.Combine( ConfigurationManager.AppSettings["ImageFileLocation"], prependImageName + " " + imageName + "_" + iSize.Suffix + ".jpg" ),
@@ -488,17 +491,23 @@ namespace PWDRepositories
 			string prependImageName = ConfigurationManager.AppSettings["PrependImageName"];
 			foreach( var imgData in database.ImageFiles )
 			{
-				FileStream fStream = new FileStream( 
-					Path.Combine( ConfigurationManager.AppSettings["ImageFileLocation"], prependImageName + " " + imgData.Name + Path.GetExtension( imgData.OriginalExtension ) ), 
-					FileMode.Open );
-				if( fStream != null )
+				try
 				{
-					MemoryStream stream = new MemoryStream();
-					fStream.CopyTo( stream );
-					
-					fStream.Close();
+					FileStream fStream = new FileStream(
+						Path.Combine( ConfigurationManager.AppSettings["ImageFileLocation"], prependImageName + " " + imgData.Name + Path.GetExtension( imgData.OriginalExtension ) ),
+						FileMode.Open );
+					if( fStream != null )
+					{
+						MemoryStream stream = new MemoryStream();
+						fStream.CopyTo( stream );
 
-					UploadImage( imgData.Name, stream, 0, imgData.OriginalExtension );
+						fStream.Close();
+
+						UploadImage( imgData.Name, stream, 0, imgData.OriginalExtension );
+					}
+				}
+				catch( FileNotFoundException )
+				{
 				}
 			}
 		}

@@ -5,7 +5,6 @@
 <h2>Paoli Image Engine</h2>
 
 <a href="@Url.Action( "AddImage", "Import" )?iframe" id="addNewImage">Add New</a><br />
-<a href="@Url.Action( "RebuildGallery", "Import" )" onclick="return confirm('Rebuild Image Gallery?');">Rebuild Image Gallery</a>
 <div>
     <table id="imageList">
     <thead></thead>
@@ -66,7 +65,7 @@
                             'type': 'iframe'
                         });
                     },
-                    error: function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Vehicles:' + errorThrown) }
+                    error: function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Images:' + errorThrown) }
                 })
             },
             "bProcessing": false, // don't want to use the default progress indicator at this time
