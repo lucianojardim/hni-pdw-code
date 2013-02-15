@@ -16,5 +16,6 @@ namespace PDWModels.Series
 		public int Ranking { get; set; }
 		public int Price { get; set; }
 		public IEnumerable<string> Style { get; set; }
+		public IEnumerable<string> Applications { get; set; }
 	}
 }
