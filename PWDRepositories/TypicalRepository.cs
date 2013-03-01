@@ -5,6 +5,7 @@ using System.Text;
 using PDWDBContext;
 using PDWModels.Typicals;
 using PDWModels.Images;
+using PDWModels;
 
 namespace PWDRepositories
 {
@@ -79,6 +80,48 @@ namespace PWDRepositories
 			return gallery;
 		}
 
+		public IEnumerable<TypicalListData> Search( string searchText )
+		{
+			var termList = SearchText.GetSearchList( searchText );
+
+			List<Typical> results = null;
+			int theSeriesID = 0;
+
+			foreach( var term in termList )
+			{
+				var theList = database.Typicals.Where( t => t.Name.Contains( term ) || 
+						t.SeriesTypicals.Any( st => st.Series.Name.Contains( term ) ) || 
+						t.SeriesTypicals.Any( st => st.Series.Category.Name.Contains( term ) ) ||
+						t.TypicalOptionAttributes.Any( s => s.TAttribute.Name == "Other Series Shown" && s.TAttributeOption.Name.Contains( term ) ) )
+					.Distinct()
+					.ToList();
+
+				if( results == null )
+				{
+					results = theList;
+				}
+				else
+				{
+					results = results.Intersect( theList ).ToList();
+				}
+
+				var theSeries = results.SelectMany( t => t.SeriesTypicals ).FirstOrDefault( st => st.Series.Name.IndexOf( term, 0, StringComparison.OrdinalIgnoreCase ) >= 0 );
+				if( (theSeries != null) && (theSeriesID == 0 ) )
+				{
+					theSeriesID = theSeries.SeriesID;
+				}
+			}
+
+			var returnList = results
+				.Distinct()
+				.Select( t => ToTypicalListData( t ) )
+				.ToList();
+
+			returnList.ForEach( t => t.SeriesID = theSeriesID );
+
+			return returnList;
+		}
+
 		public TypicalListGallery GetTypicalData( string category, int? seriesId, string footprints, 
 			int? minPrice, int? maxPrice, 
 			string sortBy, int pageNum, int pageSize )
@@ -129,14 +172,20 @@ namespace PWDRepositories
 				.Skip( (pageNum - 1) * pageSize )
 				.Take( pageSize )
 				.ToList()
-				.Select( t => new TypicalListData()
+				.Select( t => ToTypicalListData( t ) );
+
+			return gallery;
+		}
+
+		private TypicalListData ToTypicalListData( Typical t )
+		{
+			return new TypicalListData()
 				{
 					TypicalID = t.TypicalID,
 					Name = t.Name,
+					SeriesID = t.SeriesTypicals.Where( st => st.IsPrimary ).Select( st => st.SeriesID ).FirstOrDefault(),
 					ImageFileData = t.FeaturedImageForSize( "m4to3" )
-				} );
-
-			return gallery;
+				};
 		}
 
 		public TypicalListGallery GetTypicalCoverData( string category, int? seriesId, string footprints,
@@ -219,12 +268,7 @@ namespace PWDRepositories
 
 			gallery.Typicals = goodIdList
 				.Select( i => database.Typicals.FirstOrDefault( typ => typ.TypicalID == i ) )
-				.Select( t => new TypicalListData()
-				{
-					TypicalID = t.TypicalID,
-					Name = t.Name,
-					ImageFileData = t.FeaturedImageForSize( "m4to3" )
-				} );
+				.Select( t => ToTypicalListData( t ) );
 
 			return gallery;
 		}

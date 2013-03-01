@@ -10,6 +10,7 @@ namespace PDWModels.Typicals
 	{
 		public int TypicalID { get; set; }
 		public string Name { get; set; }
+		public int SeriesID { get; set; }
 		public ImageComboItem ImageFileData { get; set; }
 	}
 }

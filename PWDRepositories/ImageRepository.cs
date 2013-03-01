@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Configuration;
+using PDWModels;
 
 namespace PWDRepositories
 {
@@ -212,16 +213,48 @@ namespace PWDRepositories
 				.Skip( (pageNum - 1) * pageSize )
 				.Take( pageSize )
 				.ToList()
-				.Select( img => new ImageListSummary() 
-				{ 
-					Caption = img.Caption, 
-					FileName = img.ThumbnailImageData( "m4to3" ).FileName, 
+				.Select( img => ToImageListSummary( img ) );
+
+			return gallery;
+		}
+
+		private ImageListSummary ToImageListSummary( ImageFile img )
+		{
+			return new ImageListSummary()
+				{
+					Caption = img.Caption,
+					FileName = img.ThumbnailImageData( "m4to3" ).FileName,
 					Name = img.Name,
 					ImageID = img.ImageID,
 					CanLightbox = ImageFile.ImageCanLightbox( img.ImageType )
-				} );
+				};
+		}
 
-			return gallery;
+		public IEnumerable<ImageListSummary> Search( string searchText )
+		{
+			var termList = SearchText.GetSearchList( searchText );
+
+			List<ImageFile> results = null;
+
+			foreach( var term in termList )
+			{
+				var theList = database.ImageFiles.Where( s => s.Name.Contains( term ) || s.Caption.Contains( term ) || s.Keyword.Contains( term ) )
+					.Distinct()
+					.ToList();
+
+				if( results == null )
+				{
+					results = theList;
+				}
+				else
+				{
+					results = results.Intersect( theList ).ToList();
+				}
+			}
+
+			return results
+				.Distinct()
+				.Select( img => ToImageListSummary( img ) );
 		}
 
 		public ImageItemDetails GetImageDetailInfo( int imageId )

@@ -63,5 +63,16 @@ namespace PDWDBContext
 		{
 			return SeriesOptionAttributes.Where( s => s.Attribute.Name == attName ).Select( a => a.AttributeOption.Name );
 		}
+
+		public string AttributeText( string attName )
+		{
+			var price = SeriesTextAttributes.FirstOrDefault( a => a.Attribute.Name == attName );
+			if( price != null )
+			{
+				return price.Value;
+			}
+
+			return "";
+		}
 	}
 }

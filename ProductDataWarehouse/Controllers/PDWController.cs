@@ -280,6 +280,45 @@ namespace ProductDataWarehouse.Controllers
 				JsonRequestBehavior = JsonRequestBehavior.AllowGet
 			};
 		}
+		
+		public JsonpResult SearchSeries( string searchText )
+		{
+			SeriesRepository sRepo = new SeriesRepository();
+
+			var theData = sRepo.Search( searchText );
+
+			return new JsonpResult()
+			{
+				Data = theData,
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
+
+		public JsonpResult SearchImages( string searchText )
+		{
+			ImageRepository iRepo = new ImageRepository();
+
+			var theData = iRepo.Search( searchText );
+
+			return new JsonpResult()
+			{
+				Data = theData,
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
+
+		public JsonpResult SearchTypicals( string searchText )
+		{
+			TypicalRepository tRepo = new TypicalRepository();
+
+			var theData = tRepo.Search( searchText );
+
+			return new JsonpResult()
+			{
+				Data = theData,
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
 
 		public FileResult GetHiResImage( int imageId )
 		{

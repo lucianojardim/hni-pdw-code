@@ -5,6 +5,7 @@ using System.Text;
 using PDWDBContext;
 using PDWModels.Series;
 using PDWModels.Images;
+using PDWModels;
 
 namespace PWDRepositories
 {
@@ -26,25 +27,74 @@ namespace PWDRepositories
 			return database.Serieses.Where( se => se.SeriesTypicals.Any() ).Select( s => new SeriesComboItem() { SeriesID = s.SeriesID, Name = s.Name } ).Distinct();
 		}
 
+		private SeriesSearchResult ToSeriesSearchResult( Series s )
+		{
+			return
+				new SeriesSearchResult()
+				{
+					SeriesID = s.SeriesID,
+					Name = s.Name,
+					Category = s.Category.Name,
+					ImageData = s.FeaturedImageForSize( "m4to3" ),
+					Headline = s.AttributeText( "Marketing Statement Subheadline" )
+				};
+		}
+
+		private SeriesListData ToSeriesListData( Series s )
+		{
+			return
+				new SeriesListData()
+				{
+					SeriesID = s.SeriesID,
+					Name = s.Name,
+					Category = s.Category.Name,
+					ImageData = s.FeaturedImageForSize( "m4to3" ),
+					DateCreated = s.CreatedDate,
+					Ranking = s.Ranking,
+					Price = s.StartingPrice,
+					Style = s.AttributeSet( "Style" ),
+					Applications = s.AttributeSet( "Casegood Application" ).Union( s.AttributeSet( "Table Application" ) ).Union( s.AttributeSet( "Seating Application" ) )
+				};
+		}
+
+		public IEnumerable<SeriesSearchResult> Search( string searchText )
+		{
+			var termList = SearchText.GetSearchList( searchText );
+
+			List<Series> results = null;
+
+			foreach( var term in termList )
+			{
+				var theList = database.Serieses.Where( 
+						s => s.Name.Contains( term ) ||
+						s.SeriesOptionAttributes.Any( soa => soa.Attribute.Name == "Style" && soa.AttributeOption.Name.Contains( term ) ) ||
+						s.SeriesOptionAttributes.Any( soa => soa.Attribute.Name == "Casegood Application" && soa.AttributeOption.Name.Contains( term ) ) ||
+						s.SeriesOptionAttributes.Any( soa => soa.Attribute.Name == "Table Application" && soa.AttributeOption.Name.Contains( term ) ) ||
+						s.SeriesOptionAttributes.Any( soa => soa.Attribute.Name == "Seating Application" && soa.AttributeOption.Name.Contains( term ) ) )
+					.Distinct()
+					.ToList();
+
+				if( results == null )
+				{
+					results = theList;
+				}
+				else
+				{
+					results = results.Intersect( theList ).ToList();
+				}
+			}
+
+			return results
+				.Distinct()
+				.Select( s => ToSeriesSearchResult( s ) );
+		}
+
 		public IEnumerable<SeriesListData> GetSeriesData( string category )
 		{
 			var theList = database.Serieses.Where( s => s.Category.Name == category || category == null )
 				.ToList();
 
-			return theList.Select( s => 
-				new SeriesListData() 
-				{ 
-					SeriesID = s.SeriesID, 
-					Name = s.Name, 
-					Category = s.Category.Name, 
-					ImageData = s.FeaturedImageForSize( "m4to3" ), 
-					DateCreated = s.CreatedDate,
- 					Ranking = s.Ranking,
-					Price = s.StartingPrice,
-					Style = s.AttributeSet( "Style" ),
-					Applications = s.AttributeSet( "Casegood Application" ).Union( s.AttributeSet( "Table Application" ) ).Union( s.AttributeSet( "Seating Application" ) )
-				} 
-			);
+			return theList.Select( s => ToSeriesListData( s ) );
 		}
 
 		public SeriesInformation GetSeriesInfo( int? id = null, string seriesName = null )
