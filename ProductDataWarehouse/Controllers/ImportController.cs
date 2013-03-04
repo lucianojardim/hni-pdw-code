@@ -255,6 +255,16 @@ namespace ProductDataWarehouse.Controllers
 
 			return RedirectToAction( "Images" );
 		}
+
+		[Authorize]
+		public ActionResult SearchLog()
+		{
+			ImportRepository iRepo = new ImportRepository();
+
+			var logList = iRepo.GetSearchLogList();
+
+			return View( logList );
+		}
 	}
 
 }

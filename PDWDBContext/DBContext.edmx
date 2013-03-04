@@ -11,6 +11,7 @@
           <EntitySet Name="Categories" EntityType="PaoliPDWModel.Store.Categories" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ImageFiles" EntityType="PaoliPDWModel.Store.ImageFiles" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="RelatedSeries" EntityType="PaoliPDWModel.Store.RelatedSeries" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SearchResultsLog" EntityType="PaoliPDWModel.Store.SearchResultsLog" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Serieses" EntityType="PaoliPDWModel.Store.Serieses" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SeriesImageFiles" EntityType="PaoliPDWModel.Store.SeriesImageFiles" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SeriesIntAttributes" EntityType="PaoliPDWModel.Store.SeriesIntAttributes" store:Type="Tables" Schema="dbo" />
@@ -169,6 +170,18 @@
           </Key>
           <Property Name="ParentSeriesID" Type="int" Nullable="false" />
           <Property Name="ChildSeriesID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SearchResultsLog">
+          <Key>
+            <PropertyRef Name="LogID" />
+          </Key>
+          <Property Name="LogID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SearchDateTime" Type="datetime" Nullable="false" />
+          <Property Name="SeriesCount" Type="int" Nullable="false" />
+          <Property Name="ImageCount" Type="int" Nullable="false" />
+          <Property Name="TypicalCount" Type="int" Nullable="false" />
+          <Property Name="PageCount" Type="int" Nullable="false" />
+          <Property Name="SearchTerm" Type="ntext" Nullable="false" />
         </EntityType>
         <EntityType Name="Serieses">
           <Key>
@@ -703,6 +716,7 @@
             <End Role="Typical" EntitySet="Typicals" />
             <End Role="SeriesTypical" EntitySet="SeriesTypicals" />
           </AssociationSet>
+          <EntitySet Name="SearchResultsLogs" EntityType="PaoliPDWModel.SearchResultsLog" />
         </EntityContainer>
         <EntityType Name="AttributeOption">
           <Key>
@@ -1184,6 +1198,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SearchResultsLog">
+          <Key>
+            <PropertyRef Name="LogID" />
+          </Key>
+          <Property Type="Int32" Name="LogID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="SearchDateTime" Nullable="false" />
+          <Property Type="String" Name="SearchTerm" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="SeriesCount" Nullable="false" />
+          <Property Type="Int32" Name="ImageCount" Nullable="false" />
+          <Property Type="Int32" Name="TypicalCount" Nullable="false" />
+          <Property Type="Int32" Name="PageCount" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1336,6 +1362,19 @@
                 <ScalarProperty Name="SeriesID" ColumnName="SeriesID" />
                 <ScalarProperty Name="IsPrimary" ColumnName="IsPrimary" />
                 <ScalarProperty Name="AssociationID" ColumnName="AssociationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SearchResultsLogs">
+            <EntityTypeMapping TypeName="PaoliPDWModel.SearchResultsLog">
+              <MappingFragment StoreEntitySet="SearchResultsLog">
+                <ScalarProperty Name="PageCount" ColumnName="PageCount" />
+                <ScalarProperty Name="TypicalCount" ColumnName="TypicalCount" />
+                <ScalarProperty Name="ImageCount" ColumnName="ImageCount" />
+                <ScalarProperty Name="SeriesCount" ColumnName="SeriesCount" />
+                <ScalarProperty Name="SearchTerm" ColumnName="SearchTerm" />
+                <ScalarProperty Name="SearchDateTime" ColumnName="SearchDateTime" />
+                <ScalarProperty Name="LogID" ColumnName="LogID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1537,6 +1576,7 @@
           <ConnectorPoint PointX="10" PointY="8.046000976562496" />
           <ConnectorPoint PointX="10" PointY="7.671000976562496" />
         </AssociationConnector>
+        <EntityTypeShape EntityType="PaoliPDWModel.SearchResultsLog" Width="1.5" PointX="10.375" PointY="0.75" Height="2.085348307291667" />
       </Diagram>
     </Diagrams>
   </Designer>

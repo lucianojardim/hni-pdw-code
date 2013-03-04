@@ -9,6 +9,7 @@ using System.Data.Objects;
 using System.Configuration;
 using PDWModels.Images;
 using System.Diagnostics;
+using PDWModels;
 
 namespace PWDRepositories
 {
@@ -504,6 +505,37 @@ namespace PWDRepositories
 				database.Typicals.AddObject( tData );
 				database.SaveChanges();
 			}
+		}
+
+		public bool LogSearchResults( string searchText, int seriesCount, int imageCount, int typicalCount, int pageCount )
+		{
+			SearchResultsLog srl = new SearchResultsLog();
+
+			srl.SearchDateTime = DateTime.UtcNow;
+			srl.SearchTerm = searchText;
+			srl.SeriesCount = seriesCount;
+			srl.ImageCount = imageCount;
+			srl.TypicalCount = typicalCount;
+			srl.PageCount = pageCount;
+			database.AddToSearchResultsLogs( srl );
+
+			return (database.SaveChanges() > 0);
+		}
+
+		public IEnumerable<SearchResults> GetSearchLogList()
+		{
+			return database.SearchResultsLogs
+				.OrderByDescending( s => s.LogID )
+				.ToList()
+				.Select( srl => new SearchResults()
+				{
+					SearchDateTime = srl.SearchDateTime,
+					SearchText = srl.SearchTerm,
+					SeriesCount = srl.SeriesCount,
+					ImageCount = srl.ImageCount,
+					TypicalCount = srl.TypicalCount,
+					PageCount = srl.PageCount,
+				} );
 		}
 	}
 }

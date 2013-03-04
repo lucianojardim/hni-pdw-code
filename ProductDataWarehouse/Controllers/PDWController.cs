@@ -320,6 +320,17 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
+		public JsonpResult LogSearchResults( string searchText, int seriesCount, int imageCount, int typicalCount, int pageCount )
+		{
+			ImportRepository iRepo = new ImportRepository();
+
+			return new JsonpResult()
+			{
+				Data = iRepo.LogSearchResults( searchText, seriesCount, imageCount, typicalCount, pageCount ),
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
+
 		public FileResult GetHiResImage( int imageId )
 		{
 			ImageRepository iRepo = new ImageRepository();

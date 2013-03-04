@@ -364,6 +364,22 @@ namespace PDWDBContext
             }
         }
         private ObjectSet<SeriesTypical> _SeriesTypicals;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<SearchResultsLog> SearchResultsLogs
+        {
+            get
+            {
+                if ((_SearchResultsLogs == null))
+                {
+                    _SearchResultsLogs = base.CreateObjectSet<SearchResultsLog>("SearchResultsLogs");
+                }
+                return _SearchResultsLogs;
+            }
+        }
+        private ObjectSet<SearchResultsLog> _SearchResultsLogs;
 
         #endregion
         #region AddTo Methods
@@ -502,6 +518,14 @@ namespace PDWDBContext
         public void AddToSeriesTypicals(SeriesTypical seriesTypical)
         {
             base.AddObject("SeriesTypicals", seriesTypical);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the SearchResultsLogs EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToSearchResultsLogs(SearchResultsLog searchResultsLog)
+        {
+            base.AddObject("SearchResultsLogs", searchResultsLog);
         }
 
         #endregion
@@ -1294,6 +1318,217 @@ namespace PDWDBContext
         }
 
         #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="SearchResultsLog")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class SearchResultsLog : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new SearchResultsLog object.
+        /// </summary>
+        /// <param name="logID">Initial value of the LogID property.</param>
+        /// <param name="searchDateTime">Initial value of the SearchDateTime property.</param>
+        /// <param name="searchTerm">Initial value of the SearchTerm property.</param>
+        /// <param name="seriesCount">Initial value of the SeriesCount property.</param>
+        /// <param name="imageCount">Initial value of the ImageCount property.</param>
+        /// <param name="typicalCount">Initial value of the TypicalCount property.</param>
+        /// <param name="pageCount">Initial value of the PageCount property.</param>
+        public static SearchResultsLog CreateSearchResultsLog(global::System.Int32 logID, global::System.DateTime searchDateTime, global::System.String searchTerm, global::System.Int32 seriesCount, global::System.Int32 imageCount, global::System.Int32 typicalCount, global::System.Int32 pageCount)
+        {
+            SearchResultsLog searchResultsLog = new SearchResultsLog();
+            searchResultsLog.LogID = logID;
+            searchResultsLog.SearchDateTime = searchDateTime;
+            searchResultsLog.SearchTerm = searchTerm;
+            searchResultsLog.SeriesCount = seriesCount;
+            searchResultsLog.ImageCount = imageCount;
+            searchResultsLog.TypicalCount = typicalCount;
+            searchResultsLog.PageCount = pageCount;
+            return searchResultsLog;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 LogID
+        {
+            get
+            {
+                return _LogID;
+            }
+            set
+            {
+                if (_LogID != value)
+                {
+                    OnLogIDChanging(value);
+                    ReportPropertyChanging("LogID");
+                    _LogID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("LogID");
+                    OnLogIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _LogID;
+        partial void OnLogIDChanging(global::System.Int32 value);
+        partial void OnLogIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime SearchDateTime
+        {
+            get
+            {
+                return _SearchDateTime;
+            }
+            set
+            {
+                OnSearchDateTimeChanging(value);
+                ReportPropertyChanging("SearchDateTime");
+                _SearchDateTime = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("SearchDateTime");
+                OnSearchDateTimeChanged();
+            }
+        }
+        private global::System.DateTime _SearchDateTime;
+        partial void OnSearchDateTimeChanging(global::System.DateTime value);
+        partial void OnSearchDateTimeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String SearchTerm
+        {
+            get
+            {
+                return _SearchTerm;
+            }
+            set
+            {
+                OnSearchTermChanging(value);
+                ReportPropertyChanging("SearchTerm");
+                _SearchTerm = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("SearchTerm");
+                OnSearchTermChanged();
+            }
+        }
+        private global::System.String _SearchTerm;
+        partial void OnSearchTermChanging(global::System.String value);
+        partial void OnSearchTermChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 SeriesCount
+        {
+            get
+            {
+                return _SeriesCount;
+            }
+            set
+            {
+                OnSeriesCountChanging(value);
+                ReportPropertyChanging("SeriesCount");
+                _SeriesCount = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("SeriesCount");
+                OnSeriesCountChanged();
+            }
+        }
+        private global::System.Int32 _SeriesCount;
+        partial void OnSeriesCountChanging(global::System.Int32 value);
+        partial void OnSeriesCountChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ImageCount
+        {
+            get
+            {
+                return _ImageCount;
+            }
+            set
+            {
+                OnImageCountChanging(value);
+                ReportPropertyChanging("ImageCount");
+                _ImageCount = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ImageCount");
+                OnImageCountChanged();
+            }
+        }
+        private global::System.Int32 _ImageCount;
+        partial void OnImageCountChanging(global::System.Int32 value);
+        partial void OnImageCountChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 TypicalCount
+        {
+            get
+            {
+                return _TypicalCount;
+            }
+            set
+            {
+                OnTypicalCountChanging(value);
+                ReportPropertyChanging("TypicalCount");
+                _TypicalCount = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("TypicalCount");
+                OnTypicalCountChanged();
+            }
+        }
+        private global::System.Int32 _TypicalCount;
+        partial void OnTypicalCountChanging(global::System.Int32 value);
+        partial void OnTypicalCountChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 PageCount
+        {
+            get
+            {
+                return _PageCount;
+            }
+            set
+            {
+                OnPageCountChanging(value);
+                ReportPropertyChanging("PageCount");
+                _PageCount = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("PageCount");
+                OnPageCountChanged();
+            }
+        }
+        private global::System.Int32 _PageCount;
+        partial void OnPageCountChanging(global::System.Int32 value);
+        partial void OnPageCountChanged();
+
+        #endregion
+    
     }
     
     /// <summary>

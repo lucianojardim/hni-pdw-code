@@ -67,7 +67,19 @@ namespace PWDRepositories
 			{
 				var theList = database.Serieses.Where( 
 						s => s.Name.Contains( term ) ||
+						s.Category.Name.Contains( term ) ||
 						s.SeriesOptionAttributes.Any( soa => soa.Attribute.Name == "Style" && soa.AttributeOption.Name.Contains( term ) ) ||
+						s.SeriesTextAttributes.Any( sta => sta.Attribute.Name == "Value Statement Headline" && sta.Value.Contains( term ) ) ||
+						s.SeriesTextAttributes.Any( sta => sta.Attribute.Name == "Marketing Statement Subheadline" && sta.Value.Contains( term ) ) ||
+						s.SeriesTextAttributes.Any( sta => sta.Attribute.Name == "Marketing Description" && sta.Value.Contains( term ) ) ||
+						s.SeriesOptionAttributes.Any( soa => soa.Attribute.Name == "Claire 5 Favorites" && soa.AttributeOption.Name.Contains( term ) ) ||
+						s.SeriesOptionAttributes.Any( soa => soa.Attribute.Name == "IAQ" && soa.AttributeOption.Name.Contains( term ) ) ||
+						s.SeriesOptionAttributes.Any( soa => soa.Attribute.Name == "Finish" && soa.AttributeOption.Name.Contains( term ) ) ||
+						s.SeriesOptionAttributes.Any( soa => soa.Attribute.Name == "Drawer Options - Configuration" && soa.AttributeOption.Name.Contains( term ) ) ||
+						s.SeriesOptionAttributes.Any( soa => soa.Attribute.Name == "Edge Options - Profile" && soa.AttributeOption.Name.Contains( term ) ) ||
+						s.SeriesOptionAttributes.Any( soa => soa.Attribute.Name == "Pull Options - Style" && soa.AttributeOption.Name.Contains( term ) ) ||
+						s.SeriesOptionAttributes.Any( soa => soa.Attribute.Name == "Seating Option - Back" && soa.AttributeOption.Name.Contains( term ) ) ||
+						s.SeriesOptionAttributes.Any( soa => soa.Attribute.Name == "Shape" && soa.AttributeOption.Name.Contains( term ) ) ||
 						s.SeriesOptionAttributes.Any( soa => soa.Attribute.Name == "Casegood Application" && soa.AttributeOption.Name.Contains( term ) ) ||
 						s.SeriesOptionAttributes.Any( soa => soa.Attribute.Name == "Table Application" && soa.AttributeOption.Name.Contains( term ) ) ||
 						s.SeriesOptionAttributes.Any( soa => soa.Attribute.Name == "Seating Application" && soa.AttributeOption.Name.Contains( term ) ) )
