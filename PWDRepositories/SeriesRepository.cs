@@ -71,7 +71,7 @@ namespace PWDRepositories
 						s.SeriesOptionAttributes.Any( soa => soa.Attribute.Name == "Style" && soa.AttributeOption.Name.Contains( term ) ) ||
 						s.SeriesTextAttributes.Any( sta => sta.Attribute.Name == "Value Statement Headline" && sta.Value.Contains( term ) ) ||
 						s.SeriesTextAttributes.Any( sta => sta.Attribute.Name == "Marketing Statement Subheadline" && sta.Value.Contains( term ) ) ||
-						s.SeriesTextAttributes.Any( sta => sta.Attribute.Name == "Marketing Description" && sta.Value.Contains( term ) ) ||
+//						s.SeriesTextAttributes.Any( sta => sta.Attribute.Name == "Marketing Description" && sta.Value.Contains( term ) ) ||
 						s.SeriesOptionAttributes.Any( soa => soa.Attribute.Name == "Claire 5 Favorites" && soa.AttributeOption.Name.Contains( term ) ) ||
 						s.SeriesOptionAttributes.Any( soa => soa.Attribute.Name == "IAQ" && soa.AttributeOption.Name.Contains( term ) ) ||
 						s.SeriesOptionAttributes.Any( soa => soa.Attribute.Name == "Finish" && soa.AttributeOption.Name.Contains( term ) ) ||
