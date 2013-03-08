@@ -339,5 +339,50 @@ namespace ProductDataWarehouse.Controllers
 
 			return File( ConfigurationManager.AppSettings["ImageFileLocation"] + "/" + theData.FileName, theData.MIMEType, theData.FileName );
 		}
+
+		public ActionResult APIDef()
+        {
+//			if( (Request.ServerVariables["SERVER_NAME"].ToLower().Contains( "matt3400" )) ||
+//				(Request.ServerVariables["SERVER_NAME"].ToLower().Contains( "localhost" )) )
+			{
+				return View();
+			}
+
+			throw new HttpException( 404, "HTTP/1.1 404 Not Found" );
+//			return HttpNotFound();	// this is a better answer, but keeps returning an empty page
+        }
+
+		public class APIDefinition
+		{
+			public string url { get; set; }
+			public string parameters { get; set; }
+			public string notes { get; set; }
+		}
+
+		public static IEnumerable<APIDefinition> APIDefinitions = new List<APIDefinition>()
+		{
+			new APIDefinition() { url = "/PDW/GetSeriesList", parameters = "{\"category\":\"\"}", notes = "category is optional" },
+			new APIDefinition() { url = "/PDW/GetTypicalList", parameters = "{\"category\":\"\",\"seriesId\":0,\"footprints\":\"\",\"minPrice\":0,\"maxPrice\":0,\"sortBy\":\"\",\"pageNum\":0,\"pageSize\":0,}", notes = "all fields are optional" },
+			new APIDefinition() { url = "/PDW/GetTypicalDetailList", parameters = "{\"category\":\"\",\"seriesId\":0,\"footprints\":\"\",\"minPrice\":0,\"maxPrice\":0,\"sortBy\":\"\",\"pageNum\":0,\"pageSize\":0,}", notes = "all fields are optional" },
+			new APIDefinition() { url = "/PDW/GetTypicalCoverList", parameters = "{\"category\":\"\",\"seriesId\":0,\"footprints\":\"\",\"minPrice\":0,\"maxPrice\":0,\"sortBy\":\"\",\"typicalId\":0,\"itemList\":\"\",}", notes = "all fields are optional" },
+			new APIDefinition() { url = "/PDW/GetSeriesNameList", parameters = "" },
+			new APIDefinition() { url = "/PDW/GetSeriesNameListWithTypicals", parameters = "" },
+			new APIDefinition() { url = "/PDW/GetOptionList", parameters = "{\"attr\":\"\"" },
+			new APIDefinition() { url = "/PDW/GetTypicalOptionList", parameters = "{\"attr\":\"\"" },
+			new APIDefinition() { url = "/PDW/GetTypicalPriceRange", parameters = "" },
+			new APIDefinition() { url = "/PDW/GetSeriesInfo", parameters = "{\"id\":0}" },
+			new APIDefinition() { url = "/PDW/GetSeriesInfoByName", parameters = "{\"seriesName\":\"\"}" },
+			new APIDefinition() { url = "/PDW/GetTypicalInfo", parameters = "{\"id\":0}" },
+			new APIDefinition() { url = "/PDW/GetTypicalInfoByName", parameters = "{\"typicalName\":\"\"}" },
+			new APIDefinition() { url = "/PDW/GetFullSeriesImageList", parameters = "{\"id\":0}" },
+			new APIDefinition() { url = "/PDW/GetImageFormatList", parameters = "" },
+			new APIDefinition() { url = "/PDW/GetImageThumbnailList", parameters = "{\"categories\":\"\",\"seriesId\":0,\"imageTypes\":\"\",\"keywords\":\"\",\"sortBy\":\"\",\"pageNum\":0,\"pageSize\":0,}", notes = "all fields are optional" },
+			new APIDefinition() { url = "/PDW/GetImageDetailList", parameters = "{\"categories\":\"\",\"seriesId\":0,\"imageTypes\":\"\",\"keywords\":\"\",\"sortBy\":\"\",\"pageNum\":0,\"pageSize\":0,}", notes = "all fields are optional" },
+			new APIDefinition() { url = "/PDW/GetImageDetailInfo", parameters = "{\"imageId\":0}" },
+			new APIDefinition() { url = "/PDW/SearchSeries", parameters = "{\"searchText\":\"\"}" },
+			new APIDefinition() { url = "/PDW/SearchImages", parameters = "{\"searchText\":\"\"}" },
+			new APIDefinition() { url = "/PDW/SearchTypicals", parameters = "{\"searchText\":\"\"}" },
+//			new APIDefinition() { url = "/PDW/LogSearchResults", parameters = "{\"searchText\":\"\",\"seriesCount\":0,\"imageCount\":0,\"typicalCount\":0,\"pageCount\":0}" },
+		};
 	}
 }
