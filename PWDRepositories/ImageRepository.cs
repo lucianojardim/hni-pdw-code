@@ -109,7 +109,8 @@ namespace PWDRepositories
 			ImageThumbnailGallery gallery = new ImageThumbnailGallery();
 
 			var imageTypeList = ImageFile.ImageTypes.Where( i => i.CanLightbox )
-					.Select( iType => iType.Abbreviation );
+					.Select( iType => iType.Abbreviation )
+					.ToList();
 			var imgList = database.ImageFiles
 				.Where( imgFile => imageTypeList.Any( it => it == imgFile.ImageType ) )
 				.AsQueryable();
@@ -131,8 +132,26 @@ namespace PWDRepositories
 			}
 			if( (keywords ?? "").Any() )
 			{
-				var wordList = keywords.Split( ',' );
-				imgList = imgList.Where( img => wordList.Any( w => img.Keyword.Contains( w.Trim() ) || img.Name.Contains( w.Trim() ) || img.Caption.Contains( w.Trim() ) ) );
+				var termList = SearchText.GetSearchList( keywords );
+
+				List<int> termImageList = null;
+				foreach( var term in termList )
+				{
+					var theList = database.ImageFiles
+						.Where( s => s.Name.Contains( term ) || s.Caption.Contains( term ) || s.Keyword.Contains( term ) )
+						.ToList();
+
+					if( termImageList == null )
+					{
+						termImageList = theList.Select( i => i.ImageID ).ToList();
+					}
+					else
+					{
+						termImageList = termImageList.Intersect( theList.Select( i => i.ImageID ) ).ToList();
+					}
+				}
+
+				imgList = imgList.Where( i => termImageList.Contains( i.ImageID ) );
 			}
 
 			gallery.FilteredImageCount = imgList.Count();
@@ -191,8 +210,26 @@ namespace PWDRepositories
 			}
 			if( (keywords ?? "").Any() )
 			{
-				var wordList = keywords.Split( ',' );
-				imgList = imgList.Where( img => wordList.Any( w => img.Keyword.Contains( w.Trim() ) || img.Name.Contains( w.Trim() ) || img.Caption.Contains( w.Trim() ) ) );
+				var termList = SearchText.GetSearchList( keywords );
+
+				List<int> termImageList = null;
+				foreach( var term in termList )
+				{
+					var theList = database.ImageFiles
+						.Where( s => s.Name.Contains( term ) || s.Caption.Contains( term ) || s.Keyword.Contains( term ) )
+						.ToList();
+
+					if( termImageList == null )
+					{
+						termImageList = theList.Select( i => i.ImageID ).ToList();
+					}
+					else
+					{
+						termImageList = termImageList.Intersect( theList.Select( i => i.ImageID ) ).ToList();
+					}
+				}
+
+				imgList = imgList.Where( i => termImageList.Contains( i.ImageID ) );
 			}
 
 			gallery.FilteredImageCount = imgList.Count();
@@ -235,10 +272,14 @@ namespace PWDRepositories
 			var termList = SearchText.GetSearchList( searchText );
 
 			List<ImageFile> results = null;
+			var imageTypeList = ImageFile.ImageTypes.Where( i => i.CanLightbox )
+					.Select( iType => iType.Abbreviation );
 
 			foreach( var term in termList )
 			{
-				var theList = database.ImageFiles.Where( s => s.Name.Contains( term ) || s.Caption.Contains( term ) || s.Keyword.Contains( term ) )
+				var theList = database.ImageFiles
+					.Where( imgFile => imageTypeList.Any( it => it == imgFile.ImageType ) )
+					.Where( s => s.Name.Contains( term ) || s.Caption.Contains( term ) || s.Keyword.Contains( term ) )
 					.Distinct()
 					.ToList();
 
