@@ -57,6 +57,25 @@ namespace PWDRepositories
 				};
 		}
 
+		private SeriesDocListData ToSeriesDocListData( Series s, IEnumerable<string> docList )
+		{
+			var docData = new SeriesDocListData()
+			{
+				SeriesID = s.SeriesID,
+				Name = s.Name,
+				Category = s.Category.Name,
+				FeaturedImageFile = s.FeaturedImageForSize( "s16to9" ),
+				Documents = new Dictionary<string,string>()
+			};
+
+			foreach( var textAttribute in s.SeriesTextAttributes.Where( sta => docList.Contains( sta.Attribute.Name ) ) )
+			{
+				docData.Documents.Add( textAttribute.Attribute.Name, textAttribute.Value );
+			}
+
+			return docData;
+		}
+
 		public IEnumerable<SeriesSearchResult> Search( string searchText )
 		{
 			var termList = SearchText.GetSearchList( searchText );
@@ -109,6 +128,14 @@ namespace PWDRepositories
 			return theList.Select( s => ToSeriesListData( s ) );
 		}
 
+		public IEnumerable<SeriesDocListData> GetSeriesTextData( IEnumerable<string> attList )
+		{
+			return database.Serieses
+				.OrderBy( s => s.Name )
+				.ToList()
+				.Select( s => ToSeriesDocListData( s, attList ) );
+		}
+
 		public SeriesInformation GetSeriesInfo( int? id = null, string seriesName = null )
 		{
 			SeriesInformation sInfo = new SeriesInformation();
@@ -135,32 +162,26 @@ namespace PWDRepositories
 					{
 						sInfo.PullImages = theData.SeriesOptionAttributes
 							.Where( soa => soa.AttributeID == attr.AttributeID )
-							.Join( database.ImageFiles,
-								soa => soa.AttributeOption.Name,
-								img => img.FeaturedPull,
-								( s, i ) => new ImageSummary()
-								{
-									Name = s.AttributeOption.Name,
-									FileName = i.ThumbnailImageData( "s16to9" ).FileName,
-									ImageID = i.ImageID,
-									CanLightbox = ImageFile.ImageCanLightbox( i.ImageType )
-								} )
+							.Select( soa => new { Name = soa.AttributeOption.Name, Img = database.ImageFiles.FirstOrDefault( i => i.FeaturedPull == soa.AttributeOption.Name ) } )
+							.Select( soa => new ImageForObject()
+							{
+								Name = soa.Name,
+								FeaturedImage = soa.Img != null ? soa.Img.ThumbnailImageData( "s16to9" ) : null
+							} )
+							.OrderBy( i => i.Name )
 							.ToList();						
 					}
 					else if( string.Compare( attr.Name, "Edge Options - Profile", true ) == 0 )
 					{
 						sInfo.EdgeImages = theData.SeriesOptionAttributes
 							.Where( soa => soa.AttributeID == attr.AttributeID )
-							.Join( database.ImageFiles,
-								soa => soa.AttributeOption.Name,
-								img => img.FeaturedEdge,
-								( s, i ) => new ImageSummary()
-								{
-									Name = s.AttributeOption.Name,
-									FileName = i.ThumbnailImageData( "s16to9" ).FileName,
-									ImageID = i.ImageID,
-									CanLightbox = ImageFile.ImageCanLightbox( i.ImageType )
-								} )
+							.Select( soa => new { Name = soa.AttributeOption.Name, Img = database.ImageFiles.FirstOrDefault( i => i.FeaturedEdge == soa.AttributeOption.Name ) } )
+							.Select( soa => new ImageForObject()
+							{
+								Name = soa.Name,
+								FeaturedImage = soa.Img != null ? soa.Img.ThumbnailImageData( "s16to9" ) : null
+							} )
+							.OrderBy( i => i.Name )
 							.ToList();						
 					}
 					else if( attr.DetailItem )

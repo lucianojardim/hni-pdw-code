@@ -23,6 +23,7 @@
 
         $('#resultsArea').html('');
         var theData = $.parseJSON($('#inputCall').val());
+        console.log(theData);
         $.ajax({
             url: $('#inputUrl option:selected').text(),
             type: 'get',

@@ -31,7 +31,7 @@ namespace PDWModels.Series
 		public Dictionary<string, IEnumerable<string>> Details { get; set; }
 		public IEnumerable<RelatedSeriesInfo> RelatedSeries { get; set; }
 		public IEnumerable<TypicalInfoForSeries> Typicals { get; set; }
-		public IEnumerable<ImageSummary> PullImages { get; set; }
-		public IEnumerable<ImageSummary> EdgeImages { get; set; }
+		public IEnumerable<ImageForObject> PullImages { get; set; }
+		public IEnumerable<ImageForObject> EdgeImages { get; set; }
 	}
 }

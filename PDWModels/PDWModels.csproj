@@ -46,6 +46,7 @@
     <Compile Include="Images\HiResImageInfo.cs" />
     <Compile Include="Images\ImageComboItem.cs" />
     <Compile Include="Images\ImageDetail.cs" />
+    <Compile Include="Images\ImageForObject.cs" />
     <Compile Include="Images\ImageItemDetails.cs" />
     <Compile Include="Images\ImageListGallery.cs" />
     <Compile Include="Images\ImageListSummary.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="SearchResults.cs" />
     <Compile Include="SearchText.cs" />
     <Compile Include="Series\SeriesComboItem.cs" />
+    <Compile Include="Series\SeriesDocListData.cs" />
     <Compile Include="Series\SeriesInformation.cs" />
     <Compile Include="Series\SeriesListData.cs" />
     <Compile Include="Series\SeriesSearchResult.cs" />
