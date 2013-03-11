@@ -362,6 +362,17 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
+		public JsonpResult GetSeriesEDSSheetList()
+		{
+			SeriesRepository sRepo = new SeriesRepository();
+
+			return new JsonpResult()
+			{
+				Data = sRepo.GetSeriesTextData( new List<string>() { "EDS Sheet" } ),
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
+
 		public ActionResult APIDef()
         {
 //			if( (Request.ServerVariables["SERVER_NAME"].ToLower().Contains( "matt3400" )) ||
@@ -407,6 +418,7 @@ namespace ProductDataWarehouse.Controllers
 //			new APIDefinition() { url = "/PDW/LogSearchResults", parameters = "{\"searchText\":\"\",\"seriesCount\":0,\"imageCount\":0,\"typicalCount\":0,\"pageCount\":0}" },
 			new APIDefinition() { url = "/PDW/GetSeriesPriceList", parameters = "" },
 			new APIDefinition() { url = "/PDW/GetSeriesBrochureList", parameters = "" },
+			new APIDefinition() { url = "/PDW/GetSeriesEDSSheetList", parameters = "" },
 		};
 	}
 }
