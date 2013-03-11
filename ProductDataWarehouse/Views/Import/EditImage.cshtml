@@ -27,7 +27,8 @@
         @Html.LabelFor( m => m.Keywords )<text>: </text>@Html.TextAreaFor( m => m.Keywords )<br />
         @Html.LabelFor( m => m.ImageType )<text>: </text>@Html.DropDownListFor( m => m.ImageType, ImportController.GetImageTypeList() )<br />
         @Html.LabelFor( m => m.HasPeople )<text>: </text>@Html.CheckBoxFor( m => m.HasPeople )<br />
-        <div style="padding-left:30px;font-style:italic;">Place an asterisk after those series for which this is the featured image.</div>
+        @Html.LabelFor( m => m.FeaturedEdge )<text>: </text>@Html.TextBoxFor( m => m.FeaturedEdge )<br />
+        @Html.LabelFor( m => m.FeaturedPull )<text>: </text>@Html.TextBoxFor( m => m.FeaturedPull )<br />
 @Html.ValidationSummary()
         <input type="submit" value="Save" />
     }

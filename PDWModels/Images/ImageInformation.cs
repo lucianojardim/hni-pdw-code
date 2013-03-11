@@ -24,5 +24,9 @@ namespace PDWModels.Images
 		[Required]
 		[DisplayName( "Image Type" )]
 		public string ImageType { get; set; }
+		[DisplayName( "Featured Pull" )]
+		public string FeaturedPull { get; set; }
+		[DisplayName( "Featured Edge" )]
+		public string FeaturedEdge { get; set; }
 	}
 }

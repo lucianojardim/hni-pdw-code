@@ -51,6 +51,8 @@ namespace PWDRepositories
 				Keywords = img.Keyword,
 				ImageType = img.ImageType,
 				HasPeople = img.HasPeople,
+				FeaturedEdge = img.FeaturedEdge,
+				FeaturedPull = img.FeaturedPull
 			};
 		}
 
@@ -493,6 +495,8 @@ namespace PWDRepositories
 			imgData.Keyword = imgInfo.Keywords;
 			imgData.CreatedDate = DateTime.Now;
 			imgData.MIMEType = mimeType;
+			imgData.FeaturedEdge = imgInfo.FeaturedEdge;
+			imgData.FeaturedPull = imgInfo.FeaturedPull;
 
 			database.ImageFiles.AddObject( imgData );
 
@@ -513,6 +517,8 @@ namespace PWDRepositories
 			imgData.HasPeople = imgInfo.HasPeople;
 			imgData.ImageType = imgInfo.ImageType;
 			imgData.Keyword = imgInfo.Keywords;
+			imgData.FeaturedEdge = imgInfo.FeaturedEdge;
+			imgData.FeaturedPull = imgInfo.FeaturedPull;
 
 			database.SaveChanges();
 		}

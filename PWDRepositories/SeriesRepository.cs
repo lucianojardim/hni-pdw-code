@@ -125,13 +125,45 @@ namespace PWDRepositories
 				sInfo.Name = theData.Name;
 				sInfo.Category = theData.Category.Name;
 				sInfo.FeaturedImageFile = theData.FeaturedImageForSize( "l16to9" );
-				sInfo.Images = theData.ImageListForSize( "m16to9", 3 ).Select( i => (ImageComboItem)i);
+				sInfo.Images = theData.ImageListForSize( "m16to9", 3 ).Select( i => (ImageComboItem)i );
 				sInfo.Options = new Dictionary<string, IEnumerable<string>>();
 				sInfo.Details = new Dictionary<string, IEnumerable<string>>();
 
 				foreach( var attr in theData.SeriesOptionAttributes.Select( soa => soa.Attribute ).Distinct() )
 				{
-					if( attr.DetailItem )
+					if( string.Compare( attr.Name, "Pull Options - Style", true ) == 0 )
+					{
+						sInfo.PullImages = theData.SeriesOptionAttributes
+							.Where( soa => soa.AttributeID == attr.AttributeID )
+							.Join( database.ImageFiles,
+								soa => soa.AttributeOption.Name,
+								img => img.FeaturedPull,
+								( s, i ) => new ImageSummary()
+								{
+									Name = s.AttributeOption.Name,
+									FileName = i.ThumbnailImageData( "s16to9" ).FileName,
+									ImageID = i.ImageID,
+									CanLightbox = ImageFile.ImageCanLightbox( i.ImageType )
+								} )
+							.ToList();						
+					}
+					else if( string.Compare( attr.Name, "Edge Options - Profile", true ) == 0 )
+					{
+						sInfo.EdgeImages = theData.SeriesOptionAttributes
+							.Where( soa => soa.AttributeID == attr.AttributeID )
+							.Join( database.ImageFiles,
+								soa => soa.AttributeOption.Name,
+								img => img.FeaturedEdge,
+								( s, i ) => new ImageSummary()
+								{
+									Name = s.AttributeOption.Name,
+									FileName = i.ThumbnailImageData( "s16to9" ).FileName,
+									ImageID = i.ImageID,
+									CanLightbox = ImageFile.ImageCanLightbox( i.ImageType )
+								} )
+							.ToList();						
+					}
+					else if( attr.DetailItem )
 					{
 						sInfo.Details.Add( attr.Name, new List<string>(
 						   theData.SeriesOptionAttributes

@@ -1268,6 +1268,54 @@ namespace PDWDBContext
         private global::System.String _MIMEType;
         partial void OnMIMETypeChanging(global::System.String value);
         partial void OnMIMETypeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String FeaturedEdge
+        {
+            get
+            {
+                return _FeaturedEdge;
+            }
+            set
+            {
+                OnFeaturedEdgeChanging(value);
+                ReportPropertyChanging("FeaturedEdge");
+                _FeaturedEdge = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("FeaturedEdge");
+                OnFeaturedEdgeChanged();
+            }
+        }
+        private global::System.String _FeaturedEdge;
+        partial void OnFeaturedEdgeChanging(global::System.String value);
+        partial void OnFeaturedEdgeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String FeaturedPull
+        {
+            get
+            {
+                return _FeaturedPull;
+            }
+            set
+            {
+                OnFeaturedPullChanging(value);
+                ReportPropertyChanging("FeaturedPull");
+                _FeaturedPull = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("FeaturedPull");
+                OnFeaturedPullChanged();
+            }
+        }
+        private global::System.String _FeaturedPull;
+        partial void OnFeaturedPullChanging(global::System.String value);
+        partial void OnFeaturedPullChanged();
 
         #endregion
     

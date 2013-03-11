@@ -162,6 +162,8 @@
           <Property Name="Keyword" Type="nvarchar" Nullable="false" MaxLength="1000" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="MIMEType" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="FeaturedEdge" Type="nvarchar" MaxLength="500" />
+          <Property Name="FeaturedPull" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="RelatedSeries">
           <Key>
@@ -922,6 +924,8 @@
           <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
           <NavigationProperty Name="TypicalImageFiles" Relationship="PaoliPDWModel.fkTIF_Image" FromRole="ImageFile" ToRole="TypicalImageFile" />
           <Property Type="String" Name="MIMEType" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FeaturedEdge" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FeaturedPull" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SeriesImageFile">
           <Key>
@@ -1257,6 +1261,8 @@
           <EntitySetMapping Name="ImageFiles">
             <EntityTypeMapping TypeName="PaoliPDWModel.ImageFile">
               <MappingFragment StoreEntitySet="ImageFiles">
+                <ScalarProperty Name="FeaturedPull" ColumnName="FeaturedPull" />
+                <ScalarProperty Name="FeaturedEdge" ColumnName="FeaturedEdge" />
                 <ScalarProperty Name="MIMEType" ColumnName="MIMEType" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="Keyword" ColumnName="Keyword" />
