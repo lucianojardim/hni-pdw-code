@@ -331,6 +331,27 @@ namespace ProductDataWarehouse.Controllers
 			return ImageRepository.ImageTypes.Select( it => new SelectListItem() { Value = it.Abbreviation, Text = it.Description } );
 		}
 
+		static public IEnumerable<SelectListItem> GetFinishTypeList()
+		{
+			return new List<SelectListItem>()
+			{
+				new SelectListItem() { Text = "Veneer", Value = ((int)ImageInformation.FinishTypes.Veneer).ToString() },
+				new SelectListItem() { Text = "Laminate", Value = ((int)ImageInformation.FinishTypes.Laminate).ToString() },
+			};
+		}
+
+		static public IEnumerable<SelectListItem> GetFinishSubTypeList()
+		{
+			return new List<SelectListItem>()
+			{
+				new SelectListItem() { Text = "Cherry Veneer", Value = ((int)ImageInformation.FinishSubTypes.CherryVeneer).ToString() },
+				new SelectListItem() { Text = "Maple Veneer", Value = ((int)ImageInformation.FinishSubTypes.MapleVeneer).ToString() },
+				new SelectListItem() { Text = "Walnut Veneer", Value = ((int)ImageInformation.FinishSubTypes.WalnutVeneer).ToString() },
+				new SelectListItem() { Text = "High Pressure Laminate", Value = ((int)ImageInformation.FinishSubTypes.HighPressureLaminate).ToString() },
+				new SelectListItem() { Text = "Low Pressure Laminate", Value = ((int)ImageInformation.FinishSubTypes.LowPressureLaminate).ToString() },
+			};
+		}
+
 		[Authorize]
 		public ActionResult RebuildGallery()
 		{

@@ -53,7 +53,10 @@ namespace PWDRepositories
 				ImageType = img.ImageType,
 				HasPeople = img.HasPeople,
 				FeaturedEdge = img.FeaturedEdge,
-				FeaturedPull = img.FeaturedPull
+				FeaturedPull = img.FeaturedPull,
+				FeaturedFinish = img.FeaturedFinish,
+				FinishType = img.FinishType,
+				FinishSubType = img.FinishSubType
 			};
 		}
 
@@ -503,6 +506,9 @@ namespace PWDRepositories
 			imgData.FeaturedEdge = imgInfo.FeaturedEdge;
 			imgData.FeaturedPull = imgInfo.FeaturedPull;
 			imgData.ImageContent = imgInfo.ImageContent;
+			imgData.FeaturedFinish = imgInfo.FeaturedFinish;
+			imgData.FinishType = imgInfo.FinishType;
+			imgData.FinishSubType = imgInfo.FinishSubType;
 
 			database.ImageFiles.AddObject( imgData );
 
@@ -526,6 +532,9 @@ namespace PWDRepositories
 			imgData.FeaturedEdge = imgInfo.FeaturedEdge;
 			imgData.FeaturedPull = imgInfo.FeaturedPull;
 			imgData.ImageContent = imgInfo.ImageContent;
+			imgData.FeaturedFinish = imgInfo.FeaturedFinish;
+			imgData.FinishType = imgInfo.FinishType;
+			imgData.FinishSubType = imgInfo.FinishSubType;
 
 			database.SaveChanges();
 		}

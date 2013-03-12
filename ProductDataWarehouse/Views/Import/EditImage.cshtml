@@ -30,24 +30,28 @@ else
                     $('#hasPeopleRange').show();
                     $('#featuredEdgeRange').hide();
                     $('#featuredPullRange').hide();
+                    $('#featuredFinishRange').hide();
                     break;
                 case '2':
                     $('#imageTypeRange').hide();
                     $('#hasPeopleRange').hide();
                     $('#featuredEdgeRange').show();
                     $('#featuredPullRange').hide();
+                    $('#featuredFinishRange').hide();
                     break;
                 case '3':
                     $('#imageTypeRange').hide();
                     $('#hasPeopleRange').hide();
                     $('#featuredEdgeRange').hide();
                     $('#featuredPullRange').show();
+                    $('#featuredFinishRange').hide();
                     break;
                 case '4':
                     $('#imageTypeRange').hide();
                     $('#hasPeopleRange').hide();
                     $('#featuredEdgeRange').hide();
                     $('#featuredPullRange').hide();
+                    $('#featuredFinishRange').show();
                     break;
             }
         }
@@ -68,6 +72,9 @@ else
         <span id="hasPeopleRange">@Html.LabelFor( m => m.HasPeople )<text>: </text>@Html.CheckBoxFor( m => m.HasPeople )<br /></span>
         <span id="featuredEdgeRange">@Html.LabelFor( m => m.FeaturedEdge )<text>: </text>@Html.TextBoxFor( m => m.FeaturedEdge )<br /></span>
         <span id="featuredPullRange">@Html.LabelFor( m => m.FeaturedPull )<text>: </text>@Html.TextBoxFor( m => m.FeaturedPull )<br /></span>
+        <span id="featuredFinishRange">@Html.LabelFor( m => m.FeaturedFinish ): @Html.TextBoxFor( m => m.FeaturedFinish )<br />
+        @Html.LabelFor( m => m.FinishType ): @Html.DropDownListFor( m => m.FinishType, ImportController.GetFinishTypeList() )<br />
+        @Html.LabelFor( m => m.FinishSubType ): @Html.DropDownListFor( m => m.FinishSubType, ImportController.GetFinishSubTypeList() )<br /></span>
 @Html.ValidationSummary()
         <input type="submit" value="Save" />
     }

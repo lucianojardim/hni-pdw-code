@@ -30,24 +30,28 @@ else
                     $('#hasPeopleRange').show();
                     $('#featuredEdgeRange').hide();
                     $('#featuredPullRange').hide();
+                    $('#featuredFinishRange').hide();
                     break;
                 case '2':
                     $('#imageTypeRange').hide();
                     $('#hasPeopleRange').hide();
                     $('#featuredEdgeRange').show();
                     $('#featuredPullRange').hide();
+                    $('#featuredFinishRange').hide();
                     break;
                 case '3':
                     $('#imageTypeRange').hide();
                     $('#hasPeopleRange').hide();
                     $('#featuredEdgeRange').hide();
                     $('#featuredPullRange').show();
+                    $('#featuredFinishRange').hide();
                     break;
                 case '4':
                     $('#imageTypeRange').hide();
                     $('#hasPeopleRange').hide();
                     $('#featuredEdgeRange').hide();
                     $('#featuredPullRange').hide();
+                    $('#featuredFinishRange').show();
                     break;
             }
         }
@@ -62,10 +66,13 @@ else
         @Html.LabelFor( m => m.Caption )<text>: </text>@Html.TextAreaFor( m => m.Caption )<br />
         @Html.LabelFor( m => m.Keywords )<text>: </text>@Html.TextAreaFor( m => m.Keywords )<br />
         @Html.LabelFor( m => m.ImageContent )<text>: </text>@Html.DropDownListFor( m => m.ImageContent, ImportController.GetImageContentList( false ) )<br />
-        <span id="imageTypeRange">@Html.LabelFor( m => m.ImageType )<text>: </text>@Html.DropDownListFor( m => m.ImageType, ImportController.GetImageTypeList() )<br /></span>
-        <span id="hasPeopleRange">@Html.LabelFor( m => m.HasPeople )<text>: </text>@Html.CheckBoxFor( m => m.HasPeople )<br /></span>
-        <span id="featuredEdgeRange">@Html.LabelFor( m => m.FeaturedEdge )<text>: </text>@Html.TextBoxFor( m => m.FeaturedEdge )<br /></span>
-        <span id="featuredPullRange">@Html.LabelFor( m => m.FeaturedPull )<text>: </text>@Html.TextBoxFor( m => m.FeaturedPull )<br /></span>
+        <span id="imageTypeRange">@Html.LabelFor( m => m.ImageType ): @Html.DropDownListFor( m => m.ImageType, ImportController.GetImageTypeList() )<br /></span>
+        <span id="hasPeopleRange">@Html.LabelFor( m => m.HasPeople ): @Html.CheckBoxFor( m => m.HasPeople )<br /></span>
+        <span id="featuredEdgeRange">@Html.LabelFor( m => m.FeaturedEdge ): @Html.TextBoxFor( m => m.FeaturedEdge )<br /></span>
+        <span id="featuredPullRange">@Html.LabelFor( m => m.FeaturedPull ): @Html.TextBoxFor( m => m.FeaturedPull )<br /></span>
+        <span id="featuredFinishRange">@Html.LabelFor( m => m.FeaturedFinish ): @Html.TextBoxFor( m => m.FeaturedFinish )<br />
+        @Html.LabelFor( m => m.FinishType ): @Html.DropDownListFor( m => m.FinishType, ImportController.GetFinishTypeList() )<br />
+        @Html.LabelFor( m => m.FinishSubType ): @Html.DropDownListFor( m => m.FinishSubType, ImportController.GetFinishSubTypeList() )<br /></span>
 @Html.ValidationSummary()
         <input type="submit" value="Import" />
     }

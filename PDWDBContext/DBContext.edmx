@@ -165,6 +165,9 @@
           <Property Name="FeaturedEdge" Type="nvarchar" MaxLength="500" />
           <Property Name="FeaturedPull" Type="nvarchar" MaxLength="500" />
           <Property Name="ImageContent" Type="int" Nullable="false" />
+          <Property Name="FinishType" Type="int" />
+          <Property Name="FinishSubType" Type="int" />
+          <Property Name="FeaturedFinish" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="RelatedSeries">
           <Key>
@@ -928,6 +931,9 @@
           <Property Type="String" Name="FeaturedEdge" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="FeaturedPull" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="ImageContent" Nullable="false" />
+          <Property Type="Int32" Name="FinishType" />
+          <Property Type="Int32" Name="FinishSubType" />
+          <Property Type="String" Name="FeaturedFinish" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SeriesImageFile">
           <Key>
@@ -1263,6 +1269,9 @@
           <EntitySetMapping Name="ImageFiles">
             <EntityTypeMapping TypeName="PaoliPDWModel.ImageFile">
               <MappingFragment StoreEntitySet="ImageFiles">
+                <ScalarProperty Name="FeaturedFinish" ColumnName="FeaturedFinish" />
+                <ScalarProperty Name="FinishSubType" ColumnName="FinishSubType" />
+                <ScalarProperty Name="FinishType" ColumnName="FinishType" />
                 <ScalarProperty Name="ImageContent" ColumnName="ImageContent" />
                 <ScalarProperty Name="FeaturedPull" ColumnName="FeaturedPull" />
                 <ScalarProperty Name="FeaturedEdge" ColumnName="FeaturedEdge" />

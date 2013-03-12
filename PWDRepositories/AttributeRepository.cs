@@ -95,5 +95,39 @@ namespace PWDRepositories
 
 			return aList;
 		}
+
+		public IEnumerable<FinishInformation> GetFinishDetailList()
+		{
+			var aInfo = database.Attributes
+				.FirstOrDefault( a => a.Name == "Finish" );
+
+			if( aInfo == null )
+			{
+				return new List<FinishInformation>();
+			}
+
+			var aList = aInfo.AttributeOptions
+				.Select( ao => new FinishInformation()
+				{
+					Name = ao.Name,
+					Serieses = ao.SeriesOptionAttributes.Select( soa => soa.Series.Name ).OrderBy( s => s )
+				} )
+				.OrderBy( a => a.Name )
+				.ToList();
+
+			aList.ForEach( aoi =>
+			{
+				var img = database.ImageFiles.FirstOrDefault( i => i.FeaturedFinish == aoi.Name );
+				if( img != null )
+				{
+					aoi.Caption = img.Caption;
+					aoi.FinishType = img.FinishType ?? 0;
+					aoi.FinishSubType = img.FinishSubType ?? 0;
+					aoi.FeaturedImage = img.ThumbnailImageData( "s4to3" );
+				}
+			} );
+
+			return aList;
+		}
 	}
 }

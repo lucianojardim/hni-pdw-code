@@ -18,6 +18,22 @@ namespace PDWModels.Images
 			Finish = 4
 		}
 
+		public enum FinishTypes
+		{
+			Veneer = 1,
+			Laminate = 2
+		}
+
+		public enum FinishSubTypes
+		{
+			CherryVeneer = 1,
+			MapleVeneer = 2,
+			WalnutVeneer = 3,
+
+			HighPressureLaminate = 4, 
+			LowPressureLaminate = 5
+		}
+
 		public int ImageID { get; set; }
 		[Required]
 		[DisplayName("Image Name")]
@@ -39,5 +55,11 @@ namespace PDWModels.Images
 		public string FeaturedEdge { get; set; }
 		[DisplayName( "Image Content" )]
 		public int ImageContent { get; set; }
+		[DisplayName( "Featured Finish" )]
+		public string FeaturedFinish { get; set; }
+		[DisplayName( "Finish Type" )]
+		public int? FinishType { get; set; }
+		[DisplayName( "Finish Sub Type" )]
+		public int? FinishSubType { get; set; }
 	}
 }

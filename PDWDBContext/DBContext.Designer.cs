@@ -1342,6 +1342,78 @@ namespace PDWDBContext
         private global::System.Int32 _ImageContent;
         partial void OnImageContentChanging(global::System.Int32 value);
         partial void OnImageContentChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> FinishType
+        {
+            get
+            {
+                return _FinishType;
+            }
+            set
+            {
+                OnFinishTypeChanging(value);
+                ReportPropertyChanging("FinishType");
+                _FinishType = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("FinishType");
+                OnFinishTypeChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _FinishType;
+        partial void OnFinishTypeChanging(Nullable<global::System.Int32> value);
+        partial void OnFinishTypeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> FinishSubType
+        {
+            get
+            {
+                return _FinishSubType;
+            }
+            set
+            {
+                OnFinishSubTypeChanging(value);
+                ReportPropertyChanging("FinishSubType");
+                _FinishSubType = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("FinishSubType");
+                OnFinishSubTypeChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _FinishSubType;
+        partial void OnFinishSubTypeChanging(Nullable<global::System.Int32> value);
+        partial void OnFinishSubTypeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String FeaturedFinish
+        {
+            get
+            {
+                return _FeaturedFinish;
+            }
+            set
+            {
+                OnFeaturedFinishChanging(value);
+                ReportPropertyChanging("FeaturedFinish");
+                _FeaturedFinish = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("FeaturedFinish");
+                OnFeaturedFinishChanged();
+            }
+        }
+        private global::System.String _FeaturedFinish;
+        partial void OnFeaturedFinishChanging(global::System.String value);
+        partial void OnFeaturedFinishChanged();
 
         #endregion
     
