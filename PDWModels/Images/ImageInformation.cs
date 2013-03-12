@@ -9,6 +9,15 @@ namespace PDWModels.Images
 {
 	public class ImageInformation
 	{
+		public enum ImageContents
+		{
+			All = 0,
+			Image = 1,
+			Edge = 2,
+			Pull = 3,
+			Finish = 4
+		}
+
 		public int ImageID { get; set; }
 		[Required]
 		[DisplayName("Image Name")]
@@ -28,5 +37,7 @@ namespace PDWModels.Images
 		public string FeaturedPull { get; set; }
 		[DisplayName( "Featured Edge" )]
 		public string FeaturedEdge { get; set; }
+		[DisplayName( "Image Content" )]
+		public int ImageContent { get; set; }
 	}
 }

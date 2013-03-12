@@ -15,6 +15,44 @@
         });
     </script>
 }
+else
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#ImageContent').change(doImageContentChange);
+            doImageContentChange();
+        });
+
+        function doImageContentChange() {
+            switch ($('#ImageContent').val()) {
+                case '1':
+                    $('#imageTypeRange').show();
+                    $('#hasPeopleRange').show();
+                    $('#featuredEdgeRange').hide();
+                    $('#featuredPullRange').hide();
+                    break;
+                case '2':
+                    $('#imageTypeRange').hide();
+                    $('#hasPeopleRange').hide();
+                    $('#featuredEdgeRange').show();
+                    $('#featuredPullRange').hide();
+                    break;
+                case '3':
+                    $('#imageTypeRange').hide();
+                    $('#hasPeopleRange').hide();
+                    $('#featuredEdgeRange').hide();
+                    $('#featuredPullRange').show();
+                    break;
+                case '4':
+                    $('#imageTypeRange').hide();
+                    $('#hasPeopleRange').hide();
+                    $('#featuredEdgeRange').hide();
+                    $('#featuredPullRange').hide();
+                    break;
+            }
+        }
+    </script>    
+}
 
     <h2>Edit Image File</h2>
 
@@ -25,10 +63,11 @@
         @Html.LabelFor( m => m.ImageName )<text>: </text>@Html.DisplayFor( m => m.ImageName )<br />
         @Html.LabelFor( m => m.Caption )<text>: </text>@Html.TextAreaFor( m => m.Caption )<br />
         @Html.LabelFor( m => m.Keywords )<text>: </text>@Html.TextAreaFor( m => m.Keywords )<br />
-        @Html.LabelFor( m => m.ImageType )<text>: </text>@Html.DropDownListFor( m => m.ImageType, ImportController.GetImageTypeList() )<br />
-        @Html.LabelFor( m => m.HasPeople )<text>: </text>@Html.CheckBoxFor( m => m.HasPeople )<br />
-        @Html.LabelFor( m => m.FeaturedEdge )<text>: </text>@Html.TextBoxFor( m => m.FeaturedEdge )<br />
-        @Html.LabelFor( m => m.FeaturedPull )<text>: </text>@Html.TextBoxFor( m => m.FeaturedPull )<br />
+        @Html.LabelFor( m => m.ImageContent )<text>: </text>@Html.DropDownListFor( m => m.ImageContent, ImportController.GetImageContentList( false ) )<br />
+        <span id="imageTypeRange">@Html.LabelFor( m => m.ImageType )<text>: </text>@Html.DropDownListFor( m => m.ImageType, ImportController.GetImageTypeList() )<br /></span>
+        <span id="hasPeopleRange">@Html.LabelFor( m => m.HasPeople )<text>: </text>@Html.CheckBoxFor( m => m.HasPeople )<br /></span>
+        <span id="featuredEdgeRange">@Html.LabelFor( m => m.FeaturedEdge )<text>: </text>@Html.TextBoxFor( m => m.FeaturedEdge )<br /></span>
+        <span id="featuredPullRange">@Html.LabelFor( m => m.FeaturedPull )<text>: </text>@Html.TextBoxFor( m => m.FeaturedPull )<br /></span>
 @Html.ValidationSummary()
         <input type="submit" value="Save" />
     }

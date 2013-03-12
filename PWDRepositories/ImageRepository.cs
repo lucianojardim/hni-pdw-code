@@ -49,6 +49,7 @@ namespace PWDRepositories
 				ImageName = img.Name,
 				Caption = img.Caption,
 				Keywords = img.Keyword,
+				ImageContent = img.ImageContent,
 				ImageType = img.ImageType,
 				HasPeople = img.HasPeople,
 				FeaturedEdge = img.FeaturedEdge,
@@ -324,7 +325,7 @@ namespace PWDRepositories
 			return null;
 		}
 
-		public IEnumerable<ImageDetail> GetFullImageList( DataTableParams param,
+		public IEnumerable<ImageDetail> GetFullImageList( ImageTableParams param,
 			out int totalRecords, out int displayedRecords )
 		{
 			totalRecords = 0;
@@ -339,6 +340,10 @@ namespace PWDRepositories
 				imgList = imgList.Where( i => i.Keyword.Contains( param.sSearch ) ||
 					i.Name.Contains( param.sSearch ) ||
 					i.Caption.Contains( param.sSearch ) );
+			}
+			if( param.imageContent != (int)ImageInformation.ImageContents.All )
+			{
+				imgList = imgList.Where( i => i.ImageContent == param.imageContent );
 			}
 			displayedRecords = imgList.Count();
 
@@ -497,6 +502,7 @@ namespace PWDRepositories
 			imgData.MIMEType = mimeType;
 			imgData.FeaturedEdge = imgInfo.FeaturedEdge;
 			imgData.FeaturedPull = imgInfo.FeaturedPull;
+			imgData.ImageContent = imgInfo.ImageContent;
 
 			database.ImageFiles.AddObject( imgData );
 
@@ -519,6 +525,7 @@ namespace PWDRepositories
 			imgData.Keyword = imgInfo.Keywords;
 			imgData.FeaturedEdge = imgInfo.FeaturedEdge;
 			imgData.FeaturedPull = imgInfo.FeaturedPull;
+			imgData.ImageContent = imgInfo.ImageContent;
 
 			database.SaveChanges();
 		}

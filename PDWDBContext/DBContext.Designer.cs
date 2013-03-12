@@ -1032,7 +1032,8 @@ namespace PDWDBContext
         /// <param name="keyword">Initial value of the Keyword property.</param>
         /// <param name="createdDate">Initial value of the CreatedDate property.</param>
         /// <param name="mIMEType">Initial value of the MIMEType property.</param>
-        public static ImageFile CreateImageFile(global::System.Int32 imageID, global::System.String name, global::System.String originalExtension, global::System.String caption, global::System.Boolean hasPeople, global::System.String imageType, global::System.String keyword, global::System.DateTime createdDate, global::System.String mIMEType)
+        /// <param name="imageContent">Initial value of the ImageContent property.</param>
+        public static ImageFile CreateImageFile(global::System.Int32 imageID, global::System.String name, global::System.String originalExtension, global::System.String caption, global::System.Boolean hasPeople, global::System.String imageType, global::System.String keyword, global::System.DateTime createdDate, global::System.String mIMEType, global::System.Int32 imageContent)
         {
             ImageFile imageFile = new ImageFile();
             imageFile.ImageID = imageID;
@@ -1044,6 +1045,7 @@ namespace PDWDBContext
             imageFile.Keyword = keyword;
             imageFile.CreatedDate = createdDate;
             imageFile.MIMEType = mIMEType;
+            imageFile.ImageContent = imageContent;
             return imageFile;
         }
 
@@ -1316,6 +1318,30 @@ namespace PDWDBContext
         private global::System.String _FeaturedPull;
         partial void OnFeaturedPullChanging(global::System.String value);
         partial void OnFeaturedPullChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ImageContent
+        {
+            get
+            {
+                return _ImageContent;
+            }
+            set
+            {
+                OnImageContentChanging(value);
+                ReportPropertyChanging("ImageContent");
+                _ImageContent = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ImageContent");
+                OnImageContentChanged();
+            }
+        }
+        private global::System.Int32 _ImageContent;
+        partial void OnImageContentChanging(global::System.Int32 value);
+        partial void OnImageContentChanged();
 
         #endregion
     

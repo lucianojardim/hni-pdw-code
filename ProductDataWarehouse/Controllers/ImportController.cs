@@ -106,7 +106,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[Authorize]
-		public JsonResult FullImageList( DataTableParams param )
+		public JsonResult FullImageList( ImageTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
 
@@ -128,13 +128,47 @@ namespace ProductDataWarehouse.Controllers
 		[Authorize]
 		public ActionResult AddImage()
 		{
-			return View( new ImageInformation() );
+			return View( new ImageInformation() { ImageContent = 1 } );
 		}
 
 		[HttpPost]
 		[Authorize]
 		public ActionResult AddImage( ImageInformation imgInfo, HttpPostedFileBase imageFile )
 		{
+			switch( (ImageInformation.ImageContents)imgInfo.ImageContent )
+			{
+				case ImageInformation.ImageContents.Image:
+					imgInfo.FeaturedEdge = null;
+					imgInfo.FeaturedPull = null;
+					break;
+				case ImageInformation.ImageContents.Edge:
+					if( imgInfo.FeaturedEdge == null )
+					{
+						ModelState.AddModelError( "FPRequired", "Featured Edge is required." );
+					}
+					else
+					{
+						imgInfo.ImageType = "Det";
+						imgInfo.FeaturedPull = null;
+						imgInfo.HasPeople = false;
+					}
+					break;
+				case ImageInformation.ImageContents.Pull:
+					if( imgInfo.FeaturedPull == null )
+					{
+						ModelState.AddModelError( "FPRequired", "Featured Pull is required." );
+					}
+					else
+					{
+						imgInfo.ImageType = "Det";
+						imgInfo.FeaturedEdge = null;
+						imgInfo.HasPeople = false;
+					}
+					break;
+				case ImageInformation.ImageContents.Finish:
+					break;
+			}
+
 			if( ModelState.IsValid )
 			{
 				try
@@ -171,6 +205,40 @@ namespace ProductDataWarehouse.Controllers
 		[Authorize]
 		public ActionResult EditImage( ImageInformation imgInfo )
 		{
+			switch( (ImageInformation.ImageContents)imgInfo.ImageContent )
+			{
+				case ImageInformation.ImageContents.Image:
+					imgInfo.FeaturedEdge = null;
+					imgInfo.FeaturedPull = null;
+					break;
+				case ImageInformation.ImageContents.Edge:
+					if( imgInfo.FeaturedEdge == null )
+					{
+						ModelState.AddModelError( "FPRequired", "Featured Edge is required." );
+					}
+					else
+					{
+						imgInfo.ImageType = "Det";
+						imgInfo.FeaturedPull = null;
+						imgInfo.HasPeople = false;
+					}
+					break;
+				case ImageInformation.ImageContents.Pull:
+					if( imgInfo.FeaturedPull == null )
+					{
+						ModelState.AddModelError( "FPRequired", "Featured Pull is required." );
+					}
+					else
+					{
+						imgInfo.ImageType = "Det";
+						imgInfo.FeaturedEdge = null;
+						imgInfo.HasPeople = false;
+					}
+					break;
+				case ImageInformation.ImageContents.Finish:
+					break;
+			}
+
 			if( ModelState.IsValid )
 			{
 				try
@@ -239,6 +307,23 @@ namespace ProductDataWarehouse.Controllers
 			iRepo.DeleteImageFile( id );
 
 			return RedirectToAction( "Images" );
+		}
+
+		static public IEnumerable<SelectListItem> GetImageContentList( bool bIncludeAll )
+		{
+			var theList = new List<SelectListItem>();
+
+			if( bIncludeAll )
+			{
+				theList.Add( new SelectListItem() { Text = "All", Value = ((int)ImageInformation.ImageContents.All).ToString() } );
+			}
+
+			theList.Add( new SelectListItem() { Text = "Image", Value = ((int)ImageInformation.ImageContents.Image).ToString() } );
+			theList.Add( new SelectListItem() { Text = "Edge", Value = ((int)ImageInformation.ImageContents.Edge).ToString() } );
+			theList.Add( new SelectListItem() { Text = "Pull", Value = ((int)ImageInformation.ImageContents.Pull).ToString() } );
+			theList.Add( new SelectListItem() { Text = "Finish", Value = ((int)ImageInformation.ImageContents.Finish).ToString() } );
+
+			return theList;
 		}
 
 		static public IEnumerable<SelectListItem> GetImageTypeList()
