@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\AttributeComboItem.cs" />
+    <Compile Include="Attributes\AttributeInformation.cs" />
     <Compile Include="Images\HiResImageInfo.cs" />
     <Compile Include="Images\ImageComboItem.cs" />
     <Compile Include="Images\ImageDetail.cs" />

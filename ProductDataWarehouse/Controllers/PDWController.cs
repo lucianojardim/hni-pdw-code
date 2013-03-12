@@ -373,6 +373,17 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
+		public JsonpResult GetSeriesListForAttribute( string attr )
+		{
+			AttributeRepository aRepo = new AttributeRepository();
+
+			return new JsonpResult()
+			{
+				Data = aRepo.GetSeriesListForAttribute( attr ),
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
+
 		public ActionResult APIDef()
         {
 //			if( (Request.ServerVariables["SERVER_NAME"].ToLower().Contains( "matt3400" )) ||
@@ -419,6 +430,7 @@ namespace ProductDataWarehouse.Controllers
 			new APIDefinition() { url = "/PDW/GetSeriesPriceList", parameters = "" },
 			new APIDefinition() { url = "/PDW/GetSeriesBrochureList", parameters = "" },
 			new APIDefinition() { url = "/PDW/GetSeriesEDSSheetList", parameters = "" },
+			new APIDefinition() { url = "/PDW/GetSeriesListForAttribute", parameters = "{\"attr\":\"\"}" },
 		};
 	}
 }

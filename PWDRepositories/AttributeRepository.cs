@@ -49,5 +49,51 @@ namespace PWDRepositories
 
 			return prices;
 		}
+
+		public IEnumerable<AttributeOptionInformation> GetSeriesListForAttribute( string attr )
+		{
+			var aInfo = database.Attributes
+				.FirstOrDefault( a => a.Name == attr );
+
+			if( aInfo == null )
+			{
+				return new List<AttributeOptionInformation>();
+			}
+
+			var aList = aInfo.AttributeOptions
+				.Select( ao => new AttributeOptionInformation()
+					{
+						Name = ao.Name,
+						Serieses = ao.SeriesOptionAttributes.Select( soa => soa.Series.Name )
+					} )
+				.OrderBy( a => a.Name )
+				.ToList();
+
+			switch( attr.ToLower() )
+			{
+			case "pull options - style":
+				aList.ForEach( aoi => 
+					{ 
+						var img = database.ImageFiles.FirstOrDefault( i => i.FeaturedPull == aoi.Name ); 
+						if( img != null ) 
+						{
+							aoi.FeaturedImage = img.ThumbnailImageData( "s16to9" );
+						} 
+					} );
+				break;
+			case "edge options - profile":
+				aList.ForEach( aoi =>
+					{
+						var img = database.ImageFiles.FirstOrDefault( i => i.FeaturedEdge == aoi.Name );
+						if( img != null )
+						{
+							aoi.FeaturedImage = img.ThumbnailImageData( "s16to9" );
+						}
+					} );
+				break;
+			}
+
+			return aList;
+		}
 	}
 }
