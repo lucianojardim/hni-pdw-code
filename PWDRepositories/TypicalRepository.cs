@@ -89,10 +89,8 @@ namespace PWDRepositories
 
 			foreach( var term in termList )
 			{
-				var theList = database.Typicals.Where( t => t.Name.Contains( term ) || 
-						t.SeriesTypicals.Any( st => st.Series.Name.Contains( term ) ) || 
-						t.SeriesTypicals.Any( st => st.Series.Category.Name.Contains( term ) ) ||
-						t.TypicalOptionAttributes.Any( s => s.TAttribute.Name == "Other Series Shown" && s.TAttributeOption.Name.Contains( term ) ) )
+				var theList = database.Typicals
+					.Where( t => t.DBKeywords.Contains( term ) )
 					.Distinct()
 					.ToList();
 

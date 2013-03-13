@@ -10,6 +10,7 @@ using System.Configuration;
 using PDWModels.Images;
 using System.Diagnostics;
 using PDWModels;
+using System.Text.RegularExpressions;
 
 namespace PWDRepositories
 {
@@ -54,6 +55,7 @@ namespace PWDRepositories
 				sData.CreatedDate = DateTime.Now;
 
 				string relatedSeries = "";
+				List<string> arrKeywordList = new List<string>();
 
 				foreach( var header in csvReader.GetFieldHeaders() )
 				{
@@ -293,7 +295,32 @@ namespace PWDRepositories
 							}
 							break;
 					}
+
+					switch( header.ToLower() )
+					{
+						case "series name":
+						case "category":
+						case "style":
+						case "value statement headline":
+						case "marketing statement subheadline":
+						case "claire 5 favorites":
+						case "iaq":
+						case "finish":
+						case "drawer options - configuration":
+						case "edge options - profile":
+						case "pull options - style":
+						case "seating option - back":
+						case "shape":
+						case "casegood application":
+						case "table application":
+						case "seating application":
+							arrKeywordList.Add( val.ToLower() );
+							break;
+					}
 				}
+
+				sData.DBKeywords = SearchText.GetKeywordList( arrKeywordList );
+
 				database.Serieses.AddObject( sData );
 				database.SaveChanges();
 				database.Refresh( RefreshMode.StoreWins, sData );
@@ -352,6 +379,7 @@ namespace PWDRepositories
 				tData.CreatedDate = DateTime.Now;
 
 				string categoryName = null;
+				List<string> arrKeywordList = new List<string>();
 				foreach( var header in csvReader.GetFieldHeaders() )
 				{
 					string val = csvReader[header];
@@ -500,7 +528,19 @@ namespace PWDRepositories
 							}
 							break;
 					}
+
+					switch( header.ToLower() )
+					{
+						case "series name":
+						case "category":
+						case "typical name":
+						case "other series shown":
+							arrKeywordList.Add( val.ToLower() );
+							break;
+					}
 				}
+
+				tData.DBKeywords = SearchText.GetKeywordList( arrKeywordList );
 
 				database.Typicals.AddObject( tData );
 				database.SaveChanges();
@@ -536,6 +576,71 @@ namespace PWDRepositories
 					TypicalCount = srl.TypicalCount,
 					PageCount = srl.PageCount,
 				} );
+		}
+
+		public void RebuildDBKeywords()
+		{
+			List<string> arrSeriesAttributes = new List<string>() { 
+				"Style",
+				"Claire 5 Favorites",
+				"IAQ",
+				"Finish",
+				"Drawer Options - Configuration",
+				"Edge Options - Profile",
+				"Pull Options - Style",
+				"Seating Option - Back",
+				"Shape",
+				"Casegood Application",
+				"Table Application",
+				"Seating Application",
+				"Value Statement Headline",
+				"Marketing Statement Subheadline"
+			};
+
+			foreach( var s in database.Serieses )
+			{
+				List<string> keywords = new List<string>()
+					{ 
+						s.Name,
+						s.Category.Name 
+					};
+
+				keywords.AddRange( s.SeriesOptionAttributes.Where( a => arrSeriesAttributes.Contains( a.Attribute.Name ) ).Select( o => o.AttributeOption.Name ) );
+				keywords.AddRange( s.SeriesTextAttributes.Where( a => arrSeriesAttributes.Contains( a.Attribute.Name ) ).Select( o => o.Value ) );
+
+				s.DBKeywords = SearchText.GetKeywordList( keywords );
+			}
+
+			List<string> arrTypicalAttributes = new List<string>() { 
+				"Other Series Shown"
+			};
+
+			foreach( var t in database.Typicals )
+			{
+				List<string> keywords = new List<string>()
+					{ 
+						t.Name,
+					};
+
+				keywords.AddRange( t.SeriesTypicals.Select( st => st.Series ).SelectMany( s => new List<string>() { s.Name, s.Category.Name } ) );
+				keywords.AddRange( t.TypicalOptionAttributes.Where( a => arrTypicalAttributes.Contains( a.TAttribute.Name ) ).Select( o => o.TAttributeOption.Name ) );
+
+				t.DBKeywords = SearchText.GetKeywordList( keywords );
+			}
+
+			foreach( var i in database.ImageFiles )
+			{
+				List<string> keywords = new List<string>()
+					{ 
+						i.Name,
+						i.Caption,
+						i.Keyword,
+					};
+
+				i.DBKeywords = SearchText.GetKeywordList( keywords );
+			}
+
+			database.SaveChanges();
 		}
 	}
 }

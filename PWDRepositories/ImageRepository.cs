@@ -144,7 +144,7 @@ namespace PWDRepositories
 				foreach( var term in termList )
 				{
 					var theList = database.ImageFiles
-						.Where( s => s.Name.Contains( term ) || s.Caption.Contains( term ) || s.Keyword.Contains( term ) )
+						.Where( s => s.DBKeywords.Contains( term ) )
 						.ToList();
 
 					if( termImageList == null )
@@ -285,7 +285,7 @@ namespace PWDRepositories
 			{
 				var theList = database.ImageFiles
 					.Where( imgFile => imageTypeList.Any( it => it == imgFile.ImageType ) )
-					.Where( s => s.Name.Contains( term ) || s.Caption.Contains( term ) || s.Keyword.Contains( term ) )
+					.Where( s => s.DBKeywords.Contains( term ) )
 					.Distinct()
 					.ToList();
 
@@ -509,6 +509,7 @@ namespace PWDRepositories
 			imgData.FeaturedFinish = imgInfo.FeaturedFinish;
 			imgData.FinishType = imgInfo.FinishType;
 			imgData.FinishSubType = imgInfo.FinishSubType;
+			imgData.DBKeywords = SearchText.GetKeywordList( new List<string>() { imgData.Name, imgData.Caption, imgData.Keyword } );
 
 			database.ImageFiles.AddObject( imgData );
 
@@ -535,6 +536,7 @@ namespace PWDRepositories
 			imgData.FeaturedFinish = imgInfo.FeaturedFinish;
 			imgData.FinishType = imgInfo.FinishType;
 			imgData.FinishSubType = imgInfo.FinishSubType;
+			imgData.DBKeywords = SearchText.GetKeywordList( new List<string>() { imgData.Name, imgData.Caption, imgData.Keyword } );
 
 			database.SaveChanges();
 		}

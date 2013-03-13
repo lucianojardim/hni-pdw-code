@@ -363,6 +363,16 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[Authorize]
+		public ActionResult RebuildDBKeywords()
+		{
+			ImportRepository iRepo = new ImportRepository();
+
+			iRepo.RebuildDBKeywords();
+
+			return RedirectToAction( "Index" );
+		}
+
+		[Authorize]
 		public ActionResult SearchLog()
 		{
 			ImportRepository iRepo = new ImportRepository();

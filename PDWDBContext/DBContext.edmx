@@ -168,6 +168,7 @@
           <Property Name="FinishType" Type="int" />
           <Property Name="FinishSubType" Type="int" />
           <Property Name="FeaturedFinish" Type="nvarchar" MaxLength="500" />
+          <Property Name="DBKeywords" Type="ntext" />
         </EntityType>
         <EntityType Name="RelatedSeries">
           <Key>
@@ -197,6 +198,7 @@
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="CategoryID" Type="int" Nullable="false" />
+          <Property Name="DBKeywords" Type="ntext" />
         </EntityType>
         <EntityType Name="SeriesImageFiles">
           <Key>
@@ -294,6 +296,7 @@
           <Property Name="TypicalID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="DBKeywords" Type="ntext" />
         </EntityType>
         <EntityType Name="TypicalTextAttributes">
           <Key>
@@ -770,6 +773,7 @@
           <NavigationProperty Name="ParentSerieses" Relationship="PaoliPDWModel.RelatedSeries" FromRole="Series" ToRole="Series1" />
           <NavigationProperty Name="ChildSerieses" Relationship="PaoliPDWModel.RelatedSeries" FromRole="Series1" ToRole="Series" />
           <NavigationProperty Name="SeriesTypicals" Relationship="PaoliPDWModel.fkST_Series" FromRole="Series" ToRole="SeriesTypical" />
+          <Property Type="String" Name="DBKeywords" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SeriesIntAttribute">
           <Key>
@@ -934,6 +938,7 @@
           <Property Type="Int32" Name="FinishType" />
           <Property Type="Int32" Name="FinishSubType" />
           <Property Type="String" Name="FeaturedFinish" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DBKeywords" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SeriesImageFile">
           <Key>
@@ -1043,6 +1048,7 @@
           <NavigationProperty Name="TypicalOptionAttributes" Relationship="PaoliPDWModel.fkTOA_Typical" FromRole="Typical" ToRole="TypicalOptionAttribute" />
           <NavigationProperty Name="TypicalTextAttributes" Relationship="PaoliPDWModel.fkTTA_Typical" FromRole="Typical" ToRole="TypicalTextAttribute" />
           <NavigationProperty Name="SeriesTypicals" Relationship="PaoliPDWModel.fkST_Typical" FromRole="Typical" ToRole="SeriesTypical" />
+          <Property Type="String" Name="DBKeywords" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="TypicalTextAttribute">
           <Key>
@@ -1243,7 +1249,8 @@
             <ScalarProperty Name="Name" ColumnName="Name" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="Serieses"><EntityTypeMapping TypeName="PaoliPDWModel.Series"><MappingFragment StoreEntitySet="Serieses">
-            <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+            <ScalarProperty Name="DBKeywords" ColumnName="DBKeywords" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
                 <ScalarProperty Name="SeriesID" ColumnName="SeriesID" />
             <ScalarProperty Name="Name" ColumnName="Name" />
             <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
@@ -1269,6 +1276,7 @@
           <EntitySetMapping Name="ImageFiles">
             <EntityTypeMapping TypeName="PaoliPDWModel.ImageFile">
               <MappingFragment StoreEntitySet="ImageFiles">
+                <ScalarProperty Name="DBKeywords" ColumnName="DBKeywords" />
                 <ScalarProperty Name="FeaturedFinish" ColumnName="FeaturedFinish" />
                 <ScalarProperty Name="FinishSubType" ColumnName="FinishSubType" />
                 <ScalarProperty Name="FinishType" ColumnName="FinishType" />
@@ -1357,6 +1365,7 @@
           <EntitySetMapping Name="Typicals">
             <EntityTypeMapping TypeName="PaoliPDWModel.Typical">
               <MappingFragment StoreEntitySet="Typicals">
+                <ScalarProperty Name="DBKeywords" ColumnName="DBKeywords" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="TypicalID" ColumnName="TypicalID" />

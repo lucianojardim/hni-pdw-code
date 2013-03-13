@@ -1414,6 +1414,30 @@ namespace PDWDBContext
         private global::System.String _FeaturedFinish;
         partial void OnFeaturedFinishChanging(global::System.String value);
         partial void OnFeaturedFinishChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String DBKeywords
+        {
+            get
+            {
+                return _DBKeywords;
+            }
+            set
+            {
+                OnDBKeywordsChanging(value);
+                ReportPropertyChanging("DBKeywords");
+                _DBKeywords = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("DBKeywords");
+                OnDBKeywordsChanged();
+            }
+        }
+        private global::System.String _DBKeywords;
+        partial void OnDBKeywordsChanging(global::System.String value);
+        partial void OnDBKeywordsChanged();
 
         #endregion
     
@@ -1805,6 +1829,30 @@ namespace PDWDBContext
         private global::System.Int32 _CategoryID;
         partial void OnCategoryIDChanging(global::System.Int32 value);
         partial void OnCategoryIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String DBKeywords
+        {
+            get
+            {
+                return _DBKeywords;
+            }
+            set
+            {
+                OnDBKeywordsChanging(value);
+                ReportPropertyChanging("DBKeywords");
+                _DBKeywords = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("DBKeywords");
+                OnDBKeywordsChanged();
+            }
+        }
+        private global::System.String _DBKeywords;
+        partial void OnDBKeywordsChanging(global::System.String value);
+        partial void OnDBKeywordsChanged();
 
         #endregion
     
@@ -3599,6 +3647,30 @@ namespace PDWDBContext
         private global::System.DateTime _CreatedDate;
         partial void OnCreatedDateChanging(global::System.DateTime value);
         partial void OnCreatedDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String DBKeywords
+        {
+            get
+            {
+                return _DBKeywords;
+            }
+            set
+            {
+                OnDBKeywordsChanging(value);
+                ReportPropertyChanging("DBKeywords");
+                _DBKeywords = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("DBKeywords");
+                OnDBKeywordsChanged();
+            }
+        }
+        private global::System.String _DBKeywords;
+        partial void OnDBKeywordsChanging(global::System.String value);
+        partial void OnDBKeywordsChanged();
 
         #endregion
     
