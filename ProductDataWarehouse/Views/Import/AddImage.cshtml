@@ -18,10 +18,28 @@
 else
 {
     <script type="text/javascript">
+        var finishSubTypes = [
+            @foreach( var subType in ImportController.GetFinishSubTypeList() )
+            {
+            <text>{ id: @subType.Value, name: "@subType.Text" },</text>
+            }
+        ];
         $(document).ready(function () {
             $('#ImageContent').change(doImageContentChange);
+            $('#FinishType').change(doFinishTypeChange);
             doImageContentChange();
+            doFinishTypeChange();
         });
+
+        function doFinishTypeChange() {
+            var typeText = $('#FinishType option:selected').text();
+            $('#FinishSubType').html('');
+            $.each(finishSubTypes, function (i, opt) {
+                if (opt.name.indexOf(typeText) >= 0) {
+                    $('#FinishSubType').append('<option value=' + opt.id + '>' + opt.name + '</option>');
+                }
+            });
+        }
 
         function doImageContentChange() {
             switch ($('#ImageContent').val()) {

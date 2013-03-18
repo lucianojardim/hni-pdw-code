@@ -30,8 +30,9 @@ namespace PDWModels.Images
 			MapleVeneer = 2,
 			WalnutVeneer = 3,
 
-			HighPressureLaminate = 4, 
-			LowPressureLaminate = 5
+			Solid = 4, 
+			WoodGrain = 5,
+			Pattern = 6
 		}
 
 		public int ImageID { get; set; }

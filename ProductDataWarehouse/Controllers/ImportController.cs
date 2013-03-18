@@ -340,16 +340,25 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
-		static public IEnumerable<SelectListItem> GetFinishSubTypeList()
+		static public IEnumerable<SelectListItem> GetFinishSubTypeList( int? finishType = null )
 		{
-			return new List<SelectListItem>()
+			var theList = new List<SelectListItem>();
+
+			if( finishType == (int)ImageInformation.FinishTypes.Veneer || !finishType.HasValue )
 			{
-				new SelectListItem() { Text = "Cherry Veneer", Value = ((int)ImageInformation.FinishSubTypes.CherryVeneer).ToString() },
-				new SelectListItem() { Text = "Maple Veneer", Value = ((int)ImageInformation.FinishSubTypes.MapleVeneer).ToString() },
-				new SelectListItem() { Text = "Walnut Veneer", Value = ((int)ImageInformation.FinishSubTypes.WalnutVeneer).ToString() },
-				new SelectListItem() { Text = "High Pressure Laminate", Value = ((int)ImageInformation.FinishSubTypes.HighPressureLaminate).ToString() },
-				new SelectListItem() { Text = "Low Pressure Laminate", Value = ((int)ImageInformation.FinishSubTypes.LowPressureLaminate).ToString() },
-			};
+				theList.Add( new SelectListItem() { Text = "Cherry Veneer", Value = ((int)ImageInformation.FinishSubTypes.CherryVeneer).ToString() } );
+				theList.Add( new SelectListItem() { Text = "Maple Veneer", Value = ((int)ImageInformation.FinishSubTypes.MapleVeneer).ToString() } );
+				theList.Add( new SelectListItem() { Text = "Walnut Veneer", Value = ((int)ImageInformation.FinishSubTypes.WalnutVeneer).ToString() } );
+			}
+
+			if( finishType == (int)ImageInformation.FinishTypes.Laminate || !finishType.HasValue )
+			{
+				theList.Add( new SelectListItem() { Text = "Solid Laminate", Value = ((int)ImageInformation.FinishSubTypes.Solid).ToString() } );
+				theList.Add( new SelectListItem() { Text = "Wood Grain Laminate", Value = ((int)ImageInformation.FinishSubTypes.WoodGrain).ToString() } );
+				theList.Add( new SelectListItem() { Text = "Pattern Laminate", Value = ((int)ImageInformation.FinishSubTypes.Pattern).ToString() } );
+			}
+
+			return theList;
 		}
 
 		[Authorize]

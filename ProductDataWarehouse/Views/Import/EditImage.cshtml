@@ -18,10 +18,27 @@
 else
 {
     <script type="text/javascript">
+        var finishSubTypes = [
+            @foreach( var subType in ImportController.GetFinishSubTypeList() )
+            {
+            <text>{ id: @subType.Value, name: "@subType.Text" },</text>
+            }
+        ];
         $(document).ready(function () {
             $('#ImageContent').change(doImageContentChange);
+            $('#FinishType').change(doFinishTypeChange);
             doImageContentChange();
         });
+
+        function doFinishTypeChange() {
+            var typeText = $('#FinishType option:selected').text();
+            $('#FinishSubType').html('');
+            $.each(finishSubTypes, function (i, opt) {
+                if (opt.name.indexOf(typeText) >= 0) {
+                    $('#FinishSubType').append('<option value=' + opt.id + '>' + opt.name + '</option>');
+                }
+            });
+        }
 
         function doImageContentChange() {
             switch ($('#ImageContent').val()) {
@@ -56,11 +73,10 @@ else
             }
         }
     </script>    
-}
 
     <h2>Edit Image File</h2>
 
-    @using( Html.BeginForm( "EditImage", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
+    using( Html.BeginForm( "EditImage", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
     {
         @Html.HiddenFor( m => m.ImageID )
         @Html.HiddenFor( m => m.ImageName )
@@ -74,7 +90,8 @@ else
         <span id="featuredPullRange">@Html.LabelFor( m => m.FeaturedPull )<text>: </text>@Html.TextBoxFor( m => m.FeaturedPull )<br /></span>
         <span id="featuredFinishRange">@Html.LabelFor( m => m.FeaturedFinish ): @Html.TextBoxFor( m => m.FeaturedFinish )<br />
         @Html.LabelFor( m => m.FinishType ): @Html.DropDownListFor( m => m.FinishType, ImportController.GetFinishTypeList() )<br />
-        @Html.LabelFor( m => m.FinishSubType ): @Html.DropDownListFor( m => m.FinishSubType, ImportController.GetFinishSubTypeList() )<br /></span>
+        @Html.LabelFor( m => m.FinishSubType ): @Html.DropDownListFor( m => m.FinishSubType, ImportController.GetFinishSubTypeList( Model.FinishType ) )<br /></span>
 @Html.ValidationSummary()
         <input type="submit" value="Save" />
     }
+}
