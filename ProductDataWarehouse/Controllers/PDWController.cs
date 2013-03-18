@@ -280,6 +280,19 @@ namespace ProductDataWarehouse.Controllers
 				JsonRequestBehavior = JsonRequestBehavior.AllowGet
 			};
 		}
+
+		public JsonpResult GetImageFinishInfo( int imageId )
+		{
+			ImageRepository iRepo = new ImageRepository();
+
+			var theData = iRepo.GetImageFinishInfo( imageId );
+
+			return new JsonpResult()
+			{
+				Data = theData,
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
 		
 		public JsonpResult SearchSeries( string searchText )
 		{
@@ -443,6 +456,8 @@ namespace ProductDataWarehouse.Controllers
 			new APIDefinition() { url = "/PDW/GetSeriesEDSSheetList", parameters = "" },
 			new APIDefinition() { url = "/PDW/GetSeriesListForAttribute", parameters = "{\"attr\":\"\"}" },
 			new APIDefinition() { url = "/PDW/GetFinishDetailList", parameters = "" },
+			new APIDefinition() { url = "/PDW/GetImageFinishInfo", parameters = "" },
+			
 			
 		};
 	}

@@ -17,6 +17,7 @@ namespace PDWModels.Images
 		public string FileName { get; set; }
 		public string Caption { get; set; }
 		public string Name { get; set; }
+		public string SecondaryName { get; set; }
 		public IEnumerable<ImageSeries> SeriesList { get; set; }
 		public string HiResFileName { get; set; }
 	}

@@ -110,6 +110,23 @@ namespace PWDRepositories
 			};
 		}
 
+		private ImageItemDetails ToImageItemDetails( AttributeOption ao, ImageFile img )
+		{
+			return new ImageItemDetails()
+			{
+				FileName = img.ThumbnailImageData( "l4to3" ).FileName,
+				Caption = img.Caption,
+				Name = img.Name,
+				SecondaryName = ao.Name,
+				SeriesList = ao.SeriesOptionAttributes.Select( s => new ImageItemDetails.ImageSeries()
+					{
+						SeriesID = s.SeriesID,
+						Name = s.Series.Name,
+					} ).ToList(),
+				HiResFileName = img.OriginalImage
+			};
+		}
+
 		public ImageThumbnailGallery GetImageThumbnailList( string categories, string imageTypes, int? seriesId, string sortBy, string keywords, int pageNum, int pageSize )
 		{
 			ImageThumbnailGallery gallery = new ImageThumbnailGallery();
@@ -311,6 +328,25 @@ namespace PWDRepositories
 			if( img != null )
 			{
 				return ToImageItemDetails( img );
+			}
+
+			return null;
+		}
+
+		public ImageItemDetails GetImageFinishInfo( int imageId )
+		{
+			var img = database.ImageFiles.FirstOrDefault( i => i.ImageID == imageId );
+
+			if( img != null )
+			{
+				var aOption = database.AttributeOptions
+					.Where( ao => ao.Attribute.Name == "Finish" && ao.Name == img.FeaturedFinish )
+					.FirstOrDefault();
+
+				if( aOption != null )
+				{
+					return ToImageItemDetails( aOption, img );
+				}
 			}
 
 			return null;
