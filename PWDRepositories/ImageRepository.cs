@@ -127,6 +127,22 @@ namespace PWDRepositories
 			};
 		}
 
+		public IEnumerable<ImageComboItem> GetRecentImageList( int ct )
+		{
+			var imageTypeList = ImageFile.ImageTypes.Where( i => i.CanLightbox )
+					.Select( iType => iType.Abbreviation )
+					.ToList();
+			var imgList = database.ImageFiles
+				.Where( imgFile => imageTypeList.Any( it => it == imgFile.ImageType ) )
+				.AsQueryable();
+
+			return imgList
+				.OrderByDescending( i => i.CreatedDate )
+				.Take( ct )
+				.ToList()
+				.Select( i => (ImageComboItem)(i.ThumbnailImageData( "s4to3" ))  );
+		}
+
 		public ImageThumbnailGallery GetImageThumbnailList( string categories, string imageTypes, int? seriesId, string sortBy, string keywords, int pageNum, int pageSize )
 		{
 			ImageThumbnailGallery gallery = new ImageThumbnailGallery();

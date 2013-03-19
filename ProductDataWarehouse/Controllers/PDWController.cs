@@ -101,11 +101,11 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
-		public JsonpResult GetSeriesNameList()
+		public JsonpResult GetSeriesNameList( string category )
 		{
 			SeriesRepository sRepo = new SeriesRepository();
 
-			var theList = sRepo.GetSeriesNameList();
+			var theList = sRepo.GetSeriesNameList( category );
 
 			return new JsonpResult()
 			{
@@ -259,6 +259,20 @@ namespace ProductDataWarehouse.Controllers
 			ImageRepository iRepo = new ImageRepository();
 
 			var theData = iRepo.GetImageDetailList( categories, imageTypes, seriesId, sortBy, keywords, pageNum.Value, pageSize.Value );
+
+			return new JsonpResult()
+			{
+				Data = theData,
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+
+		}
+
+		public JsonpResult GetRecentImageList( int ct )
+		{
+			ImageRepository iRepo = new ImageRepository();
+
+			var theData = iRepo.GetRecentImageList( ct );
 
 			return new JsonpResult()
 			{
@@ -433,7 +447,7 @@ namespace ProductDataWarehouse.Controllers
 			new APIDefinition() { url = "/PDW/GetTypicalList", parameters = "{\"category\":\"\",\"seriesId\":0,\"footprints\":\"\",\"minPrice\":0,\"maxPrice\":0,\"sortBy\":\"\",\"pageNum\":0,\"pageSize\":0,}", notes = "all fields are optional" },
 			new APIDefinition() { url = "/PDW/GetTypicalDetailList", parameters = "{\"category\":\"\",\"seriesId\":0,\"footprints\":\"\",\"minPrice\":0,\"maxPrice\":0,\"sortBy\":\"\",\"pageNum\":0,\"pageSize\":0,}", notes = "all fields are optional" },
 			new APIDefinition() { url = "/PDW/GetTypicalCoverList", parameters = "{\"category\":\"\",\"seriesId\":0,\"footprints\":\"\",\"minPrice\":0,\"maxPrice\":0,\"sortBy\":\"\",\"typicalId\":0,\"itemList\":\"\",}", notes = "all fields are optional" },
-			new APIDefinition() { url = "/PDW/GetSeriesNameList", parameters = "" },
+			new APIDefinition() { url = "/PDW/GetSeriesNameList", parameters = "{\"category\":\"\"}", notes = "category is optional" },
 			new APIDefinition() { url = "/PDW/GetSeriesNameListWithTypicals", parameters = "" },
 			new APIDefinition() { url = "/PDW/GetOptionList", parameters = "{\"attr\":\"\"" },
 			new APIDefinition() { url = "/PDW/GetTypicalOptionList", parameters = "{\"attr\":\"\"" },
@@ -457,7 +471,7 @@ namespace ProductDataWarehouse.Controllers
 			new APIDefinition() { url = "/PDW/GetSeriesListForAttribute", parameters = "{\"attr\":\"\"}" },
 			new APIDefinition() { url = "/PDW/GetFinishDetailList", parameters = "" },
 			new APIDefinition() { url = "/PDW/GetImageFinishInfo", parameters = "" },
-			
+			new APIDefinition() { url = "/PDW/GetRecentImageList", parameters = "{\"ct\":6}" },
 			
 		};
 	}

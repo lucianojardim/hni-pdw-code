@@ -17,9 +17,11 @@ namespace PWDRepositories
 		{
 		}
 
-		public IEnumerable<SeriesComboItem> GetSeriesNameList()
+		public IEnumerable<SeriesComboItem> GetSeriesNameList( string category )
 		{
-			return database.Serieses.Select( s => new SeriesComboItem() { SeriesID = s.SeriesID, Name = s.Name } ).Distinct();
+			return database.Serieses
+				.Where( s => s.Category.Name == category || category == null )
+				.Select( s => new SeriesComboItem() { SeriesID = s.SeriesID, Name = s.Name } ).Distinct();
 		}
 
 		public IEnumerable<SeriesComboItem> GetSeriesNameListWithTypicals()
