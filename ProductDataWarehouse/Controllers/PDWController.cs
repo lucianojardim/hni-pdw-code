@@ -50,13 +50,13 @@ namespace ProductDataWarehouse.Controllers
 			};
         }
 
-		public JsonpResult GetTypicalList( string category, int? seriesId, string footprints,
+		public JsonpResult GetTypicalList( string category, int? seriesId, string footprints, string keywords,
 			int? minPrice, int? maxPrice,
 			string sortBy, int? pageNum = 1, int? pageSize = 28 )
 		{
 			TypicalRepository tRepo = new TypicalRepository();
 
-			var theList = tRepo.GetTypicalData( category, seriesId, footprints,
+			var theList = tRepo.GetTypicalData( category, seriesId, footprints, keywords,
 				minPrice, maxPrice,
 				sortBy, pageNum.Value, pageSize.Value );
 
@@ -67,13 +67,13 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
-		public JsonpResult GetTypicalDetailList( string category, int? seriesId, string footprints,
+		public JsonpResult GetTypicalDetailList( string category, int? seriesId, string footprints, string keywords,
 			int? minPrice, int? maxPrice,
 			string sortBy, int? pageNum = 1, int? pageSize = 28 )
 		{
 			TypicalRepository tRepo = new TypicalRepository();
 
-			var theList = tRepo.GetTypicalDetailData( category, seriesId, footprints,
+			var theList = tRepo.GetTypicalDetailData( category, seriesId, footprints, keywords,
 				minPrice, maxPrice,
 				sortBy, pageNum.Value, pageSize.Value );
 
@@ -84,13 +84,13 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
-		public JsonpResult GetTypicalCoverList( string category, int? seriesId, string footprints,
+		public JsonpResult GetTypicalCoverList( string category, int? seriesId, string footprints, string keywords,
 			int? minPrice, int? maxPrice,
 			string sortBy, int? typicalId, string itemList )
 		{
 			TypicalRepository tRepo = new TypicalRepository();
 
-			var theList = tRepo.GetTypicalCoverData( category, seriesId, footprints,
+			var theList = tRepo.GetTypicalCoverData( category, seriesId, footprints, keywords,
 				minPrice, maxPrice,
 				sortBy, typicalId, itemList );
 

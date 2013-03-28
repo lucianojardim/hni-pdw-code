@@ -17,7 +17,7 @@ namespace PWDRepositories
 		{
 		}
 
-		public TypicalDetailListGallery GetTypicalDetailData( string category, int? seriesId, string footprints,
+		public TypicalDetailListGallery GetTypicalDetailData( string category, int? seriesId, string footprints, string keywords,
 			int? minPrice, int? maxPrice,
 			string sortBy, int pageNum, int pageSize )
 		{
@@ -26,6 +26,29 @@ namespace PWDRepositories
 			var theList = database.Typicals.AsQueryable();
 			gallery.TotalListCount = theList.Count();
 
+			if( (keywords ?? "").Any() )
+			{
+				var termList = SearchText.GetSearchList( keywords );
+
+				List<int> termImageList = null;
+				foreach( var term in termList )
+				{
+					var filteredList = database.Typicals
+						.Where( s => s.DBKeywords.Contains( term ) )
+						.ToList();
+
+					if( termImageList == null )
+					{
+						termImageList = filteredList.Select( i => i.TypicalID ).ToList();
+					}
+					else
+					{
+						termImageList = termImageList.Intersect( filteredList.Select( i => i.TypicalID ) ).ToList();
+					}
+				}
+
+				theList = theList.Where( i => termImageList.Contains( i.TypicalID ) );
+			}
 			if( (category ?? "").Any() )
 			{
 				theList = theList.Where( t => t.SeriesTypicals.Any( st => st.Series.Category.Name == category ) );
@@ -120,7 +143,7 @@ namespace PWDRepositories
 			return returnList;
 		}
 
-		public TypicalListGallery GetTypicalData( string category, int? seriesId, string footprints, 
+		public TypicalListGallery GetTypicalData( string category, int? seriesId, string footprints, string keywords,
 			int? minPrice, int? maxPrice, 
 			string sortBy, int pageNum, int pageSize )
 		{
@@ -128,7 +151,30 @@ namespace PWDRepositories
 
 			var theList = database.Typicals.AsQueryable();
 			gallery.TotalListCount = theList.Count();
-			
+
+			if( (keywords ?? "").Any() )
+			{
+				var termList = SearchText.GetSearchList( keywords );
+
+				List<int> termImageList = null;
+				foreach( var term in termList )
+				{
+					var filteredList = database.Typicals
+						.Where( s => s.DBKeywords.Contains( term ) )
+						.ToList();
+
+					if( termImageList == null )
+					{
+						termImageList = filteredList.Select( i => i.TypicalID ).ToList();
+					}
+					else
+					{
+						termImageList = termImageList.Intersect( filteredList.Select( i => i.TypicalID ) ).ToList();
+					}
+				}
+
+				theList = theList.Where( i => termImageList.Contains( i.TypicalID ) );
+			}
 			if( (category ?? "").Any() )
 			{
 				theList = theList.Where( t => t.SeriesTypicals.Any( st => st.Series.Category.Name == category ) );
@@ -186,7 +232,7 @@ namespace PWDRepositories
 				};
 		}
 
-		public TypicalListGallery GetTypicalCoverData( string category, int? seriesId, string footprints,
+		public TypicalListGallery GetTypicalCoverData( string category, int? seriesId, string footprints, string keywords,
 			int? minPrice, int? maxPrice,
 			string sortBy, int? typicalId, string itemList )
 		{
@@ -205,6 +251,29 @@ namespace PWDRepositories
 			var theList = database.Typicals.AsQueryable();
 			gallery.TotalListCount = theList.Count();
 
+			if( (keywords ?? "").Any() )
+			{
+				var termList = SearchText.GetSearchList( keywords );
+
+				List<int> termImageList = null;
+				foreach( var term in termList )
+				{
+					var filteredList = database.Typicals
+						.Where( s => s.DBKeywords.Contains( term ) )
+						.ToList();
+
+					if( termImageList == null )
+					{
+						termImageList = filteredList.Select( i => i.TypicalID ).ToList();
+					}
+					else
+					{
+						termImageList = termImageList.Intersect( filteredList.Select( i => i.TypicalID ) ).ToList();
+					}
+				}
+
+				theList = theList.Where( i => termImageList.Contains( i.TypicalID ) );
+			}
 			if( (category ?? "").Any() )
 			{
 				theList = theList.Where( t => t.SeriesTypicals.Any( st => st.Series.Category.Name == category ) );
