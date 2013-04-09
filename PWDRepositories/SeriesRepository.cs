@@ -170,6 +170,19 @@ namespace PWDRepositories
 							.OrderBy( i => i.Name )
 							.ToList();						
 					}
+					else if( string.Compare( attr.Name, "Finish", true ) == 0 )
+					{
+						sInfo.FinishImages = theData.SeriesOptionAttributes
+							.Where( soa => soa.AttributeID == attr.AttributeID )
+							.Select( soa => new { Name = soa.AttributeOption.Name, Img = database.ImageFiles.FirstOrDefault( i => i.FeaturedFinish == soa.AttributeOption.Name ) } )
+							.Select( soa => new ImageForObject()
+							{
+								Name = soa.Name,
+								FeaturedImage = soa.Img != null ? soa.Img.ThumbnailImageData( "s16to9" ) : null
+							} )
+							.OrderBy( i => i.Name )
+							.ToList();
+					}
 					else if( attr.DetailItem )
 					{
 						sInfo.Details.Add( attr.Name, new List<string>(

@@ -33,5 +33,6 @@ namespace PDWModels.Series
 		public IEnumerable<TypicalInfoForSeries> Typicals { get; set; }
 		public IEnumerable<ImageForObject> PullImages { get; set; }
 		public IEnumerable<ImageForObject> EdgeImages { get; set; }
+		public IEnumerable<ImageForObject> FinishImages { get; set; }
 	}
 }
