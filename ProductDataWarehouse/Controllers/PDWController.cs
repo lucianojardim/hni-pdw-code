@@ -373,7 +373,7 @@ namespace ProductDataWarehouse.Controllers
 
 			return new JsonpResult()
 			{
-				Data = sRepo.GetSeriesTextData( new List<string>() { "Price List" } ),
+				Data = sRepo.GetSeriesTextData( new List<string>() { "Price List" }, new List<string>() { } ),
 				JsonRequestBehavior = JsonRequestBehavior.AllowGet
 			};
 		}
@@ -384,7 +384,7 @@ namespace ProductDataWarehouse.Controllers
 
 			return new JsonpResult()
 			{
-				Data = sRepo.GetSeriesTextData( new List<string>() { "Brochure File Name" } ),
+				Data = sRepo.GetSeriesTextData( new List<string>() { "Brochure File Name" }, new List<string>() { } ),
 				JsonRequestBehavior = JsonRequestBehavior.AllowGet
 			};
 		}
@@ -395,7 +395,18 @@ namespace ProductDataWarehouse.Controllers
 
 			return new JsonpResult()
 			{
-				Data = sRepo.GetSeriesTextData( new List<string>() { "EDS Sheet" } ),
+				Data = sRepo.GetSeriesTextData( new List<string>() { "EDS Sheet" }, new List<string>() { } ),
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
+
+		public JsonpResult GetSustainabilityList()
+		{
+			SeriesRepository sRepo = new SeriesRepository();
+
+			return new JsonpResult()
+			{
+				Data = sRepo.GetSeriesTextData( new List<string>() { "EDS Sheet", "LEED Sheet" }, new List<string>() { "IAQ", "BIFMA level" } ),
 				JsonRequestBehavior = JsonRequestBehavior.AllowGet
 			};
 		}

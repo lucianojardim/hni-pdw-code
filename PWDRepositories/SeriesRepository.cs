@@ -59,7 +59,7 @@ namespace PWDRepositories
 				};
 		}
 
-		private SeriesDocListData ToSeriesDocListData( Series s, IEnumerable<string> docList )
+		private SeriesDocListData ToSeriesDocListData( Series s, IEnumerable<string> docList, IEnumerable<string> detailList )
 		{
 			var docData = new SeriesDocListData()
 			{
@@ -67,12 +67,21 @@ namespace PWDRepositories
 				Name = s.Name,
 				Category = s.Category.Name,
 				FeaturedImageFile = s.FeaturedImageForSize( "s16to9" ),
-				Documents = new Dictionary<string,string>()
+				Documents = new Dictionary<string,string>(),
+				Details = new Dictionary<string,string>()
 			};
 
 			foreach( var textAttribute in s.SeriesTextAttributes.Where( sta => docList.Contains( sta.Attribute.Name ) ) )
 			{
 				docData.Documents.Add( textAttribute.Attribute.Name, textAttribute.Value );
+			}
+			foreach( var detailItem in detailList )
+			{
+				string val = string.Join( ", ", s.SeriesOptionAttributes.Where( soa => soa.Attribute.Name == detailItem ).Select( soa => soa.AttributeOption.Name ) );
+				if( val.Any() )
+				{
+					docData.Details.Add( detailItem, val );
+				}
 			}
 
 			return docData;
@@ -114,12 +123,12 @@ namespace PWDRepositories
 			return theList.Select( s => ToSeriesListData( s ) );
 		}
 
-		public IEnumerable<SeriesDocListData> GetSeriesTextData( IEnumerable<string> attList )
+		public IEnumerable<SeriesDocListData> GetSeriesTextData( IEnumerable<string> attList, IEnumerable<string> detailList )
 		{
 			return database.Serieses
 				.OrderBy( s => s.Name )
 				.ToList()
-				.Select( s => ToSeriesDocListData( s, attList ) );
+				.Select( s => ToSeriesDocListData( s, attList, detailList ) );
 		}
 
 		public SeriesInformation GetSeriesInfo( int? id = null, string seriesName = null )

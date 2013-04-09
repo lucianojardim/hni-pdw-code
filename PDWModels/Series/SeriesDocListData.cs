@@ -13,5 +13,6 @@ namespace PDWModels.Series
 		public string Category { get; set; }
 		public Dictionary<string, string> Documents { get; set; }
 		public ImageComboItem FeaturedImageFile { get; set; }
+		public Dictionary<string, string> Details { get; set; }
 	}
 }
