@@ -41,6 +41,17 @@ namespace PWDRepositories
 			};
 		}
 
+		private PubImageDetail ToPubImageDetail( ImageFile img, int pubId )
+		{
+			var pubImage = img.PublicationImages.FirstOrDefault( pi => pi.PublicationID == pubId );
+			return new PubImageDetail()
+			{
+				ImageID = img.ImageID,
+				Name = img.Name,
+				PageNumber = (pubImage != null) ? pubImage.PageNumber : null
+			};
+		}
+
 		private ImageInformation ToImageInformation( ImageFile img )
 		{
 			return new ImageInformation()
@@ -143,7 +154,8 @@ namespace PWDRepositories
 				.Select( i => (ImageComboItem)(i.ThumbnailImageData( "s4to3" ))  );
 		}
 
-		public ImageThumbnailGallery GetImageThumbnailList( string categories, string imageTypes, int? seriesId, string sortBy, string keywords, int pageNum, int pageSize )
+		public ImageThumbnailGallery GetImageThumbnailList( string categories, string imageTypes, int? seriesId, string sortBy, string keywords,
+			int? pubId, string pubPageNum, int pageNum, int pageSize )
 		{
 			ImageThumbnailGallery gallery = new ImageThumbnailGallery();
 
@@ -168,6 +180,18 @@ namespace PWDRepositories
 			{
 				var catList = categories.Split( ',' );
 				imgList = imgList.Where( img => catList.Intersect( img.SeriesImageFiles.Select( s => s.Series.Category.Name ) ).Any() );
+			}
+			if( pubId.HasValue )
+			{
+				imgList = imgList.Where( img => img.PublicationImages.Any( pi => pi.PublicationID == pubId.Value ) );
+				if( (pubPageNum ?? "").Any() )
+				{
+					int nPubPageNum = 0;
+					if( int.TryParse( pubPageNum, out nPubPageNum ) )
+					{
+						imgList = imgList.Where( img => img.PublicationImages.Any( pi => (pi.PublicationID == pubId.Value) && ((pi.PageNumber == nPubPageNum) || (pi.PageNumber == null)) ) );
+					}
+				}
 			}
 			if( (keywords ?? "").Any() )
 			{
@@ -222,7 +246,8 @@ namespace PWDRepositories
 			return gallery;
 		}
 
-		public ImageListGallery GetImageDetailList( string categories, string imageTypes, int? seriesId, string sortBy, string keywords, int pageNum, int pageSize )
+		public ImageListGallery GetImageDetailList( string categories, string imageTypes, int? seriesId, string sortBy, string keywords,
+			int? pubId, string pubPageNum, int pageNum, int pageSize )
 		{
 			ImageListGallery gallery = new ImageListGallery();
 
@@ -426,6 +451,53 @@ namespace PWDRepositories
 			}
 
 			return filteredAndSorted.ToList().Select( v => ToImageDetail( v ) );
+		}
+
+		public IEnumerable<PubImageDetail> GetPubImageList( PubImageTableParams param, bool bInPublication,
+			out int totalRecords, out int displayedRecords )
+		{
+			totalRecords = 0;
+			displayedRecords = 0;
+
+			var imgList = database.ImageFiles
+				.Where( i => i.PublicationImages.Any( pi => pi.PublicationID == param.pubId ) == bInPublication )
+				.AsQueryable();
+
+			totalRecords = imgList.Count();
+
+			if( !string.IsNullOrEmpty( param.sSearch ) )
+			{
+				imgList = imgList.Where( i => i.Keyword.Contains( param.sSearch ) ||
+					i.Name.Contains( param.sSearch ) ||
+					i.Caption.Contains( param.sSearch ) );
+			}
+
+			displayedRecords = imgList.Count();
+
+			string sortCol = param.sColumns.Split( ',' )[param.iSortCol_0];
+
+			IQueryable<ImageFile> filteredAndSorted = null;
+			switch( sortCol.ToLower() )
+			{
+				case "name":
+				default:
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = imgList.OrderBy( v => v.Name );
+					}
+					else
+					{
+						filteredAndSorted = imgList.OrderByDescending( v => v.Name );
+					}
+					break;
+			}
+
+			if( (displayedRecords > param.iDisplayLength) && (param.iDisplayLength > 0) )
+			{
+				filteredAndSorted = filteredAndSorted.Skip( param.iDisplayStart ).Take( param.iDisplayLength );
+			}
+
+			return filteredAndSorted.ToList().Select( v => ToPubImageDetail( v, param.pubId ) );
 		}
 
 		public ImageInformation GetImageInformation( int id )

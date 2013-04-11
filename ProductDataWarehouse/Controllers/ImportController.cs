@@ -8,6 +8,7 @@ using PDWInfrastructure;
 using PDWModels.Images;
 using System.Threading;
 using System.Web.Security;
+using PDWModels.Publications;
 
 namespace ProductDataWarehouse.Controllers
 {
@@ -389,6 +390,163 @@ namespace ProductDataWarehouse.Controllers
 			var logList = iRepo.GetSearchLogList();
 
 			return View( logList );
+		}
+
+
+		[Authorize]
+		public ActionResult Collateral()
+		{
+			return View();
+		}
+
+		[Authorize]
+		public JsonResult FullCollateralList( DataTableParams param )
+		{
+			int totalCount = 0, filteredCount = 0;
+
+			PublicationRepository pRepository = new PublicationRepository();
+
+			var results = pRepository.GetFullPublicationList(
+				param, out totalCount, out filteredCount );
+
+			return Json( new
+			{
+				sEcho = param.sEcho,
+				iTotalRecords = totalCount,
+				iTotalDisplayRecords = filteredCount,
+				aaData = results
+			},
+				JsonRequestBehavior.AllowGet );
+		}
+
+		[Authorize]
+		public ActionResult AddCollateral()
+		{
+			return View( new PublicationInformation() { PublicationDate = DateTime.Now } );
+		}
+
+		[HttpPost]
+		[Authorize]
+		public ActionResult AddCollateral( PublicationInformation pubInfo )
+		{
+			if( ModelState.IsValid )
+			{
+				try
+				{
+					PublicationRepository pRepo = new PublicationRepository();
+
+					pRepo.AddPublication( pubInfo );
+
+					ViewBag.CloseFancyBox = true;
+
+					return View( pubInfo );
+				}
+				catch( Exception ex )
+				{
+					ModelState.AddModelError( "", ex.Message );
+					if( ex.InnerException != null )
+					{
+						ModelState.AddModelError( "", ex.InnerException.Message );
+					}
+				}
+			}
+			return View( pubInfo );
+		}
+
+		[Authorize]
+		public ActionResult EditCollateral( int id )
+		{
+			return View( new PublicationRepository().GetPublicationInformation( id ) );
+		}
+
+		[HttpPost]
+		[Authorize]
+		public ActionResult EditCollateral( PublicationInformation pubInfo )
+		{
+			if( ModelState.IsValid )
+			{
+				try
+				{
+					PublicationRepository pRepo = new PublicationRepository();
+
+					pRepo.UpdatePublication( pubInfo );
+
+					ViewBag.CloseFancyBox = true;
+
+					return View( pubInfo );
+				}
+				catch( Exception ex )
+				{
+					ModelState.AddModelError( "", ex.Message );
+					if( ex.InnerException != null )
+					{
+						ModelState.AddModelError( "", ex.InnerException.Message );
+					}
+				}
+			}
+			return View( pubInfo );
+		}
+
+		[Authorize]
+		public ActionResult CollateralImages( int id )
+		{
+			return View( new PublicationRepository().GetPublicationInformation( id ) );
+		}
+
+		[Authorize]
+		public JsonResult NonPubImageList( PubImageTableParams param )
+		{
+			int totalCount = 0, filteredCount = 0;
+
+			ImageRepository iRepository = new ImageRepository();
+
+			var results = iRepository.GetPubImageList(
+				param, false, out totalCount, out filteredCount );
+
+			return Json( new
+			{
+				sEcho = param.sEcho,
+				iTotalRecords = totalCount,
+				iTotalDisplayRecords = filteredCount,
+				aaData = results
+			},
+				JsonRequestBehavior.AllowGet );
+		}
+
+		[Authorize]
+		public JsonResult PubImageList( PubImageTableParams param )
+		{
+			int totalCount = 0, filteredCount = 0;
+
+			ImageRepository iRepository = new ImageRepository();
+
+			var results = iRepository.GetPubImageList(
+				param, true, out totalCount, out filteredCount );
+
+			return Json( new
+			{
+				sEcho = param.sEcho,
+				iTotalRecords = totalCount,
+				iTotalDisplayRecords = filteredCount,
+				aaData = results
+			},
+				JsonRequestBehavior.AllowGet );
+		}
+
+		[Authorize]
+		public JsonResult AddPubImage( int pubId, int imageId, int? pageNumber )
+		{
+			new PublicationRepository().AddPubImage( pubId, imageId, pageNumber );
+
+			return Json( new { success = true }, JsonRequestBehavior.AllowGet );
+		}
+
+		[Authorize]
+		public JsonResult RemovePubImage( int pubId, int imageId )
+		{
+			new PublicationRepository().RemovePubImage( pubId, imageId );
+
+			return Json( new { success = true }, JsonRequestBehavior.AllowGet );
 		}
 	}
 

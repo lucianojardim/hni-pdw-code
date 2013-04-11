@@ -42,6 +42,8 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkTTA_Typical", "Typical", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.Typical), "TypicalTextAttribute", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.TypicalTextAttribute), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkST_Series", "Series", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.Series), "SeriesTypical", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SeriesTypical), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkST_Typical", "Typical", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.Typical), "SeriesTypical", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SeriesTypical), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkPI_Image", "ImageFile", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.ImageFile), "PublicationImage", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.PublicationImage), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkPI_Publication", "Publication", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.Publication), "PublicationImage", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.PublicationImage), true)]
 
 #endregion
 
@@ -380,6 +382,38 @@ namespace PDWDBContext
             }
         }
         private ObjectSet<SearchResultsLog> _SearchResultsLogs;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<PublicationImage> PublicationImages
+        {
+            get
+            {
+                if ((_PublicationImages == null))
+                {
+                    _PublicationImages = base.CreateObjectSet<PublicationImage>("PublicationImages");
+                }
+                return _PublicationImages;
+            }
+        }
+        private ObjectSet<PublicationImage> _PublicationImages;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Publication> Publications
+        {
+            get
+            {
+                if ((_Publications == null))
+                {
+                    _Publications = base.CreateObjectSet<Publication>("Publications");
+                }
+                return _Publications;
+            }
+        }
+        private ObjectSet<Publication> _Publications;
 
         #endregion
         #region AddTo Methods
@@ -526,6 +560,22 @@ namespace PDWDBContext
         public void AddToSearchResultsLogs(SearchResultsLog searchResultsLog)
         {
             base.AddObject("SearchResultsLogs", searchResultsLog);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the PublicationImages EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToPublicationImages(PublicationImage publicationImage)
+        {
+            base.AddObject("PublicationImages", publicationImage);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Publications EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToPublications(Publication publication)
+        {
+            base.AddObject("Publications", publication);
         }
 
         #endregion
@@ -1483,6 +1533,373 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TypicalImageFile>("PaoliPDWModel.fkTIF_Image", "TypicalImageFile", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkPI_Image", "PublicationImage")]
+        public EntityCollection<PublicationImage> PublicationImages
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<PublicationImage>("PaoliPDWModel.fkPI_Image", "PublicationImage");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<PublicationImage>("PaoliPDWModel.fkPI_Image", "PublicationImage", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="Publication")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Publication : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Publication object.
+        /// </summary>
+        /// <param name="publicationID">Initial value of the PublicationID property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="pubDate">Initial value of the PubDate property.</param>
+        /// <param name="filterVisible">Initial value of the FilterVisible property.</param>
+        public static Publication CreatePublication(global::System.Int32 publicationID, global::System.String name, global::System.DateTime pubDate, global::System.Boolean filterVisible)
+        {
+            Publication publication = new Publication();
+            publication.PublicationID = publicationID;
+            publication.Name = name;
+            publication.PubDate = pubDate;
+            publication.FilterVisible = filterVisible;
+            return publication;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 PublicationID
+        {
+            get
+            {
+                return _PublicationID;
+            }
+            set
+            {
+                if (_PublicationID != value)
+                {
+                    OnPublicationIDChanging(value);
+                    ReportPropertyChanging("PublicationID");
+                    _PublicationID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("PublicationID");
+                    OnPublicationIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _PublicationID;
+        partial void OnPublicationIDChanging(global::System.Int32 value);
+        partial void OnPublicationIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime PubDate
+        {
+            get
+            {
+                return _PubDate;
+            }
+            set
+            {
+                OnPubDateChanging(value);
+                ReportPropertyChanging("PubDate");
+                _PubDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("PubDate");
+                OnPubDateChanged();
+            }
+        }
+        private global::System.DateTime _PubDate;
+        partial void OnPubDateChanging(global::System.DateTime value);
+        partial void OnPubDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean FilterVisible
+        {
+            get
+            {
+                return _FilterVisible;
+            }
+            set
+            {
+                OnFilterVisibleChanging(value);
+                ReportPropertyChanging("FilterVisible");
+                _FilterVisible = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("FilterVisible");
+                OnFilterVisibleChanged();
+            }
+        }
+        private global::System.Boolean _FilterVisible;
+        partial void OnFilterVisibleChanging(global::System.Boolean value);
+        partial void OnFilterVisibleChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkPI_Publication", "PublicationImage")]
+        public EntityCollection<PublicationImage> PublicationImages
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<PublicationImage>("PaoliPDWModel.fkPI_Publication", "PublicationImage");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<PublicationImage>("PaoliPDWModel.fkPI_Publication", "PublicationImage", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="PublicationImage")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class PublicationImage : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new PublicationImage object.
+        /// </summary>
+        /// <param name="publicationID">Initial value of the PublicationID property.</param>
+        /// <param name="imageID">Initial value of the ImageID property.</param>
+        public static PublicationImage CreatePublicationImage(global::System.Int32 publicationID, global::System.Int32 imageID)
+        {
+            PublicationImage publicationImage = new PublicationImage();
+            publicationImage.PublicationID = publicationID;
+            publicationImage.ImageID = imageID;
+            return publicationImage;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 PublicationID
+        {
+            get
+            {
+                return _PublicationID;
+            }
+            set
+            {
+                if (_PublicationID != value)
+                {
+                    OnPublicationIDChanging(value);
+                    ReportPropertyChanging("PublicationID");
+                    _PublicationID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("PublicationID");
+                    OnPublicationIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _PublicationID;
+        partial void OnPublicationIDChanging(global::System.Int32 value);
+        partial void OnPublicationIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ImageID
+        {
+            get
+            {
+                return _ImageID;
+            }
+            set
+            {
+                if (_ImageID != value)
+                {
+                    OnImageIDChanging(value);
+                    ReportPropertyChanging("ImageID");
+                    _ImageID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ImageID");
+                    OnImageIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ImageID;
+        partial void OnImageIDChanging(global::System.Int32 value);
+        partial void OnImageIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> PageNumber
+        {
+            get
+            {
+                return _PageNumber;
+            }
+            set
+            {
+                OnPageNumberChanging(value);
+                ReportPropertyChanging("PageNumber");
+                _PageNumber = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("PageNumber");
+                OnPageNumberChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _PageNumber;
+        partial void OnPageNumberChanging(Nullable<global::System.Int32> value);
+        partial void OnPageNumberChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkPI_Image", "ImageFile")]
+        public ImageFile ImageFile
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ImageFile>("PaoliPDWModel.fkPI_Image", "ImageFile").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ImageFile>("PaoliPDWModel.fkPI_Image", "ImageFile").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<ImageFile> ImageFileReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ImageFile>("PaoliPDWModel.fkPI_Image", "ImageFile");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<ImageFile>("PaoliPDWModel.fkPI_Image", "ImageFile", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkPI_Publication", "Publication")]
+        public Publication Publication
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Publication>("PaoliPDWModel.fkPI_Publication", "Publication").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Publication>("PaoliPDWModel.fkPI_Publication", "Publication").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Publication> PublicationReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Publication>("PaoliPDWModel.fkPI_Publication", "Publication");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Publication>("PaoliPDWModel.fkPI_Publication", "Publication", value);
                 }
             }
         }

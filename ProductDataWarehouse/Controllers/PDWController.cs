@@ -240,11 +240,13 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
-		public JsonpResult GetImageThumbnailList( string categories, string imageTypes, int? seriesId, string sortBy, string keywords, int? pageNum = 1, int? pageSize = 28 )
+		public JsonpResult GetImageThumbnailList( string categories, string imageTypes, int? seriesId, string sortBy, string keywords, 
+			int? pubId, string pubPageNum,
+			int? pageNum = 1, int? pageSize = 28 )
 		{
 			ImageRepository iRepo = new ImageRepository();
 
-			var theData = iRepo.GetImageThumbnailList( categories, imageTypes, seriesId, sortBy, keywords, pageNum.Value, pageSize.Value );
+			var theData = iRepo.GetImageThumbnailList( categories, imageTypes, seriesId, sortBy, keywords, pubId, pubPageNum, pageNum.Value, pageSize.Value );
 
 			return new JsonpResult()
 			{
@@ -254,11 +256,13 @@ namespace ProductDataWarehouse.Controllers
 
 		}
 
-		public JsonpResult GetImageDetailList( string categories, string imageTypes, int? seriesId, string sortBy, string keywords, int? pageNum = 1, int? pageSize = 28 )
+		public JsonpResult GetImageDetailList( string categories, string imageTypes, int? seriesId, string sortBy, string keywords,
+			int? pubId, string pubPageNum,
+			int? pageNum = 1, int? pageSize = 28 )
 		{
 			ImageRepository iRepo = new ImageRepository();
 
-			var theData = iRepo.GetImageDetailList( categories, imageTypes, seriesId, sortBy, keywords, pageNum.Value, pageSize.Value );
+			var theData = iRepo.GetImageDetailList( categories, imageTypes, seriesId, sortBy, keywords, pubId, pubPageNum, pageNum.Value, pageSize.Value );
 
 			return new JsonpResult()
 			{
@@ -433,6 +437,15 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
+		public JsonpResult GetCollateralList()
+		{
+			return new JsonpResult()
+			{
+				Data = new PublicationRepository().GetInUseList(),
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
+
 		public ActionResult APIDef()
         {
 //			if( (Request.ServerVariables["SERVER_NAME"].ToLower().Contains( "matt3400" )) ||
@@ -483,6 +496,8 @@ namespace ProductDataWarehouse.Controllers
 			new APIDefinition() { url = "/PDW/GetFinishDetailList", parameters = "" },
 			new APIDefinition() { url = "/PDW/GetImageFinishInfo", parameters = "" },
 			new APIDefinition() { url = "/PDW/GetRecentImageList", parameters = "{\"ct\":6}" },
+			new APIDefinition() { url = "/PDW/GetSustainabilityList", parameters = "" },
+			new APIDefinition() { url = "/PDW/GetCollateralList", parameters = "" },
 			
 		};
 	}

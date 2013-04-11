@@ -1,0 +1,44 @@
+﻿@model PDWModels.Publications.PublicationInformation
+
+@{
+    ViewBag.Title = "Add Collateral";
+}
+@using ProductDataWarehouse.Controllers
+
+@if( ViewBag.CloseFancyBox ?? false )
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            parent.$.fancybox.close();
+            if (parent.loadCollateral) {
+                parent.loadCollateral();
+            }
+        });
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.datePicker').datepicker(
+            {
+                dateFormat: "mm/dd/yy",
+                minDate: new Date(1900, 1 - 1, 1),
+                changeMonth: true,
+                changeYear: true,
+                yearRange: '1900:2100'
+            });
+        });
+    </script>    
+}
+    <h2>Add Collateral</h2>
+
+    @using( Html.BeginForm( "AddCollateral", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm" } ) )
+    {
+        @Html.HiddenFor( m => m.PublicationID )
+        @Html.LabelFor( m => m.Name )<text>: </text>@Html.TextBoxFor( m => m.Name )<br />
+        @Html.LabelFor( m => m.PublicationDate )<text>: </text>@Html.EditorFor( m => m.PublicationDate )<br />
+        @Html.LabelFor( m => m.FilterVisible )<text> </text>@Html.EditorFor( m => m.FilterVisible )<br />
+@Html.ValidationSummary()
+        <input type="submit" value="Add" />
+    }

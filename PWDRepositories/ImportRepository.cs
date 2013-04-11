@@ -155,6 +155,7 @@ namespace PWDRepositories
 						case "gsa spec sheet":
 						case "installation guide":
 						case "eds sheet":
+						case "leed sheet":
 						case "control guide":
 						case "brochure file name":
 							if( (val ?? "").Any() )
