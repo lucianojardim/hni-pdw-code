@@ -8,6 +8,18 @@ namespace PDWModels
 {
 	public static class SearchText
 	{
+		public class SearchNeedItem
+		{
+			public string searchText { get; set; }
+			public int idxWord { get; set; }
+
+			public SearchNeedItem( string s, int i )
+			{
+				searchText = s;
+				idxWord = i;
+			}
+		}
+
 		public static List<string> StopList { get { return new List<string>() { "the", "is", "at", "which", "and", "or", "of", "for", "that", "on", "under", "behind", "beside", "in", "as", "what" }; } }
 
 		private static bool InStopList( string s )
@@ -15,29 +27,31 @@ namespace PDWModels
 			return StopList.Contains( s.ToLower() );
 		}
 
-		public static IEnumerable<string> GetSearchList( string searchText )
+		public static IEnumerable<SearchNeedItem> GetSearchList( string searchText )
 		{
-			List<string> searchList = new List<string>();
+			List<SearchNeedItem> searchList = new List<SearchNeedItem>();
 			searchText = Regex.Replace( searchText, @"[^A-Za-z0-9\- ]", "" );
 
 			var wordList = searchText.ToLower().Split( ' ' ).ToList();
 
 			wordList.RemoveAll( InStopList );
 
+			int nIndex = 0;
 			foreach( var w in wordList )
 			{
 				if( w.Substring( w.Length - 1 ).ToLower() == "s" )
 				{
-					searchList.Add( w );
-					searchList.Add( w.Substring( 0, w.Length - 1 ) );
+					searchList.Add( new SearchNeedItem( w, nIndex ) );
+					searchList.Add( new SearchNeedItem( w.Substring( 0, w.Length - 1 ), nIndex ) );
 				}
 				else
 				{
-					searchList.Add( w );
+					searchList.Add( new SearchNeedItem( w, nIndex ) );
 				}
+				nIndex++;
 			}
 
-			searchList = searchList.Select( s => " " + s + " " ).ToList();
+			searchList = searchList.Select( s => new SearchNeedItem( " " + s.searchText + " ", s.idxWord ) ).ToList();
 
 			return searchList;
 		}

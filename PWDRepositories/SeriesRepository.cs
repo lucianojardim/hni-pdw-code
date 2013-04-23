@@ -91,27 +91,27 @@ namespace PWDRepositories
 		{
 			var termList = SearchText.GetSearchList( searchText );
 
-			List<Series> results = null;
-
+			Dictionary<int, int> termSeriesList = new Dictionary<int, int>();
 			foreach( var term in termList )
 			{
 				var theList = database.Serieses
-					.Where( s => s.DBKeywords.Contains( term ) )
-					.Distinct()
+					.Where( s => s.DBKeywords.Contains( term.searchText ) )
+					.Select( i => i.SeriesID )
 					.ToList();
 
-				if( results == null )
+				theList.ForEach( delegate( int seriesId )
 				{
-					results = theList;
-				}
-				else
-				{
-					results = results.Intersect( theList ).ToList();
-				}
+					termSeriesList[seriesId] = (termSeriesList.Keys.Contains( seriesId ) ? termSeriesList[seriesId] : 0) | (int)Math.Pow( 2, term.idxWord );
+				} );
 			}
 
-			return results
+			int rightAnswer = ((int)Math.Pow( 2, (termList.Select( t => t.idxWord ).Max() + 1) ) - 1);
+			var seriesIdList = termSeriesList.Keys.Where( i => termSeriesList[i] == rightAnswer );
+
+			return database.Serieses
+				.Where( s => seriesIdList.Contains( s.SeriesID ) )
 				.Distinct()
+				.ToList()
 				.Select( s => ToSeriesSearchResult( s ) );
 		}
 

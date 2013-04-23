@@ -197,24 +197,24 @@ namespace PWDRepositories
 			{
 				var termList = SearchText.GetSearchList( keywords );
 
-				List<int> termImageList = null;
+				Dictionary<int, int> termImageList = new Dictionary<int, int>();
 				foreach( var term in termList )
 				{
 					var theList = database.ImageFiles
-						.Where( s => s.DBKeywords.Contains( term ) )
+						.Where( s => s.DBKeywords.Contains( term.searchText ) )
+						.Select( i => i.ImageID )
 						.ToList();
 
-					if( termImageList == null )
-					{
-						termImageList = theList.Select( i => i.ImageID ).ToList();
-					}
-					else
-					{
-						termImageList = termImageList.Intersect( theList.Select( i => i.ImageID ) ).ToList();
-					}
+					theList.ForEach( delegate( int imgId )
+						{
+							termImageList[imgId] = (termImageList.Keys.Contains( imgId ) ? termImageList[imgId] : 0) | (int)Math.Pow(2, term.idxWord);
+						} );
 				}
 
-				imgList = imgList.Where( i => termImageList.Contains( i.ImageID ) );
+				int rightAnswer = ((int)Math.Pow( 2, (termList.Select( t => t.idxWord ).Max() + 1) ) - 1);
+				var imageIdList = termImageList.Keys.Where( i => termImageList[i] == rightAnswer );
+
+				imgList = imgList.Where( i => imageIdList.Contains( i.ImageID ) );
 			}
 
 			gallery.FilteredImageCount = imgList.Count();
@@ -276,24 +276,24 @@ namespace PWDRepositories
 			{
 				var termList = SearchText.GetSearchList( keywords );
 
-				List<int> termImageList = null;
+				Dictionary<int, int> termImageList = new Dictionary<int, int>();
 				foreach( var term in termList )
 				{
 					var theList = database.ImageFiles
-						.Where( s => s.Name.Contains( term ) || s.Caption.Contains( term ) || s.Keyword.Contains( term ) )
+						.Where( s => s.DBKeywords.Contains( term.searchText ) )
+						.Select( i => i.ImageID )
 						.ToList();
 
-					if( termImageList == null )
-					{
-						termImageList = theList.Select( i => i.ImageID ).ToList();
-					}
-					else
-					{
-						termImageList = termImageList.Intersect( theList.Select( i => i.ImageID ) ).ToList();
-					}
+					theList.ForEach( delegate( int imgId )
+						{
+							termImageList[imgId] = (termImageList.Keys.Contains( imgId ) ? termImageList[imgId] : 0) | (int)Math.Pow( 2, term.idxWord );
+						} );
 				}
 
-				imgList = imgList.Where( i => termImageList.Contains( i.ImageID ) );
+				int rightAnswer = ((int)Math.Pow( 2, (termList.Select( t => t.idxWord ).Max() + 1) ) - 1);
+				var imageIdList = termImageList.Keys.Where( i => termImageList[i] == rightAnswer );
+
+				imgList = imgList.Where( i => imageIdList.Contains( i.ImageID ) );
 			}
 
 			gallery.FilteredImageCount = imgList.Count();
@@ -335,30 +335,31 @@ namespace PWDRepositories
 		{
 			var termList = SearchText.GetSearchList( searchText );
 
-			List<ImageFile> results = null;
 			var imageTypeList = ImageFile.ImageTypes.Where( i => i.CanLightbox )
 					.Select( iType => iType.Abbreviation );
 
+			Dictionary<int, int> termImageList = new Dictionary<int,int>();
 			foreach( var term in termList )
 			{
 				var theList = database.ImageFiles
-					.Where( imgFile => imageTypeList.Any( it => it == imgFile.ImageType ) )
-					.Where( s => s.DBKeywords.Contains( term ) )
-					.Distinct()
+					.Where( s => s.DBKeywords.Contains( term.searchText ) )
+					.Select( i => i.ImageID )
 					.ToList();
 
-				if( results == null )
+				theList.ForEach( delegate( int imgId )
 				{
-					results = theList;
-				}
-				else
-				{
-					results = results.Intersect( theList ).ToList();
-				}
+					termImageList[imgId] = (termImageList.Keys.Contains( imgId ) ? termImageList[imgId] : 0) | (int)Math.Pow(2, term.idxWord);
+				} );
 			}
 
-			return results
+			int rightAnswer = ((int)Math.Pow(2, (termList.Select( t => t.idxWord ).Max() + 1)) - 1);
+			var imageIdList = termImageList.Keys.Where( i => termImageList[i] == rightAnswer );
+
+			return database.ImageFiles
+				.Where( imgFile => imageTypeList.Any( it => it == imgFile.ImageType ) )
+				.Where( i => imageIdList.Contains( i.ImageID ) )				
 				.Distinct()
+				.ToList()
 				.Select( img => ToImageListSummary( img ) );
 		}
 

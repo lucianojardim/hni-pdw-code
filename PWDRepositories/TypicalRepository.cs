@@ -30,24 +30,24 @@ namespace PWDRepositories
 			{
 				var termList = SearchText.GetSearchList( keywords );
 
-				List<int> termImageList = null;
+				Dictionary<int, int> termTypicalList = new Dictionary<int, int>();
 				foreach( var term in termList )
 				{
-					var filteredList = database.Typicals
-						.Where( s => s.DBKeywords.Contains( term ) )
+					var searchList = database.Typicals
+						.Where( s => s.DBKeywords.Contains( term.searchText ) )
+						.Select( i => i.TypicalID )
 						.ToList();
 
-					if( termImageList == null )
+					searchList.ForEach( delegate( int typId )
 					{
-						termImageList = filteredList.Select( i => i.TypicalID ).ToList();
-					}
-					else
-					{
-						termImageList = termImageList.Intersect( filteredList.Select( i => i.TypicalID ) ).ToList();
-					}
+						termTypicalList[typId] = (termTypicalList.Keys.Contains( typId ) ? termTypicalList[typId] : 0) | (int)Math.Pow( 2, term.idxWord );
+					} );
 				}
 
-				theList = theList.Where( i => termImageList.Contains( i.TypicalID ) );
+				int rightAnswer = ((int)Math.Pow( 2, (termList.Select( t => t.idxWord ).Max() + 1) ) - 1);
+				var typicalIdList = termTypicalList.Keys.Where( i => termTypicalList[i] == rightAnswer );
+
+				theList = theList.Where( i => typicalIdList.Contains( i.TypicalID ) );
 			}
 			if( (category ?? "").Any() )
 			{
@@ -107,34 +107,41 @@ namespace PWDRepositories
 		{
 			var termList = SearchText.GetSearchList( searchText );
 
-			List<Typical> results = null;
 			int theSeriesID = 0;
+
+			Dictionary<int, int> termTypicalList = new Dictionary<int, int>();
+			foreach( var term in termList )
+			{
+				var searchList = database.Typicals
+					.Where( s => s.DBKeywords.Contains( term.searchText ) )
+					.Select( i => i.TypicalID )
+					.ToList();
+
+				searchList.ForEach( delegate( int typId )
+				{
+					termTypicalList[typId] = (termTypicalList.Keys.Contains( typId ) ? termTypicalList[typId] : 0) | (int)Math.Pow( 2, term.idxWord );
+				} );
+			}
+
+			int rightAnswer = ((int)Math.Pow( 2, (termList.Select( t => t.idxWord ).Max() + 1) ) - 1);
+			var typicalIdList = termTypicalList.Keys.Where( i => termTypicalList[i] == rightAnswer );
+
+			var typicalList = database.Typicals
+				.Where( t => typicalIdList.Contains( t.TypicalID ) )
+				.Distinct()
+				.ToList();
 
 			foreach( var term in termList )
 			{
-				var theList = database.Typicals
-					.Where( t => t.DBKeywords.Contains( term ) )
-					.Distinct()
-					.ToList();
-
-				if( results == null )
-				{
-					results = theList;
-				}
-				else
-				{
-					results = results.Intersect( theList ).ToList();
-				}
-
-				var theSeries = results.SelectMany( t => t.SeriesTypicals ).FirstOrDefault( st => st.Series.Name.IndexOf( term, 0, StringComparison.OrdinalIgnoreCase ) >= 0 );
-				if( (theSeries != null) && (theSeriesID == 0 ) )
+				var theSeries = typicalList.SelectMany( t => t.SeriesTypicals ).FirstOrDefault( st => st.Series.Name.IndexOf( term.searchText, 0, StringComparison.OrdinalIgnoreCase ) >= 0 );
+				if( (theSeries != null) && (theSeriesID == 0) )
 				{
 					theSeriesID = theSeries.SeriesID;
+					break;
 				}
 			}
 
-			var returnList = results
-				.Distinct()
+			var returnList = typicalList
 				.Select( t => ToTypicalListData( t ) )
 				.ToList();
 
@@ -156,24 +163,24 @@ namespace PWDRepositories
 			{
 				var termList = SearchText.GetSearchList( keywords );
 
-				List<int> termImageList = null;
+				Dictionary<int, int> termTypicalList = new Dictionary<int, int>();
 				foreach( var term in termList )
 				{
-					var filteredList = database.Typicals
-						.Where( s => s.DBKeywords.Contains( term ) )
+					var searchList = database.Typicals
+						.Where( s => s.DBKeywords.Contains( term.searchText ) )
+						.Select( i => i.TypicalID )
 						.ToList();
 
-					if( termImageList == null )
+					searchList.ForEach( delegate( int typId )
 					{
-						termImageList = filteredList.Select( i => i.TypicalID ).ToList();
-					}
-					else
-					{
-						termImageList = termImageList.Intersect( filteredList.Select( i => i.TypicalID ) ).ToList();
-					}
+						termTypicalList[typId] = (termTypicalList.Keys.Contains( typId ) ? termTypicalList[typId] : 0) | (int)Math.Pow( 2, term.idxWord );
+					} );
 				}
 
-				theList = theList.Where( i => termImageList.Contains( i.TypicalID ) );
+				int rightAnswer = ((int)Math.Pow( 2, (termList.Select( t => t.idxWord ).Max() + 1) ) - 1);
+				var typicalIdList = termTypicalList.Keys.Where( i => termTypicalList[i] == rightAnswer );
+
+				theList = theList.Where( i => typicalIdList.Contains( i.TypicalID ) );
 			}
 			if( (category ?? "").Any() )
 			{
@@ -255,24 +262,24 @@ namespace PWDRepositories
 			{
 				var termList = SearchText.GetSearchList( keywords );
 
-				List<int> termImageList = null;
+				Dictionary<int, int> termTypicalList = new Dictionary<int, int>();
 				foreach( var term in termList )
 				{
-					var filteredList = database.Typicals
-						.Where( s => s.DBKeywords.Contains( term ) )
+					var searchList = database.Typicals
+						.Where( s => s.DBKeywords.Contains( term.searchText ) )
+						.Select( i => i.TypicalID )
 						.ToList();
 
-					if( termImageList == null )
+					searchList.ForEach( delegate( int typId )
 					{
-						termImageList = filteredList.Select( i => i.TypicalID ).ToList();
-					}
-					else
-					{
-						termImageList = termImageList.Intersect( filteredList.Select( i => i.TypicalID ) ).ToList();
-					}
+						termTypicalList[typId] = (termTypicalList.Keys.Contains( typId ) ? termTypicalList[typId] : 0) | (int)Math.Pow( 2, term.idxWord );
+					} );
 				}
 
-				theList = theList.Where( i => termImageList.Contains( i.TypicalID ) );
+				int rightAnswer = ((int)Math.Pow( 2, (termList.Select( t => t.idxWord ).Max() + 1) ) - 1);
+				var typicalIdList = termTypicalList.Keys.Where( i => termTypicalList[i] == rightAnswer );
+
+				theList = theList.Where( i => typicalIdList.Contains( i.TypicalID ) );
 			}
 			if( (category ?? "").Any() )
 			{
