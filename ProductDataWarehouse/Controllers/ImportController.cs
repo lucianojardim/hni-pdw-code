@@ -50,54 +50,35 @@ namespace ProductDataWarehouse.Controllers
 
 		[HttpPost]
 		[Authorize]
-		public ActionResult Index( HttpPostedFileBase csvFile )
+		public ActionResult Index( HttpPostedFileBase csvFile, HttpPostedFileBase typicalFile )
 		{
 			if( ModelState.IsValid )
 			{
-				try
+				if( csvFile != null && typicalFile != null )
 				{
-					ImportRepository iRepo = new ImportRepository();
-
-					iRepo.ImportFileData( csvFile.InputStream, csvFile.ContentLength );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
+					try
 					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
+						ImportRepository iRepo = new ImportRepository();
+
+						iRepo.ImportFileData( csvFile.InputStream, csvFile.ContentLength );
+						iRepo.ImportTypicalFileData( typicalFile.InputStream, typicalFile.ContentLength );
 					}
+					catch( Exception ex )
+					{
+						ModelState.AddModelError( "", ex.Message );
+						if( ex.InnerException != null )
+						{
+							ModelState.AddModelError( "", ex.InnerException.Message );
+						}
+					}
+				}
+				else
+				{
+					ModelState.AddModelError( "", "Both files are required to upload new data." );
 				}
 			}
 
 			return View();
-		}
-
-		[HttpPost]
-		[Authorize]
-		public ActionResult Typicals( HttpPostedFileBase typicalFile )
-		{
-			if( ModelState.IsValid )
-			{
-				try
-				{
-					ImportRepository iRepo = new ImportRepository();
-
-					iRepo.ImportTypicalFileData( typicalFile.InputStream, typicalFile.ContentLength );
-
-					return RedirectToAction( "Index" );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
-			}
-
-			return View( viewName: "Index" );
 		}
 
 		[Authorize]

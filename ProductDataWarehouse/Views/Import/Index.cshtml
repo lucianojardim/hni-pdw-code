@@ -23,26 +23,20 @@
 </script>
 
     <div style="border:1px solid gray; padding:10px; margin:20px 0px;">
-    <h2>Import PDW File</h2>
+    <h2>Import PDW Data</h2>
 
     @using( Html.BeginForm( "Index", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
     {
-        @Html.Label( "File Name: " )<input type="file" name="csvFile" data-val-required="The File Name is a required field." data-val="true" /><br />
+        @Html.Label( "PDW File Name: " )<input type="file" name="csvFile" data-val-required="The File Name is a required field." data-val="true" /><br />
+        @Html.Label( "Typical File Name: " )<input type="file" name="typicalFile" data-val-required="The File Name is a required field." data-val="true" style="margin-top:10px;" /><br />
 @Html.ValidationSummary()
-        <input type="submit" value="Import PDW" />
+        <input type="submit" value="Import" style="margin-top:10px;" onclick="$('#inProgress').show();" />
     }
+    <div style="display:none;margin-top:25px;" id="inProgress">
+        <img src="@Url.Content("~/Content/Images/baprogress.gif")" alt="" style="display:inline;"/>&nbsp;<span>Importing...</span>
+    </div>
     </div>
 
-    <div style="border:1px solid gray; padding:10px; margin:20px 0px;">
-    <h2>Import Typical File</h2>
-
-    @using( Html.BeginForm( "Typicals", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
-    {
-        @Html.Label( "File Name: " )<input type="file" name="typicalFile" data-val-required="The File Name is a required field." data-val="true" /><br />
-@Html.ValidationSummary()
-        <input type="submit" value="Import Typicals" />
-    }
-    </div>
 <!--
 <input type="button" onclick="DoAjaxCall();" value="Test Cross Domain" />
 -->
