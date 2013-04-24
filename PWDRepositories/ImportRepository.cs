@@ -158,6 +158,7 @@ namespace PWDRepositories
 						case "leed sheet":
 						case "control guide":
 						case "brochure file name":
+						case "keywords":
 							if( (val ?? "").Any() )
 							{
 								var attData = database.Attributes.FirstOrDefault( a => a.Name == header );
@@ -315,6 +316,7 @@ namespace PWDRepositories
 						case "casegood application":
 						case "table application":
 						case "seating application":
+						case "keywords":
 							arrKeywordList.Add( val.ToLower() );
 							break;
 					}
@@ -469,6 +471,7 @@ namespace PWDRepositories
 						case "spec & price pdf":
 						case "drawing dwg":
 						case "drawing pdf":
+						case "keywords":
 							if( (val ?? "").Any() )
 							{
 								var attData = database.TAttributes.FirstOrDefault( a => a.Name == header );
@@ -536,6 +539,7 @@ namespace PWDRepositories
 						case "category":
 						case "typical name":
 						case "other series shown":
+						case "keywords":
 							arrKeywordList.Add( val.ToLower() );
 							break;
 					}
@@ -595,7 +599,8 @@ namespace PWDRepositories
 				"Table Application",
 				"Seating Application",
 				"Value Statement Headline",
-				"Marketing Statement Subheadline"
+				"Marketing Statement Subheadline",
+				"Keywords"
 			};
 
 			foreach( var s in database.Serieses )
@@ -613,7 +618,8 @@ namespace PWDRepositories
 			}
 
 			List<string> arrTypicalAttributes = new List<string>() { 
-				"Other Series Shown"
+				"Other Series Shown",
+				"Keywords"
 			};
 
 			foreach( var t in database.Typicals )
