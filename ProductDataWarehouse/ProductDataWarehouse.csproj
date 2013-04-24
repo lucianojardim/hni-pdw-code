@@ -99,6 +99,7 @@
     <Content Include="Content\images\back_disabled.png" />
     <Content Include="Content\images\back_enabled.png" />
     <Content Include="Content\images\back_enabled_hover.png" />
+    <Content Include="Content\images\baprogress.gif" />
     <Content Include="Content\images\favicon.ico" />
     <Content Include="Content\images\forward_disabled.png" />
     <Content Include="Content\images\forward_enabled.png" />

@@ -92,5 +92,8 @@ else
         @Html.LabelFor( m => m.FinishType ): @Html.DropDownListFor( m => m.FinishType, ImportController.GetFinishTypeList() )<br />
         @Html.LabelFor( m => m.FinishSubType ): @Html.DropDownListFor( m => m.FinishSubType, ImportController.GetFinishSubTypeList() )<br /></span>
 @Html.ValidationSummary()
-        <input type="submit" value="Import" />
+        <input type="submit" value="Import" onclick="$('#inProgress').show();" />
     }
+    <div style="display:none;margin-top:25px;" id="inProgress">
+        <img src="@Url.Content("~/Content/Images/baprogress.gif")" alt="" style="display:inline;"/>&nbsp;<span>Uploading...</span>
+    </div>
