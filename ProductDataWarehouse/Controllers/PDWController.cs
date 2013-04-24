@@ -50,13 +50,13 @@ namespace ProductDataWarehouse.Controllers
 			};
         }
 
-		public JsonpResult GetTypicalList( string category, int? seriesId, string footprints, string keywords,
+		public JsonpResult GetTypicalList( string category, int? seriesId, string fpLength, string fpWidth, string keywords,
 			int? minPrice, int? maxPrice,
 			string sortBy, int? pageNum = 1, int? pageSize = 28 )
 		{
 			TypicalRepository tRepo = new TypicalRepository();
 
-			var theList = tRepo.GetTypicalData( category, seriesId, footprints, keywords,
+			var theList = tRepo.GetTypicalData( category, seriesId, fpLength, fpWidth, keywords,
 				minPrice, maxPrice,
 				sortBy, pageNum.Value, pageSize.Value );
 
@@ -67,13 +67,13 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
-		public JsonpResult GetTypicalDetailList( string category, int? seriesId, string footprints, string keywords,
+		public JsonpResult GetTypicalDetailList( string category, int? seriesId, string fpLength, string fpWidth, string keywords,
 			int? minPrice, int? maxPrice,
 			string sortBy, int? pageNum = 1, int? pageSize = 28 )
 		{
 			TypicalRepository tRepo = new TypicalRepository();
 
-			var theList = tRepo.GetTypicalDetailData( category, seriesId, footprints, keywords,
+			var theList = tRepo.GetTypicalDetailData( category, seriesId, fpLength, fpWidth, keywords,
 				minPrice, maxPrice,
 				sortBy, pageNum.Value, pageSize.Value );
 
@@ -84,13 +84,13 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
-		public JsonpResult GetTypicalCoverList( string category, int? seriesId, string footprints, string keywords,
+		public JsonpResult GetTypicalCoverList( string category, int? seriesId, string fpLength, string fpWidth, string keywords,
 			int? minPrice, int? maxPrice,
 			string sortBy, int? typicalId, string itemList )
 		{
 			TypicalRepository tRepo = new TypicalRepository();
 
-			var theList = tRepo.GetTypicalCoverData( category, seriesId, footprints, keywords,
+			var theList = tRepo.GetTypicalCoverData( category, seriesId, fpLength, fpWidth, keywords,
 				minPrice, maxPrice,
 				sortBy, typicalId, itemList );
 
@@ -468,9 +468,9 @@ namespace ProductDataWarehouse.Controllers
 		public static IEnumerable<APIDefinition> APIDefinitions = new List<APIDefinition>()
 		{
 			new APIDefinition() { url = "/PDW/GetSeriesList", parameters = "{\"category\":\"\"}", notes = "category is optional" },
-			new APIDefinition() { url = "/PDW/GetTypicalList", parameters = "{\"category\":\"\",\"seriesId\":0,\"footprints\":\"\",\"minPrice\":0,\"maxPrice\":0,\"sortBy\":\"\",\"pageNum\":0,\"pageSize\":0,}", notes = "all fields are optional" },
-			new APIDefinition() { url = "/PDW/GetTypicalDetailList", parameters = "{\"category\":\"\",\"seriesId\":0,\"footprints\":\"\",\"minPrice\":0,\"maxPrice\":0,\"sortBy\":\"\",\"pageNum\":0,\"pageSize\":0,}", notes = "all fields are optional" },
-			new APIDefinition() { url = "/PDW/GetTypicalCoverList", parameters = "{\"category\":\"\",\"seriesId\":0,\"footprints\":\"\",\"minPrice\":0,\"maxPrice\":0,\"sortBy\":\"\",\"typicalId\":0,\"itemList\":\"\",}", notes = "all fields are optional" },
+			new APIDefinition() { url = "/PDW/GetTypicalList", parameters = "{\"category\":\"\",\"seriesId\":0,\"fpLength\":\"\",\"fpWidth\":\"\",\"minPrice\":0,\"maxPrice\":0,\"sortBy\":\"\",\"pageNum\":0,\"pageSize\":0}", notes = "all fields are optional" },
+			new APIDefinition() { url = "/PDW/GetTypicalDetailList", parameters = "{\"category\":\"\",\"seriesId\":0,\"fpLength\":\"\",\"fpWidth\":\"\",\"minPrice\":0,\"maxPrice\":0,\"sortBy\":\"\",\"pageNum\":0,\"pageSize\":0}", notes = "all fields are optional" },
+			new APIDefinition() { url = "/PDW/GetTypicalCoverList", parameters = "{\"category\":\"\",\"seriesId\":0,\"fpLength\":\"\",\"fpWidth\":\"\",\"minPrice\":0,\"maxPrice\":0,\"sortBy\":\"\",\"typicalId\":0,\"itemList\":\"\"}", notes = "all fields are optional" },
 			new APIDefinition() { url = "/PDW/GetSeriesNameList", parameters = "{\"category\":\"\"}", notes = "category is optional" },
 			new APIDefinition() { url = "/PDW/GetSeriesNameListWithTypicals", parameters = "" },
 			new APIDefinition() { url = "/PDW/GetOptionList", parameters = "{\"attr\":\"\"" },
@@ -482,8 +482,8 @@ namespace ProductDataWarehouse.Controllers
 			new APIDefinition() { url = "/PDW/GetTypicalInfoByName", parameters = "{\"typicalName\":\"\"}" },
 			new APIDefinition() { url = "/PDW/GetFullSeriesImageList", parameters = "{\"id\":0}" },
 			new APIDefinition() { url = "/PDW/GetImageFormatList", parameters = "" },
-			new APIDefinition() { url = "/PDW/GetImageThumbnailList", parameters = "{\"categories\":\"\",\"seriesId\":0,\"imageTypes\":\"\",\"keywords\":\"\",\"sortBy\":\"\",\"pageNum\":0,\"pageSize\":0,}", notes = "all fields are optional" },
-			new APIDefinition() { url = "/PDW/GetImageDetailList", parameters = "{\"categories\":\"\",\"seriesId\":0,\"imageTypes\":\"\",\"keywords\":\"\",\"sortBy\":\"\",\"pageNum\":0,\"pageSize\":0,}", notes = "all fields are optional" },
+			new APIDefinition() { url = "/PDW/GetImageThumbnailList", parameters = "{\"categories\":\"\",\"seriesId\":0,\"imageTypes\":\"\",\"keywords\":\"\",\"sortBy\":\"\",\"pageNum\":0,\"pageSize\":0}", notes = "all fields are optional" },
+			new APIDefinition() { url = "/PDW/GetImageDetailList", parameters = "{\"categories\":\"\",\"seriesId\":0,\"imageTypes\":\"\",\"keywords\":\"\",\"sortBy\":\"\",\"pageNum\":0,\"pageSize\":0}", notes = "all fields are optional" },
 			new APIDefinition() { url = "/PDW/GetImageDetailInfo", parameters = "{\"imageId\":0}" },
 			new APIDefinition() { url = "/PDW/SearchSeries", parameters = "{\"searchText\":\"\"}" },
 			new APIDefinition() { url = "/PDW/SearchImages", parameters = "{\"searchText\":\"\"}" },

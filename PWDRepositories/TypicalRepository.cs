@@ -17,7 +17,7 @@ namespace PWDRepositories
 		{
 		}
 
-		public TypicalDetailListGallery GetTypicalDetailData( string category, int? seriesId, string footprints, string keywords,
+		public TypicalDetailListGallery GetTypicalDetailData( string category, int? seriesId, string fpLength, string fpWidth, string keywords,
 			int? minPrice, int? maxPrice,
 			string sortBy, int pageNum, int pageSize )
 		{
@@ -57,10 +57,34 @@ namespace PWDRepositories
 			{
 				theList = theList.Where( s => s.SeriesTypicals.Any( s1 => s1.SeriesID == seriesId.Value ) );
 			}
-			if( (footprints ?? "").Any() )
+			if( (fpLength ?? "").Any() && (fpWidth ?? "").Any() )
 			{
-				var fpList = footprints.Split( ',' ).Select( int.Parse );
-				theList = theList.Where( s => fpList.Contains( s.TypicalOptionAttributes.FirstOrDefault( a => a.TAttribute.Name == "Footprint" ).OptionID ) );
+				int nLength = 0, nWidth = 0;
+				if( int.TryParse( fpLength, out nLength ) && int.TryParse( fpWidth, out nWidth ) )
+				{
+					List<int> fpList = new List<int>();
+					var fpAttribute = database.TAttributes.FirstOrDefault( a => a.Name == "Footprint" );
+					if( fpAttribute != null )
+					{
+						foreach( var tOption in fpAttribute.TypicalOptionAttributes )
+						{
+							var dimList = tOption.TAttributeOption.Name.Split( 'x' );
+							if( dimList.Count() == 2 )
+							{
+								int nDim1 = 0, nDim2 = 0;
+								if( int.TryParse( dimList[0], out nDim1 ) && int.TryParse( dimList[1], out nDim2 ) )
+								{
+									if( ((nLength >= nDim1) && (nWidth >= nDim2)) ||
+										((nLength >= nDim2) && (nWidth >= nDim1)) )
+									{
+										fpList.Add( tOption.OptionID );
+									}
+								}
+							}
+						}
+					}
+					theList = theList.Where( s => fpList.Contains( s.TypicalOptionAttributes.FirstOrDefault( a => a.TAttribute.Name == "Footprint" ).OptionID ) );
+				}
 			}
 			if( minPrice.HasValue )
 			{
@@ -150,7 +174,7 @@ namespace PWDRepositories
 			return returnList;
 		}
 
-		public TypicalListGallery GetTypicalData( string category, int? seriesId, string footprints, string keywords,
+		public TypicalListGallery GetTypicalData( string category, int? seriesId, string fpLength, string fpWidth, string keywords,
 			int? minPrice, int? maxPrice, 
 			string sortBy, int pageNum, int pageSize )
 		{
@@ -190,10 +214,34 @@ namespace PWDRepositories
 			{
 				theList = theList.Where( s => s.SeriesTypicals.Any( s1 => s1.SeriesID == seriesId.Value ) );
 			}
-			if( (footprints ?? "").Any() )
+			if( (fpLength ?? "").Any() && (fpWidth ?? "").Any() )
 			{
-				var fpList = footprints.Split( ',' ).Select( int.Parse );
-				theList = theList.Where( s => fpList.Contains( s.TypicalOptionAttributes.FirstOrDefault( a => a.TAttribute.Name == "Footprint" ).OptionID ) );
+				int nLength = 0, nWidth = 0;
+				if( int.TryParse( fpLength, out nLength ) && int.TryParse( fpWidth, out nWidth ) )
+				{
+					List<int> fpList = new List<int>();
+					var fpAttribute = database.TAttributes.FirstOrDefault( a => a.Name == "Footprint" );
+					if( fpAttribute != null )
+					{
+						foreach( var tOption in fpAttribute.TypicalOptionAttributes )
+						{
+							var dimList = tOption.TAttributeOption.Name.Split( 'x' );
+							if( dimList.Count() == 2 )
+							{
+								int nDim1 = 0, nDim2 = 0;
+								if( int.TryParse( dimList[0], out nDim1 ) && int.TryParse( dimList[1], out nDim2 ) )
+								{
+									if( ((nLength >= nDim1) && (nWidth >= nDim2)) ||
+										((nLength >= nDim2) && (nWidth >= nDim1)) )
+									{
+										fpList.Add( tOption.OptionID );
+									}
+								}
+							}
+						}
+					}
+					theList = theList.Where( s => fpList.Contains( s.TypicalOptionAttributes.FirstOrDefault( a => a.TAttribute.Name == "Footprint" ).OptionID ) );
+				}
 			}
 			if( minPrice.HasValue )
 			{
@@ -239,7 +287,7 @@ namespace PWDRepositories
 				};
 		}
 
-		public TypicalListGallery GetTypicalCoverData( string category, int? seriesId, string footprints, string keywords,
+		public TypicalListGallery GetTypicalCoverData( string category, int? seriesId, string fpLength, string fpWidth, string keywords,
 			int? minPrice, int? maxPrice,
 			string sortBy, int? typicalId, string itemList )
 		{
@@ -289,10 +337,34 @@ namespace PWDRepositories
 			{
 				theList = theList.Where( s => s.SeriesTypicals.Any( s1 => s1.SeriesID == seriesId.Value ) );
 			}
-			if( (footprints ?? "").Any() )
+			if( (fpLength ?? "").Any() && (fpWidth ?? "").Any() )
 			{
-				var fpList = footprints.Split( ',' ).Select( int.Parse );
-				theList = theList.Where( s => fpList.Contains( s.TypicalOptionAttributes.FirstOrDefault( a => a.TAttribute.Name == "Footprint" ).OptionID ) );
+				int nLength = 0, nWidth = 0;
+				if( int.TryParse( fpLength, out nLength ) && int.TryParse( fpWidth, out nWidth ) )
+				{
+					List<int> fpList = new List<int>();
+					var fpAttribute = database.TAttributes.FirstOrDefault( a => a.Name == "Footprint" );
+					if( fpAttribute != null )
+					{
+						foreach( var tOption in fpAttribute.TypicalOptionAttributes )
+						{
+							var dimList = tOption.TAttributeOption.Name.Split( 'x' );
+							if( dimList.Count() == 2 )
+							{
+								int nDim1 = 0, nDim2 = 0;
+								if( int.TryParse( dimList[0], out nDim1 ) && int.TryParse( dimList[1], out nDim2 ) )
+								{
+									if( ((nLength >= nDim1) && (nWidth >= nDim2)) ||
+										((nLength >= nDim2) && (nWidth >= nDim1)) )
+									{
+										fpList.Add( tOption.OptionID );
+									}
+								}
+							}
+						}
+					}
+					theList = theList.Where( s => fpList.Contains( s.TypicalOptionAttributes.FirstOrDefault( a => a.TAttribute.Name == "Footprint" ).OptionID ) );
+				}
 			}
 			if( minPrice.HasValue )
 			{
