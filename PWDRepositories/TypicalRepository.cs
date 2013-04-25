@@ -157,7 +157,13 @@ namespace PWDRepositories
 
 			foreach( var term in termList )
 			{
-				var theSeries = typicalList.SelectMany( t => t.SeriesTypicals ).FirstOrDefault( st => st.Series.Name.IndexOf( term.searchText, 0, StringComparison.OrdinalIgnoreCase ) >= 0 );
+				var theSeries = typicalList.SelectMany( t => t.SeriesTypicals ).FirstOrDefault( st => st.Series.Name.IndexOf( term.searchText.TrimStart( ' ' ), 0, StringComparison.OrdinalIgnoreCase ) >= 0 );
+				if( (theSeries != null) && (theSeriesID == 0) )
+				{
+					theSeriesID = theSeries.SeriesID;
+					break;
+				}
+				theSeries = typicalList.SelectMany( t => t.SeriesTypicals ).FirstOrDefault( st => st.Series.Name.IndexOf( term.searchText.Trim(), 0, StringComparison.OrdinalIgnoreCase ) >= 0 );
 				if( (theSeries != null) && (theSeriesID == 0) )
 				{
 					theSeriesID = theSeries.SeriesID;
@@ -433,8 +439,12 @@ namespace PWDRepositories
 			{
 				tInfo.TypicalID = theData.TypicalID;
 				tInfo.Name = theData.Name;
-				tInfo.Category = theData.SeriesTypicals.FirstOrDefault( st => st.IsPrimary ).Series.Category.Name;
-				tInfo.Series = theData.SeriesTypicals.FirstOrDefault( st => st.IsPrimary ).Series.Name;
+				var serTypical = theData.SeriesTypicals.FirstOrDefault( st => st.IsPrimary );
+				if( serTypical != null )
+				{
+					tInfo.Category = serTypical.Series.Category.Name;
+					tInfo.Series = serTypical.Series.Name;
+				}
 				tInfo.FeaturedImageFileData = theData.FeaturedImageForSize( "l16to9" );
 				tInfo.Images = theData.ImageListForSize( "m16to9", 3 ).Select( i => (ImageComboItem)i );
 				tInfo.Options = new Dictionary<string, IEnumerable<string>>();
