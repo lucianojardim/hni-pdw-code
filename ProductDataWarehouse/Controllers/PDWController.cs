@@ -50,13 +50,13 @@ namespace ProductDataWarehouse.Controllers
 			};
         }
 
-		public JsonpResult GetTypicalList( string category, int? seriesId, string fpLength, string fpWidth, string keywords,
+		public JsonpResult GetTypicalList( string category, int? seriesId, string fpSize, string keywords,
 			int? minPrice, int? maxPrice,
 			string sortBy, int? pageNum = 1, int? pageSize = 28 )
 		{
 			TypicalRepository tRepo = new TypicalRepository();
 
-			var theList = tRepo.GetTypicalData( category, seriesId, fpLength, fpWidth, keywords,
+			var theList = tRepo.GetTypicalData( category, seriesId, fpSize, keywords,
 				minPrice, maxPrice,
 				sortBy, pageNum.Value, pageSize.Value );
 
@@ -67,13 +67,13 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
-		public JsonpResult GetTypicalDetailList( string category, int? seriesId, string fpLength, string fpWidth, string keywords,
+		public JsonpResult GetTypicalDetailList( string category, int? seriesId, string fpSize, string keywords,
 			int? minPrice, int? maxPrice,
 			string sortBy, int? pageNum = 1, int? pageSize = 28 )
 		{
 			TypicalRepository tRepo = new TypicalRepository();
 
-			var theList = tRepo.GetTypicalDetailData( category, seriesId, fpLength, fpWidth, keywords,
+			var theList = tRepo.GetTypicalDetailData( category, seriesId, fpSize, keywords,
 				minPrice, maxPrice,
 				sortBy, pageNum.Value, pageSize.Value );
 
@@ -84,13 +84,13 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
-		public JsonpResult GetTypicalCoverList( string category, int? seriesId, string fpLength, string fpWidth, string keywords,
+		public JsonpResult GetTypicalCoverList( string category, int? seriesId, string fpSize, string keywords,
 			int? minPrice, int? maxPrice,
 			string sortBy, int? typicalId, string itemList )
 		{
 			TypicalRepository tRepo = new TypicalRepository();
 
-			var theList = tRepo.GetTypicalCoverData( category, seriesId, fpLength, fpWidth, keywords,
+			var theList = tRepo.GetTypicalCoverData( category, seriesId, fpSize, keywords,
 				minPrice, maxPrice,
 				sortBy, typicalId, itemList );
 

@@ -17,7 +17,7 @@ namespace PWDRepositories
 		{
 		}
 
-		public TypicalDetailListGallery GetTypicalDetailData( string category, int? seriesId, string fpLength, string fpWidth, string keywords,
+		public TypicalDetailListGallery GetTypicalDetailData( string category, int? seriesId, string fpSize, string keywords,
 			int? minPrice, int? maxPrice,
 			string sortBy, int pageNum, int pageSize )
 		{
@@ -57,33 +57,40 @@ namespace PWDRepositories
 			{
 				theList = theList.Where( s => s.SeriesTypicals.Any( s1 => s1.SeriesID == seriesId.Value ) );
 			}
-			if( (fpLength ?? "").Any() && (fpWidth ?? "").Any() )
+			if( (fpSize ?? "").Any() )
 			{
-				int nLength = 0, nWidth = 0;
-				if( int.TryParse( fpLength, out nLength ) && int.TryParse( fpWidth, out nWidth ) )
+				var userDimList = fpSize.Split( 'x' );
+				if( userDimList.Length == 2 )
 				{
-					List<int> fpList = new List<int>();
-					var fpAttribute = database.TAttributes.FirstOrDefault( a => a.Name == "Footprint" );
-					if( fpAttribute != null )
+					int nLength = 0, nWidth = 0;
+					if( int.TryParse( userDimList[0], out nLength ) && int.TryParse( userDimList[1], out nWidth ) )
 					{
-						foreach( var tOption in fpAttribute.TypicalOptionAttributes )
+						if( nLength > 0 && nWidth > 0 )
 						{
-							var dimList = tOption.TAttributeOption.Name.Split( 'x' );
-							if( dimList.Count() == 2 )
+							List<int> fpList = new List<int>();
+							var fpAttribute = database.TAttributes.FirstOrDefault( a => a.Name == "Footprint" );
+							if( fpAttribute != null )
 							{
-								int nDim1 = 0, nDim2 = 0;
-								if( int.TryParse( dimList[0], out nDim1 ) && int.TryParse( dimList[1], out nDim2 ) )
+								foreach( var tOption in fpAttribute.TypicalOptionAttributes )
 								{
-									if( ((nLength >= nDim1) && (nWidth >= nDim2)) ||
-										((nLength >= nDim2) && (nWidth >= nDim1)) )
+									var dimList = tOption.TAttributeOption.Name.Split( 'x' );
+									if( dimList.Count() == 2 )
 									{
-										fpList.Add( tOption.OptionID );
+										int nDim1 = 0, nDim2 = 0;
+										if( int.TryParse( dimList[0], out nDim1 ) && int.TryParse( dimList[1], out nDim2 ) )
+										{
+											if( ((nLength >= nDim1) && (nWidth >= nDim2)) ||
+												((nLength >= nDim2) && (nWidth >= nDim1)) )
+											{
+												fpList.Add( tOption.OptionID );
+											}
+										}
 									}
 								}
 							}
+							theList = theList.Where( s => fpList.Contains( s.TypicalOptionAttributes.FirstOrDefault( a => a.TAttribute.Name == "Footprint" ).OptionID ) );
 						}
 					}
-					theList = theList.Where( s => fpList.Contains( s.TypicalOptionAttributes.FirstOrDefault( a => a.TAttribute.Name == "Footprint" ).OptionID ) );
 				}
 			}
 			if( minPrice.HasValue )
@@ -180,7 +187,7 @@ namespace PWDRepositories
 			return returnList;
 		}
 
-		public TypicalListGallery GetTypicalData( string category, int? seriesId, string fpLength, string fpWidth, string keywords,
+		public TypicalListGallery GetTypicalData( string category, int? seriesId, string fpSize, string keywords,
 			int? minPrice, int? maxPrice, 
 			string sortBy, int pageNum, int pageSize )
 		{
@@ -220,33 +227,40 @@ namespace PWDRepositories
 			{
 				theList = theList.Where( s => s.SeriesTypicals.Any( s1 => s1.SeriesID == seriesId.Value ) );
 			}
-			if( (fpLength ?? "").Any() && (fpWidth ?? "").Any() )
+			if( (fpSize ?? "").Any() )
 			{
-				int nLength = 0, nWidth = 0;
-				if( int.TryParse( fpLength, out nLength ) && int.TryParse( fpWidth, out nWidth ) )
+				var userDimList = fpSize.Split( 'x' );
+				if( userDimList.Length == 2 )
 				{
-					List<int> fpList = new List<int>();
-					var fpAttribute = database.TAttributes.FirstOrDefault( a => a.Name == "Footprint" );
-					if( fpAttribute != null )
+					int nLength = 0, nWidth = 0;
+					if( int.TryParse( userDimList[0], out nLength ) && int.TryParse( userDimList[1], out nWidth ) )
 					{
-						foreach( var tOption in fpAttribute.TypicalOptionAttributes )
+						if( nLength > 0 && nWidth > 0 )
 						{
-							var dimList = tOption.TAttributeOption.Name.Split( 'x' );
-							if( dimList.Count() == 2 )
+							List<int> fpList = new List<int>();
+							var fpAttribute = database.TAttributes.FirstOrDefault( a => a.Name == "Footprint" );
+							if( fpAttribute != null )
 							{
-								int nDim1 = 0, nDim2 = 0;
-								if( int.TryParse( dimList[0], out nDim1 ) && int.TryParse( dimList[1], out nDim2 ) )
+								foreach( var tOption in fpAttribute.TypicalOptionAttributes )
 								{
-									if( ((nLength >= nDim1) && (nWidth >= nDim2)) ||
-										((nLength >= nDim2) && (nWidth >= nDim1)) )
+									var dimList = tOption.TAttributeOption.Name.Split( 'x' );
+									if( dimList.Count() == 2 )
 									{
-										fpList.Add( tOption.OptionID );
+										int nDim1 = 0, nDim2 = 0;
+										if( int.TryParse( dimList[0], out nDim1 ) && int.TryParse( dimList[1], out nDim2 ) )
+										{
+											if( ((nLength >= nDim1) && (nWidth >= nDim2)) ||
+												((nLength >= nDim2) && (nWidth >= nDim1)) )
+											{
+												fpList.Add( tOption.OptionID );
+											}
+										}
 									}
 								}
 							}
+							theList = theList.Where( s => fpList.Contains( s.TypicalOptionAttributes.FirstOrDefault( a => a.TAttribute.Name == "Footprint" ).OptionID ) );
 						}
 					}
-					theList = theList.Where( s => fpList.Contains( s.TypicalOptionAttributes.FirstOrDefault( a => a.TAttribute.Name == "Footprint" ).OptionID ) );
 				}
 			}
 			if( minPrice.HasValue )
@@ -293,7 +307,7 @@ namespace PWDRepositories
 				};
 		}
 
-		public TypicalListGallery GetTypicalCoverData( string category, int? seriesId, string fpLength, string fpWidth, string keywords,
+		public TypicalListGallery GetTypicalCoverData( string category, int? seriesId, string fpSize, string keywords,
 			int? minPrice, int? maxPrice,
 			string sortBy, int? typicalId, string itemList )
 		{
@@ -343,33 +357,40 @@ namespace PWDRepositories
 			{
 				theList = theList.Where( s => s.SeriesTypicals.Any( s1 => s1.SeriesID == seriesId.Value ) );
 			}
-			if( (fpLength ?? "").Any() && (fpWidth ?? "").Any() )
+			if( (fpSize ?? "").Any() )
 			{
-				int nLength = 0, nWidth = 0;
-				if( int.TryParse( fpLength, out nLength ) && int.TryParse( fpWidth, out nWidth ) )
+				var userDimList = fpSize.Split( 'x' );
+				if( userDimList.Length == 2 )
 				{
-					List<int> fpList = new List<int>();
-					var fpAttribute = database.TAttributes.FirstOrDefault( a => a.Name == "Footprint" );
-					if( fpAttribute != null )
+					int nLength = 0, nWidth = 0;
+					if( int.TryParse( userDimList[0], out nLength ) && int.TryParse( userDimList[1], out nWidth ) )
 					{
-						foreach( var tOption in fpAttribute.TypicalOptionAttributes )
+						if( nLength > 0 && nWidth > 0 )
 						{
-							var dimList = tOption.TAttributeOption.Name.Split( 'x' );
-							if( dimList.Count() == 2 )
+							List<int> fpList = new List<int>();
+							var fpAttribute = database.TAttributes.FirstOrDefault( a => a.Name == "Footprint" );
+							if( fpAttribute != null )
 							{
-								int nDim1 = 0, nDim2 = 0;
-								if( int.TryParse( dimList[0], out nDim1 ) && int.TryParse( dimList[1], out nDim2 ) )
+								foreach( var tOption in fpAttribute.TypicalOptionAttributes )
 								{
-									if( ((nLength >= nDim1) && (nWidth >= nDim2)) ||
-										((nLength >= nDim2) && (nWidth >= nDim1)) )
+									var dimList = tOption.TAttributeOption.Name.Split( 'x' );
+									if( dimList.Count() == 2 )
 									{
-										fpList.Add( tOption.OptionID );
+										int nDim1 = 0, nDim2 = 0;
+										if( int.TryParse( dimList[0], out nDim1 ) && int.TryParse( dimList[1], out nDim2 ) )
+										{
+											if( ((nLength >= nDim1) && (nWidth >= nDim2)) ||
+												((nLength >= nDim2) && (nWidth >= nDim1)) )
+											{
+												fpList.Add( tOption.OptionID );
+											}
+										}
 									}
 								}
 							}
+							theList = theList.Where( s => fpList.Contains( s.TypicalOptionAttributes.FirstOrDefault( a => a.TAttribute.Name == "Footprint" ).OptionID ) );
 						}
 					}
-					theList = theList.Where( s => fpList.Contains( s.TypicalOptionAttributes.FirstOrDefault( a => a.TAttribute.Name == "Footprint" ).OptionID ) );
 				}
 			}
 			if( minPrice.HasValue )
