@@ -62,6 +62,10 @@ namespace ProductDataWarehouse.Controllers
 
 						iRepo.ImportFileData( csvFile.InputStream, csvFile.ContentLength );
 						iRepo.ImportTypicalFileData( typicalFile.InputStream, typicalFile.ContentLength );
+
+						ViewBag.ImportSuccess = true;
+
+						return View();
 					}
 					catch( Exception ex )
 					{
