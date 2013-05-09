@@ -100,10 +100,14 @@
     <Content Include="Content\images\back_enabled.png" />
     <Content Include="Content\images\back_enabled_hover.png" />
     <Content Include="Content\images\baprogress.gif" />
+    <Content Include="Content\images\blueTop.png" />
     <Content Include="Content\images\favicon.ico" />
     <Content Include="Content\images\forward_disabled.png" />
     <Content Include="Content\images\forward_enabled.png" />
     <Content Include="Content\images\forward_enabled_hover.png" />
+    <Content Include="Content\images\input.png" />
+    <Content Include="Content\images\nav_bar_bg.png" />
+    <Content Include="Content\images\paoli_logo.png" />
     <Content Include="Content\images\sort_asc.png" />
     <Content Include="Content\images\sort_asc_disabled.png" />
     <Content Include="Content\images\sort_both.png" />

@@ -123,3 +123,71 @@ Header styles
     text-decoration: none;
     outline: medium none;
 }
+
+/*
+login styles
+*/
+
+#loginBox {
+    width: 522px;
+    margin: 150px auto;
+}
+
+#loginBox h2 {
+    font-size: 36px;
+    font-weight: bold;
+    color: rgb(45, 44, 44);
+    margin: 0px 0px 15px 5px;
+}
+
+#loginBox .box {
+	background: url('images/blueTop.png') repeat-x #fff;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px; 
+	border: 1px solid #c5c5c5;
+	-webkit-box-shadow: 0px 0px 2px 0px rgba(197, 197, 197, 30);
+	-moz-box-shadow: 0px 0px 2px 0px rgba(197, 197, 197, 30);
+	box-shadow: 0px 0px 2px 0px rgba(197, 197, 197, 30); 
+	padding: 30px 20px;
+	margin: 0;
+}
+
+.field {
+    margin: 15px 0px 0px;
+    overflow: hidden;
+}
+
+.textBox {
+    width: 431px;
+    height: 39px;
+    background: url("images/input.png") no-repeat scroll 0% 0% transparent;
+    border: medium none;
+    color: rgb(182, 180, 180);
+    font-size: 20px;
+    font-family: georgia,serif;
+    font-style: italic;
+    padding: 10px 25px;
+    line-height: 170%;
+}
+
+#loginSubmit {
+    margin: 25px 0px 0px;
+}
+
+#loginSubmit input {
+    float: left;
+    font: bold 18px/22px HelveticaBold,Tahoma,Geneva,sans-serif;
+    padding: 10px 25px 12px;
+}
+
+.btn_type1 {
+    background-color: rgb(38, 63, 106);
+    background-image: linear-gradient(rgb(33, 58, 116), rgb(43, 68, 126));
+    box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.2) inset;
+    text-shadow: 0px 0px 0px transparent, -1px -1px 0px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgb(26, 42, 68);
+    border-radius: 5px 5px 5px 5px;
+    color: white;
+    padding: 6px 9px;
+}

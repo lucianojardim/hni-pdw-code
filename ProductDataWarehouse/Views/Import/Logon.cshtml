@@ -3,11 +3,45 @@
     Layout = "~/Views/Shared/HeaderLayout.cshtml";
 }
 
-<h2>Logon</h2>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.usernameField').focus(function () {
+            if ($(this).val() == 'Username') {
+                $(this).val('');
 
+            }
+        }).blur(function () {
+            if ($(this).val() == '') {
+                $(this).val('Username');
+            }
+        });
+        $('.passwordField').focus(function () {
+            if ($(this).val() == 'Password') {
+                $(this).val('');
+
+            }
+        }).blur(function () {
+            if ($(this).val() == '') {
+                $(this).val('Password');
+            }
+        });
+    });
+</script>
+<div id="loginBox">
+	<h2>Login</h2>
+	<div class="box">
 @using( Html.BeginForm() )
 {
-    <text>Username:</text> <input type="text" name="userName" /><br />
-    <text>Password:</text> <input type="password" name="password" /><br />
-    <input type="submit" />
-}
+            @Html.ValidationSummary( "", new { @class = "form_errors" } )
+			<p class="field">
+            @Html.TextBox( "username", "Username", new { @class = "textBox usernameField" } )
+			</p>
+			<p class="field">
+            @Html.Password( "password", "Password", new { @class = "textBox passwordField", autocomplete = "off" } )
+			</p>
+			<p class="field" id="loginSubmit">
+				<input type='submit' class='btn_type1 left' value='Login'/>
+			</p>
+}	
+    </div>
+</div>
