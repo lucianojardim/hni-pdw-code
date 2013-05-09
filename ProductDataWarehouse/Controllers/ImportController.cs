@@ -24,6 +24,13 @@ namespace ProductDataWarehouse.Controllers
 			return View();
 		}
 
+		public ActionResult Logout()
+		{
+			FormsAuthentication.SignOut();
+			Session.Abandon();
+			return RedirectToAction( "Index" );
+		}
+
 		[HttpPost]
 		public ActionResult Logon( string userName, string password )
 		{

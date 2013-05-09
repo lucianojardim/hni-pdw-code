@@ -1,0 +1,44 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    function getPDWUrl() {
+        var hostName = window.location.hostname.toLowerCase();
+
+        if (hostName.indexOf('paoli-test01') >= 0)
+            return 'http://paoli-test01';
+        if (hostName.indexOf('jamesburnes') >= 0)
+            return 'http://paoli.jamesburnes.com';
+        if (hostName.indexOf('matt3400') >= 0)
+            return 'http://matt3400.wdd.local:8787';
+        if (hostName.indexOf('localhost') >= 0)
+            return 'http://matt3400.wdd.local:8787';
+        return 'http://www.paoli.com';
+    }
+
+    function clickCMSLink() {
+        window.open(getPDWUrl() + '/umbraco/umbraco.aspx');
+    }
+
+    $(document).ready(function () {
+        $('#cmsLink').click(clickCMSLink);
+    });
+</script>
+<div id="page_navigation">
+	<div class="wrapper">
+		<a href="/" id="logo"><img src="@Url.Content( "~/Content/images/paoli_logo.png" )"></a>
+        <ul id="nav">
+			@if( HttpContext.Current.User.Identity.IsAuthenticated )
+   {
+            <li><a href="@Url.Action( "Index" )">PDW Import</a></li>
+            <li><a href="@Url.Action( "Images" )">Image Engine</a></li>
+            <li><a href="@Url.Action( "Collateral" )">Collateral</a></li>
+   }
+            <li><a href="javascript:void(0);" id="cmsLink">CMS</a></li>
+        </ul>
+	</div>
+</div>
+<p style="padding-top:120px;"></p>
+<div class="wrapper p20">
+@RenderBody()
+</div>

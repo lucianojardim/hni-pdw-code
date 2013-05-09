@@ -1,5 +1,6 @@
 ﻿@{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/HeaderLayout.cshtml";
 }
 @using ProductDataWarehouse.Controllers
 <script type="text/javascript">
@@ -48,8 +49,6 @@
 <!--
 <input type="button" onclick="DoAjaxCall();" value="Test Cross Domain" />
 -->
-<a href="@Url.Action( "Images" )">Manage Images</a><br />
 <a href="@Url.Action( "SearchLog" )">Search Log</a><br />
-<a href="@Url.Action( "Collateral" )">Manage Collateral</a><br />
 <p id="ajaxResults"></p>
 

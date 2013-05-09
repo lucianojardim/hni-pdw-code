@@ -73,3 +73,53 @@ textarea
 {
     display: none;
 }
+
+/*
+Header styles
+*/
+#page_navigation{
+	background:url(images/nav_bar_bg.png) top left repeat-x;
+	padding:13px 0;
+	margin-top:20px;
+	position:fixed;
+	width:100%;
+	z-index:1000;
+	height:64px
+}
+
+.wrapper{margin:0 auto;width:1000px}
+.wrapper.p20 {
+    width: 960px;
+    padding: 0px 20px;
+}
+
+#logo{display:inline-block; float:left}	
+
+#nav{
+	float:right;
+	padding-top:15px;
+	*clear: none;
+	*margin-top: -50px;
+	list-style:none;
+	margin:0
+}
+#nav li{
+	float:left; padding-left:15px; margin-left:15px;
+	border-left:1px solid #c7c2ba;
+}
+#nav li:first-child{border:none}
+#nav .current_page a{color:#e3e0db;
+	font:16px adelle_sansbold;
+	padding-top:0
+}
+#nav a{color:#c7c2ba; padding-top:2px; display:block}
+#nav a:hover{color:#fff}
+
+#nav a{
+	clear: none;
+}
+
+#nav a:link, #nav a:visited {
+    text-decoration: none;
+    outline: medium none;
+}
