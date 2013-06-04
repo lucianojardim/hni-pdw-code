@@ -1,9 +1,11 @@
 body
 {
-    font-size: .85em;
-    font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
+    font-size: 14px;
+    font-family: adelle_sansregular,Arial,"Helvetica Neue",Helvetica,sans-serif;
     color: #232323;
     background-color: #fff;
+    padding: 0;
+    margin: 0;
 }
 
 header,
@@ -130,7 +132,7 @@ login styles
 
 #loginBox {
     width: 522px;
-    margin: 150px auto;
+    margin: 50px auto;
 }
 
 #loginBox h2 {
@@ -190,4 +192,74 @@ login styles
     border-radius: 5px 5px 5px 5px;
     color: white;
     padding: 6px 9px;
+}
+
+@font-face {
+    font-family: 'adelle_sansbold';
+    src: url('Fonts/adellesans_bold-webfont.eot');
+    src: url('Fonts/adellesans_bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Fonts/adellesans_bold-webfont.woff') format('woff'),
+         url('Fonts/adellesans_bold-webfont.ttf') format('truetype'),
+         url('Fonts/adellesans_bold-webfont.svg#adelle_sansbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'adelle_sansregular';
+    src: url('Fonts/adellesans_regular-webfont.eot');
+    src: url('Fonts/adellesans_regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Fonts/adellesans_regular-webfont.woff') format('woff'),
+         url('Fonts/adellesans_regular-webfont.ttf') format('truetype'),
+         url('Fonts/adellesans_regular-webfont.svg#adelle_sansregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'adelle_sansthin';
+    src: url('Fonts/adellesans_thin-webfont.eot');
+    src: url('Fonts/adellesans_thin-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Fonts/adellesans_thin-webfont.woff') format('woff'),
+         url('Fonts/adellesans_thin-webfont.ttf') format('truetype'),
+         url('Fonts/adellesans_thin-webfont.svg#adelle_sans_thregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'adelle_sans_sbregular';
+    src: url('Fonts/adellesans_semibold-webfont.eot');
+    src: url('Fonts/adellesans_semibold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Fonts/adellesans_semibold-webfont.woff') format('woff'),
+         url('Fonts/adellesans_semibold-webfont.ttf') format('truetype'),
+         url('Fonts/adellesans_semibold-webfont.svg#adelle_sans_sbregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+	font-family: 'weberhand';
+	src: url('Fonts/WeberHandITCStd-Bold.eot');
+	src: local('?'), url('Fonts/WeberHandITCStd-Bold.woff') format('woff'), url('Fonts/WeberHandITCStd-Bold.ttf') format('truetype'), url('Fonts/WeberHandITCStd-Bold.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+    font-family: 'adelle_sansitalic';
+    src: url('Fonts/adellesans_italic-webfont.eot');
+    src: url('Fonts/adellesans_italic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Fonts/adellesans_italic-webfont.woff') format('woff'),
+         url('Fonts/adellesans_italic-webfont.ttf') format('truetype'),
+         url('Fonts/adellesans_italic-webfont.svg#adelle_sansitalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+	font-family: 'adelle_sanslight';
+	src: url('Fonts/AdelleSans_Light.eot');
+	src: local('?'), url('Fonts/AdelleSans_Light.woff') format('woff'), url('Fonts/AdelleSans_Light.ttf') format('truetype'), url('Fonts/AdelleSans_Light.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
 }

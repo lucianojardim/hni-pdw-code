@@ -96,6 +96,13 @@
     <Content Include="Content\fancybox\jquery.fancybox-1.3.4.js" />
     <Content Include="Content\fancybox\jquery.fancybox-1.3.4.pack.js" />
     <Content Include="Content\fancybox\jquery.mousewheel-3.0.4.pack.js" />
+    <Content Include="Content\Fonts\adellesans_bold-webfont.svg" />
+    <Content Include="Content\Fonts\adellesans_italic-webfont.svg" />
+    <Content Include="Content\Fonts\AdelleSans_Light.svg" />
+    <Content Include="Content\Fonts\adellesans_regular-webfont.svg" />
+    <Content Include="Content\Fonts\adellesans_semibold-webfont.svg" />
+    <Content Include="Content\Fonts\adellesans_thin-webfont.svg" />
+    <Content Include="Content\Fonts\WeberHandITCStd-Bold.svg" />
     <Content Include="Content\images\back_disabled.png" />
     <Content Include="Content\images\back_enabled.png" />
     <Content Include="Content\images\back_enabled_hover.png" />
@@ -205,6 +212,25 @@
     <Content Include="Views\Import\Images.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Content\Fonts\adellesans_bold-webfont.eot" />
+    <None Include="Content\Fonts\adellesans_bold-webfont.ttf" />
+    <None Include="Content\Fonts\adellesans_bold-webfont.woff" />
+    <None Include="Content\Fonts\adellesans_italic-webfont.eot" />
+    <None Include="Content\Fonts\adellesans_italic-webfont.ttf" />
+    <None Include="Content\Fonts\adellesans_italic-webfont.woff" />
+    <None Include="Content\Fonts\AdelleSans_Light.eot" />
+    <None Include="Content\Fonts\AdelleSans_Light.ttf" />
+    <None Include="Content\Fonts\adellesans_regular-webfont.eot" />
+    <None Include="Content\Fonts\adellesans_regular-webfont.ttf" />
+    <None Include="Content\Fonts\adellesans_regular-webfont.woff" />
+    <None Include="Content\Fonts\adellesans_semibold-webfont.eot" />
+    <None Include="Content\Fonts\adellesans_semibold-webfont.ttf" />
+    <None Include="Content\Fonts\adellesans_semibold-webfont.woff" />
+    <None Include="Content\Fonts\adellesans_thin-webfont.eot" />
+    <None Include="Content\Fonts\adellesans_thin-webfont.ttf" />
+    <None Include="Content\Fonts\adellesans_thin-webfont.woff" />
+    <None Include="Content\Fonts\WeberHandITCStd-Bold.eot" />
+    <None Include="Content\Fonts\WeberHandITCStd-Bold.ttf" />
     <None Include="Content\images\Sorting icons.psd" />
     <Content Include="Views\Import\AddImage.cshtml" />
     <Content Include="Views\Import\EditImage.cshtml" />

@@ -20,8 +20,13 @@
         window.open(getPDWUrl() + '/umbraco/umbraco.aspx');
     }
 
+    function clickSiteLink() {
+        window.open(getPDWUrl());
+    }
+
     $(document).ready(function () {
         $('#cmsLink').click(clickCMSLink);
+        $('#siteLink').click(clickSiteLink);
     });
 </script>
 <div id="page_navigation">
@@ -34,7 +39,8 @@
             <li><a href="@Url.Action( "Images" )">Image Engine</a></li>
             <li><a href="@Url.Action( "Collateral" )">Collateral</a></li>
    }
-            <li><a href="javascript:void(0);" id="cmsLink">CMS</a></li>
+            <li><a href="javascript:void(0);" id="cmsLink">Login to CMS</a></li>
+            <li><a href="javascript:void(0);" id="siteLink">View Site</a></li>
         </ul>
 	</div>
 </div>
