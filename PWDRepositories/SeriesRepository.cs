@@ -21,12 +21,16 @@ namespace PWDRepositories
 		{
 			return database.Serieses
 				.Where( s => s.Category.Name == category || category == null )
+				.Where( s => s.IsActive )
 				.Select( s => new SeriesComboItem() { SeriesID = s.SeriesID, Name = s.Name } ).Distinct();
 		}
 
 		public IEnumerable<SeriesComboItem> GetSeriesNameListWithTypicals()
 		{
-			return database.Serieses.Where( se => se.SeriesTypicals.Any() ).Select( s => new SeriesComboItem() { SeriesID = s.SeriesID, Name = s.Name } ).Distinct();
+			return database.Serieses
+				.Where( se => se.SeriesTypicals.Any() )
+				.Where( s => s.IsActive )
+				.Select( s => new SeriesComboItem() { SeriesID = s.SeriesID, Name = s.Name } ).Distinct();
 		}
 
 		private SeriesSearchResult ToSeriesSearchResult( Series s )
@@ -117,7 +121,9 @@ namespace PWDRepositories
 
 		public IEnumerable<SeriesListData> GetSeriesData( string category )
 		{
-			var theList = database.Serieses.Where( s => s.Category.Name == category || category == null )
+			var theList = database.Serieses
+				.Where( s => s.Category.Name == category || category == null )
+				.Where( s => s.IsActive )
 				.ToList();
 
 			return theList.Select( s => ToSeriesListData( s ) );
@@ -126,6 +132,7 @@ namespace PWDRepositories
 		public IEnumerable<SeriesDocListData> GetSeriesTextData( IEnumerable<string> attList, IEnumerable<string> detailList )
 		{
 			return database.Serieses
+				.Where( s => s.IsActive )
 				.OrderBy( s => s.Name )
 				.ToList()
 				.Select( s => ToSeriesDocListData( s, attList, detailList ) );
@@ -251,6 +258,7 @@ namespace PWDRepositories
 				}
 
 				sInfo.RelatedSeries = theData.ChildSerieses
+					.Where( s => s.IsActive )
 					.Select( cs => new SeriesInformation.RelatedSeriesInfo()
 					{
 						SeriesID = cs.SeriesID,

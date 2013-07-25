@@ -25,7 +25,7 @@
         var theData = $.parseJSON($('#inputCall').val());
         console.log(theData);
         $.ajax({
-            url: $('#inputUrl option:selected').text(),
+            url: 'http://library.paoli.com' + $('#inputUrl option:selected').text() + '/?callback=?',
             type: 'get',
             data: theData,
             dataType: 'json',

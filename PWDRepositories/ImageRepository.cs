@@ -74,6 +74,7 @@ namespace PWDRepositories
 		private ImageItemDetails ToImageItemDetails( ImageFile img )
 		{
 			var seriesList = img.SeriesImageFiles
+					.Where( s => s.Series.IsActive )
 					.Select( s => new ImageItemDetails.ImageSeries()
 					{
 						SeriesID = s.SeriesID,
@@ -87,7 +88,7 @@ namespace PWDRepositories
 			// add orphaned typicals
 			foreach( var typicalImage in img.TypicalImageFiles )
 			{
-				foreach( var typicalSeries in typicalImage.Typical.SeriesTypicals.Select( st => st.Series ) )
+				foreach( var typicalSeries in typicalImage.Typical.SeriesTypicals.Where( s => s.Series.IsActive ).Select( st => st.Series ) )
 				{
 					var imageSeries = seriesList.FirstOrDefault( s => typicalSeries.SeriesID == s.SeriesID );
 					if( imageSeries == null )
@@ -129,7 +130,7 @@ namespace PWDRepositories
 				Caption = img.Caption,
 				Name = img.Name,
 				SecondaryName = ao.Name,
-				SeriesList = ao.SeriesOptionAttributes.Select( s => new ImageItemDetails.ImageSeries()
+				SeriesList = ao.SeriesOptionAttributes.Where( s => s.Series.IsActive ).Select( s => new ImageItemDetails.ImageSeries()
 					{
 						SeriesID = s.SeriesID,
 						Name = s.Series.Name,
@@ -144,6 +145,7 @@ namespace PWDRepositories
 					.Select( iType => iType.Abbreviation )
 					.ToList();
 			var imgList = database.ImageFiles
+				.Where( i => !i.HasPeople )
 				.Where( imgFile => imageTypeList.Any( it => it == imgFile.ImageType ) )
 				.AsQueryable();
 
@@ -155,7 +157,7 @@ namespace PWDRepositories
 		}
 
 		public ImageThumbnailGallery GetImageThumbnailList( string categories, string imageTypes, int? seriesId, string sortBy, string keywords,
-			int? pubId, string pubPageNum, int pageNum, int pageSize )
+			int? pubId, string pubPageNum, bool includePeople, int pageNum, int pageSize )
 		{
 			ImageThumbnailGallery gallery = new ImageThumbnailGallery();
 
@@ -163,6 +165,7 @@ namespace PWDRepositories
 					.Select( iType => iType.Abbreviation )
 					.ToList();
 			var imgList = database.ImageFiles
+				.Where( i => !i.HasPeople || includePeople )
 				.Where( imgFile => imageTypeList.Any( it => it == imgFile.ImageType ) )
 				.AsQueryable();
 			gallery.TotalImageCount = imgList.Count();
@@ -179,7 +182,7 @@ namespace PWDRepositories
 			if( (categories ?? "").Any() )
 			{
 				var catList = categories.Split( ',' );
-				imgList = imgList.Where( img => catList.Intersect( img.SeriesImageFiles.Select( s => s.Series.Category.Name ) ).Any() );
+				imgList = imgList.Where( img => catList.Intersect( img.SeriesImageFiles.Where( s => s.Series.IsActive ).Select( s => s.Series.Category.Name ) ).Any() );
 			}
 			if( pubId.HasValue )
 			{
@@ -224,7 +227,7 @@ namespace PWDRepositories
 			{
 				case "mostpopular":
 					orderedList = orderedList
-						.OrderByDescending( i => i.SeriesImageFiles.Max( sif => sif.Series.SeriesIntAttributes.FirstOrDefault( a => a.Attribute.Name == "Ranking" ).Value ) );
+						.OrderByDescending( i => i.SeriesImageFiles.Where( s => s.Series.IsActive ).Max( sif => sif.Series.SeriesIntAttributes.FirstOrDefault( a => a.Attribute.Name == "Ranking" ).Value ) );
 					break;
 				case "mostrecent":
 					orderedList = orderedList
@@ -270,7 +273,7 @@ namespace PWDRepositories
 			if( (categories ?? "").Any() )
 			{
 				var catList = categories.Split( ',' );
-				imgList = imgList.Where( img => catList.Intersect( img.SeriesImageFiles.Select( s => s.Series.Category.Name ) ).Any() );
+				imgList = imgList.Where( img => catList.Intersect( img.SeriesImageFiles.Where( s => s.Series.IsActive ).Select( s => s.Series.Category.Name ) ).Any() );
 			}
 			if( (keywords ?? "").Any() )
 			{
@@ -303,7 +306,7 @@ namespace PWDRepositories
 			{
 				case "mostpopular":
 					orderedList = orderedList
-						.OrderByDescending( i => i.SeriesImageFiles.Max( sif => sif.Series.SeriesIntAttributes.FirstOrDefault( a => a.Attribute.Name == "Ranking" ).Value ) );
+						.OrderByDescending( i => i.SeriesImageFiles.Where( s => s.Series.IsActive ).Max( sif => sif.Series.SeriesIntAttributes.FirstOrDefault( a => a.Attribute.Name == "Ranking" ).Value ) );
 					break;
 				case "mostrecent":
 					orderedList = orderedList
@@ -357,7 +360,7 @@ namespace PWDRepositories
 
 			return database.ImageFiles
 				.Where( imgFile => imageTypeList.Any( it => it == imgFile.ImageType ) )
-				.Where( i => imageIdList.Contains( i.ImageID ) )				
+				.Where( i => imageIdList.Contains( i.ImageID ) )
 				.Distinct()
 				.ToList()
 				.Select( img => ToImageListSummary( img ) );

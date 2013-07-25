@@ -227,6 +227,7 @@
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="CategoryID" Type="int" Nullable="false" />
           <Property Name="DBKeywords" Type="ntext" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="SeriesImageFiles">
           <Key>
@@ -836,6 +837,7 @@
           <NavigationProperty Name="ChildSerieses" Relationship="PaoliPDWModel.RelatedSeries" FromRole="Series1" ToRole="Series" />
           <NavigationProperty Name="SeriesTypicals" Relationship="PaoliPDWModel.fkST_Series" FromRole="Series" ToRole="SeriesTypical" />
           <Property Type="String" Name="DBKeywords" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
         </EntityType>
         <EntityType Name="SeriesIntAttribute">
           <Key>
@@ -1357,7 +1359,8 @@
             <ScalarProperty Name="Name" ColumnName="Name" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="Serieses"><EntityTypeMapping TypeName="PaoliPDWModel.Series"><MappingFragment StoreEntitySet="Serieses">
-            <ScalarProperty Name="DBKeywords" ColumnName="DBKeywords" />
+            <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="DBKeywords" ColumnName="DBKeywords" />
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
                 <ScalarProperty Name="SeriesID" ColumnName="SeriesID" />
             <ScalarProperty Name="Name" ColumnName="Name" />

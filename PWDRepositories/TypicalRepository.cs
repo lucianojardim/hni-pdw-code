@@ -51,11 +51,11 @@ namespace PWDRepositories
 			}
 			if( (category ?? "").Any() )
 			{
-				theList = theList.Where( t => t.SeriesTypicals.Any( st => st.Series.Category.Name == category ) );
+				theList = theList.Where( t => t.SeriesTypicals.Where( s => s.Series.IsActive ).Any( st => st.Series.Category.Name == category ) );
 			}
 			if( seriesId.HasValue )
 			{
-				theList = theList.Where( s => s.SeriesTypicals.Any( s1 => s1.SeriesID == seriesId.Value ) );
+				theList = theList.Where( s => s.SeriesTypicals.Where( st => st.Series.IsActive ).Any( s1 => s1.SeriesID == seriesId.Value ) );
 			}
 			if( (fpSize ?? "").Any() )
 			{
@@ -110,7 +110,7 @@ namespace PWDRepositories
 			{
 				case "mostpopular":
 					orderedList = orderedList
-						.OrderByDescending( i => i.SeriesTypicals.Max( sif => sif.Series.SeriesIntAttributes.FirstOrDefault( a => a.Attribute.Name == "Ranking" ).Value ) );
+						.OrderByDescending( i => i.SeriesTypicals.Where( s => s.Series.IsActive ).Max( sif => sif.Series.SeriesIntAttributes.FirstOrDefault( a => a.Attribute.Name == "Ranking" ).Value ) );
 					break;
 				case "mostrecent":
 					orderedList = orderedList
@@ -128,7 +128,7 @@ namespace PWDRepositories
 					ImageFileData = t.FeaturedImageForSize( "m4to3" ),
 					Price = t.IntAttribute( "Pricing" ),
 					Footprints = t.AttributeSet( "Footprint" ),
-					SeriesList = t.SeriesTypicals.Select( st => st.Series.Name )
+					SeriesList = t.SeriesTypicals.Where( s => s.Series.IsActive ).Select( st => st.Series.Name )
 				} );
 
 			return gallery;
@@ -221,11 +221,11 @@ namespace PWDRepositories
 			}
 			if( (category ?? "").Any() )
 			{
-				theList = theList.Where( t => t.SeriesTypicals.Any( st => st.Series.Category.Name == category ) );
+				theList = theList.Where( t => t.SeriesTypicals.Where( s => s.Series.IsActive ).Any( st => st.Series.Category.Name == category ) );
 			}
 			if( seriesId.HasValue )
 			{
-				theList = theList.Where( s => s.SeriesTypicals.Any( s1 => s1.SeriesID == seriesId.Value ) );
+				theList = theList.Where( t => t.SeriesTypicals.Where( st => st.Series.IsActive ).Any( s1 => s1.SeriesID == seriesId.Value ) );
 			}
 			if( (fpSize ?? "").Any() )
 			{
@@ -280,7 +280,7 @@ namespace PWDRepositories
 			{
 				case "mostpopular":
 					orderedList = orderedList
-						.OrderByDescending( i => i.SeriesTypicals.Max( sif => sif.Series.SeriesIntAttributes.FirstOrDefault( a => a.Attribute.Name == "Ranking" ).Value ) );
+						.OrderByDescending( i => i.SeriesTypicals.Where( s => s.Series.IsActive ).Max( sif => sif.Series.SeriesIntAttributes.FirstOrDefault( a => a.Attribute.Name == "Ranking" ).Value ) );
 					break;
 				case "mostrecent":
 					orderedList = orderedList
@@ -351,11 +351,11 @@ namespace PWDRepositories
 			}
 			if( (category ?? "").Any() )
 			{
-				theList = theList.Where( t => t.SeriesTypicals.Any( st => st.Series.Category.Name == category ) );
+				theList = theList.Where( t => t.SeriesTypicals.Where( s => s.Series.IsActive ).Any( st => st.Series.Category.Name == category ) );
 			}
 			if( seriesId.HasValue )
 			{
-				theList = theList.Where( s => s.SeriesTypicals.Any( s1 => s1.SeriesID == seriesId.Value ) );
+				theList = theList.Where( t => t.SeriesTypicals.Where( s => s.Series.IsActive ).Any( s1 => s1.SeriesID == seriesId.Value ) );
 			}
 			if( (fpSize ?? "").Any() )
 			{
@@ -410,7 +410,7 @@ namespace PWDRepositories
 			{
 				case "mostpopular":
 					orderedList = orderedList
-						.OrderByDescending( i => i.SeriesTypicals.Max( sif => sif.Series.SeriesIntAttributes.FirstOrDefault( a => a.Attribute.Name == "Ranking" ).Value ) );
+						.OrderByDescending( i => i.SeriesTypicals.Where( s => s.Series.IsActive ).Max( sif => sif.Series.SeriesIntAttributes.FirstOrDefault( a => a.Attribute.Name == "Ranking" ).Value ) );
 					break;
 				case "mostrecent":
 					orderedList = orderedList

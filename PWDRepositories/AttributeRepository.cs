@@ -64,7 +64,7 @@ namespace PWDRepositories
 				.Select( ao => new AttributeOptionInformation()
 					{
 						Name = ao.Name,
-						Serieses = ao.SeriesOptionAttributes.Select( soa => soa.Series.Name )
+						Serieses = ao.SeriesOptionAttributes.Where( s => s.Series.IsActive ).Select( soa => soa.Series.Name )
 					} )
 				.OrderBy( a => a.Name )
 				.ToList();
@@ -110,7 +110,7 @@ namespace PWDRepositories
 				.Select( ao => new FinishInformation()
 				{
 					Name = ao.Name,
-					Serieses = ao.SeriesOptionAttributes.Select( soa => soa.Series.Name ).OrderBy( s => s )
+					Serieses = ao.SeriesOptionAttributes.Where( s => s.Series.IsActive ).Select( soa => soa.Series.Name ).OrderBy( s => s )
 				} )
 				.OrderBy( a => a.Name )
 				.ToList();

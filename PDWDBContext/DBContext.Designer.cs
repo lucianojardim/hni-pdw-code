@@ -8,12 +8,13 @@
 //------------------------------------------------------------------------------
 
 using System;
+using System.ComponentModel;
+using System.Data.EntityClient;
 using System.Data.Objects;
 using System.Data.Objects.DataClasses;
-using System.Data.EntityClient;
-using System.ComponentModel;
-using System.Xml.Serialization;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
@@ -416,6 +417,7 @@ namespace PDWDBContext
         private ObjectSet<Publication> _Publications;
 
         #endregion
+
         #region AddTo Methods
     
         /// <summary>
@@ -579,11 +581,11 @@ namespace PDWDBContext
         }
 
         #endregion
+
     }
-    
 
     #endregion
-    
+
     #region Entities
     
     /// <summary>
@@ -612,6 +614,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -690,6 +693,7 @@ namespace PDWDBContext
         partial void OnDetailItemChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -782,6 +786,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -810,6 +815,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -888,6 +894,7 @@ namespace PDWDBContext
         partial void OnAttributeIDChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -952,6 +959,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -978,6 +986,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1032,6 +1041,7 @@ namespace PDWDBContext
         partial void OnNameChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1058,6 +1068,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1100,6 +1111,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1490,6 +1502,7 @@ namespace PDWDBContext
         partial void OnDBKeywordsChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1560,6 +1573,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1590,6 +1604,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1692,6 +1707,7 @@ namespace PDWDBContext
         partial void OnFilterVisibleChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1718,6 +1734,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1744,6 +1761,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1825,6 +1843,7 @@ namespace PDWDBContext
         partial void OnPageNumberChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1905,6 +1924,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1941,6 +1961,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -2115,6 +2136,7 @@ namespace PDWDBContext
         partial void OnPageCountChanged();
 
         #endregion
+
     
     }
     
@@ -2135,17 +2157,20 @@ namespace PDWDBContext
         /// <param name="name">Initial value of the Name property.</param>
         /// <param name="createdDate">Initial value of the CreatedDate property.</param>
         /// <param name="categoryID">Initial value of the CategoryID property.</param>
-        public static Series CreateSeries(global::System.Int32 seriesID, global::System.String name, global::System.DateTime createdDate, global::System.Int32 categoryID)
+        /// <param name="isActive">Initial value of the IsActive property.</param>
+        public static Series CreateSeries(global::System.Int32 seriesID, global::System.String name, global::System.DateTime createdDate, global::System.Int32 categoryID, global::System.Boolean isActive)
         {
             Series series = new Series();
             series.SeriesID = seriesID;
             series.Name = name;
             series.CreatedDate = createdDate;
             series.CategoryID = categoryID;
+            series.IsActive = isActive;
             return series;
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -2270,8 +2295,33 @@ namespace PDWDBContext
         private global::System.String _DBKeywords;
         partial void OnDBKeywordsChanging(global::System.String value);
         partial void OnDBKeywordsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsActive
+        {
+            get
+            {
+                return _IsActive;
+            }
+            set
+            {
+                OnIsActiveChanging(value);
+                ReportPropertyChanging("IsActive");
+                _IsActive = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsActive");
+                OnIsActiveChanged();
+            }
+        }
+        private global::System.Boolean _IsActive;
+        partial void OnIsActiveChanging(global::System.Boolean value);
+        partial void OnIsActiveChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -2468,6 +2518,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -2500,6 +2551,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -2626,6 +2678,7 @@ namespace PDWDBContext
         partial void OnDisplayOrderChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -2706,6 +2759,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -2736,6 +2790,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -2838,6 +2893,7 @@ namespace PDWDBContext
         partial void OnSeriesIDChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -2918,6 +2974,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -2948,6 +3005,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -3050,6 +3108,7 @@ namespace PDWDBContext
         partial void OnSeriesIDChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -3168,6 +3227,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -3198,6 +3258,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -3300,6 +3361,7 @@ namespace PDWDBContext
         partial void OnSeriesIDChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -3380,6 +3442,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -3410,6 +3473,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -3512,6 +3576,7 @@ namespace PDWDBContext
         partial void OnTypicalIDChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -3592,6 +3657,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -3620,6 +3686,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -3698,6 +3765,7 @@ namespace PDWDBContext
         partial void OnDetailItemChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -3790,6 +3858,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -3818,6 +3887,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -3896,6 +3966,7 @@ namespace PDWDBContext
         partial void OnAttributeIDChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -3960,6 +4031,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -3988,6 +4060,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -4090,6 +4163,7 @@ namespace PDWDBContext
         partial void OnDBKeywordsChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -4204,6 +4278,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -4234,6 +4309,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -4336,6 +4412,7 @@ namespace PDWDBContext
         partial void OnTypicalIDChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -4416,6 +4493,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -4446,6 +4524,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -4548,6 +4627,7 @@ namespace PDWDBContext
         partial void OnTypicalIDChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -4628,6 +4708,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -4658,6 +4739,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -4760,6 +4842,7 @@ namespace PDWDBContext
         partial void OnTypicalIDChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -4878,6 +4961,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -4908,6 +4992,7 @@ namespace PDWDBContext
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -5010,6 +5095,7 @@ namespace PDWDBContext
         partial void OnTypicalIDChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -5090,8 +5176,10 @@ namespace PDWDBContext
         }
 
         #endregion
+
     }
 
     #endregion
+
     
 }

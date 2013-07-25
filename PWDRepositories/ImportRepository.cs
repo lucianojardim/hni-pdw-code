@@ -53,6 +53,7 @@ namespace PWDRepositories
 
 				Series sData = new Series();
 				sData.CreatedDate = DateTime.Now;
+				sData.IsActive = true;
 
 				string relatedSeries = "";
 				List<string> arrKeywordList = new List<string>();
@@ -82,6 +83,21 @@ namespace PWDRepositories
 							break;
 						case "series name":
 							sData.Name = val;
+							break;
+						case "active":
+						case "status":
+							switch( val.ToLower() )
+							{
+								case "active":
+								case "yes":
+								case "true":
+								case "1":
+									sData.IsActive = true;
+									break;
+								default:
+									sData.IsActive = false;
+									break;
+							}
 							break;
 						case "value statement headline":
 						case "marketing statement subheadline":

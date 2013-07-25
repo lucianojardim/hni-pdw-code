@@ -241,12 +241,12 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		public JsonpResult GetImageThumbnailList( string categories, string imageTypes, int? seriesId, string sortBy, string keywords, 
-			int? pubId, string pubPageNum,
+			int? pubId, string pubPageNum, bool? includePeople = false,
 			int? pageNum = 1, int? pageSize = 28 )
 		{
 			ImageRepository iRepo = new ImageRepository();
 
-			var theData = iRepo.GetImageThumbnailList( categories, imageTypes, seriesId, sortBy, keywords, pubId, pubPageNum, pageNum.Value, pageSize.Value );
+			var theData = iRepo.GetImageThumbnailList( categories, imageTypes, seriesId, sortBy, keywords, pubId, pubPageNum, includePeople.Value, pageNum.Value, pageSize.Value );
 
 			return new JsonpResult()
 			{
