@@ -125,7 +125,7 @@ namespace PWDRepositories
 				{
 					TypicalID = t.TypicalID,
 					Name = t.Name,
-					ImageFileData = t.FeaturedImageForSize( "m4to3" ),
+					ImageFileData = t.FeaturedImageForSize( "m16to9" ),
 					Price = t.IntAttribute( "Pricing" ),
 					Footprints = t.AttributeSet( "Footprint" ),
 					SeriesList = t.SeriesTypicals.Where( s => s.Series.IsActive ).Select( st => st.Series.Name )
@@ -303,7 +303,7 @@ namespace PWDRepositories
 					TypicalID = t.TypicalID,
 					Name = t.Name,
 					SeriesID = t.SeriesTypicals.Where( st => st.IsPrimary ).Select( st => st.SeriesID ).FirstOrDefault(),
-					ImageFileData = t.FeaturedImageForSize( "m4to3" )
+					ImageFileData = t.FeaturedImageForSize( "m16to9" )
 				};
 		}
 
@@ -540,7 +540,7 @@ namespace PWDRepositories
 			var theData = database.Typicals.FirstOrDefault( s => s.TypicalID == id );
 			if( theData != null )
 			{
-				return theData.ImageListForSize( "m4to3" ).Select( i => (ImageComboItem)i );
+				return theData.ImageListForSize( "m16to9" ).Select( i => (ImageComboItem)i );
 			}
 
 			return new List<ImageComboItem>();

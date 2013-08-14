@@ -123,7 +123,7 @@ namespace PWDRepositories
 					aoi.Caption = img.Caption;
 					aoi.FinishType = img.FinishType ?? 0;
 					aoi.FinishSubType = img.FinishSubType ?? 0;
-					aoi.FeaturedImage = img.ThumbnailImageData( "s4to3" );
+					aoi.FeaturedImage = img.ThumbnailImageData( "s16to9" );
 				}
 			} );
 

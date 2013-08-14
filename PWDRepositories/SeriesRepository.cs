@@ -41,7 +41,7 @@ namespace PWDRepositories
 					SeriesID = s.SeriesID,
 					Name = s.Name,
 					Category = s.Category.Name,
-					ImageData = s.FeaturedImageForSize( "m4to3" ),
+					ImageData = s.FeaturedImageForSize( "m16to9" ),
 					Headline = s.AttributeText( "Marketing Statement Subheadline" )
 				};
 		}
@@ -54,7 +54,7 @@ namespace PWDRepositories
 					SeriesID = s.SeriesID,
 					Name = s.Name,
 					Category = s.Category.Name,
-					ImageData = s.FeaturedImageForSize( "m4to3" ),
+					ImageData = s.FeaturedImageForSize( "m16to9" ),
 					DateCreated = s.CreatedDate,
 					Ranking = s.Ranking,
 					Price = s.StartingPrice,
@@ -263,7 +263,7 @@ namespace PWDRepositories
 					{
 						SeriesID = cs.SeriesID,
 						Name = cs.Name,
-						ImageFileData = cs.FeaturedImageForSize( "m4to3" )
+						ImageFileData = cs.FeaturedImageForSize( "m16to9" )
 					} );
 
 				sInfo.Typicals = theData.SeriesTypicals
@@ -272,7 +272,7 @@ namespace PWDRepositories
 					{
 						TypicalID = t.TypicalID,
 						Name = t.Typical.Name,
-						ImageFileData = t.Typical.FeaturedImageForSize( "m4to3" )
+						ImageFileData = t.Typical.FeaturedImageForSize( "m16to9" )
 					} );
 			}
 
@@ -284,7 +284,7 @@ namespace PWDRepositories
 			var theData = database.Serieses.FirstOrDefault( s => s.SeriesID == id );
 			if( theData != null )
 			{
-				return theData.ImageListForSize( "m4to3" ).Select( i => (ImageComboItem)i );
+				return theData.ImageListForSize( "m16to9" ).Select( i => (ImageComboItem)i );
 			}
 
 			return new List<ImageComboItem>();

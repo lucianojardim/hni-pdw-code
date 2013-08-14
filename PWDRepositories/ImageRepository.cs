@@ -126,7 +126,7 @@ namespace PWDRepositories
 		{
 			return new ImageItemDetails()
 			{
-				FileName = img.ThumbnailImageData( "l4to3" ).FileName,
+				FileName = img.ThumbnailImageData( "l16to9" ).FileName,
 				Caption = img.Caption,
 				Name = img.Name,
 				SecondaryName = ao.Name,
@@ -153,7 +153,7 @@ namespace PWDRepositories
 				.OrderByDescending( i => i.CreatedDate )
 				.Take( ct )
 				.ToList()
-				.Select( i => (ImageComboItem)(i.ThumbnailImageData( "s4to3" ))  );
+				.Select( i => (ImageComboItem)(i.ThumbnailImageData( "s16to9" ))  );
 		}
 
 		public ImageThumbnailGallery GetImageThumbnailList( string categories, string imageTypes, int? seriesId, string sortBy, string keywords,
@@ -241,7 +241,7 @@ namespace PWDRepositories
 				.Select( img => new ImageSummary() 
 				{ 
 					Name = img.Name, 
-					FileName = img.ThumbnailImageData( "m4to3" ).FileName, 
+					FileName = img.ThumbnailImageData( "m16to9" ).FileName, 
 					ImageID = img.ImageID, 
 					CanLightbox = ImageFile.ImageCanLightbox( img.ImageType ) 
 				} );
@@ -327,7 +327,7 @@ namespace PWDRepositories
 			return new ImageListSummary()
 				{
 					Caption = img.Caption,
-					FileName = img.ThumbnailImageData( "m4to3" ).FileName,
+					FileName = img.ThumbnailImageData( "m16to9" ).FileName,
 					Name = img.Name,
 					ImageID = img.ImageID,
 					CanLightbox = ImageFile.ImageCanLightbox( img.ImageType )
