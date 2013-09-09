@@ -67,7 +67,11 @@ namespace PWDRepositories
 				FeaturedPull = img.FeaturedPull,
 				FeaturedFinish = img.FeaturedFinish,
 				FinishType = img.FinishType,
-				FinishSubType = img.FinishSubType
+				FinishSubType = img.FinishSubType,
+				FeaturedTableBase = img.TableBase,
+				FeaturedTableShape = img.TableShape,
+				ControlMechanism = img.ControlMechanism,
+				ControlDescription = img.ControlDescription
 			};
 		}
 
@@ -638,6 +642,10 @@ namespace PWDRepositories
 			imgData.FinishType = imgInfo.FinishType;
 			imgData.FinishSubType = imgInfo.FinishSubType;
 			imgData.DBKeywords = SearchText.GetKeywordList( new List<string>() { imgData.Name, imgData.Caption, imgData.Keyword } );
+			imgData.TableBase = imgInfo.FeaturedTableBase;
+			imgData.TableShape = imgInfo.FeaturedTableShape;
+			imgData.ControlMechanism = imgInfo.ControlMechanism;
+			imgData.ControlDescription = imgInfo.ControlDescription;
 
 			database.ImageFiles.AddObject( imgData );
 
@@ -665,6 +673,10 @@ namespace PWDRepositories
 			imgData.FinishType = imgInfo.FinishType;
 			imgData.FinishSubType = imgInfo.FinishSubType;
 			imgData.DBKeywords = SearchText.GetKeywordList( new List<string>() { imgData.Name, imgData.Caption, imgData.Keyword } );
+			imgData.TableBase = imgInfo.FeaturedTableBase;
+			imgData.TableShape = imgInfo.FeaturedTableShape;
+			imgData.ControlMechanism = imgInfo.ControlMechanism;
+			imgData.ControlDescription = imgInfo.ControlDescription;
 
 			database.SaveChanges();
 		}

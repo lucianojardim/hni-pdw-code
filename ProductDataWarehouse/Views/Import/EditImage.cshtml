@@ -1,6 +1,6 @@
 ﻿@model PDWModels.Images.ImageInformation
 @{
-    ViewBag.Title = "EditImage";
+	ViewBag.Title = "EditImage";
 }
 @using ProductDataWarehouse.Controllers
 
@@ -20,9 +20,9 @@ else
     <script type="text/javascript">
         var finishSubTypes = [
             @foreach( var subType in ImportController.GetFinishSubTypeList() )
-            {
+			{
             <text>{ id: @subType.Value, name: "@subType.Text" },</text>
-            }
+			}
         ];
         $(document).ready(function () {
             $('#ImageContent').change(doImageContentChange);
@@ -48,6 +48,9 @@ else
                     $('#featuredEdgeRange').hide();
                     $('#featuredPullRange').hide();
                     $('#featuredFinishRange').hide();
+                    $('#featuredTableShapeRange').hide();
+                    $('#featuredTableBaseRange').hide();
+					$('#controlMechanismRange').hide();
                     break;
                 case '2':
                     $('#imageTypeRange').hide();
@@ -55,6 +58,9 @@ else
                     $('#featuredEdgeRange').show();
                     $('#featuredPullRange').hide();
                     $('#featuredFinishRange').hide();
+                    $('#featuredTableShapeRange').hide();
+                    $('#featuredTableBaseRange').hide();
+					$('#controlMechanismRange').hide();
                     break;
                 case '3':
                     $('#imageTypeRange').hide();
@@ -62,6 +68,9 @@ else
                     $('#featuredEdgeRange').hide();
                     $('#featuredPullRange').show();
                     $('#featuredFinishRange').hide();
+                    $('#featuredTableShapeRange').hide();
+                    $('#featuredTableBaseRange').hide();
+					$('#controlMechanismRange').hide();
                     break;
                 case '4':
                     $('#imageTypeRange').hide();
@@ -69,6 +78,39 @@ else
                     $('#featuredEdgeRange').hide();
                     $('#featuredPullRange').hide();
                     $('#featuredFinishRange').show();
+                    $('#featuredTableShapeRange').hide();
+                    $('#featuredTableBaseRange').hide();
+					$('#controlMechanismRange').hide();
+                    break;
+                case '5':
+                    $('#imageTypeRange').hide();
+                    $('#hasPeopleRange').hide();
+                    $('#featuredEdgeRange').hide();
+                    $('#featuredPullRange').hide();
+                    $('#featuredFinishRange').hide();
+                    $('#featuredTableShapeRange').show();
+                    $('#featuredTableBaseRange').hide();
+					$('#controlMechanismRange').hide();
+                    break;
+                case '6':
+                    $('#imageTypeRange').hide();
+                    $('#hasPeopleRange').hide();
+                    $('#featuredEdgeRange').hide();
+                    $('#featuredPullRange').hide();
+                    $('#featuredFinishRange').hide();
+                    $('#featuredTableShapeRange').hide();
+                    $('#featuredTableBaseRange').show();
+					$('#controlMechanismRange').hide();
+                    break;
+                case '7':
+                    $('#imageTypeRange').hide();
+                    $('#hasPeopleRange').hide();
+                    $('#featuredEdgeRange').hide();
+                    $('#featuredPullRange').hide();
+                    $('#featuredFinishRange').hide();
+                    $('#featuredTableShapeRange').hide();
+                    $('#featuredTableBaseRange').hide();
+					$('#controlMechanismRange').show();
                     break;
             }
         }
@@ -76,8 +118,8 @@ else
 
     <h2>Edit Image File</h2>
 
-    using( Html.BeginForm( "EditImage", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
-    {
+			using( Html.BeginForm( "EditImage", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
+			{
         @Html.HiddenFor( m => m.ImageID )
         @Html.HiddenFor( m => m.ImageName )
         @Html.LabelFor( m => m.ImageName )<text>: </text>@Html.DisplayFor( m => m.ImageName )<br />
@@ -91,7 +133,11 @@ else
         <span id="featuredFinishRange">@Html.LabelFor( m => m.FeaturedFinish ): @Html.TextBoxFor( m => m.FeaturedFinish )<br />
         @Html.LabelFor( m => m.FinishType ): @Html.DropDownListFor( m => m.FinishType, ImportController.GetFinishTypeList() )<br />
         @Html.LabelFor( m => m.FinishSubType ): @Html.DropDownListFor( m => m.FinishSubType, ImportController.GetFinishSubTypeList( Model.FinishType ) )<br /></span>
+        <span id="featuredTableShapeRange">@Html.LabelFor( m => m.FeaturedTableShape ): @Html.TextBoxFor( m => m.FeaturedTableShape )<br /></span>
+        <span id="featuredTableBaseRange">@Html.LabelFor( m => m.FeaturedTableBase ): @Html.TextBoxFor( m => m.FeaturedTableBase )<br /></span>
+		<span id="controlMechanismRange">@Html.LabelFor( m => m.ControlMechanism ): @Html.TextBoxFor( m => m.ControlMechanism )<br />
+		@Html.LabelFor( m => m.ControlDescription ): @Html.TextAreaFor( m => m.ControlDescription )<br /></span>
 @Html.ValidationSummary()
         <input type="submit" value="Save" />
-    }
+			}
 }

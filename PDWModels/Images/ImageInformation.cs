@@ -15,7 +15,10 @@ namespace PDWModels.Images
 			Image = 1,
 			Edge = 2,
 			Pull = 3,
-			Finish = 4
+			Finish = 4,
+			TableShape = 5,
+			TableBase = 6,
+			ControlMech = 7
 		}
 
 		public enum FinishTypes
@@ -62,5 +65,14 @@ namespace PDWModels.Images
 		public int? FinishType { get; set; }
 		[DisplayName( "Finish Sub Type" )]
 		public int? FinishSubType { get; set; }
+		[DisplayName( "Featured Table Shape" )]
+		public string FeaturedTableShape { get; set; }
+		[DisplayName( "Featured Table Base" )]
+		public string FeaturedTableBase { get; set; }
+		[DisplayName( "Control Mechanism" )]
+		public string ControlMechanism { get; set; }
+		[DisplayName( "Control Description" )]
+		public string ControlDescription { get; set; }
+
 	}
 }

@@ -199,6 +199,58 @@ namespace PWDRepositories
 							.OrderBy( i => i.Name )
 							.ToList();
 					}
+					else if( string.Compare( attr.Name, "Control Mechanism", true ) == 0 )
+					{
+						sInfo.ControlMechanisms = theData.SeriesOptionAttributes
+							.Where( soa => soa.AttributeID == attr.AttributeID )
+							.Select( soa => new { Name = soa.AttributeOption.Name, Img = database.ImageFiles.FirstOrDefault( i => i.ControlMechanism == soa.AttributeOption.Name ) } )
+							.Select( soa => new ImageForObject()
+							{
+								Name = soa.Name,
+								FeaturedImage = soa.Img != null ? soa.Img.ThumbnailImageData( "s16to9" ) : null
+							} )
+							.OrderBy( i => i.Name )
+							.ToList();
+					}
+					else if( string.Compare( attr.Name, "Base Options", true ) == 0 )
+					{
+						sInfo.TableBaseImages = theData.SeriesOptionAttributes
+							.Where( soa => soa.AttributeID == attr.AttributeID )
+							.Select( soa => new { Name = soa.AttributeOption.Name, Img = database.ImageFiles.FirstOrDefault( i => i.TableBase == soa.AttributeOption.Name ) } )
+							.Select( soa => new ImageForObject()
+							{
+								Name = soa.Name,
+								FeaturedImage = soa.Img != null ? soa.Img.ThumbnailImageData( "s16to9" ) : null
+							} )
+							.OrderBy( i => i.Name )
+							.ToList();
+					}
+					else if( string.Compare( attr.Name, "Shape", true ) == 0 )
+					{
+						sInfo.TableShapeImages = theData.SeriesOptionAttributes
+							.Where( soa => soa.AttributeID == attr.AttributeID )
+							.Select( soa => new { Name = soa.AttributeOption.Name, Img = database.ImageFiles.FirstOrDefault( i => i.TableShape == soa.AttributeOption.Name ) } )
+							.Select( soa => new ImageForObject()
+							{
+								Name = soa.Name,
+								FeaturedImage = soa.Img != null ? soa.Img.ThumbnailImageData( "s16to9" ) : null
+							} )
+							.OrderBy( i => i.Name )
+							.ToList();
+					}
+					else if( string.Compare( attr.Name, "Desk Layouts", true ) == 0 )
+					{
+						sInfo.DeskLayoutImages = theData.SeriesOptionAttributes
+							.Where( soa => soa.AttributeID == attr.AttributeID )
+							.Select( soa => new { Name = soa.AttributeOption.Name, Img = database.ImageFiles.FirstOrDefault( i => i.Name == soa.AttributeOption.Name ) } )
+							.Select( soa => new ImageForObject()
+							{
+								Name = soa.Name,
+								FeaturedImage = soa.Img != null ? soa.Img.ThumbnailImageData( "s16to9" ) : null
+							} )
+							.OrderBy( i => i.Name )
+							.ToList();
+					}
 					else if( attr.DetailItem )
 					{
 						sInfo.Details.Add( attr.Name, new List<string>(

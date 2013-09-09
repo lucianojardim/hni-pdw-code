@@ -34,5 +34,9 @@ namespace PDWModels.Series
 		public IEnumerable<ImageForObject> PullImages { get; set; }
 		public IEnumerable<ImageForObject> EdgeImages { get; set; }
 		public IEnumerable<ImageForObject> FinishImages { get; set; }
+		public IEnumerable<ImageForObject> TableBaseImages { get; set; }
+		public IEnumerable<ImageForObject> TableShapeImages { get; set; }
+		public IEnumerable<ImageForObject> DeskLayoutImages { get; set; }
+		public IEnumerable<ImageForObject> ControlMechanisms { get; set; }
 	}
 }

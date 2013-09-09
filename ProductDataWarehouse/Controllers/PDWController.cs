@@ -311,6 +311,19 @@ namespace ProductDataWarehouse.Controllers
 				JsonRequestBehavior = JsonRequestBehavior.AllowGet
 			};
 		}
+
+		public JsonpResult GetImageCMInfo( int imageId )
+		{
+			AttributeRepository aRepo = new AttributeRepository();
+
+			var theData = aRepo.GetImageCMInfo( imageId );
+
+			return new JsonpResult()
+			{
+				Data = theData,
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
 		
 		public JsonpResult SearchSeries( string searchText )
 		{
@@ -437,6 +450,17 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
+		public JsonpResult GetCMDetailList()
+		{
+			AttributeRepository aRepo = new AttributeRepository();
+
+			return new JsonpResult()
+			{
+				Data = aRepo.GetCMDetailList(),
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
+
 		public JsonpResult GetCollateralList()
 		{
 			return new JsonpResult()
@@ -495,6 +519,7 @@ namespace ProductDataWarehouse.Controllers
 			new APIDefinition() { url = "/PDW/GetSeriesListForAttribute", parameters = "{\"attr\":\"\"}" },
 			new APIDefinition() { url = "/PDW/GetFinishDetailList", parameters = "" },
 			new APIDefinition() { url = "/PDW/GetImageFinishInfo", parameters = "" },
+			new APIDefinition() { url = "/PDW/GetImageCMInfo", parameters = "" },
 			new APIDefinition() { url = "/PDW/GetRecentImageList", parameters = "{\"ct\":6}" },
 			new APIDefinition() { url = "/PDW/GetSustainabilityList", parameters = "" },
 			new APIDefinition() { url = "/PDW/GetCollateralList", parameters = "" },

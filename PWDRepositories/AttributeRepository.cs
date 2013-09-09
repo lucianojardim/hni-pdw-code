@@ -91,6 +91,36 @@ namespace PWDRepositories
 						}
 					} );
 				break;
+			case "shape":
+				aList.ForEach( aoi =>
+					{
+						var img = database.ImageFiles.FirstOrDefault( i => i.TableShape == aoi.Name );
+						if( img != null )
+						{
+							aoi.FeaturedImage = img.ThumbnailImageData( "s16to9" );
+						}
+					} );
+				break;
+			case "base options":
+				aList.ForEach( aoi =>
+					{
+						var img = database.ImageFiles.FirstOrDefault( i => i.TableBase == aoi.Name );
+						if( img != null )
+						{
+							aoi.FeaturedImage = img.ThumbnailImageData( "s16to9" );
+						}
+					} );
+				break;
+			case "control mechanism":
+				aList.ForEach( aoi =>
+				{
+					var img = database.ImageFiles.FirstOrDefault( i => i.ControlMechanism == aoi.Name );
+					if( img != null )
+					{
+						aoi.FeaturedImage = img.ThumbnailImageData( "s16to9" );
+					}
+				} );
+				break;
 			}
 
 			return aList;
@@ -124,6 +154,64 @@ namespace PWDRepositories
 					aoi.FinishType = img.FinishType ?? 0;
 					aoi.FinishSubType = img.FinishSubType ?? 0;
 					aoi.FeaturedImage = img.ThumbnailImageData( "s16to9" );
+				}
+			} );
+
+			return aList;
+		}
+
+		public CMInformation GetImageCMInfo( int imageId )
+		{
+			var img = database.ImageFiles.FirstOrDefault( i => i.ImageID == imageId );
+
+			if( img != null )
+			{
+				var aOption = database.AttributeOptions
+					.Where( ao => ao.Attribute.Name == "Control Mechanism" && ao.Name == img.ControlMechanism )
+					.FirstOrDefault();
+
+				if( aOption != null )
+				{
+					return new CMInformation()
+					{
+						Name = img.ControlMechanism,
+						Serieses = aOption.SeriesOptionAttributes.Where( s => s.Series.IsActive ).Select( soa => soa.Series.Name ).OrderBy( s => s ),
+						Title = img.Name,
+						FeaturedImage = img.ThumbnailImageData( "l16to9" ),
+						Description = img.ControlDescription
+					};
+				}
+			}
+
+			return null;
+		}
+
+		public IEnumerable<CMInformation> GetCMDetailList()
+		{
+			var aInfo = database.Attributes
+				.FirstOrDefault( a => a.Name == "Control Mechanism" );
+
+			if( aInfo == null )
+			{
+				return new List<CMInformation>();
+			}
+
+			var aList = aInfo.AttributeOptions
+				.Select( ao => new CMInformation()
+				{
+					Name = ao.Name,
+					Serieses = ao.SeriesOptionAttributes.Where( s => s.Series.IsActive ).Select( soa => soa.Series.Name ).OrderBy( s => s )
+				} )
+				.OrderBy( a => a.Name )
+				.ToList();
+
+			aList.ForEach( aoi =>
+			{
+				var img = database.ImageFiles.FirstOrDefault( i => i.ControlMechanism == aoi.Name );
+				if( img != null )
+				{
+					aoi.FeaturedImage = img.ThumbnailImageData( "s16to9" );
+					aoi.Description = img.ControlDescription;
 				}
 			} );
 

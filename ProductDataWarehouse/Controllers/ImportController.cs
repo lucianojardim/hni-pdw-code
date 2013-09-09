@@ -126,6 +126,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[HttpPost]
 		[Authorize]
+		[ValidateInput( false )]
 		public ActionResult AddImage( ImageInformation imgInfo, HttpPostedFileBase imageFile )
 		{
 			switch( (ImageInformation.ImageContents)imgInfo.ImageContent )
@@ -133,6 +134,10 @@ namespace ProductDataWarehouse.Controllers
 				case ImageInformation.ImageContents.Image:
 					imgInfo.FeaturedEdge = null;
 					imgInfo.FeaturedPull = null;
+					imgInfo.FeaturedTableBase = null;
+					imgInfo.FeaturedTableShape = null;
+					imgInfo.ControlDescription = null;
+					imgInfo.ControlMechanism = null;
 					break;
 				case ImageInformation.ImageContents.Edge:
 					if( imgInfo.FeaturedEdge == null )
@@ -143,6 +148,10 @@ namespace ProductDataWarehouse.Controllers
 					{
 						imgInfo.ImageType = "Det";
 						imgInfo.FeaturedPull = null;
+						imgInfo.FeaturedTableBase = null;
+						imgInfo.FeaturedTableShape = null;
+						imgInfo.ControlDescription = null;
+						imgInfo.ControlMechanism = null;
 						imgInfo.HasPeople = false;
 					}
 					break;
@@ -155,10 +164,61 @@ namespace ProductDataWarehouse.Controllers
 					{
 						imgInfo.ImageType = "Det";
 						imgInfo.FeaturedEdge = null;
+						imgInfo.FeaturedTableBase = null;
+						imgInfo.FeaturedTableShape = null;
+						imgInfo.ControlDescription = null;
+						imgInfo.ControlMechanism = null;
 						imgInfo.HasPeople = false;
 					}
 					break;
 				case ImageInformation.ImageContents.Finish:
+					break;
+				case ImageInformation.ImageContents.TableShape:
+					if( imgInfo.FeaturedTableShape == null )
+					{
+						ModelState.AddModelError( "FPRequired", "Featured Table Shape is required." );
+					}
+					else
+					{
+						imgInfo.ImageType = "Det";
+						imgInfo.FeaturedPull = null;
+						imgInfo.FeaturedEdge = null;
+						imgInfo.FeaturedTableBase = null;
+						imgInfo.ControlDescription = null;
+						imgInfo.ControlMechanism = null;
+						imgInfo.HasPeople = false;
+					}
+					break;
+				case ImageInformation.ImageContents.TableBase:
+					if( imgInfo.FeaturedTableBase == null )
+					{
+						ModelState.AddModelError( "FPRequired", "Featured Table Base is required." );
+					}
+					else
+					{
+						imgInfo.ImageType = "Det";
+						imgInfo.FeaturedPull = null;
+						imgInfo.FeaturedEdge = null;
+						imgInfo.FeaturedTableShape = null;
+						imgInfo.ControlDescription = null;
+						imgInfo.ControlMechanism = null;
+						imgInfo.HasPeople = false;
+					}
+					break;
+				case ImageInformation.ImageContents.ControlMech:
+					if( imgInfo.ControlMechanism == null )
+					{
+						ModelState.AddModelError( "FPRequired", "Control Mechanism is required." );
+					}
+					else
+					{
+						imgInfo.ImageType = "Det";
+						imgInfo.FeaturedPull = null;
+						imgInfo.FeaturedEdge = null;
+						imgInfo.FeaturedTableBase = null;
+						imgInfo.FeaturedTableShape = null;
+						imgInfo.HasPeople = false;
+					}
 					break;
 			}
 
@@ -196,6 +256,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[HttpPost]
 		[Authorize]
+		[ValidateInput(false)]
 		public ActionResult EditImage( ImageInformation imgInfo )
 		{
 			switch( (ImageInformation.ImageContents)imgInfo.ImageContent )
@@ -203,6 +264,8 @@ namespace ProductDataWarehouse.Controllers
 				case ImageInformation.ImageContents.Image:
 					imgInfo.FeaturedEdge = null;
 					imgInfo.FeaturedPull = null;
+					imgInfo.FeaturedTableBase = null;
+					imgInfo.FeaturedTableShape = null;
 					break;
 				case ImageInformation.ImageContents.Edge:
 					if( imgInfo.FeaturedEdge == null )
@@ -213,6 +276,8 @@ namespace ProductDataWarehouse.Controllers
 					{
 						imgInfo.ImageType = "Det";
 						imgInfo.FeaturedPull = null;
+						imgInfo.FeaturedTableBase = null;
+						imgInfo.FeaturedTableShape = null;
 						imgInfo.HasPeople = false;
 					}
 					break;
@@ -225,10 +290,40 @@ namespace ProductDataWarehouse.Controllers
 					{
 						imgInfo.ImageType = "Det";
 						imgInfo.FeaturedEdge = null;
+						imgInfo.FeaturedTableBase = null;
+						imgInfo.FeaturedTableShape = null;
 						imgInfo.HasPeople = false;
 					}
 					break;
 				case ImageInformation.ImageContents.Finish:
+					break;
+				case ImageInformation.ImageContents.TableShape:
+					if( imgInfo.FeaturedTableShape == null )
+					{
+						ModelState.AddModelError( "FPRequired", "Featured Table Shape is required." );
+					}
+					else
+					{
+						imgInfo.ImageType = "Det";
+						imgInfo.FeaturedPull = null;
+						imgInfo.FeaturedEdge = null;
+						imgInfo.FeaturedTableBase = null;
+						imgInfo.HasPeople = false;
+					}
+					break;
+				case ImageInformation.ImageContents.TableBase:
+					if( imgInfo.FeaturedTableBase == null )
+					{
+						ModelState.AddModelError( "FPRequired", "Featured Table Base is required." );
+					}
+					else
+					{
+						imgInfo.ImageType = "Det";
+						imgInfo.FeaturedPull = null;
+						imgInfo.FeaturedEdge = null;
+						imgInfo.FeaturedTableShape = null;
+						imgInfo.HasPeople = false;
+					}
 					break;
 			}
 
@@ -315,6 +410,9 @@ namespace ProductDataWarehouse.Controllers
 			theList.Add( new SelectListItem() { Text = "Edge", Value = ((int)ImageInformation.ImageContents.Edge).ToString() } );
 			theList.Add( new SelectListItem() { Text = "Pull", Value = ((int)ImageInformation.ImageContents.Pull).ToString() } );
 			theList.Add( new SelectListItem() { Text = "Finish", Value = ((int)ImageInformation.ImageContents.Finish).ToString() } );
+			theList.Add( new SelectListItem() { Text = "Table Shape", Value = ((int)ImageInformation.ImageContents.TableShape).ToString() } );
+			theList.Add( new SelectListItem() { Text = "Table Base", Value = ((int)ImageInformation.ImageContents.TableBase).ToString() } );
+			theList.Add( new SelectListItem() { Text = "Control Mechansim", Value = ((int)ImageInformation.ImageContents.ControlMech).ToString() } );
 
 			return theList;
 		}

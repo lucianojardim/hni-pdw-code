@@ -1500,6 +1500,102 @@ namespace PDWDBContext
         private global::System.String _DBKeywords;
         partial void OnDBKeywordsChanging(global::System.String value);
         partial void OnDBKeywordsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String TableShape
+        {
+            get
+            {
+                return _TableShape;
+            }
+            set
+            {
+                OnTableShapeChanging(value);
+                ReportPropertyChanging("TableShape");
+                _TableShape = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("TableShape");
+                OnTableShapeChanged();
+            }
+        }
+        private global::System.String _TableShape;
+        partial void OnTableShapeChanging(global::System.String value);
+        partial void OnTableShapeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String TableBase
+        {
+            get
+            {
+                return _TableBase;
+            }
+            set
+            {
+                OnTableBaseChanging(value);
+                ReportPropertyChanging("TableBase");
+                _TableBase = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("TableBase");
+                OnTableBaseChanged();
+            }
+        }
+        private global::System.String _TableBase;
+        partial void OnTableBaseChanging(global::System.String value);
+        partial void OnTableBaseChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ControlMechanism
+        {
+            get
+            {
+                return _ControlMechanism;
+            }
+            set
+            {
+                OnControlMechanismChanging(value);
+                ReportPropertyChanging("ControlMechanism");
+                _ControlMechanism = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ControlMechanism");
+                OnControlMechanismChanged();
+            }
+        }
+        private global::System.String _ControlMechanism;
+        partial void OnControlMechanismChanging(global::System.String value);
+        partial void OnControlMechanismChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ControlDescription
+        {
+            get
+            {
+                return _ControlDescription;
+            }
+            set
+            {
+                OnControlDescriptionChanging(value);
+                ReportPropertyChanging("ControlDescription");
+                _ControlDescription = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ControlDescription");
+                OnControlDescriptionChanged();
+            }
+        }
+        private global::System.String _ControlDescription;
+        partial void OnControlDescriptionChanging(global::System.String value);
+        partial void OnControlDescriptionChanged();
 
         #endregion
 

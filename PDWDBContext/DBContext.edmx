@@ -179,6 +179,10 @@
           <Property Name="FinishType" Type="int" />
           <Property Name="FinishSubType" Type="int" />
           <Property Name="DBKeywords" Type="ntext" />
+          <Property Name="TableShape" Type="nvarchar" MaxLength="500" />
+          <Property Name="TableBase" Type="nvarchar" MaxLength="500" />
+          <Property Name="ControlMechanism" Type="nvarchar" MaxLength="500" />
+          <Property Name="ControlDescription" Type="ntext" />
         </EntityType>
         <EntityType Name="PublicationImages">
           <Key>
@@ -1004,6 +1008,10 @@
           <Property Type="String" Name="FeaturedFinish" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="DBKeywords" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="PublicationImages" Relationship="PaoliPDWModel.fkPI_Image" FromRole="ImageFile" ToRole="PublicationImage" />
+          <Property Type="String" Name="TableShape" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TableBase" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ControlMechanism" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ControlDescription" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SeriesImageFile">
           <Key>
@@ -1387,6 +1395,10 @@
           <EntitySetMapping Name="ImageFiles">
             <EntityTypeMapping TypeName="PaoliPDWModel.ImageFile">
               <MappingFragment StoreEntitySet="ImageFiles">
+                <ScalarProperty Name="ControlDescription" ColumnName="ControlDescription" />
+                <ScalarProperty Name="ControlMechanism" ColumnName="ControlMechanism" />
+                <ScalarProperty Name="TableBase" ColumnName="TableBase" />
+                <ScalarProperty Name="TableShape" ColumnName="TableShape" />
                 <ScalarProperty Name="DBKeywords" ColumnName="DBKeywords" />
                 <ScalarProperty Name="FeaturedFinish" ColumnName="FeaturedFinish" />
                 <ScalarProperty Name="FinishSubType" ColumnName="FinishSubType" />
