@@ -46,6 +46,13 @@
     <Compile Include="Attributes\AttributeInformation.cs" />
     <Compile Include="Attributes\CMInformation.cs" />
     <Compile Include="Attributes\FinishInformation.cs" />
+    <Compile Include="Dealers\DealerDetail.cs" />
+    <Compile Include="Dealers\DealerInformation.cs" />
+    <Compile Include="Dealers\DealerPageInformation.cs" />
+    <Compile Include="Dealers\DealerPageSummary.cs" />
+    <Compile Include="Dealers\DealerSummary.cs" />
+    <Compile Include="Dealers\DealerVideoInformation.cs" />
+    <Compile Include="Dealers\DealerVideoSummary.cs" />
     <Compile Include="Images\HiResImageInfo.cs" />
     <Compile Include="Images\ImageComboItem.cs" />
     <Compile Include="Images\ImageDetail.cs" />

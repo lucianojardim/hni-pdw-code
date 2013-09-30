@@ -9,7 +9,12 @@
           <EntitySet Name="AttributeOptions" EntityType="PaoliPDWModel.Store.AttributeOptions" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Attributes" EntityType="PaoliPDWModel.Store.Attributes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Categories" EntityType="PaoliPDWModel.Store.Categories" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DealerFeaturedProducts" EntityType="PaoliPDWModel.Store.DealerFeaturedProducts" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DealerPageLinks" EntityType="PaoliPDWModel.Store.DealerPageLinks" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Dealers" EntityType="PaoliPDWModel.Store.Dealers" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DealerVideoLinks" EntityType="PaoliPDWModel.Store.DealerVideoLinks" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ImageFiles" EntityType="PaoliPDWModel.Store.ImageFiles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PageLinks" EntityType="PaoliPDWModel.Store.PageLinks" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="PublicationImages" EntityType="PaoliPDWModel.Store.PublicationImages" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Publications" EntityType="PaoliPDWModel.Store.Publications" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="RelatedSeries" EntityType="PaoliPDWModel.Store.RelatedSeries" store:Type="Tables" Schema="dbo" />
@@ -27,6 +32,31 @@
           <EntitySet Name="TypicalOptionAttributes" EntityType="PaoliPDWModel.Store.TypicalOptionAttributes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Typicals" EntityType="PaoliPDWModel.Store.Typicals" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="TypicalTextAttributes" EntityType="PaoliPDWModel.Store.TypicalTextAttributes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="VideoLinks" EntityType="PaoliPDWModel.Store.VideoLinks" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="fkDealer_VideoLink" Association="PaoliPDWModel.Store.fkDealer_VideoLink">
+            <End Role="VideoLinks" EntitySet="VideoLinks" />
+            <End Role="Dealers" EntitySet="Dealers" />
+          </AssociationSet>
+          <AssociationSet Name="fkDFP_Dealer" Association="PaoliPDWModel.Store.fkDFP_Dealer">
+            <End Role="Dealers" EntitySet="Dealers" />
+            <End Role="DealerFeaturedProducts" EntitySet="DealerFeaturedProducts" />
+          </AssociationSet>
+          <AssociationSet Name="fkDPL_Dealer" Association="PaoliPDWModel.Store.fkDPL_Dealer">
+            <End Role="Dealers" EntitySet="Dealers" />
+            <End Role="DealerPageLinks" EntitySet="DealerPageLinks" />
+          </AssociationSet>
+          <AssociationSet Name="fkDPL_PageLink" Association="PaoliPDWModel.Store.fkDPL_PageLink">
+            <End Role="PageLinks" EntitySet="PageLinks" />
+            <End Role="DealerPageLinks" EntitySet="DealerPageLinks" />
+          </AssociationSet>
+          <AssociationSet Name="fkDVL_Dealer" Association="PaoliPDWModel.Store.fkDVL_Dealer">
+            <End Role="Dealers" EntitySet="Dealers" />
+            <End Role="DealerVideoLinks" EntitySet="DealerVideoLinks" />
+          </AssociationSet>
+          <AssociationSet Name="fkDVL_VideoLink" Association="PaoliPDWModel.Store.fkDVL_VideoLink">
+            <End Role="VideoLinks" EntitySet="VideoLinks" />
+            <End Role="DealerVideoLinks" EntitySet="DealerVideoLinks" />
+          </AssociationSet>
           <AssociationSet Name="fkOption_Attribute" Association="PaoliPDWModel.Store.fkOption_Attribute">
             <End Role="Attributes" EntitySet="Attributes" />
             <End Role="AttributeOptions" EntitySet="AttributeOptions" />
@@ -159,6 +189,40 @@
           <Property Name="CategoryID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
         </EntityType>
+        <EntityType Name="DealerFeaturedProducts">
+          <Key>
+            <PropertyRef Name="DealerID" />
+            <PropertyRef Name="SeriesName" />
+          </Key>
+          <Property Name="DealerID" Type="int" Nullable="false" />
+          <Property Name="SeriesName" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="DealerPageLinks">
+          <Key>
+            <PropertyRef Name="DealerID" />
+            <PropertyRef Name="PageID" />
+          </Key>
+          <Property Name="DealerID" Type="int" Nullable="false" />
+          <Property Name="PageID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Dealers">
+          <Key>
+            <PropertyRef Name="DealerID" />
+          </Key>
+          <Property Name="DealerID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="URL" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="MainContent" Type="ntext" Nullable="false" />
+          <Property Name="FeaturedVideoID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DealerVideoLinks">
+          <Key>
+            <PropertyRef Name="DealerID" />
+            <PropertyRef Name="VideoID" />
+          </Key>
+          <Property Name="DealerID" Type="int" Nullable="false" />
+          <Property Name="VideoID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="ImageFiles">
           <Key>
             <PropertyRef Name="ImageID" />
@@ -183,6 +247,14 @@
           <Property Name="TableBase" Type="nvarchar" MaxLength="500" />
           <Property Name="ControlMechanism" Type="nvarchar" MaxLength="500" />
           <Property Name="ControlDescription" Type="ntext" />
+        </EntityType>
+        <EntityType Name="PageLinks">
+          <Key>
+            <PropertyRef Name="PageID" />
+          </Key>
+          <Property Name="PageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Display" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="URLLocation" Type="nvarchar" Nullable="false" MaxLength="200" />
         </EntityType>
         <EntityType Name="PublicationImages">
           <Key>
@@ -340,6 +412,86 @@
           <Property Name="AttributeID" Type="int" Nullable="false" />
           <Property Name="TypicalID" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="VideoLinks">
+          <Key>
+            <PropertyRef Name="VideoID" />
+          </Key>
+          <Property Name="VideoID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Display" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="YouTubeID" Type="nvarchar" Nullable="false" MaxLength="20" />
+        </EntityType>
+        <Association Name="fkDealer_VideoLink">
+          <End Role="VideoLinks" Type="PaoliPDWModel.Store.VideoLinks" Multiplicity="1" />
+          <End Role="Dealers" Type="PaoliPDWModel.Store.Dealers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VideoLinks">
+              <PropertyRef Name="VideoID" />
+            </Principal>
+            <Dependent Role="Dealers">
+              <PropertyRef Name="FeaturedVideoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkDFP_Dealer">
+          <End Role="Dealers" Type="PaoliPDWModel.Store.Dealers" Multiplicity="1" />
+          <End Role="DealerFeaturedProducts" Type="PaoliPDWModel.Store.DealerFeaturedProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dealers">
+              <PropertyRef Name="DealerID" />
+            </Principal>
+            <Dependent Role="DealerFeaturedProducts">
+              <PropertyRef Name="DealerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkDPL_Dealer">
+          <End Role="Dealers" Type="PaoliPDWModel.Store.Dealers" Multiplicity="1" />
+          <End Role="DealerPageLinks" Type="PaoliPDWModel.Store.DealerPageLinks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dealers">
+              <PropertyRef Name="DealerID" />
+            </Principal>
+            <Dependent Role="DealerPageLinks">
+              <PropertyRef Name="DealerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkDPL_PageLink">
+          <End Role="PageLinks" Type="PaoliPDWModel.Store.PageLinks" Multiplicity="1" />
+          <End Role="DealerPageLinks" Type="PaoliPDWModel.Store.DealerPageLinks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PageLinks">
+              <PropertyRef Name="PageID" />
+            </Principal>
+            <Dependent Role="DealerPageLinks">
+              <PropertyRef Name="PageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkDVL_Dealer">
+          <End Role="Dealers" Type="PaoliPDWModel.Store.Dealers" Multiplicity="1" />
+          <End Role="DealerVideoLinks" Type="PaoliPDWModel.Store.DealerVideoLinks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dealers">
+              <PropertyRef Name="DealerID" />
+            </Principal>
+            <Dependent Role="DealerVideoLinks">
+              <PropertyRef Name="DealerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkDVL_VideoLink">
+          <End Role="VideoLinks" Type="PaoliPDWModel.Store.VideoLinks" Multiplicity="1" />
+          <End Role="DealerVideoLinks" Type="PaoliPDWModel.Store.DealerVideoLinks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VideoLinks">
+              <PropertyRef Name="VideoID" />
+            </Principal>
+            <Dependent Role="DealerVideoLinks">
+              <PropertyRef Name="VideoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fkOption_Attribute">
           <End Role="Attributes" Type="PaoliPDWModel.Store.Attributes" Multiplicity="1" />
           <End Role="AttributeOptions" Type="PaoliPDWModel.Store.AttributeOptions" Multiplicity="*" />
@@ -792,6 +944,26 @@
           <AssociationSet Name="fkPI_Publication" Association="PaoliPDWModel.fkPI_Publication">
             <End Role="Publication" EntitySet="Publications" />
             <End Role="PublicationImage" EntitySet="PublicationImages" />
+          </AssociationSet>
+          <EntitySet Name="Dealers" EntityType="PaoliPDWModel.Dealer" />
+          <EntitySet Name="PageLinks" EntityType="PaoliPDWModel.PageLink" />
+          <EntitySet Name="VideoLinks" EntityType="PaoliPDWModel.VideoLink" />
+          <AssociationSet Name="DealerPageLinks" Association="PaoliPDWModel.DealerPageLinks">
+            <End Role="Dealer" EntitySet="Dealers" />
+            <End Role="PageLink" EntitySet="PageLinks" />
+          </AssociationSet>
+          <AssociationSet Name="DealerVideoLinks" Association="PaoliPDWModel.DealerVideoLinks">
+            <End Role="Dealer" EntitySet="Dealers" />
+            <End Role="VideoLink" EntitySet="VideoLinks" />
+          </AssociationSet>
+          <AssociationSet Name="fkDealer_VideoLink" Association="PaoliPDWModel.fkDealer_VideoLink">
+            <End Role="VideoLink" EntitySet="VideoLinks" />
+            <End Role="Dealer" EntitySet="Dealers" />
+          </AssociationSet>
+          <EntitySet Name="DealerFeaturedProducts" EntityType="PaoliPDWModel.DealerFeaturedProduct" />
+          <AssociationSet Name="fkDFP_Dealer" Association="PaoliPDWModel.fkDFP_Dealer">
+            <End Role="Dealer" EntitySet="Dealers" />
+            <End Role="DealerFeaturedProduct" EntitySet="DealerFeaturedProducts" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="AttributeOption">
@@ -1346,6 +1518,80 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Dealer">
+          <Key>
+            <PropertyRef Name="DealerID" />
+          </Key>
+          <Property Type="Int32" Name="DealerID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="URL" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="MainContent" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PageLinks" Relationship="PaoliPDWModel.DealerPageLinks" FromRole="Dealer" ToRole="PageLink" />
+          <NavigationProperty Name="VideoLinks" Relationship="PaoliPDWModel.DealerVideoLinks" FromRole="Dealer" ToRole="VideoLink" />
+          <Property Type="Int32" Name="FeaturedVideoID" Nullable="false" />
+          <NavigationProperty Name="FeaturedVideo" Relationship="PaoliPDWModel.fkDealer_VideoLink" FromRole="Dealer" ToRole="VideoLink" />
+          <NavigationProperty Name="DealerFeaturedProducts" Relationship="PaoliPDWModel.fkDFP_Dealer" FromRole="Dealer" ToRole="DealerFeaturedProduct" />
+        </EntityType>
+        <EntityType Name="PageLink">
+          <Key>
+            <PropertyRef Name="PageID" />
+          </Key>
+          <Property Type="Int32" Name="PageID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Display" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="URLLocation" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Dealers" Relationship="PaoliPDWModel.DealerPageLinks" FromRole="PageLink" ToRole="Dealer" />
+        </EntityType>
+        <EntityType Name="VideoLink">
+          <Key>
+            <PropertyRef Name="VideoID" />
+          </Key>
+          <Property Type="Int32" Name="VideoID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Display" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="YouTubeID" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Dealers" Relationship="PaoliPDWModel.DealerVideoLinks" FromRole="VideoLink" ToRole="Dealer" />
+          <NavigationProperty Name="Dealers_1" Relationship="PaoliPDWModel.fkDealer_VideoLink" FromRole="VideoLink" ToRole="Dealer" />
+        </EntityType>
+        <Association Name="DealerPageLinks">
+          <End Type="PaoliPDWModel.Dealer" Role="Dealer" Multiplicity="*" />
+          <End Type="PaoliPDWModel.PageLink" Role="PageLink" Multiplicity="*" />
+        </Association>
+        <Association Name="DealerVideoLinks">
+          <End Type="PaoliPDWModel.Dealer" Role="Dealer" Multiplicity="*" />
+          <End Type="PaoliPDWModel.VideoLink" Role="VideoLink" Multiplicity="*" />
+        </Association>
+        <Association Name="fkDealer_VideoLink">
+          <End Type="PaoliPDWModel.VideoLink" Role="VideoLink" Multiplicity="1" />
+          <End Type="PaoliPDWModel.Dealer" Role="Dealer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VideoLink">
+              <PropertyRef Name="VideoID" />
+            </Principal>
+            <Dependent Role="Dealer">
+              <PropertyRef Name="FeaturedVideoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DealerFeaturedProduct">
+          <Key>
+            <PropertyRef Name="DealerID" />
+            <PropertyRef Name="SeriesName" />
+          </Key>
+          <Property Type="Int32" Name="DealerID" Nullable="false" />
+          <Property Type="String" Name="SeriesName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Dealer" Relationship="PaoliPDWModel.fkDFP_Dealer" FromRole="DealerFeaturedProduct" ToRole="Dealer" />
+        </EntityType>
+        <Association Name="fkDFP_Dealer">
+          <End Type="PaoliPDWModel.Dealer" Role="Dealer" Multiplicity="1" />
+          <End Type="PaoliPDWModel.DealerFeaturedProduct" Role="DealerFeaturedProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dealer">
+              <PropertyRef Name="DealerID" />
+            </Principal>
+            <Dependent Role="DealerFeaturedProduct">
+              <PropertyRef Name="DealerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1544,6 +1790,59 @@
                 <ScalarProperty Name="PubDate" ColumnName="PubDate" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="PublicationID" ColumnName="PublicationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Dealers">
+            <EntityTypeMapping TypeName="PaoliPDWModel.Dealer">
+              <MappingFragment StoreEntitySet="Dealers">
+                <ScalarProperty Name="FeaturedVideoID" ColumnName="FeaturedVideoID" />
+                <ScalarProperty Name="MainContent" ColumnName="MainContent" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DealerID" ColumnName="DealerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PageLinks">
+            <EntityTypeMapping TypeName="PaoliPDWModel.PageLink">
+              <MappingFragment StoreEntitySet="PageLinks">
+                <ScalarProperty Name="URLLocation" ColumnName="URLLocation" />
+                <ScalarProperty Name="Display" ColumnName="Display" />
+                <ScalarProperty Name="PageID" ColumnName="PageID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VideoLinks">
+            <EntityTypeMapping TypeName="PaoliPDWModel.VideoLink">
+              <MappingFragment StoreEntitySet="VideoLinks">
+                <ScalarProperty Name="YouTubeID" ColumnName="YouTubeID" />
+                <ScalarProperty Name="Display" ColumnName="Display" />
+                <ScalarProperty Name="VideoID" ColumnName="VideoID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="DealerPageLinks" TypeName="PaoliPDWModel.DealerPageLinks" StoreEntitySet="DealerPageLinks">
+            <EndProperty Name="PageLink">
+              <ScalarProperty Name="PageID" ColumnName="PageID" />
+            </EndProperty>
+            <EndProperty Name="Dealer">
+              <ScalarProperty Name="DealerID" ColumnName="DealerID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="DealerVideoLinks" TypeName="PaoliPDWModel.DealerVideoLinks" StoreEntitySet="DealerVideoLinks">
+            <EndProperty Name="VideoLink">
+              <ScalarProperty Name="VideoID" ColumnName="VideoID" />
+            </EndProperty>
+            <EndProperty Name="Dealer">
+              <ScalarProperty Name="DealerID" ColumnName="DealerID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="DealerFeaturedProducts">
+            <EntityTypeMapping TypeName="PaoliPDWModel.DealerFeaturedProduct">
+              <MappingFragment StoreEntitySet="DealerFeaturedProducts">
+                <ScalarProperty Name="SeriesName" ColumnName="SeriesName" />
+                <ScalarProperty Name="DealerID" ColumnName="DealerID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1750,14 +2049,42 @@
         <EntityTypeShape EntityType="PaoliPDWModel.PublicationImage" Width="1.5" PointX="11.375" PointY="8.625" Height="1.7566536458333388" />
         <EntityTypeShape EntityType="PaoliPDWModel.Publication" Width="1.5" PointX="9.125" PointY="14.75" Height="1.5923063151041674" />
         <AssociationConnector Association="PaoliPDWModel.fkPI_Image" >
-          <ConnectorPoint PointX="7.625" PointY="8.17924998828125" />
-          <ConnectorPoint PointX="12.125" PointY="8.17924998828125" />
-          <ConnectorPoint PointX="12.125" PointY="8.625" />
+          <ConnectorPoint PointX="7.625" PointY="10.764750976562503" />
+          <ConnectorPoint PointX="9.0416666666666661" PointY="10.764750976562503" />
+          <ConnectorPoint PointX="9.2083333333333339" PointY="10.764750976562503" />
+          <ConnectorPoint PointX="10.916666666666666" PointY="10.764750976562503" />
+          <ConnectorPoint PointX="11.083333333333334" PointY="10.764750976562503" />
+          <ConnectorPoint PointX="12.125" PointY="10.764750976562503" />
+          <ConnectorPoint PointX="12.125" PointY="10.381653645833339" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkPI_Publication" >
-          <ConnectorPoint PointX="10.625" PointY="15.546153157552084" />
-          <ConnectorPoint PointX="12.125" PointY="15.546153157552084" />
-          <ConnectorPoint PointX="12.125" PointY="10.381653645833339" />
+          <ConnectorPoint PointX="10.625" PointY="14.75" />
+          <ConnectorPoint PointX="11" PointY="14.375" />
+          <ConnectorPoint PointX="11" PointY="9.50332682291667" />
+          <ConnectorPoint PointX="11.375" PointY="9.50332682291667" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="PaoliPDWModel.Dealer" Width="1.5" PointX="11.375" PointY="14" Height="2.4140429687500031" />
+        <EntityTypeShape EntityType="PaoliPDWModel.PageLink" Width="1.5" PointX="13.625" PointY="14.25" Height="1.5923063151041674" />
+        <EntityTypeShape EntityType="PaoliPDWModel.VideoLink" Width="1.5" PointX="13.625" PointY="16.625" Height="1.5923063151041674" />
+        <AssociationConnector Association="PaoliPDWModel.DealerPageLinks" >
+          <ConnectorPoint PointX="12.875" PointY="15.046153157552084" />
+          <ConnectorPoint PointX="13.625" PointY="15.046153157552084" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.DealerVideoLinks" >
+          <ConnectorPoint PointX="12.06616232421875" PointY="16.414042968750003" />
+          <ConnectorPoint PointX="12.06616232421875" PointY="17.835644145501828" />
+          <ConnectorPoint PointX="13.625" PointY="17.835644145501828" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkDealer_VideoLink" >
+          <ConnectorPoint PointX="13.625" PointY="17.199069572750915" />
+          <ConnectorPoint PointX="12.501833662109375" PointY="17.199069572750915" />
+          <ConnectorPoint PointX="12.501833662109375" PointY="16.414042968750003" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="PaoliPDWModel.DealerFeaturedProduct" Width="1.5" PointX="13.625" PointY="19.625" Height="1.427958984374996" />
+        <AssociationConnector Association="PaoliPDWModel.fkDFP_Dealer" >
+          <ConnectorPoint PointX="11.689328662109375" PointY="16.414042968750003" />
+          <ConnectorPoint PointX="11.689328662109375" PointY="20.338979492187498" />
+          <ConnectorPoint PointX="13.625" PointY="20.338979492187498" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>

@@ -35,16 +35,30 @@
         <ul id="nav">
 			@if( HttpContext.Current.User.Identity.IsAuthenticated )
    {
-            <li><a href="@Url.Action( "Index" )">PDW Import</a></li>
-            <li><a href="@Url.Action( "Images" )">Image Engine</a></li>
-            <li><a href="@Url.Action( "Collateral" )">Collateral</a></li>
+            <li class="@(ViewBag.CurrentPage == "Import" ? "current_page" : "")"><a href="@Url.Action( "Index" )">PDW Import</a></li>
+            <li class="@(ViewBag.CurrentPage == "Images" ? "current_page" : "")"><a href="@Url.Action( "Images" )">Image Engine</a></li>
+            <li class="@(ViewBag.CurrentPage == "Collateral" ? "current_page" : "")"><a href="@Url.Action( "Collateral" )">Collateral</a></li>
+            <li class="@(ViewBag.CurrentPage == "Dealers" ? "current_page" : "")"><a href="@Url.Action( "ManageDealers" )">Dealers</a></li>
    }
             <li><a href="javascript:void(0);" id="cmsLink">Login to CMS</a></li>
             <li><a href="javascript:void(0);" id="siteLink">View Site</a></li>
         </ul>
 	</div>
+	@if( ViewBag.CurrentPage == "Dealers" )
+ {
+	<div id="sub_nav" class="stuckontop">
+		<div class="wrapper p20">
+			<ul class="nav_type_3">
+				<li class="@(ViewBag.CurrentDealerPage == "Dealers" ? "on_focus" : "")"><a href="@Url.Action( "ManageDealers" )">Dealers</a></li>
+				<li class="@(ViewBag.CurrentDealerPage == "Videos" ? "on_focus" : "")"><a href="@Url.Action( "ManageVideos" )">Video Links</a></li>
+				<li class="@(ViewBag.CurrentDealerPage == "Pages" ? "on_focus" : "")"><a href="@Url.Action( "ManagePages" )">Pages</a></li>
+			</ul>
+			<p class="clear"></p>
+		</div>
+	</div>
+ }
 </div>
-<p style="padding-top:120px;"></p>
+<p style="padding-top:@(ViewBag.CurrentPage == "Dealers" ? "145" : "120")px;"></p>
 <div class="wrapper p20">
 @RenderBody()
 </div>

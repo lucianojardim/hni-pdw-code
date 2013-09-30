@@ -9,6 +9,7 @@ using PDWModels.Images;
 using System.Threading;
 using System.Web.Security;
 using PDWModels.Publications;
+using PDWModels.Dealers;
 
 namespace ProductDataWarehouse.Controllers
 {
@@ -638,6 +639,390 @@ namespace ProductDataWarehouse.Controllers
 
 			return Json( new { success = true }, JsonRequestBehavior.AllowGet );
 		}
+
+		#region Dealers
+		[Authorize]
+		public ActionResult ManageDealers()
+		{
+			return View();
+		}
+
+		public static IEnumerable<SelectListItem> GetVideoDDList()
+		{
+			DealerRepository dRepository = new DealerRepository();
+
+			var results = dRepository.GetFullVideoList().OrderBy( v => v.Name );
+
+			return results.Select( i => new SelectListItem() { Text = i.Name, Value = i.VideoID.ToString() } );
+		}
+
+		public static IEnumerable<SelectListItem> GetPageDDList()
+		{
+			DealerRepository dRepository = new DealerRepository();
+
+			var results = dRepository.GetFullPageList().OrderBy( v => v.Name );
+
+			return results.Select( i => new SelectListItem() { Text = i.Name, Value = i.PageID.ToString() } );
+		}
+
+		public static IEnumerable<SelectListItem> GetSeriesDDList()
+		{
+			SeriesRepository sRepository = new SeriesRepository();
+
+			var results = sRepository.GetSeriesNameList( null ).OrderBy( v => v.Name );
+
+			return results.Select( i => new SelectListItem() { Text = i.Name, Value = i.Name } );
+		}
+
+		[Authorize]
+		public JsonResult FullDealerList( DealerTableParams param )
+		{
+			int totalCount = 0, filteredCount = 0;
+
+			DealerRepository dRepository = new DealerRepository();
+
+			var results = dRepository.GetFullDealerList(
+				param, out totalCount, out filteredCount );
+
+			return Json( new
+			{
+				sEcho = param.sEcho,
+				iTotalRecords = totalCount,
+				iTotalDisplayRecords = filteredCount,
+				aaData = results
+			},
+				JsonRequestBehavior.AllowGet );
+		}
+
+		[Authorize]
+		public ActionResult AddDealer()
+		{
+			return View( new DealerInformation() );
+		}
+
+		[Authorize]
+		[HttpPost]
+		public ActionResult AddDealer( DealerInformation dInfo )
+		{
+			if( ModelState.IsValid )
+			{
+				try
+				{
+					DealerRepository dRepository = new DealerRepository();
+
+					dRepository.AddDealer( dInfo );
+
+					ViewBag.CloseFancyBox = true;
+
+					return View( dInfo );
+				}
+				catch( Exception ex )
+				{
+					ModelState.AddModelError( "", ex.Message );
+					if( ex.InnerException != null )
+					{
+						ModelState.AddModelError( "", ex.InnerException.Message );
+					}
+				}
+
+			}
+
+			return View( dInfo );
+		}
+
+		[Authorize]
+		public ActionResult EditDealer( int id )
+		{
+			DealerRepository dRepository = new DealerRepository();
+
+			var dInfo = dRepository.GetDealer( id );
+
+			return View( dInfo );
+		}
+
+		[Authorize]
+		[HttpPost]
+		public ActionResult EditDealer( DealerInformation dInfo )
+		{
+			if( ModelState.IsValid )
+			{
+				try
+				{
+					DealerRepository dRepository = new DealerRepository();
+
+					dRepository.UpdateDealer( dInfo );
+
+					ViewBag.CloseFancyBox = true;
+
+					return View( dInfo );
+				}
+				catch( Exception ex )
+				{
+					ModelState.AddModelError( "", ex.Message );
+					if( ex.InnerException != null )
+					{
+						ModelState.AddModelError( "", ex.InnerException.Message );
+					}
+				}
+
+			}
+
+			return View( dInfo );
+		}
+
+		[Authorize]
+		public JsonResult DeleteDealer( int id )
+		{
+			DealerRepository dRepository = new DealerRepository();
+
+			bool bSuccess = dRepository.DeleteDealer( id );
+
+			return Json( new
+			{
+				success = bSuccess
+			},
+				JsonRequestBehavior.AllowGet );
+		}
+
+		#endregion
+
+		#region Dealer Videos
+		[Authorize]
+		public ActionResult ManageVideos()
+		{
+			return View();
+		}
+
+		[Authorize]
+		public JsonResult FullVideoList( VideoTableParams param )
+		{
+			int totalCount = 0, filteredCount = 0;
+
+			DealerRepository dRepository = new DealerRepository();
+
+			var results = dRepository.GetFullVideoList(
+				param, out totalCount, out filteredCount );
+
+			return Json( new
+			{
+				sEcho = param.sEcho,
+				iTotalRecords = totalCount,
+				iTotalDisplayRecords = filteredCount,
+				aaData = results
+			},
+				JsonRequestBehavior.AllowGet );
+		}
+
+		[Authorize]
+		public ActionResult AddDealerVideo()
+		{
+			return View();
+		}
+
+		[Authorize]
+		[HttpPost]
+		public ActionResult AddDealerVideo( DealerVideoInformation dInfo )
+		{
+			if( ModelState.IsValid )
+			{
+				try
+				{
+					DealerRepository dRepository = new DealerRepository();
+
+					dRepository.AddDealerVideo( dInfo );
+
+					ViewBag.CloseFancyBox = true;
+
+					return View();
+				}
+				catch( Exception ex )
+				{
+					ModelState.AddModelError( "", ex.Message );
+					if( ex.InnerException != null )
+					{
+						ModelState.AddModelError( "", ex.InnerException.Message );
+					}
+				}
+
+			}
+
+			return View();
+		}
+
+		[Authorize]
+		public ActionResult EditDealerVideo( int id )
+		{
+			DealerRepository dRepository = new DealerRepository();
+
+			var dInfo = dRepository.GetDealerVideo( id );
+
+			return View( dInfo );
+		}
+
+		[Authorize]
+		[HttpPost]
+		public ActionResult EditDealerVideo( DealerVideoInformation dInfo )
+		{
+			if( ModelState.IsValid )
+			{
+				try
+				{
+					DealerRepository dRepository = new DealerRepository();
+
+					dRepository.UpdateDealerVideo( dInfo );
+
+					ViewBag.CloseFancyBox = true;
+
+					return View();
+				}
+				catch( Exception ex )
+				{
+					ModelState.AddModelError( "", ex.Message );
+					if( ex.InnerException != null )
+					{
+						ModelState.AddModelError( "", ex.InnerException.Message );
+					}
+				}
+
+			}
+
+			return View();
+		}
+
+		[Authorize]
+		public JsonResult DeleteDealerVideo( int id )
+		{
+			DealerRepository dRepository = new DealerRepository();
+
+			bool bSuccess = dRepository.DeleteDealerVideo( id );
+
+			return Json( new
+			{
+				success = bSuccess
+			},
+				JsonRequestBehavior.AllowGet );
+		}
+
+		#endregion
+
+		#region Dealer Pages
+		[Authorize]
+		public ActionResult ManagePages()
+		{
+			return View();
+		}
+
+		[Authorize]
+		public JsonResult FullDealerPageList( DealerPageTableParams param )
+		{
+			int totalCount = 0, filteredCount = 0;
+
+			DealerRepository dRepository = new DealerRepository();
+
+			var results = dRepository.GetFullPageList(
+				param, out totalCount, out filteredCount );
+
+			return Json( new
+			{
+				sEcho = param.sEcho,
+				iTotalRecords = totalCount,
+				iTotalDisplayRecords = filteredCount,
+				aaData = results
+			},
+				JsonRequestBehavior.AllowGet );
+		}
+
+		[Authorize]
+		public ActionResult AddDealerPage()
+		{
+			return View();
+		}
+
+		[Authorize]
+		[HttpPost]
+		public ActionResult AddDealerPage( DealerPageInformation dInfo )
+		{
+			if( ModelState.IsValid )
+			{
+				try
+				{
+					DealerRepository dRepository = new DealerRepository();
+
+					dRepository.AddDealerPage( dInfo );
+
+					ViewBag.CloseFancyBox = true;
+
+					return View();
+				}
+				catch( Exception ex )
+				{
+					ModelState.AddModelError( "", ex.Message );
+					if( ex.InnerException != null )
+					{
+						ModelState.AddModelError( "", ex.InnerException.Message );
+					}
+				}
+
+			}
+
+			return View();
+		}
+
+		[Authorize]
+		public ActionResult EditDealerPage( int id )
+		{
+			DealerRepository dRepository = new DealerRepository();
+
+			var dInfo = dRepository.GetDealerPage( id );
+
+			return View( dInfo );
+		}
+
+		[Authorize]
+		[HttpPost]
+		public ActionResult EditDealerPage( DealerPageInformation dInfo )
+		{
+			if( ModelState.IsValid )
+			{
+				try
+				{
+					DealerRepository dRepository = new DealerRepository();
+
+					dRepository.UpdateDealerPage( dInfo );
+
+					ViewBag.CloseFancyBox = true;
+
+					return View();
+				}
+				catch( Exception ex )
+				{
+					ModelState.AddModelError( "", ex.Message );
+					if( ex.InnerException != null )
+					{
+						ModelState.AddModelError( "", ex.InnerException.Message );
+					}
+				}
+
+			}
+
+			return View();
+		}
+
+		[Authorize]
+		public JsonResult DeleteDealerPage( int id )
+		{
+			DealerRepository dRepository = new DealerRepository();
+
+			bool bSuccess = dRepository.DeleteDealerPage( id );
+
+			return Json( new
+			{
+				success = bSuccess
+			},
+				JsonRequestBehavior.AllowGet );
+		}
+
+		#endregion
 	}
 
 }

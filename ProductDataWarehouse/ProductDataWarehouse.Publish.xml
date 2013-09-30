@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <publishData>
-  <publishProfile publishUrl="C:\Projects\Paoli\PublishWebSite" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="local copy" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="False">
+  <publishProfile publishUrl="C:\Projects\Paoli\PublishWebSite" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="local copy" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
     <file relUrl="Content/fancybox/fancy_close.png" publishTime="02/28/2012 15:04:52" />
     <file relUrl="Scripts/MicrosoftAjax.js" publishTime="11/27/2012 16:02:14" />
     <file relUrl="Content/fancybox/fancy_title_right.png" publishTime="02/28/2012 15:04:52" />
@@ -13,7 +13,7 @@
     <file relUrl="Scripts/jquery.unobtrusive-ajax.js" publishTime="11/27/2012 16:02:13" />
     <file relUrl="Content/fancybox/blank.gif" publishTime="02/28/2012 15:04:52" />
     <file relUrl="Content/fancybox/jquery.easing-1.3.pack.js" publishTime="02/28/2012 15:04:52" />
-    <file relUrl="bin/PDWDBContext.pdb" publishTime="07/25/2013 13:38:37" />
+    <file relUrl="bin/PDWDBContext.pdb" publishTime="09/09/2013 13:33:47" />
     <file relUrl="Views/Import/Index.cshtml" publishTime="05/10/2013 16:11:56" />
     <file relUrl="Content/themes/base/images/ui-bg_highlight-soft_75_cccccc_1x100.png" publishTime="11/27/2012 16:02:24" />
     <file relUrl="Views/Web.config" publishTime="11/27/2012 16:02:14" />
@@ -26,15 +26,15 @@
     <file relUrl="Content/Fonts/AdelleSans_Light.svg" publishTime="01/03/2013 11:52:58" />
     <file relUrl="Scripts/modernizr-1.7.min.js" publishTime="11/27/2012 16:02:26" />
     <file relUrl="Views/Shared/Error.cshtml" publishTime="11/27/2012 16:02:14" />
-    <file relUrl="bin/PWDRepositories.dll" publishTime="08/14/2013 10:43:15" />
+    <file relUrl="bin/PWDRepositories.dll" publishTime="09/09/2013 13:33:48" />
     <file relUrl="Content/Fonts/adellesans_thin-webfont.eot" publishTime="01/03/2013 11:52:58" />
     <file relUrl="Content/fancybox/fancy_loading.png" publishTime="02/28/2012 15:04:52" />
-    <file relUrl="bin/PWDRepositories.pdb" publishTime="08/14/2013 10:43:15" />
+    <file relUrl="bin/PWDRepositories.pdb" publishTime="09/09/2013 13:33:48" />
     <file relUrl="Content/fancybox/fancy_shadow_w.png" publishTime="02/28/2012 15:04:52" />
     <file relUrl="Content/images/blueTop.png" publishTime="05/09/2013 10:29:57" />
     <file relUrl="Content/themes/base/images/ui-bg_glass_55_fbf9ee_1x400.png" publishTime="11/27/2012 16:02:24" />
     <file relUrl="Content/fancybox/fancy_title_main.png" publishTime="02/28/2012 15:04:52" />
-    <file relUrl="Views/Import/EditImage.cshtml" publishTime="03/18/2013 13:17:15" />
+    <file relUrl="Views/Import/EditImage.cshtml" publishTime="09/09/2013 10:29:10" />
     <file relUrl="Views/Import/EditCollateral.cshtml" publishTime="04/11/2013 11:45:49" />
     <file relUrl="Content/themes/base/jquery.ui.resizable.css" publishTime="11/27/2012 16:02:24" />
     <file relUrl="Scripts/MicrosoftMvcAjax.debug.js" publishTime="11/27/2012 16:02:14" />
@@ -72,15 +72,15 @@
     <file relUrl="Views/Import/Logon.cshtml" publishTime="05/10/2013 15:59:50" />
     <file relUrl="Content/images/sort_both.png" publishTime="02/01/2012 14:08:00" />
     <file relUrl="Scripts/jquery.validate.unobtrusive.min.js" publishTime="11/27/2012 16:02:13" />
-    <file relUrl="Views/Import/AddImage.cshtml" publishTime="04/24/2013 14:41:54" />
+    <file relUrl="Views/Import/AddImage.cshtml" publishTime="09/09/2013 10:29:10" />
     <file relUrl="Views/_ViewStart.cshtml" publishTime="11/27/2012 16:02:14" />
-    <file relUrl="bin/PDWModels.dll" publishTime="07/26/2013 07:27:22" />
+    <file relUrl="bin/PDWModels.dll" publishTime="09/09/2013 13:33:48" />
     <file relUrl="Content/themes/base/jquery.ui.autocomplete.css" publishTime="11/27/2012 16:02:24" />
     <file relUrl="Content/Fonts/adellesans_italic-webfont.ttf" publishTime="01/03/2013 11:52:58" />
     <file relUrl="Content/Fonts/adellesans_bold-webfont.eot" publishTime="01/03/2013 11:52:56" />
     <file relUrl="Content/fancybox/fancy_title_left.png" publishTime="02/28/2012 15:04:52" />
     <file relUrl="Content/fancybox/jquery.fancybox-1.3.4.css" publishTime="02/28/2012 15:04:52" />
-    <file relUrl="bin/ProductDataWarehouse.dll" publishTime="08/14/2013 10:43:16" />
+    <file relUrl="bin/ProductDataWarehouse.dll" publishTime="09/09/2013 13:33:50" />
     <file relUrl="Content/fancybox/fancy_shadow_sw.png" publishTime="02/28/2012 15:04:52" />
     <file relUrl="Content/themes/base/images/ui-bg_glass_75_e6e6e6_1x400.png" publishTime="11/27/2012 16:02:24" />
     <file relUrl="Scripts/jquery.validate-vsdoc.js" publishTime="11/27/2012 16:02:23" />
@@ -90,7 +90,7 @@
     <file relUrl="Content/Fonts/AdelleSans_Light.eot" publishTime="01/03/2013 11:52:58" />
     <file relUrl="Content/images/sort_asc.png" publishTime="02/01/2012 14:08:00" />
     <file relUrl="Content/jquery.dataTables.css" publishTime="12/06/2012 15:55:59" />
-    <file relUrl="Views/PDW/APIDef.cshtml" publishTime="06/06/2013 13:24:35" />
+    <file relUrl="Views/PDW/APIDef.cshtml" publishTime="09/03/2013 16:17:26" />
     <file relUrl="Content/fancybox/fancybox-x.png" publishTime="02/28/2012 15:04:52" />
     <file relUrl="Content/themes/base/images/ui-bg_glass_75_dadada_1x400.png" publishTime="11/27/2012 16:02:24" />
     <file relUrl="Content/themes/base/images/ui-icons_454545_256x240.png" publishTime="11/27/2012 16:02:24" />
@@ -113,7 +113,7 @@
     <file relUrl="Views/Shared/HeaderLayout.cshtml" publishTime="05/10/2013 16:10:58" />
     <file relUrl="Content/themes/base/images/ui-bg_flat_0_aaaaaa_40x100.png" publishTime="11/27/2012 16:02:24" />
     <file relUrl="Content/images/back_enabled.png" publishTime="02/01/2012 14:08:00" />
-    <file relUrl="bin/PDWDBContext.dll" publishTime="07/25/2013 13:38:37" />
+    <file relUrl="bin/PDWDBContext.dll" publishTime="09/09/2013 13:33:47" />
     <file relUrl="Content/Fonts/adellesans_thin-webfont.ttf" publishTime="01/03/2013 11:52:58" />
     <file relUrl="Content/themes/base/jquery.ui.slider.css" publishTime="11/27/2012 16:02:24" />
     <file relUrl="Content/images/nav_bar_bg.png" publishTime="01/03/2013 11:54:10" />
@@ -135,7 +135,7 @@
     <file relUrl="Views/Import/Collateral.cshtml" publishTime="05/09/2013 10:14:54" />
     <file relUrl="bin/EntityFramework.dll" publishTime="11/27/2012 16:02:24" />
     <file relUrl="Content/Fonts/adellesans_semibold-webfont.woff" publishTime="01/03/2013 11:52:58" />
-    <file relUrl="bin/PDWModels.pdb" publishTime="07/26/2013 07:27:22" />
+    <file relUrl="bin/PDWModels.pdb" publishTime="09/09/2013 13:33:48" />
     <file relUrl="Content/fancybox/fancy_title_over.png" publishTime="02/28/2012 15:04:52" />
     <file relUrl="Content/images/sort_desc.png" publishTime="02/01/2012 14:08:00" />
     <file relUrl="Content/themes/base/images/ui-icons_888888_256x240.png" publishTime="11/27/2012 16:02:24" />
@@ -143,7 +143,7 @@
     <file relUrl="Content/Fonts/adellesans_regular-webfont.svg" publishTime="01/03/2013 11:52:58" />
     <file relUrl="Content/Fonts/adellesans_thin-webfont.woff" publishTime="01/03/2013 11:52:58" />
     <file relUrl="Views/Shared/EditorTemplates/DateTime.cshtml" publishTime="04/11/2013 08:37:39" />
-    <file relUrl="bin/ProductDataWarehouse.pdb" publishTime="08/14/2013 10:43:16" />
+    <file relUrl="bin/ProductDataWarehouse.pdb" publishTime="09/09/2013 13:33:50" />
     <file relUrl="Content/Fonts/adellesans_regular-webfont.woff" publishTime="01/03/2013 11:52:58" />
     <file relUrl="Views/Import/SearchLog.cshtml" publishTime="05/09/2013 10:14:59" />
     <file relUrl="Content/fancybox/fancybox.png" publishTime="02/28/2012 15:04:52" />
@@ -156,7 +156,7 @@
     <file relUrl="Content/fancybox/fancy_shadow_nw.png" publishTime="02/28/2012 15:04:52" />
     <file relUrl="Content/Fonts/adellesans_semibold-webfont.ttf" publishTime="01/03/2013 11:52:58" />
   </publishProfile>
-  <publishProfile publishUrl="C:\Projects\Paoli\ReleaseCopy" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="release code" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
+  <publishProfile publishUrl="C:\Projects\Paoli\ReleaseCopy" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="release code" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="False">
     <file relUrl="Content/fancybox/fancy_close.png" publishTime="02/28/2012 15:04:52" />
     <file relUrl="Scripts/MicrosoftAjax.js" publishTime="11/27/2012 16:02:14" />
     <file relUrl="Content/fancybox/fancy_title_right.png" publishTime="02/28/2012 15:04:52" />
@@ -169,7 +169,7 @@
     <file relUrl="Views/Import/CollateralImages.cshtml" publishTime="04/11/2013 13:53:07" />
     <file relUrl="Content/fancybox/blank.gif" publishTime="02/28/2012 15:04:52" />
     <file relUrl="Content/fancybox/jquery.easing-1.3.pack.js" publishTime="02/28/2012 15:04:52" />
-    <file relUrl="bin/PDWDBContext.pdb" publishTime="07/25/2013 13:38:37" />
+    <file relUrl="bin/PDWDBContext.pdb" publishTime="09/09/2013 13:33:47" />
     <file relUrl="Views/Import/Index.cshtml" publishTime="05/10/2013 16:11:56" />
     <file relUrl="Content/themes/base/images/ui-bg_highlight-soft_75_cccccc_1x100.png" publishTime="11/27/2012 16:02:24" />
     <file relUrl="Views/Web.config" publishTime="11/27/2012 16:02:14" />
@@ -183,15 +183,15 @@
     <file relUrl="Content/Fonts/AdelleSans_Light.svg" publishTime="01/03/2013 11:52:58" />
     <file relUrl="Scripts/modernizr-1.7.min.js" publishTime="11/27/2012 16:02:26" />
     <file relUrl="Views/Shared/Error.cshtml" publishTime="11/27/2012 16:02:14" />
-    <file relUrl="bin/PWDRepositories.dll" publishTime="08/14/2013 10:43:15" />
+    <file relUrl="bin/PWDRepositories.dll" publishTime="09/09/2013 13:33:48" />
     <file relUrl="Content/Fonts/adellesans_thin-webfont.eot" publishTime="01/03/2013 11:52:58" />
     <file relUrl="Content/fancybox/fancy_loading.png" publishTime="02/28/2012 15:04:52" />
-    <file relUrl="bin/PWDRepositories.pdb" publishTime="08/14/2013 10:43:15" />
+    <file relUrl="bin/PWDRepositories.pdb" publishTime="09/09/2013 13:33:48" />
     <file relUrl="Content/fancybox/fancy_shadow_w.png" publishTime="02/28/2012 15:04:52" />
     <file relUrl="Views/Import/SearchLog.cshtml" publishTime="05/09/2013 10:14:59" />
     <file relUrl="Content/themes/base/images/ui-bg_glass_55_fbf9ee_1x400.png" publishTime="11/27/2012 16:02:24" />
     <file relUrl="Content/fancybox/fancy_title_main.png" publishTime="02/28/2012 15:04:52" />
-    <file relUrl="Views/Import/EditImage.cshtml" publishTime="03/18/2013 13:17:15" />
+    <file relUrl="Views/Import/EditImage.cshtml" publishTime="09/09/2013 10:29:10" />
     <file relUrl="Views/Import/EditCollateral.cshtml" publishTime="04/11/2013 11:45:49" />
     <file relUrl="Content/themes/base/jquery.ui.resizable.css" publishTime="11/27/2012 16:02:24" />
     <file relUrl="Scripts/MicrosoftMvcAjax.debug.js" publishTime="11/27/2012 16:02:14" />
@@ -210,6 +210,7 @@
     <file relUrl="Content/images/back_disabled.png" publishTime="02/01/2012 14:08:00" />
     <file relUrl="Global.asax" publishTime="11/27/2012 16:02:14" />
     <file relUrl="bin/EntityFramework.xml" publishTime="11/27/2012 16:02:24" />
+    <file relUrl="Content/Fonts/adellesans_thin-webfont.woff" publishTime="01/03/2013 11:52:58" />
     <file relUrl="Scripts/MicrosoftMvcValidation.js" publishTime="11/27/2012 16:02:14" />
     <file relUrl="Content/Fonts/adellesans_bold-webfont.ttf" publishTime="01/03/2013 11:52:58" />
     <file relUrl="Web.config" publishTime="05/01/2013 08:20:47" />
@@ -220,7 +221,6 @@
     <file relUrl="bin/LumenWorks.Framework.IO.dll" publishTime="11/10/2011 15:12:32" />
     <file relUrl="Content/fancybox/fancy_shadow_s.png" publishTime="02/28/2012 15:04:52" />
     <file relUrl="Content/Fonts/WeberHandITCStd-Bold.svg" publishTime="01/03/2013 11:52:58" />
-    <file relUrl="Content/images/forward_disabled.png" publishTime="02/01/2012 14:08:00" />
     <file relUrl="Content/themes/base/jquery.ui.dialog.css" publishTime="11/27/2012 16:02:24" />
     <file relUrl="Content/Fonts/adellesans_semibold-webfont.svg" publishTime="01/03/2013 11:52:58" />
     <file relUrl="Content/fancybox/fancy_shadow_e.png" publishTime="02/28/2012 15:04:52" />
@@ -230,15 +230,15 @@
     <file relUrl="Views/Import/Logon.cshtml" publishTime="05/10/2013 15:59:50" />
     <file relUrl="Content/images/sort_both.png" publishTime="02/01/2012 14:08:00" />
     <file relUrl="Scripts/jquery.validate.unobtrusive.min.js" publishTime="11/27/2012 16:02:13" />
-    <file relUrl="Views/Import/AddImage.cshtml" publishTime="04/24/2013 14:41:54" />
+    <file relUrl="Views/Import/AddImage.cshtml" publishTime="09/09/2013 10:29:10" />
     <file relUrl="Views/_ViewStart.cshtml" publishTime="11/27/2012 16:02:14" />
-    <file relUrl="bin/PDWModels.dll" publishTime="07/26/2013 07:27:22" />
+    <file relUrl="bin/PDWModels.dll" publishTime="09/09/2013 13:33:48" />
     <file relUrl="Content/themes/base/jquery.ui.autocomplete.css" publishTime="11/27/2012 16:02:24" />
     <file relUrl="Content/Fonts/adellesans_italic-webfont.ttf" publishTime="01/03/2013 11:52:58" />
     <file relUrl="Scripts/jquery.unobtrusive-ajax.js" publishTime="11/27/2012 16:02:13" />
     <file relUrl="Content/Fonts/adellesans_bold-webfont.eot" publishTime="01/03/2013 11:52:56" />
     <file relUrl="Content/fancybox/jquery.fancybox-1.3.4.css" publishTime="02/28/2012 15:04:52" />
-    <file relUrl="bin/ProductDataWarehouse.dll" publishTime="08/14/2013 10:43:16" />
+    <file relUrl="bin/ProductDataWarehouse.dll" publishTime="09/09/2013 13:33:50" />
     <file relUrl="Content/fancybox/fancy_shadow_sw.png" publishTime="02/28/2012 15:04:52" />
     <file relUrl="Content/themes/base/images/ui-bg_glass_75_e6e6e6_1x400.png" publishTime="11/27/2012 16:02:24" />
     <file relUrl="Scripts/jquery.validate-vsdoc.js" publishTime="11/27/2012 16:02:23" />
@@ -248,7 +248,7 @@
     <file relUrl="Content/Fonts/AdelleSans_Light.eot" publishTime="01/03/2013 11:52:58" />
     <file relUrl="Content/images/sort_asc.png" publishTime="02/01/2012 14:08:00" />
     <file relUrl="Content/jquery.dataTables.css" publishTime="12/06/2012 15:55:59" />
-    <file relUrl="Views/PDW/APIDef.cshtml" publishTime="06/06/2013 13:24:35" />
+    <file relUrl="Views/PDW/APIDef.cshtml" publishTime="09/03/2013 16:17:26" />
     <file relUrl="Content/fancybox/fancybox-x.png" publishTime="02/28/2012 15:04:52" />
     <file relUrl="Content/themes/base/images/ui-bg_glass_75_dadada_1x400.png" publishTime="11/27/2012 16:02:24" />
     <file relUrl="Content/themes/base/images/ui-icons_454545_256x240.png" publishTime="11/27/2012 16:02:24" />
@@ -271,7 +271,7 @@
     <file relUrl="Views/Shared/HeaderLayout.cshtml" publishTime="05/10/2013 16:10:58" />
     <file relUrl="Content/themes/base/images/ui-bg_flat_0_aaaaaa_40x100.png" publishTime="11/27/2012 16:02:24" />
     <file relUrl="Content/images/back_enabled.png" publishTime="02/01/2012 14:08:00" />
-    <file relUrl="bin/PDWDBContext.dll" publishTime="07/25/2013 13:38:37" />
+    <file relUrl="bin/PDWDBContext.dll" publishTime="09/09/2013 13:33:47" />
     <file relUrl="Content/Fonts/adellesans_thin-webfont.ttf" publishTime="01/03/2013 11:52:58" />
     <file relUrl="Content/themes/base/jquery.ui.slider.css" publishTime="11/27/2012 16:02:24" />
     <file relUrl="Content/images/nav_bar_bg.png" publishTime="01/03/2013 11:54:10" />
@@ -293,15 +293,15 @@
     <file relUrl="Views/Import/Collateral.cshtml" publishTime="05/09/2013 10:14:54" />
     <file relUrl="bin/EntityFramework.dll" publishTime="11/27/2012 16:02:24" />
     <file relUrl="Content/Fonts/adellesans_semibold-webfont.woff" publishTime="01/03/2013 11:52:58" />
-    <file relUrl="bin/PDWModels.pdb" publishTime="07/26/2013 07:27:22" />
+    <file relUrl="bin/PDWModels.pdb" publishTime="09/09/2013 13:33:48" />
     <file relUrl="Content/fancybox/fancy_title_over.png" publishTime="02/28/2012 15:04:52" />
     <file relUrl="Content/images/sort_desc.png" publishTime="02/01/2012 14:08:00" />
     <file relUrl="Content/themes/base/images/ui-icons_888888_256x240.png" publishTime="11/27/2012 16:02:24" />
     <file relUrl="Content/themes/base/jquery.ui.progressbar.css" publishTime="11/27/2012 16:02:24" />
     <file relUrl="Content/Fonts/adellesans_regular-webfont.svg" publishTime="01/03/2013 11:52:58" />
-    <file relUrl="Content/Fonts/adellesans_thin-webfont.woff" publishTime="01/03/2013 11:52:58" />
+    <file relUrl="Content/images/forward_disabled.png" publishTime="02/01/2012 14:08:00" />
     <file relUrl="Views/Shared/EditorTemplates/DateTime.cshtml" publishTime="04/11/2013 08:37:39" />
-    <file relUrl="bin/ProductDataWarehouse.pdb" publishTime="08/14/2013 10:43:16" />
+    <file relUrl="bin/ProductDataWarehouse.pdb" publishTime="09/09/2013 13:33:50" />
     <file relUrl="Content/Fonts/adellesans_regular-webfont.woff" publishTime="01/03/2013 11:52:58" />
     <file relUrl="Content/fancybox/jquery.fancybox-1.3.4.js" publishTime="02/28/2012 15:04:52" />
     <file relUrl="Scripts/jquery.validate.min.js" publishTime="11/27/2012 16:02:23" />

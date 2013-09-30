@@ -39,6 +39,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttributeRepository.cs" />
+    <Compile Include="DealerRepository.cs" />
     <Compile Include="ImageRepository.cs" />
     <Compile Include="ImportRepository.cs" />
     <Compile Include="PublicationRepository.cs" />

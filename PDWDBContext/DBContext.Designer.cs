@@ -45,6 +45,10 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkST_Typical", "Typical", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.Typical), "SeriesTypical", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SeriesTypical), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkPI_Image", "ImageFile", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.ImageFile), "PublicationImage", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.PublicationImage), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkPI_Publication", "Publication", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.Publication), "PublicationImage", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.PublicationImage), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "DealerPageLinks", "Dealer", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Dealer), "PageLink", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.PageLink))]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "DealerVideoLinks", "Dealer", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Dealer), "VideoLink", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.VideoLink))]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkDealer_VideoLink", "VideoLink", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.VideoLink), "Dealer", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Dealer), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkDFP_Dealer", "Dealer", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.Dealer), "DealerFeaturedProduct", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.DealerFeaturedProduct), true)]
 
 #endregion
 
@@ -415,6 +419,70 @@ namespace PDWDBContext
             }
         }
         private ObjectSet<Publication> _Publications;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Dealer> Dealers
+        {
+            get
+            {
+                if ((_Dealers == null))
+                {
+                    _Dealers = base.CreateObjectSet<Dealer>("Dealers");
+                }
+                return _Dealers;
+            }
+        }
+        private ObjectSet<Dealer> _Dealers;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<PageLink> PageLinks
+        {
+            get
+            {
+                if ((_PageLinks == null))
+                {
+                    _PageLinks = base.CreateObjectSet<PageLink>("PageLinks");
+                }
+                return _PageLinks;
+            }
+        }
+        private ObjectSet<PageLink> _PageLinks;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<VideoLink> VideoLinks
+        {
+            get
+            {
+                if ((_VideoLinks == null))
+                {
+                    _VideoLinks = base.CreateObjectSet<VideoLink>("VideoLinks");
+                }
+                return _VideoLinks;
+            }
+        }
+        private ObjectSet<VideoLink> _VideoLinks;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<DealerFeaturedProduct> DealerFeaturedProducts
+        {
+            get
+            {
+                if ((_DealerFeaturedProducts == null))
+                {
+                    _DealerFeaturedProducts = base.CreateObjectSet<DealerFeaturedProduct>("DealerFeaturedProducts");
+                }
+                return _DealerFeaturedProducts;
+            }
+        }
+        private ObjectSet<DealerFeaturedProduct> _DealerFeaturedProducts;
 
         #endregion
 
@@ -578,6 +646,38 @@ namespace PDWDBContext
         public void AddToPublications(Publication publication)
         {
             base.AddObject("Publications", publication);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Dealers EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToDealers(Dealer dealer)
+        {
+            base.AddObject("Dealers", dealer);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the PageLinks EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToPageLinks(PageLink pageLink)
+        {
+            base.AddObject("PageLinks", pageLink);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the VideoLinks EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToVideoLinks(VideoLink videoLink)
+        {
+            base.AddObject("VideoLinks", videoLink);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the DealerFeaturedProducts EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToDealerFeaturedProducts(DealerFeaturedProduct dealerFeaturedProduct)
+        {
+            base.AddObject("DealerFeaturedProducts", dealerFeaturedProduct);
         }
 
         #endregion
@@ -1063,6 +1163,403 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Series>("PaoliPDWModel.fkSeries_Category", "Series", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="Dealer")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Dealer : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Dealer object.
+        /// </summary>
+        /// <param name="dealerID">Initial value of the DealerID property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="uRL">Initial value of the URL property.</param>
+        /// <param name="mainContent">Initial value of the MainContent property.</param>
+        /// <param name="featuredVideoID">Initial value of the FeaturedVideoID property.</param>
+        public static Dealer CreateDealer(global::System.Int32 dealerID, global::System.String name, global::System.String uRL, global::System.String mainContent, global::System.Int32 featuredVideoID)
+        {
+            Dealer dealer = new Dealer();
+            dealer.DealerID = dealerID;
+            dealer.Name = name;
+            dealer.URL = uRL;
+            dealer.MainContent = mainContent;
+            dealer.FeaturedVideoID = featuredVideoID;
+            return dealer;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 DealerID
+        {
+            get
+            {
+                return _DealerID;
+            }
+            set
+            {
+                if (_DealerID != value)
+                {
+                    OnDealerIDChanging(value);
+                    ReportPropertyChanging("DealerID");
+                    _DealerID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("DealerID");
+                    OnDealerIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _DealerID;
+        partial void OnDealerIDChanging(global::System.Int32 value);
+        partial void OnDealerIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String URL
+        {
+            get
+            {
+                return _URL;
+            }
+            set
+            {
+                OnURLChanging(value);
+                ReportPropertyChanging("URL");
+                _URL = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("URL");
+                OnURLChanged();
+            }
+        }
+        private global::System.String _URL;
+        partial void OnURLChanging(global::System.String value);
+        partial void OnURLChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String MainContent
+        {
+            get
+            {
+                return _MainContent;
+            }
+            set
+            {
+                OnMainContentChanging(value);
+                ReportPropertyChanging("MainContent");
+                _MainContent = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("MainContent");
+                OnMainContentChanged();
+            }
+        }
+        private global::System.String _MainContent;
+        partial void OnMainContentChanging(global::System.String value);
+        partial void OnMainContentChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 FeaturedVideoID
+        {
+            get
+            {
+                return _FeaturedVideoID;
+            }
+            set
+            {
+                OnFeaturedVideoIDChanging(value);
+                ReportPropertyChanging("FeaturedVideoID");
+                _FeaturedVideoID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("FeaturedVideoID");
+                OnFeaturedVideoIDChanged();
+            }
+        }
+        private global::System.Int32 _FeaturedVideoID;
+        partial void OnFeaturedVideoIDChanging(global::System.Int32 value);
+        partial void OnFeaturedVideoIDChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "DealerPageLinks", "PageLink")]
+        public EntityCollection<PageLink> PageLinks
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<PageLink>("PaoliPDWModel.DealerPageLinks", "PageLink");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<PageLink>("PaoliPDWModel.DealerPageLinks", "PageLink", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "DealerVideoLinks", "VideoLink")]
+        public EntityCollection<VideoLink> VideoLinks
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<VideoLink>("PaoliPDWModel.DealerVideoLinks", "VideoLink");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<VideoLink>("PaoliPDWModel.DealerVideoLinks", "VideoLink", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkDealer_VideoLink", "VideoLink")]
+        public VideoLink FeaturedVideo
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<VideoLink>("PaoliPDWModel.fkDealer_VideoLink", "VideoLink").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<VideoLink>("PaoliPDWModel.fkDealer_VideoLink", "VideoLink").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<VideoLink> FeaturedVideoReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<VideoLink>("PaoliPDWModel.fkDealer_VideoLink", "VideoLink");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<VideoLink>("PaoliPDWModel.fkDealer_VideoLink", "VideoLink", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkDFP_Dealer", "DealerFeaturedProduct")]
+        public EntityCollection<DealerFeaturedProduct> DealerFeaturedProducts
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<DealerFeaturedProduct>("PaoliPDWModel.fkDFP_Dealer", "DealerFeaturedProduct");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<DealerFeaturedProduct>("PaoliPDWModel.fkDFP_Dealer", "DealerFeaturedProduct", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="DealerFeaturedProduct")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class DealerFeaturedProduct : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new DealerFeaturedProduct object.
+        /// </summary>
+        /// <param name="dealerID">Initial value of the DealerID property.</param>
+        /// <param name="seriesName">Initial value of the SeriesName property.</param>
+        public static DealerFeaturedProduct CreateDealerFeaturedProduct(global::System.Int32 dealerID, global::System.String seriesName)
+        {
+            DealerFeaturedProduct dealerFeaturedProduct = new DealerFeaturedProduct();
+            dealerFeaturedProduct.DealerID = dealerID;
+            dealerFeaturedProduct.SeriesName = seriesName;
+            return dealerFeaturedProduct;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 DealerID
+        {
+            get
+            {
+                return _DealerID;
+            }
+            set
+            {
+                if (_DealerID != value)
+                {
+                    OnDealerIDChanging(value);
+                    ReportPropertyChanging("DealerID");
+                    _DealerID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("DealerID");
+                    OnDealerIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _DealerID;
+        partial void OnDealerIDChanging(global::System.Int32 value);
+        partial void OnDealerIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String SeriesName
+        {
+            get
+            {
+                return _SeriesName;
+            }
+            set
+            {
+                if (_SeriesName != value)
+                {
+                    OnSeriesNameChanging(value);
+                    ReportPropertyChanging("SeriesName");
+                    _SeriesName = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("SeriesName");
+                    OnSeriesNameChanged();
+                }
+            }
+        }
+        private global::System.String _SeriesName;
+        partial void OnSeriesNameChanging(global::System.String value);
+        partial void OnSeriesNameChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkDFP_Dealer", "Dealer")]
+        public Dealer Dealer
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Dealer>("PaoliPDWModel.fkDFP_Dealer", "Dealer").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Dealer>("PaoliPDWModel.fkDFP_Dealer", "Dealer").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Dealer> DealerReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Dealer>("PaoliPDWModel.fkDFP_Dealer", "Dealer");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Dealer>("PaoliPDWModel.fkDFP_Dealer", "Dealer", value);
                 }
             }
         }
@@ -1664,6 +2161,141 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<PublicationImage>("PaoliPDWModel.fkPI_Image", "PublicationImage", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="PageLink")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class PageLink : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new PageLink object.
+        /// </summary>
+        /// <param name="pageID">Initial value of the PageID property.</param>
+        /// <param name="display">Initial value of the Display property.</param>
+        /// <param name="uRLLocation">Initial value of the URLLocation property.</param>
+        public static PageLink CreatePageLink(global::System.Int32 pageID, global::System.String display, global::System.String uRLLocation)
+        {
+            PageLink pageLink = new PageLink();
+            pageLink.PageID = pageID;
+            pageLink.Display = display;
+            pageLink.URLLocation = uRLLocation;
+            return pageLink;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 PageID
+        {
+            get
+            {
+                return _PageID;
+            }
+            set
+            {
+                if (_PageID != value)
+                {
+                    OnPageIDChanging(value);
+                    ReportPropertyChanging("PageID");
+                    _PageID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("PageID");
+                    OnPageIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _PageID;
+        partial void OnPageIDChanging(global::System.Int32 value);
+        partial void OnPageIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Display
+        {
+            get
+            {
+                return _Display;
+            }
+            set
+            {
+                OnDisplayChanging(value);
+                ReportPropertyChanging("Display");
+                _Display = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Display");
+                OnDisplayChanged();
+            }
+        }
+        private global::System.String _Display;
+        partial void OnDisplayChanging(global::System.String value);
+        partial void OnDisplayChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String URLLocation
+        {
+            get
+            {
+                return _URLLocation;
+            }
+            set
+            {
+                OnURLLocationChanging(value);
+                ReportPropertyChanging("URLLocation");
+                _URLLocation = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("URLLocation");
+                OnURLLocationChanged();
+            }
+        }
+        private global::System.String _URLLocation;
+        partial void OnURLLocationChanging(global::System.String value);
+        partial void OnURLLocationChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "DealerPageLinks", "Dealer")]
+        public EntityCollection<Dealer> Dealers
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Dealer>("PaoliPDWModel.DealerPageLinks", "Dealer");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Dealer>("PaoliPDWModel.DealerPageLinks", "Dealer", value);
                 }
             }
         }
@@ -5267,6 +5899,163 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Typical>("PaoliPDWModel.fkTTA_Typical", "Typical", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="VideoLink")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class VideoLink : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new VideoLink object.
+        /// </summary>
+        /// <param name="videoID">Initial value of the VideoID property.</param>
+        /// <param name="display">Initial value of the Display property.</param>
+        /// <param name="youTubeID">Initial value of the YouTubeID property.</param>
+        public static VideoLink CreateVideoLink(global::System.Int32 videoID, global::System.String display, global::System.String youTubeID)
+        {
+            VideoLink videoLink = new VideoLink();
+            videoLink.VideoID = videoID;
+            videoLink.Display = display;
+            videoLink.YouTubeID = youTubeID;
+            return videoLink;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 VideoID
+        {
+            get
+            {
+                return _VideoID;
+            }
+            set
+            {
+                if (_VideoID != value)
+                {
+                    OnVideoIDChanging(value);
+                    ReportPropertyChanging("VideoID");
+                    _VideoID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("VideoID");
+                    OnVideoIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _VideoID;
+        partial void OnVideoIDChanging(global::System.Int32 value);
+        partial void OnVideoIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Display
+        {
+            get
+            {
+                return _Display;
+            }
+            set
+            {
+                OnDisplayChanging(value);
+                ReportPropertyChanging("Display");
+                _Display = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Display");
+                OnDisplayChanged();
+            }
+        }
+        private global::System.String _Display;
+        partial void OnDisplayChanging(global::System.String value);
+        partial void OnDisplayChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String YouTubeID
+        {
+            get
+            {
+                return _YouTubeID;
+            }
+            set
+            {
+                OnYouTubeIDChanging(value);
+                ReportPropertyChanging("YouTubeID");
+                _YouTubeID = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("YouTubeID");
+                OnYouTubeIDChanged();
+            }
+        }
+        private global::System.String _YouTubeID;
+        partial void OnYouTubeIDChanging(global::System.String value);
+        partial void OnYouTubeIDChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "DealerVideoLinks", "Dealer")]
+        public EntityCollection<Dealer> Dealers
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Dealer>("PaoliPDWModel.DealerVideoLinks", "Dealer");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Dealer>("PaoliPDWModel.DealerVideoLinks", "Dealer", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkDealer_VideoLink", "Dealer")]
+        public EntityCollection<Dealer> Dealers_1
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Dealer>("PaoliPDWModel.fkDealer_VideoLink", "Dealer");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Dealer>("PaoliPDWModel.fkDealer_VideoLink", "Dealer", value);
                 }
             }
         }
