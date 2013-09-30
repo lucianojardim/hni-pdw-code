@@ -55,29 +55,40 @@
 	<div class="clear"></div>
 </div>
 <p class="divider_line mart30" id="overview_hr"></p>
+@if( Model.ProductList.Any() || Model.PageLinks.Any() )
+{
 <div class="col66">
+@if( Model.ProductList.Any() )
+{
 	<div class="products_thumbs">
 		<h1>Products We Discussed</h1>
 		@foreach( var s in Model.ProductList )
-{
+  {
   <a href="#" data-url="/@s.LinkName" class="img_box img_size4" target="_blank">
   <img class="img_style_3" src="" data-url="/Images/@s.FeaturedImageName"/>
 <!--  <span class="shadowBox"></span>-->
   <h4>@s.SeriesName</h4>
   </a>
-}
+  }
 	</div>
 	<div class="clear"></div>
+}
+@if( Model.PageLinks.Any() )
+{
 	<div class="page_list">
 		<h1>Pages We Discussed</h1>
 		@foreach( var p in Model.PageLinks )
-{
+  {
 	  <div class="col33">
 	  <a href="#" data-url="/@p.URL" target="_blank">@p.Display</a>
 	  </div>
-}
+  }
 	</div>
+}
 </div>
+}
+@if( Model.VideoLinks.Any() )
+{
 <div class="col33">
 	<h1 style="@((!Model.VideoLinks.Any()) ? "display:none" : "")">Videos You Missed</h1>
 	@foreach( var v in Model.VideoLinks )
@@ -87,4 +98,5 @@
 
  }
 </div>
+}
 <div class="clear"></div>

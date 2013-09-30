@@ -6,6 +6,8 @@ using PDWDBContext;
 using PDWInfrastructure;
 using PDWModels.Dealers;
 using System.Web;
+using System.IO;
+using LumenWorks.Framework.IO.Csv;
 
 namespace PWDRepositories
 {
@@ -265,6 +267,131 @@ namespace PWDRepositories
 			}
 
 			return false;
+		}
+
+		public bool ImportDealers( Stream fStream )
+		{
+			var csvReader = new CsvReader( new StreamReader( fStream ), true );
+			while( csvReader.ReadNextRecord() )
+			{
+				if( !csvReader["Dealer Name"].Any() )
+				{
+					continue;
+				}
+
+				var dealerName = csvReader["Dealer Name"];
+				var dealer = database.Dealers.FirstOrDefault( d => d.Name == dealerName );
+				if( dealer == null )
+				{
+					dealer = new Dealer();
+					dealer.Name = dealerName;
+					database.Dealers.AddObject( dealer );
+				}
+
+				foreach( var header in csvReader.GetFieldHeaders() )
+				{
+					string val = csvReader[header].Trim();
+					switch( header.ToLower() )
+					{
+						case "dealer name":
+							// skip it
+							break;
+						case "url":
+							dealer.URL = val ?? "";
+							if( !dealer.URL.Any() )
+							{
+								throw new Exception( string.Format( "URL is required for {0}.", dealer.Name ) );
+							}
+							if( database.Dealers.Any( d => d.URL == dealer.URL && d.DealerID != dealer.DealerID ) )
+							{
+								throw new Exception( string.Format( "URL for {0} already exists.", dealer.Name ) );
+							}
+
+							break;
+						case "main content":
+							dealer.MainContent = val ?? "";
+							break;
+						case "featured video":
+							{
+								var fVideo = database.VideoLinks.FirstOrDefault( v => v.Display == val );
+								if( fVideo != null )
+								{
+									dealer.FeaturedVideo = fVideo;
+								}
+								else
+								{
+									throw new Exception( string.Format( "Featured video cannot be found for {0}", dealer.Name ) );
+								}
+							}
+							break;
+						case "product list":
+							if( (val ?? "").Any() )
+							{
+								var values = val.Split( ',' );
+								foreach( var indVal in values.Select( s => s.Trim() ) )
+								{
+									var p = database.Serieses.FirstOrDefault( i => i.Name == indVal );
+									if( p != null )
+									{
+										if( !dealer.DealerFeaturedProducts.Any( dfp => dfp.SeriesName == p.Name ) )
+										{
+											dealer.DealerFeaturedProducts.Add( new DealerFeaturedProduct() { SeriesName = p.Name } );
+										}
+									}
+								}
+							}
+							else
+							{
+								dealer.DealerFeaturedProducts.Clear();
+							}
+							break;
+						case "video list":
+							if( (val ?? "").Any() )
+							{
+								var values = val.Split( ',' );
+								foreach( var indVal in values.Select( s => s.Trim() ) )
+								{
+									var v = database.VideoLinks.FirstOrDefault( i => i.Display == indVal );
+									if( v != null )
+									{
+										if( !dealer.VideoLinks.Any( dvl => dvl.VideoID == v.VideoID ) )
+										{
+											dealer.VideoLinks.Add( v );
+										}
+									}
+								}
+							}
+							else
+							{
+								dealer.VideoLinks.Clear();
+							}
+							break;
+						case "page list":
+							if( (val ?? "").Any() )
+							{
+								var values = val.Split( ',' );
+								foreach( var indVal in values.Select( s => s.Trim() ) )
+								{
+									var p = database.PageLinks.FirstOrDefault( i => i.Display == indVal );
+									if( p != null )
+									{
+										if( !dealer.PageLinks.Any( dpl => dpl.PageID == p.PageID ) )
+										{
+											dealer.PageLinks.Add( p );
+										}
+									}
+								}
+							}
+							else
+							{
+								dealer.PageLinks.Clear();
+							}
+							break;
+					}
+				}
+			}
+
+			return database.SaveChanges() > 0;
 		}
 
 		#region Dealer Video Functions

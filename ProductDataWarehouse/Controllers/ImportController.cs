@@ -647,6 +647,42 @@ namespace ProductDataWarehouse.Controllers
 			return View();
 		}
 
+		[Authorize]
+		public ActionResult ImportDealers()
+		{
+			return View();
+		}
+
+		[Authorize]
+		[HttpPost]
+		public ActionResult ImportDealers( HttpPostedFileBase dealerFile )
+		{
+			if( ModelState.IsValid )
+			{
+				try
+				{
+					DealerRepository dRepository = new DealerRepository();
+
+					dRepository.ImportDealers( dealerFile.InputStream );
+
+					ViewBag.CloseFancyBox = true;
+
+					return View();
+				}
+				catch( Exception ex )
+				{
+					ModelState.AddModelError( "", ex.Message );
+					if( ex.InnerException != null )
+					{
+						ModelState.AddModelError( "", ex.InnerException.Message );
+					}
+				}
+
+			}
+
+			return View();
+		}
+
 		public static IEnumerable<SelectListItem> GetVideoDDList()
 		{
 			DealerRepository dRepository = new DealerRepository();

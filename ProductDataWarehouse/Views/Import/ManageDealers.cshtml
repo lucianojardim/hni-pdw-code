@@ -7,7 +7,7 @@
 
 <h2>Paoli Dealer List</h2>
 
-<a href="@Url.Action( "AddDealer", "Import" )?iframe" id="addNewDealer">Add New</a><br />
+<a href="@Url.Action( "AddDealer", "Import" )?iframe" id="addNewDealer">Add New</a> | <a href="@Url.Action( "ImportDealers", "Import" )?iframe" id="importDealers">Import</a><br />
 <div>
     <table id="dealerList">
     <thead></thead>
@@ -19,6 +19,17 @@
 	$(document).ready(function () {
 
 		$("#addNewDealer").fancybox({
+			'autoDimensions': false,
+			'width': 800,
+			'height': 700,
+			'padding': 20,
+			'margin': 0,
+			'scrolling': 'auto',
+			'titleShow': false,
+			'type': 'iframe'
+		});
+
+		$("#importDealers").fancybox({
 			'autoDimensions': false,
 			'width': 800,
 			'height': 700,

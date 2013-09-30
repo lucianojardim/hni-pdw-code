@@ -520,6 +520,7 @@
     <Content Include="Views\Import\ManagePages.cshtml" />
     <Content Include="Views\Import\AddDealerPage.cshtml" />
     <Content Include="Views\Import\EditDealerPage.cshtml" />
+    <Content Include="Views\Import\ImportDealers.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
