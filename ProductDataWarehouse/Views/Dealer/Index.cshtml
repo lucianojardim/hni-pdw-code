@@ -1,0 +1,90 @@
+﻿@model PDWModels.Dealers.DealerDetail
+@{
+    ViewBag.Title = Model.Name;
+    Layout = "~/Views/Shared/DealerLayout.cshtml";
+}
+
+<script type="text/javascript">
+    function getPDWUrl() {
+        var hostName = window.location.hostname.toLowerCase();
+
+        if (hostName.indexOf('paoli-test01') >= 0)
+            return 'http://paoli-test01:8780';
+        if (hostName.indexOf('jamesburnes') >= 0)
+            return 'http://library.paoli.jamesburnes.com';
+        if (hostName.indexOf('matt3400') >= 0)
+            return 'http://matt3400.wdd.local:8780';
+        if (hostName.indexOf('localhost') >= 0)
+            return 'http://matt3400.wdd.local:8780';
+        return 'http://library.paoli.com';
+    }
+    function getSiteUrl() {
+    	var hostName = window.location.hostname.toLowerCase();
+
+    	if (hostName.indexOf('paoli-test01') >= 0)
+    		return 'http://paoli-test01';
+    	if (hostName.indexOf('jamesburnes') >= 0)
+    		return 'http://paoli.jamesburnes.com';
+    	if (hostName.indexOf('matt3400') >= 0)
+    		return 'http://matt3400.wdd.local:8787';
+    	if (hostName.indexOf('localhost') >= 0)
+    		return 'http://matt3400.wdd.local:8787';
+    	return 'http://www.paoli.com';
+    }
+
+    $(document).ready(function () {
+    	$('.products_thumbs a.img_box').each(function () {
+    		$(this).attr('href', getSiteUrl() + $(this).data('url')); 
+		});
+    	$('.products_thumbs img').each(function () {
+    		$(this).attr('src', getPDWUrl() + $(this).data('url'));
+    	});
+    	$('.page_list a').each(function () {
+    		$(this).attr('href', getSiteUrl() + $(this).data('url'));
+    	});
+    });
+</script>
+
+<div>
+	<div class="padr20 left">
+		<iframe width="640" height="480" src="http://www.youtube-nocookie.com/embed/@Model.FeaturedVideoLink?rel=0&autoplay=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>
+	</div>
+	<div class="left">
+	@(new MvcHtmlString( Model.MainContent ))
+	</div>
+	<div class="clear"></div>
+</div>
+<p class="divider_line mart30" id="overview_hr"></p>
+<div class="col66">
+	<div class="products_thumbs">
+		<h1>Products We Discussed</h1>
+		@foreach( var s in Model.ProductList )
+{
+  <a href="#" data-url="/@s.LinkName" class="img_box img_size4" target="_blank">
+  <img class="img_style_3" src="" data-url="/Images/@s.FeaturedImageName"/>
+<!--  <span class="shadowBox"></span>-->
+  <h4>@s.SeriesName</h4>
+  </a>
+}
+	</div>
+	<div class="clear"></div>
+	<div class="page_list">
+		<h1>Pages We Discussed</h1>
+		@foreach( var p in Model.PageLinks )
+{
+	  <div class="col33">
+	  <a href="#" data-url="/@p.URL" target="_blank">@p.Display</a>
+	  </div>
+}
+	</div>
+</div>
+<div class="col33">
+	<h1 style="@((!Model.VideoLinks.Any()) ? "display:none" : "")">Videos You Missed</h1>
+	@foreach( var v in Model.VideoLinks )
+ {
+		<h3>@v.Display</h3>
+		<iframe width="320" height="240" src="http://www.youtube-nocookie.com/embed/@v.VideoLink?rel=0&autoplay=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>
+
+ }
+</div>
+<div class="clear"></div>

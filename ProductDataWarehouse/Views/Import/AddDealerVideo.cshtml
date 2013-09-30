@@ -1,0 +1,35 @@
+﻿@model PDWModels.Dealers.DealerVideoInformation
+
+@{
+    ViewBag.Title = "AddDealerVideo";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if( ViewBag.CloseFancyBox ?? false )
+{
+    <script type="text/javascript">
+    	$(document).ready(function () {
+    		parent.$.fancybox.close();
+    		if (parent.loadVideos) {
+    			parent.loadVideos();
+    		}
+    	});
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+    	$(document).ready(function () {
+    	});
+
+    </script>    
+}
+    <h2>Add Video</h2>
+
+    @using( Html.BeginForm( "AddDealerVideo", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
+	{
+        @Html.LabelFor( m => m.Name )<text>: </text>@Html.TextBoxFor( m => m.Name )<br />
+        @Html.LabelFor( m => m.YouTubeID )<text>: </text>@Html.TextBoxFor( m => m.YouTubeID )<br />
+@Html.ValidationSummary()
+        <input type="submit" value="Add" id="submitBtn" />
+	}

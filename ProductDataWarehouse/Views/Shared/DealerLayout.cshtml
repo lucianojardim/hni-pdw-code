@@ -1,0 +1,16 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+	$(document).ready(function () {
+	});
+</script>
+<div id="page_navigation">
+	<div class="wrapper">
+		<a href="http://www.paoli.com/" id="logo"><img src="@Url.Content( "~/Content/images/paoli_logo.png" )"></a>
+	</div>
+</div>
+<p style="padding-top:120px;"></p>
+<div class="wrapper p20 dealerBody">
+@RenderBody()
+</div>

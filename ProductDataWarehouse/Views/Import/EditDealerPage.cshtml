@@ -1,0 +1,36 @@
+﻿@model PDWModels.Dealers.DealerPageInformation
+
+@{
+	ViewBag.Title = "EditDealerPage";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if( ViewBag.CloseFancyBox ?? false )
+{
+    <script type="text/javascript">
+    	$(document).ready(function () {
+    		parent.$.fancybox.close();
+    		if (parent.loadPages) {
+    			parent.loadPages();
+    		}
+    	});
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+    	$(document).ready(function () {
+    	});
+
+    </script>    
+}
+    <h2>Edit Page</h2>
+
+    @using( Html.BeginForm( "EditDealerPage", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
+	{
+		@Html.HiddenFor( m => m.PageID )
+        @Html.LabelFor( m => m.Name )<text>: </text>@Html.TextBoxFor( m => m.Name )<br />
+        @Html.LabelFor( m => m.URLLocation )<text>: </text>@Html.TextBoxFor( m => m.URLLocation )<br />
+@Html.ValidationSummary()
+        <input type="submit" value="Update" id="submitBtn" />
+	}
