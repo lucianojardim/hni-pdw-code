@@ -214,6 +214,9 @@
           <Property Name="URL" Type="nvarchar" Nullable="false" MaxLength="200" />
           <Property Name="MainContent" Type="ntext" Nullable="false" />
           <Property Name="FeaturedVideoID" Type="int" Nullable="false" />
+          <Property Name="ProductsHeadline" Type="nvarchar" MaxLength="200" />
+          <Property Name="PagesHeadline" Type="nvarchar" MaxLength="200" />
+          <Property Name="VideosHeadline" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="DealerVideoLinks">
           <Key>
@@ -1531,6 +1534,9 @@
           <Property Type="Int32" Name="FeaturedVideoID" Nullable="false" />
           <NavigationProperty Name="FeaturedVideo" Relationship="PaoliPDWModel.fkDealer_VideoLink" FromRole="Dealer" ToRole="VideoLink" />
           <NavigationProperty Name="DealerFeaturedProducts" Relationship="PaoliPDWModel.fkDFP_Dealer" FromRole="Dealer" ToRole="DealerFeaturedProduct" />
+          <Property Type="String" Name="ProductsHeadline" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PagesHeadline" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="VideosHeadline" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PageLink">
           <Key>
@@ -1796,6 +1802,9 @@
           <EntitySetMapping Name="Dealers">
             <EntityTypeMapping TypeName="PaoliPDWModel.Dealer">
               <MappingFragment StoreEntitySet="Dealers">
+                <ScalarProperty Name="VideosHeadline" ColumnName="VideosHeadline" />
+                <ScalarProperty Name="PagesHeadline" ColumnName="PagesHeadline" />
+                <ScalarProperty Name="ProductsHeadline" ColumnName="ProductsHeadline" />
                 <ScalarProperty Name="FeaturedVideoID" ColumnName="FeaturedVideoID" />
                 <ScalarProperty Name="MainContent" ColumnName="MainContent" />
                 <ScalarProperty Name="URL" ColumnName="URL" />

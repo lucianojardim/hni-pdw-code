@@ -34,5 +34,8 @@ namespace PDWModels.Dealers
 		public IEnumerable<VideoDetail> VideoLinks { get; set; }
 		public IEnumerable<PageDetail> PageLinks { get; set; }
 		public IEnumerable<SeriesDetail> ProductList { get; set; }
+		public string ProductHeadline { get; set; }
+		public string PageHeadline { get; set; }
+		public string VideoHeadline { get; set; }
 	}
 }

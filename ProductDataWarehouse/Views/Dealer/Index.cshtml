@@ -46,25 +46,23 @@
 </script>
 
 <div>
-	<div class="padr20 left">
-		<iframe width="640" height="480" src="http://www.youtube-nocookie.com/embed/@Model.FeaturedVideoLink?rel=0&autoplay=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>
-	</div>
-	<div class="left">
+	<div class="">
+		<iframe style="float:left; padding-right:20px;" width="550" height="310" src="http://www.youtube-nocookie.com/embed/@Model.FeaturedVideoLink?rel=0&autoplay=0&modestbranding=1&showinfo=0" frameborder="0" allowfullscreen></iframe>
 	@(new MvcHtmlString( Model.MainContent ))
 	</div>
 	<div class="clear"></div>
 </div>
-<p class="divider_line mart30" id="overview_hr"></p>
+<p class="divider_line mart30 marb30" id="overview_hr"></p>
 @if( Model.ProductList.Any() || Model.PageLinks.Any() )
 {
 <div class="col66">
 @if( Model.ProductList.Any() )
 {
 	<div class="products_thumbs">
-		<h1>Products We Discussed</h1>
+		<h1>@Model.ProductHeadline</h1>
 		@foreach( var s in Model.ProductList )
   {
-  <a href="#" data-url="/@s.LinkName" class="img_box img_size4" target="_blank">
+  <a href="#" data-url="/@s.LinkName" class="img_box img_box2 img_size5" >
   <img class="img_style_3" src="" data-url="/Images/@s.FeaturedImageName"/>
 <!--  <span class="shadowBox"></span>-->
   <h4>@s.SeriesName</h4>
@@ -76,11 +74,11 @@
 @if( Model.PageLinks.Any() )
 {
 	<div class="page_list">
-		<h1>Pages We Discussed</h1>
+		<h1>@Model.PageHeadline</h1>
 		@foreach( var p in Model.PageLinks )
   {
 	  <div class="col33">
-	  <a href="#" data-url="/@p.URL" target="_blank">@p.Display</a>
+	  <li><a href="#" data-url="/@p.URL" >@p.Display</a></li>
 	  </div>
   }
 	</div>
@@ -90,11 +88,10 @@
 @if( Model.VideoLinks.Any() )
 {
 <div class="col33">
-	<h1 style="@((!Model.VideoLinks.Any()) ? "display:none" : "")">Videos You Missed</h1>
+	<h1 style="@((!Model.VideoLinks.Any()) ? "display:none" : "")">@Model.VideoHeadline</h1>
 	@foreach( var v in Model.VideoLinks )
  {
-		<h3>@v.Display</h3>
-		<iframe width="320" height="240" src="http://www.youtube-nocookie.com/embed/@v.VideoLink?rel=0&autoplay=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>
+		<iframe width="320" height="240" src="http://www.youtube-nocookie.com/embed/@v.VideoLink?rel=0&autoplay=0&modestbranding=1&showinfo=0" frameborder="0" allowfullscreen></iframe>
 
  }
 </div>

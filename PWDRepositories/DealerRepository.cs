@@ -38,6 +38,9 @@ namespace PWDRepositories
 				URL = dealer.URL,
 				MainContent = dealer.MainContent,
 				FeaturedVideo = dealer.FeaturedVideoID,
+				ProductHeadline = dealer.ProductsHeadline,
+				PageHeadline = dealer.PagesHeadline,
+				VideoHeadline = dealer.VideosHeadline,
 				VideoList = dealer.VideoLinks.Select( v => v.VideoID ).ToList(),
 				PageList = dealer.PageLinks.Select( p => p.PageID ).ToList(),
 				ProductList = dealer.DealerFeaturedProducts.Select( p => p.SeriesName ).ToList()
@@ -53,6 +56,9 @@ namespace PWDRepositories
 				URL = dealer.URL,
 				MainContent = dealer.MainContent,
 				FeaturedVideoLink = dealer.FeaturedVideo != null ? dealer.FeaturedVideo.YouTubeID : "",
+				ProductHeadline = dealer.ProductsHeadline,
+				PageHeadline = dealer.PagesHeadline,
+				VideoHeadline = dealer.VideosHeadline,
 				VideoLinks = dealer.VideoLinks.ToList().Select( v => new DealerDetail.VideoDetail()
 				{
 					Display = v.Display,
@@ -164,6 +170,9 @@ namespace PWDRepositories
 			newDealer.URL = dInfo.URL;
 			newDealer.MainContent = HttpUtility.HtmlDecode( dInfo.MainContent );
 			newDealer.FeaturedVideo = fVideo;
+			newDealer.ProductsHeadline = dInfo.ProductHeadline;
+			newDealer.PagesHeadline = dInfo.PageHeadline;
+			newDealer.VideosHeadline = dInfo.VideoHeadline;
 
 			foreach( var v in dInfo.VideoList )
 			{
@@ -218,6 +227,9 @@ namespace PWDRepositories
 			dealer.URL = dInfo.URL;
 			dealer.MainContent = HttpUtility.HtmlDecode( dInfo.MainContent );
 			dealer.FeaturedVideo = fVideo;
+			dealer.ProductsHeadline = dInfo.ProductHeadline;
+			dealer.PagesHeadline = dInfo.PageHeadline;
+			dealer.VideosHeadline = dInfo.VideoHeadline;
 
 			dealer.VideoLinks.Clear();
 			foreach( var v in dInfo.VideoList )
@@ -269,8 +281,18 @@ namespace PWDRepositories
 			return false;
 		}
 
+		private void DeleteAllObjects( string dbTable )
+		{
+			database.ExecuteStoreCommand( string.Format( "DELETE FROM {0}", dbTable ) );
+		}
+
 		public bool ImportDealers( Stream fStream )
 		{
+			DeleteAllObjects( "[DealerVideoLinks]" );
+			DeleteAllObjects( "[DealerPageLinks]" );
+			DeleteAllObjects( "[DealerFeaturedProducts]" );
+			DeleteAllObjects( "[Dealers]" );
+			
 			var csvReader = new CsvReader( new StreamReader( fStream ), true );
 			while( csvReader.ReadNextRecord() )
 			{
@@ -279,14 +301,7 @@ namespace PWDRepositories
 					continue;
 				}
 
-				var dealerName = csvReader["Dealer Name"];
-				var dealer = database.Dealers.FirstOrDefault( d => d.Name == dealerName );
-				if( dealer == null )
-				{
-					dealer = new Dealer();
-					dealer.Name = dealerName;
-					database.Dealers.AddObject( dealer );
-				}
+				var dealer = new Dealer();
 
 				foreach( var header in csvReader.GetFieldHeaders() )
 				{
@@ -294,7 +309,7 @@ namespace PWDRepositories
 					switch( header.ToLower() )
 					{
 						case "dealer name":
-							// skip it
+							dealer.Name = val;
 							break;
 						case "url":
 							dealer.URL = val ?? "";
@@ -387,8 +402,19 @@ namespace PWDRepositories
 								dealer.PageLinks.Clear();
 							}
 							break;
+						case "product headline":
+							dealer.ProductsHeadline = val;
+							break;
+						case "page headline":
+							dealer.PagesHeadline = val;
+							break;
+						case "video headline":
+							dealer.VideosHeadline = val;
+							break;
 					}
 				}
+
+				database.Dealers.AddObject( dealer );
 			}
 
 			return database.SaveChanges() > 0;

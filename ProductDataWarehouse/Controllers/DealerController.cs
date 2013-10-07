@@ -17,7 +17,23 @@ namespace ProductDataWarehouse.Controllers
 
 			var dInfo = dRepository.GetDealer( id );
 
+			ViewBag.FullSiteURL = FullSiteURL();
+
 			return View( dInfo );
+		}
+
+		public string FullSiteURL()
+		{
+			var url = Request.Url.DnsSafeHost.ToLower();
+
+			if( url.Contains( "localhost" ) || url.Contains( "matt3400" ) )
+				return "http://matt3400.wdd.local:8787";
+			else if( url.Contains( "jamesburnes" ) )
+				return "http://library.paoli.jamesburnes.com";
+			else if( url.Contains( "paoli-test01" ) )
+				return "http://paoli-test01";
+
+			return "http://www.paoli.com";
 		}
     }
 }

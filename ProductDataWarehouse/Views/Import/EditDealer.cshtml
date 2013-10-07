@@ -63,6 +63,9 @@ else
         @Html.LabelFor( m => m.Name )<text>: </text>@Html.TextBoxFor( m => m.Name )<br />
         @Html.LabelFor( m => m.URL )<text>: my.paoli.com/Dealer/</text>@Html.TextBoxFor( m => m.URL )<br />
         @Html.LabelFor( m => m.FeaturedVideo )<text>: </text>@Html.DropDownListFor( m => m.FeaturedVideo, ImportController.GetVideoDDList() )<br />
+        @Html.LabelFor( m => m.ProductHeadline )<text>: </text>@Html.TextBoxFor( m => m.ProductHeadline )<br />
+        @Html.LabelFor( m => m.PageHeadline )<text>: </text>@Html.TextBoxFor( m => m.PageHeadline )<br />
+        @Html.LabelFor( m => m.VideoHeadline )<text>: </text>@Html.TextBoxFor( m => m.VideoHeadline )<br />
         @Html.LabelFor( m => m.MainContent )<text>: </text>@Html.TextAreaFor( m => m.MainContent )
 		<p class="divider_line mart30"></p>
 		<div>

@@ -27,11 +27,17 @@ namespace PDWModels.Dealers
 		public int FeaturedVideo { get; set; }
 		[DisplayName("Main Content Block")]
 		public string MainContent { get; set; }
-		[DisplayName( "Products We Discussed" )]
+		[DisplayName( "Product Listing" )]
 		public List<string> ProductList { get; set; }
-		[DisplayName( "Pages We Discussed" )]
+		[DisplayName( "Page Listing" )]
 		public List<int> PageList { get; set; }
-		[DisplayName( "Videos You Missed" )]
+		[DisplayName( "Video Listing" )]
 		public List<int> VideoList { get; set; }
+		[DisplayName( "Product List Headline" )]
+		public string ProductHeadline { get; set; }
+		[DisplayName( "Page List Headline" )]
+		public string PageHeadline { get; set; }
+		[DisplayName( "Video List Headline" )]
+		public string VideoHeadline { get; set; }
 	}
 }

@@ -1326,6 +1326,78 @@ namespace PDWDBContext
         private global::System.Int32 _FeaturedVideoID;
         partial void OnFeaturedVideoIDChanging(global::System.Int32 value);
         partial void OnFeaturedVideoIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ProductsHeadline
+        {
+            get
+            {
+                return _ProductsHeadline;
+            }
+            set
+            {
+                OnProductsHeadlineChanging(value);
+                ReportPropertyChanging("ProductsHeadline");
+                _ProductsHeadline = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ProductsHeadline");
+                OnProductsHeadlineChanged();
+            }
+        }
+        private global::System.String _ProductsHeadline;
+        partial void OnProductsHeadlineChanging(global::System.String value);
+        partial void OnProductsHeadlineChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String PagesHeadline
+        {
+            get
+            {
+                return _PagesHeadline;
+            }
+            set
+            {
+                OnPagesHeadlineChanging(value);
+                ReportPropertyChanging("PagesHeadline");
+                _PagesHeadline = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("PagesHeadline");
+                OnPagesHeadlineChanged();
+            }
+        }
+        private global::System.String _PagesHeadline;
+        partial void OnPagesHeadlineChanging(global::System.String value);
+        partial void OnPagesHeadlineChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String VideosHeadline
+        {
+            get
+            {
+                return _VideosHeadline;
+            }
+            set
+            {
+                OnVideosHeadlineChanging(value);
+                ReportPropertyChanging("VideosHeadline");
+                _VideosHeadline = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("VideosHeadline");
+                OnVideosHeadlineChanged();
+            }
+        }
+        private global::System.String _VideosHeadline;
+        partial void OnVideosHeadlineChanging(global::System.String value);
+        partial void OnVideosHeadlineChanged();
 
         #endregion
 
