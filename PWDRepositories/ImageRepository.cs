@@ -181,9 +181,9 @@ namespace PWDRepositories
 			}
 			imgList = imgList.Where( img => contentTypeList.Contains( img.ImageContent ) );
 
-			if( (imageTypes ?? "").Any() )
+			// require image types
 			{
-				var imgTypeList = imageTypes.ToLower().Split( ',' );
+				var imgTypeList = (imageTypes ?? "").ToLower().Split( ',' );
 				imgList = imgList.Where( img => imgTypeList.Contains( img.ImageType ) );
 			}
 			if( seriesId.HasValue )
@@ -272,12 +272,16 @@ namespace PWDRepositories
 				.AsQueryable();
 			gallery.TotalImageCount = imgList.Count();
 
-			var contentTypeList = (contentTypes ?? "").ToLower().Split( ',' ).Select( c => int.Parse( c ) ).Union( new List<int>() { (int)ImageInformation.ImageContents.Image } );
+			IEnumerable<int> contentTypeList = new List<int>() { (int)ImageInformation.ImageContents.Image };
+			if( (contentTypes ?? "").Any() )
+			{
+				contentTypeList = contentTypeList.Union( (contentTypes ?? "").ToLower().Split( ',' ).Select( c => int.Parse( c ) ) );
+			}
 			imgList = imgList.Where( img => contentTypeList.Contains( img.ImageContent ) );
 
-			if( (imageTypes ?? "").Any() )
+			// require image types
 			{
-				var imgTypeList = imageTypes.ToLower().Split( ',' );
+				var imgTypeList = (imageTypes ?? "").ToLower().Split( ',' );
 				imgList = imgList.Where( img => imgTypeList.Contains( img.ImageType ) );
 			}
 			if( seriesId.HasValue )
