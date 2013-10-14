@@ -6117,7 +6117,7 @@ namespace PDWDBContext
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkDealer_VideoLink", "Dealer")]
-        public EntityCollection<Dealer> Dealers_1
+        public EntityCollection<Dealer> DealersAsFeatured
         {
             get
             {

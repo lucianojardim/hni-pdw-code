@@ -1555,7 +1555,7 @@
           <Property Type="String" Name="Display" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="YouTubeID" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Dealers" Relationship="PaoliPDWModel.DealerVideoLinks" FromRole="VideoLink" ToRole="Dealer" />
-          <NavigationProperty Name="Dealers_1" Relationship="PaoliPDWModel.fkDealer_VideoLink" FromRole="VideoLink" ToRole="Dealer" />
+          <NavigationProperty Name="DealersAsFeatured" Relationship="PaoliPDWModel.fkDealer_VideoLink" FromRole="VideoLink" ToRole="Dealer" />
         </EntityType>
         <Association Name="DealerPageLinks">
           <End Type="PaoliPDWModel.Dealer" Role="Dealer" Multiplicity="*" />

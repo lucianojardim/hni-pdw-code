@@ -69,7 +69,7 @@ else
         @Html.LabelFor( m => m.MainContent )<text>: </text>@Html.TextAreaFor( m => m.MainContent )
 		<p class="divider_line mart30"></p>
 		<div>
-			<label style="vertical-align:top">@Html.LabelFor( m => m.ProductList ):</label>
+			<label style="vertical-align:top">Product Listing:</label>
 			<div style="display:inline-block;overflow-y:scroll;width:75%;height:100px;">
 			@foreach( var seriesItem in ImportController.GetSeriesDDList() )
    {
@@ -79,7 +79,7 @@ else
 		</div>
 		<p class="divider_line mart30"></p>
 		<div>
-			<label style="vertical-align:top">@Html.LabelFor( m => m.PageList ):</label>
+			<label style="vertical-align:top">Page Listing:</label>
 			<div style="display:inline-block;overflow-y:scroll;width:75%;height:100px;">
 			@foreach( var pageItem in ImportController.GetPageDDList() )
    {
@@ -89,7 +89,7 @@ else
 		</div>
 		<p class="divider_line mart30"></p>
 		<div>
-			<label style="vertical-align:top">@Html.LabelFor( m => m.VideoList ):</label>
+			<label style="vertical-align:top">Video Listing:</label>
 			<div style="display:inline-block;overflow-y:scroll;width:75%;height:100px;">
 			@foreach( var videoItem in ImportController.GetVideoDDList() )
    {
