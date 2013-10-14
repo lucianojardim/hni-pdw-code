@@ -161,7 +161,7 @@ namespace PWDRepositories
 		}
 
 		public ImageThumbnailGallery GetImageThumbnailList( string categories, string imageTypes, int? seriesId, string sortBy, string keywords,
-			int? pubId, string pubPageNum, bool includePeople, int pageNum, int pageSize )
+			int? pubId, string pubPageNum, string contentTypes, bool includePeople, int pageNum, int pageSize )
 		{
 			ImageThumbnailGallery gallery = new ImageThumbnailGallery();
 
@@ -173,6 +173,13 @@ namespace PWDRepositories
 				.Where( imgFile => imageTypeList.Any( it => it == imgFile.ImageType ) )
 				.AsQueryable();
 			gallery.TotalImageCount = imgList.Count();
+
+			IEnumerable<int> contentTypeList = new List<int>() { (int)ImageInformation.ImageContents.Image };
+			if( (contentTypes ?? "").Any() )
+			{
+				contentTypeList = contentTypeList.Union( (contentTypes ?? "").ToLower().Split( ',' ).Select( c => int.Parse( c ) ) );
+			}
+			imgList = imgList.Where( img => contentTypeList.Contains( img.ImageContent ) );
 
 			if( (imageTypes ?? "").Any() )
 			{
@@ -254,7 +261,7 @@ namespace PWDRepositories
 		}
 
 		public ImageListGallery GetImageDetailList( string categories, string imageTypes, int? seriesId, string sortBy, string keywords,
-			int? pubId, string pubPageNum, int pageNum, int pageSize )
+			int? pubId, string pubPageNum, string contentTypes, int pageNum, int pageSize )
 		{
 			ImageListGallery gallery = new ImageListGallery();
 
@@ -264,6 +271,9 @@ namespace PWDRepositories
 				.Where( imgFile => imageTypeList.Any( it => it == imgFile.ImageType ) )
 				.AsQueryable();
 			gallery.TotalImageCount = imgList.Count();
+
+			var contentTypeList = (contentTypes ?? "").ToLower().Split( ',' ).Select( c => int.Parse( c ) ).Union( new List<int>() { (int)ImageInformation.ImageContents.Image } );
+			imgList = imgList.Where( img => contentTypeList.Contains( img.ImageContent ) );
 
 			if( (imageTypes ?? "").Any() )
 			{
@@ -399,6 +409,19 @@ namespace PWDRepositories
 			}
 
 			return null;
+		}
+
+		public IEnumerable<ImageContentType> GetImageContentTypeList()
+		{
+			return new List<ImageContentType>()
+			{
+				new ImageContentType( (int)ImageInformation.ImageContents.Edge, "Edge" ),
+				new ImageContentType( (int)ImageInformation.ImageContents.Pull, "Pull" ),
+				new ImageContentType( (int)ImageInformation.ImageContents.Finish, "Finish" ),
+				new ImageContentType( (int)ImageInformation.ImageContents.TableShape, "Table Shape" ),
+				new ImageContentType( (int)ImageInformation.ImageContents.TableBase, "Table Base" ),
+				new ImageContentType( (int)ImageInformation.ImageContents.ControlMech, "Control Mechanism" )
+			};
 		}
 
 		public HiResImageInfo GetHiResImageInfo( int imageId )

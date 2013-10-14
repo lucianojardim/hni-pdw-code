@@ -55,6 +55,7 @@
     <Compile Include="Dealers\DealerVideoSummary.cs" />
     <Compile Include="Images\HiResImageInfo.cs" />
     <Compile Include="Images\ImageComboItem.cs" />
+    <Compile Include="Images\ImageContentType.cs" />
     <Compile Include="Images\ImageDetail.cs" />
     <Compile Include="Images\ImageForObject.cs" />
     <Compile Include="Images\ImageItemDetails.cs" />

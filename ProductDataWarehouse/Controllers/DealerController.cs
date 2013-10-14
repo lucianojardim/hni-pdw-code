@@ -26,10 +26,12 @@ namespace ProductDataWarehouse.Controllers
 		{
 			var url = Request.Url.DnsSafeHost.ToLower();
 
-			if( url.Contains( "localhost" ) || url.Contains( "matt3400" ) )
+			if( url.Contains( "localhost" ) )
+				return "http://localhost:8787";
+			else if( url.Contains( "matt3400" ) )
 				return "http://matt3400.wdd.local:8787";
-			else if( url.Contains( "jamesburnes" ) )
-				return "http://library.paoli.jamesburnes.com";
+			else if( url.Contains( "jamesburnes" ) || url.Contains( "getvitaminj" ) )
+				return "http://library.paoli.getvitaminj.com";
 			else if( url.Contains( "paoli-test01" ) )
 				return "http://paoli-test01";
 

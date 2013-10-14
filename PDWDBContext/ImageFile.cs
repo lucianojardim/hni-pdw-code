@@ -22,6 +22,7 @@ namespace PDWDBContext
 			public bool CanLightbox { get; set; }
 		}
 
+		// any changes to the CanLightbox values here means they will need to be updated in imageGallery.js of main site
 		public static List<PDWImageType> ImageTypes = new List<PDWImageType>()
 			{
 				new PDWImageType() { Abbreviation= "Env", Description = "Environmental", CanLightbox = true },
