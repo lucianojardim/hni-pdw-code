@@ -139,6 +139,7 @@ namespace ProductDataWarehouse.Controllers
 					imgInfo.FeaturedTableShape = null;
 					imgInfo.ControlDescription = null;
 					imgInfo.ControlMechanism = null;
+					imgInfo.GoToGuidePageNum = 0;
 					break;
 				case ImageInformation.ImageContents.Edge:
 					if( imgInfo.FeaturedEdge == null )
@@ -154,6 +155,7 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.ControlDescription = null;
 						imgInfo.ControlMechanism = null;
 						imgInfo.HasPeople = false;
+						imgInfo.GoToGuidePageNum = 0;
 					}
 					break;
 				case ImageInformation.ImageContents.Pull:
@@ -170,6 +172,7 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.ControlDescription = null;
 						imgInfo.ControlMechanism = null;
 						imgInfo.HasPeople = false;
+						imgInfo.GoToGuidePageNum = 0;
 					}
 					break;
 				case ImageInformation.ImageContents.Finish:
@@ -188,6 +191,7 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.ControlDescription = null;
 						imgInfo.ControlMechanism = null;
 						imgInfo.HasPeople = false;
+						imgInfo.GoToGuidePageNum = 0;
 					}
 					break;
 				case ImageInformation.ImageContents.TableBase:
@@ -204,6 +208,7 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.ControlDescription = null;
 						imgInfo.ControlMechanism = null;
 						imgInfo.HasPeople = false;
+						imgInfo.GoToGuidePageNum = 0;
 					}
 					break;
 				case ImageInformation.ImageContents.ControlMech:
@@ -219,8 +224,19 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.FeaturedTableBase = null;
 						imgInfo.FeaturedTableShape = null;
 						imgInfo.HasPeople = false;
+						imgInfo.GoToGuidePageNum = 0;
 					}
 					break;
+				case ImageInformation.ImageContents.GoToGuide:
+					imgInfo.ImageType = "Det";
+					imgInfo.FeaturedPull = null;
+					imgInfo.FeaturedEdge = null;
+					imgInfo.FeaturedTableBase = null;
+					imgInfo.FeaturedTableShape = null;
+					imgInfo.ControlMechanism = null;
+					imgInfo.HasPeople = false;
+					break;
+
 			}
 
 			if( ModelState.IsValid )
@@ -267,6 +283,9 @@ namespace ProductDataWarehouse.Controllers
 					imgInfo.FeaturedPull = null;
 					imgInfo.FeaturedTableBase = null;
 					imgInfo.FeaturedTableShape = null;
+					imgInfo.ControlDescription = null;
+					imgInfo.ControlMechanism = null;
+					imgInfo.GoToGuidePageNum = 0;
 					break;
 				case ImageInformation.ImageContents.Edge:
 					if( imgInfo.FeaturedEdge == null )
@@ -279,7 +298,10 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.FeaturedPull = null;
 						imgInfo.FeaturedTableBase = null;
 						imgInfo.FeaturedTableShape = null;
+						imgInfo.ControlDescription = null;
+						imgInfo.ControlMechanism = null;
 						imgInfo.HasPeople = false;
+						imgInfo.GoToGuidePageNum = 0;
 					}
 					break;
 				case ImageInformation.ImageContents.Pull:
@@ -293,7 +315,10 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.FeaturedEdge = null;
 						imgInfo.FeaturedTableBase = null;
 						imgInfo.FeaturedTableShape = null;
+						imgInfo.ControlDescription = null;
+						imgInfo.ControlMechanism = null;
 						imgInfo.HasPeople = false;
+						imgInfo.GoToGuidePageNum = 0;
 					}
 					break;
 				case ImageInformation.ImageContents.Finish:
@@ -309,7 +334,10 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.FeaturedPull = null;
 						imgInfo.FeaturedEdge = null;
 						imgInfo.FeaturedTableBase = null;
+						imgInfo.ControlDescription = null;
+						imgInfo.ControlMechanism = null;
 						imgInfo.HasPeople = false;
+						imgInfo.GoToGuidePageNum = 0;
 					}
 					break;
 				case ImageInformation.ImageContents.TableBase:
@@ -323,9 +351,38 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.FeaturedPull = null;
 						imgInfo.FeaturedEdge = null;
 						imgInfo.FeaturedTableShape = null;
+						imgInfo.ControlDescription = null;
+						imgInfo.ControlMechanism = null;
 						imgInfo.HasPeople = false;
+						imgInfo.GoToGuidePageNum = 0;
 					}
 					break;
+				case ImageInformation.ImageContents.ControlMech:
+					if( imgInfo.ControlMechanism == null )
+					{
+						ModelState.AddModelError( "FPRequired", "Control Mechanism is required." );
+					}
+					else
+					{
+						imgInfo.ImageType = "Det";
+						imgInfo.FeaturedPull = null;
+						imgInfo.FeaturedEdge = null;
+						imgInfo.FeaturedTableBase = null;
+						imgInfo.FeaturedTableShape = null;
+						imgInfo.HasPeople = false;
+						imgInfo.GoToGuidePageNum = 0;
+					}
+					break;
+				case ImageInformation.ImageContents.GoToGuide:
+					imgInfo.ImageType = "Det";
+					imgInfo.FeaturedPull = null;
+					imgInfo.FeaturedEdge = null;
+					imgInfo.FeaturedTableBase = null;
+					imgInfo.FeaturedTableShape = null;
+					imgInfo.ControlMechanism = null;
+					imgInfo.HasPeople = false;
+					break;
+
 			}
 
 			if( ModelState.IsValid )
@@ -414,6 +471,7 @@ namespace ProductDataWarehouse.Controllers
 			theList.Add( new SelectListItem() { Text = "Table Shape", Value = ((int)ImageInformation.ImageContents.TableShape).ToString() } );
 			theList.Add( new SelectListItem() { Text = "Table Base", Value = ((int)ImageInformation.ImageContents.TableBase).ToString() } );
 			theList.Add( new SelectListItem() { Text = "Control Mechansim", Value = ((int)ImageInformation.ImageContents.ControlMech).ToString() } );
+			theList.Add( new SelectListItem() { Text = "Go To Guide", Value = ((int)ImageInformation.ImageContents.GoToGuide).ToString() } );
 
 			return theList;
 		}

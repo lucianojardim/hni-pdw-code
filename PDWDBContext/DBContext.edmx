@@ -250,6 +250,7 @@
           <Property Name="TableBase" Type="nvarchar" MaxLength="500" />
           <Property Name="ControlMechanism" Type="nvarchar" MaxLength="500" />
           <Property Name="ControlDescription" Type="ntext" />
+          <Property Name="GoToGuidePage" Type="int" />
         </EntityType>
         <EntityType Name="PageLinks">
           <Key>
@@ -1187,6 +1188,7 @@
           <Property Type="String" Name="TableBase" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ControlMechanism" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ControlDescription" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="GoToGuidePage" />
         </EntityType>
         <EntityType Name="SeriesImageFile">
           <Key>
@@ -1647,6 +1649,7 @@
           <EntitySetMapping Name="ImageFiles">
             <EntityTypeMapping TypeName="PaoliPDWModel.ImageFile">
               <MappingFragment StoreEntitySet="ImageFiles">
+                <ScalarProperty Name="GoToGuidePage" ColumnName="GoToGuidePage" />
                 <ScalarProperty Name="ControlDescription" ColumnName="ControlDescription" />
                 <ScalarProperty Name="ControlMechanism" ColumnName="ControlMechanism" />
                 <ScalarProperty Name="TableBase" ColumnName="TableBase" />

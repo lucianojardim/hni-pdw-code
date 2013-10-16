@@ -18,7 +18,8 @@ namespace PDWModels.Images
 			Finish = 4,
 			TableShape = 5,
 			TableBase = 6,
-			ControlMech = 7
+			ControlMech = 7,
+			GoToGuide = 8
 		}
 
 		public enum FinishTypes
@@ -53,26 +54,34 @@ namespace PDWModels.Images
 		[Required]
 		[DisplayName( "Image Type" )]
 		public string ImageType { get; set; }
-		[DisplayName( "Featured Pull" )]
-		public string FeaturedPull { get; set; }
-		[DisplayName( "Featured Edge" )]
-		public string FeaturedEdge { get; set; }
 		[DisplayName( "Image Content" )]
 		public int ImageContent { get; set; }
+
+		[DisplayName( "Featured Pull" )]
+		public string FeaturedPull { get; set; }
+
+		[DisplayName( "Featured Edge" )]
+		public string FeaturedEdge { get; set; }
+		
 		[DisplayName( "Featured Finish" )]
 		public string FeaturedFinish { get; set; }
 		[DisplayName( "Finish Type" )]
 		public int? FinishType { get; set; }
 		[DisplayName( "Finish Sub Type" )]
 		public int? FinishSubType { get; set; }
+
 		[DisplayName( "Featured Table Shape" )]
 		public string FeaturedTableShape { get; set; }
+
 		[DisplayName( "Featured Table Base" )]
 		public string FeaturedTableBase { get; set; }
+
 		[DisplayName( "Control Mechanism" )]
 		public string ControlMechanism { get; set; }
 		[DisplayName( "Control Description" )]
 		public string ControlDescription { get; set; }
 
+		[DisplayName( "Go To Guide Page Number" )]
+		public int GoToGuidePageNum { get; set; }
 	}
 }

@@ -2165,6 +2165,30 @@ namespace PDWDBContext
         private global::System.String _ControlDescription;
         partial void OnControlDescriptionChanging(global::System.String value);
         partial void OnControlDescriptionChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> GoToGuidePage
+        {
+            get
+            {
+                return _GoToGuidePage;
+            }
+            set
+            {
+                OnGoToGuidePageChanging(value);
+                ReportPropertyChanging("GoToGuidePage");
+                _GoToGuidePage = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("GoToGuidePage");
+                OnGoToGuidePageChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _GoToGuidePage;
+        partial void OnGoToGuidePageChanging(Nullable<global::System.Int32> value);
+        partial void OnGoToGuidePageChanged();
 
         #endregion
 

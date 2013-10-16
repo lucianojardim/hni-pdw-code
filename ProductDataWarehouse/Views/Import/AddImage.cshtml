@@ -52,6 +52,7 @@ else
                     $('#featuredTableShapeRange').hide();
                     $('#featuredTableBaseRange').hide();
 					$('#controlMechanismRange').hide();
+					$('#goToGuideRange').hide();
                     break;
                 case '2':
                     $('#imageTypeRange').hide();
@@ -62,6 +63,7 @@ else
                     $('#featuredTableShapeRange').hide();
                     $('#featuredTableBaseRange').hide();
 					$('#controlMechanismRange').hide();
+					$('#goToGuideRange').hide();
                     break;
                 case '3':
                     $('#imageTypeRange').hide();
@@ -72,6 +74,7 @@ else
                     $('#featuredTableShapeRange').hide();
                     $('#featuredTableBaseRange').hide();
 					$('#controlMechanismRange').hide();
+					$('#goToGuideRange').hide();
                     break;
                 case '4':
                     $('#imageTypeRange').hide();
@@ -82,6 +85,7 @@ else
                     $('#featuredTableShapeRange').hide();
                     $('#featuredTableBaseRange').hide();
 					$('#controlMechanismRange').hide();
+					$('#goToGuideRange').hide();
                     break;
                 case '5':
                     $('#imageTypeRange').hide();
@@ -92,6 +96,7 @@ else
                     $('#featuredTableShapeRange').show();
                     $('#featuredTableBaseRange').hide();
 					$('#controlMechanismRange').hide();
+					$('#goToGuideRange').hide();
                     break;
                 case '6':
                     $('#imageTypeRange').hide();
@@ -102,6 +107,7 @@ else
                     $('#featuredTableShapeRange').hide();
                     $('#featuredTableBaseRange').show();
 					$('#controlMechanismRange').hide();
+					$('#goToGuideRange').hide();
                     break;
                 case '7':
                     $('#imageTypeRange').hide();
@@ -112,6 +118,18 @@ else
                     $('#featuredTableShapeRange').hide();
                     $('#featuredTableBaseRange').hide();
 					$('#controlMechanismRange').show();
+					$('#goToGuideRange').hide();
+                    break;
+                case '8':
+                    $('#imageTypeRange').hide();
+                    $('#hasPeopleRange').hide();
+                    $('#featuredEdgeRange').hide();
+                    $('#featuredPullRange').hide();
+                    $('#featuredFinishRange').hide();
+                    $('#featuredTableShapeRange').hide();
+                    $('#featuredTableBaseRange').hide();
+					$('#controlMechanismRange').hide();
+					$('#goToGuideRange').show();
                     break;
             }
         }
@@ -137,6 +155,7 @@ else
         <span id="featuredTableBaseRange">@Html.LabelFor( m => m.FeaturedTableBase ): @Html.TextBoxFor( m => m.FeaturedTableBase )<br /></span>
 		<span id="controlMechanismRange">@Html.LabelFor( m => m.ControlMechanism): @Html.TextBoxFor( m => m.ControlMechanism )<br />
 		@Html.LabelFor( m => m.ControlDescription): @Html.TextAreaFor( m => m.ControlDescription )<br /></span>
+        <span id="goToGuideRange">@Html.LabelFor( m => m.GoToGuidePageNum ): @Html.TextBoxFor( m => m.GoToGuidePageNum )<br /></span>
 @Html.ValidationSummary()
         <input type="submit" value="Import" onclick="$('#inProgress').show();" />
 	}

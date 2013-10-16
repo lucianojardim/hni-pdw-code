@@ -71,7 +71,8 @@ namespace PWDRepositories
 				FeaturedTableBase = img.TableBase,
 				FeaturedTableShape = img.TableShape,
 				ControlMechanism = img.ControlMechanism,
-				ControlDescription = img.ControlDescription
+				ControlDescription = img.ControlDescription,
+				GoToGuidePageNum = img.GoToGuidePage ?? 0
 			};
 		}
 
@@ -158,6 +159,34 @@ namespace PWDRepositories
 				.Take( ct )
 				.ToList()
 				.Select( i => (ImageComboItem)(i.ThumbnailImageData( "s16to9" ))  );
+		}
+
+		public ImageThumbnailGallery GetGoToGuideImageList()
+		{
+			ImageThumbnailGallery gallery = new ImageThumbnailGallery();
+
+			var imgList = database.ImageFiles
+				.Where( imgFile => imgFile.ImageContent == (int)ImageInformation.ImageContents.GoToGuide )
+				.AsQueryable();
+			gallery.TotalImageCount = imgList.Count();
+
+			// filter by...
+
+			gallery.FilteredImageCount = imgList.Count();
+			var orderedList = imgList
+				.OrderBy( i => i.GoToGuidePage );
+
+			gallery.GalleryOfImages = orderedList
+				.ToList()
+				.Select( img => new ImageSummary()
+				{
+					Name = img.Name,
+					FileName = img.ThumbnailImageData( "mBase" ).FileName,
+					ImageID = img.ImageID,
+					CanLightbox = ImageFile.ImageCanLightbox( img.ImageType )
+				} );
+
+			return gallery;
 		}
 
 		public ImageThumbnailGallery GetImageThumbnailList( string categories, string imageTypes, int? seriesId, string sortBy, string keywords,
@@ -550,44 +579,54 @@ namespace PWDRepositories
 		private void ResizeImage( string fileName, Image fullSizeImg, int widthRatio, int heightRatio, int maxWidth, int maxHeight, string cropLocation )
 		{
 			int height = fullSizeImg.Height, width = fullSizeImg.Width;
-			float heightFactor = (float)height / heightRatio, widthFactor = (float)width / widthRatio;
 			int startHeight = 0, startWidth = 0, scaledHeight = 0, scaledWidth = 0;
+			if( (heightRatio > 0) && (widthRatio > 0) )
+			{
+				float heightFactor = (float)height / heightRatio, widthFactor = (float)width / widthRatio;
 
-			if( heightFactor < widthFactor )
-			{
-				scaledHeight = height;
-				scaledWidth = (height * widthRatio) / heightRatio;
-				startHeight = 0;
-				switch( cropLocation.ToLower() )
+				if( heightFactor < widthFactor )
 				{
-					case "left":
-						startWidth = 0;
-						break;
-					case "right":
-						startWidth = width - scaledWidth;
-						break;
-					default:
-						startWidth = (width - scaledWidth) / 2;
-						break;
+					scaledHeight = height;
+					scaledWidth = (height * widthRatio) / heightRatio;
+					startHeight = 0;
+					switch( cropLocation.ToLower() )
+					{
+						case "left":
+							startWidth = 0;
+							break;
+						case "right":
+							startWidth = width - scaledWidth;
+							break;
+						default:
+							startWidth = (width - scaledWidth) / 2;
+							break;
+					}
 				}
-			}
-			else if( heightFactor > widthFactor )
-			{
-				scaledHeight = (width * heightRatio) / widthRatio;
-				scaledWidth = width;
-				switch( cropLocation.ToLower() )
+				else if( heightFactor > widthFactor )
 				{
-					case "top":
-						startHeight = 0;
-						break;
-					case "bottom":
-						startHeight = height - scaledHeight;
-						break;
-					default:
-						startHeight = (height - scaledHeight) / 2;
-						break;
+					scaledHeight = (width * heightRatio) / widthRatio;
+					scaledWidth = width;
+					switch( cropLocation.ToLower() )
+					{
+						case "top":
+							startHeight = 0;
+							break;
+						case "bottom":
+							startHeight = height - scaledHeight;
+							break;
+						default:
+							startHeight = (height - scaledHeight) / 2;
+							break;
+					}
+					startWidth = 0;
 				}
-				startWidth = 0;
+				else
+				{
+					scaledHeight = height;
+					scaledWidth = width;
+					startHeight = 0;
+					startWidth = 0;
+				}
 			}
 			else
 			{
@@ -673,6 +712,7 @@ namespace PWDRepositories
 			imgData.TableShape = imgInfo.FeaturedTableShape;
 			imgData.ControlMechanism = imgInfo.ControlMechanism;
 			imgData.ControlDescription = imgInfo.ControlDescription;
+			imgData.GoToGuidePage = imgInfo.GoToGuidePageNum;
 
 			database.ImageFiles.AddObject( imgData );
 
@@ -704,6 +744,7 @@ namespace PWDRepositories
 			imgData.TableShape = imgInfo.FeaturedTableShape;
 			imgData.ControlMechanism = imgInfo.ControlMechanism;
 			imgData.ControlDescription = imgInfo.ControlDescription;
+			imgData.GoToGuidePage = imgInfo.GoToGuidePageNum;
 
 			database.SaveChanges();
 		}

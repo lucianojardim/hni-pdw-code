@@ -479,6 +479,15 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
+		public JsonpResult GetGoToGuideImageList()
+		{
+			return new JsonpResult()
+			{
+				Data = new ImageRepository().GetGoToGuideImageList(),
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
+
 		public ActionResult APIDef()
         {
 //			if( (Request.ServerVariables["SERVER_NAME"].ToLower().Contains( "matt3400" )) ||
@@ -533,6 +542,7 @@ namespace ProductDataWarehouse.Controllers
 			new APIDefinition() { url = "/PDW/GetSustainabilityList", parameters = "" },
 			new APIDefinition() { url = "/PDW/GetCollateralList", parameters = "" },
 			new APIDefinition() { url = "/PDW/GetImageContentTypeList", parameters = "" },
+			new APIDefinition() { url = "/PDW/GetGoToGuideImageList", parameters = "" },
 			
 		};
 	}

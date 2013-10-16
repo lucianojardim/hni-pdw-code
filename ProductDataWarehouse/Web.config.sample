@@ -20,6 +20,9 @@
       <CropSetting Description="Large 1:1" Suffix="l1to1" RatioWidth="1" RatioHeight="1" MaxHeight="1024" MaxWidth="1024" CropType="Center" />
       <CropSetting Description="Large 4:3" Suffix="l4to3" RatioWidth="4" RatioHeight="3" MaxHeight="1024" MaxWidth="1024" CropType="Center" />
       <CropSetting Description="Large 16:9" Suffix="l16to9" RatioWidth="16" RatioHeight="9" MaxHeight="1024" MaxWidth="1024" CropType="Center" />
+      <CropSetting Description="Small Base" Suffix="sBase" RatioWidth="0" RatioHeight="0" MaxHeight="150" MaxWidth="150" CropType="Center" />
+      <CropSetting Description="Medium Base" Suffix="mBase" RatioWidth="0" RatioHeight="0" MaxHeight="300" MaxWidth="300" CropType="Center" />
+      <CropSetting Description="Large Base" Suffix="lBase" RatioWidth="0" RatioHeight="0" MaxHeight="1024" MaxWidth="1024" CropType="Center" />
     </ImageSizes>
   </imageCropSettings>
 
