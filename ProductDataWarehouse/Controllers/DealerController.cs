@@ -31,11 +31,11 @@ namespace ProductDataWarehouse.Controllers
 			else if( url.Contains( "matt3400" ) )
 				return "http://matt3400.wdd.local:8787";
 			else if( url.Contains( "jamesburnes" ) || url.Contains( "getvitaminj" ) )
-				return "http://library.paoli.getvitaminj.com";
+				return "http://desktop.paoli.getvitaminj.com";
 			else if( url.Contains( "paoli-test01" ) )
 				return "http://paoli-test01";
 
-			return "http://www.paoli.com";
+			return "http://desktop.paoli.com";
 		}
     }
 }

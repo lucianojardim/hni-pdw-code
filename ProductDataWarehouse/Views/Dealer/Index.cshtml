@@ -63,7 +63,7 @@
 @if( Model.ProductList.Any() )
 {
 	<div class="products_thumbs">
-		<h1>@Model.ProductHeadline</h1>
+		<h1 class="padb30">@Model.ProductHeadline</h1>
 		@foreach( var s in Model.ProductList )
   {
   <a href="#" data-url="/@s.LinkName" class="img_box img_box2 img_size5" >
@@ -78,7 +78,7 @@
 @if( Model.PageLinks.Any() )
 {
 	<div class="page_list">
-		<h1>@Model.PageHeadline</h1>
+		<h1 class="padb30">@Model.PageHeadline</h1>
 		@foreach( var p in Model.PageLinks )
   {
 	  <div class="col33">
@@ -92,10 +92,10 @@
 @if( Model.VideoLinks.Any() )
 {
 <div class="col33">
-	<h1 style="@((!Model.VideoLinks.Any()) ? "display:none" : "")">@Model.VideoHeadline</h1>
+	<h1 class="padb30" style="@((!Model.VideoLinks.Any()) ? "display:none" : "")">@Model.VideoHeadline</h1>
 	@foreach( var v in Model.VideoLinks )
  {
-		<iframe width="320" height="240" src="http://www.youtube-nocookie.com/embed/@v.VideoLink?rel=0&autoplay=0&modestbranding=1&showinfo=0" frameborder="0" allowfullscreen></iframe>
+		<iframe class="padb10" width="320" height="180" src="http://www.youtube-nocookie.com/embed/@v.VideoLink?rel=0&autoplay=0&modestbranding=1&showinfo=0" frameborder="0" allowfullscreen></iframe>
 
  }
 </div>
