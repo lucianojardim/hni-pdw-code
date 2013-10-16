@@ -15,11 +15,19 @@ namespace ProductDataWarehouse.Controllers
 		{
 			DealerRepository dRepository = new DealerRepository();
 
-			var dInfo = dRepository.GetDealer( id );
+			try
+			{
+				var dInfo = dRepository.GetDealer( id );
 
-			ViewBag.FullSiteURL = FullSiteURL();
+				ViewBag.FullSiteURL = FullSiteURL();
 
-			return View( dInfo );
+				return View( dInfo );
+			}
+			catch
+			{
+			}
+
+			return Redirect( FullSiteURL() );
 		}
 
 		public string FullSiteURL()
