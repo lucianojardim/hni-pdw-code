@@ -27,7 +27,7 @@ namespace ProductDataWarehouse.Controllers
 			{
 			}
 
-			return Redirect( FullSiteURL() );
+			return Redirect( FullSiteURL() + "/404-page/" );
 		}
 
 		public string FullSiteURL()
