@@ -183,7 +183,8 @@ namespace PWDRepositories
 					Name = img.Name,
 					FileName = img.ThumbnailImageData( "mBase" ).FileName,
 					ImageID = img.ImageID,
-					CanLightbox = ImageFile.ImageCanLightbox( img.ImageType )
+					CanLightbox = ImageFile.ImageCanLightbox( img.ImageType ),
+					HiResFileName = img.OriginalImage
 				} );
 
 			return gallery;
