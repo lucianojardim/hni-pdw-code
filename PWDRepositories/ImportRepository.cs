@@ -397,7 +397,6 @@ namespace PWDRepositories
 				Typical tData = new Typical();
 				tData.CreatedDate = DateTime.Now;
 
-				string categoryName = null;
 				List<string> arrKeywordList = new List<string>();
 				foreach( var header in csvReader.GetFieldHeaders() )
 				{
@@ -405,19 +404,13 @@ namespace PWDRepositories
 					switch( header.ToLower() )
 					{
 						case "category":
-							if( (val ?? "").Any() )
-							{
-								categoryName = val.Trim();
-							}
 							break;
 						case "series name":
 							if( (val ?? "").Any() )
 							{
 								string seriesName = val.Trim();
-								var category = database.Categories.FirstOrDefault( c => c.Name == categoryName );
-								if( category != null )
 								{
-									var rSeries = category.Serieses.FirstOrDefault( s => s.Name == seriesName );
+									var rSeries = database.Serieses.FirstOrDefault( s => s.Name == seriesName );
 									if( rSeries != null )
 									{
 										SeriesTypical stData = new SeriesTypical();
