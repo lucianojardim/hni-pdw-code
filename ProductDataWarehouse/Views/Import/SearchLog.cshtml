@@ -1,0 +1,34 @@
+﻿@model IEnumerable<PDWModels.SearchResults>
+@{
+    ViewBag.Title = "Search Log";
+    Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+
+<h2>Search Log</h2>
+
+<table border="1" cellpadding="5">
+<thead>
+<tr>
+<th colspan="6">UTC Time</th><th colspan="4">Counts</th><th>&nbsp;</th>
+</tr>
+<tr>
+<th>Month</th><th>Day</th><th>Year</th><th>Hour</th><th>Minute</th><th>Second</th><th>Series</th><th>Image</th><th>Typical</th><th>Page</th><th>Search Terms</th>
+</tr>
+</thead>
+@foreach( var logEntry in Model )
+{
+    <tr>
+    <td>@logEntry.SearchDateTime.Month</td>
+    <td>@logEntry.SearchDateTime.Day</td>
+    <td>@logEntry.SearchDateTime.Year</td>
+    <td>@logEntry.SearchDateTime.Hour</td>
+    <td>@logEntry.SearchDateTime.Minute</td>
+    <td>@logEntry.SearchDateTime.Second</td>
+    <td>@logEntry.SeriesCount</td>
+    <td>@logEntry.ImageCount</td>
+    <td>@logEntry.TypicalCount</td>
+    <td>@logEntry.PageCount</td>
+    <td>@logEntry.SearchText</td>
+    </tr>
+}
+</table>

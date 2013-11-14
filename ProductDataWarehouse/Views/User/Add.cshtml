@@ -1,0 +1,48 @@
+﻿@using ProductDataWarehouse.Models
+@model PDWModels.Users.UserInformation
+@{
+	ViewBag.Title = "Add User";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using ProductDataWarehouse.Controllers
+
+@if( ViewBag.CloseFancyBox ?? false )
+{
+    <script type="text/javascript">
+    	$(document).ready(function () {
+    		parent.$.fancybox.close();
+    		if (parent.loadUsers) {
+    			parent.loadUsers();
+    		}
+    	});
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+    	$(document).ready(function () {
+    	});
+
+    </script>    
+}
+    <h2>Add User</h2>
+
+    @using( Html.BeginForm( "Add", "User", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
+	{
+        <span class="dataRow">@Html.MJLabelFor( m => m.EmailAddress, true )@Html.TextBoxFor( m => m.EmailAddress )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.FirstName, true )@Html.TextBoxFor( m => m.FirstName )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.LastName, true )@Html.TextBoxFor( m => m.LastName )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.CompanyName, true )@Html.TextBoxFor( m => m.CompanyName )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Address1, true )@Html.TextBoxFor( m => m.Address1 )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Address2, true )@Html.TextBoxFor( m => m.Address2 )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.City, true )@Html.TextBoxFor( m => m.City )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.State, true )@Html.DropDownListFor( m => m.State, UserController.GetStateDDList() )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Zip, true )@Html.TextBoxFor( m => m.Zip )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.BusinessPhone, true )@Html.TextBoxFor( m => m.BusinessPhone )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.CellPhone, true )@Html.TextBoxFor( m => m.CellPhone )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Title, true )@Html.TextBoxFor( m => m.Title )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.UserType, true )@Html.DropDownListFor( m => m.UserType, UserController.GetUserTypeDDList() )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Role, true )@Html.DropDownListFor( m => m.Role, UserController.GetUserRoleDDList() )<br/></span>
+@Html.ValidationSummary()
+        <input type="submit" class="btn_type1" value="Add" id="submitBtn" />
+	}

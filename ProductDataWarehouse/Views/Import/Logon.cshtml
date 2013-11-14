@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "Logon";
+    Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('.usernameField').focus(function () {
+			if ($(this).val() == 'Username') {
+				$(this).val('');
+
+			}
+		}).blur(function () {
+			if ($(this).val() == '') {
+				$(this).val('Username');
+			}
+		});
+		$('.passwordField').focus(function () {
+			if ($(this).val() == 'Password') {
+				$(this).val('');
+
+			}
+		}).blur(function () {
+			if ($(this).val() == '') {
+				$(this).val('Password');
+			}
+		});
+
+		$("#forgotPasswordLink").fancybox({
+			'autoDimensions': false,
+			'width': 400,
+			'height': 200,
+			'padding': 20,
+			'margin': 0,
+			'scrolling': 'auto',
+			'titleShow': false,
+			'type': 'iframe'
+		});
+
+	});
+</script>
+<div id="loginBox">
+	<h2>Login</h2>
+	<div class="box">
+@using( Html.BeginForm() )
+{
+            @Html.ValidationSummary( "", new { @class = "form_errors" } )
+			<p class="field">
+            @Html.TextBox( "username", "Username", new { @class = "textBox usernameField" } )
+			</p>
+			<p class="field">
+            @Html.Password( "password", "Password", new { @class = "textBox passwordField", autocomplete = "off" } )
+			</p>
+			<p class="field" id="loginSubmit">
+				<input type='submit' class='btn_type1 left' value='Login'/>
+				<a class="right" id="forgotPasswordLink" href="@Url.Action( "ForgotPassword", "Import" )?iframe">Forgot Password</a>
+			</p>
+}	
+    </div>
+</div>

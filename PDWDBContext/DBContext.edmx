@@ -1,0 +1,2171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PaoliPDWModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="PaoliPDWModelStoreContainer">
+          <EntitySet Name="AttributeOptions" EntityType="PaoliPDWModel.Store.AttributeOptions" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Attributes" EntityType="PaoliPDWModel.Store.Attributes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Categories" EntityType="PaoliPDWModel.Store.Categories" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DealerFeaturedProducts" EntityType="PaoliPDWModel.Store.DealerFeaturedProducts" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DealerPageLinks" EntityType="PaoliPDWModel.Store.DealerPageLinks" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Dealers" EntityType="PaoliPDWModel.Store.Dealers" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DealerVideoLinks" EntityType="PaoliPDWModel.Store.DealerVideoLinks" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ImageFiles" EntityType="PaoliPDWModel.Store.ImageFiles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PageLinks" EntityType="PaoliPDWModel.Store.PageLinks" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PublicationImages" EntityType="PaoliPDWModel.Store.PublicationImages" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Publications" EntityType="PaoliPDWModel.Store.Publications" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="RelatedSeries" EntityType="PaoliPDWModel.Store.RelatedSeries" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SearchResultsLog" EntityType="PaoliPDWModel.Store.SearchResultsLog" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Serieses" EntityType="PaoliPDWModel.Store.Serieses" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SeriesImageFiles" EntityType="PaoliPDWModel.Store.SeriesImageFiles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SeriesIntAttributes" EntityType="PaoliPDWModel.Store.SeriesIntAttributes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SeriesOptionAttributes" EntityType="PaoliPDWModel.Store.SeriesOptionAttributes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SeriesTextAttributes" EntityType="PaoliPDWModel.Store.SeriesTextAttributes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SeriesTypicals" EntityType="PaoliPDWModel.Store.SeriesTypicals" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TAttributeOptions" EntityType="PaoliPDWModel.Store.TAttributeOptions" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TAttributes" EntityType="PaoliPDWModel.Store.TAttributes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TypicalImageFiles" EntityType="PaoliPDWModel.Store.TypicalImageFiles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TypicalIntAttributes" EntityType="PaoliPDWModel.Store.TypicalIntAttributes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TypicalOptionAttributes" EntityType="PaoliPDWModel.Store.TypicalOptionAttributes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Typicals" EntityType="PaoliPDWModel.Store.Typicals" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TypicalTextAttributes" EntityType="PaoliPDWModel.Store.TypicalTextAttributes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Users" EntityType="PaoliPDWModel.Store.Users" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="VideoLinks" EntityType="PaoliPDWModel.Store.VideoLinks" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="fkDealer_VideoLink" Association="PaoliPDWModel.Store.fkDealer_VideoLink">
+            <End Role="VideoLinks" EntitySet="VideoLinks" />
+            <End Role="Dealers" EntitySet="Dealers" />
+          </AssociationSet>
+          <AssociationSet Name="fkDFP_Dealer" Association="PaoliPDWModel.Store.fkDFP_Dealer">
+            <End Role="Dealers" EntitySet="Dealers" />
+            <End Role="DealerFeaturedProducts" EntitySet="DealerFeaturedProducts" />
+          </AssociationSet>
+          <AssociationSet Name="fkDPL_Dealer" Association="PaoliPDWModel.Store.fkDPL_Dealer">
+            <End Role="Dealers" EntitySet="Dealers" />
+            <End Role="DealerPageLinks" EntitySet="DealerPageLinks" />
+          </AssociationSet>
+          <AssociationSet Name="fkDPL_PageLink" Association="PaoliPDWModel.Store.fkDPL_PageLink">
+            <End Role="PageLinks" EntitySet="PageLinks" />
+            <End Role="DealerPageLinks" EntitySet="DealerPageLinks" />
+          </AssociationSet>
+          <AssociationSet Name="fkDVL_Dealer" Association="PaoliPDWModel.Store.fkDVL_Dealer">
+            <End Role="Dealers" EntitySet="Dealers" />
+            <End Role="DealerVideoLinks" EntitySet="DealerVideoLinks" />
+          </AssociationSet>
+          <AssociationSet Name="fkDVL_VideoLink" Association="PaoliPDWModel.Store.fkDVL_VideoLink">
+            <End Role="VideoLinks" EntitySet="VideoLinks" />
+            <End Role="DealerVideoLinks" EntitySet="DealerVideoLinks" />
+          </AssociationSet>
+          <AssociationSet Name="fkOption_Attribute" Association="PaoliPDWModel.Store.fkOption_Attribute">
+            <End Role="Attributes" EntitySet="Attributes" />
+            <End Role="AttributeOptions" EntitySet="AttributeOptions" />
+          </AssociationSet>
+          <AssociationSet Name="fkPI_Image" Association="PaoliPDWModel.Store.fkPI_Image">
+            <End Role="ImageFiles" EntitySet="ImageFiles" />
+            <End Role="PublicationImages" EntitySet="PublicationImages" />
+          </AssociationSet>
+          <AssociationSet Name="fkPI_Publication" Association="PaoliPDWModel.Store.fkPI_Publication">
+            <End Role="Publications" EntitySet="Publications" />
+            <End Role="PublicationImages" EntitySet="PublicationImages" />
+          </AssociationSet>
+          <AssociationSet Name="fkRelatedSeries_Child" Association="PaoliPDWModel.Store.fkRelatedSeries_Child">
+            <End Role="Serieses" EntitySet="Serieses" />
+            <End Role="RelatedSeries" EntitySet="RelatedSeries" />
+          </AssociationSet>
+          <AssociationSet Name="fkRelatedSeries_Parent" Association="PaoliPDWModel.Store.fkRelatedSeries_Parent">
+            <End Role="Serieses" EntitySet="Serieses" />
+            <End Role="RelatedSeries" EntitySet="RelatedSeries" />
+          </AssociationSet>
+          <AssociationSet Name="fkSeries_Category" Association="PaoliPDWModel.Store.fkSeries_Category">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Serieses" EntitySet="Serieses" />
+          </AssociationSet>
+          <AssociationSet Name="fkSIA_Attribute" Association="PaoliPDWModel.Store.fkSIA_Attribute">
+            <End Role="Attributes" EntitySet="Attributes" />
+            <End Role="SeriesIntAttributes" EntitySet="SeriesIntAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkSIA_Series" Association="PaoliPDWModel.Store.fkSIA_Series">
+            <End Role="Serieses" EntitySet="Serieses" />
+            <End Role="SeriesIntAttributes" EntitySet="SeriesIntAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkSIF_Image" Association="PaoliPDWModel.Store.fkSIF_Image">
+            <End Role="ImageFiles" EntitySet="ImageFiles" />
+            <End Role="SeriesImageFiles" EntitySet="SeriesImageFiles" />
+          </AssociationSet>
+          <AssociationSet Name="fkSIF_Series" Association="PaoliPDWModel.Store.fkSIF_Series">
+            <End Role="Serieses" EntitySet="Serieses" />
+            <End Role="SeriesImageFiles" EntitySet="SeriesImageFiles" />
+          </AssociationSet>
+          <AssociationSet Name="fkSOA_Attribute" Association="PaoliPDWModel.Store.fkSOA_Attribute">
+            <End Role="Attributes" EntitySet="Attributes" />
+            <End Role="SeriesOptionAttributes" EntitySet="SeriesOptionAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkSOA_AttributeOption" Association="PaoliPDWModel.Store.fkSOA_AttributeOption">
+            <End Role="AttributeOptions" EntitySet="AttributeOptions" />
+            <End Role="SeriesOptionAttributes" EntitySet="SeriesOptionAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkSOA_Series" Association="PaoliPDWModel.Store.fkSOA_Series">
+            <End Role="Serieses" EntitySet="Serieses" />
+            <End Role="SeriesOptionAttributes" EntitySet="SeriesOptionAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkST_Series" Association="PaoliPDWModel.Store.fkST_Series">
+            <End Role="Serieses" EntitySet="Serieses" />
+            <End Role="SeriesTypicals" EntitySet="SeriesTypicals" />
+          </AssociationSet>
+          <AssociationSet Name="fkST_Typical" Association="PaoliPDWModel.Store.fkST_Typical">
+            <End Role="Typicals" EntitySet="Typicals" />
+            <End Role="SeriesTypicals" EntitySet="SeriesTypicals" />
+          </AssociationSet>
+          <AssociationSet Name="fkSTA_Attribute" Association="PaoliPDWModel.Store.fkSTA_Attribute">
+            <End Role="Attributes" EntitySet="Attributes" />
+            <End Role="SeriesTextAttributes" EntitySet="SeriesTextAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkSTA_Series" Association="PaoliPDWModel.Store.fkSTA_Series">
+            <End Role="Serieses" EntitySet="Serieses" />
+            <End Role="SeriesTextAttributes" EntitySet="SeriesTextAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkTIA_Attribute" Association="PaoliPDWModel.Store.fkTIA_Attribute">
+            <End Role="TAttributes" EntitySet="TAttributes" />
+            <End Role="TypicalIntAttributes" EntitySet="TypicalIntAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkTIA_Typical" Association="PaoliPDWModel.Store.fkTIA_Typical">
+            <End Role="Typicals" EntitySet="Typicals" />
+            <End Role="TypicalIntAttributes" EntitySet="TypicalIntAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkTIF_Image" Association="PaoliPDWModel.Store.fkTIF_Image">
+            <End Role="ImageFiles" EntitySet="ImageFiles" />
+            <End Role="TypicalImageFiles" EntitySet="TypicalImageFiles" />
+          </AssociationSet>
+          <AssociationSet Name="fkTIF_Typical" Association="PaoliPDWModel.Store.fkTIF_Typical">
+            <End Role="Typicals" EntitySet="Typicals" />
+            <End Role="TypicalImageFiles" EntitySet="TypicalImageFiles" />
+          </AssociationSet>
+          <AssociationSet Name="fkTOA_Attribute" Association="PaoliPDWModel.Store.fkTOA_Attribute">
+            <End Role="TAttributes" EntitySet="TAttributes" />
+            <End Role="TypicalOptionAttributes" EntitySet="TypicalOptionAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkTOA_AttributeOption" Association="PaoliPDWModel.Store.fkTOA_AttributeOption">
+            <End Role="TAttributeOptions" EntitySet="TAttributeOptions" />
+            <End Role="TypicalOptionAttributes" EntitySet="TypicalOptionAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkTOA_Typical" Association="PaoliPDWModel.Store.fkTOA_Typical">
+            <End Role="Typicals" EntitySet="Typicals" />
+            <End Role="TypicalOptionAttributes" EntitySet="TypicalOptionAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkTOption_Attribute" Association="PaoliPDWModel.Store.fkTOption_Attribute">
+            <End Role="TAttributes" EntitySet="TAttributes" />
+            <End Role="TAttributeOptions" EntitySet="TAttributeOptions" />
+          </AssociationSet>
+          <AssociationSet Name="fkTTA_Attribute" Association="PaoliPDWModel.Store.fkTTA_Attribute">
+            <End Role="TAttributes" EntitySet="TAttributes" />
+            <End Role="TypicalTextAttributes" EntitySet="TypicalTextAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkTTA_Typical" Association="PaoliPDWModel.Store.fkTTA_Typical">
+            <End Role="Typicals" EntitySet="Typicals" />
+            <End Role="TypicalTextAttributes" EntitySet="TypicalTextAttributes" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AttributeOptions">
+          <Key>
+            <PropertyRef Name="OptionID" />
+          </Key>
+          <Property Name="OptionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="500" />
+          <Property Name="AttributeID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Attributes">
+          <Key>
+            <PropertyRef Name="AttributeID" />
+          </Key>
+          <Property Name="AttributeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="DetailItem" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="DealerFeaturedProducts">
+          <Key>
+            <PropertyRef Name="DealerID" />
+            <PropertyRef Name="SeriesName" />
+          </Key>
+          <Property Name="DealerID" Type="int" Nullable="false" />
+          <Property Name="SeriesName" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="DealerPageLinks">
+          <Key>
+            <PropertyRef Name="DealerID" />
+            <PropertyRef Name="PageID" />
+          </Key>
+          <Property Name="DealerID" Type="int" Nullable="false" />
+          <Property Name="PageID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Dealers">
+          <Key>
+            <PropertyRef Name="DealerID" />
+          </Key>
+          <Property Name="DealerID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="URL" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="MainContent" Type="ntext" Nullable="false" />
+          <Property Name="FeaturedVideoID" Type="int" Nullable="false" />
+          <Property Name="ProductsHeadline" Type="nvarchar" MaxLength="200" />
+          <Property Name="PagesHeadline" Type="nvarchar" MaxLength="200" />
+          <Property Name="VideosHeadline" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="DealerVideoLinks">
+          <Key>
+            <PropertyRef Name="DealerID" />
+            <PropertyRef Name="VideoID" />
+          </Key>
+          <Property Name="DealerID" Type="int" Nullable="false" />
+          <Property Name="VideoID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ImageFiles">
+          <Key>
+            <PropertyRef Name="ImageID" />
+          </Key>
+          <Property Name="ImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="OriginalExtension" Type="nvarchar" Nullable="false" MaxLength="10" />
+          <Property Name="Caption" Type="nvarchar" Nullable="false" MaxLength="1000" />
+          <Property Name="HasPeople" Type="bit" Nullable="false" />
+          <Property Name="ImageType" Type="nvarchar" Nullable="false" MaxLength="10" />
+          <Property Name="Keyword" Type="nvarchar" Nullable="false" MaxLength="1000" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="MIMEType" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="FeaturedEdge" Type="nvarchar" MaxLength="500" />
+          <Property Name="FeaturedPull" Type="nvarchar" MaxLength="500" />
+          <Property Name="ImageContent" Type="int" Nullable="false" />
+          <Property Name="FeaturedFinish" Type="nvarchar" MaxLength="500" />
+          <Property Name="FinishType" Type="int" />
+          <Property Name="FinishSubType" Type="int" />
+          <Property Name="DBKeywords" Type="ntext" />
+          <Property Name="TableShape" Type="nvarchar" MaxLength="500" />
+          <Property Name="TableBase" Type="nvarchar" MaxLength="500" />
+          <Property Name="ControlMechanism" Type="nvarchar" MaxLength="500" />
+          <Property Name="ControlDescription" Type="ntext" />
+          <Property Name="GoToGuidePage" Type="int" />
+        </EntityType>
+        <EntityType Name="PageLinks">
+          <Key>
+            <PropertyRef Name="PageID" />
+          </Key>
+          <Property Name="PageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Display" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="URLLocation" Type="nvarchar" Nullable="false" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="PublicationImages">
+          <Key>
+            <PropertyRef Name="PublicationID" />
+            <PropertyRef Name="ImageID" />
+          </Key>
+          <Property Name="PublicationID" Type="int" Nullable="false" />
+          <Property Name="ImageID" Type="int" Nullable="false" />
+          <Property Name="PageNumber" Type="int" />
+        </EntityType>
+        <EntityType Name="Publications">
+          <Key>
+            <PropertyRef Name="PublicationID" />
+          </Key>
+          <Property Name="PublicationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="PubDate" Type="datetime" Nullable="false" />
+          <Property Name="FilterVisible" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RelatedSeries">
+          <Key>
+            <PropertyRef Name="ParentSeriesID" />
+            <PropertyRef Name="ChildSeriesID" />
+          </Key>
+          <Property Name="ParentSeriesID" Type="int" Nullable="false" />
+          <Property Name="ChildSeriesID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SearchResultsLog">
+          <Key>
+            <PropertyRef Name="LogID" />
+          </Key>
+          <Property Name="LogID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SearchDateTime" Type="datetime" Nullable="false" />
+          <Property Name="SeriesCount" Type="int" Nullable="false" />
+          <Property Name="ImageCount" Type="int" Nullable="false" />
+          <Property Name="TypicalCount" Type="int" Nullable="false" />
+          <Property Name="PageCount" Type="int" Nullable="false" />
+          <Property Name="SearchTerm" Type="ntext" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Serieses">
+          <Key>
+            <PropertyRef Name="SeriesID" />
+          </Key>
+          <Property Name="SeriesID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CategoryID" Type="int" Nullable="false" />
+          <Property Name="DBKeywords" Type="ntext" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SeriesImageFiles">
+          <Key>
+            <PropertyRef Name="AssociationID" />
+          </Key>
+          <Property Name="AssociationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IsFeatured" Type="bit" Nullable="false" />
+          <Property Name="ImageID" Type="int" Nullable="false" />
+          <Property Name="SeriesID" Type="int" Nullable="false" />
+          <Property Name="DisplayOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SeriesIntAttributes">
+          <Key>
+            <PropertyRef Name="ValueID" />
+          </Key>
+          <Property Name="ValueID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Value" Type="int" Nullable="false" />
+          <Property Name="AttributeID" Type="int" Nullable="false" />
+          <Property Name="SeriesID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SeriesOptionAttributes">
+          <Key>
+            <PropertyRef Name="ValueID" />
+          </Key>
+          <Property Name="ValueID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OptionID" Type="int" Nullable="false" />
+          <Property Name="AttributeID" Type="int" Nullable="false" />
+          <Property Name="SeriesID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SeriesTextAttributes">
+          <Key>
+            <PropertyRef Name="ValueID" />
+          </Key>
+          <Property Name="ValueID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Value" Type="nvarchar" Nullable="false" MaxLength="2000" />
+          <Property Name="AttributeID" Type="int" Nullable="false" />
+          <Property Name="SeriesID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SeriesTypicals">
+          <Key>
+            <PropertyRef Name="AssociationID" />
+          </Key>
+          <Property Name="AssociationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IsPrimary" Type="bit" Nullable="false" />
+          <Property Name="SeriesID" Type="int" Nullable="false" />
+          <Property Name="TypicalID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TAttributeOptions">
+          <Key>
+            <PropertyRef Name="OptionID" />
+          </Key>
+          <Property Name="OptionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="500" />
+          <Property Name="AttributeID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TAttributes">
+          <Key>
+            <PropertyRef Name="AttributeID" />
+          </Key>
+          <Property Name="AttributeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="DetailItem" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TypicalImageFiles">
+          <Key>
+            <PropertyRef Name="AssociationID" />
+          </Key>
+          <Property Name="AssociationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IsFeatured" Type="bit" Nullable="false" />
+          <Property Name="ImageID" Type="int" Nullable="false" />
+          <Property Name="TypicalID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TypicalIntAttributes">
+          <Key>
+            <PropertyRef Name="ValueID" />
+          </Key>
+          <Property Name="ValueID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Value" Type="int" Nullable="false" />
+          <Property Name="AttributeID" Type="int" Nullable="false" />
+          <Property Name="TypicalID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TypicalOptionAttributes">
+          <Key>
+            <PropertyRef Name="ValueID" />
+          </Key>
+          <Property Name="ValueID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OptionID" Type="int" Nullable="false" />
+          <Property Name="AttributeID" Type="int" Nullable="false" />
+          <Property Name="TypicalID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Typicals">
+          <Key>
+            <PropertyRef Name="TypicalID" />
+          </Key>
+          <Property Name="TypicalID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="DBKeywords" Type="ntext" />
+        </EntityType>
+        <EntityType Name="TypicalTextAttributes">
+          <Key>
+            <PropertyRef Name="ValueID" />
+          </Key>
+          <Property Name="ValueID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Value" Type="nvarchar" Nullable="false" MaxLength="2000" />
+          <Property Name="AttributeID" Type="int" Nullable="false" />
+          <Property Name="TypicalID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="CompanyName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Address1" Type="nvarchar" MaxLength="100" />
+          <Property Name="Address2" Type="nvarchar" MaxLength="100" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" />
+          <Property Name="State" Type="nvarchar" MaxLength="5" />
+          <Property Name="Zip" Type="nvarchar" MaxLength="12" />
+          <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="BusinessPhone" Type="nvarchar" MaxLength="20" />
+          <Property Name="CellPhone" Type="nvarchar" MaxLength="20" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserType" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Role" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="VideoLinks">
+          <Key>
+            <PropertyRef Name="VideoID" />
+          </Key>
+          <Property Name="VideoID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Display" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="YouTubeID" Type="nvarchar" Nullable="false" MaxLength="20" />
+        </EntityType>
+        <Association Name="fkDealer_VideoLink">
+          <End Role="VideoLinks" Type="PaoliPDWModel.Store.VideoLinks" Multiplicity="1" />
+          <End Role="Dealers" Type="PaoliPDWModel.Store.Dealers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VideoLinks">
+              <PropertyRef Name="VideoID" />
+            </Principal>
+            <Dependent Role="Dealers">
+              <PropertyRef Name="FeaturedVideoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkDFP_Dealer">
+          <End Role="Dealers" Type="PaoliPDWModel.Store.Dealers" Multiplicity="1" />
+          <End Role="DealerFeaturedProducts" Type="PaoliPDWModel.Store.DealerFeaturedProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dealers">
+              <PropertyRef Name="DealerID" />
+            </Principal>
+            <Dependent Role="DealerFeaturedProducts">
+              <PropertyRef Name="DealerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkDPL_Dealer">
+          <End Role="Dealers" Type="PaoliPDWModel.Store.Dealers" Multiplicity="1" />
+          <End Role="DealerPageLinks" Type="PaoliPDWModel.Store.DealerPageLinks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dealers">
+              <PropertyRef Name="DealerID" />
+            </Principal>
+            <Dependent Role="DealerPageLinks">
+              <PropertyRef Name="DealerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkDPL_PageLink">
+          <End Role="PageLinks" Type="PaoliPDWModel.Store.PageLinks" Multiplicity="1" />
+          <End Role="DealerPageLinks" Type="PaoliPDWModel.Store.DealerPageLinks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PageLinks">
+              <PropertyRef Name="PageID" />
+            </Principal>
+            <Dependent Role="DealerPageLinks">
+              <PropertyRef Name="PageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkDVL_Dealer">
+          <End Role="Dealers" Type="PaoliPDWModel.Store.Dealers" Multiplicity="1" />
+          <End Role="DealerVideoLinks" Type="PaoliPDWModel.Store.DealerVideoLinks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dealers">
+              <PropertyRef Name="DealerID" />
+            </Principal>
+            <Dependent Role="DealerVideoLinks">
+              <PropertyRef Name="DealerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkDVL_VideoLink">
+          <End Role="VideoLinks" Type="PaoliPDWModel.Store.VideoLinks" Multiplicity="1" />
+          <End Role="DealerVideoLinks" Type="PaoliPDWModel.Store.DealerVideoLinks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VideoLinks">
+              <PropertyRef Name="VideoID" />
+            </Principal>
+            <Dependent Role="DealerVideoLinks">
+              <PropertyRef Name="VideoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkOption_Attribute">
+          <End Role="Attributes" Type="PaoliPDWModel.Store.Attributes" Multiplicity="1" />
+          <End Role="AttributeOptions" Type="PaoliPDWModel.Store.AttributeOptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attributes">
+              <PropertyRef Name="AttributeID" />
+            </Principal>
+            <Dependent Role="AttributeOptions">
+              <PropertyRef Name="AttributeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkPI_Image">
+          <End Role="ImageFiles" Type="PaoliPDWModel.Store.ImageFiles" Multiplicity="1" />
+          <End Role="PublicationImages" Type="PaoliPDWModel.Store.PublicationImages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImageFiles">
+              <PropertyRef Name="ImageID" />
+            </Principal>
+            <Dependent Role="PublicationImages">
+              <PropertyRef Name="ImageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkPI_Publication">
+          <End Role="Publications" Type="PaoliPDWModel.Store.Publications" Multiplicity="1" />
+          <End Role="PublicationImages" Type="PaoliPDWModel.Store.PublicationImages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Publications">
+              <PropertyRef Name="PublicationID" />
+            </Principal>
+            <Dependent Role="PublicationImages">
+              <PropertyRef Name="PublicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkRelatedSeries_Child">
+          <End Role="Serieses" Type="PaoliPDWModel.Store.Serieses" Multiplicity="1" />
+          <End Role="RelatedSeries" Type="PaoliPDWModel.Store.RelatedSeries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Serieses">
+              <PropertyRef Name="SeriesID" />
+            </Principal>
+            <Dependent Role="RelatedSeries">
+              <PropertyRef Name="ChildSeriesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkRelatedSeries_Parent">
+          <End Role="Serieses" Type="PaoliPDWModel.Store.Serieses" Multiplicity="1" />
+          <End Role="RelatedSeries" Type="PaoliPDWModel.Store.RelatedSeries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Serieses">
+              <PropertyRef Name="SeriesID" />
+            </Principal>
+            <Dependent Role="RelatedSeries">
+              <PropertyRef Name="ParentSeriesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkSeries_Category">
+          <End Role="Categories" Type="PaoliPDWModel.Store.Categories" Multiplicity="1" />
+          <End Role="Serieses" Type="PaoliPDWModel.Store.Serieses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Serieses">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkSIA_Attribute">
+          <End Role="Attributes" Type="PaoliPDWModel.Store.Attributes" Multiplicity="1" />
+          <End Role="SeriesIntAttributes" Type="PaoliPDWModel.Store.SeriesIntAttributes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attributes">
+              <PropertyRef Name="AttributeID" />
+            </Principal>
+            <Dependent Role="SeriesIntAttributes">
+              <PropertyRef Name="AttributeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkSIA_Series">
+          <End Role="Serieses" Type="PaoliPDWModel.Store.Serieses" Multiplicity="1" />
+          <End Role="SeriesIntAttributes" Type="PaoliPDWModel.Store.SeriesIntAttributes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Serieses">
+              <PropertyRef Name="SeriesID" />
+            </Principal>
+            <Dependent Role="SeriesIntAttributes">
+              <PropertyRef Name="SeriesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkSIF_Image">
+          <End Role="ImageFiles" Type="PaoliPDWModel.Store.ImageFiles" Multiplicity="1" />
+          <End Role="SeriesImageFiles" Type="PaoliPDWModel.Store.SeriesImageFiles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImageFiles">
+              <PropertyRef Name="ImageID" />
+            </Principal>
+            <Dependent Role="SeriesImageFiles">
+              <PropertyRef Name="ImageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkSIF_Series">
+          <End Role="Serieses" Type="PaoliPDWModel.Store.Serieses" Multiplicity="1" />
+          <End Role="SeriesImageFiles" Type="PaoliPDWModel.Store.SeriesImageFiles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Serieses">
+              <PropertyRef Name="SeriesID" />
+            </Principal>
+            <Dependent Role="SeriesImageFiles">
+              <PropertyRef Name="SeriesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkSOA_Attribute">
+          <End Role="Attributes" Type="PaoliPDWModel.Store.Attributes" Multiplicity="1" />
+          <End Role="SeriesOptionAttributes" Type="PaoliPDWModel.Store.SeriesOptionAttributes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attributes">
+              <PropertyRef Name="AttributeID" />
+            </Principal>
+            <Dependent Role="SeriesOptionAttributes">
+              <PropertyRef Name="AttributeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkSOA_AttributeOption">
+          <End Role="AttributeOptions" Type="PaoliPDWModel.Store.AttributeOptions" Multiplicity="1" />
+          <End Role="SeriesOptionAttributes" Type="PaoliPDWModel.Store.SeriesOptionAttributes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AttributeOptions">
+              <PropertyRef Name="OptionID" />
+            </Principal>
+            <Dependent Role="SeriesOptionAttributes">
+              <PropertyRef Name="OptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkSOA_Series">
+          <End Role="Serieses" Type="PaoliPDWModel.Store.Serieses" Multiplicity="1" />
+          <End Role="SeriesOptionAttributes" Type="PaoliPDWModel.Store.SeriesOptionAttributes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Serieses">
+              <PropertyRef Name="SeriesID" />
+            </Principal>
+            <Dependent Role="SeriesOptionAttributes">
+              <PropertyRef Name="SeriesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkST_Series">
+          <End Role="Serieses" Type="PaoliPDWModel.Store.Serieses" Multiplicity="1" />
+          <End Role="SeriesTypicals" Type="PaoliPDWModel.Store.SeriesTypicals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Serieses">
+              <PropertyRef Name="SeriesID" />
+            </Principal>
+            <Dependent Role="SeriesTypicals">
+              <PropertyRef Name="SeriesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkST_Typical">
+          <End Role="Typicals" Type="PaoliPDWModel.Store.Typicals" Multiplicity="1" />
+          <End Role="SeriesTypicals" Type="PaoliPDWModel.Store.SeriesTypicals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Typicals">
+              <PropertyRef Name="TypicalID" />
+            </Principal>
+            <Dependent Role="SeriesTypicals">
+              <PropertyRef Name="TypicalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkSTA_Attribute">
+          <End Role="Attributes" Type="PaoliPDWModel.Store.Attributes" Multiplicity="1" />
+          <End Role="SeriesTextAttributes" Type="PaoliPDWModel.Store.SeriesTextAttributes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attributes">
+              <PropertyRef Name="AttributeID" />
+            </Principal>
+            <Dependent Role="SeriesTextAttributes">
+              <PropertyRef Name="AttributeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkSTA_Series">
+          <End Role="Serieses" Type="PaoliPDWModel.Store.Serieses" Multiplicity="1" />
+          <End Role="SeriesTextAttributes" Type="PaoliPDWModel.Store.SeriesTextAttributes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Serieses">
+              <PropertyRef Name="SeriesID" />
+            </Principal>
+            <Dependent Role="SeriesTextAttributes">
+              <PropertyRef Name="SeriesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkTIA_Attribute">
+          <End Role="TAttributes" Type="PaoliPDWModel.Store.TAttributes" Multiplicity="1" />
+          <End Role="TypicalIntAttributes" Type="PaoliPDWModel.Store.TypicalIntAttributes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TAttributes">
+              <PropertyRef Name="AttributeID" />
+            </Principal>
+            <Dependent Role="TypicalIntAttributes">
+              <PropertyRef Name="AttributeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkTIA_Typical">
+          <End Role="Typicals" Type="PaoliPDWModel.Store.Typicals" Multiplicity="1" />
+          <End Role="TypicalIntAttributes" Type="PaoliPDWModel.Store.TypicalIntAttributes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Typicals">
+              <PropertyRef Name="TypicalID" />
+            </Principal>
+            <Dependent Role="TypicalIntAttributes">
+              <PropertyRef Name="TypicalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkTIF_Image">
+          <End Role="ImageFiles" Type="PaoliPDWModel.Store.ImageFiles" Multiplicity="1" />
+          <End Role="TypicalImageFiles" Type="PaoliPDWModel.Store.TypicalImageFiles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImageFiles">
+              <PropertyRef Name="ImageID" />
+            </Principal>
+            <Dependent Role="TypicalImageFiles">
+              <PropertyRef Name="ImageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkTIF_Typical">
+          <End Role="Typicals" Type="PaoliPDWModel.Store.Typicals" Multiplicity="1" />
+          <End Role="TypicalImageFiles" Type="PaoliPDWModel.Store.TypicalImageFiles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Typicals">
+              <PropertyRef Name="TypicalID" />
+            </Principal>
+            <Dependent Role="TypicalImageFiles">
+              <PropertyRef Name="TypicalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkTOA_Attribute">
+          <End Role="TAttributes" Type="PaoliPDWModel.Store.TAttributes" Multiplicity="1" />
+          <End Role="TypicalOptionAttributes" Type="PaoliPDWModel.Store.TypicalOptionAttributes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TAttributes">
+              <PropertyRef Name="AttributeID" />
+            </Principal>
+            <Dependent Role="TypicalOptionAttributes">
+              <PropertyRef Name="AttributeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkTOA_AttributeOption">
+          <End Role="TAttributeOptions" Type="PaoliPDWModel.Store.TAttributeOptions" Multiplicity="1" />
+          <End Role="TypicalOptionAttributes" Type="PaoliPDWModel.Store.TypicalOptionAttributes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TAttributeOptions">
+              <PropertyRef Name="OptionID" />
+            </Principal>
+            <Dependent Role="TypicalOptionAttributes">
+              <PropertyRef Name="OptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkTOA_Typical">
+          <End Role="Typicals" Type="PaoliPDWModel.Store.Typicals" Multiplicity="1" />
+          <End Role="TypicalOptionAttributes" Type="PaoliPDWModel.Store.TypicalOptionAttributes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Typicals">
+              <PropertyRef Name="TypicalID" />
+            </Principal>
+            <Dependent Role="TypicalOptionAttributes">
+              <PropertyRef Name="TypicalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkTOption_Attribute">
+          <End Role="TAttributes" Type="PaoliPDWModel.Store.TAttributes" Multiplicity="1" />
+          <End Role="TAttributeOptions" Type="PaoliPDWModel.Store.TAttributeOptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TAttributes">
+              <PropertyRef Name="AttributeID" />
+            </Principal>
+            <Dependent Role="TAttributeOptions">
+              <PropertyRef Name="AttributeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkTTA_Attribute">
+          <End Role="TAttributes" Type="PaoliPDWModel.Store.TAttributes" Multiplicity="1" />
+          <End Role="TypicalTextAttributes" Type="PaoliPDWModel.Store.TypicalTextAttributes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TAttributes">
+              <PropertyRef Name="AttributeID" />
+            </Principal>
+            <Dependent Role="TypicalTextAttributes">
+              <PropertyRef Name="AttributeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkTTA_Typical">
+          <End Role="Typicals" Type="PaoliPDWModel.Store.Typicals" Multiplicity="1" />
+          <End Role="TypicalTextAttributes" Type="PaoliPDWModel.Store.TypicalTextAttributes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Typicals">
+              <PropertyRef Name="TypicalID" />
+            </Principal>
+            <Dependent Role="TypicalTextAttributes">
+              <PropertyRef Name="TypicalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PaoliPDWModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="PaoliPDWEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AttributeOptions" EntityType="PaoliPDWModel.AttributeOption" />
+          <EntitySet Name="Attributes" EntityType="PaoliPDWModel.Attribute" />
+          <EntitySet Name="Categories" EntityType="PaoliPDWModel.Category" />
+          <EntitySet Name="Serieses" EntityType="PaoliPDWModel.Series" />
+          <EntitySet Name="SeriesIntAttributes" EntityType="PaoliPDWModel.SeriesIntAttribute" />
+          <EntitySet Name="SeriesOptionAttributes" EntityType="PaoliPDWModel.SeriesOptionAttribute" />
+          <EntitySet Name="SeriesTextAttributes" EntityType="PaoliPDWModel.SeriesTextAttribute" />
+          <AssociationSet Name="fkOption_Attribute" Association="PaoliPDWModel.fkOption_Attribute">
+            <End Role="Attributes" EntitySet="Attributes" />
+            <End Role="AttributeOptions" EntitySet="AttributeOptions" />
+          </AssociationSet>
+          <AssociationSet Name="fkSOA_AttributeOption" Association="PaoliPDWModel.fkSOA_AttributeOption">
+            <End Role="AttributeOptions" EntitySet="AttributeOptions" />
+            <End Role="SeriesOptionAttributes" EntitySet="SeriesOptionAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkSIA_Attribute" Association="PaoliPDWModel.fkSIA_Attribute">
+            <End Role="Attributes" EntitySet="Attributes" />
+            <End Role="SeriesIntAttributes" EntitySet="SeriesIntAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkSOA_Attribute" Association="PaoliPDWModel.fkSOA_Attribute">
+            <End Role="Attributes" EntitySet="Attributes" />
+            <End Role="SeriesOptionAttributes" EntitySet="SeriesOptionAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkSTA_Attribute" Association="PaoliPDWModel.fkSTA_Attribute">
+            <End Role="Attributes" EntitySet="Attributes" />
+            <End Role="SeriesTextAttributes" EntitySet="SeriesTextAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkSIA_Series" Association="PaoliPDWModel.fkSIA_Series">
+            <End Role="Serieses" EntitySet="Serieses" />
+            <End Role="SeriesIntAttributes" EntitySet="SeriesIntAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkSOA_Series" Association="PaoliPDWModel.fkSOA_Series">
+            <End Role="Serieses" EntitySet="Serieses" />
+            <End Role="SeriesOptionAttributes" EntitySet="SeriesOptionAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkSTA_Series" Association="PaoliPDWModel.fkSTA_Series">
+            <End Role="Serieses" EntitySet="Serieses" />
+            <End Role="SeriesTextAttributes" EntitySet="SeriesTextAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkSeries_Category" Association="PaoliPDWModel.fkSeries_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Series" EntitySet="Serieses" />
+          </AssociationSet>
+          <EntitySet Name="ImageFiles" EntityType="PaoliPDWModel.ImageFile" />
+          <EntitySet Name="SeriesImageFiles" EntityType="PaoliPDWModel.SeriesImageFile" />
+          <AssociationSet Name="fkSIF_Image" Association="PaoliPDWModel.fkSIF_Image">
+            <End Role="ImageFile" EntitySet="ImageFiles" />
+            <End Role="SeriesImageFile" EntitySet="SeriesImageFiles" />
+          </AssociationSet>
+          <AssociationSet Name="fkSIF_Series" Association="PaoliPDWModel.fkSIF_Series">
+            <End Role="Series" EntitySet="Serieses" />
+            <End Role="SeriesImageFile" EntitySet="SeriesImageFiles" />
+          </AssociationSet>
+          <AssociationSet Name="RelatedSeries" Association="PaoliPDWModel.RelatedSeries">
+            <End Role="Series" EntitySet="Serieses" />
+            <End Role="Series1" EntitySet="Serieses" />
+          </AssociationSet>
+          <EntitySet Name="TAttributeOptions" EntityType="PaoliPDWModel.TAttributeOption" />
+          <EntitySet Name="TAttributes" EntityType="PaoliPDWModel.TAttribute" />
+          <EntitySet Name="TypicalImageFiles" EntityType="PaoliPDWModel.TypicalImageFile" />
+          <EntitySet Name="TypicalIntAttributes" EntityType="PaoliPDWModel.TypicalIntAttribute" />
+          <EntitySet Name="TypicalOptionAttributes" EntityType="PaoliPDWModel.TypicalOptionAttribute" />
+          <EntitySet Name="Typicals" EntityType="PaoliPDWModel.Typical" />
+          <EntitySet Name="TypicalTextAttributes" EntityType="PaoliPDWModel.TypicalTextAttribute" />
+          <AssociationSet Name="fkTIF_Image" Association="PaoliPDWModel.fkTIF_Image">
+            <End Role="ImageFile" EntitySet="ImageFiles" />
+            <End Role="TypicalImageFile" EntitySet="TypicalImageFiles" />
+          </AssociationSet>
+          <AssociationSet Name="fkTOA_AttributeOption" Association="PaoliPDWModel.fkTOA_AttributeOption">
+            <End Role="TAttributeOption" EntitySet="TAttributeOptions" />
+            <End Role="TypicalOptionAttribute" EntitySet="TypicalOptionAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkTOption_Attribute" Association="PaoliPDWModel.fkTOption_Attribute">
+            <End Role="TAttribute" EntitySet="TAttributes" />
+            <End Role="TAttributeOption" EntitySet="TAttributeOptions" />
+          </AssociationSet>
+          <AssociationSet Name="fkTIA_Attribute" Association="PaoliPDWModel.fkTIA_Attribute">
+            <End Role="TAttribute" EntitySet="TAttributes" />
+            <End Role="TypicalIntAttribute" EntitySet="TypicalIntAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkTOA_Attribute" Association="PaoliPDWModel.fkTOA_Attribute">
+            <End Role="TAttribute" EntitySet="TAttributes" />
+            <End Role="TypicalOptionAttribute" EntitySet="TypicalOptionAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkTTA_Attribute" Association="PaoliPDWModel.fkTTA_Attribute">
+            <End Role="TAttribute" EntitySet="TAttributes" />
+            <End Role="TypicalTextAttribute" EntitySet="TypicalTextAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkTIF_Typical" Association="PaoliPDWModel.fkTIF_Typical">
+            <End Role="Typical" EntitySet="Typicals" />
+            <End Role="TypicalImageFile" EntitySet="TypicalImageFiles" />
+          </AssociationSet>
+          <AssociationSet Name="fkTIA_Typical" Association="PaoliPDWModel.fkTIA_Typical">
+            <End Role="Typical" EntitySet="Typicals" />
+            <End Role="TypicalIntAttribute" EntitySet="TypicalIntAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkTOA_Typical" Association="PaoliPDWModel.fkTOA_Typical">
+            <End Role="Typical" EntitySet="Typicals" />
+            <End Role="TypicalOptionAttribute" EntitySet="TypicalOptionAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fkTTA_Typical" Association="PaoliPDWModel.fkTTA_Typical">
+            <End Role="Typical" EntitySet="Typicals" />
+            <End Role="TypicalTextAttribute" EntitySet="TypicalTextAttributes" />
+          </AssociationSet>
+          <EntitySet Name="SeriesTypicals" EntityType="PaoliPDWModel.SeriesTypical" />
+          <AssociationSet Name="fkST_Series" Association="PaoliPDWModel.fkST_Series">
+            <End Role="Series" EntitySet="Serieses" />
+            <End Role="SeriesTypical" EntitySet="SeriesTypicals" />
+          </AssociationSet>
+          <AssociationSet Name="fkST_Typical" Association="PaoliPDWModel.fkST_Typical">
+            <End Role="Typical" EntitySet="Typicals" />
+            <End Role="SeriesTypical" EntitySet="SeriesTypicals" />
+          </AssociationSet>
+          <EntitySet Name="SearchResultsLogs" EntityType="PaoliPDWModel.SearchResultsLog" />
+          <EntitySet Name="PublicationImages" EntityType="PaoliPDWModel.PublicationImage" />
+          <EntitySet Name="Publications" EntityType="PaoliPDWModel.Publication" />
+          <AssociationSet Name="fkPI_Image" Association="PaoliPDWModel.fkPI_Image">
+            <End Role="ImageFile" EntitySet="ImageFiles" />
+            <End Role="PublicationImage" EntitySet="PublicationImages" />
+          </AssociationSet>
+          <AssociationSet Name="fkPI_Publication" Association="PaoliPDWModel.fkPI_Publication">
+            <End Role="Publication" EntitySet="Publications" />
+            <End Role="PublicationImage" EntitySet="PublicationImages" />
+          </AssociationSet>
+          <EntitySet Name="Dealers" EntityType="PaoliPDWModel.Dealer" />
+          <EntitySet Name="PageLinks" EntityType="PaoliPDWModel.PageLink" />
+          <EntitySet Name="VideoLinks" EntityType="PaoliPDWModel.VideoLink" />
+          <AssociationSet Name="DealerPageLinks" Association="PaoliPDWModel.DealerPageLinks">
+            <End Role="Dealer" EntitySet="Dealers" />
+            <End Role="PageLink" EntitySet="PageLinks" />
+          </AssociationSet>
+          <AssociationSet Name="DealerVideoLinks" Association="PaoliPDWModel.DealerVideoLinks">
+            <End Role="Dealer" EntitySet="Dealers" />
+            <End Role="VideoLink" EntitySet="VideoLinks" />
+          </AssociationSet>
+          <AssociationSet Name="fkDealer_VideoLink" Association="PaoliPDWModel.fkDealer_VideoLink">
+            <End Role="VideoLink" EntitySet="VideoLinks" />
+            <End Role="Dealer" EntitySet="Dealers" />
+          </AssociationSet>
+          <EntitySet Name="DealerFeaturedProducts" EntityType="PaoliPDWModel.DealerFeaturedProduct" />
+          <AssociationSet Name="fkDFP_Dealer" Association="PaoliPDWModel.fkDFP_Dealer">
+            <End Role="Dealer" EntitySet="Dealers" />
+            <End Role="DealerFeaturedProduct" EntitySet="DealerFeaturedProducts" />
+          </AssociationSet>
+          <EntitySet Name="Users" EntityType="PaoliPDWModel.User" />
+        </EntityContainer>
+        <EntityType Name="AttributeOption">
+          <Key>
+            <PropertyRef Name="OptionID" />
+          </Key>
+          <Property Name="OptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="AttributeID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Attribute" Relationship="PaoliPDWModel.fkOption_Attribute" FromRole="AttributeOptions" ToRole="Attributes" />
+          <NavigationProperty Name="SeriesOptionAttributes" Relationship="PaoliPDWModel.fkSOA_AttributeOption" FromRole="AttributeOptions" ToRole="SeriesOptionAttributes" />
+        </EntityType>
+        <EntityType Name="Attribute">
+          <Key>
+            <PropertyRef Name="AttributeID" />
+          </Key>
+          <Property Name="AttributeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="AttributeOptions" Relationship="PaoliPDWModel.fkOption_Attribute" FromRole="Attributes" ToRole="AttributeOptions" />
+          <NavigationProperty Name="SeriesIntAttributes" Relationship="PaoliPDWModel.fkSIA_Attribute" FromRole="Attributes" ToRole="SeriesIntAttributes" />
+          <NavigationProperty Name="SeriesOptionAttributes" Relationship="PaoliPDWModel.fkSOA_Attribute" FromRole="Attributes" ToRole="SeriesOptionAttributes" />
+          <NavigationProperty Name="SeriesTextAttributes" Relationship="PaoliPDWModel.fkSTA_Attribute" FromRole="Attributes" ToRole="SeriesTextAttributes" />
+          <Property Type="Boolean" Name="DetailItem" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Serieses" Relationship="PaoliPDWModel.fkSeries_Category" FromRole="Category" ToRole="Series" />
+        </EntityType>
+        <EntityType Name="Series">
+          <Key>
+            <PropertyRef Name="SeriesID" />
+          </Key>
+          <Property Name="SeriesID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="SeriesIntAttributes" Relationship="PaoliPDWModel.fkSIA_Series" FromRole="Serieses" ToRole="SeriesIntAttributes" />
+          <NavigationProperty Name="SeriesOptionAttributes" Relationship="PaoliPDWModel.fkSOA_Series" FromRole="Serieses" ToRole="SeriesOptionAttributes" />
+          <NavigationProperty Name="SeriesTextAttributes" Relationship="PaoliPDWModel.fkSTA_Series" FromRole="Serieses" ToRole="SeriesTextAttributes" />
+          <Property Type="Int32" Name="CategoryID" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="PaoliPDWModel.fkSeries_Category" FromRole="Series" ToRole="Category" />
+          <NavigationProperty Name="SeriesImageFiles" Relationship="PaoliPDWModel.fkSIF_Series" FromRole="Series" ToRole="SeriesImageFile" />
+          <NavigationProperty Name="ParentSerieses" Relationship="PaoliPDWModel.RelatedSeries" FromRole="Series" ToRole="Series1" />
+          <NavigationProperty Name="ChildSerieses" Relationship="PaoliPDWModel.RelatedSeries" FromRole="Series1" ToRole="Series" />
+          <NavigationProperty Name="SeriesTypicals" Relationship="PaoliPDWModel.fkST_Series" FromRole="Series" ToRole="SeriesTypical" />
+          <Property Type="String" Name="DBKeywords" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SeriesIntAttribute">
+          <Key>
+            <PropertyRef Name="ValueID" />
+          </Key>
+          <Property Name="ValueID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Value" Type="Int32" Nullable="false" />
+          <Property Name="AttributeID" Type="Int32" Nullable="false" />
+          <Property Name="SeriesID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Attribute" Relationship="PaoliPDWModel.fkSIA_Attribute" FromRole="SeriesIntAttributes" ToRole="Attributes" />
+          <NavigationProperty Name="Series" Relationship="PaoliPDWModel.fkSIA_Series" FromRole="SeriesIntAttributes" ToRole="Serieses" />
+        </EntityType>
+        <EntityType Name="SeriesOptionAttribute">
+          <Key>
+            <PropertyRef Name="ValueID" />
+          </Key>
+          <Property Name="ValueID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OptionID" Type="Int32" Nullable="false" />
+          <Property Name="AttributeID" Type="Int32" Nullable="false" />
+          <Property Name="SeriesID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AttributeOption" Relationship="PaoliPDWModel.fkSOA_AttributeOption" FromRole="SeriesOptionAttributes" ToRole="AttributeOptions" />
+          <NavigationProperty Name="Attribute" Relationship="PaoliPDWModel.fkSOA_Attribute" FromRole="SeriesOptionAttributes" ToRole="Attributes" />
+          <NavigationProperty Name="Series" Relationship="PaoliPDWModel.fkSOA_Series" FromRole="SeriesOptionAttributes" ToRole="Serieses" />
+        </EntityType>
+        <EntityType Name="SeriesTextAttribute">
+          <Key>
+            <PropertyRef Name="ValueID" />
+          </Key>
+          <Property Name="ValueID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="2000" Unicode="true" FixedLength="false" />
+          <Property Name="AttributeID" Type="Int32" Nullable="false" />
+          <Property Name="SeriesID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Attribute" Relationship="PaoliPDWModel.fkSTA_Attribute" FromRole="SeriesTextAttributes" ToRole="Attributes" />
+          <NavigationProperty Name="Series" Relationship="PaoliPDWModel.fkSTA_Series" FromRole="SeriesTextAttributes" ToRole="Serieses" />
+        </EntityType>
+        <Association Name="fkOption_Attribute">
+          <End Role="Attributes" Type="PaoliPDWModel.Attribute" Multiplicity="1" />
+          <End Role="AttributeOptions" Type="PaoliPDWModel.AttributeOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attributes">
+              <PropertyRef Name="AttributeID" />
+            </Principal>
+            <Dependent Role="AttributeOptions">
+              <PropertyRef Name="AttributeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkSOA_AttributeOption">
+          <End Role="AttributeOptions" Type="PaoliPDWModel.AttributeOption" Multiplicity="1" />
+          <End Role="SeriesOptionAttributes" Type="PaoliPDWModel.SeriesOptionAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AttributeOptions">
+              <PropertyRef Name="OptionID" />
+            </Principal>
+            <Dependent Role="SeriesOptionAttributes">
+              <PropertyRef Name="OptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkSIA_Attribute">
+          <End Role="Attributes" Type="PaoliPDWModel.Attribute" Multiplicity="1" />
+          <End Role="SeriesIntAttributes" Type="PaoliPDWModel.SeriesIntAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attributes">
+              <PropertyRef Name="AttributeID" />
+            </Principal>
+            <Dependent Role="SeriesIntAttributes">
+              <PropertyRef Name="AttributeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkSOA_Attribute">
+          <End Role="Attributes" Type="PaoliPDWModel.Attribute" Multiplicity="1" />
+          <End Role="SeriesOptionAttributes" Type="PaoliPDWModel.SeriesOptionAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attributes">
+              <PropertyRef Name="AttributeID" />
+            </Principal>
+            <Dependent Role="SeriesOptionAttributes">
+              <PropertyRef Name="AttributeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkSTA_Attribute">
+          <End Role="Attributes" Type="PaoliPDWModel.Attribute" Multiplicity="1" />
+          <End Role="SeriesTextAttributes" Type="PaoliPDWModel.SeriesTextAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attributes">
+              <PropertyRef Name="AttributeID" />
+            </Principal>
+            <Dependent Role="SeriesTextAttributes">
+              <PropertyRef Name="AttributeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkSIA_Series">
+          <End Role="Serieses" Type="PaoliPDWModel.Series" Multiplicity="1" />
+          <End Role="SeriesIntAttributes" Type="PaoliPDWModel.SeriesIntAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Serieses">
+              <PropertyRef Name="SeriesID" />
+            </Principal>
+            <Dependent Role="SeriesIntAttributes">
+              <PropertyRef Name="SeriesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkSOA_Series">
+          <End Role="Serieses" Type="PaoliPDWModel.Series" Multiplicity="1" />
+          <End Role="SeriesOptionAttributes" Type="PaoliPDWModel.SeriesOptionAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Serieses">
+              <PropertyRef Name="SeriesID" />
+            </Principal>
+            <Dependent Role="SeriesOptionAttributes">
+              <PropertyRef Name="SeriesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkSTA_Series">
+          <End Role="Serieses" Type="PaoliPDWModel.Series" Multiplicity="1" />
+          <End Role="SeriesTextAttributes" Type="PaoliPDWModel.SeriesTextAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Serieses">
+              <PropertyRef Name="SeriesID" />
+            </Principal>
+            <Dependent Role="SeriesTextAttributes">
+              <PropertyRef Name="SeriesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkSeries_Category">
+          <End Type="PaoliPDWModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="PaoliPDWModel.Series" Role="Series" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Series">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ImageFile">
+          <Key>
+            <PropertyRef Name="ImageID" />
+          </Key>
+          <Property Type="Int32" Name="ImageID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SeriesImageFiles" Relationship="PaoliPDWModel.fkSIF_Image" FromRole="ImageFile" ToRole="SeriesImageFile" />
+          <Property Type="String" Name="OriginalExtension" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Caption" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="HasPeople" Nullable="false" />
+          <Property Type="String" Name="ImageType" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Keyword" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
+          <NavigationProperty Name="TypicalImageFiles" Relationship="PaoliPDWModel.fkTIF_Image" FromRole="ImageFile" ToRole="TypicalImageFile" />
+          <Property Type="String" Name="MIMEType" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FeaturedEdge" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FeaturedPull" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="ImageContent" Nullable="false" />
+          <Property Type="Int32" Name="FinishType" />
+          <Property Type="Int32" Name="FinishSubType" />
+          <Property Type="String" Name="FeaturedFinish" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DBKeywords" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PublicationImages" Relationship="PaoliPDWModel.fkPI_Image" FromRole="ImageFile" ToRole="PublicationImage" />
+          <Property Type="String" Name="TableShape" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TableBase" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ControlMechanism" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ControlDescription" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="GoToGuidePage" />
+        </EntityType>
+        <EntityType Name="SeriesImageFile">
+          <Key>
+            <PropertyRef Name="AssociationID" />
+          </Key>
+          <Property Type="Int32" Name="AssociationID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Boolean" Name="IsFeatured" Nullable="false" />
+          <Property Type="Int32" Name="ImageID" Nullable="false" />
+          <Property Type="Int32" Name="SeriesID" Nullable="false" />
+          <NavigationProperty Name="ImageFile" Relationship="PaoliPDWModel.fkSIF_Image" FromRole="SeriesImageFile" ToRole="ImageFile" />
+          <NavigationProperty Name="Series" Relationship="PaoliPDWModel.fkSIF_Series" FromRole="SeriesImageFile" ToRole="Series" />
+          <Property Type="Int32" Name="DisplayOrder" Nullable="false" />
+        </EntityType>
+        <Association Name="fkSIF_Image">
+          <End Type="PaoliPDWModel.ImageFile" Role="ImageFile" Multiplicity="1" />
+          <End Type="PaoliPDWModel.SeriesImageFile" Role="SeriesImageFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImageFile">
+              <PropertyRef Name="ImageID" />
+            </Principal>
+            <Dependent Role="SeriesImageFile">
+              <PropertyRef Name="ImageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkSIF_Series">
+          <End Type="PaoliPDWModel.Series" Role="Series" Multiplicity="1" />
+          <End Type="PaoliPDWModel.SeriesImageFile" Role="SeriesImageFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Series">
+              <PropertyRef Name="SeriesID" />
+            </Principal>
+            <Dependent Role="SeriesImageFile">
+              <PropertyRef Name="SeriesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RelatedSeries">
+          <End Type="PaoliPDWModel.Series" Role="Series" Multiplicity="*" />
+          <End Type="PaoliPDWModel.Series" Role="Series1" Multiplicity="*" />
+        </Association>
+        <EntityType Name="TAttributeOption">
+          <Key>
+            <PropertyRef Name="OptionID" />
+          </Key>
+          <Property Type="Int32" Name="OptionID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="AttributeID" Nullable="false" />
+          <NavigationProperty Name="TypicalOptionAttributes" Relationship="PaoliPDWModel.fkTOA_AttributeOption" FromRole="TAttributeOption" ToRole="TypicalOptionAttribute" />
+          <NavigationProperty Name="TAttribute" Relationship="PaoliPDWModel.fkTOption_Attribute" FromRole="TAttributeOption" ToRole="TAttribute" />
+        </EntityType>
+        <EntityType Name="TAttribute">
+          <Key>
+            <PropertyRef Name="AttributeID" />
+          </Key>
+          <Property Type="Int32" Name="AttributeID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TAttributeOptions" Relationship="PaoliPDWModel.fkTOption_Attribute" FromRole="TAttribute" ToRole="TAttributeOption" />
+          <NavigationProperty Name="TypicalIntAttributes" Relationship="PaoliPDWModel.fkTIA_Attribute" FromRole="TAttribute" ToRole="TypicalIntAttribute" />
+          <NavigationProperty Name="TypicalOptionAttributes" Relationship="PaoliPDWModel.fkTOA_Attribute" FromRole="TAttribute" ToRole="TypicalOptionAttribute" />
+          <NavigationProperty Name="TypicalTextAttributes" Relationship="PaoliPDWModel.fkTTA_Attribute" FromRole="TAttribute" ToRole="TypicalTextAttribute" />
+          <Property Type="Boolean" Name="DetailItem" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TypicalImageFile">
+          <Key>
+            <PropertyRef Name="AssociationID" />
+          </Key>
+          <Property Type="Int32" Name="AssociationID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Boolean" Name="IsFeatured" Nullable="false" />
+          <Property Type="Int32" Name="ImageID" Nullable="false" />
+          <Property Type="Int32" Name="TypicalID" Nullable="false" />
+          <NavigationProperty Name="ImageFile" Relationship="PaoliPDWModel.fkTIF_Image" FromRole="TypicalImageFile" ToRole="ImageFile" />
+          <NavigationProperty Name="Typical" Relationship="PaoliPDWModel.fkTIF_Typical" FromRole="TypicalImageFile" ToRole="Typical" />
+        </EntityType>
+        <EntityType Name="TypicalIntAttribute">
+          <Key>
+            <PropertyRef Name="ValueID" />
+          </Key>
+          <Property Type="Int32" Name="ValueID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Value" Nullable="false" />
+          <Property Type="Int32" Name="AttributeID" Nullable="false" />
+          <Property Type="Int32" Name="TypicalID" Nullable="false" />
+          <NavigationProperty Name="TAttribute" Relationship="PaoliPDWModel.fkTIA_Attribute" FromRole="TypicalIntAttribute" ToRole="TAttribute" />
+          <NavigationProperty Name="Typical" Relationship="PaoliPDWModel.fkTIA_Typical" FromRole="TypicalIntAttribute" ToRole="Typical" />
+        </EntityType>
+        <EntityType Name="TypicalOptionAttribute">
+          <Key>
+            <PropertyRef Name="ValueID" />
+          </Key>
+          <Property Type="Int32" Name="ValueID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="OptionID" Nullable="false" />
+          <Property Type="Int32" Name="AttributeID" Nullable="false" />
+          <Property Type="Int32" Name="TypicalID" Nullable="false" />
+          <NavigationProperty Name="TAttributeOption" Relationship="PaoliPDWModel.fkTOA_AttributeOption" FromRole="TypicalOptionAttribute" ToRole="TAttributeOption" />
+          <NavigationProperty Name="TAttribute" Relationship="PaoliPDWModel.fkTOA_Attribute" FromRole="TypicalOptionAttribute" ToRole="TAttribute" />
+          <NavigationProperty Name="Typical" Relationship="PaoliPDWModel.fkTOA_Typical" FromRole="TypicalOptionAttribute" ToRole="Typical" />
+        </EntityType>
+        <EntityType Name="Typical">
+          <Key>
+            <PropertyRef Name="TypicalID" />
+          </Key>
+          <Property Type="Int32" Name="TypicalID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
+          <NavigationProperty Name="TypicalImageFiles" Relationship="PaoliPDWModel.fkTIF_Typical" FromRole="Typical" ToRole="TypicalImageFile" />
+          <NavigationProperty Name="TypicalIntAttributes" Relationship="PaoliPDWModel.fkTIA_Typical" FromRole="Typical" ToRole="TypicalIntAttribute" />
+          <NavigationProperty Name="TypicalOptionAttributes" Relationship="PaoliPDWModel.fkTOA_Typical" FromRole="Typical" ToRole="TypicalOptionAttribute" />
+          <NavigationProperty Name="TypicalTextAttributes" Relationship="PaoliPDWModel.fkTTA_Typical" FromRole="Typical" ToRole="TypicalTextAttribute" />
+          <NavigationProperty Name="SeriesTypicals" Relationship="PaoliPDWModel.fkST_Typical" FromRole="Typical" ToRole="SeriesTypical" />
+          <Property Type="String" Name="DBKeywords" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TypicalTextAttribute">
+          <Key>
+            <PropertyRef Name="ValueID" />
+          </Key>
+          <Property Type="Int32" Name="ValueID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Value" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="AttributeID" Nullable="false" />
+          <Property Type="Int32" Name="TypicalID" Nullable="false" />
+          <NavigationProperty Name="TAttribute" Relationship="PaoliPDWModel.fkTTA_Attribute" FromRole="TypicalTextAttribute" ToRole="TAttribute" />
+          <NavigationProperty Name="Typical" Relationship="PaoliPDWModel.fkTTA_Typical" FromRole="TypicalTextAttribute" ToRole="Typical" />
+        </EntityType>
+        <Association Name="fkTIF_Image">
+          <End Type="PaoliPDWModel.ImageFile" Role="ImageFile" Multiplicity="1" />
+          <End Type="PaoliPDWModel.TypicalImageFile" Role="TypicalImageFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImageFile">
+              <PropertyRef Name="ImageID" />
+            </Principal>
+            <Dependent Role="TypicalImageFile">
+              <PropertyRef Name="ImageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkTOA_AttributeOption">
+          <End Type="PaoliPDWModel.TAttributeOption" Role="TAttributeOption" Multiplicity="1" />
+          <End Type="PaoliPDWModel.TypicalOptionAttribute" Role="TypicalOptionAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TAttributeOption">
+              <PropertyRef Name="OptionID" />
+            </Principal>
+            <Dependent Role="TypicalOptionAttribute">
+              <PropertyRef Name="OptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkTOption_Attribute">
+          <End Type="PaoliPDWModel.TAttribute" Role="TAttribute" Multiplicity="1" />
+          <End Type="PaoliPDWModel.TAttributeOption" Role="TAttributeOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TAttribute">
+              <PropertyRef Name="AttributeID" />
+            </Principal>
+            <Dependent Role="TAttributeOption">
+              <PropertyRef Name="AttributeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkTIA_Attribute">
+          <End Type="PaoliPDWModel.TAttribute" Role="TAttribute" Multiplicity="1" />
+          <End Type="PaoliPDWModel.TypicalIntAttribute" Role="TypicalIntAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TAttribute">
+              <PropertyRef Name="AttributeID" />
+            </Principal>
+            <Dependent Role="TypicalIntAttribute">
+              <PropertyRef Name="AttributeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkTOA_Attribute">
+          <End Type="PaoliPDWModel.TAttribute" Role="TAttribute" Multiplicity="1" />
+          <End Type="PaoliPDWModel.TypicalOptionAttribute" Role="TypicalOptionAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TAttribute">
+              <PropertyRef Name="AttributeID" />
+            </Principal>
+            <Dependent Role="TypicalOptionAttribute">
+              <PropertyRef Name="AttributeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkTTA_Attribute">
+          <End Type="PaoliPDWModel.TAttribute" Role="TAttribute" Multiplicity="1" />
+          <End Type="PaoliPDWModel.TypicalTextAttribute" Role="TypicalTextAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TAttribute">
+              <PropertyRef Name="AttributeID" />
+            </Principal>
+            <Dependent Role="TypicalTextAttribute">
+              <PropertyRef Name="AttributeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkTIF_Typical">
+          <End Type="PaoliPDWModel.Typical" Role="Typical" Multiplicity="1" />
+          <End Type="PaoliPDWModel.TypicalImageFile" Role="TypicalImageFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Typical">
+              <PropertyRef Name="TypicalID" />
+            </Principal>
+            <Dependent Role="TypicalImageFile">
+              <PropertyRef Name="TypicalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkTIA_Typical">
+          <End Type="PaoliPDWModel.Typical" Role="Typical" Multiplicity="1" />
+          <End Type="PaoliPDWModel.TypicalIntAttribute" Role="TypicalIntAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Typical">
+              <PropertyRef Name="TypicalID" />
+            </Principal>
+            <Dependent Role="TypicalIntAttribute">
+              <PropertyRef Name="TypicalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkTOA_Typical">
+          <End Type="PaoliPDWModel.Typical" Role="Typical" Multiplicity="1" />
+          <End Type="PaoliPDWModel.TypicalOptionAttribute" Role="TypicalOptionAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Typical">
+              <PropertyRef Name="TypicalID" />
+            </Principal>
+            <Dependent Role="TypicalOptionAttribute">
+              <PropertyRef Name="TypicalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkTTA_Typical">
+          <End Type="PaoliPDWModel.Typical" Role="Typical" Multiplicity="1" />
+          <End Type="PaoliPDWModel.TypicalTextAttribute" Role="TypicalTextAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Typical">
+              <PropertyRef Name="TypicalID" />
+            </Principal>
+            <Dependent Role="TypicalTextAttribute">
+              <PropertyRef Name="TypicalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SeriesTypical">
+          <Key>
+            <PropertyRef Name="AssociationID" />
+          </Key>
+          <Property Type="Int32" Name="AssociationID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Boolean" Name="IsPrimary" Nullable="false" />
+          <Property Type="Int32" Name="SeriesID" Nullable="false" />
+          <Property Type="Int32" Name="TypicalID" Nullable="false" />
+          <NavigationProperty Name="Series" Relationship="PaoliPDWModel.fkST_Series" FromRole="SeriesTypical" ToRole="Series" />
+          <NavigationProperty Name="Typical" Relationship="PaoliPDWModel.fkST_Typical" FromRole="SeriesTypical" ToRole="Typical" />
+        </EntityType>
+        <Association Name="fkST_Series">
+          <End Type="PaoliPDWModel.Series" Role="Series" Multiplicity="1" />
+          <End Type="PaoliPDWModel.SeriesTypical" Role="SeriesTypical" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Series">
+              <PropertyRef Name="SeriesID" />
+            </Principal>
+            <Dependent Role="SeriesTypical">
+              <PropertyRef Name="SeriesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkST_Typical">
+          <End Type="PaoliPDWModel.Typical" Role="Typical" Multiplicity="1" />
+          <End Type="PaoliPDWModel.SeriesTypical" Role="SeriesTypical" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Typical">
+              <PropertyRef Name="TypicalID" />
+            </Principal>
+            <Dependent Role="SeriesTypical">
+              <PropertyRef Name="TypicalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SearchResultsLog">
+          <Key>
+            <PropertyRef Name="LogID" />
+          </Key>
+          <Property Type="Int32" Name="LogID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="SearchDateTime" Nullable="false" />
+          <Property Type="String" Name="SearchTerm" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="SeriesCount" Nullable="false" />
+          <Property Type="Int32" Name="ImageCount" Nullable="false" />
+          <Property Type="Int32" Name="TypicalCount" Nullable="false" />
+          <Property Type="Int32" Name="PageCount" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PublicationImage">
+          <Key>
+            <PropertyRef Name="PublicationID" />
+            <PropertyRef Name="ImageID" />
+          </Key>
+          <Property Type="Int32" Name="PublicationID" Nullable="false" />
+          <Property Type="Int32" Name="ImageID" Nullable="false" />
+          <Property Type="Int32" Name="PageNumber" />
+          <NavigationProperty Name="ImageFile" Relationship="PaoliPDWModel.fkPI_Image" FromRole="PublicationImage" ToRole="ImageFile" />
+          <NavigationProperty Name="Publication" Relationship="PaoliPDWModel.fkPI_Publication" FromRole="PublicationImage" ToRole="Publication" />
+        </EntityType>
+        <EntityType Name="Publication">
+          <Key>
+            <PropertyRef Name="PublicationID" />
+          </Key>
+          <Property Type="Int32" Name="PublicationID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="PubDate" Nullable="false" />
+          <NavigationProperty Name="PublicationImages" Relationship="PaoliPDWModel.fkPI_Publication" FromRole="Publication" ToRole="PublicationImage" />
+          <Property Type="Boolean" Name="FilterVisible" Nullable="false" />
+        </EntityType>
+        <Association Name="fkPI_Image">
+          <End Type="PaoliPDWModel.ImageFile" Role="ImageFile" Multiplicity="1" />
+          <End Type="PaoliPDWModel.PublicationImage" Role="PublicationImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImageFile">
+              <PropertyRef Name="ImageID" />
+            </Principal>
+            <Dependent Role="PublicationImage">
+              <PropertyRef Name="ImageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkPI_Publication">
+          <End Type="PaoliPDWModel.Publication" Role="Publication" Multiplicity="1" />
+          <End Type="PaoliPDWModel.PublicationImage" Role="PublicationImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Publication">
+              <PropertyRef Name="PublicationID" />
+            </Principal>
+            <Dependent Role="PublicationImage">
+              <PropertyRef Name="PublicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Dealer">
+          <Key>
+            <PropertyRef Name="DealerID" />
+          </Key>
+          <Property Type="Int32" Name="DealerID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="URL" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="MainContent" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PageLinks" Relationship="PaoliPDWModel.DealerPageLinks" FromRole="Dealer" ToRole="PageLink" />
+          <NavigationProperty Name="VideoLinks" Relationship="PaoliPDWModel.DealerVideoLinks" FromRole="Dealer" ToRole="VideoLink" />
+          <Property Type="Int32" Name="FeaturedVideoID" Nullable="false" />
+          <NavigationProperty Name="FeaturedVideo" Relationship="PaoliPDWModel.fkDealer_VideoLink" FromRole="Dealer" ToRole="VideoLink" />
+          <NavigationProperty Name="DealerFeaturedProducts" Relationship="PaoliPDWModel.fkDFP_Dealer" FromRole="Dealer" ToRole="DealerFeaturedProduct" />
+          <Property Type="String" Name="ProductsHeadline" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PagesHeadline" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="VideosHeadline" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PageLink">
+          <Key>
+            <PropertyRef Name="PageID" />
+          </Key>
+          <Property Type="Int32" Name="PageID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Display" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="URLLocation" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Dealers" Relationship="PaoliPDWModel.DealerPageLinks" FromRole="PageLink" ToRole="Dealer" />
+        </EntityType>
+        <EntityType Name="VideoLink">
+          <Key>
+            <PropertyRef Name="VideoID" />
+          </Key>
+          <Property Type="Int32" Name="VideoID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Display" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="YouTubeID" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Dealers" Relationship="PaoliPDWModel.DealerVideoLinks" FromRole="VideoLink" ToRole="Dealer" />
+          <NavigationProperty Name="DealersAsFeatured" Relationship="PaoliPDWModel.fkDealer_VideoLink" FromRole="VideoLink" ToRole="Dealer" />
+        </EntityType>
+        <Association Name="DealerPageLinks">
+          <End Type="PaoliPDWModel.Dealer" Role="Dealer" Multiplicity="*" />
+          <End Type="PaoliPDWModel.PageLink" Role="PageLink" Multiplicity="*" />
+        </Association>
+        <Association Name="DealerVideoLinks">
+          <End Type="PaoliPDWModel.Dealer" Role="Dealer" Multiplicity="*" />
+          <End Type="PaoliPDWModel.VideoLink" Role="VideoLink" Multiplicity="*" />
+        </Association>
+        <Association Name="fkDealer_VideoLink">
+          <End Type="PaoliPDWModel.VideoLink" Role="VideoLink" Multiplicity="1" />
+          <End Type="PaoliPDWModel.Dealer" Role="Dealer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VideoLink">
+              <PropertyRef Name="VideoID" />
+            </Principal>
+            <Dependent Role="Dealer">
+              <PropertyRef Name="FeaturedVideoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DealerFeaturedProduct">
+          <Key>
+            <PropertyRef Name="DealerID" />
+            <PropertyRef Name="SeriesName" />
+          </Key>
+          <Property Type="Int32" Name="DealerID" Nullable="false" />
+          <Property Type="String" Name="SeriesName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Dealer" Relationship="PaoliPDWModel.fkDFP_Dealer" FromRole="DealerFeaturedProduct" ToRole="Dealer" />
+        </EntityType>
+        <Association Name="fkDFP_Dealer">
+          <End Type="PaoliPDWModel.Dealer" Role="Dealer" Multiplicity="1" />
+          <End Type="PaoliPDWModel.DealerFeaturedProduct" Role="DealerFeaturedProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dealer">
+              <PropertyRef Name="DealerID" />
+            </Principal>
+            <Dependent Role="DealerFeaturedProduct">
+              <PropertyRef Name="DealerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Type="Int32" Name="UserID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CompanyName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Address1" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Address2" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="City" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="State" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Zip" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="BusinessPhone" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CellPhone" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Title" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Role" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="UserType" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PaoliPDWModelStoreContainer" CdmEntityContainer="PaoliPDWEntities">
+          <EntitySetMapping Name="AttributeOptions"><EntityTypeMapping TypeName="PaoliPDWModel.AttributeOption"><MappingFragment StoreEntitySet="AttributeOptions">
+            <ScalarProperty Name="OptionID" ColumnName="OptionID" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+            <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Attributes"><EntityTypeMapping TypeName="PaoliPDWModel.Attribute"><MappingFragment StoreEntitySet="Attributes">
+            <ScalarProperty Name="DetailItem" ColumnName="DetailItem" />
+                <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Categories"><EntityTypeMapping TypeName="PaoliPDWModel.Category"><MappingFragment StoreEntitySet="Categories">
+            <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Serieses"><EntityTypeMapping TypeName="PaoliPDWModel.Series"><MappingFragment StoreEntitySet="Serieses">
+            <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="DBKeywords" ColumnName="DBKeywords" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="SeriesID" ColumnName="SeriesID" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+            <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="SeriesIntAttributes"><EntityTypeMapping TypeName="PaoliPDWModel.SeriesIntAttribute"><MappingFragment StoreEntitySet="SeriesIntAttributes">
+            <ScalarProperty Name="ValueID" ColumnName="ValueID" />
+            <ScalarProperty Name="Value" ColumnName="Value" />
+            <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
+            <ScalarProperty Name="SeriesID" ColumnName="SeriesID" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="SeriesOptionAttributes"><EntityTypeMapping TypeName="PaoliPDWModel.SeriesOptionAttribute"><MappingFragment StoreEntitySet="SeriesOptionAttributes">
+            <ScalarProperty Name="ValueID" ColumnName="ValueID" />
+            <ScalarProperty Name="OptionID" ColumnName="OptionID" />
+            <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
+            <ScalarProperty Name="SeriesID" ColumnName="SeriesID" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="SeriesTextAttributes"><EntityTypeMapping TypeName="PaoliPDWModel.SeriesTextAttribute"><MappingFragment StoreEntitySet="SeriesTextAttributes">
+            <ScalarProperty Name="ValueID" ColumnName="ValueID" />
+            <ScalarProperty Name="Value" ColumnName="Value" />
+            <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
+            <ScalarProperty Name="SeriesID" ColumnName="SeriesID" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="ImageFiles">
+            <EntityTypeMapping TypeName="PaoliPDWModel.ImageFile">
+              <MappingFragment StoreEntitySet="ImageFiles">
+                <ScalarProperty Name="GoToGuidePage" ColumnName="GoToGuidePage" />
+                <ScalarProperty Name="ControlDescription" ColumnName="ControlDescription" />
+                <ScalarProperty Name="ControlMechanism" ColumnName="ControlMechanism" />
+                <ScalarProperty Name="TableBase" ColumnName="TableBase" />
+                <ScalarProperty Name="TableShape" ColumnName="TableShape" />
+                <ScalarProperty Name="DBKeywords" ColumnName="DBKeywords" />
+                <ScalarProperty Name="FeaturedFinish" ColumnName="FeaturedFinish" />
+                <ScalarProperty Name="FinishSubType" ColumnName="FinishSubType" />
+                <ScalarProperty Name="FinishType" ColumnName="FinishType" />
+                <ScalarProperty Name="ImageContent" ColumnName="ImageContent" />
+                <ScalarProperty Name="FeaturedPull" ColumnName="FeaturedPull" />
+                <ScalarProperty Name="FeaturedEdge" ColumnName="FeaturedEdge" />
+                <ScalarProperty Name="MIMEType" ColumnName="MIMEType" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Keyword" ColumnName="Keyword" />
+                <ScalarProperty Name="ImageType" ColumnName="ImageType" />
+                <ScalarProperty Name="HasPeople" ColumnName="HasPeople" />
+                <ScalarProperty Name="Caption" ColumnName="Caption" />
+                <ScalarProperty Name="OriginalExtension" ColumnName="OriginalExtension" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SeriesImageFiles">
+            <EntityTypeMapping TypeName="PaoliPDWModel.SeriesImageFile">
+              <MappingFragment StoreEntitySet="SeriesImageFiles">
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="SeriesID" ColumnName="SeriesID" />
+                <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+                <ScalarProperty Name="IsFeatured" ColumnName="IsFeatured" />
+                <ScalarProperty Name="AssociationID" ColumnName="AssociationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="RelatedSeries" TypeName="PaoliPDWModel.RelatedSeries" StoreEntitySet="RelatedSeries">
+            <EndProperty Name="Series1">
+              <ScalarProperty Name="SeriesID" ColumnName="ParentSeriesID" />
+            </EndProperty>
+            <EndProperty Name="Series">
+              <ScalarProperty Name="SeriesID" ColumnName="ChildSeriesID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="TAttributeOptions">
+            <EntityTypeMapping TypeName="PaoliPDWModel.TAttributeOption">
+              <MappingFragment StoreEntitySet="TAttributeOptions">
+                <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="OptionID" ColumnName="OptionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TAttributes">
+            <EntityTypeMapping TypeName="PaoliPDWModel.TAttribute">
+              <MappingFragment StoreEntitySet="TAttributes">
+                <ScalarProperty Name="DetailItem" ColumnName="DetailItem" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypicalImageFiles">
+            <EntityTypeMapping TypeName="PaoliPDWModel.TypicalImageFile">
+              <MappingFragment StoreEntitySet="TypicalImageFiles">
+                <ScalarProperty Name="TypicalID" ColumnName="TypicalID" />
+                <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+                <ScalarProperty Name="IsFeatured" ColumnName="IsFeatured" />
+                <ScalarProperty Name="AssociationID" ColumnName="AssociationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypicalIntAttributes">
+            <EntityTypeMapping TypeName="PaoliPDWModel.TypicalIntAttribute">
+              <MappingFragment StoreEntitySet="TypicalIntAttributes">
+                <ScalarProperty Name="TypicalID" ColumnName="TypicalID" />
+                <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="ValueID" ColumnName="ValueID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypicalOptionAttributes">
+            <EntityTypeMapping TypeName="PaoliPDWModel.TypicalOptionAttribute">
+              <MappingFragment StoreEntitySet="TypicalOptionAttributes">
+                <ScalarProperty Name="TypicalID" ColumnName="TypicalID" />
+                <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
+                <ScalarProperty Name="OptionID" ColumnName="OptionID" />
+                <ScalarProperty Name="ValueID" ColumnName="ValueID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Typicals">
+            <EntityTypeMapping TypeName="PaoliPDWModel.Typical">
+              <MappingFragment StoreEntitySet="Typicals">
+                <ScalarProperty Name="DBKeywords" ColumnName="DBKeywords" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TypicalID" ColumnName="TypicalID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypicalTextAttributes">
+            <EntityTypeMapping TypeName="PaoliPDWModel.TypicalTextAttribute">
+              <MappingFragment StoreEntitySet="TypicalTextAttributes">
+                <ScalarProperty Name="TypicalID" ColumnName="TypicalID" />
+                <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="ValueID" ColumnName="ValueID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SeriesTypicals">
+            <EntityTypeMapping TypeName="PaoliPDWModel.SeriesTypical">
+              <MappingFragment StoreEntitySet="SeriesTypicals">
+                <ScalarProperty Name="TypicalID" ColumnName="TypicalID" />
+                <ScalarProperty Name="SeriesID" ColumnName="SeriesID" />
+                <ScalarProperty Name="IsPrimary" ColumnName="IsPrimary" />
+                <ScalarProperty Name="AssociationID" ColumnName="AssociationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SearchResultsLogs">
+            <EntityTypeMapping TypeName="PaoliPDWModel.SearchResultsLog">
+              <MappingFragment StoreEntitySet="SearchResultsLog">
+                <ScalarProperty Name="PageCount" ColumnName="PageCount" />
+                <ScalarProperty Name="TypicalCount" ColumnName="TypicalCount" />
+                <ScalarProperty Name="ImageCount" ColumnName="ImageCount" />
+                <ScalarProperty Name="SeriesCount" ColumnName="SeriesCount" />
+                <ScalarProperty Name="SearchTerm" ColumnName="SearchTerm" />
+                <ScalarProperty Name="SearchDateTime" ColumnName="SearchDateTime" />
+                <ScalarProperty Name="LogID" ColumnName="LogID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PublicationImages">
+            <EntityTypeMapping TypeName="PaoliPDWModel.PublicationImage">
+              <MappingFragment StoreEntitySet="PublicationImages">
+                <ScalarProperty Name="PageNumber" ColumnName="PageNumber" />
+                <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+                <ScalarProperty Name="PublicationID" ColumnName="PublicationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Publications">
+            <EntityTypeMapping TypeName="PaoliPDWModel.Publication">
+              <MappingFragment StoreEntitySet="Publications">
+                <ScalarProperty Name="FilterVisible" ColumnName="FilterVisible" />
+                <ScalarProperty Name="PubDate" ColumnName="PubDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PublicationID" ColumnName="PublicationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Dealers">
+            <EntityTypeMapping TypeName="PaoliPDWModel.Dealer">
+              <MappingFragment StoreEntitySet="Dealers">
+                <ScalarProperty Name="VideosHeadline" ColumnName="VideosHeadline" />
+                <ScalarProperty Name="PagesHeadline" ColumnName="PagesHeadline" />
+                <ScalarProperty Name="ProductsHeadline" ColumnName="ProductsHeadline" />
+                <ScalarProperty Name="FeaturedVideoID" ColumnName="FeaturedVideoID" />
+                <ScalarProperty Name="MainContent" ColumnName="MainContent" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DealerID" ColumnName="DealerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PageLinks">
+            <EntityTypeMapping TypeName="PaoliPDWModel.PageLink">
+              <MappingFragment StoreEntitySet="PageLinks">
+                <ScalarProperty Name="URLLocation" ColumnName="URLLocation" />
+                <ScalarProperty Name="Display" ColumnName="Display" />
+                <ScalarProperty Name="PageID" ColumnName="PageID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VideoLinks">
+            <EntityTypeMapping TypeName="PaoliPDWModel.VideoLink">
+              <MappingFragment StoreEntitySet="VideoLinks">
+                <ScalarProperty Name="YouTubeID" ColumnName="YouTubeID" />
+                <ScalarProperty Name="Display" ColumnName="Display" />
+                <ScalarProperty Name="VideoID" ColumnName="VideoID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="DealerPageLinks" TypeName="PaoliPDWModel.DealerPageLinks" StoreEntitySet="DealerPageLinks">
+            <EndProperty Name="PageLink">
+              <ScalarProperty Name="PageID" ColumnName="PageID" />
+            </EndProperty>
+            <EndProperty Name="Dealer">
+              <ScalarProperty Name="DealerID" ColumnName="DealerID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="DealerVideoLinks" TypeName="PaoliPDWModel.DealerVideoLinks" StoreEntitySet="DealerVideoLinks">
+            <EndProperty Name="VideoLink">
+              <ScalarProperty Name="VideoID" ColumnName="VideoID" />
+            </EndProperty>
+            <EndProperty Name="Dealer">
+              <ScalarProperty Name="DealerID" ColumnName="DealerID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="DealerFeaturedProducts">
+            <EntityTypeMapping TypeName="PaoliPDWModel.DealerFeaturedProduct">
+              <MappingFragment StoreEntitySet="DealerFeaturedProducts">
+                <ScalarProperty Name="SeriesName" ColumnName="SeriesName" />
+                <ScalarProperty Name="DealerID" ColumnName="DealerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="PaoliPDWModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+                <ScalarProperty Name="BusinessPhone" ColumnName="BusinessPhone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="DBContext">
+        <EntityTypeShape EntityType="PaoliPDWModel.AttributeOption" Width="1.5" PointX="3" PointY="4" Height="1.7566536458333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="PaoliPDWModel.Attribute" Width="1.5" PointX="0.75" PointY="4.5" Height="1.9210009765624996" IsExpanded="true" />
+        <EntityTypeShape EntityType="PaoliPDWModel.Category" Width="1.5" PointX="5.75" PointY="0.75" Height="1.2636116536458335" IsExpanded="true" />
+        <EntityTypeShape EntityType="PaoliPDWModel.Series" Width="1.5" PointX="0.75" PointY="1" Height="2.7427376302083331" IsExpanded="true" />
+        <EntityTypeShape EntityType="PaoliPDWModel.SeriesIntAttribute" Width="1.5" PointX="3" PointY="1" Height="1.9210009765624996" IsExpanded="true" />
+        <EntityTypeShape EntityType="PaoliPDWModel.SeriesOptionAttribute" Width="1.5" PointX="5.25" PointY="3.875" Height="2.085348307291667" IsExpanded="true" />
+        <EntityTypeShape EntityType="PaoliPDWModel.SeriesTextAttribute" Width="1.5" PointX="3" PointY="7" Height="1.9210009765624996" IsExpanded="true" />
+        <AssociationConnector Association="PaoliPDWModel.fkOption_Attribute" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="5.357490863058338" />
+          <ConnectorPoint PointX="2.6041666666666665" PointY="5.3574908630583371" />
+          <ConnectorPoint PointX="2.7708333333333335" PointY="5.357490863058338" />
+          <ConnectorPoint PointX="3" PointY="5.357490863058338" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkSOA_AttributeOption" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="4.8783268229166667" />
+          <ConnectorPoint PointX="5.25" PointY="4.8783268229166667" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkSIA_Attribute" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="4.5" />
+          <ConnectorPoint PointX="2.625" PointY="4.125" />
+          <ConnectorPoint PointX="2.625" PointY="2.2805918179941185" />
+          <ConnectorPoint PointX="3" PointY="2.2805918179941185" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkSOA_Attribute" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="5.8897509765625005" />
+          <ConnectorPoint PointX="2.6041666666666665" PointY="5.8897509765625" />
+          <ConnectorPoint PointX="2.7708333333333335" PointY="5.8897509765625005" />
+          <ConnectorPoint PointX="5.25" PointY="5.8897509765625005" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkSTA_Attribute" ManuallyRouted="false">
+          <ConnectorPoint PointX="1.5" PointY="6.5853483072916665" />
+          <ConnectorPoint PointX="1.5" PointY="7.96050048828125" />
+          <ConnectorPoint PointX="3" PointY="7.96050048828125" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkSIA_Series" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="1.5777959089970592" />
+          <ConnectorPoint PointX="3" PointY="1.5777959089970592" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkSOA_Series" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="3.1898358089973078" />
+          <ConnectorPoint PointX="2.5416666666666665" PointY="3.1898358089973073" />
+          <ConnectorPoint PointX="2.7083333333333335" PointY="3.1898358089973078" />
+          <ConnectorPoint PointX="5.46875" PointY="3.1898358089973078" />
+          <ConnectorPoint PointX="5.46875" PointY="3.875" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkSTA_Series" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="3.8447762686298068" />
+          <ConnectorPoint PointX="2.6875" PointY="4.2822762686298068" />
+          <ConnectorPoint PointX="2.6875" PointY="7.4489982441406237" />
+          <ConnectorPoint PointX="3" PointY="7.4489982441406237" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkSeries_Category" >
+          <ConnectorPoint PointX="7.03125" PointY="2.177958984375" />
+          <ConnectorPoint PointX="7.03125" PointY="3.4663357965258976" />
+          <ConnectorPoint PointX="5.552083333333333" PointY="3.4663357965258972" />
+          <ConnectorPoint PointX="5.385416666666667" PointY="3.4663357965258976" />
+          <ConnectorPoint PointX="2.7083333333333335" PointY="3.4663357965258972" />
+          <ConnectorPoint PointX="2.5416666666666665" PointY="3.4663357965258976" />
+          <ConnectorPoint PointX="2.25" PointY="3.4663357965258976" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="PaoliPDWModel.ImageFile" Width="1.5" PointX="6.125" PointY="6.5" Height="2.4140429687499996" />
+        <EntityTypeShape EntityType="PaoliPDWModel.SeriesImageFile" Width="1.5" PointX="7.875" PointY="2.5" Height="1.9210009765624996" />
+        <AssociationConnector Association="PaoliPDWModel.fkSIF_Image" >
+          <ConnectorPoint PointX="7.328125" PointY="6.5" />
+          <ConnectorPoint PointX="7.328125" PointY="2.83550048828125" />
+          <ConnectorPoint PointX="7.875" PointY="2.83550048828125" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkSIF_Series" >
+          <ConnectorPoint PointX="2.25" PointY="3.7395228212017875" />
+          <ConnectorPoint PointX="2.5416666666666665" PointY="3.739522821201787" />
+          <ConnectorPoint PointX="2.7083333333333335" PointY="3.7395228212017875" />
+          <ConnectorPoint PointX="5.385416666666667" PointY="3.739522821201787" />
+          <ConnectorPoint PointX="5.552083333333333" PointY="3.7395228212017875" />
+          <ConnectorPoint PointX="7.244791666666667" PointY="3.739522821201787" />
+          <ConnectorPoint PointX="7.411458333333333" PointY="3.7395228212017875" />
+          <ConnectorPoint PointX="7.541666666666667" PointY="3.739522821201787" />
+          <ConnectorPoint PointX="7.708333333333333" PointY="3.7395228212017875" />
+          <ConnectorPoint PointX="7.875" PointY="3.7395228212017875" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.RelatedSeries" >
+          <ConnectorPoint PointX="1.2819230769230767" PointY="3.9070849609375" />
+          <ConnectorPoint PointX="1.2819230769230767" PointY="4.1570849609375" />
+          <ConnectorPoint PointX="1.7284615384615383" PointY="4.1570849609375" />
+          <ConnectorPoint PointX="1.7284615384615383" PointY="3.9070849609375" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="PaoliPDWModel.TAttributeOption" Width="1.5" PointX="3" PointY="16.625" Height="1.7566536458333317" />
+        <EntityTypeShape EntityType="PaoliPDWModel.TAttribute" Width="1.5" PointX="3" PointY="13.5" Height="1.9210009765625031" />
+        <EntityTypeShape EntityType="PaoliPDWModel.TypicalImageFile" Width="1.5" PointX="8.375" PointY="8.625" Height="1.9210009765625031" />
+        <EntityTypeShape EntityType="PaoliPDWModel.TypicalIntAttribute" Width="1.5" PointX="5.25" PointY="10.5" Height="1.921000976562496" />
+        <EntityTypeShape EntityType="PaoliPDWModel.TypicalOptionAttribute" Width="1.5" PointX="5.25" PointY="13.375" Height="2.0853483072916674" />
+        <EntityTypeShape EntityType="PaoliPDWModel.Typical" Width="1.5" PointX="3" PointY="10.25" Height="2.0853483072916656" />
+        <EntityTypeShape EntityType="PaoliPDWModel.TypicalTextAttribute" Width="1.5" PointX="8.25" PointY="11.5" Height="1.921000976562496" />
+        <AssociationConnector Association="PaoliPDWModel.fkTIF_Image" >
+          <ConnectorPoint PointX="7.625" PointY="9.2793973623046888" />
+          <ConnectorPoint PointX="8.375" PointY="9.2793973623046888" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkTOA_AttributeOption" >
+          <ConnectorPoint PointX="4.5" PointY="17.503326822916666" />
+          <ConnectorPoint PointX="6" PointY="17.503326822916666" />
+          <ConnectorPoint PointX="6" PointY="15.460348307291667" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkTOption_Attribute" >
+          <ConnectorPoint PointX="3.75" PointY="15.421000976562503" />
+          <ConnectorPoint PointX="3.75" PointY="16.625" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkTIA_Attribute" >
+          <ConnectorPoint PointX="4.5" PointY="13.501152846153847" />
+          <ConnectorPoint PointX="4.875" PointY="13.126152846153847" />
+          <ConnectorPoint PointX="4.875" PointY="11.78035731885147" />
+          <ConnectorPoint PointX="5.25" PointY="11.78035731885147" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkTOA_Attribute" >
+          <ConnectorPoint PointX="4.5" PointY="14.492329411358176" />
+          <ConnectorPoint PointX="5.25" PointY="14.492329411358176" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkTTA_Attribute" >
+          <ConnectorPoint PointX="3.75" PointY="13.5" />
+          <ConnectorPoint PointX="3.75" PointY="12.91404296875" />
+          <ConnectorPoint PointX="4.7289753589743588" PointY="12.91404296875" />
+          <ConnectorPoint PointX="4.958333333333333" PointY="12.91404296875" />
+          <ConnectorPoint PointX="7.875" PointY="12.91404296875" />
+          <ConnectorPoint PointX="7.875" PointY="12.019566061298075" />
+          <ConnectorPoint PointX="8.25" PointY="12.019566061298075" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkTIF_Typical" >
+          <ConnectorPoint PointX="3.75" PointY="10.25" />
+          <ConnectorPoint PointX="3.75" PointY="9.5855004882812516" />
+          <ConnectorPoint PointX="7.916666666666667" PointY="9.5855004882812516" />
+          <ConnectorPoint PointX="8.0833333333333339" PointY="9.5855004882812516" />
+          <ConnectorPoint PointX="8.375" PointY="9.5855004882812516" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkTIA_Typical" >
+          <ConnectorPoint PointX="4.5" PointY="11.077209661140442" />
+          <ConnectorPoint PointX="5.25" PointY="11.077209661140442" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkTOA_Typical" >
+          <ConnectorPoint PointX="4.5" PointY="12.601734276442308" />
+          <ConnectorPoint PointX="4.8160744349011217" PointY="12.917808711343428" />
+          <ConnectorPoint PointX="4.9339255650988791" PointY="13.035659841541186" />
+          <ConnectorPoint PointX="4.9375" PointY="13.039234276442308" />
+          <ConnectorPoint PointX="4.9375" PointY="13.912249538361378" />
+          <ConnectorPoint PointX="5.25" PointY="13.912249538361378" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkTTA_Typical" >
+          <ConnectorPoint PointX="4.5" PointY="12.601636122596153" />
+          <ConnectorPoint PointX="4.791666666666667" PointY="12.601636122596153" />
+          <ConnectorPoint PointX="4.958333333333333" PointY="12.601636122596153" />
+          <ConnectorPoint PointX="7.791666666666667" PointY="12.601636122596153" />
+          <ConnectorPoint PointX="7.958333333333333" PointY="12.601636122596153" />
+          <ConnectorPoint PointX="8.25" PointY="12.601636122596153" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="PaoliPDWModel.SeriesTypical" Width="1.5" PointX="9.25" PointY="5.75" Height="1.921000976562496" />
+        <AssociationConnector Association="PaoliPDWModel.fkST_Series" >
+          <ConnectorPoint PointX="2.25" PointY="2.7141472488952916" />
+          <ConnectorPoint PointX="2.5416666666666665" PointY="2.7141472488952911" />
+          <ConnectorPoint PointX="2.7083333333333335" PointY="2.7141472488952916" />
+          <ConnectorPoint PointX="2.75" PointY="2.7141472488952916" />
+          <ConnectorPoint PointX="2.75" PointY="3.1710009765624996" />
+          <ConnectorPoint PointX="6.947916666666667" PointY="3.1710009765624991" />
+          <ConnectorPoint PointX="7.114583333333333" PointY="3.1710009765624996" />
+          <ConnectorPoint PointX="7.244791666666667" PointY="3.1710009765624991" />
+          <ConnectorPoint PointX="7.411458333333333" PointY="3.1710009765624996" />
+          <ConnectorPoint PointX="7.625" PointY="3.1710009765624996" />
+          <ConnectorPoint PointX="7.625" PointY="4.8353483072916656" />
+          <ConnectorPoint PointX="10" PointY="4.8353483072916656" />
+          <ConnectorPoint PointX="10" PointY="5.75" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkST_Typical" >
+          <ConnectorPoint PointX="4.156252" PointY="10.25" />
+          <ConnectorPoint PointX="4.156252" PointY="9.1710009765625" />
+          <ConnectorPoint PointX="5.875" PointY="9.1710009765625" />
+          <ConnectorPoint PointX="5.875" PointY="6.25" />
+          <ConnectorPoint PointX="7.244791666666667" PointY="6.2499999999999991" />
+          <ConnectorPoint PointX="7.411458333333333" PointY="6.25" />
+          <ConnectorPoint PointX="8.875" PointY="6.25" />
+          <ConnectorPoint PointX="8.875" PointY="6.710500488281248" />
+          <ConnectorPoint PointX="9.25" PointY="6.710500488281248" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="PaoliPDWModel.SearchResultsLog" Width="1.5" PointX="10.375" PointY="0.75" Height="2.085348307291667" />
+        <EntityTypeShape EntityType="PaoliPDWModel.PublicationImage" Width="1.5" PointX="11.375" PointY="8.625" Height="1.7566536458333388" />
+        <EntityTypeShape EntityType="PaoliPDWModel.Publication" Width="1.5" PointX="9.125" PointY="14.75" Height="1.5923063151041674" />
+        <AssociationConnector Association="PaoliPDWModel.fkPI_Image" >
+          <ConnectorPoint PointX="7.625" PointY="10.764750976562503" />
+          <ConnectorPoint PointX="9.0416666666666661" PointY="10.764750976562503" />
+          <ConnectorPoint PointX="9.2083333333333339" PointY="10.764750976562503" />
+          <ConnectorPoint PointX="10.916666666666666" PointY="10.764750976562503" />
+          <ConnectorPoint PointX="11.083333333333334" PointY="10.764750976562503" />
+          <ConnectorPoint PointX="12.125" PointY="10.764750976562503" />
+          <ConnectorPoint PointX="12.125" PointY="10.381653645833339" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkPI_Publication" >
+          <ConnectorPoint PointX="10.625" PointY="14.75" />
+          <ConnectorPoint PointX="11" PointY="14.375" />
+          <ConnectorPoint PointX="11" PointY="9.50332682291667" />
+          <ConnectorPoint PointX="11.375" PointY="9.50332682291667" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="PaoliPDWModel.Dealer" Width="1.5" PointX="11.375" PointY="14" Height="2.4140429687500031" />
+        <EntityTypeShape EntityType="PaoliPDWModel.PageLink" Width="1.5" PointX="13.625" PointY="14.25" Height="1.5923063151041674" />
+        <EntityTypeShape EntityType="PaoliPDWModel.VideoLink" Width="1.5" PointX="13.625" PointY="16.625" Height="1.5923063151041674" />
+        <AssociationConnector Association="PaoliPDWModel.DealerPageLinks" >
+          <ConnectorPoint PointX="12.875" PointY="15.046153157552084" />
+          <ConnectorPoint PointX="13.625" PointY="15.046153157552084" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.DealerVideoLinks" >
+          <ConnectorPoint PointX="12.06616232421875" PointY="16.414042968750003" />
+          <ConnectorPoint PointX="12.06616232421875" PointY="17.835644145501828" />
+          <ConnectorPoint PointX="13.625" PointY="17.835644145501828" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkDealer_VideoLink" >
+          <ConnectorPoint PointX="13.625" PointY="17.199069572750915" />
+          <ConnectorPoint PointX="12.501833662109375" PointY="17.199069572750915" />
+          <ConnectorPoint PointX="12.501833662109375" PointY="16.414042968750003" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="PaoliPDWModel.DealerFeaturedProduct" Width="1.5" PointX="13.625" PointY="19.625" Height="1.427958984374996" />
+        <AssociationConnector Association="PaoliPDWModel.fkDFP_Dealer" >
+          <ConnectorPoint PointX="11.689328662109375" PointY="16.414042968750003" />
+          <ConnectorPoint PointX="11.689328662109375" PointY="20.338979492187498" />
+          <ConnectorPoint PointX="13.625" PointY="20.338979492187498" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="PaoliPDWModel.User" Width="1.5" PointX="13.625" PointY="4.25" Height="3.5644742838541656" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

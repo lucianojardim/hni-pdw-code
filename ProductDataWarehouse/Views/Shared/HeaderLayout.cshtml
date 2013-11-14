@@ -1,0 +1,99 @@
+﻿@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    function getSiteUrl() {
+        var hostName = window.location.hostname.toLowerCase();
+
+        if (hostName.indexOf('paoli-test01') >= 0)
+            return 'http://paoli-test01';
+        if (hostName.indexOf('jamesburnes') >= 0)
+        	return 'http://paoli.getvitaminj.com';
+        if (hostName.indexOf('getvitaminj') >= 0)
+        	return 'http://paoli.getvitaminj.com';
+        if (hostName.indexOf('matt3400') >= 0)
+            return 'http://matt3400.wdd.local:8787';
+        if (hostName.indexOf('localhost') >= 0)
+        	return 'http://localhost:8787';
+        return 'http://www.paoli.com';
+    }
+
+    function clickCMSLink() {
+    	window.open(getSiteUrl() + '/umbraco/umbraco.aspx');
+    }
+
+    function clickSiteLink() {
+    	window.open(getSiteUrl());
+    }
+
+    $(document).ready(function () {
+        $('#cmsLink').click(clickCMSLink);
+        $('#siteLink').click(clickSiteLink);
+    });
+</script>
+<div id="page_navigation">
+	<div class="wrapper">
+		<a href="/" id="logo"><img src="@Url.Content( "~/Content/images/paoli_logo.png" )"></a>
+        <ul id="nav">
+			@if( HttpContext.Current.User.Identity.IsAuthenticated )
+   {
+			<li class="@(ViewBag.CurrentPage == "Database" ? "current_page" : "")"><a href="@Url.Action( "Index", "Import" )">Database</a></li>
+   			<li class="@(ViewBag.CurrentPage == "Dealers" ? "current_page" : "")"><a href="@Url.Action( "ManageDealers", "Import" )">Dealers</a></li>
+            <li><a href="javascript:void(0);" id="cmsLink">Login to CMS</a></li>
+   }
+            <li><a href="javascript:void(0);" id="siteLink">View Site</a></li>
+			@if( HttpContext.Current.User.Identity.IsAuthenticated )
+   {
+   			<li class="@(ViewBag.CurrentPage == "Account" ? "current_page" : "")"><a href="@Url.Action( "MyAccount", "User" )">My Account</a></li>
+            <li><a href="@Url.Action( "Logout", "Import" )">Log out</a></li>
+   }
+        </ul>
+	</div>
+	@{var bNeedExtraSpace = false;}
+	@if( ViewBag.CurrentPage == "Dealers" )
+ {
+	 bNeedExtraSpace = true;
+	<div id="sub_nav" class="stuckontop">
+		<div class="wrapper p20">
+			<ul class="nav_type_3">
+				<li class="@(ViewBag.CurrentDealerPage == "Dealers" ? "on_focus" : "")"><a href="@Url.Action( "ManageDealers" )">Dealers</a></li>
+				<li class="@(ViewBag.CurrentDealerPage == "Videos" ? "on_focus" : "")"><a href="@Url.Action( "ManageVideos" )">Video Links</a></li>
+				<li class="@(ViewBag.CurrentDealerPage == "Pages" ? "on_focus" : "")"><a href="@Url.Action( "ManagePages" )">Pages</a></li>
+			</ul>
+			<p class="clear"></p>
+		</div>
+	</div>
+ }
+ else if( ViewBag.CurrentPage == "Database" )
+ {
+	 bNeedExtraSpace = true;
+	<div id="sub_nav" class="stuckontop">
+		<div class="wrapper p20">
+			<ul class="nav_type_3">
+				<li class="@(ViewBag.CurrentDatabasePage == "Import" ? "on_focus" : "")"><a href="@Url.Action( "Index", "Import" )">PDW Import</a></li>
+				<li class="@(ViewBag.CurrentDatabasePage == "Images" ? "on_focus" : "")"><a href="@Url.Action( "Images", "Import" )">Image Engine</a></li>
+				<li class="@(ViewBag.CurrentDatabasePage == "Collateral" ? "on_focus" : "")"><a href="@Url.Action( "Collateral", "Import" )">Collateral</a></li>
+				<li class="@(ViewBag.CurrentDatabasePage == "Users" ? "on_focus" : "")"><a href="@Url.Action( "Manage", "User" )">Users</a></li>
+			</ul>
+			<p class="clear"></p>
+		</div>
+	</div>
+ }
+ else if( ViewBag.CurrentPage == "Account" )
+ {
+	 bNeedExtraSpace = true;
+	<div id="sub_nav" class="stuckontop">
+		<div class="wrapper p20">
+			<ul class="nav_type_3">
+				<li class="@(ViewBag.CurrentAccountPage == "MyAccount" ? "on_focus" : "")"><a href="@Url.Action( "MyAccount", "User" )">Profile</a></li>
+				<li class="@(ViewBag.CurrentAccountPage == "ChangePW" ? "on_focus" : "")"><a href="@Url.Action( "ChangePW", "User" )">Change Password</a></li>
+			</ul>
+			<p class="clear"></p>
+		</div>
+	</div>
+ }
+</div>
+<p style="padding-top:@(bNeedExtraSpace ? "145" : "120")px;"></p>
+<div class="wrapper p20">
+@RenderBody()
+</div>

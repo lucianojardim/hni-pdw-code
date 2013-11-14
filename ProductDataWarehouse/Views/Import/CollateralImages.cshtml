@@ -1,0 +1,174 @@
+﻿@model PDWModels.Publications.PublicationInformation
+
+@{
+    ViewBag.Title = "Collateral Images";
+}
+
+<h1>Edit Images for @Html.DisplayFor( m => m.Name )</h1>
+<div style="float:right;">
+    <a href="@Url.Action( "Collateral" )">Back to Manage Collateral</a>
+</div>
+<div style="clear:both;"></div>
+
+<div style="float:left; width:45%;">
+<h2>Image Gallery List</h2>
+    <table id="nonImageList">
+    <thead></thead>
+    <tfoot></tfoot>
+    </table>
+</div>
+<div style="float:left; width:10%;">
+&nbsp;
+</div>
+<div style="float:left; width:45%;">
+<h2>Collateral Image List</h2>
+    <table id="pubImageList">
+    <thead></thead>
+    <tfoot></tfoot>
+    </table>
+</div>
+<div style="clear:both;"></div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        loadLists();
+    });
+
+    function loadLists() {
+        loadPotentialImages();
+        loadPublicationImages();
+    }
+
+    function addImageToPage(imageId) {
+        var thePageNumber = $('#addToPage' + imageId).val();
+
+        if ((thePageNumber.length > 0) && isNaN(thePageNumber)) {
+            alert('Page Number must be a number.');
+            return;
+        }
+
+        $.ajax({
+            dataType: 'json',
+            type: "POST",
+            url: '@Url.Action("AddPubImage","Import")',
+            data: { pubId: @Html.DisplayFor( m => m.PublicationID ), imageId: imageId, pageNumber: thePageNumber },
+            success: function (data, textStatus, jqXHR) {
+                loadLists();
+            },
+            error: function (jqXHR, textStatus, errorThrown) { alert('Unable to add Image:' + errorThrown) }
+        });
+    }
+
+    function removeImage(imageId) {
+        $.ajax({
+            dataType: 'json',
+            type: "POST",
+            url: '@Url.Action("RemovePubImage","Import")',
+            data: { pubId: @Html.DisplayFor( m => m.PublicationID ), imageId: imageId },
+            success: function (data, textStatus, jqXHR) {
+                loadLists();
+            },
+            error: function (jqXHR, textStatus, errorThrown) { alert('Unable to remove Image:' + errorThrown) }
+        });
+    }
+
+    var nonPubTable = null;
+    function loadPotentialImages() {
+        if (nonPubTable != null) {
+            nonPubTable.fnStandingRedraw();
+            return;
+        }
+
+        nonPubTable = $('#nonImageList').dataTable({
+            "bServerSide": true,
+            "bAutoWidth": false,
+            "bFilter": true,
+            "bLengthChange": false, // don't show dropdown for #items per page
+            "bPaginate": true,
+            "bInfo": true,
+            "sAjaxSource": '@Url.Action( "NonPubImageList" )',
+            "fnServerParams": function (aoData) {
+                aoData.push({ "name": "pubId", "value": "@Html.DisplayFor( m => m.PublicationID )" });
+            },
+            "iDisplayLength": 10,
+            "fnServerData": function (sSource, aoData, fnCallback) {
+                $.ajax({
+                    dataType: 'json',
+                    type: "POST",
+                    url: sSource,
+                    data: aoData,
+                    success: function (data, textStatus, jqXHR) {
+                        fnCallback(data, textStatus, jqXHR);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Images:' + errorThrown) }
+                })
+            },
+            "bProcessing": false, // don't want to use the default progress indicator at this time
+            "aaSorting": [[1, "asc"]],
+            "aoColumnDefs": [
+                    { "sName": "Thumbnail", "sTitle": "", "aTargets": [0], "mDataProp": "Thumbnail", "sWidth": "50px", "bSortable": false,
+                        "fnRender": function (oObj) {
+                            return '<img src="/Images/Paoli ' + oObj.aData["Name"] + '_s1to1.jpg" width="50px"/>';
+                        }
+                    },
+                    { "sName": "Name", "sTitle": "Image Name", "aTargets": [1], "mDataProp": "Name" },
+                    { "sName": "PageNumber", "sTitle": "Add to Page Number", "aTargets": [2], "mDataProp": "PageNumber", "sWidth": "150px", "bSortable": false,
+                        "fnRender": function (oObj) {
+                            return '<input type="text" style="width:100px;" id="addToPage' + oObj.aData["ImageID"] + '"/>&nbsp;&nbsp;<a href="javascript:void(0);" onclick="addImageToPage(' + oObj.aData["ImageID"] + ');">Add</a>';
+                        }
+                    },
+
+                ]
+        });
+    }
+
+    var isPubTable = null;
+    function loadPublicationImages() {
+        if (isPubTable != null) {
+            isPubTable.fnDraw();
+            return;
+        }
+
+        isPubTable = $('#pubImageList').dataTable({
+            "bServerSide": true,
+            "bAutoWidth": false,
+            "bFilter": true,
+            "bLengthChange": false, // don't show dropdown for #items per page
+            "bPaginate": true,
+            "bInfo": true,
+            "sAjaxSource": '@Url.Action( "PubImageList" )',
+            "fnServerParams": function (aoData) {
+                aoData.push({ "name": "pubId", "value": "@Html.DisplayFor( m => m.PublicationID )" });
+            },
+            "iDisplayLength": 10,
+            "fnServerData": function (sSource, aoData, fnCallback) {
+                $.ajax({
+                    dataType: 'json',
+                    type: "POST",
+                    url: sSource,
+                    data: aoData,
+                    success: function (data, textStatus, jqXHR) {
+                        fnCallback(data, textStatus, jqXHR);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Images:' + errorThrown) }
+                })
+            },
+            "bProcessing": false, // don't want to use the default progress indicator at this time
+            "aaSorting": [[1, "asc"]],
+            "aoColumnDefs": [
+                    { "sName": "Thumbnail", "sTitle": "", "aTargets": [0], "mDataProp": "Thumbnail", "sWidth": "50px", "bSortable": false,
+                        "fnRender": function (oObj) {
+                            return '<img src="/Images/Paoli ' + oObj.aData["Name"] + '_s1to1.jpg" width="50px"/>';
+                        }
+                    },
+                    { "sName": "Name", "sTitle": "Image Name", "aTargets": [1], "mDataProp": "Name" },
+                    { "sName": "PageNumber", "sTitle": "Page Number", "aTargets": [2], "mDataProp": "PageNumber", "sWidth": "150px",
+                        "fnRender": function (oObj) {
+                            return '' + (oObj.aData["PageNumber"] == null ? 'All' : oObj.aData["PageNumber"]) + '&nbsp;&nbsp;<a href="javascript:void(0);" onclick="if(confirm(\'Remove this image?\')) { removeImage(' + oObj.aData["ImageID"] + '); }">Remove</a>';
+                        }
+                    },
+                ]
+        });
+    }
+
+</script>

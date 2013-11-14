@@ -1,0 +1,8 @@
+syntax: glob
+*.suo
+*.user
+bin/*
+obj/*
+*.[Cc]onfig
+PDWImages/*
+ProductDataWarehouse/Images/*
