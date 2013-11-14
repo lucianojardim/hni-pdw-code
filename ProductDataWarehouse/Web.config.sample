@@ -7,7 +7,8 @@
 <configuration>
   <configSections>
     <section name="imageCropSettings" type="PDWInfrastructure.ImageCropConfiguration, PDWInfrastructure"/>
-  </configSections>
+		<section name="encSettings" type="PDWInfrastructure.EncryptionConfiguration, PDWInfrastructure"/>
+	</configSections>
 
   <imageCropSettings>
     <ImageSizes>
@@ -34,6 +35,10 @@
     <add key="PrependImageName" value="Paoli"/>
     <add key="HomePageRedirect" value="http://www.paoli.com/"/>
   </appSettings>
+
+	<encSettings>
+		<DataPassPhrase value="Th@t'smy$ecr3t,Cap:!'m@lway$an%ry."/>
+	</encSettings>
 
   <connectionStrings>
     <add name="PaoliPDWEntities" connectionString="metadata=res://*/DBContext.csdl|res://*/DBContext.ssdl|res://*/DBContext.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=matt3400;initial catalog=PaoliPDW;integrated security=True;multipleactiveresultsets=True;App=EntityFramework&quot;" providerName="System.Data.EntityClient" />
@@ -74,7 +79,18 @@
     </pages>
   </system.web>
 
-  <system.webServer>
+	<system.net>
+		<mailSettings>
+			<smtp deliveryMethod="SpecifiedPickupDirectory">
+				<specifiedPickupDirectory pickupDirectoryLocation="C:\Projects\Paoli\Mail Drop" />
+			</smtp>
+			<!--      <smtp deliveryMethod="Network">
+        <network host="smtp.gmail.com" enableSsl="true" port="587" userName="support@patentstatus.com" password="34RtT4t@!" defaultCredentials="false"/>
+      </smtp>-->
+		</mailSettings>
+	</system.net>
+
+	<system.webServer>
     <validation validateIntegratedModeConfiguration="false"/>
     <modules runAllManagedModulesForAllRequests="true"/>
   </system.webServer>
