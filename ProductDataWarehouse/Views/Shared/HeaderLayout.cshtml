@@ -1,6 +1,8 @@
 ﻿@{
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@using PDWInfrastructure
+@{var CurrentUser = PaoliWebUser.CurrentUser;}
 <script type="text/javascript">
     function getSiteUrl() {
         var hostName = window.location.hostname.toLowerCase();
@@ -37,9 +39,12 @@
         <ul id="nav">
 			@if( HttpContext.Current.User.Identity.IsAuthenticated )
    {
+	   if( CurrentUser.OneOfRoles( PaoliWebUser.PaoliWebRole.SuperAdmin ) )
+	   {
 			<li class="@(ViewBag.CurrentPage == "Database" ? "current_page" : "")"><a href="@Url.Action( "Index", "Import" )">Database</a></li>
    			<li class="@(ViewBag.CurrentPage == "Dealers" ? "current_page" : "")"><a href="@Url.Action( "ManageDealers", "Import" )">Dealers</a></li>
             <li><a href="javascript:void(0);" id="cmsLink">Login to CMS</a></li>
+	   }
    }
             <li><a href="javascript:void(0);" id="siteLink">View Site</a></li>
 			@if( HttpContext.Current.User.Identity.IsAuthenticated )
@@ -56,9 +61,12 @@
 	<div id="sub_nav" class="stuckontop">
 		<div class="wrapper p20">
 			<ul class="nav_type_3">
+	   @if( CurrentUser.OneOfRoles( PaoliWebUser.PaoliWebRole.SuperAdmin ) )
+	{
 				<li class="@(ViewBag.CurrentDealerPage == "Dealers" ? "on_focus" : "")"><a href="@Url.Action( "ManageDealers" )">Dealers</a></li>
 				<li class="@(ViewBag.CurrentDealerPage == "Videos" ? "on_focus" : "")"><a href="@Url.Action( "ManageVideos" )">Video Links</a></li>
 				<li class="@(ViewBag.CurrentDealerPage == "Pages" ? "on_focus" : "")"><a href="@Url.Action( "ManagePages" )">Pages</a></li>
+	}
 			</ul>
 			<p class="clear"></p>
 		</div>
@@ -70,10 +78,14 @@
 	<div id="sub_nav" class="stuckontop">
 		<div class="wrapper p20">
 			<ul class="nav_type_3">
+	   @if( CurrentUser.OneOfRoles( PaoliWebUser.PaoliWebRole.SuperAdmin ) )
+	{
 				<li class="@(ViewBag.CurrentDatabasePage == "Import" ? "on_focus" : "")"><a href="@Url.Action( "Index", "Import" )">PDW Import</a></li>
 				<li class="@(ViewBag.CurrentDatabasePage == "Images" ? "on_focus" : "")"><a href="@Url.Action( "Images", "Import" )">Image Engine</a></li>
 				<li class="@(ViewBag.CurrentDatabasePage == "Collateral" ? "on_focus" : "")"><a href="@Url.Action( "Collateral", "Import" )">Collateral</a></li>
 				<li class="@(ViewBag.CurrentDatabasePage == "Users" ? "on_focus" : "")"><a href="@Url.Action( "Manage", "User" )">Users</a></li>
+				<li class="@(ViewBag.CurrentDatabasePage == "SearchLog" ? "on_focus" : "")"><a href="@Url.Action( "SearchLog", "Import" )">Search Log</a></li>
+	}
 			</ul>
 			<p class="clear"></p>
 		</div>

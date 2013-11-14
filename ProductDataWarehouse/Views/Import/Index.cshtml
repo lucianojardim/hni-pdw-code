@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Index";
+	ViewBag.Title = "Import PDW Data";
 	ViewBag.CurrentPage = "Database";
 	ViewBag.CurrentDatabasePage = "Import";
 	Layout = "~/Views/Shared/HeaderLayout.cshtml";
@@ -7,21 +7,6 @@
 @using ProductDataWarehouse.Controllers
 <script type="text/javascript">
 
-    function DoAjaxCall() {
-        $.ajax({
-            dataType: 'json',
-            crossDomain: true,
-            type: 'GET',
-            url: 'http://matt3400:8780/PDW/GetSeriesList?callback=?',
-            data: null,
-            success: function (data, textStatus, jqXHR) {
-                $("#ajaxResults").text(JSON.stringify(data));
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                alert('Error getting data:' + errorThrown + ' [' + textStatus + ']');
-            }
-        });
-    }
 
 </script>
 
@@ -47,10 +32,4 @@
         <img src="@Url.Content( "~/Content/Images/baprogress.gif" )" alt="" style="display:inline;"/>&nbsp;<span>Importing...</span>
     </div>
     </div>
-
-<!--
-<input type="button" onclick="DoAjaxCall();" value="Test Cross Domain" />
--->
-<a href="@Url.Action( "SearchLog" )">Search Log</a><br />
-<p id="ajaxResults"></p>
 

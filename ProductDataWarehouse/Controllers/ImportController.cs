@@ -19,7 +19,7 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( HttpContext.User.Identity.IsAuthenticated )
 			{
-				return RedirectToAction( "Index" );
+				return Redirect( PaoliWebUser.CurrentUser.HomePage );
 			}
 
 			return View();

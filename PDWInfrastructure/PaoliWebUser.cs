@@ -119,6 +119,13 @@ namespace PDWInfrastructure
 
 		#endregion
 
+		public bool OneOfRoles( string roleList )
+		{
+			var roleSet = roleList.Split( ',' ).Select( s => s.Trim() );
+
+			return roleSet.Any( r => IsInRole( r ) );
+		}
+
 		public static PaoliWebUser CurrentUser
 		{
 			get

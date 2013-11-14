@@ -12,10 +12,5 @@ namespace PDWInfrastructure
 		public PaoliPasswordAttribute() :
 			base( "^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z]).*|$" )
 		{ }
-
-		public bool IsMatch( string pwCheck )
-		{
-			return Regex.IsMatch( pwCheck, Pattern );
-		}
 	}
 }

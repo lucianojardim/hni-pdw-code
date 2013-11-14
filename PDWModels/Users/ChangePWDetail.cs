@@ -24,7 +24,7 @@ namespace PDWModels.Users
 
 		public static bool IsGoodPassword( string pwCheck )
 		{
-			return ( new PaoliPasswordAttribute().IsMatch( pwCheck ) );
+			return ( new PaoliPasswordAttribute().IsValid( pwCheck ) );
 		}
 	}
 }

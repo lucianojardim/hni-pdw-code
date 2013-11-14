@@ -64,6 +64,8 @@ section {
 .ffweber{font-family:weberhand}
 .ffweberi{font-family:weberhand!important}
 
+.fflighter { color: rgb(182, 180, 180); }
+
 .left{ float: left; }
 .right{ float: right; }
 .clear{ clear: both; }

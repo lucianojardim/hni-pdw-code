@@ -1,7 +1,9 @@
 ﻿@model IEnumerable<PDWModels.SearchResults>
 @{
     ViewBag.Title = "Search Log";
-    Layout = "~/Views/Shared/HeaderLayout.cshtml";
+	ViewBag.CurrentPage = "Database";
+	ViewBag.CurrentDatabasePage = "SearchLog";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
 }
 
 <h2>Search Log</h2>
