@@ -37,7 +37,7 @@ namespace PWDRepositories
 				Name = img.Name,
 				Caption = img.Caption,
 				Keywords = img.Keyword,
-				HasReferences = img.SeriesImageFiles.Any()
+				HasReferences = img.SeriesImageFiles.Any() || img.TypicalImageFiles.Any()
 			};
 		}
 
@@ -755,7 +755,7 @@ namespace PWDRepositories
 			ImageFile imgData = database.ImageFiles.FirstOrDefault( i => i.ImageID == imageID );
 			if( imgData != null )
 			{
-				if( !imgData.SeriesImageFiles.Any() )
+				if( !imgData.SeriesImageFiles.Any() && !imgData.TypicalImageFiles.Any() )
 				{
 					database.ImageFiles.DeleteObject( imgData );
 
