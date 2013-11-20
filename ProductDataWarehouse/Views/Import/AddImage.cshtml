@@ -141,6 +141,7 @@ else
     @using( Html.BeginForm( "AddImage", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
 	{
         <span class="dataRow">@Html.MJLabelFor( m => m.ImageName, true )@Html.TextBoxFor( m => m.ImageName )<br /></span>
+		<span class="dataRow">@Html.Label( "Image File Name: " )<input type="file" name="imageFile" data-val-required="The Image File Name is a required field." data-val="true" /><br /></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.Caption, true )@Html.TextAreaFor( m => m.Caption )<br /></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.Keywords, true )@Html.TextAreaFor( m => m.Keywords )<br /></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.ImageContent, true )@Html.DropDownListFor( m => m.ImageContent, ImportController.GetImageContentList( false ) )<br /></span>
