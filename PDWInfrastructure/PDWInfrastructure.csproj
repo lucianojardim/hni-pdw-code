@@ -56,6 +56,8 @@
     <Compile Include="PaoliEncryption.cs" />
     <Compile Include="PaoliPasswordAttribute.cs" />
     <Compile Include="PaoliWebUser.cs" />
+    <Compile Include="PhoneNumberAttribute.cs" />
+    <Compile Include="PostalCodeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PubImageTableParams.cs" />
     <Compile Include="UserTableParams.cs" />
