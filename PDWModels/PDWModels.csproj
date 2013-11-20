@@ -82,6 +82,7 @@
     <Compile Include="Typicals\TypicalListData.cs" />
     <Compile Include="Typicals\TypicalListGallery.cs" />
     <Compile Include="Users\ChangePWDetail.cs" />
+    <Compile Include="Users\MyAccountInfo.cs" />
     <Compile Include="Users\UserInformation.cs" />
     <Compile Include="Users\UserSummary.cs" />
   </ItemGroup>

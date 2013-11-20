@@ -153,7 +153,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[Authorize]
 		[HttpPost]
-		public ActionResult MyAccount( UserInformation uInfo )
+		public ActionResult MyAccount( MyAccountInfo uInfo )
 		{
 			if( ModelState.IsValid )
 			{
@@ -163,7 +163,7 @@ namespace ProductDataWarehouse.Controllers
 
 					uRepository.UpdateUser( uInfo );
 
-					return Redirect( PaoliWebUser.PaoliWebRole.RoleHomePage( uInfo.Role ) );
+					return Redirect( PaoliWebUser.CurrentUser.HomePage );
 				}
 				catch( Exception )
 				{

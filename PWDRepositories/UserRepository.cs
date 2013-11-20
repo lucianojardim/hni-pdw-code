@@ -176,7 +176,7 @@ Paoli Admin", newUser.Email, password ) );
 			};
 		}
 
-		public bool UpdateUser( UserInformation uInfo )
+		public bool UpdateUser( MyAccountInfo uInfo )
 		{
 			var eUser = database.Users.FirstOrDefault( u => u.UserID == uInfo.UserID );
 			if( eUser == null )
@@ -201,8 +201,11 @@ Paoli Admin", newUser.Email, password ) );
 			eUser.BusinessPhone = uInfo.BusinessPhone;
 			eUser.CellPhone = uInfo.CellPhone;
 			eUser.Title = uInfo.Title;
-			eUser.UserType = uInfo.UserType;
-			eUser.Role = uInfo.Role;
+			if( uInfo is UserInformation )
+			{
+				eUser.UserType = ( uInfo as UserInformation ).UserType;
+				eUser.Role = ( uInfo as UserInformation ).Role;
+			}
 
 			return database.SaveChanges() > 0;
 		}
