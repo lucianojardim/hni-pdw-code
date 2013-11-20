@@ -189,6 +189,12 @@ Paoli Admin", newUser.Email, password ) );
 				throw new Exception( "Unable to update user - Email address already exists." );
 			}
 
+			var bChangeEmail = false;
+			if( eUser.Email == PaoliWebUser.CurrentUser.EmailAddress )
+			{
+				bChangeEmail = (eUser.Email != uInfo.EmailAddress);
+			}
+
 			eUser.Email = uInfo.EmailAddress;
 			eUser.FirstName = uInfo.FirstName;
 			eUser.LastName = uInfo.LastName;
@@ -207,7 +213,14 @@ Paoli Admin", newUser.Email, password ) );
 				eUser.Role = ( uInfo as UserInformation ).Role;
 			}
 
-			return database.SaveChanges() > 0;
+			if( database.SaveChanges() > 0 )
+			{
+				System.Web.Security.FormsAuthentication.SetAuthCookie( uInfo.EmailAddress, false );
+
+				return true;
+			}
+
+			return false;
 		}
 
 		public bool DeleteUser( int id )
