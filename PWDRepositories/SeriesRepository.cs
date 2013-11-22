@@ -59,7 +59,8 @@ namespace PWDRepositories
 					Ranking = s.Ranking,
 					Price = s.StartingPrice,
 					Style = s.AttributeSet( "Style" ),
-					Applications = s.AttributeSet( "Casegood Application" ).Union( s.AttributeSet( "Table Application" ) ).Union( s.AttributeSet( "Seating Application" ) )
+					Applications = s.AttributeSet( "Casegood Application" ).Union( s.AttributeSet( "Table Application" ) ).Union( s.AttributeSet( "Seating Application" ) ),
+					IsInTwo = s.AttributeSet( "inTWO" ).Select( i => i.ToLower() ).Contains( "yes" )
 				};
 		}
 

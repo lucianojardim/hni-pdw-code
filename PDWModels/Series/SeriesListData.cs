@@ -17,5 +17,6 @@ namespace PDWModels.Series
 		public int Price { get; set; }
 		public IEnumerable<string> Style { get; set; }
 		public IEnumerable<string> Applications { get; set; }
+		public bool IsInTwo { get; set; }
 	}
 }
