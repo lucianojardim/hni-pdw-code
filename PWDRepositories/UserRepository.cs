@@ -21,7 +21,8 @@ namespace PWDRepositories
 			return new UserSummary()
 			{
 				UserID = u.UserID,
-				FullName = u.FullName,
+				FirstName = u.FirstName,
+				LastName = u.LastName,
 				CompanyName = u.CompanyName,
 				EmailAddress = u.Email
 			};
@@ -306,15 +307,25 @@ Paoli Admin", eUser.Email, password ) );
 			IQueryable<User> filteredAndSorted = null;
 			switch( sortCol.ToLower() )
 			{
-				case "fullname":
-				default:
+				case "firstname":
 					if( param.sSortDir_0.ToLower() == "asc" )
 					{
-						filteredAndSorted = userList.OrderBy( v => v.LastName ).OrderBy( v => v.FirstName );
+						filteredAndSorted = userList.OrderBy( v => v.FirstName );
 					}
 					else
 					{
-						filteredAndSorted = userList.OrderByDescending( v => v.LastName ).OrderByDescending( v => v.FirstName );
+						filteredAndSorted = userList.OrderByDescending( v => v.FirstName );
+					}
+					break;
+				case "lastname":
+				default:
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = userList.OrderBy( v => v.LastName );
+					}
+					else
+					{
+						filteredAndSorted = userList.OrderByDescending( v => v.LastName );
 					}
 					break;
 				case "emailaddress":

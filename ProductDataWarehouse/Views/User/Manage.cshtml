@@ -108,13 +108,14 @@
 				})
 			},
 			"bProcessing": false, // don't want to use the default progress indicator at this time
-			"aaSorting": [[0, "asc"]],
+			"aaSorting": [[1, "asc"]],
 			"aoColumnDefs": [
-                    { "sName": "FullName", "sTitle": "User Name", "aTargets": [0], "mDataProp": "FullName", "sWidth": "25%" },
-                    { "sName": "EmailAddress", "sTitle": "Email Address", "aTargets": [1], "mDataProp": "EmailAddress", "sWidth": "30%" },
-                    { "sName": "CompanyName", "sTitle": "Company Name", "aTargets": [2], "mDataProp": "CompanyName", "sWidth": "20%" },
+                    { "sName": "FirstName", "sTitle": "First Name", "aTargets": [0], "mDataProp": "FirstName", "sWidth": "15%" },
+                    { "sName": "LastName", "sTitle": "Last Name", "aTargets": [1], "mDataProp": "LastName", "sWidth": "15%" },
+                    { "sName": "EmailAddress", "sTitle": "Email Address", "aTargets": [2], "mDataProp": "EmailAddress", "sWidth": "25%" },
+                    { "sName": "CompanyName", "sTitle": "Company Name", "aTargets": [3], "mDataProp": "CompanyName", "sWidth": "20%" },
                     { "sName": "EditButtons",
-                    	"aTargets": [3],
+                    	"aTargets": [4],
                     	"bSearchable": false,
                     	"bSortable": false,
                     	"mDataProp": "EditButtons", "sWidth": "25%",
