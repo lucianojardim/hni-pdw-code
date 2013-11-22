@@ -114,20 +114,6 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdmin )]
-		public JsonResult Delete( int id )
-		{
-			UserRepository uRepository = new UserRepository();
-
-			bool bSuccess = uRepository.DeleteUser( id );
-
-			return Json( new
-			{
-				success = bSuccess
-			},
-				JsonRequestBehavior.AllowGet );
-		}
-
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdmin )]
 		public JsonResult ResetPassword( int id )
 		{
 			UserRepository uRepository = new UserRepository();

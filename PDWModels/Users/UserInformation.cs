@@ -15,5 +15,7 @@ namespace PDWModels.Users
 		[DisplayName( "User Role" )]
 		[Required]
 		public string Role { get; set; }
+		[DisplayName( "Enabled" )]
+		public bool Enabled { get; set; }
 	}
 }

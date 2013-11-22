@@ -24,7 +24,8 @@ namespace PWDRepositories
 				FirstName = u.FirstName,
 				LastName = u.LastName,
 				CompanyName = u.CompanyName,
-				EmailAddress = u.Email
+				EmailAddress = u.Email,
+				Enabled = u.Enabled
 			};
 		}
 
@@ -44,7 +45,7 @@ namespace PWDRepositories
 			homePage = "";
 
 			var user = database.Users
-				.FirstOrDefault( u => u.Email == userName );
+				.FirstOrDefault( u => u.Email == userName && u.Enabled );
 
 			PaoliEncryption enc = new PaoliEncryption( PaoliEncryption.DataPassPhrase );
 			if( user == null )
@@ -124,6 +125,7 @@ namespace PWDRepositories
 			newUser.Title = uInfo.Title;
 			newUser.UserType = uInfo.UserType;
 			newUser.Role = uInfo.Role;
+			newUser.Enabled = uInfo.Enabled;
 
 			string password = GenerateNewPassword();
 			PaoliEncryption enc = new PaoliEncryption( PaoliEncryption.DataPassPhrase );
@@ -174,6 +176,7 @@ Paoli Admin", newUser.Email, password ) );
 				Title = eUser.Title,
 				UserType = eUser.UserType,
 				Role = eUser.Role,
+				Enabled = eUser.Enabled
 			};
 		}
 
@@ -208,33 +211,25 @@ Paoli Admin", newUser.Email, password ) );
 			eUser.BusinessPhone = uInfo.BusinessPhone;
 			eUser.CellPhone = uInfo.CellPhone;
 			eUser.Title = uInfo.Title;
+
 			if( uInfo is UserInformation )
 			{
 				eUser.UserType = ( uInfo as UserInformation ).UserType;
 				eUser.Role = ( uInfo as UserInformation ).Role;
+				eUser.Enabled = ( uInfo as UserInformation ).Enabled;
 			}
 
 			if( database.SaveChanges() > 0 )
 			{
-				System.Web.Security.FormsAuthentication.SetAuthCookie( uInfo.EmailAddress, false );
+				if( bChangeEmail )
+				{
+					System.Web.Security.FormsAuthentication.SetAuthCookie( uInfo.EmailAddress, false );
+				}
 
 				return true;
 			}
 
 			return false;
-		}
-
-		public bool DeleteUser( int id )
-		{
-			var eUser = database.Users.FirstOrDefault( u => u.UserID == id );
-			if( eUser == null )
-			{
-				throw new Exception( "Unable to find user." );
-			}
-
-			database.Users.DeleteObject( eUser );
-
-			return database.SaveChanges() > 0;
 		}
 
 		public bool ResetUserPassword( string email )

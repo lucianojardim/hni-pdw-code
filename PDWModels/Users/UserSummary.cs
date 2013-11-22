@@ -13,5 +13,6 @@ namespace PDWModels.Users
 		public string EmailAddress { get; set; }
 		public string CompanyName { get; set; }
 		public string EditButtons { get; set; }
+		public bool Enabled { get; set; }
 	}
 }

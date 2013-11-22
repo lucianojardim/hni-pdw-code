@@ -6048,7 +6048,8 @@ namespace PDWDBContext
         /// <param name="role">Initial value of the Role property.</param>
         /// <param name="password">Initial value of the Password property.</param>
         /// <param name="userType">Initial value of the UserType property.</param>
-        public static User CreateUser(global::System.Int32 userID, global::System.String firstName, global::System.String lastName, global::System.String companyName, global::System.String email, global::System.String role, global::System.String password, global::System.String userType)
+        /// <param name="enabled">Initial value of the Enabled property.</param>
+        public static User CreateUser(global::System.Int32 userID, global::System.String firstName, global::System.String lastName, global::System.String companyName, global::System.String email, global::System.String role, global::System.String password, global::System.String userType, global::System.Boolean enabled)
         {
             User user = new User();
             user.UserID = userID;
@@ -6059,6 +6060,7 @@ namespace PDWDBContext
             user.Role = role;
             user.Password = password;
             user.UserType = userType;
+            user.Enabled = enabled;
             return user;
         }
 
@@ -6452,6 +6454,30 @@ namespace PDWDBContext
         private global::System.String _UserType;
         partial void OnUserTypeChanging(global::System.String value);
         partial void OnUserTypeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean Enabled
+        {
+            get
+            {
+                return _Enabled;
+            }
+            set
+            {
+                OnEnabledChanging(value);
+                ReportPropertyChanging("Enabled");
+                _Enabled = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Enabled");
+                OnEnabledChanged();
+            }
+        }
+        private global::System.Boolean _Enabled;
+        partial void OnEnabledChanging(global::System.Boolean value);
+        partial void OnEnabledChanged();
 
         #endregion
 

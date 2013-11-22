@@ -110,20 +110,42 @@
 			"bProcessing": false, // don't want to use the default progress indicator at this time
 			"aaSorting": [[1, "asc"]],
 			"aoColumnDefs": [
-                    { "sName": "FirstName", "sTitle": "First Name", "aTargets": [0], "mDataProp": "FirstName", "sWidth": "15%" },
-                    { "sName": "LastName", "sTitle": "Last Name", "aTargets": [1], "mDataProp": "LastName", "sWidth": "15%" },
+                    { "sName": "FirstName", "sTitle": "First Name", "aTargets": [0], "mDataProp": "FirstName", "sWidth": "15%",
+                    	"fnRender": function (oObj) {
+                    		var s = '';
+                    		if (!oObj.aData["Enabled"]) {
+                    			s += '<span style="text-decoration:line-through">';
+                    		}
+                    		s += oObj.aData["FirstName"];
+                    		if (!oObj.aData["Enabled"]) {
+                    			s += '</span>';
+                    		}
+                    		return s;
+                    	}
+                    },
+                    { "sName": "LastName", "sTitle": "Last Name", "aTargets": [1], "mDataProp": "LastName", "sWidth": "15%",
+                    	"fnRender": function (oObj) {
+                    		var s = '';
+                    		if (!oObj.aData["Enabled"]) {
+                    			s += '<span style="text-decoration:line-through">';
+                    		}
+                    		s += oObj.aData["LastName"];
+                    		if (!oObj.aData["Enabled"]) {
+                    			s += '</span>';
+                    		}
+                    		return s;
+                    	}
+                    },
                     { "sName": "EmailAddress", "sTitle": "Email Address", "aTargets": [2], "mDataProp": "EmailAddress", "sWidth": "25%" },
-                    { "sName": "CompanyName", "sTitle": "Company Name", "aTargets": [3], "mDataProp": "CompanyName", "sWidth": "20%" },
+                    { "sName": "CompanyName", "sTitle": "Company Name", "aTargets": [3], "mDataProp": "CompanyName", "sWidth": "25%" },
                     { "sName": "EditButtons",
                     	"aTargets": [4],
                     	"bSearchable": false,
                     	"bSortable": false,
-                    	"mDataProp": "EditButtons", "sWidth": "25%",
+                    	"mDataProp": "EditButtons", "sWidth": "20%",
                     	"fnRender": function (oObj) {
                     		var s;
                     		s = '<a href=\"@Url.Action( "Edit", "User" )/' + oObj.aData["UserID"] + '/?iframe\" class="fbImageBtn">Edit</a>';
-                    		s += '&nbsp;|&nbsp;';
-                    		s += '<a href=\"#\" onclick="deleteUser(' + oObj.aData["UserID"] + ');">Delete</a>';
                     		s += '&nbsp;|&nbsp;';
                     		s += '<a href=\"#\" onclick="resetPassword(' + oObj.aData["UserID"] + ');">Reset Password</a>';
                     		return s;
