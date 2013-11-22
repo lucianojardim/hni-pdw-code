@@ -42,7 +42,7 @@
 	   if( CurrentUser.OneOfRoles( PaoliWebUser.PaoliWebRole.SuperAdmin ) )
 	   {
 			<li class="@(ViewBag.CurrentPage == "Database" ? "current_page" : "")"><a href="@Url.Action( "Index", "Import" )">Database</a></li>
-   			<li class="@(ViewBag.CurrentPage == "Dealers" ? "current_page" : "")"><a href="@Url.Action( "ManageDealers", "Import" )">Dealers</a></li>
+   			<li class="@(ViewBag.CurrentPage == "Users" ? "current_page" : "")"><a href="@Url.Action( "Manage", "User" )">Users</a></li>
             <li><a href="javascript:void(0);" id="cmsLink">Login to CMS</a></li>
 	   }
    }
@@ -55,7 +55,7 @@
         </ul>
 	</div>
 	@{var bNeedExtraSpace = false;}
-	@if( ViewBag.CurrentPage == "Dealers" )
+	@if( ViewBag.CurrentPage == "Users" )
  {
 	 bNeedExtraSpace = true;
 	<div id="sub_nav" class="stuckontop">
@@ -63,9 +63,10 @@
 			<ul class="nav_type_3">
 	   @if( CurrentUser.OneOfRoles( PaoliWebUser.PaoliWebRole.SuperAdmin ) )
 	{
-				<li class="@(ViewBag.CurrentDealerPage == "Dealers" ? "on_focus" : "")"><a href="@Url.Action( "ManageDealers" )">Dealers</a></li>
-				<li class="@(ViewBag.CurrentDealerPage == "Videos" ? "on_focus" : "")"><a href="@Url.Action( "ManageVideos" )">Video Links</a></li>
-				<li class="@(ViewBag.CurrentDealerPage == "Pages" ? "on_focus" : "")"><a href="@Url.Action( "ManagePages" )">Pages</a></li>
+				<li class="@(ViewBag.CurrentSubPage == "Users" ? "on_focus" : "")"><a href="@Url.Action( "Manage", "User" )">Users</a></li>
+				<li class="@(ViewBag.CurrentSubPage == "Dealers" ? "on_focus" : "")"><a href="@Url.Action( "ManageDealers", "Import" )">Dealers</a></li>
+				<li class="@(ViewBag.CurrentSubPage == "Videos" ? "on_focus" : "")"><a href="@Url.Action( "ManageVideos", "Import" )">Video Links</a></li>
+				<li class="@(ViewBag.CurrentSubPage == "Pages" ? "on_focus" : "")"><a href="@Url.Action( "ManagePages", "Import" )">Pages</a></li>
 	}
 			</ul>
 			<p class="clear"></p>
@@ -80,11 +81,10 @@
 			<ul class="nav_type_3">
 	   @if( CurrentUser.OneOfRoles( PaoliWebUser.PaoliWebRole.SuperAdmin ) )
 	{
-				<li class="@(ViewBag.CurrentDatabasePage == "Import" ? "on_focus" : "")"><a href="@Url.Action( "Index", "Import" )">PDW Import</a></li>
-				<li class="@(ViewBag.CurrentDatabasePage == "Images" ? "on_focus" : "")"><a href="@Url.Action( "Images", "Import" )">Image Engine</a></li>
-				<li class="@(ViewBag.CurrentDatabasePage == "Collateral" ? "on_focus" : "")"><a href="@Url.Action( "Collateral", "Import" )">Collateral</a></li>
-				<li class="@(ViewBag.CurrentDatabasePage == "Users" ? "on_focus" : "")"><a href="@Url.Action( "Manage", "User" )">Users</a></li>
-				<li class="@(ViewBag.CurrentDatabasePage == "SearchLog" ? "on_focus" : "")"><a href="@Url.Action( "SearchLog", "Import" )">Search Log</a></li>
+				<li class="@(ViewBag.CurrentSubPage == "Import" ? "on_focus" : "")"><a href="@Url.Action( "Index", "Import" )">PDW Import</a></li>
+				<li class="@(ViewBag.CurrentSubPage == "Images" ? "on_focus" : "")"><a href="@Url.Action( "Images", "Import" )">Image Engine</a></li>
+				<li class="@(ViewBag.CurrentSubPage == "Collateral" ? "on_focus" : "")"><a href="@Url.Action( "Collateral", "Import" )">Collateral</a></li>
+				<li class="@(ViewBag.CurrentSubPage == "SearchLog" ? "on_focus" : "")"><a href="@Url.Action( "SearchLog", "Import" )">Search Log</a></li>
 	}
 			</ul>
 			<p class="clear"></p>
@@ -97,8 +97,8 @@
 	<div id="sub_nav" class="stuckontop">
 		<div class="wrapper p20">
 			<ul class="nav_type_3">
-				<li class="@(ViewBag.CurrentAccountPage == "MyAccount" ? "on_focus" : "")"><a href="@Url.Action( "MyAccount", "User" )">Profile</a></li>
-				<li class="@(ViewBag.CurrentAccountPage == "ChangePW" ? "on_focus" : "")"><a href="@Url.Action( "ChangePW", "User" )">Change Password</a></li>
+				<li class="@(ViewBag.CurrentSubPage == "MyAccount" ? "on_focus" : "")"><a href="@Url.Action( "MyAccount", "User" )">Profile</a></li>
+				<li class="@(ViewBag.CurrentSubPage == "ChangePW" ? "on_focus" : "")"><a href="@Url.Action( "ChangePW", "User" )">Change Password</a></li>
 			</ul>
 			<p class="clear"></p>
 		</div>
