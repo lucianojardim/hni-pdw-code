@@ -6,13 +6,13 @@
 <script type="text/javascript">
 	$(document).ready(function () {
 		$('.usernameField').focus(function () {
-			if ($(this).val() == 'Username') {
+			if ($(this).val() == 'Email Address') {
 				$(this).val('');
 
 			}
 		}).blur(function () {
 			if ($(this).val() == '') {
-				$(this).val('Username');
+				$(this).val('Email Address');
 			}
 		});
 		$('.passwordField').focus(function () {
@@ -46,7 +46,7 @@
 {
             @Html.ValidationSummary( "", new { @class = "form_errors" } )
 			<p class="field">
-            @Html.TextBox( "username", "Username", new { @class = "textBox usernameField" } )
+            @Html.TextBox( "username", "Email Address", new { @class = "textBox usernameField" } )
 			</p>
 			<p class="field">
             @Html.Password( "password", "Password", new { @class = "textBox passwordField", autocomplete = "off" } )
