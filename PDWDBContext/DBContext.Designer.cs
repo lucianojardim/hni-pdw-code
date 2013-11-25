@@ -6045,11 +6045,10 @@ namespace PDWDBContext
         /// <param name="lastName">Initial value of the LastName property.</param>
         /// <param name="companyName">Initial value of the CompanyName property.</param>
         /// <param name="email">Initial value of the Email property.</param>
-        /// <param name="role">Initial value of the Role property.</param>
         /// <param name="password">Initial value of the Password property.</param>
-        /// <param name="userType">Initial value of the UserType property.</param>
         /// <param name="enabled">Initial value of the Enabled property.</param>
-        public static User CreateUser(global::System.Int32 userID, global::System.String firstName, global::System.String lastName, global::System.String companyName, global::System.String email, global::System.String role, global::System.String password, global::System.String userType, global::System.Boolean enabled)
+        /// <param name="accountType">Initial value of the AccountType property.</param>
+        public static User CreateUser(global::System.Int32 userID, global::System.String firstName, global::System.String lastName, global::System.String companyName, global::System.String email, global::System.String password, global::System.Boolean enabled, global::System.Int32 accountType)
         {
             User user = new User();
             user.UserID = userID;
@@ -6057,10 +6056,9 @@ namespace PDWDBContext
             user.LastName = lastName;
             user.CompanyName = companyName;
             user.Email = email;
-            user.Role = role;
             user.Password = password;
-            user.UserType = userType;
             user.Enabled = enabled;
+            user.AccountType = accountType;
             return user;
         }
 
@@ -6388,30 +6386,6 @@ namespace PDWDBContext
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String Role
-        {
-            get
-            {
-                return _Role;
-            }
-            set
-            {
-                OnRoleChanging(value);
-                ReportPropertyChanging("Role");
-                _Role = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("Role");
-                OnRoleChanged();
-            }
-        }
-        private global::System.String _Role;
-        partial void OnRoleChanging(global::System.String value);
-        partial void OnRoleChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
         public global::System.String Password
         {
             get
@@ -6436,30 +6410,6 @@ namespace PDWDBContext
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String UserType
-        {
-            get
-            {
-                return _UserType;
-            }
-            set
-            {
-                OnUserTypeChanging(value);
-                ReportPropertyChanging("UserType");
-                _UserType = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("UserType");
-                OnUserTypeChanged();
-            }
-        }
-        private global::System.String _UserType;
-        partial void OnUserTypeChanging(global::System.String value);
-        partial void OnUserTypeChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
         public global::System.Boolean Enabled
         {
             get
@@ -6478,6 +6428,30 @@ namespace PDWDBContext
         private global::System.Boolean _Enabled;
         partial void OnEnabledChanging(global::System.Boolean value);
         partial void OnEnabledChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 AccountType
+        {
+            get
+            {
+                return _AccountType;
+            }
+            set
+            {
+                OnAccountTypeChanging(value);
+                ReportPropertyChanging("AccountType");
+                _AccountType = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("AccountType");
+                OnAccountTypeChanged();
+            }
+        }
+        private global::System.Int32 _AccountType;
+        partial void OnAccountTypeChanging(global::System.Int32 value);
+        partial void OnAccountTypeChanged();
 
         #endregion
 

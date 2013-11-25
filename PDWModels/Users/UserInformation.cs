@@ -9,12 +9,9 @@ namespace PDWModels.Users
 {
 	public class UserInformation : MyAccountInfo
 	{
-		[DisplayName( "User Type" )]
+		[DisplayName( "Account Type" )]
 		[Required]
-		public string UserType { get; set; }
-		[DisplayName( "User Role" )]
-		[Required]
-		public string Role { get; set; }
+		public int AccountType { get; set; }
 		[DisplayName( "Enabled" )]
 		public bool Enabled { get; set; }
 	}

@@ -8,6 +8,7 @@
 <h2>Paoli User List</h2>
 
 <a href="@Url.Action( "Add", "User" )?iframe" id="addNewUser">Add New</a><br />
+Account Type: @Html.DropDownList( "AccountType", ProductDataWarehouse.Controllers.UserController.GetUserRoleFilterList() )
 <div>
     <table id="userList">
     <thead></thead>
@@ -17,6 +18,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function () {
+		$('#AccountType').change(loadUsers);
 
 		$("#addNewUser").fancybox({
 			'autoDimensions': false,
@@ -31,23 +33,6 @@
 
 		loadUsers();
 	});
-
-	function deleteUser(dID) {
-		if (confirm('Delete User?')) {
-			$.ajax({
-				dataType: 'json',
-				type: 'GET',
-				url: '/User/Delete',
-				data: { id: dID },
-				success: function (data, textStatus, jqXHR) {
-					loadUsers();
-				},
-				error: function (jqXHR, textStatus, errorThrown) {
-					alert('Error deleting User:' + errorThrown)
-				}
-			});
-		}
-	}
 
 	function resetPassword(dID) {
 		if (confirm('Reset Password for User?')) {
@@ -83,6 +68,7 @@
 			"bInfo": true,
 			"sAjaxSource": '@Url.Action( "FullUserList" )',
 			"fnServerParams": function (aoData) {
+				aoData.push({ "name": "accountType", "value": $('#AccountType').val() });
 			},
 			"iDisplayLength": 10,
 			"fnServerData": function (sSource, aoData, fnCallback) {

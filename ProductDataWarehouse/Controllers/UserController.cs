@@ -11,13 +11,13 @@ namespace ProductDataWarehouse.Controllers
 {
     public class UserController : Controller
     {
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdmin )]
+		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
 		public ActionResult Manage()
 		{
 			return View();
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdmin )]
+		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
 		public JsonResult FullUserList( UserTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -37,13 +37,13 @@ namespace ProductDataWarehouse.Controllers
 				JsonRequestBehavior.AllowGet );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdmin )]
+		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
 		public ActionResult Add()
 		{
 			return View( new UserInformation() );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdmin )]
+		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
 		[HttpPost]
 		public ActionResult Add( UserInformation uInfo )
 		{
@@ -73,7 +73,7 @@ namespace ProductDataWarehouse.Controllers
 			return View( uInfo );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdmin )]
+		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
 		public ActionResult Edit( int id )
 		{
 			UserRepository uRepository = new UserRepository();
@@ -83,7 +83,7 @@ namespace ProductDataWarehouse.Controllers
 			return View( uInfo );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdmin )]
+		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
 		[HttpPost]
 		public ActionResult Edit( UserInformation uInfo )
 		{
@@ -113,7 +113,7 @@ namespace ProductDataWarehouse.Controllers
 			return View( uInfo );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdmin )]
+		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
 		public JsonResult ResetPassword( int id )
 		{
 			UserRepository uRepository = new UserRepository();
@@ -249,14 +249,14 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
-		public static IEnumerable<SelectListItem> GetUserTypeDDList()
-		{
-			return PaoliWebUser.PaoliUserType.UserTypeList.Select( u => new SelectListItem() { Text = u, Value = u } );
-		}
-
 		public static IEnumerable<SelectListItem> GetUserRoleDDList()
 		{
-			return PaoliWebUser.PaoliWebRole.RoleList.Select( u => new SelectListItem() { Text = u, Value = u } );
+			return PaoliWebUser.PaoliWebRole.RoleList.Select( u => new SelectListItem() { Value = u.Key.ToString(), Text = u.Value } );
+		}
+
+		public static IEnumerable<SelectListItem> GetUserRoleFilterList()
+		{
+			return new List<SelectListItem>() { new SelectListItem() { Text = "All", Value = "0", Selected = true } }.Union( GetUserRoleDDList() );
 		}
 	}
 }

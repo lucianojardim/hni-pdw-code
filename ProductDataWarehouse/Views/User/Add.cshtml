@@ -41,8 +41,7 @@ else
         <span class="dataRow">@Html.MJLabelFor( m => m.BusinessPhone, true )@Html.TextBoxFor( m => m.BusinessPhone )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.CellPhone, true )@Html.TextBoxFor( m => m.CellPhone )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.Title, true )@Html.TextBoxFor( m => m.Title )<br/></span>
-        <span class="dataRow">@Html.MJLabelFor( m => m.UserType, true )@Html.DropDownListFor( m => m.UserType, UserController.GetUserTypeDDList() )<br/></span>
-        <span class="dataRow">@Html.MJLabelFor( m => m.Role, true )@Html.DropDownListFor( m => m.Role, UserController.GetUserRoleDDList() )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.AccountType, true )@Html.DropDownListFor( m => m.AccountType, UserController.GetUserRoleDDList() )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.Enabled, true )@Html.CheckBoxFor( m => m.Enabled )<br/></span>
 @Html.ValidationSummary()
         <input type="submit" class="btn_type1" value="Add" id="submitBtn" />

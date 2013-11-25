@@ -12,31 +12,51 @@ namespace PDWInfrastructure
     {
 		public static class PaoliWebRole
 		{
-			public const string PaoliStaffMarketing = "Paoli Staff Marketing";
-			public const string PaoliStaffSpecTeam = "Paoli Staff Spec Team";
-			public const string PaoliStaffSupport = "Paoli Staff Support";
-			public const string SuperAdmin = "Super Admin";
-			public const string PaoliStaffSalesRep = "Paoli Staff Sales Rep";
-			public const string DealerSalesRep = "Dealer Sales Rep";
-            public const string DealerPrinciple = "Dealer Principle";
+			public const int SuperAdmin = 1;
+			public const int PaoliMemberAdmin = 2;
+			public const int PaoliMemberMarketing = 3;
+			public const int PaoliMemberSpecTeam = 4;
+			public const int PaoliMemberCustomerService = 5;
+			public const int PaoliMemberSales = 6;
+			public const int PaoliSalesRep = 7;
+			public const int DealerPrincipal = 8;
+			public const int DealerSalesRep = 9;
+			public const int DealerDesigner = 10;
+			public const int DealerAccounting = 11;
 
-            public static List<string> RoleList
-            {
-                get
-                {
-                    return new List<string>() {
-                        PaoliStaffMarketing,
-                        PaoliStaffSpecTeam,
-                        PaoliStaffSupport,
-                        SuperAdmin,
-                        PaoliStaffSalesRep,
-                        DealerSalesRep,
-                        DealerPrinciple           
+			public const string SuperAdminRole = "Super Admin";
+			public const string PaoliMemberAdminRole = "Paoli Member - Admin";
+			public const string PaoliMemberMarketingRole = "Paoli Member - Marketing";
+			public const string PaoliMemberSpecTeamRole = "Paoli Member - Spec Team";
+			public const string PaoliMemberCustomerServiceRole = "Paoli Member - Customer Service";
+			public const string PaoliMemberSalesRole = "Paoli Member - Sales";
+			public const string PaoliSalesRepRole = "Paoli Sales Rep";
+			public const string DealerPrincipalRole = "Dealer Principal";
+			public const string DealerSalesRepRole = "Dealer Sales Rep";
+			public const string DealerDesignerRole = "Dealer Designer";
+			public const string DealerAccountingRole = "Dealer Accounting";
+
+			public static Dictionary<int, string> RoleList
+			{
+				get
+				{
+					return new Dictionary<int, string>() {
+						{ SuperAdmin,					SuperAdminRole },				
+						{ PaoliMemberAdmin,				PaoliMemberAdminRole },			
+						{ PaoliMemberMarketing,			PaoliMemberMarketingRole },		
+						{ PaoliMemberSpecTeam,			PaoliMemberSpecTeamRole },		
+						{ PaoliMemberCustomerService,	PaoliMemberCustomerServiceRole },
+						{ PaoliMemberSales,				PaoliMemberSalesRole },			
+						{ PaoliSalesRep,				PaoliSalesRepRole },			
+						{ DealerPrincipal,				DealerPrincipalRole },			
+						{ DealerSalesRep,				DealerSalesRepRole },			
+						{ DealerDesigner,				DealerDesignerRole },			
+						{ DealerAccounting,				DealerAccountingRole },			
                     };
-                }
-            }
+				}
+			}
 
-			public static string RoleHomePage( string role )
+			public static string RoleHomePage( int role )
 			{
 				UrlHelper u = new UrlHelper( HttpContext.Current.Request.RequestContext );
 
@@ -47,31 +67,6 @@ namespace PDWInfrastructure
 				}
 
 				return u.Action( "MyAccount", "User" );
-			}
-		}
-
-		public static class PaoliUserType
-		{
-			public const string DealerPrinciple = "Dealer Principle";
-			public const string DealerSalesRep = "Dealer Sales Rep";
-			public const string Designer = "Designer";
-			public const string DealerAccounting = "Dealer Accounting";
-			public const string PaoliSalesRep = "Paoli Sales Rep";
-			public const string PaoliMember = "Paoli Member";
-
-			public static List<string> UserTypeList
-			{
-				get
-				{
-					return new List<string>() {
-                        Designer,
-                        DealerAccounting,
-                        PaoliSalesRep,
-                        PaoliMember,
-                        DealerSalesRep,
-                        DealerPrinciple           
-                    };
-				}
 			}
 		}
 
@@ -92,18 +87,20 @@ namespace PDWInfrastructure
 			#endregion
 		}
 
-        public PaoliWebUser(string email, string authType, int userId, string fullName, string role)
+        public PaoliWebUser(string email, string authType, int userId, string fullName, int role)
         {
 			_identity = new PaoliWebIdentity( email, authType );
             UserId = userId;
 			FullName = fullName;
-			UserRole = role;
+			UserRole = PaoliWebRole.RoleList[role];
+			AccountType = role;
         }
 
 		private PaoliWebIdentity _identity { get; set; }
 		public int UserId { get; private set; }
 		public string FullName { get; private set; }
 		private string UserRole { get; set; }
+		private int AccountType { get; set; }
 
 		#region IPrincipal Members
 
@@ -119,11 +116,14 @@ namespace PDWInfrastructure
 
 		#endregion
 
-		public bool OneOfRoles( string roleList )
+		public bool IsInRole( int role )
 		{
-			var roleSet = roleList.Split( ',' ).Select( s => s.Trim() );
+			return AccountType == role;
+		}
 
-			return roleSet.Any( r => IsInRole( r ) );
+		public bool OneOfRoles( params int[] roleList )
+		{
+			return roleList.Any( r => IsInRole( r ) );
 		}
 
 		public static PaoliWebUser CurrentUser
@@ -146,7 +146,7 @@ namespace PDWInfrastructure
 		{
 			get
 			{
-				return PaoliWebRole.RoleHomePage( UserRole );
+				return PaoliWebRole.RoleHomePage( AccountType );
 			}
 		}
 	}

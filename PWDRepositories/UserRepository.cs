@@ -34,7 +34,7 @@ namespace PWDRepositories
 			User user = database.Users.FirstOrDefault( u => u.Email == email );
 			if( user != null )
 			{
-				return new PaoliWebUser( user.Email, authType, user.UserID, user.FullName, user.Role );
+				return new PaoliWebUser( user.Email, authType, user.UserID, user.FullName, user.AccountType );
 			}
 
 			return null;
@@ -57,8 +57,7 @@ namespace PWDRepositories
 					user.FirstName = "Matt";
 					user.LastName = "James";
 					user.Password = enc.Encrypt( "Password!" );
-					user.UserType = PaoliWebUser.PaoliUserType.PaoliMember;
-					user.Role = PaoliWebUser.PaoliWebRole.SuperAdmin;
+					user.AccountType = PaoliWebUser.PaoliWebRole.SuperAdmin;
 					user.CompanyName = "WDD Software";
 					database.AddToUsers( user );
 
@@ -79,7 +78,7 @@ namespace PWDRepositories
 
 			bool bValid = ( string.Compare( enc.Decrypt( user.Password ), password, false ) == 0 );
 
-			homePage = PaoliWebUser.PaoliWebRole.RoleHomePage( user.Role );
+			homePage = PaoliWebUser.PaoliWebRole.RoleHomePage( user.AccountType );
 
 			return bValid;
 		}
@@ -123,8 +122,7 @@ namespace PWDRepositories
 			newUser.BusinessPhone = uInfo.BusinessPhone;
 			newUser.CellPhone = uInfo.CellPhone;
 			newUser.Title = uInfo.Title;
-			newUser.UserType = uInfo.UserType;
-			newUser.Role = uInfo.Role;
+			newUser.AccountType = uInfo.AccountType;
 			newUser.Enabled = uInfo.Enabled;
 
 			string password = GenerateNewPassword();
@@ -174,8 +172,7 @@ Paoli Admin", newUser.Email, password ) );
 				BusinessPhone = eUser.BusinessPhone,
 				CellPhone = eUser.CellPhone,
 				Title = eUser.Title,
-				UserType = eUser.UserType,
-				Role = eUser.Role,
+				AccountType = eUser.AccountType,
 				Enabled = eUser.Enabled
 			};
 		}
@@ -214,8 +211,7 @@ Paoli Admin", newUser.Email, password ) );
 
 			if( uInfo is UserInformation )
 			{
-				eUser.UserType = ( uInfo as UserInformation ).UserType;
-				eUser.Role = ( uInfo as UserInformation ).Role;
+				eUser.AccountType = ( uInfo as UserInformation ).AccountType;
 				eUser.Enabled = ( uInfo as UserInformation ).Enabled;
 			}
 
@@ -295,6 +291,11 @@ Paoli Admin", eUser.Email, password ) );
 					i.Email.Contains( param.sSearch ) ||
 					i.CompanyName.Contains( param.sSearch ) );
 			}
+			if( param.accountType != 0 )
+			{
+				userList = userList.Where( u => u.AccountType == param.accountType );
+			}
+
 			displayedRecords = userList.Count();
 
 			string sortCol = param.sColumns.Split( ',' )[param.iSortCol_0];

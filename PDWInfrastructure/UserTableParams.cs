@@ -7,5 +7,6 @@ namespace PDWInfrastructure
 {
 	public class UserTableParams : DataTableParams
 	{
+		public int accountType { get; set; }
 	}
 }
