@@ -11,13 +11,13 @@ namespace ProductDataWarehouse.Controllers
 {
     public class UserController : Controller
     {
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageUsers" )]
 		public ActionResult Manage()
 		{
 			return View();
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageUsers" )]
 		public JsonResult FullUserList( UserTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -37,13 +37,13 @@ namespace ProductDataWarehouse.Controllers
 				JsonRequestBehavior.AllowGet );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageUsers" )]
 		public ActionResult Add()
 		{
 			return View( new UserInformation() );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageUsers" )]
 		[HttpPost]
 		public ActionResult Add( UserInformation uInfo )
 		{
@@ -73,7 +73,7 @@ namespace ProductDataWarehouse.Controllers
 			return View( uInfo );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageUsers" )]
 		public ActionResult Edit( int id )
 		{
 			UserRepository uRepository = new UserRepository();
@@ -83,7 +83,7 @@ namespace ProductDataWarehouse.Controllers
 			return View( uInfo );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageUsers" )]
 		[HttpPost]
 		public ActionResult Edit( UserInformation uInfo )
 		{
@@ -113,7 +113,7 @@ namespace ProductDataWarehouse.Controllers
 			return View( uInfo );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageUsers" )]
 		public JsonResult ResetPassword( int id )
 		{
 			UserRepository uRepository = new UserRepository();
@@ -251,7 +251,12 @@ namespace ProductDataWarehouse.Controllers
 
 		public static IEnumerable<SelectListItem> GetUserRoleDDList()
 		{
-			return PaoliWebUser.PaoliWebRole.RoleList.Select( u => new SelectListItem() { Value = u.Key.ToString(), Text = u.Value } );
+			var theList = PaoliWebUser.PaoliWebRole.RoleList.Select( u => new SelectListItem() { Value = u.Key.ToString(), Text = u.Value } );
+
+			if( !PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.SuperAdmin ) )
+				theList = theList.Where( i => i.Value != PaoliWebUser.PaoliWebRole.SuperAdmin.ToString() );
+
+			return theList;
 		}
 
 		public static IEnumerable<SelectListItem> GetUserRoleFilterList()

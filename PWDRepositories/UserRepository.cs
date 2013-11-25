@@ -295,6 +295,10 @@ Paoli Admin", eUser.Email, password ) );
 			{
 				userList = userList.Where( u => u.AccountType == param.accountType );
 			}
+			if( !PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.SuperAdmin ) )
+			{
+				userList = userList.Where( i => i.AccountType != PaoliWebUser.PaoliWebRole.SuperAdmin );
+			}
 
 			displayedRecords = userList.Count();
 

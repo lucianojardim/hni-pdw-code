@@ -53,6 +53,7 @@
     <Compile Include="ImageCropConfiguration.cs" />
     <Compile Include="ImageTableParams.cs" />
     <Compile Include="MatchAttribute.cs" />
+    <Compile Include="PaoliAuthorizeAttribute.cs" />
     <Compile Include="PaoliEncryption.cs" />
     <Compile Include="PaoliPasswordAttribute.cs" />
     <Compile Include="PaoliWebUser.cs" />

@@ -64,6 +64,10 @@ namespace PDWInfrastructure
 				{
 					case SuperAdmin:
 						return u.Action( "Index", "Import" );
+					case PaoliMemberAdmin:
+						return u.Action( "Index", "Import" );
+					case PaoliMemberMarketing:
+						return u.Action( "Images", "Import" );
 				}
 
 				return u.Action( "MyAccount", "User" );
@@ -121,7 +125,7 @@ namespace PDWInfrastructure
 			return AccountType == role;
 		}
 
-		public bool OneOfRoles( params int[] roleList )
+		private bool OneOfRoles( params int[] roleList )
 		{
 			return roleList.Any( r => IsInRole( r ) );
 		}
@@ -149,5 +153,21 @@ namespace PDWInfrastructure
 				return PaoliWebRole.RoleHomePage( AccountType );
 			}
 		}
+
+		public bool CanSeeMainUsers { get { return CanManageUsers || CanManageCompanies; } }
+		public bool CanSeeMainProducts { get { return CanManageImport || CanManageImages || CanManageCollateral || CanManageTypicals || CanManageSearchLog; } }
+
+		public bool CanSeeMainCMSLink { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin ); } }
+
+		public bool CanManageImport { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin ); } }
+		public bool CanManageImages { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin, PaoliWebRole.PaoliMemberMarketing ); } }
+		public bool CanManageCollateral { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
+		public bool CanManageTypicals { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin,
+					PaoliWebRole.PaoliMemberMarketing, PaoliWebRole.PaoliMemberSpecTeam, PaoliWebRole.PaoliMemberCustomerService, PaoliWebRole.PaoliSalesRep ); } }
+		public bool CanManageSearchLog { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin, PaoliWebRole.PaoliMemberMarketing ); } }
+
+		public bool CanManageUsers { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin ); } }
+		public bool CanManageCompanies { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
+
 	}
 }

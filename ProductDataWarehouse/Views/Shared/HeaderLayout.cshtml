@@ -39,10 +39,16 @@
         <ul id="nav">
 			@if( HttpContext.Current.User.Identity.IsAuthenticated )
    {
-	   if( CurrentUser.OneOfRoles( PaoliWebUser.PaoliWebRole.SuperAdmin ) )
+	   if( CurrentUser.CanSeeMainProducts ) 
 	   {
-			<li class="@(ViewBag.CurrentPage == "Database" ? "current_page" : "")"><a href="@Url.Action( "Index", "Import" )">Database</a></li>
+			<li class="@(ViewBag.CurrentPage == "Database" ? "current_page" : "")"><a href="@Url.Action( "Index", "Import" )">Products</a></li>
+	   }
+	   if( CurrentUser.CanSeeMainUsers )
+	   {
    			<li class="@(ViewBag.CurrentPage == "Users" ? "current_page" : "")"><a href="@Url.Action( "Manage", "User" )">Users</a></li>
+	   }
+	   if( CurrentUser.CanSeeMainCMSLink )
+	   {
             <li><a href="javascript:void(0);" id="cmsLink">Login to CMS</a></li>
 	   }
    }
@@ -61,9 +67,12 @@
 	<div id="sub_nav" class="stuckontop">
 		<div class="wrapper p20">
 			<ul class="nav_type_3">
-	   @if( CurrentUser.OneOfRoles( PaoliWebUser.PaoliWebRole.SuperAdmin ) )
+	   @if( CurrentUser.CanManageUsers )
 	{
 				<li class="@(ViewBag.CurrentSubPage == "Users" ? "on_focus" : "")"><a href="@Url.Action( "Manage", "User" )">Users</a></li>
+		}
+		@if( CurrentUser.CanManageCompanies )
+  {
 				<li class="@(ViewBag.CurrentSubPage == "Dealers" ? "on_focus" : "")"><a href="@Url.Action( "ManageDealers", "Import" )">Dealers</a></li>
 				<li class="@(ViewBag.CurrentSubPage == "Videos" ? "on_focus" : "")"><a href="@Url.Action( "ManageVideos", "Import" )">Video Links</a></li>
 				<li class="@(ViewBag.CurrentSubPage == "Pages" ? "on_focus" : "")"><a href="@Url.Action( "ManagePages", "Import" )">Pages</a></li>
@@ -79,11 +88,20 @@
 	<div id="sub_nav" class="stuckontop">
 		<div class="wrapper p20">
 			<ul class="nav_type_3">
-	   @if( CurrentUser.OneOfRoles( PaoliWebUser.PaoliWebRole.SuperAdmin ) )
+	   @if( CurrentUser.CanManageImport )
 	{
 				<li class="@(ViewBag.CurrentSubPage == "Import" ? "on_focus" : "")"><a href="@Url.Action( "Index", "Import" )">PDW Import</a></li>
+	}
+	   @if( CurrentUser.CanManageImages )
+	{
 				<li class="@(ViewBag.CurrentSubPage == "Images" ? "on_focus" : "")"><a href="@Url.Action( "Images", "Import" )">Image Engine</a></li>
+	}
+	   @if( CurrentUser.CanManageCollateral )
+	{
 				<li class="@(ViewBag.CurrentSubPage == "Collateral" ? "on_focus" : "")"><a href="@Url.Action( "Collateral", "Import" )">Collateral</a></li>
+	}
+	   @if( CurrentUser.CanManageSearchLog )
+	{
 				<li class="@(ViewBag.CurrentSubPage == "SearchLog" ? "on_focus" : "")"><a href="@Url.Action( "SearchLog", "Import" )">Search Log</a></li>
 	}
 			</ul>

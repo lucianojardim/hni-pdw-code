@@ -71,14 +71,14 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		#region Data File Import 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageImport" )]
         public ActionResult Index()
         {
             return View();
         }
 
 		[HttpPost]
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageImport" )]
 		public ActionResult Index( HttpPostedFileBase csvFile, HttpPostedFileBase typicalFile )
 		{
 			if( ModelState.IsValid )
@@ -116,13 +116,13 @@ namespace ProductDataWarehouse.Controllers
 		#endregion
 
 		#region Image Management
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageImages" )]
 		public ActionResult Images()
 		{
 			return View();
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageImages" )]
 		public JsonResult FullImageList( ImageTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -142,14 +142,14 @@ namespace ProductDataWarehouse.Controllers
 				JsonRequestBehavior.AllowGet );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageImages" )]
 		public ActionResult AddImage()
 		{
 			return View( new ImageInformation() { ImageContent = 1 } );
 		}
 
 		[HttpPost]
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageImages" )]
 		[ValidateInput( false )]
 		public ActionResult AddImage( ImageInformation imgInfo, HttpPostedFileBase imageFile )
 		{
@@ -286,7 +286,7 @@ namespace ProductDataWarehouse.Controllers
 			return View();
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageImages" )]
 		public ActionResult EditImage( int id )
 		{
 			ImageRepository iRepo = new ImageRepository();
@@ -295,8 +295,8 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[HttpPost]
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
-		[ValidateInput(false)]
+		[PaoliAuthorize( "CanManageImages" )]
+		[ValidateInput( false )]
 		public ActionResult EditImage( ImageInformation imgInfo )
 		{
 			switch( (ImageInformation.ImageContents)imgInfo.ImageContent )
@@ -432,7 +432,7 @@ namespace ProductDataWarehouse.Controllers
 			return View();
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageImages" )]
 		public ActionResult UploadImage( int id )
 		{
 			ImageRepository iRepo = new ImageRepository();
@@ -441,7 +441,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[HttpPost]
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageImages" )]
 		public ActionResult UploadImage( int ImageID, HttpPostedFileBase imageFile )
 		{
 			if( ModelState.IsValid )
@@ -468,7 +468,7 @@ namespace ProductDataWarehouse.Controllers
 			return View();
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageImages" )]
 		public ActionResult DeleteImage( int id )
 		{
 			ImageRepository iRepo = new ImageRepository();
@@ -533,7 +533,7 @@ namespace ProductDataWarehouse.Controllers
 
 			return theList;
 		}
-
+		/*
 		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
 		public ActionResult RebuildGallery()
 		{
@@ -553,9 +553,10 @@ namespace ProductDataWarehouse.Controllers
 
 			return RedirectToAction( "Index" );
 		}
+		*/
 		#endregion
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageSearchLog" )]
 		public ActionResult SearchLog()
 		{
 			ImportRepository iRepo = new ImportRepository();
@@ -566,13 +567,13 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		#region Collateral Management
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCollateral" )]
 		public ActionResult Collateral()
 		{
 			return View();
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCollateral" )]
 		public JsonResult FullCollateralList( DataTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -592,14 +593,14 @@ namespace ProductDataWarehouse.Controllers
 				JsonRequestBehavior.AllowGet );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCollateral" )]
 		public ActionResult AddCollateral()
 		{
 			return View( new PublicationInformation() { PublicationDate = DateTime.Now } );
 		}
 
 		[HttpPost]
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCollateral" )]
 		public ActionResult AddCollateral( PublicationInformation pubInfo )
 		{
 			if( ModelState.IsValid )
@@ -626,14 +627,14 @@ namespace ProductDataWarehouse.Controllers
 			return View( pubInfo );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCollateral" )]
 		public ActionResult EditCollateral( int id )
 		{
 			return View( new PublicationRepository().GetPublicationInformation( id ) );
 		}
 
 		[HttpPost]
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCollateral" )]
 		public ActionResult EditCollateral( PublicationInformation pubInfo )
 		{
 			if( ModelState.IsValid )
@@ -660,13 +661,13 @@ namespace ProductDataWarehouse.Controllers
 			return View( pubInfo );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCollateral" )]
 		public ActionResult CollateralImages( int id )
 		{
 			return View( new PublicationRepository().GetPublicationInformation( id ) );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCollateral" )]
 		public JsonResult NonPubImageList( PubImageTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -686,7 +687,7 @@ namespace ProductDataWarehouse.Controllers
 				JsonRequestBehavior.AllowGet );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCollateral" )]
 		public JsonResult PubImageList( PubImageTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -706,7 +707,7 @@ namespace ProductDataWarehouse.Controllers
 				JsonRequestBehavior.AllowGet );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCollateral" )]
 		public JsonResult AddPubImage( int pubId, int imageId, int? pageNumber )
 		{
 			new PublicationRepository().AddPubImage( pubId, imageId, pageNumber );
@@ -714,7 +715,7 @@ namespace ProductDataWarehouse.Controllers
 			return Json( new { success = true }, JsonRequestBehavior.AllowGet );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCollateral" )]
 		public JsonResult RemovePubImage( int pubId, int imageId )
 		{
 			new PublicationRepository().RemovePubImage( pubId, imageId );
@@ -724,19 +725,19 @@ namespace ProductDataWarehouse.Controllers
 		#endregion
 
 		#region Dealers
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCompanies" )]
 		public ActionResult ManageDealers()
 		{
 			return View();
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCompanies" )]
 		public ActionResult ImportDealers()
 		{
 			return View();
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCompanies" )]
 		[HttpPost]
 		public ActionResult ImportDealers( HttpPostedFileBase dealerFile )
 		{
@@ -793,7 +794,7 @@ namespace ProductDataWarehouse.Controllers
 			return results.Select( i => new SelectListItem() { Text = i.Name, Value = i.Name } );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCompanies" )]
 		public JsonResult FullDealerList( DealerTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -813,13 +814,13 @@ namespace ProductDataWarehouse.Controllers
 				JsonRequestBehavior.AllowGet );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCompanies" )]
 		public ActionResult AddDealer()
 		{
 			return View( new DealerInformation() );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCompanies" )]
 		[HttpPost]
 		public ActionResult AddDealer( DealerInformation dInfo )
 		{
@@ -849,7 +850,7 @@ namespace ProductDataWarehouse.Controllers
 			return View( dInfo );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCompanies" )]
 		public ActionResult EditDealer( int id )
 		{
 			DealerRepository dRepository = new DealerRepository();
@@ -859,7 +860,7 @@ namespace ProductDataWarehouse.Controllers
 			return View( dInfo );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCompanies" )]
 		[HttpPost]
 		public ActionResult EditDealer( DealerInformation dInfo )
 		{
@@ -889,7 +890,7 @@ namespace ProductDataWarehouse.Controllers
 			return View( dInfo );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCompanies" )]
 		public JsonResult DeleteDealer( int id )
 		{
 			DealerRepository dRepository = new DealerRepository();
@@ -906,13 +907,13 @@ namespace ProductDataWarehouse.Controllers
 		#endregion
 
 		#region Dealer Videos
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCompanies" )]
 		public ActionResult ManageVideos()
 		{
 			return View();
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCompanies" )]
 		public JsonResult FullVideoList( VideoTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -932,13 +933,13 @@ namespace ProductDataWarehouse.Controllers
 				JsonRequestBehavior.AllowGet );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCompanies" )]
 		public ActionResult AddDealerVideo()
 		{
 			return View();
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCompanies" )]
 		[HttpPost]
 		public ActionResult AddDealerVideo( DealerVideoInformation dInfo )
 		{
@@ -968,7 +969,7 @@ namespace ProductDataWarehouse.Controllers
 			return View();
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCompanies" )]
 		public ActionResult EditDealerVideo( int id )
 		{
 			DealerRepository dRepository = new DealerRepository();
@@ -978,7 +979,7 @@ namespace ProductDataWarehouse.Controllers
 			return View( dInfo );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCompanies" )]
 		[HttpPost]
 		public ActionResult EditDealerVideo( DealerVideoInformation dInfo )
 		{
@@ -1008,7 +1009,7 @@ namespace ProductDataWarehouse.Controllers
 			return View();
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCompanies" )]
 		public JsonResult DeleteDealerVideo( int id )
 		{
 			DealerRepository dRepository = new DealerRepository();
@@ -1025,13 +1026,13 @@ namespace ProductDataWarehouse.Controllers
 		#endregion
 
 		#region Dealer Pages
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCompanies" )]
 		public ActionResult ManagePages()
 		{
 			return View();
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCompanies" )]
 		public JsonResult FullDealerPageList( DealerPageTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -1051,13 +1052,13 @@ namespace ProductDataWarehouse.Controllers
 				JsonRequestBehavior.AllowGet );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCompanies" )]
 		public ActionResult AddDealerPage()
 		{
 			return View();
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCompanies" )]
 		[HttpPost]
 		public ActionResult AddDealerPage( DealerPageInformation dInfo )
 		{
@@ -1087,7 +1088,7 @@ namespace ProductDataWarehouse.Controllers
 			return View();
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCompanies" )]
 		public ActionResult EditDealerPage( int id )
 		{
 			DealerRepository dRepository = new DealerRepository();
@@ -1097,7 +1098,7 @@ namespace ProductDataWarehouse.Controllers
 			return View( dInfo );
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCompanies" )]
 		[HttpPost]
 		public ActionResult EditDealerPage( DealerPageInformation dInfo )
 		{
@@ -1127,7 +1128,7 @@ namespace ProductDataWarehouse.Controllers
 			return View();
 		}
 
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "CanManageCompanies" )]
 		public JsonResult DeleteDealerPage( int id )
 		{
 			DealerRepository dRepository = new DealerRepository();
