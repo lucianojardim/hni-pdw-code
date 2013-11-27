@@ -35,6 +35,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -76,6 +77,8 @@
     <Compile Include="Series\SeriesInformation.cs" />
     <Compile Include="Series\SeriesListData.cs" />
     <Compile Include="Series\SeriesSearchResult.cs" />
+    <Compile Include="SpecRequests\SpecRequestInformation.cs" />
+    <Compile Include="SpecRequests\SpecRequestSummary.cs" />
     <Compile Include="Typicals\TypicalDetailListData.cs" />
     <Compile Include="Typicals\TypicalDetailListGallery.cs" />
     <Compile Include="Typicals\TypicalInformation.cs" />

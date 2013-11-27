@@ -263,5 +263,11 @@ namespace ProductDataWarehouse.Controllers
 		{
 			return new List<SelectListItem>() { new SelectListItem() { Text = "All", Value = "0", Selected = true } }.Union( GetUserRoleDDList() );
 		}
+
+		public static IEnumerable<SelectListItem> GetUserDDList( int accountType )
+		{
+			return ( new UserRepository() ).GetUserListForAccountType( accountType )
+				.Select( u => new SelectListItem() { Value = u.UserID.ToString(), Text = u.FullName } );
+		}
 	}
 }

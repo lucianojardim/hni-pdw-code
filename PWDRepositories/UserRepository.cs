@@ -376,5 +376,14 @@ Paoli Admin", eUser.Email, password ) );
 
 			throw new ApplicationException( "Current password does not match our records." );
 		}
+
+		public IEnumerable<UserSummary> GetUserListForAccountType( int accountType )
+		{
+			return database.Users
+				.Where( u => u.AccountType == accountType || accountType == 0 )
+				.ToList()
+				.OrderBy( u => u.FullName )
+				.Select( v => ToUserSummary( v ) );
+		}
 	}
 }

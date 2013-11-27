@@ -1,4 +1,4 @@
-body
+body, ul.tagit
 {
     font-size: 14px;
     font-family: adelle_sansregular,Arial,"Helvetica Neue",Helvetica,sans-serif;
@@ -366,6 +366,14 @@ span.dataRow label
 	display: table-cell;
 	padding-right: 10px;
 	padding-bottom: 5px;
+	vertical-align: top;
+}
+
+span.dataRow input + label,
+span.dataRow select + label,
+span.dataRow ul.tagit + label
+{
+	padding-left: 15px;
 }
 
 span.dataRow input
@@ -378,6 +386,7 @@ span.dataRow input[type="text"],
 span.dataRow input[type="password"]
 {
 	width: 250px;
+	vertical-align: top;
 }
 
 span.dataRow select
@@ -420,4 +429,12 @@ select
 .textBox {
     width: 469px;
     color: rgb(182, 180, 180);
+}
+
+span.dataRow ul.tagit
+{
+	margin-top:0px;
+	margin-bottom:0px;
+	display: table-cell;
+	width:250px;
 }

@@ -61,6 +61,7 @@
     <Compile Include="PostalCodeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PubImageTableParams.cs" />
+    <Compile Include="SpecRequestTableParams.cs" />
     <Compile Include="UserTableParams.cs" />
     <Compile Include="VideoTableParams.cs" />
   </ItemGroup>

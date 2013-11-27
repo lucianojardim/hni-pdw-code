@@ -1,0 +1,120 @@
+﻿@model PDWModels.SpecRequests.SpecRequestInformation
+@{
+	ViewBag.Title = "Add Spec Request";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+
+<link href="@Url.Content( "~/Content/jquery.tagit.css" )" rel="stylesheet" type="text/css">
+<script src="@Url.Content( "~/Scripts/tag-it.js" )" type="text/javascript"></script>
+
+@if( ViewBag.CloseFancyBox ?? false )
+{
+    <script type="text/javascript">
+    	$(document).ready(function () {
+    		parent.$.fancybox.close();
+    		if (parent.loadSpecRequests) {
+    			parent.loadSpecRequests();
+    		}
+    	});
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+		var seriesList = [@Html.Raw(SpecRequestController.GetJustSeriesNameList())];
+
+    	$(document).ready(function () {
+    		$('#SeriesList').tagit({
+				availableTags: seriesList,
+    			allowSpaces: true,
+/*    			autocomplete: ({
+    				source: function (request, response) {
+    					$.ajax({
+    						url: '@Url.Action("GetJustSeriesNameList", "PDW")',
+    						data: { format: "json", query: request.term },
+    						dataType: 'json',
+    						type: 'GET',
+    						success: function (data) {
+    							response($.map(data, function (item) {
+    								return {
+    									label: item,
+    									value: item
+    								}
+    							}));
+    						},
+    						error: function (request, status, error) {
+    							alert(error);
+    						}
+    					}
+					)
+    				},
+    				minLength: 2
+    			}),*/
+    			beforeTagAdded: function (event, ui) {
+    				// do something special
+					var isValid = false;
+					$.each(seriesList, function(idx, i) {
+						if (i.toLowerCase() == ui.tagLabel.toLowerCase()) {
+							isValid = true;
+						}
+					});
+					console.log( 'pre add: ' + ui.tagLabel + ' = ' + isValid );
+					return isValid;
+    			}
+    		});
+
+    		$('#FeaturedSeries').tagit({
+				availableTags: seriesList,
+    			allowSpaces: true,
+				tagLimit: 1,
+    			beforeTagAdded: function (event, ui) {
+    				// do something special
+					var isValid = false;
+					$.each(seriesList, function(idx, i) {
+						if (i.toLowerCase() == ui.tagLabel.toLowerCase()) {
+							isValid = true;
+						}
+					});
+					console.log( 'pre add: ' + ui.tagLabel + ' = ' + isValid );
+					return isValid;
+    			}
+    		});
+
+    	});
+
+    </script>    
+}
+    <h2>Add Spec Request</h2>
+
+    @using( Html.BeginForm( "Add", "SpecRequest", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
+	{
+        <span class="dataRow">@Html.MJLabelFor( m => m.ProjectName, true )@Html.TextBoxFor( m => m.ProjectName )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.CompanyID, true )@Html.DropDownListFor( m => m.CompanyID, ImportController.GetDealerDDList() )
+			@Html.MJLabelFor( m => m.DealerSalesRep, true )@Html.DropDownListFor( m => m.DealerSalesRep, UserController.GetUserDDList( PDWInfrastructure.PaoliWebUser.PaoliWebRole.DealerSalesRep ) )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )@Html.DropDownListFor( m => m.PaoliSalesRepGroupID, ImportController.GetDealerDDList() )
+			@Html.MJLabelFor( m => m.PaoliSpecTeamMember, true )@Html.DropDownListFor( m => m.PaoliSpecTeamMember, UserController.GetUserDDList( PDWInfrastructure.PaoliWebUser.PaoliWebRole.PaoliMemberSpecTeam ) )<br/></span>
+		<div class="padr30 padl30"><hr /></div>
+        <span class="dataRow">@Html.MJLabelFor( m => m.ListPrice, true )@Html.TextBoxFor( m => m.ListPrice )
+			@Html.MJLabelFor( m => m.SPLQuote, true )@Html.TextBoxFor( m => m.SPLQuote )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.FeaturedSeries, true )@Html.TextBoxFor( m => m.FeaturedSeries, new { style = "display:none" } )
+			@Html.MJLabelFor( m => m.SeriesList, true )@Html.TextBoxFor( m => m.SeriesList, new { style = "display:none" } )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.IsGSA, true )@Html.CheckBoxFor( m => m.IsGSA )
+			@Html.MJLabelFor( m => m.IsGoodForWeb, true )@Html.CheckBoxFor( m => m.IsGoodForWeb )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Received, true )@Html.CheckBoxFor( m => m.Received )
+			@Html.MJLabelFor( m => m.AvailableForIn2, true )@Html.CheckBoxFor( m => m.AvailableForIn2 )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Material, true )@Html.TextBoxFor( m => m.Material )
+			@Html.MJLabelFor( m => m.Finish, true )@Html.TextBoxFor( m => m.Finish )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.SavedLocation, true )@Html.TextBoxFor( m => m.SavedLocation )
+			@Html.MJLabelFor( m => m.Notes, true )@Html.TextAreaFor( m => m.Notes )<br/></span>
+		<div class="padr30 padl30"><hr /></div>
+		<span class="dataRow">@Html.MJLabelFor( m => m.xlsFile, true )<input type="file" id="xlsFile" name="xlsFile" accept=".xls,.xlsx" /></span>
+		<span class="dataRow">@Html.MJLabelFor( m => m.sifFile, true )<input type="file" id="sifFile" name="sifFile" accept=".sif" /></span>
+		<span class="dataRow">@Html.MJLabelFor( m => m.sp4File, true )<input type="file" id="sp4File" name="sp4File" accept=".sp4" /></span>
+		<span class="dataRow">@Html.MJLabelFor( m => m.pdfFile, true )<input type="file" id="pdfFile" name="pdfFile" accept=".pdf" /></span>
+		<span class="dataRow">@Html.MJLabelFor( m => m.dwgFile, true )<input type="file" id="dwgFile" name="dwgFile" accept=".dwg" /></span>
+		<span class="dataRow">@Html.MJLabelFor( m => m.imgFile, true )<input type="file" id="imgFile" name="imgFile" accept=".jpg,.png,.gif,.bmp" /></span>
+@Html.ValidationSummary()
+        <input type="submit" class="btn_type1" value="Add" id="submitBtn" />
+	}

@@ -77,6 +77,14 @@ namespace PWDRepositories
 			};
 		}
 
+		public IEnumerable<DealerSummary> GetFullDealerList()
+		{
+			return database.Dealers
+				.ToList()
+				.OrderBy( d => d.Name )
+				.Select( v => ToDealerSummary( v ) );
+		}
+
 		public IEnumerable<DealerSummary> GetFullDealerList( DealerTableParams param,
 			out int totalRecords, out int displayedRecords )
 		{

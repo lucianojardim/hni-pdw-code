@@ -794,6 +794,15 @@ namespace ProductDataWarehouse.Controllers
 			return results.Select( i => new SelectListItem() { Text = i.Name, Value = i.Name } );
 		}
 
+		public static IEnumerable<SelectListItem> GetDealerDDList()
+		{
+			DealerRepository dRepository = new DealerRepository();
+
+			var results = dRepository.GetFullDealerList().OrderBy( v => v.Name );
+
+			return results.Select( i => new SelectListItem() { Text = i.Name, Value = i.DealerID.ToString() } );
+		}
+
 		[PaoliAuthorize( "CanManageCompanies" )]
 		public JsonResult FullDealerList( DealerTableParams param )
 		{

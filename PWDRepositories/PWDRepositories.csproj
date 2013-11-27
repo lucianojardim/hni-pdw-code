@@ -54,6 +54,7 @@
     <Compile Include="PublicationRepository.cs" />
     <Compile Include="SeriesRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpecRequestRepository.cs" />
     <Compile Include="TypicalRepository.cs" />
     <Compile Include="UserRepository.cs" />
   </ItemGroup>
