@@ -21,8 +21,31 @@ else
 {
     <script type="text/javascript">
     	$(document).ready(function () {
+    		reloadAccountType();
+
+    		$('#CompanyID').change(function () {
+    			reloadAccountType();
+    		});
     	});
 
+    	function reloadAccountType() {
+    		$.ajax({
+    			dataType: 'json',
+    			type: 'GET',
+    			url: '/Company/GetTypeListForCompany',
+    			data: { companyId: $('#CompanyID').val() },
+    			success: function (data, textStatus, jqXHR) {
+    				$('#AccountType').empty();
+    				$.each(data.theList, function (idx, item) {
+    					$('#AccountType').append('<option value="' + item.Value + '">' + item.Text + '</option>');
+    				});
+    			},
+    			error: function (jqXHR, textStatus, errorThrown) {
+    				alert('Error getting Account Type list:' + errorThrown)
+    			}
+    		});
+			
+    	}
     </script>    
 }
     <h2>Add User</h2>
@@ -32,7 +55,7 @@ else
         <span class="dataRow">@Html.MJLabelFor( m => m.EmailAddress, true )@Html.TextBoxFor( m => m.EmailAddress )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.FirstName, true )@Html.TextBoxFor( m => m.FirstName )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.LastName, true )@Html.TextBoxFor( m => m.LastName )<br/></span>
-        <span class="dataRow">@Html.MJLabelFor( m => m.CompanyName, true )@Html.TextBoxFor( m => m.CompanyName )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.CompanyID, true )@Html.DropDownListFor( m => m.CompanyID, CompanyController.GetCompanyDDList() )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.Address1, true )@Html.TextBoxFor( m => m.Address1 )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.Address2, true )@Html.TextBoxFor( m => m.Address2 )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.City, true )@Html.TextBoxFor( m => m.City )<br/></span>

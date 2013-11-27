@@ -47,6 +47,8 @@
     <Compile Include="Attributes\AttributeInformation.cs" />
     <Compile Include="Attributes\CMInformation.cs" />
     <Compile Include="Attributes\FinishInformation.cs" />
+    <Compile Include="Companies\CompanyInformation.cs" />
+    <Compile Include="Companies\CompanySummary.cs" />
     <Compile Include="Dealers\DealerDetail.cs" />
     <Compile Include="Dealers\DealerInformation.cs" />
     <Compile Include="Dealers\DealerPageInformation.cs" />

@@ -24,10 +24,6 @@ namespace PDWModels.Users
 		[Required]
 		[StringLength( 50 )]
 		public string LastName { get; set; }
-		[DisplayName( "Company Name" )]
-		[Required]
-		[StringLength( 50 )]
-		public string CompanyName { get; set; }
 		[DisplayName( "Address 1" )]
 		[StringLength( 100 )]
 		public string Address1 { get; set; }

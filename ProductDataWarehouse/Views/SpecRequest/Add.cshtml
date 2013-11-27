@@ -6,7 +6,7 @@
 @using ProductDataWarehouse.Models
 @using ProductDataWarehouse.Controllers
 
-<link href="@Url.Content( "~/Content/jquery.tagit.css" )" rel="stylesheet" type="text/css">
+<link href="@Url.Content( "~/Content/jquery.tagit.css" )" rel="stylesheet" type="text/css" />
 <script src="@Url.Content( "~/Scripts/tag-it.js" )" type="text/javascript"></script>
 
 @if( ViewBag.CloseFancyBox ?? false )
@@ -25,7 +25,31 @@ else
     <script type="text/javascript">
 		var seriesList = [@Html.Raw(SpecRequestController.GetJustSeriesNameList())];
 
+    	function reloadDealerSalesRepList() {
+    		$.ajax({
+    			dataType: 'json',
+    			type: 'GET',
+    			url: '/User/GetDealerSalesRepListForCompany',
+    			data: { companyId: $('#CompanyID').val() },
+    			success: function (data, textStatus, jqXHR) {
+    				$('#DealerSalesRep').empty();
+    				$.each(data.theList, function (idx, item) {
+    					$('#DealerSalesRep').append('<option value="' + item.Value + '">' + item.Text + '</option>');
+    				});
+    			},
+    			error: function (jqXHR, textStatus, errorThrown) {
+    				alert('Error getting Dealer Sales Rep list:' + errorThrown)
+    			}
+    		});			
+    	}
+
     	$(document).ready(function () {
+    		reloadDealerSalesRepList();
+
+    		$('#CompanyID').change(function () {
+    			reloadDealerSalesRepList();
+    		});
+
     		$('#SeriesList').tagit({
 				availableTags: seriesList,
     			allowSpaces: true,
@@ -91,9 +115,9 @@ else
     @using( Html.BeginForm( "Add", "SpecRequest", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
 	{
         <span class="dataRow">@Html.MJLabelFor( m => m.ProjectName, true )@Html.TextBoxFor( m => m.ProjectName )<br/></span>
-        <span class="dataRow">@Html.MJLabelFor( m => m.CompanyID, true )@Html.DropDownListFor( m => m.CompanyID, ImportController.GetDealerDDList() )
+        <span class="dataRow">@Html.MJLabelFor( m => m.CompanyID, true )@Html.DropDownListFor( m => m.CompanyID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer ) )
 			@Html.MJLabelFor( m => m.DealerSalesRep, true )@Html.DropDownListFor( m => m.DealerSalesRep, UserController.GetUserDDList( PDWInfrastructure.PaoliWebUser.PaoliWebRole.DealerSalesRep ) )<br/></span>
-        <span class="dataRow">@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )@Html.DropDownListFor( m => m.PaoliSalesRepGroupID, ImportController.GetDealerDDList() )
+        <span class="dataRow">@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )@Html.DropDownListFor( m => m.PaoliSalesRepGroupID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup ) )
 			@Html.MJLabelFor( m => m.PaoliSpecTeamMember, true )@Html.DropDownListFor( m => m.PaoliSpecTeamMember, UserController.GetUserDDList( PDWInfrastructure.PaoliWebUser.PaoliWebRole.PaoliMemberSpecTeam ) )<br/></span>
 		<div class="padr30 padl30"><hr /></div>
         <span class="dataRow">@Html.MJLabelFor( m => m.ListPrice, true )@Html.TextBoxFor( m => m.ListPrice )

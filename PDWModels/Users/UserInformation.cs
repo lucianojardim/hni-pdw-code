@@ -14,5 +14,9 @@ namespace PDWModels.Users
 		public int AccountType { get; set; }
 		[DisplayName( "Enabled" )]
 		public bool Enabled { get; set; }
+		[DisplayName( "Company" )]
+		[Required]
+		public int CompanyID { get; set; }
+
 	}
 }

@@ -9,6 +9,7 @@
           <EntitySet Name="AttributeOptions" EntityType="PaoliPDWModel.Store.AttributeOptions" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Attributes" EntityType="PaoliPDWModel.Store.Attributes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Categories" EntityType="PaoliPDWModel.Store.Categories" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Companies" EntityType="PaoliPDWModel.Store.Companies" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="DealerFeaturedProducts" EntityType="PaoliPDWModel.Store.DealerFeaturedProducts" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="DealerPageLinks" EntityType="PaoliPDWModel.Store.DealerPageLinks" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Dealers" EntityType="PaoliPDWModel.Store.Dealers" store:Type="Tables" Schema="dbo" />
@@ -25,7 +26,7 @@
           <EntitySet Name="SeriesOptionAttributes" EntityType="PaoliPDWModel.Store.SeriesOptionAttributes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SeriesTextAttributes" EntityType="PaoliPDWModel.Store.SeriesTextAttributes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SeriesTypicals" EntityType="PaoliPDWModel.Store.SeriesTypicals" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="SpecRequestFile" EntityType="PaoliPDWModel.Store.SpecRequestFile" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SpecRequestFiles" EntityType="PaoliPDWModel.Store.SpecRequestFiles" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SpecRequests" EntityType="PaoliPDWModel.Store.SpecRequests" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="TAttributeOptions" EntityType="PaoliPDWModel.Store.TAttributeOptions" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="TAttributes" EntityType="PaoliPDWModel.Store.TAttributes" store:Type="Tables" Schema="dbo" />
@@ -113,7 +114,7 @@
             <End Role="SeriesOptionAttributes" EntitySet="SeriesOptionAttributes" />
           </AssociationSet>
           <AssociationSet Name="fkSpec_Company" Association="PaoliPDWModel.Store.fkSpec_Company">
-            <End Role="Dealers" EntitySet="Dealers" />
+            <End Role="Companies" EntitySet="Companies" />
             <End Role="SpecRequests" EntitySet="SpecRequests" />
           </AssociationSet>
           <AssociationSet Name="fkSpec_DealerSalesRep" Association="PaoliPDWModel.Store.fkSpec_DealerSalesRep">
@@ -125,12 +126,12 @@
             <End Role="SpecRequests" EntitySet="SpecRequests" />
           </AssociationSet>
           <AssociationSet Name="fkSpec_RepGroup" Association="PaoliPDWModel.Store.fkSpec_RepGroup">
-            <End Role="Dealers" EntitySet="Dealers" />
+            <End Role="Companies" EntitySet="Companies" />
             <End Role="SpecRequests" EntitySet="SpecRequests" />
           </AssociationSet>
           <AssociationSet Name="fkSpecFile_Request" Association="PaoliPDWModel.Store.fkSpecFile_Request">
             <End Role="SpecRequests" EntitySet="SpecRequests" />
-            <End Role="SpecRequestFile" EntitySet="SpecRequestFile" />
+            <End Role="SpecRequestFiles" EntitySet="SpecRequestFiles" />
           </AssociationSet>
           <AssociationSet Name="fkST_Series" Association="PaoliPDWModel.Store.fkST_Series">
             <End Role="Serieses" EntitySet="Serieses" />
@@ -188,6 +189,10 @@
             <End Role="Typicals" EntitySet="Typicals" />
             <End Role="TypicalTextAttributes" EntitySet="TypicalTextAttributes" />
           </AssociationSet>
+          <AssociationSet Name="fkUser_Company" Association="PaoliPDWModel.Store.fkUser_Company">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="AttributeOptions">
           <Key>
@@ -211,6 +216,24 @@
           </Key>
           <Property Name="CategoryID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Companies">
+          <Key>
+            <PropertyRef Name="CompanyID" />
+          </Key>
+          <Property Name="CompanyID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Address1" Type="nvarchar" MaxLength="100" />
+          <Property Name="Address2" Type="nvarchar" MaxLength="100" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" />
+          <Property Name="State" Type="nvarchar" MaxLength="5" />
+          <Property Name="Zip" Type="nvarchar" MaxLength="12" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="FAX" Type="nvarchar" MaxLength="20" />
+          <Property Name="MasterID" Type="nvarchar" MaxLength="20" />
+          <Property Name="SubCompanyIDs" Type="nvarchar" MaxLength="200" />
+          <Property Name="TripIncentive" Type="bit" Nullable="false" />
+          <Property Name="CompanyType" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DealerFeaturedProducts">
           <Key>
@@ -378,7 +401,7 @@
           <Property Name="SeriesID" Type="int" Nullable="false" />
           <Property Name="TypicalID" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="SpecRequestFile">
+        <EntityType Name="SpecRequestFiles">
           <Key>
             <PropertyRef Name="FileID" />
           </Key>
@@ -397,8 +420,9 @@
           <Property Name="Name" Type="nvarchar" MaxLength="10" />
           <Property Name="ProjectName" Type="nvarchar" MaxLength="50" />
           <Property Name="PaoliSalesRepGroupID" Type="int" />
-          <Property Name="CompanyID" Type="int" />
-          <Property Name="DealerSalesRep" Type="int" />
+          <Property Name="PrimaryCompanyID" Type="int" />
+          <Property Name="DealerSalesRepID" Type="int" />
+          <Property Name="PaoliSpecTeamMemberID" Type="int" />
           <Property Name="RequestDate" Type="datetime" />
           <Property Name="IsGSA" Type="bit" />
           <Property Name="SavedLocation" Type="nvarchar" MaxLength="500" />
@@ -407,7 +431,6 @@
           <Property Name="SeriesList" Type="ntext" />
           <Property Name="Received" Type="bit" />
           <Property Name="SPLQuote" Type="int" />
-          <Property Name="PaoliSpecTeamMember" Type="int" />
           <Property Name="LastModifiedDate" Type="datetime" />
           <Property Name="Material" Type="nvarchar" MaxLength="50" />
           <Property Name="Finish" Type="nvarchar" MaxLength="50" />
@@ -484,7 +507,6 @@
           <Property Name="UserID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="CompanyName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Address1" Type="nvarchar" MaxLength="100" />
           <Property Name="Address2" Type="nvarchar" MaxLength="100" />
           <Property Name="City" Type="nvarchar" MaxLength="50" />
@@ -497,6 +519,7 @@
           <Property Name="Title" Type="nvarchar" MaxLength="50" />
           <Property Name="Enabled" Type="bit" Nullable="false" />
           <Property Name="AccountType" Type="int" Nullable="false" />
+          <Property Name="CompanyID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="VideoLinks">
           <Key>
@@ -735,14 +758,14 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fkSpec_Company">
-          <End Role="Dealers" Type="PaoliPDWModel.Store.Dealers" Multiplicity="0..1" />
+          <End Role="Companies" Type="PaoliPDWModel.Store.Companies" Multiplicity="0..1" />
           <End Role="SpecRequests" Type="PaoliPDWModel.Store.SpecRequests" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Dealers">
-              <PropertyRef Name="DealerID" />
+            <Principal Role="Companies">
+              <PropertyRef Name="CompanyID" />
             </Principal>
             <Dependent Role="SpecRequests">
-              <PropertyRef Name="CompanyID" />
+              <PropertyRef Name="PrimaryCompanyID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -754,7 +777,7 @@
               <PropertyRef Name="UserID" />
             </Principal>
             <Dependent Role="SpecRequests">
-              <PropertyRef Name="DealerSalesRep" />
+              <PropertyRef Name="DealerSalesRepID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -766,16 +789,16 @@
               <PropertyRef Name="UserID" />
             </Principal>
             <Dependent Role="SpecRequests">
-              <PropertyRef Name="PaoliSpecTeamMember" />
+              <PropertyRef Name="PaoliSpecTeamMemberID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="fkSpec_RepGroup">
-          <End Role="Dealers" Type="PaoliPDWModel.Store.Dealers" Multiplicity="0..1" />
+          <End Role="Companies" Type="PaoliPDWModel.Store.Companies" Multiplicity="0..1" />
           <End Role="SpecRequests" Type="PaoliPDWModel.Store.SpecRequests" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Dealers">
-              <PropertyRef Name="DealerID" />
+            <Principal Role="Companies">
+              <PropertyRef Name="CompanyID" />
             </Principal>
             <Dependent Role="SpecRequests">
               <PropertyRef Name="PaoliSalesRepGroupID" />
@@ -784,12 +807,12 @@
         </Association>
         <Association Name="fkSpecFile_Request">
           <End Role="SpecRequests" Type="PaoliPDWModel.Store.SpecRequests" Multiplicity="1" />
-          <End Role="SpecRequestFile" Type="PaoliPDWModel.Store.SpecRequestFile" Multiplicity="*" />
+          <End Role="SpecRequestFiles" Type="PaoliPDWModel.Store.SpecRequestFiles" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SpecRequests">
               <PropertyRef Name="RequestID" />
             </Principal>
-            <Dependent Role="SpecRequestFile">
+            <Dependent Role="SpecRequestFiles">
               <PropertyRef Name="RequestID" />
             </Dependent>
           </ReferentialConstraint>
@@ -962,6 +985,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fkUser_Company">
+          <End Role="Companies" Type="PaoliPDWModel.Store.Companies" Multiplicity="1" />
+          <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="CompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -1112,14 +1147,15 @@
             <End Role="DealerFeaturedProduct" EntitySet="DealerFeaturedProducts" />
           </AssociationSet>
           <EntitySet Name="Users" EntityType="PaoliPDWModel.User" />
+          <EntitySet Name="Companies" EntityType="PaoliPDWModel.Company" />
           <EntitySet Name="SpecRequestFiles" EntityType="PaoliPDWModel.SpecRequestFile" />
           <EntitySet Name="SpecRequests" EntityType="PaoliPDWModel.SpecRequest" />
           <AssociationSet Name="fkSpec_Company" Association="PaoliPDWModel.fkSpec_Company">
-            <End Role="Dealer" EntitySet="Dealers" />
+            <End Role="Company" EntitySet="Companies" />
             <End Role="SpecRequest" EntitySet="SpecRequests" />
           </AssociationSet>
           <AssociationSet Name="fkSpec_RepGroup" Association="PaoliPDWModel.fkSpec_RepGroup">
-            <End Role="Dealer" EntitySet="Dealers" />
+            <End Role="Company" EntitySet="Companies" />
             <End Role="SpecRequest" EntitySet="SpecRequests" />
           </AssociationSet>
           <AssociationSet Name="fkSpecFile_Request" Association="PaoliPDWModel.fkSpecFile_Request">
@@ -1133,6 +1169,10 @@
           <AssociationSet Name="fkSpec_PaoliSpecTeam" Association="PaoliPDWModel.fkSpec_PaoliSpecTeam">
             <End Role="User" EntitySet="Users" />
             <End Role="SpecRequest" EntitySet="SpecRequests" />
+          </AssociationSet>
+          <AssociationSet Name="fkUser_Company" Association="PaoliPDWModel.fkUser_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="User" EntitySet="Users" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AttributeOption">
@@ -1704,8 +1744,6 @@
           <Property Type="String" Name="ProductsHeadline" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="PagesHeadline" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="VideosHeadline" MaxLength="200" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="SpecRequests" Relationship="PaoliPDWModel.fkSpec_Company" FromRole="Dealer" ToRole="SpecRequest" />
-          <NavigationProperty Name="SpecRequests1" Relationship="PaoliPDWModel.fkSpec_RepGroup" FromRole="Dealer" ToRole="SpecRequest" />
           </EntityType>
         <EntityType Name="PageLink">
           <Key>
@@ -1774,7 +1812,6 @@
           <Property Type="Int32" Name="UserID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="CompanyName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Address1" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Address2" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="City" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1789,7 +1826,30 @@
           <Property Type="Int32" Name="AccountType" Nullable="false" />
           <NavigationProperty Name="SpecRequests" Relationship="PaoliPDWModel.fkSpec_DealerSalesRep" FromRole="User" ToRole="SpecRequest" />
           <NavigationProperty Name="SpecRequests1" Relationship="PaoliPDWModel.fkSpec_PaoliSpecTeam" FromRole="User" ToRole="SpecRequest" />
+          <Property Type="Int32" Name="CompanyID" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="PaoliPDWModel.fkUser_Company" FromRole="User" ToRole="Company" />
           </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyID" />
+          </Key>
+          <Property Type="Int32" Name="CompanyID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Address1" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Address2" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="City" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="State" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Zip" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Phone" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FAX" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="MasterID" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SubCompanyIDs" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="TripIncentive" Nullable="false" />
+          <Property Type="Int32" Name="CompanyType" Nullable="false" />
+          <NavigationProperty Name="SpecRequests" Relationship="PaoliPDWModel.fkSpec_Company" FromRole="Company" ToRole="SpecRequest" />
+          <NavigationProperty Name="SpecRequests1" Relationship="PaoliPDWModel.fkSpec_RepGroup" FromRole="Company" ToRole="SpecRequest" />
+          <NavigationProperty Name="Users" Relationship="PaoliPDWModel.fkUser_Company" FromRole="Company" ToRole="User" />
+        </EntityType>
         <EntityType Name="SpecRequestFile">
           <Key>
             <PropertyRef Name="FileID" />
@@ -1810,48 +1870,48 @@
           <Property Type="String" Name="Name" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ProjectName" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="PaoliSalesRepGroupID" />
-          <Property Type="Int32" Name="CompanyID" />
-          <Property Type="Int32" Name="DealerSalesRep" />
+          <Property Type="Int32" Name="PrimaryCompanyID" />
+          <Property Type="Int32" Name="DealerSalesRepID" />
+          <Property Type="Int32" Name="PaoliSpecTeamMemberID" />
           <Property Type="DateTime" Name="RequestDate" />
           <Property Type="Boolean" Name="IsGSA" />
           <Property Type="String" Name="SavedLocation" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="ListPrice" />
+          <Property Type="String" Name="FeaturedSeries" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="SeriesList" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="Boolean" Name="Received" />
           <Property Type="Int32" Name="SPLQuote" />
-          <Property Type="Int32" Name="PaoliSpecTeamMember" />
           <Property Type="DateTime" Name="LastModifiedDate" />
-          <NavigationProperty Name="Dealer" Relationship="PaoliPDWModel.fkSpec_Company" FromRole="SpecRequest" ToRole="Dealer" />
-          <NavigationProperty Name="Dealer1" Relationship="PaoliPDWModel.fkSpec_RepGroup" FromRole="SpecRequest" ToRole="Dealer" />
-          <NavigationProperty Name="SpecRequestFiles" Relationship="PaoliPDWModel.fkSpecFile_Request" FromRole="SpecRequest" ToRole="SpecRequestFile" />
-          <NavigationProperty Name="DealerSalesRepUser" Relationship="PaoliPDWModel.fkSpec_DealerSalesRep" FromRole="SpecRequest" ToRole="User" />
-          <NavigationProperty Name="SpecTeamMemberUser" Relationship="PaoliPDWModel.fkSpec_PaoliSpecTeam" FromRole="SpecRequest" ToRole="User" />
-          <Property Type="String" Name="FeaturedSeries" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Material" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Finish" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Boolean" Name="IsGoodForWeb" />
           <Property Type="Boolean" Name="AvailableForIn2" />
           <Property Type="String" Name="Footprint" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Notes" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PrimaryCompany" Relationship="PaoliPDWModel.fkSpec_Company" FromRole="SpecRequest" ToRole="Company" />
+          <NavigationProperty Name="PaoliSalesRepGroup" Relationship="PaoliPDWModel.fkSpec_RepGroup" FromRole="SpecRequest" ToRole="Company" />
+          <NavigationProperty Name="SpecRequestFiles" Relationship="PaoliPDWModel.fkSpecFile_Request" FromRole="SpecRequest" ToRole="SpecRequestFile" />
+          <NavigationProperty Name="DealerSalesRep" Relationship="PaoliPDWModel.fkSpec_DealerSalesRep" FromRole="SpecRequest" ToRole="User" />
+          <NavigationProperty Name="SpecTeamMember" Relationship="PaoliPDWModel.fkSpec_PaoliSpecTeam" FromRole="SpecRequest" ToRole="User" />
         </EntityType>
         <Association Name="fkSpec_Company">
-          <End Type="PaoliPDWModel.Dealer" Role="Dealer" Multiplicity="0..1" />
+          <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="0..1" />
           <End Type="PaoliPDWModel.SpecRequest" Role="SpecRequest" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Dealer">
-              <PropertyRef Name="DealerID" />
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyID" />
             </Principal>
             <Dependent Role="SpecRequest">
-              <PropertyRef Name="CompanyID" />
+              <PropertyRef Name="PrimaryCompanyID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="fkSpec_RepGroup">
-          <End Type="PaoliPDWModel.Dealer" Role="Dealer" Multiplicity="0..1" />
+          <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="0..1" />
           <End Type="PaoliPDWModel.SpecRequest" Role="SpecRequest" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Dealer">
-              <PropertyRef Name="DealerID" />
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyID" />
             </Principal>
             <Dependent Role="SpecRequest">
               <PropertyRef Name="PaoliSalesRepGroupID" />
@@ -1878,7 +1938,7 @@
               <PropertyRef Name="UserID" />
             </Principal>
             <Dependent Role="SpecRequest">
-              <PropertyRef Name="DealerSalesRep" />
+              <PropertyRef Name="DealerSalesRepID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1890,7 +1950,19 @@
               <PropertyRef Name="UserID" />
             </Principal>
             <Dependent Role="SpecRequest">
-              <PropertyRef Name="PaoliSpecTeamMember" />
+              <PropertyRef Name="PaoliSpecTeamMemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkUser_Company">
+          <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="PaoliPDWModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="CompanyID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2155,6 +2227,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="PaoliPDWModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
                 <ScalarProperty Name="AccountType" ColumnName="AccountType" />
                 <ScalarProperty Name="Enabled" ColumnName="Enabled" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
@@ -2167,16 +2240,34 @@
                 <ScalarProperty Name="City" ColumnName="City" />
                 <ScalarProperty Name="Address2" ColumnName="Address2" />
                 <ScalarProperty Name="Address1" ColumnName="Address1" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="PaoliPDWModel.Company">
+              <MappingFragment StoreEntitySet="Companies">
+                <ScalarProperty Name="CompanyType" ColumnName="CompanyType" />
+                <ScalarProperty Name="TripIncentive" ColumnName="TripIncentive" />
+                <ScalarProperty Name="SubCompanyIDs" ColumnName="SubCompanyIDs" />
+                <ScalarProperty Name="MasterID" ColumnName="MasterID" />
+                <ScalarProperty Name="FAX" ColumnName="FAX" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="SpecRequestFiles">
             <EntityTypeMapping TypeName="PaoliPDWModel.SpecRequestFile">
-              <MappingFragment StoreEntitySet="SpecRequestFile">
+              <MappingFragment StoreEntitySet="SpecRequestFiles">
                 <ScalarProperty Name="UploadDate" ColumnName="UploadDate" />
                 <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -2195,18 +2286,18 @@
                 <ScalarProperty Name="IsGoodForWeb" ColumnName="IsGoodForWeb" />
                 <ScalarProperty Name="Finish" ColumnName="Finish" />
                 <ScalarProperty Name="Material" ColumnName="Material" />
-                <ScalarProperty Name="FeaturedSeries" ColumnName="FeaturedSeries" />
                 <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
-                <ScalarProperty Name="PaoliSpecTeamMember" ColumnName="PaoliSpecTeamMember" />
                 <ScalarProperty Name="SPLQuote" ColumnName="SPLQuote" />
                 <ScalarProperty Name="Received" ColumnName="Received" />
                 <ScalarProperty Name="SeriesList" ColumnName="SeriesList" />
+                <ScalarProperty Name="FeaturedSeries" ColumnName="FeaturedSeries" />
                 <ScalarProperty Name="ListPrice" ColumnName="ListPrice" />
                 <ScalarProperty Name="SavedLocation" ColumnName="SavedLocation" />
                 <ScalarProperty Name="IsGSA" ColumnName="IsGSA" />
                 <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
-                <ScalarProperty Name="DealerSalesRep" ColumnName="DealerSalesRep" />
-                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="PaoliSpecTeamMemberID" ColumnName="PaoliSpecTeamMemberID" />
+                <ScalarProperty Name="DealerSalesRepID" ColumnName="DealerSalesRepID" />
+                <ScalarProperty Name="PrimaryCompanyID" ColumnName="PrimaryCompanyID" />
                 <ScalarProperty Name="PaoliSalesRepGroupID" ColumnName="PaoliSalesRepGroupID" />
                 <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -2455,34 +2546,37 @@
           <ConnectorPoint PointX="12.125" PointY="20.338979492187498" />
           <ConnectorPoint PointX="13.625" PointY="20.338979492187498" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="PaoliPDWModel.User" Width="1.5" PointX="13.625" PointY="4.25" Height="3.5644742838541656" />
-        <EntityTypeShape EntityType="PaoliPDWModel.SpecRequestFile" Width="1.5" PointX="18.125" PointY="9.75" Height="2.0853483072916674" />
-        <EntityTypeShape EntityType="PaoliPDWModel.SpecRequest" Width="1.5" PointX="15.875" PointY="8.375" Height="5.3722949218749978" />
+        <EntityTypeShape EntityType="PaoliPDWModel.User" Width="1.5" PointX="13.625" PointY="4.25" Height="4.0575162760416656" />
+        <EntityTypeShape EntityType="PaoliPDWModel.Company" Width="1.5" PointX="13.625" PointY="0.75" Height="3.4001269531250102" />
+        <EntityTypeShape EntityType="PaoliPDWModel.SpecRequestFile" Width="1.5" PointX="18.125" PointY="6.375" Height="2.0853483072916674" />
+        <EntityTypeShape EntityType="PaoliPDWModel.SpecRequest" Width="1.5" PointX="15.875" PointY="4.75" Height="5.37229492187501" />
         <AssociationConnector Association="PaoliPDWModel.fkSpec_Company" >
-          <ConnectorPoint PointX="12.875" PointY="16.103904891011808" />
-          <ConnectorPoint PointX="16.270058531901043" PointY="16.103904891011808" />
-          <ConnectorPoint PointX="16.436725198567707" PointY="16.103904891011808" />
-          <ConnectorPoint PointX="16.894288730468752" PointY="16.103904891011808" />
-          <ConnectorPoint PointX="16.894288730468752" PointY="13.747294921874998" />
+          <ConnectorPoint PointX="15.125" PointY="2.0406738574218757" />
+          <ConnectorPoint PointX="16.82812625" PointY="2.0406738574218757" />
+          <ConnectorPoint PointX="16.82812625" PointY="4.75" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkSpec_RepGroup" >
-          <ConnectorPoint PointX="12.875" PointY="16.364454945505898" />
-          <ConnectorPoint PointX="16.353391865234375" PointY="16.364454945505898" />
-          <ConnectorPoint PointX="16.353391865234375" PointY="13.747294921874998" />
+          <ConnectorPoint PointX="15.125" PointY="3.2088265706380144" />
+          <ConnectorPoint PointX="16.320310624999998" PointY="3.2088265706380144" />
+          <ConnectorPoint PointX="16.320310624999998" PointY="4.75" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkSpecFile_Request" >
-          <ConnectorPoint PointX="17.375" PointY="10.792674153645834" />
-          <ConnectorPoint PointX="18.125" PointY="10.792674153645834" />
+          <ConnectorPoint PointX="17.375" PointY="7.4176741536458337" />
+          <ConnectorPoint PointX="18.125" PointY="7.4176741536458337" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkSpec_DealerSalesRep" >
-          <ConnectorPoint PointX="15.125" PointY="5.5299923040008583" />
-          <ConnectorPoint PointX="16.853758144531248" PointY="5.5299923040008583" />
-          <ConnectorPoint PointX="16.853758144531248" PointY="8.375" />
+          <ConnectorPoint PointX="15.125" PointY="7.1675523757934565" />
+          <ConnectorPoint PointX="15.875" PointY="7.1675523757934565" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkSpec_PaoliSpecTeam" >
-          <ConnectorPoint PointX="15.125" PointY="6.8678331246566726" />
-          <ConnectorPoint PointX="16.333126572265623" PointY="6.8678331246566726" />
-          <ConnectorPoint PointX="16.333126572265623" PointY="8.375" />
+          <ConnectorPoint PointX="15.125" PointY="5.8962761878967278" />
+          <ConnectorPoint PointX="15.875" PointY="5.8962761878967278" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkUser_Company" >
+          <ConnectorPoint PointX="13.625" PointY="4.3144742838541656" />
+          <ConnectorPoint PointX="13.25" PointY="4.6894742838541674" />
+          <ConnectorPoint PointX="13.25" PointY="6.2787581380208337" />
+          <ConnectorPoint PointX="13.625" PointY="6.2787581380208337" />
         </AssociationConnector>
         </Diagram>
     </Diagrams>

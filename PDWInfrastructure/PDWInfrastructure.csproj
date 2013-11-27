@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompanyTableParams.cs" />
     <Compile Include="DataTableParams.cs" />
     <Compile Include="DealerPageTableParams.cs" />
     <Compile Include="DealerTableParams.cs" />

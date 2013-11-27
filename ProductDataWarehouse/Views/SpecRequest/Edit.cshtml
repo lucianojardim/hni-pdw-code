@@ -25,7 +25,31 @@ else
     <script type="text/javascript">
 		var seriesList = [@Html.Raw(SpecRequestController.GetJustSeriesNameList())];
 
+    	function reloadDealerSalesRepList() {
+    		$.ajax({
+    			dataType: 'json',
+    			type: 'GET',
+    			url: '/User/GetDealerSalesRepListForCompany',
+    			data: { companyId: $('#CompanyID').val() },
+    			success: function (data, textStatus, jqXHR) {
+    				$('#DealerSalesRep').empty();
+    				$.each(data.theList, function (idx, item) {
+    					$('#DealerSalesRep').append('<option value="' + item.Value + '">' + item.Text + '</option>');
+    				});
+    			},
+    			error: function (jqXHR, textStatus, errorThrown) {
+    				alert('Error getting Dealer Sales Rep list:' + errorThrown)
+    			}
+    		});			
+    	}
+
     	$(document).ready(function () {
+    		reloadDealerSalesRepList();
+
+    		$('#CompanyID').change(function () {
+    			reloadDealerSalesRepList();
+    		});
+
     		$('#SeriesList').tagit({
 				availableTags: seriesList,
     			allowSpaces: true,
@@ -69,9 +93,9 @@ else
 	{
 		@Html.HiddenFor( m => m.RequestID )
         <span class="dataRow">@Html.MJLabelFor( m => m.ProjectName, true )@Html.TextBoxFor( m => m.ProjectName )<br/></span>
-        <span class="dataRow">@Html.MJLabelFor( m => m.CompanyID, true )@Html.DropDownListFor( m => m.CompanyID, ImportController.GetDealerDDList() )
+        <span class="dataRow">@Html.MJLabelFor( m => m.CompanyID, true )@Html.DropDownListFor( m => m.CompanyID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer ) )
 			@Html.MJLabelFor( m => m.DealerSalesRep, true )@Html.DropDownListFor( m => m.DealerSalesRep, UserController.GetUserDDList( PDWInfrastructure.PaoliWebUser.PaoliWebRole.DealerSalesRep ) )<br/></span>
-        <span class="dataRow">@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )@Html.DropDownListFor( m => m.PaoliSalesRepGroupID, ImportController.GetDealerDDList() )
+        <span class="dataRow">@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )@Html.DropDownListFor( m => m.PaoliSalesRepGroupID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup ) )
 			@Html.MJLabelFor( m => m.PaoliSpecTeamMember, true )@Html.DropDownListFor( m => m.PaoliSpecTeamMember, UserController.GetUserDDList( PDWInfrastructure.PaoliWebUser.PaoliWebRole.PaoliMemberSpecTeam ) )<br/></span>
 		<div class="padr30 padl30"><hr /></div>
         <span class="dataRow">@Html.MJLabelFor( m => m.ListPrice, true )@Html.TextBoxFor( m => m.ListPrice )
@@ -87,12 +111,12 @@ else
         <span class="dataRow">@Html.MJLabelFor( m => m.SavedLocation, true )@Html.TextBoxFor( m => m.SavedLocation )
 			@Html.MJLabelFor( m => m.Notes, true )@Html.TextAreaFor( m => m.Notes )<br/></span>
 		<div class="padr30 padl30"><hr /></div>
-		<span class="dataRow">@Html.MJLabelFor( m => m.xlsFile, true )<input type="file" id="xlsFile" name="xlsFile" accept=".xls,.xlsx" /></span>
-		<span class="dataRow">@Html.MJLabelFor( m => m.sifFile, true )<input type="file" id="sifFile" name="sifFile" accept=".sif" /></span>
-		<span class="dataRow">@Html.MJLabelFor( m => m.sp4File, true )<input type="file" id="sp4File" name="sp4File" accept=".sp4" /></span>
-		<span class="dataRow">@Html.MJLabelFor( m => m.pdfFile, true )<input type="file" id="pdfFile" name="pdfFile" accept=".pdf" /></span>
-		<span class="dataRow">@Html.MJLabelFor( m => m.dwgFile, true )<input type="file" id="dwgFile" name="dwgFile" accept=".dwg" /></span>
-		<span class="dataRow">@Html.MJLabelFor( m => m.imgFile, true )<input type="file" id="imgFile" name="imgFile" accept=".jpg,.png,.gif,.bmp" /></span>
+		<span class="dataRow">@Html.MJLabelFor( m => m.xlsFile, true )<input type="file" id="xlsFile" name="xlsFile" accept=".xls,.xlsx" />@Html.EditorFor( m => m.xlsFileList )</span>
+		<span class="dataRow">@Html.MJLabelFor( m => m.sifFile, true )<input type="file" id="sifFile" name="sifFile" accept=".sif" />@Html.EditorFor( m => m.sifFileList )</span>
+		<span class="dataRow">@Html.MJLabelFor( m => m.sp4File, true )<input type="file" id="sp4File" name="sp4File" accept=".sp4" />@Html.EditorFor( m => m.sp4FileList )</span>
+		<span class="dataRow">@Html.MJLabelFor( m => m.pdfFile, true )<input type="file" id="pdfFile" name="pdfFile" accept=".pdf" />@Html.EditorFor( m => m.pdfFileList )</span>
+		<span class="dataRow">@Html.MJLabelFor( m => m.dwgFile, true )<input type="file" id="dwgFile" name="dwgFile" accept=".dwg" />@Html.EditorFor( m => m.dwgFileList )</span>
+		<span class="dataRow">@Html.MJLabelFor( m => m.imgFile, true )<input type="file" id="imgFile" name="imgFile" accept=".jpg,.png,.gif,.bmp" />@Html.EditorFor( m => m.imgFileList )</span>
 @Html.ValidationSummary()
         <input type="submit" class="btn_type1" value="Update" id="submitBtn" />
 	}

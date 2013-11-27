@@ -49,11 +49,12 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "DealerVideoLinks", "Dealer", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Dealer), "VideoLink", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.VideoLink))]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkDealer_VideoLink", "VideoLink", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.VideoLink), "Dealer", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Dealer), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkDFP_Dealer", "Dealer", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.Dealer), "DealerFeaturedProduct", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.DealerFeaturedProduct), true)]
-[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSpec_Company", "Dealer", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.Dealer), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
-[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSpec_RepGroup", "Dealer", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.Dealer), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSpec_Company", "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.Company), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSpec_RepGroup", "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.Company), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSpecFile_Request", "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.SpecRequest), "SpecRequestFile", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequestFile), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSpec_DealerSalesRep", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSpec_PaoliSpecTeam", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkUser_Company", "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.Company), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.User), true)]
 
 #endregion
 
@@ -508,6 +509,22 @@ namespace PDWDBContext
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
+        public ObjectSet<Company> Companies
+        {
+            get
+            {
+                if ((_Companies == null))
+                {
+                    _Companies = base.CreateObjectSet<Company>("Companies");
+                }
+                return _Companies;
+            }
+        }
+        private ObjectSet<Company> _Companies;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
         public ObjectSet<SpecRequestFile> SpecRequestFiles
         {
             get
@@ -739,6 +756,14 @@ namespace PDWDBContext
         public void AddToUsers(User user)
         {
             base.AddObject("Users", user);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Companies EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToCompanies(Company company)
+        {
+            base.AddObject("Companies", company);
         }
     
         /// <summary>
@@ -1251,6 +1276,427 @@ namespace PDWDBContext
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="Company")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Company : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Company object.
+        /// </summary>
+        /// <param name="companyID">Initial value of the CompanyID property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="tripIncentive">Initial value of the TripIncentive property.</param>
+        /// <param name="companyType">Initial value of the CompanyType property.</param>
+        public static Company CreateCompany(global::System.Int32 companyID, global::System.String name, global::System.Boolean tripIncentive, global::System.Int32 companyType)
+        {
+            Company company = new Company();
+            company.CompanyID = companyID;
+            company.Name = name;
+            company.TripIncentive = tripIncentive;
+            company.CompanyType = companyType;
+            return company;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 CompanyID
+        {
+            get
+            {
+                return _CompanyID;
+            }
+            set
+            {
+                if (_CompanyID != value)
+                {
+                    OnCompanyIDChanging(value);
+                    ReportPropertyChanging("CompanyID");
+                    _CompanyID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("CompanyID");
+                    OnCompanyIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _CompanyID;
+        partial void OnCompanyIDChanging(global::System.Int32 value);
+        partial void OnCompanyIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Address1
+        {
+            get
+            {
+                return _Address1;
+            }
+            set
+            {
+                OnAddress1Changing(value);
+                ReportPropertyChanging("Address1");
+                _Address1 = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Address1");
+                OnAddress1Changed();
+            }
+        }
+        private global::System.String _Address1;
+        partial void OnAddress1Changing(global::System.String value);
+        partial void OnAddress1Changed();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Address2
+        {
+            get
+            {
+                return _Address2;
+            }
+            set
+            {
+                OnAddress2Changing(value);
+                ReportPropertyChanging("Address2");
+                _Address2 = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Address2");
+                OnAddress2Changed();
+            }
+        }
+        private global::System.String _Address2;
+        partial void OnAddress2Changing(global::System.String value);
+        partial void OnAddress2Changed();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String City
+        {
+            get
+            {
+                return _City;
+            }
+            set
+            {
+                OnCityChanging(value);
+                ReportPropertyChanging("City");
+                _City = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("City");
+                OnCityChanged();
+            }
+        }
+        private global::System.String _City;
+        partial void OnCityChanging(global::System.String value);
+        partial void OnCityChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String State
+        {
+            get
+            {
+                return _State;
+            }
+            set
+            {
+                OnStateChanging(value);
+                ReportPropertyChanging("State");
+                _State = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("State");
+                OnStateChanged();
+            }
+        }
+        private global::System.String _State;
+        partial void OnStateChanging(global::System.String value);
+        partial void OnStateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Zip
+        {
+            get
+            {
+                return _Zip;
+            }
+            set
+            {
+                OnZipChanging(value);
+                ReportPropertyChanging("Zip");
+                _Zip = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Zip");
+                OnZipChanged();
+            }
+        }
+        private global::System.String _Zip;
+        partial void OnZipChanging(global::System.String value);
+        partial void OnZipChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Phone
+        {
+            get
+            {
+                return _Phone;
+            }
+            set
+            {
+                OnPhoneChanging(value);
+                ReportPropertyChanging("Phone");
+                _Phone = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Phone");
+                OnPhoneChanged();
+            }
+        }
+        private global::System.String _Phone;
+        partial void OnPhoneChanging(global::System.String value);
+        partial void OnPhoneChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String FAX
+        {
+            get
+            {
+                return _FAX;
+            }
+            set
+            {
+                OnFAXChanging(value);
+                ReportPropertyChanging("FAX");
+                _FAX = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("FAX");
+                OnFAXChanged();
+            }
+        }
+        private global::System.String _FAX;
+        partial void OnFAXChanging(global::System.String value);
+        partial void OnFAXChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String MasterID
+        {
+            get
+            {
+                return _MasterID;
+            }
+            set
+            {
+                OnMasterIDChanging(value);
+                ReportPropertyChanging("MasterID");
+                _MasterID = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("MasterID");
+                OnMasterIDChanged();
+            }
+        }
+        private global::System.String _MasterID;
+        partial void OnMasterIDChanging(global::System.String value);
+        partial void OnMasterIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String SubCompanyIDs
+        {
+            get
+            {
+                return _SubCompanyIDs;
+            }
+            set
+            {
+                OnSubCompanyIDsChanging(value);
+                ReportPropertyChanging("SubCompanyIDs");
+                _SubCompanyIDs = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("SubCompanyIDs");
+                OnSubCompanyIDsChanged();
+            }
+        }
+        private global::System.String _SubCompanyIDs;
+        partial void OnSubCompanyIDsChanging(global::System.String value);
+        partial void OnSubCompanyIDsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean TripIncentive
+        {
+            get
+            {
+                return _TripIncentive;
+            }
+            set
+            {
+                OnTripIncentiveChanging(value);
+                ReportPropertyChanging("TripIncentive");
+                _TripIncentive = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("TripIncentive");
+                OnTripIncentiveChanged();
+            }
+        }
+        private global::System.Boolean _TripIncentive;
+        partial void OnTripIncentiveChanging(global::System.Boolean value);
+        partial void OnTripIncentiveChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 CompanyType
+        {
+            get
+            {
+                return _CompanyType;
+            }
+            set
+            {
+                OnCompanyTypeChanging(value);
+                ReportPropertyChanging("CompanyType");
+                _CompanyType = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CompanyType");
+                OnCompanyTypeChanged();
+            }
+        }
+        private global::System.Int32 _CompanyType;
+        partial void OnCompanyTypeChanging(global::System.Int32 value);
+        partial void OnCompanyTypeChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSpec_Company", "SpecRequest")]
+        public EntityCollection<SpecRequest> SpecRequests
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<SpecRequest>("PaoliPDWModel.fkSpec_Company", "SpecRequest");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SpecRequest>("PaoliPDWModel.fkSpec_Company", "SpecRequest", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSpec_RepGroup", "SpecRequest")]
+        public EntityCollection<SpecRequest> SpecRequests1
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<SpecRequest>("PaoliPDWModel.fkSpec_RepGroup", "SpecRequest");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SpecRequest>("PaoliPDWModel.fkSpec_RepGroup", "SpecRequest", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkUser_Company", "User")]
+        public EntityCollection<User> Users
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<User>("PaoliPDWModel.fkUser_Company", "User");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<User>("PaoliPDWModel.fkUser_Company", "User", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="Dealer")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -1581,50 +2027,6 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<DealerFeaturedProduct>("PaoliPDWModel.fkDFP_Dealer", "DealerFeaturedProduct", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSpec_Company", "SpecRequest")]
-        public EntityCollection<SpecRequest> SpecRequests
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<SpecRequest>("PaoliPDWModel.fkSpec_Company", "SpecRequest");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SpecRequest>("PaoliPDWModel.fkSpec_Company", "SpecRequest", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSpec_RepGroup", "SpecRequest")]
-        public EntityCollection<SpecRequest> SpecRequests1
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<SpecRequest>("PaoliPDWModel.fkSpec_RepGroup", "SpecRequest");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SpecRequest>("PaoliPDWModel.fkSpec_RepGroup", "SpecRequest", value);
                 }
             }
         }
@@ -4734,48 +5136,72 @@ namespace PDWDBContext
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int32> CompanyID
+        public Nullable<global::System.Int32> PrimaryCompanyID
         {
             get
             {
-                return _CompanyID;
+                return _PrimaryCompanyID;
             }
             set
             {
-                OnCompanyIDChanging(value);
-                ReportPropertyChanging("CompanyID");
-                _CompanyID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("CompanyID");
-                OnCompanyIDChanged();
+                OnPrimaryCompanyIDChanging(value);
+                ReportPropertyChanging("PrimaryCompanyID");
+                _PrimaryCompanyID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("PrimaryCompanyID");
+                OnPrimaryCompanyIDChanged();
             }
         }
-        private Nullable<global::System.Int32> _CompanyID;
-        partial void OnCompanyIDChanging(Nullable<global::System.Int32> value);
-        partial void OnCompanyIDChanged();
+        private Nullable<global::System.Int32> _PrimaryCompanyID;
+        partial void OnPrimaryCompanyIDChanging(Nullable<global::System.Int32> value);
+        partial void OnPrimaryCompanyIDChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int32> DealerSalesRep
+        public Nullable<global::System.Int32> DealerSalesRepID
         {
             get
             {
-                return _DealerSalesRep;
+                return _DealerSalesRepID;
             }
             set
             {
-                OnDealerSalesRepChanging(value);
-                ReportPropertyChanging("DealerSalesRep");
-                _DealerSalesRep = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("DealerSalesRep");
-                OnDealerSalesRepChanged();
+                OnDealerSalesRepIDChanging(value);
+                ReportPropertyChanging("DealerSalesRepID");
+                _DealerSalesRepID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("DealerSalesRepID");
+                OnDealerSalesRepIDChanged();
             }
         }
-        private Nullable<global::System.Int32> _DealerSalesRep;
-        partial void OnDealerSalesRepChanging(Nullable<global::System.Int32> value);
-        partial void OnDealerSalesRepChanged();
+        private Nullable<global::System.Int32> _DealerSalesRepID;
+        partial void OnDealerSalesRepIDChanging(Nullable<global::System.Int32> value);
+        partial void OnDealerSalesRepIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> PaoliSpecTeamMemberID
+        {
+            get
+            {
+                return _PaoliSpecTeamMemberID;
+            }
+            set
+            {
+                OnPaoliSpecTeamMemberIDChanging(value);
+                ReportPropertyChanging("PaoliSpecTeamMemberID");
+                _PaoliSpecTeamMemberID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("PaoliSpecTeamMemberID");
+                OnPaoliSpecTeamMemberIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _PaoliSpecTeamMemberID;
+        partial void OnPaoliSpecTeamMemberIDChanging(Nullable<global::System.Int32> value);
+        partial void OnPaoliSpecTeamMemberIDChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -4878,6 +5304,30 @@ namespace PDWDBContext
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
+        public global::System.String FeaturedSeries
+        {
+            get
+            {
+                return _FeaturedSeries;
+            }
+            set
+            {
+                OnFeaturedSeriesChanging(value);
+                ReportPropertyChanging("FeaturedSeries");
+                _FeaturedSeries = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("FeaturedSeries");
+                OnFeaturedSeriesChanged();
+            }
+        }
+        private global::System.String _FeaturedSeries;
+        partial void OnFeaturedSeriesChanging(global::System.String value);
+        partial void OnFeaturedSeriesChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
         public global::System.String SeriesList
         {
             get
@@ -4950,30 +5400,6 @@ namespace PDWDBContext
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int32> PaoliSpecTeamMember
-        {
-            get
-            {
-                return _PaoliSpecTeamMember;
-            }
-            set
-            {
-                OnPaoliSpecTeamMemberChanging(value);
-                ReportPropertyChanging("PaoliSpecTeamMember");
-                _PaoliSpecTeamMember = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("PaoliSpecTeamMember");
-                OnPaoliSpecTeamMemberChanged();
-            }
-        }
-        private Nullable<global::System.Int32> _PaoliSpecTeamMember;
-        partial void OnPaoliSpecTeamMemberChanging(Nullable<global::System.Int32> value);
-        partial void OnPaoliSpecTeamMemberChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
         public Nullable<global::System.DateTime> LastModifiedDate
         {
             get
@@ -4992,30 +5418,6 @@ namespace PDWDBContext
         private Nullable<global::System.DateTime> _LastModifiedDate;
         partial void OnLastModifiedDateChanging(Nullable<global::System.DateTime> value);
         partial void OnLastModifiedDateChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String FeaturedSeries
-        {
-            get
-            {
-                return _FeaturedSeries;
-            }
-            set
-            {
-                OnFeaturedSeriesChanging(value);
-                ReportPropertyChanging("FeaturedSeries");
-                _FeaturedSeries = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("FeaturedSeries");
-                OnFeaturedSeriesChanged();
-            }
-        }
-        private global::System.String _FeaturedSeries;
-        partial void OnFeaturedSeriesChanging(global::System.String value);
-        partial void OnFeaturedSeriesChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -5172,16 +5574,16 @@ namespace PDWDBContext
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSpec_Company", "Dealer")]
-        public Dealer Dealer
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSpec_Company", "Company")]
+        public Company PrimaryCompany
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Dealer>("PaoliPDWModel.fkSpec_Company", "Dealer").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Company>("PaoliPDWModel.fkSpec_Company", "Company").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Dealer>("PaoliPDWModel.fkSpec_Company", "Dealer").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Company>("PaoliPDWModel.fkSpec_Company", "Company").Value = value;
             }
         }
         /// <summary>
@@ -5189,17 +5591,17 @@ namespace PDWDBContext
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<Dealer> DealerReference
+        public EntityReference<Company> PrimaryCompanyReference
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Dealer>("PaoliPDWModel.fkSpec_Company", "Dealer");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Company>("PaoliPDWModel.fkSpec_Company", "Company");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Dealer>("PaoliPDWModel.fkSpec_Company", "Dealer", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Company>("PaoliPDWModel.fkSpec_Company", "Company", value);
                 }
             }
         }
@@ -5210,16 +5612,16 @@ namespace PDWDBContext
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSpec_RepGroup", "Dealer")]
-        public Dealer Dealer1
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSpec_RepGroup", "Company")]
+        public Company PaoliSalesRepGroup
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Dealer>("PaoliPDWModel.fkSpec_RepGroup", "Dealer").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Company>("PaoliPDWModel.fkSpec_RepGroup", "Company").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Dealer>("PaoliPDWModel.fkSpec_RepGroup", "Dealer").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Company>("PaoliPDWModel.fkSpec_RepGroup", "Company").Value = value;
             }
         }
         /// <summary>
@@ -5227,17 +5629,17 @@ namespace PDWDBContext
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<Dealer> Dealer1Reference
+        public EntityReference<Company> PaoliSalesRepGroupReference
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Dealer>("PaoliPDWModel.fkSpec_RepGroup", "Dealer");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Company>("PaoliPDWModel.fkSpec_RepGroup", "Company");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Dealer>("PaoliPDWModel.fkSpec_RepGroup", "Dealer", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Company>("PaoliPDWModel.fkSpec_RepGroup", "Company", value);
                 }
             }
         }
@@ -5271,7 +5673,7 @@ namespace PDWDBContext
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSpec_DealerSalesRep", "User")]
-        public User DealerSalesRepUser
+        public User DealerSalesRep
         {
             get
             {
@@ -5287,7 +5689,7 @@ namespace PDWDBContext
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<User> DealerSalesRepUserReference
+        public EntityReference<User> DealerSalesRepReference
         {
             get
             {
@@ -5309,7 +5711,7 @@ namespace PDWDBContext
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSpec_PaoliSpecTeam", "User")]
-        public User SpecTeamMemberUser
+        public User SpecTeamMember
         {
             get
             {
@@ -5325,7 +5727,7 @@ namespace PDWDBContext
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<User> SpecTeamMemberUserReference
+        public EntityReference<User> SpecTeamMemberReference
         {
             get
             {
@@ -7108,22 +7510,22 @@ namespace PDWDBContext
         /// <param name="userID">Initial value of the UserID property.</param>
         /// <param name="firstName">Initial value of the FirstName property.</param>
         /// <param name="lastName">Initial value of the LastName property.</param>
-        /// <param name="companyName">Initial value of the CompanyName property.</param>
         /// <param name="email">Initial value of the Email property.</param>
         /// <param name="password">Initial value of the Password property.</param>
         /// <param name="enabled">Initial value of the Enabled property.</param>
         /// <param name="accountType">Initial value of the AccountType property.</param>
-        public static User CreateUser(global::System.Int32 userID, global::System.String firstName, global::System.String lastName, global::System.String companyName, global::System.String email, global::System.String password, global::System.Boolean enabled, global::System.Int32 accountType)
+        /// <param name="companyID">Initial value of the CompanyID property.</param>
+        public static User CreateUser(global::System.Int32 userID, global::System.String firstName, global::System.String lastName, global::System.String email, global::System.String password, global::System.Boolean enabled, global::System.Int32 accountType, global::System.Int32 companyID)
         {
             User user = new User();
             user.UserID = userID;
             user.FirstName = firstName;
             user.LastName = lastName;
-            user.CompanyName = companyName;
             user.Email = email;
             user.Password = password;
             user.Enabled = enabled;
             user.AccountType = accountType;
+            user.CompanyID = companyID;
             return user;
         }
 
@@ -7205,30 +7607,6 @@ namespace PDWDBContext
         private global::System.String _LastName;
         partial void OnLastNameChanging(global::System.String value);
         partial void OnLastNameChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String CompanyName
-        {
-            get
-            {
-                return _CompanyName;
-            }
-            set
-            {
-                OnCompanyNameChanging(value);
-                ReportPropertyChanging("CompanyName");
-                _CompanyName = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("CompanyName");
-                OnCompanyNameChanged();
-            }
-        }
-        private global::System.String _CompanyName;
-        partial void OnCompanyNameChanging(global::System.String value);
-        partial void OnCompanyNameChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -7517,6 +7895,30 @@ namespace PDWDBContext
         private global::System.Int32 _AccountType;
         partial void OnAccountTypeChanging(global::System.Int32 value);
         partial void OnAccountTypeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 CompanyID
+        {
+            get
+            {
+                return _CompanyID;
+            }
+            set
+            {
+                OnCompanyIDChanging(value);
+                ReportPropertyChanging("CompanyID");
+                _CompanyID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CompanyID");
+                OnCompanyIDChanged();
+            }
+        }
+        private global::System.Int32 _CompanyID;
+        partial void OnCompanyIDChanging(global::System.Int32 value);
+        partial void OnCompanyIDChanged();
 
         #endregion
 
@@ -7563,6 +7965,44 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SpecRequest>("PaoliPDWModel.fkSpec_PaoliSpecTeam", "SpecRequest", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkUser_Company", "Company")]
+        public Company Company
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Company>("PaoliPDWModel.fkUser_Company", "Company").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Company>("PaoliPDWModel.fkUser_Company", "Company").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Company> CompanyReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Company>("PaoliPDWModel.fkUser_Company", "Company");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Company>("PaoliPDWModel.fkUser_Company", "Company", value);
                 }
             }
         }

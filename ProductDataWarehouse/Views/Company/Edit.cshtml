@@ -1,0 +1,47 @@
+﻿@model PDWModels.Companies.CompanyInformation
+@{
+	ViewBag.Title = "Edit Company";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+
+@if( ViewBag.CloseFancyBox ?? false )
+{
+    <script type="text/javascript">
+    	$(document).ready(function () {
+    		parent.$.fancybox.close();
+    		if (parent.loadCompanies) {
+    			parent.loadCompanies();
+    		}
+    	});
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+    	$(document).ready(function () {
+    	});
+
+    </script>    
+}
+    <h2>Edit Company</h2>
+
+    @using( Html.BeginForm( "Edit", "Company", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
+	{
+		@Html.HiddenFor( m => m.CompanyID )
+        <span class="dataRow">@Html.MJLabelFor( m => m.Name, true )@Html.TextBoxFor( m => m.Name )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Address1, true )@Html.TextBoxFor( m => m.Address1 )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Address2, true )@Html.TextBoxFor( m => m.Address2 )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.City, true )@Html.TextBoxFor( m => m.City )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.State, true )@Html.DropDownListFor( m => m.State, UserController.GetStateDDList() )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Zip, true )@Html.TextBoxFor( m => m.Zip )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Phone, true )@Html.TextBoxFor( m => m.Phone )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.FAX, true )@Html.TextBoxFor( m => m.FAX )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.CompanyType, true )@Html.DropDownListFor( m => m.CompanyType, CompanyController.GetCompanyTypeDDList() )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.MasterID, true )@Html.TextBoxFor( m => m.MasterID )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.SubCompanyIDs, true )@Html.TextBoxFor( m => m.SubCompanyIDs )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.TripIncentive, true )@Html.CheckBoxFor( m => m.TripIncentive )<br/></span>
+@Html.ValidationSummary()
+        <input type="submit" class="btn_type1" value="Update" id="submitBtn" />
+	}

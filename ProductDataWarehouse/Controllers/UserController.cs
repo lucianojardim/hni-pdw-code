@@ -40,7 +40,7 @@ namespace ProductDataWarehouse.Controllers
 		[PaoliAuthorize( "CanManageUsers" )]
 		public ActionResult Add()
 		{
-			return View( new UserInformation() );
+			return View( new UserInformation() { Enabled = true } );
 		}
 
 		[PaoliAuthorize( "CanManageUsers" )]
@@ -268,6 +268,32 @@ namespace ProductDataWarehouse.Controllers
 		{
 			return ( new UserRepository() ).GetUserListForAccountType( accountType )
 				.Select( u => new SelectListItem() { Value = u.UserID.ToString(), Text = u.FullName } );
+		}
+
+		public JsonResult GetDealerSalesRepListForCompany( int companyId )
+		{
+			var theList = ( new UserRepository() ).GetUserListForAccountType( companyId, PaoliWebUser.PaoliWebRole.DealerSalesRep )
+				.Select( u => new SelectListItem() { Value = u.UserID.ToString(), Text = u.FullName } );
+
+			return Json( new
+			{
+				theList = theList
+			},
+				JsonRequestBehavior.AllowGet );
+
+		}
+
+		public JsonResult GetSpecTeamListForCompany( int companyId )
+		{
+			var theList = ( new UserRepository() ).GetUserListForAccountType( companyId, PaoliWebUser.PaoliWebRole.PaoliMemberSpecTeam )
+				.Select( u => new SelectListItem() { Value = u.UserID.ToString(), Text = u.FullName } );
+
+			return Json( new
+			{
+				theList = theList
+			},
+				JsonRequestBehavior.AllowGet );
+
 		}
 	}
 }

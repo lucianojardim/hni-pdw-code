@@ -1,0 +1,120 @@
+﻿@{
+    ViewBag.Title = "Companies";
+	ViewBag.CurrentPage = "Users";
+	ViewBag.CurrentSubPage = "Companies";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+
+<h2>Company List</h2>
+
+<a href="@Url.Action( "Add", "Company" )?iframe" id="addNewCompany">Add New</a><br />
+Company Type: @Html.DropDownList( "CompanyType", ProductDataWarehouse.Controllers.CompanyController.GetCompanyTypeFilterList() )
+<div>
+    <table id="companyList">
+    <thead></thead>
+    <tfoot></tfoot>
+    </table>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('#CompanyType').change(loadCompanies);
+
+		$("#addNewCompany").fancybox({
+			'autoDimensions': false,
+			'width': 400,
+			'height': 600,
+			'padding': 20,
+			'margin': 0,
+			'scrolling': 'auto',
+			'titleShow': false,
+			'type': 'iframe'
+		});
+
+		loadCompanies();
+	});
+
+	function deleteCompany(dID) {
+		if (confirm('Delete Company?')) {
+			$.ajax({
+				dataType: 'json',
+				type: 'GET',
+				url: '/Company/Delete',
+				data: { id: dID },
+				success: function (data, textStatus, jqXHR) {
+					loadCompanies();
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					alert('Error deleting this Company:' + errorThrown)
+				}
+			});
+		}
+	}
+
+	var oTable = null;
+	function loadCompanies() {
+		if (oTable != null) {
+			oTable.fnDraw();
+			return;
+		}
+
+		oTable = $('#companyList').dataTable({
+			"bServerSide": true,
+			"bAutoWidth": false,
+			"bFilter": true,
+			"bLengthChange": false, // don't show dropdown for #items per page
+			"bPaginate": true,
+			"bInfo": true,
+			"sAjaxSource": '@Url.Action( "FullCompanyList" )',
+			"fnServerParams": function (aoData) {
+				aoData.push({ "name": "companyType", "value": $('#CompanyType').val() });
+			},
+			"iDisplayLength": 10,
+			"fnServerData": function (sSource, aoData, fnCallback) {
+				$.ajax({
+					dataType: 'json',
+					type: "POST",
+					url: sSource,
+					data: aoData,
+					success: function (data, textStatus, jqXHR) {
+						fnCallback(data, textStatus, jqXHR);
+						$('.fbImageBtn').fancybox({
+							'autoDimensions': false,
+							'width': 400,
+							'height': 600,
+							'padding': 20,
+							'margin': 0,
+							'scrolling': 'auto',
+							'titleShow': false,
+							'type': 'iframe'
+						});
+					},
+					error: function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Companies:' + errorThrown) }
+				})
+			},
+			"bProcessing": false, // don't want to use the default progress indicator at this time
+			"aaSorting": [[0, "asc"]],
+			"aoColumnDefs": [
+                    { "sName": "Name", "sTitle": "Name", "aTargets": [0], "mDataProp": "Name", "sWidth": "30%" },
+                    { "sName": "MasterID", "sTitle": "Master ID", "aTargets": [1], "mDataProp": "MasterID", "sWidth": "30%" },
+                    { "sName": "CompanyType", "sTitle": "Company Type", "aTargets": [2], "mDataProp": "CompanyType", "sWidth": "25%" },
+                    { "sName": "EditButtons",
+                    	"aTargets": [3],
+                    	"bSearchable": false,
+                    	"bSortable": false,
+                    	"mDataProp": "EditButtons", "sWidth": "15%",
+                    	"fnRender": function (oObj) {
+                    		var s;
+                    		s = '<a href=\"@Url.Action( "Edit", "Company" )/' + oObj.aData["CompanyID"] + '/?iframe\" class="fbImageBtn">Edit</a>';
+                    		if (oObj.aData["CanDelete"]) {
+                    			s += '&nbsp;|&nbsp;';
+                    			s += '<a href=\"#\" onclick="deleteCompany(' + oObj.aData["CompanyID"] + ');">Delete</a>';
+                    		}
+                    		return s;
+                    	}
+                    }
+                ]
+		});
+	}
+
+</script>

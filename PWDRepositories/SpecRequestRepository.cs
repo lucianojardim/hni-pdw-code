@@ -7,6 +7,7 @@ using PDWInfrastructure;
 using PDWModels.SpecRequests;
 using System.IO;
 using System.Configuration;
+using System.Data.Objects.DataClasses;
 
 namespace PWDRepositories
 {
@@ -24,9 +25,9 @@ namespace PWDRepositories
 			{
 				RequestID = sRequest.RequestID,
 				Name = sRequest.Name,
-				Dealer = sRequest.CompanyID.HasValue ? sRequest.Dealer.Name : "",
-				RepGroup = sRequest.PaoliSalesRepGroupID.HasValue ? sRequest.Dealer1.Name : "",
-				SpecTeamMember = sRequest.PaoliSpecTeamMember.HasValue ? sRequest.SpecTeamMemberUser.FullName : "",
+				Dealer = sRequest.PrimaryCompanyID.HasValue ? sRequest.PrimaryCompany.Name : "",
+				RepGroup = sRequest.PaoliSalesRepGroupID.HasValue ? sRequest.PaoliSalesRepGroup.Name : "",
+				SpecTeamMember = sRequest.PaoliSpecTeamMemberID.HasValue ? sRequest.SpecTeamMember.FullName : "",
 				IsRecommended = sRequest.IsGoodForWeb ?? false
 			};
 		}
@@ -44,10 +45,10 @@ namespace PWDRepositories
 			{
 				requestList = requestList.Where( i =>
 					i.Name.Contains( paramDetails.sSearch ) ||
-					i.Dealer.Name.Contains( paramDetails.sSearch ) ||
-					i.Dealer1.Name.Contains( paramDetails.sSearch ) ||
-					i.SpecTeamMemberUser.FirstName.Contains( paramDetails.sSearch ) ||
-					i.SpecTeamMemberUser.LastName.Contains( paramDetails.sSearch ) );
+					i.PrimaryCompany.Name.Contains( paramDetails.sSearch ) ||
+					i.PaoliSalesRepGroup.Name.Contains( paramDetails.sSearch ) ||
+					i.SpecTeamMember.FirstName.Contains( paramDetails.sSearch ) ||
+					i.SpecTeamMember.LastName.Contains( paramDetails.sSearch ) );
 			}
 
 			displayedRecords = requestList.Count();
@@ -71,31 +72,31 @@ namespace PWDRepositories
 				case "dealer":
 					if( paramDetails.sSortDir_0.ToLower() == "asc" )
 					{
-						filteredAndSorted = requestList.OrderBy( v => v.Dealer.Name );
+						filteredAndSorted = requestList.OrderBy( v => v.PrimaryCompany.Name );
 					}
 					else
 					{
-						filteredAndSorted = requestList.OrderByDescending( v => v.Dealer.Name );
+						filteredAndSorted = requestList.OrderByDescending( v => v.PrimaryCompany.Name );
 					}
 					break;
 				case "repgroup":
 					if( paramDetails.sSortDir_0.ToLower() == "asc" )
 					{
-						filteredAndSorted = requestList.OrderBy( v => v.Dealer1.Name );
+						filteredAndSorted = requestList.OrderBy( v => v.PaoliSalesRepGroup.Name );
 					}
 					else
 					{
-						filteredAndSorted = requestList.OrderByDescending( v => v.Dealer1.Name );
+						filteredAndSorted = requestList.OrderByDescending( v => v.PaoliSalesRepGroup.Name );
 					}
 					break;
 				case "specteammember":
 					if( paramDetails.sSortDir_0.ToLower() == "asc" )
 					{
-						filteredAndSorted = requestList.OrderBy( v => v.SpecTeamMemberUser.LastName );
+						filteredAndSorted = requestList.OrderBy( v => v.SpecTeamMember.LastName );
 					}
 					else
 					{
-						filteredAndSorted = requestList.OrderByDescending( v => v.SpecTeamMemberUser.LastName );
+						filteredAndSorted = requestList.OrderByDescending( v => v.SpecTeamMember.LastName );
 					}
 					break;
 			}
@@ -106,6 +107,27 @@ namespace PWDRepositories
 			}
 
 			return filteredAndSorted.ToList().Select( v => ToSpecRequestSummary( v ) );
+		}
+
+		private SpecRequestInformation.FileListing GetFileListing( string name, IEnumerable<SpecRequestFile> fileList, string fileType )
+		{
+			return new SpecRequestInformation.FileListing()
+			{
+				SpecName = name,
+				Extension = fileType,
+				FileList =
+					fileList
+					.Where( f => f.Extension == fileType )
+					.OrderByDescending( f => f.UploadDate )
+					.Select( i =>
+						new SpecRequestInformation.FileInformation()
+						{
+							FileName = i.Name,
+							UploadDate = i.UploadDate.ToString( "MM/dd/yyyy HH:mm" ),
+							VersionNumber = i.VersionNumber
+						} )
+					.ToList()
+			};
 		}
 
 		public SpecRequestInformation GetSpecRequest( int requestId )
@@ -122,22 +144,29 @@ namespace PWDRepositories
 				Name = sInfo.Name,
 				ProjectName = sInfo.ProjectName,
 				PaoliSalesRepGroupID = sInfo.PaoliSalesRepGroupID,
-				CompanyID = sInfo.CompanyID,
-				DealerSalesRep = sInfo.DealerSalesRep,
+				CompanyID = sInfo.PrimaryCompanyID,
+				DealerSalesRep = sInfo.DealerSalesRepID,
 				IsGSA = sInfo.IsGSA ?? false,
 				SavedLocation = sInfo.SavedLocation,
 				ListPrice = sInfo.ListPrice,
 				SeriesList = sInfo.SeriesList,
 				Received = sInfo.Received ?? false,
 				SPLQuote = sInfo.SPLQuote,
-				PaoliSpecTeamMember = sInfo.PaoliSpecTeamMember,
+				PaoliSpecTeamMember = sInfo.PaoliSpecTeamMemberID,
 				IsGoodForWeb = sInfo.IsGoodForWeb ?? false,
 				AvailableForIn2 = sInfo.AvailableForIn2 ?? false,
 				Footprint = sInfo.Footprint,
 				FeaturedSeries = sInfo.FeaturedSeries,
 				Material = sInfo.Material,
 				Finish = sInfo.Finish,
-				Notes = sInfo.Notes
+				Notes = sInfo.Notes,
+				xlsFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles, "xls" ),
+				sifFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles, "sif" ),
+				sp4FileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles, "sp4" ),
+				pdfFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles, "pdf" ),
+				dwgFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles, "dwg" ),
+				imgFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles, "img" )
+					
 			};
 		}
 
@@ -147,8 +176,8 @@ namespace PWDRepositories
 
 			newSpec.ProjectName = sInfo.ProjectName;
 			newSpec.PaoliSalesRepGroupID = sInfo.PaoliSalesRepGroupID;
-			newSpec.CompanyID = sInfo.CompanyID;
-			newSpec.DealerSalesRep = sInfo.DealerSalesRep;
+			newSpec.PrimaryCompanyID = sInfo.CompanyID;
+			newSpec.DealerSalesRepID = sInfo.DealerSalesRep;
 			newSpec.RequestDate = DateTime.UtcNow;
 			newSpec.IsGSA = sInfo.IsGSA;
 			newSpec.SavedLocation = sInfo.SavedLocation;
@@ -156,7 +185,7 @@ namespace PWDRepositories
 			newSpec.SeriesList = sInfo.SeriesList;
 			newSpec.Received = sInfo.Received;
 			newSpec.SPLQuote = sInfo.SPLQuote;
-			newSpec.PaoliSpecTeamMember = sInfo.PaoliSpecTeamMember;
+			newSpec.PaoliSpecTeamMemberID = sInfo.PaoliSpecTeamMember;
 			newSpec.LastModifiedDate = DateTime.UtcNow;
 			newSpec.IsGoodForWeb = sInfo.IsGoodForWeb;
 			newSpec.AvailableForIn2 = sInfo.AvailableForIn2;
@@ -223,15 +252,15 @@ namespace PWDRepositories
 
 			specInfo.ProjectName = sInfo.ProjectName;
 			specInfo.PaoliSalesRepGroupID = sInfo.PaoliSalesRepGroupID;
-			specInfo.CompanyID = sInfo.CompanyID;
-			specInfo.DealerSalesRep = sInfo.DealerSalesRep;
+			specInfo.PrimaryCompanyID = sInfo.CompanyID;
+			specInfo.DealerSalesRepID = sInfo.DealerSalesRep;
 			specInfo.IsGSA = sInfo.IsGSA;
 			specInfo.SavedLocation = sInfo.SavedLocation;
 			specInfo.ListPrice = sInfo.ListPrice;
 			specInfo.SeriesList = sInfo.SeriesList;
 			specInfo.Received = sInfo.Received;
 			specInfo.SPLQuote = sInfo.SPLQuote;
-			specInfo.PaoliSpecTeamMember = sInfo.PaoliSpecTeamMember;
+			specInfo.PaoliSpecTeamMemberID = sInfo.PaoliSpecTeamMember;
 			specInfo.LastModifiedDate = DateTime.UtcNow;
 			specInfo.IsGoodForWeb = sInfo.IsGoodForWeb;
 			specInfo.AvailableForIn2 = sInfo.AvailableForIn2;

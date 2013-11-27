@@ -11,19 +11,23 @@ namespace PDWModels.SpecRequests
 	{
 		public class FileInformation
 		{
+			public int VersionNumber { get; set; }
 			public string FileName { get; set; }
 			public string UploadDate { get; set; }
 		}
 
-		public SpecRequestInformation()
+		public class FileListing
 		{
-			xlsFileList = new List<FileInformation>();
-			sifFileList = new List<FileInformation>();
-			sp4FileList = new List<FileInformation>();
-			pdfFileList = new List<FileInformation>();
-			dwgFileList = new List<FileInformation>();
-			imgFileList = new List<FileInformation>();
+			public FileListing()
+			{
+				FileList = new List<FileInformation>();
+			}
+
+			public string SpecName { get; set; }
+			public string Extension { get; set; }
+			public List<FileInformation> FileList { get; set; }
 		}
+
 
 		public int RequestID { get; set; }
 		public string Name { get; set; }
@@ -78,12 +82,12 @@ namespace PDWModels.SpecRequests
 		[DisplayName( "Rendering Image" )]
 		public HttpPostedFileBase imgFile { get; set; }
 
-		public List<FileInformation> xlsFileList { get; set; }
-		public List<FileInformation> sifFileList { get; set; }
-		public List<FileInformation> sp4FileList { get; set; }
-		public List<FileInformation> pdfFileList { get; set; }
-		public List<FileInformation> dwgFileList { get; set; }
-		public List<FileInformation> imgFileList { get; set; }
+		public FileListing xlsFileList { get; set; }
+		public FileListing sifFileList { get; set; }
+		public FileListing sp4FileList { get; set; }
+		public FileListing pdfFileList { get; set; }
+		public FileListing dwgFileList { get; set; }
+		public FileListing imgFileList { get; set; }
 		
 	}
 }

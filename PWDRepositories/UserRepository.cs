@@ -23,7 +23,7 @@ namespace PWDRepositories
 				UserID = u.UserID,
 				FirstName = u.FirstName,
 				LastName = u.LastName,
-				CompanyName = u.CompanyName,
+				CompanyName = u.Company.Name,
 				EmailAddress = u.Email,
 				Enabled = u.Enabled
 			};
@@ -58,7 +58,7 @@ namespace PWDRepositories
 					user.LastName = "James";
 					user.Password = enc.Encrypt( "Password!" );
 					user.AccountType = PaoliWebUser.PaoliWebRole.SuperAdmin;
-					user.CompanyName = "WDD Software";
+					user.CompanyID = database.Companies.First( c => c.CompanyType == PaoliWebUser.PaoliCompanyType.Paoli ).CompanyID;
 					database.AddToUsers( user );
 
 					if( database.SaveChanges() == 0 )
@@ -113,7 +113,7 @@ namespace PWDRepositories
 			newUser.Email = uInfo.EmailAddress;
 			newUser.FirstName = uInfo.FirstName;
 			newUser.LastName = uInfo.LastName;
-			newUser.CompanyName = uInfo.CompanyName;
+			newUser.CompanyID = uInfo.CompanyID;
 			newUser.Address1 = uInfo.Address1;
 			newUser.Address2 = uInfo.Address2;
 			newUser.City = uInfo.City;
@@ -163,7 +163,7 @@ Paoli Admin", newUser.Email, password ) );
 				EmailAddress = eUser.Email,
 				FirstName = eUser.FirstName,
 				LastName = eUser.LastName,
-				CompanyName = eUser.CompanyName,
+				CompanyID = eUser.CompanyID,
 				Address1 = eUser.Address1,
 				Address2 = eUser.Address2,
 				City = eUser.City,
@@ -199,7 +199,6 @@ Paoli Admin", newUser.Email, password ) );
 			eUser.Email = uInfo.EmailAddress;
 			eUser.FirstName = uInfo.FirstName;
 			eUser.LastName = uInfo.LastName;
-			eUser.CompanyName = uInfo.CompanyName;
 			eUser.Address1 = uInfo.Address1;
 			eUser.Address2 = uInfo.Address2;
 			eUser.City = uInfo.City;
@@ -213,6 +212,7 @@ Paoli Admin", newUser.Email, password ) );
 			{
 				eUser.AccountType = ( uInfo as UserInformation ).AccountType;
 				eUser.Enabled = ( uInfo as UserInformation ).Enabled;
+				eUser.CompanyID = ( uInfo as UserInformation ).CompanyID;
 			}
 
 			if( database.SaveChanges() > 0 )
@@ -289,7 +289,7 @@ Paoli Admin", eUser.Email, password ) );
 					i.FirstName.Contains( param.sSearch ) ||
 					i.LastName.Contains( param.sSearch ) ||
 					i.Email.Contains( param.sSearch ) ||
-					i.CompanyName.Contains( param.sSearch ) );
+					i.Company.Name.Contains( param.sSearch ) );
 			}
 			if( param.accountType != 0 )
 			{
@@ -341,11 +341,11 @@ Paoli Admin", eUser.Email, password ) );
 				case "companyname":
 					if( param.sSortDir_0.ToLower() == "asc" )
 					{
-						filteredAndSorted = userList.OrderBy( v => v.CompanyName );
+						filteredAndSorted = userList.OrderBy( v => v.Company.Name );
 					}
 					else
 					{
-						filteredAndSorted = userList.OrderByDescending( v => v.CompanyName );
+						filteredAndSorted = userList.OrderByDescending( v => v.Company.Name );
 					}
 					break;
 			}
@@ -380,6 +380,16 @@ Paoli Admin", eUser.Email, password ) );
 		public IEnumerable<UserSummary> GetUserListForAccountType( int accountType )
 		{
 			return database.Users
+				.Where( u => u.AccountType == accountType || accountType == 0 )
+				.ToList()
+				.OrderBy( u => u.FullName )
+				.Select( v => ToUserSummary( v ) );
+		}
+
+		public IEnumerable<UserSummary> GetUserListForAccountType( int companyId, int accountType )
+		{
+			return database.Users
+				.Where( u => u.CompanyID == companyId )
 				.Where( u => u.AccountType == accountType || accountType == 0 )
 				.ToList()
 				.OrderBy( u => u.FullName )

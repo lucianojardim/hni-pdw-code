@@ -10,6 +10,47 @@ namespace PDWInfrastructure
 {
     public class PaoliWebUser : IPrincipal
     {
+		public static class PaoliCompanyType
+		{
+			public const int Paoli = 1;
+			public const int PaoliRepGroup = 2;
+			public const int Dealer = 3;
+			public const int EndUser = 4;
+			public const int AandDUser = 5;
+
+			public static Dictionary<int, string> CompanyTypeList
+			{
+				get
+				{
+					return new Dictionary<int, string>() {
+						{ Paoli, "Paoli" },
+						{ PaoliRepGroup, "Paoli Rep Group" },
+						{ Dealer, "Dealer" },
+						{ EndUser, "End Users" },
+						{ AandDUser, "A&D Users" },
+					};
+				}
+			}
+
+			public static Dictionary<int, List<int>> CompanyTypeAllowedUsers
+			{
+				get
+				{
+					return new Dictionary<int, List<int>>()
+					{
+						{ Paoli, new List<int>() { PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin,
+							PaoliWebRole.PaoliMemberMarketing, PaoliWebRole.PaoliMemberSpecTeam,
+							PaoliWebRole.PaoliMemberCustomerService, PaoliWebRole.PaoliMemberSales } },
+						{ PaoliRepGroup, new List<int>() { PaoliWebRole.PaoliSalesRep } },
+						{ Dealer, new List<int>() { PaoliWebRole.DealerPrincipal, PaoliWebRole.DealerSalesRep,
+							PaoliWebRole.DealerDesigner, PaoliWebRole.DealerAccounting } },
+						{ EndUser, new List<int>() { PaoliWebRole.EndUser } },
+						{ AandDUser, new List<int>() { PaoliWebRole.AandDUser } }
+					};
+				}
+			}
+		}
+
 		public static class PaoliWebRole
 		{
 			public const int SuperAdmin = 1;
@@ -23,6 +64,8 @@ namespace PDWInfrastructure
 			public const int DealerSalesRep = 9;
 			public const int DealerDesigner = 10;
 			public const int DealerAccounting = 11;
+			public const int EndUser = 12;
+			public const int AandDUser = 13;
 
 			public const string SuperAdminRole = "Super Admin";
 			public const string PaoliMemberAdminRole = "Paoli Member - Admin";
@@ -35,6 +78,8 @@ namespace PDWInfrastructure
 			public const string DealerSalesRepRole = "Dealer Sales Rep";
 			public const string DealerDesignerRole = "Dealer Designer";
 			public const string DealerAccountingRole = "Dealer Accounting";
+			public const string EndUserRole = "End User";
+			public const string AandDUserRole = "A&D User";
 
 			public static Dictionary<int, string> RoleList
 			{
@@ -52,6 +97,8 @@ namespace PDWInfrastructure
 						{ DealerSalesRep,				DealerSalesRepRole },			
 						{ DealerDesigner,				DealerDesignerRole },			
 						{ DealerAccounting,				DealerAccountingRole },			
+						{ EndUser,						EndUserRole },			
+						{ AandDUser,					AandDUserRole },			
                     };
 				}
 			}
