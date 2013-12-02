@@ -818,5 +818,15 @@ namespace PWDRepositories
 				}
 			}
 		}
+
+		public IEnumerable<string> GetTypeAheadList( string query, int maxNumber )
+		{
+			return database.ImageFiles
+				.Where( i => i.ImageContent == (int)ImageInformation.ImageContents.Image )
+				.Where( i => i.Name.Contains( query ) )
+				.OrderBy( i => i.Name )
+				.Take( maxNumber )
+				.Select( i => i.Name );
+		}
 	}
 }

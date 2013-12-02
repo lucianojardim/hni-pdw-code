@@ -488,6 +488,21 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
+		public JsonResult GetTypeaheadImageList( string query, int max )
+		{
+			var theList = ( new ImageRepository() ).GetTypeAheadList( query, max );
+			return Json( theList, JsonRequestBehavior.AllowGet );
+		}
+
+		public JsonResult GetTypeAheadTypicalOptionList( string attr, string query )
+		{
+			AttributeRepository aRepo = new AttributeRepository();
+
+			var theList = aRepo.GetTypicalOptionList( attr, query );
+
+			return Json( theList, JsonRequestBehavior.AllowGet );
+		}
+
 		public ActionResult APIDef()
         {
 //			if( (Request.ServerVariables["SERVER_NAME"].ToLower().Contains( "matt3400" )) ||

@@ -76,6 +76,46 @@ namespace ProductDataWarehouse.Controllers
 			return View( sInfo );
 		}
 
+		[PaoliAuthorize( "CanManageTypicals" )]
+		public ActionResult AddTypical( int id )
+		{
+			SpecRequestRepository sRepository = new SpecRequestRepository();
+
+			var newTypical = sRepository.GetNewTypical( id );
+
+			return View( newTypical );
+		}
+
+		[PaoliAuthorize( "CanManageTypicals" )]
+		[HttpPost]
+		public ActionResult AddTypical( TypicalMgmtInfo tInfo )
+		{
+			if( ModelState.IsValid )
+			{
+				try
+				{
+					SpecRequestRepository sRepository = new SpecRequestRepository();
+
+					sRepository.AddTypical( tInfo );
+
+					ViewBag.CloseFancyBox = true;
+
+					return View( tInfo );
+				}
+				catch( Exception ex )
+				{
+					ModelState.AddModelError( "", ex.Message );
+					if( ex.InnerException != null )
+					{
+						ModelState.AddModelError( "", ex.InnerException.Message );
+					}
+				}
+
+			}
+
+			return View( tInfo );
+		}
+
 		public static string GetJustSeriesNameList()
 		{
 			var list = (new SeriesRepository()).GetJustSeriesNameList();
@@ -119,6 +159,46 @@ namespace ProductDataWarehouse.Controllers
 			}
 
 			return View( sInfo );
+		}
+
+		[PaoliAuthorize( "CanManageTypicals" )]
+		public ActionResult EditTypical( int id )
+		{
+			SpecRequestRepository sRepository = new SpecRequestRepository();
+
+			var typical = sRepository.GetTypical( id );
+
+			return View( typical );
+		}
+
+		[PaoliAuthorize( "CanManageTypicals" )]
+		[HttpPost]
+		public ActionResult EditTypical( TypicalMgmtInfo tInfo )
+		{
+			if( ModelState.IsValid )
+			{
+				try
+				{
+					SpecRequestRepository sRepository = new SpecRequestRepository();
+
+					sRepository.UpdateTypical( tInfo );
+
+					ViewBag.CloseFancyBox = true;
+
+					return View( tInfo );
+				}
+				catch( Exception ex )
+				{
+					ModelState.AddModelError( "", ex.Message );
+					if( ex.InnerException != null )
+					{
+						ModelState.AddModelError( "", ex.InnerException.Message );
+					}
+				}
+
+			}
+
+			return View( tInfo );
 		}
 
     }

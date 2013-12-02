@@ -538,6 +538,8 @@
     <Content Include="Views\Company\Add.cshtml" />
     <Content Include="Views\Company\Edit.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\FileListing.cshtml" />
+    <Content Include="Views\SpecRequest\AddTypical.cshtml" />
+    <Content Include="Views\SpecRequest\EditTypical.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

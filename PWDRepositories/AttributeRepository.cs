@@ -39,6 +39,21 @@ namespace PWDRepositories
 			return new List<AttributeComboItem>();
 		}
 
+		public IEnumerable<string> GetTypicalOptionList( string attr, string query )
+		{
+			var attrData = database.TAttributes.FirstOrDefault( a => a.Name == attr );
+
+			if( attrData != null )
+			{
+				return attrData.TAttributeOptions
+					.Where( ao => ao.Name.Contains( query ) )
+					.OrderBy( ao => ao.Name )
+					.Select( ao => ao.Name );
+			}
+
+			return new List<string>();
+		}
+
 		public IEnumerable<int> GetTypicalPriceRange()
 		{
 			var prices = new List<int>();

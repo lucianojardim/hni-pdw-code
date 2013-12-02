@@ -55,6 +55,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSpec_DealerSalesRep", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSpec_PaoliSpecTeam", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkUser_Company", "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.Company), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.User), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkTypical_Spec", "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.SpecRequest), "Typical", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Typical), true)]
 
 #endregion
 
@@ -5741,6 +5742,28 @@ namespace PDWDBContext
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkTypical_Spec", "Typical")]
+        public EntityCollection<Typical> Typicals
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Typical>("PaoliPDWModel.fkTypical_Spec", "Typical");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Typical>("PaoliPDWModel.fkTypical_Spec", "Typical", value);
+                }
+            }
+        }
 
         #endregion
 
@@ -6476,6 +6499,126 @@ namespace PDWDBContext
         private global::System.String _DBKeywords;
         partial void OnDBKeywordsChanging(global::System.String value);
         partial void OnDBKeywordsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> SpecRequestID
+        {
+            get
+            {
+                return _SpecRequestID;
+            }
+            set
+            {
+                OnSpecRequestIDChanging(value);
+                ReportPropertyChanging("SpecRequestID");
+                _SpecRequestID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("SpecRequestID");
+                OnSpecRequestIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _SpecRequestID;
+        partial void OnSpecRequestIDChanging(Nullable<global::System.Int32> value);
+        partial void OnSpecRequestIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String FeaturedSeries
+        {
+            get
+            {
+                return _FeaturedSeries;
+            }
+            set
+            {
+                OnFeaturedSeriesChanging(value);
+                ReportPropertyChanging("FeaturedSeries");
+                _FeaturedSeries = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("FeaturedSeries");
+                OnFeaturedSeriesChanged();
+            }
+        }
+        private global::System.String _FeaturedSeries;
+        partial void OnFeaturedSeriesChanging(global::System.String value);
+        partial void OnFeaturedSeriesChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String SeriesList
+        {
+            get
+            {
+                return _SeriesList;
+            }
+            set
+            {
+                OnSeriesListChanging(value);
+                ReportPropertyChanging("SeriesList");
+                _SeriesList = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("SeriesList");
+                OnSeriesListChanged();
+            }
+        }
+        private global::System.String _SeriesList;
+        partial void OnSeriesListChanging(global::System.String value);
+        partial void OnSeriesListChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> AvailableForIn2
+        {
+            get
+            {
+                return _AvailableForIn2;
+            }
+            set
+            {
+                OnAvailableForIn2Changing(value);
+                ReportPropertyChanging("AvailableForIn2");
+                _AvailableForIn2 = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("AvailableForIn2");
+                OnAvailableForIn2Changed();
+            }
+        }
+        private Nullable<global::System.Boolean> _AvailableForIn2;
+        partial void OnAvailableForIn2Changing(Nullable<global::System.Boolean> value);
+        partial void OnAvailableForIn2Changed();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Notes
+        {
+            get
+            {
+                return _Notes;
+            }
+            set
+            {
+                OnNotesChanging(value);
+                ReportPropertyChanging("Notes");
+                _Notes = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Notes");
+                OnNotesChanged();
+            }
+        }
+        private global::System.String _Notes;
+        partial void OnNotesChanging(global::System.String value);
+        partial void OnNotesChanged();
 
         #endregion
 
@@ -6588,6 +6731,44 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SeriesTypical>("PaoliPDWModel.fkST_Typical", "SeriesTypical", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkTypical_Spec", "SpecRequest")]
+        public SpecRequest SpecRequest
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<SpecRequest>("PaoliPDWModel.fkTypical_Spec", "SpecRequest").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<SpecRequest>("PaoliPDWModel.fkTypical_Spec", "SpecRequest").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<SpecRequest> SpecRequestReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<SpecRequest>("PaoliPDWModel.fkTypical_Spec", "SpecRequest");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<SpecRequest>("PaoliPDWModel.fkTypical_Spec", "SpecRequest", value);
                 }
             }
         }

@@ -81,6 +81,7 @@
     <Compile Include="Series\SeriesSearchResult.cs" />
     <Compile Include="SpecRequests\SpecRequestInformation.cs" />
     <Compile Include="SpecRequests\SpecRequestSummary.cs" />
+    <Compile Include="SpecRequests\TypicalMgmtInfo.cs" />
     <Compile Include="Typicals\TypicalDetailListData.cs" />
     <Compile Include="Typicals\TypicalDetailListGallery.cs" />
     <Compile Include="Typicals\TypicalInformation.cs" />

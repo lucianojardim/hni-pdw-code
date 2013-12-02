@@ -8,6 +8,7 @@ using PDWModels.SpecRequests;
 using System.IO;
 using System.Configuration;
 using System.Data.Objects.DataClasses;
+using PDWModels;
 
 namespace PWDRepositories
 {
@@ -28,7 +29,8 @@ namespace PWDRepositories
 				Dealer = sRequest.PrimaryCompanyID.HasValue ? sRequest.PrimaryCompany.Name : "",
 				RepGroup = sRequest.PaoliSalesRepGroupID.HasValue ? sRequest.PaoliSalesRepGroup.Name : "",
 				SpecTeamMember = sRequest.PaoliSpecTeamMemberID.HasValue ? sRequest.SpecTeamMember.FullName : "",
-				IsRecommended = sRequest.IsGoodForWeb ?? false
+				IsRecommended = sRequest.IsGoodForWeb ?? false,
+				IsPublished = sRequest.Typicals.Any()
 			};
 		}
 
@@ -335,6 +337,418 @@ namespace PWDRepositories
 			sRequest.SpecRequestFiles.Add( newFile );
 
 			return true;
+		}
+
+		public TypicalMgmtInfo GetNewTypical( int requestId )
+		{
+			var sInfo = database.SpecRequests.FirstOrDefault( s => s.RequestID == requestId );
+			if( sInfo == null )
+			{
+				throw new Exception( "Unable to find Spec Request" );
+			}
+
+			return new TypicalMgmtInfo()
+			{
+				RequestID = sInfo.RequestID,
+				Name = sInfo.Name,
+				ListPrice = sInfo.ListPrice ?? 0,
+				SeriesList = sInfo.SeriesList,
+				AvailableForIn2 = sInfo.AvailableForIn2 ?? false,
+				Footprint = sInfo.Footprint,
+				FeaturedSeries = sInfo.FeaturedSeries,
+				Material = sInfo.Material,
+				Finish = sInfo.Finish,
+				Notes = sInfo.Notes,
+			};
+		}
+
+		public bool AddTypical( TypicalMgmtInfo tInfo )
+		{
+			var specRequest = database.SpecRequests.FirstOrDefault( r => r.RequestID == tInfo.RequestID );
+			if( specRequest == null )
+			{
+				throw new Exception( "Unable to find Spec Request" );
+			}
+
+			Typical tData = new Typical();
+			tData.CreatedDate = DateTime.Now;
+
+			tData.Name = specRequest.Name;
+
+			List<string> arrKeywordList = new List<string>();
+			var rSeries = database.Serieses.FirstOrDefault( s => s.Name == tInfo.FeaturedSeries );
+			if( rSeries != null )
+			{
+				SeriesTypical stData = new SeriesTypical();
+				stData.IsPrimary = true;
+				stData.Series = rSeries;
+				stData.Typical = tData;
+				database.SeriesTypicals.AddObject( stData );
+			}
+			else
+			{
+				throw new Exception( "Unable to find Featured Series" );
+			}
+			tData.FeaturedSeries = rSeries.Name;
+
+			foreach( var indVal in tInfo.SeriesList.Split( ',' ).Select( s => s.Trim() ) )
+			{
+				var oSeries = database.Serieses.FirstOrDefault( s => s.Name == indVal );
+				if( oSeries != null )
+				{
+					SeriesTypical stData = new SeriesTypical();
+					stData.IsPrimary = false;
+					stData.Series = oSeries;
+					stData.Typical = tData;
+					database.SeriesTypicals.AddObject( stData );
+				}
+			}
+			tData.SeriesList = string.Join( ", ", tData.SeriesTypicals.Where( st => !st.IsPrimary ).Select( st => st.Series.Name ) );
+
+			var img = database.ImageFiles.FirstOrDefault( i => i.Name == tInfo.RenderingImage );
+			if( img != null )
+			{
+				TypicalImageFile sif = new TypicalImageFile();
+				sif.IsFeatured = true;
+				sif.ImageFile = img;
+				sif.Typical = tData;
+				database.TypicalImageFiles.AddObject( sif );
+			}
+
+			{
+				var attData = database.TAttributes.FirstOrDefault( a => a.Name == "pricing" );
+				if( attData == null )
+				{
+					attData = new PDWDBContext.TAttribute();
+					attData.Name = "pricing";
+					database.TAttributes.AddObject( attData );
+				}
+
+				var attForTypical = new TypicalIntAttribute();
+				attForTypical.TAttribute = attData;
+				attForTypical.Value = tInfo.ListPrice;
+				attForTypical.Typical = tData;
+				database.TypicalIntAttributes.AddObject( attForTypical );
+			}
+
+			var rootLocation = Path.Combine( ConfigurationManager.AppSettings["SpecRequestDocumentLocation"], tInfo.Name );
+
+			if( tInfo.dwgFile != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.dwgFile.FileName, tInfo.dwgFile.InputStream, "drawing dwg" );
+			}
+
+			if( tInfo.xlsFile != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.xlsFile.FileName, tInfo.xlsFile.InputStream, "spec & price xls" );
+			}
+
+			if( tInfo.sifFile != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.sifFile.FileName, tInfo.sifFile.InputStream, "spec & price sif" );
+			}
+
+			if( tInfo.sp4File != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.sp4File.FileName, tInfo.sp4File.InputStream, "spec & price sp4" );
+			}
+
+			if( tInfo.pdfFile != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.pdfFile.FileName, tInfo.pdfFile.InputStream, "spec & price pdf" );
+			}
+
+			FillTypicalAttribute( tData, tInfo.Footprint, "Footprint" );
+			FillTypicalAttribute( tData, tInfo.Material, "Material" );
+			FillTypicalAttribute( tData, tInfo.Finish, "Finish" );
+
+			arrKeywordList.Add( tInfo.FeaturedSeries );
+			arrKeywordList.Add( tInfo.Name );
+			arrKeywordList.Add( tInfo.SeriesList );
+			//				arrKeywordList.Add( tInfo.Keywords );
+
+			tData.DBKeywords = SearchText.GetKeywordList( arrKeywordList );
+
+			tData.SpecRequest = specRequest;
+			tData.Notes = tInfo.Notes;
+			tData.AvailableForIn2 = tInfo.AvailableForIn2;
+
+			database.Typicals.AddObject( tData );
+
+			return database.SaveChanges() > 0;
+		}
+
+		private void FillTypicalFileData( Typical tData, string rootLocation, string fileName, Stream inputStream, string header )
+		{
+			if( !Directory.Exists( rootLocation ) )
+			{
+				Directory.CreateDirectory( rootLocation );
+			}
+
+			var fileLocation = Path.Combine( rootLocation, fileName );
+
+			using( var fileStream = File.Create( fileLocation ) )
+			{
+				inputStream.CopyTo( fileStream );
+			}
+
+			var attData = database.TAttributes.FirstOrDefault( a => a.Name == header );
+			if( attData == null )
+			{
+				attData = new PDWDBContext.TAttribute();
+				attData.Name = header;
+				database.TAttributes.AddObject( attData );
+			}
+
+			if( tData.TypicalTextAttributes.Any( tta => tta.AttributeID == attData.AttributeID ) )
+			{
+				database.DeleteObject( tData.TypicalTextAttributes.First( tta => tta.AttributeID == attData.AttributeID ) );
+			}
+
+			var attForTypical = new TypicalTextAttribute();
+			attForTypical.TAttribute = attData;
+			attForTypical.Value = @"Typicals/" + tData.Name + @"/" + fileName;
+			attForTypical.Typical = tData;
+			database.TypicalTextAttributes.AddObject( attForTypical );
+		}
+
+		public TypicalMgmtInfo GetTypical( int requestId )
+		{
+			var sInfo = database.SpecRequests.FirstOrDefault( s => s.RequestID == requestId );
+			if( sInfo == null )
+			{
+				throw new Exception( "Unable to find Spec Request" );
+			}
+
+			var tInfo = sInfo.Typicals.FirstOrDefault();
+			if( tInfo == null )
+			{
+				throw new Exception( "Unable to find Typical for Spec Request" );
+			}
+
+			var typData = new TypicalMgmtInfo()
+			{
+				TypicalID = tInfo.TypicalID,
+				RequestID = tInfo.SpecRequestID.Value,
+				Name = tInfo.Name,
+				Notes = tInfo.Notes,
+				AvailableForIn2 = tInfo.AvailableForIn2 ?? false,
+				SeriesList = string.Join( ",", tInfo.SeriesTypicals.Where( st => !st.IsPrimary ).Select( st => st.Series.Name ) ),
+				FeaturedSeries = string.Join( ",", tInfo.SeriesTypicals.Where( st => st.IsPrimary ).Select( st => st.Series.Name ) ),
+				
+				ListPrice = tInfo.IntAttribute( "Pricing" ),
+
+				Footprint = string.Join( ",", tInfo.AttributeSet( "Footprint" ) ),
+				Material = string.Join( ",", tInfo.AttributeSet( "Material" ) ),
+				Finish = string.Join( ",", tInfo.AttributeSet( "Finish" ) ),
+
+				RenderingImage = string.Join( ",", tInfo.TypicalImageFiles.Where( tif => tif.IsFeatured ).Select( tif => tif.ImageFile.Name ) ),
+
+				xlsFileName = "",
+				sifFileName = "",
+				sp4FileName = "",
+				pdfFileName = "",
+				dwgFileName = ""
+			};
+
+			var xlsFiles = tInfo.TextAttribute( "Spec & Price XLS" );
+			if( xlsFiles.Any() )
+			{
+				typData.xlsFileName = xlsFiles.Split( '/' ).Last();
+			}
+
+			var sifFiles = tInfo.TextAttribute( "Spec & Price SIF" );
+			if( sifFiles.Any() )
+			{
+				typData.sifFileName = sifFiles.Split( '/' ).Last();
+			}
+
+			var sp4Files = tInfo.TextAttribute( "Spec & Price SP4" );
+			if( sp4Files.Any() )
+			{
+				typData.sp4FileName = sp4Files.Split( '/' ).Last();
+			}
+
+			var pdfFiles = tInfo.TextAttribute( "Spec & Price PDF" );
+			if( pdfFiles.Any() )
+			{
+				typData.pdfFileName = pdfFiles.Split( '/' ).Last();
+			}
+
+			var dwgFiles = tInfo.TextAttribute( "Drawing DWG" );
+			if( dwgFiles.Any() )
+			{
+				typData.dwgFileName = dwgFiles.Split( '/' ).Last();
+			}
+
+			return typData;
+		}
+
+		public bool UpdateTypical( TypicalMgmtInfo tInfo )
+		{
+			var tData = database.Typicals.FirstOrDefault( t => t.TypicalID == tInfo.TypicalID );
+			if( tData == null )
+			{
+				throw new Exception( "Unable to find Typical for Spec Request" );
+			}
+
+			tData.SeriesTypicals.ToList().ForEach( st => database.DeleteObject( st ) );
+
+			List<string> arrKeywordList = new List<string>();
+			var rSeries = database.Serieses.FirstOrDefault( s => s.Name == tInfo.FeaturedSeries );
+			if( rSeries != null )
+			{
+				SeriesTypical stData = new SeriesTypical();
+				stData.IsPrimary = true;
+				stData.Series = rSeries;
+				stData.Typical = tData;
+				database.SeriesTypicals.AddObject( stData );
+			}
+			else
+			{
+				throw new Exception( "Unable to find Featured Series" );
+			}
+			tData.FeaturedSeries = rSeries.Name;
+
+			foreach( var indVal in tInfo.SeriesList.Split( ',' ).Select( s => s.Trim() ) )
+			{
+				var oSeries = database.Serieses.FirstOrDefault( s => s.Name == indVal );
+				if( oSeries != null )
+				{
+					SeriesTypical stData = new SeriesTypical();
+					stData.IsPrimary = false;
+					stData.Series = oSeries;
+					stData.Typical = tData;
+					database.SeriesTypicals.AddObject( stData );
+				}
+			}
+			tData.SeriesList = string.Join( ", ", tData.SeriesTypicals.Where( st => !st.IsPrimary ).Select( st => st.Series.Name ) );
+
+			tData.TypicalImageFiles.ToList().ForEach( tif => database.DeleteObject( tif ) );
+
+			var img = database.ImageFiles.FirstOrDefault( i => i.Name == tInfo.RenderingImage );
+			if( img != null )
+			{
+				TypicalImageFile sif = new TypicalImageFile();
+				sif.IsFeatured = true;
+				sif.ImageFile = img;
+				sif.Typical = tData;
+				database.TypicalImageFiles.AddObject( sif );
+			}
+
+			{
+				var attData = database.TAttributes.FirstOrDefault( a => a.Name == "Pricing" );
+				if( attData == null )
+				{
+					attData = new PDWDBContext.TAttribute();
+					attData.Name = "Pricing";
+					database.TAttributes.AddObject( attData );
+				}
+
+				if( tData.TypicalIntAttributes.Any( tia => tia.AttributeID == attData.AttributeID ) )
+				{
+					database.DeleteObject( tData.TypicalIntAttributes.First( tia => tia.AttributeID == attData.AttributeID ) );
+				}
+
+				var attForTypical = new TypicalIntAttribute();
+				attForTypical.TAttribute = attData;
+				attForTypical.Value = tInfo.ListPrice;
+				attForTypical.Typical = tData;
+				database.TypicalIntAttributes.AddObject( attForTypical );
+			}
+
+			var rootLocation = Path.Combine( ConfigurationManager.AppSettings["SpecRequestDocumentLocation"], tInfo.Name );
+
+			if( tInfo.dwgFile != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.dwgFile.FileName, tInfo.dwgFile.InputStream, "drawing dwg" );
+			}
+
+			if( tInfo.xlsFile != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.xlsFile.FileName, tInfo.xlsFile.InputStream, "spec & price xls" );
+			}
+
+			if( tInfo.sifFile != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.sifFile.FileName, tInfo.sifFile.InputStream, "spec & price sif" );
+			}
+
+			if( tInfo.sp4File != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.sp4File.FileName, tInfo.sp4File.InputStream, "spec & price sp4" );
+			}
+
+			if( tInfo.pdfFile != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.pdfFile.FileName, tInfo.pdfFile.InputStream, "spec & price pdf" );
+			}
+
+			FillTypicalAttribute( tData, tInfo.Footprint, "Footprint" );
+			FillTypicalAttribute( tData, tInfo.Material, "Material" );
+			FillTypicalAttribute( tData, tInfo.Finish, "Finish" );
+
+			arrKeywordList.Add( tInfo.FeaturedSeries );
+			arrKeywordList.Add( tInfo.Name );
+			arrKeywordList.Add( tInfo.SeriesList );
+			//				arrKeywordList.Add( tInfo.Keywords );
+
+			tData.DBKeywords = SearchText.GetKeywordList( arrKeywordList );
+
+			tData.Notes = tInfo.Notes;
+			tData.AvailableForIn2 = tInfo.AvailableForIn2;
+
+			return database.SaveChanges() > 0;
+		}
+
+		private void FillTypicalAttribute( Typical tData, string val, string header )
+		{
+			if( ( val ?? "" ).Any() )
+			{
+				var attData = database.TAttributes.FirstOrDefault( a => a.Name == header );
+				if( attData == null )
+				{
+					attData = new PDWDBContext.TAttribute();
+					switch( header.ToLower() )
+					{
+						case "footprint":
+							break;
+						default:
+							attData.DetailItem = true;
+							break;
+					}
+					attData.Name = header;
+					database.TAttributes.AddObject( attData );
+				}
+
+				if( tData.TypicalOptionAttributes.Any( toa => toa.AttributeID == attData.AttributeID ) )
+				{
+					database.DeleteObject( tData.TypicalOptionAttributes.First( toa => toa.AttributeID == attData.AttributeID ) );
+				}
+
+				var values = val.Split( ',' );
+				foreach( var indVal in values.Select( s => s.Trim() ) )
+				{
+					var optVal = attData.TAttributeOptions.FirstOrDefault( ao => ao.Name == indVal );
+					if( optVal == null )
+					{
+						if( indVal.Length > 500 )
+						{
+							throw new Exception( string.Format( "Cannot add option value {0} for {1}", indVal, header ) );
+						}
+						optVal = new TAttributeOption();
+						optVal.Name = indVal;
+						database.TAttributeOptions.AddObject( optVal );
+						attData.TAttributeOptions.Add( optVal );
+					}
+
+					var attForTypical = new TypicalOptionAttribute();
+					attForTypical.TAttribute = attData;
+					attForTypical.TAttributeOption = optVal;
+					attForTypical.Typical = tData;
+					database.TypicalOptionAttributes.AddObject( attForTypical );
+				}
+			}
 		}
 	}
 }

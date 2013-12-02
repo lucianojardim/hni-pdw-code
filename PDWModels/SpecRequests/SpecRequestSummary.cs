@@ -14,6 +14,7 @@ namespace PDWModels.SpecRequests
 		public string SpecTeamMember { get; set; }
 		public string EditButtons { get; set; }
 		public bool IsRecommended { get; set; }
+		public bool IsPublished { get; set; }
 		public string RecommendedStar { get; set; }
 	}
 }

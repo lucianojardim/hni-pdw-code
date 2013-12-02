@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace PDWModels.SpecRequests
 {
@@ -33,6 +34,7 @@ namespace PDWModels.SpecRequests
 		public string Name { get; set; }
 
 		[DisplayName( "Project Name" )]
+		[StringLength(50)]
 		public string ProjectName { get; set; }
 		[DisplayName( "Paoli Sales Rep Group" )]
 		public int? PaoliSalesRepGroupID { get; set; }
@@ -43,6 +45,7 @@ namespace PDWModels.SpecRequests
 		[DisplayName( "Is GSA?" )]
 		public bool IsGSA { get; set; }
 		[DisplayName( "Saved Location" )]
+		[StringLength( 500 )]
 		public string SavedLocation { get; set; }
 		[DisplayName( "List Price" )]
 		public int? ListPrice { get; set; }
@@ -56,15 +59,19 @@ namespace PDWModels.SpecRequests
 		public int? PaoliSpecTeamMember { get; set; }
 		[DisplayName( "Recommended for Web" )]
 		public bool IsGoodForWeb { get; set; }
-		[DisplayName( "Avaiable for In2" )]
+		[DisplayName( "Available for In2" )]
 		public bool AvailableForIn2 { get; set; }
 		[DisplayName( "Footprint" )]
+		[StringLength( 100 )]
 		public string Footprint { get; set; }
 		[DisplayName( "Featured Series" )]
+		[StringLength( 50 )]
 		public string FeaturedSeries { get; set; }
 		[DisplayName( "Material" )]
+		[StringLength( 100 )]
 		public string Material { get; set; }
 		[DisplayName( "Finish" )]
+		[StringLength( 100 )]
 		public string Finish { get; set; }
 		[DisplayName( "Notes" )]
 		public string Notes { get; set; }
