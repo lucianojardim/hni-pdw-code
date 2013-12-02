@@ -79,18 +79,17 @@ namespace ProductDataWarehouse.Controllers
 
 		[HttpPost]
 		[PaoliAuthorize( "CanManageImport" )]
-		public ActionResult Index( HttpPostedFileBase csvFile, HttpPostedFileBase typicalFile )
+		public ActionResult Index( HttpPostedFileBase csvFile )
 		{
 			if( ModelState.IsValid )
 			{
-				if( csvFile != null && typicalFile != null )
+				if( csvFile != null )
 				{
 					try
 					{
 						ImportRepository iRepo = new ImportRepository();
 
 						iRepo.ImportFileData( csvFile.InputStream, csvFile.ContentLength );
-						iRepo.ImportTypicalFileData( typicalFile.InputStream, typicalFile.ContentLength );
 
 						ViewBag.ImportSuccess = true;
 
@@ -107,7 +106,7 @@ namespace ProductDataWarehouse.Controllers
 				}
 				else
 				{
-					ModelState.AddModelError( "", "Both files are required to upload new data." );
+					ModelState.AddModelError( "", "PDW file is required to upload new data." );
 				}
 			}
 

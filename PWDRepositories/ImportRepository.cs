@@ -372,194 +372,39 @@ namespace PWDRepositories
 				}
 			}
 
-			database.SaveChanges();
-		}
-
-		public void ImportTypicalFileData( Stream fStream, int fileLength )
-		{
-			var csvReader = new CsvReader( new StreamReader( fStream ), true );
-
-			DeleteAllObjects( "[TypicalOptionAttributes]" );
-			DeleteAllObjects( "[TypicalTextAttributes]" );
-			DeleteAllObjects( "[TypicalIntAttributes]" );
-			DeleteAllObjects( "[TAttributeOptions]" );
-			DeleteAllObjects( "[TAttributes]" );
-			DeleteAllObjects( "[TypicalImageFiles]" );
-			DeleteAllObjects( "[SeriesTypicals]" );
-			DeleteAllObjects( "[Typicals]" );
-
-			while( csvReader.ReadNextRecord() )
+			foreach( var tData in database.Typicals )
 			{
-				if( !csvReader["Typical Name"].Any() )
+				var rSeries = database.Serieses.FirstOrDefault( s => s.Name == tData.FeaturedSeries );
+				if( rSeries != null )
 				{
-					continue;
+					SeriesTypical stData = new SeriesTypical();
+					stData.IsPrimary = true;
+					stData.Series = rSeries;
+					stData.Typical = tData;
+					database.SeriesTypicals.AddObject( stData );
+
+					tData.FeaturedSeries = rSeries.Name;
 				}
 
-				Typical tData = new Typical();
-				tData.CreatedDate = DateTime.Now;
-
-				List<string> arrKeywordList = new List<string>();
-				foreach( var header in csvReader.GetFieldHeaders() )
+				if( tData.SeriesList != null )
 				{
-					string val = csvReader[header];
-					switch( header.ToLower() )
+					foreach( var indVal in tData.SeriesList.Split( ',' ).Select( s => s.Trim() ) )
 					{
-						case "category":
-							break;
-						case "series name":
-							if( (val ?? "").Any() )
-							{
-								string seriesName = val.Trim();
-								{
-									var rSeries = database.Serieses.FirstOrDefault( s => s.Name == seriesName );
-									if( rSeries != null )
-									{
-										SeriesTypical stData = new SeriesTypical();
-										stData.IsPrimary = true;
-										stData.Series = rSeries;
-										stData.Typical = tData;
-										database.SeriesTypicals.AddObject( stData );
-									}
-								}
-							}
-							break;
-						case "typical name":
-							tData.Name = val;
-							break;
-						case "iso main image":
-						case "image":
-							if( (val ?? "").Any() )
-							{
-								var values = val.Split( ',' );
-								foreach( var indVal in values.Select( s => s.Trim() ) )
-								{
-									var img = database.ImageFiles.FirstOrDefault( i => i.Name == indVal );
-									if( img != null )
-									{
-										TypicalImageFile sif = new TypicalImageFile();
-										sif.IsFeatured = (header.ToLower() == "iso main image");
-										sif.ImageFile = img;
-										sif.Typical = tData;
-										database.TypicalImageFiles.AddObject( sif );
-									}
-								}
-							}
-							break;
-						case "pricing":
-							if( (val ?? "").Any() )
-							{
-								int price = 0;
-								
-								if( int.TryParse( val, System.Globalization.NumberStyles.Currency, null, out price ) )
-								{
-									var attData = database.TAttributes.FirstOrDefault( a => a.Name == header );
-									if( attData == null )
-									{
-										attData = new PDWDBContext.TAttribute();
-										attData.Name = header;
-										database.TAttributes.AddObject( attData );
-									}
-
-									var attForTypical = new TypicalIntAttribute();
-									attForTypical.TAttribute = attData;
-									attForTypical.Value = price;
-									attForTypical.Typical = tData;
-									database.TypicalIntAttributes.AddObject( attForTypical );
-								}
-							}
-							break;
-						case "price list":
-						case "product technical spec sheet":
-						case "spec guide":
-						case "gsa spec sheet":
-						case "installation guide":
-						case "eds sheet":
-						case "control guide":
-						case "spec & price xls":
-						case "spec & price sif":
-						case "spec & price sp4":
-						case "spec & price pdf":
-						case "drawing dwg":
-						case "drawing pdf":
-						case "keywords":
-							if( (val ?? "").Any() )
-							{
-								var attData = database.TAttributes.FirstOrDefault( a => a.Name == header );
-								if( attData == null )
-								{
-									attData = new PDWDBContext.TAttribute();
-									attData.Name = header;
-									database.TAttributes.AddObject( attData );
-								}
-
-								var attForTypical = new TypicalTextAttribute();
-								attForTypical.TAttribute = attData;
-								attForTypical.Value = val;
-								attForTypical.Typical = tData;
-								database.TypicalTextAttributes.AddObject( attForTypical );
-							}
-							break;
-						default:
-							if( (val ?? "").Any() )
-							{
-								var attData = database.TAttributes.FirstOrDefault( a => a.Name == header );
-								if( attData == null )
-								{
-									attData = new PDWDBContext.TAttribute();
-									switch( header.ToLower() )
-									{
-										case "footprint":
-											break;
-										default:
-											attData.DetailItem = true;
-											break;
-									}
-									attData.Name = header;
-									database.TAttributes.AddObject( attData );
-								}
-								var values = val.Split( ',' );
-								foreach( var indVal in values.Select( s => s.Trim() ) )
-								{
-									var optVal = attData.TAttributeOptions.FirstOrDefault( ao => ao.Name == indVal );
-									if( optVal == null )
-									{
-										if( indVal.Length > 500 )
-										{
-											throw new Exception( string.Format( "Cannot add option value {0} for {1}", indVal, header ) );
-										}
-										optVal = new TAttributeOption();
-										optVal.Name = indVal;
-										database.TAttributeOptions.AddObject( optVal );
-										attData.TAttributeOptions.Add( optVal );
-									}
-
-									var attForTypical = new TypicalOptionAttribute();
-									attForTypical.TAttribute = attData;
-									attForTypical.TAttributeOption = optVal;
-									attForTypical.Typical = tData;
-									database.TypicalOptionAttributes.AddObject( attForTypical );
-								}
-							}
-							break;
-					}
-
-					switch( header.ToLower() )
-					{
-						case "series name":
-						case "category":
-						case "typical name":
-						case "other series shown":
-						case "keywords":
-							arrKeywordList.Add( val.ToLower() );
-							break;
+						var oSeries = database.Serieses.FirstOrDefault( s => s.Name == indVal );
+						if( oSeries != null )
+						{
+							SeriesTypical stData = new SeriesTypical();
+							stData.IsPrimary = false;
+							stData.Series = oSeries;
+							stData.Typical = tData;
+							database.SeriesTypicals.AddObject( stData );
+						}
 					}
 				}
-
-				tData.DBKeywords = SearchText.GetKeywordList( arrKeywordList );
-
-				database.Typicals.AddObject( tData );
-				database.SaveChanges();
+				tData.SeriesList = string.Join( ", ", tData.SeriesTypicals.Where( st => !st.IsPrimary ).Select( st => st.Series.Name ) );
 			}
+
+			database.SaveChanges();
 		}
 
 		public bool LogSearchResults( string searchText, int seriesCount, int imageCount, int typicalCount, int pageCount )
