@@ -32,6 +32,7 @@
     <add key="ClientValidationEnabled" value="true"/>
     <add key="UnobtrusiveJavaScriptEnabled" value="true"/>
     <add key="ImageFileLocation" value="C:\Projects\Paoli\PublishWebSite\Images"/>
+    <add key="SpecRequestDocumentLocation" value="C:\Projects\Paoli\PublishWebSite\Documents\Typicals"/>
     <add key="PrependImageName" value="Paoli"/>
     <add key="HomePageRedirect" value="http://www.paoli.com/"/>
   </appSettings>
