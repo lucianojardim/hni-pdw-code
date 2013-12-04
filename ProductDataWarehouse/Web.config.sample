@@ -35,6 +35,7 @@
     <add key="SpecRequestDocumentLocation" value="C:\Projects\Paoli\PublishWebSite\Documents\Typicals"/>
     <add key="PrependImageName" value="Paoli"/>
     <add key="HomePageRedirect" value="http://www.paoli.com/"/>
+    <add key="EmailTemplates" value="C:\Projects\Paoli\ProductDataWarehouse\ProductDataWarehouse\Content\Email Templates"/>
   </appSettings>
 
 	<encSettings>
