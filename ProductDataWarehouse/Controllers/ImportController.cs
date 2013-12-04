@@ -45,7 +45,7 @@ namespace ProductDataWarehouse.Controllers
 					return Redirect( homePage );
 				}
 				Thread.Sleep( 5000 );	// delay to prevent brute force attacks
-				ModelState.AddModelError( "", "Invalid username and/or password." );
+				ModelState.AddModelError( "", "Invalid email address and/or password." );
 			}
 
 			return View();
