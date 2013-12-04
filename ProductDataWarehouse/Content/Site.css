@@ -419,6 +419,7 @@ input[type="password"]
 	padding: 0px 3px 0px 6px;
 	transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
 	border-radius: 3px;
+	margin-bottom: 5px;
 }
 
 select 
@@ -428,7 +429,7 @@ select
 
 .textBox {
     width: 469px;
-    color: rgb(182, 180, 180);
+	color:#263f6a;
 }
 
 span.dataRow ul.tagit
@@ -437,4 +438,16 @@ span.dataRow ul.tagit
 	margin-bottom:0px;
 	display: table-cell;
 	width:250px;
+}
+
+.contactHelp
+{
+	color: rgb(182, 180, 180);
+	font-size: 12px;
+}
+
+.contactHelp a
+{
+	color:#263f6a;
+	text-decoration:none;
 }
