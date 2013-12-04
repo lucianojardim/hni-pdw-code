@@ -26,8 +26,8 @@ namespace PDWInfrastructure
 						{ Paoli, "Paoli" },
 						{ PaoliRepGroup, "Paoli Rep Group" },
 						{ Dealer, "Dealer" },
-						{ EndUser, "End Users" },
-						{ AandDUser, "A&D Users" },
+						{ EndUser, "End User" },
+						{ AandDUser, "A&D" },
 					};
 				}
 			}
@@ -67,38 +67,24 @@ namespace PDWInfrastructure
 			public const int EndUser = 12;
 			public const int AandDUser = 13;
 
-			public const string SuperAdminRole = "Super Admin";
-			public const string PaoliMemberAdminRole = "Paoli Member - Admin";
-			public const string PaoliMemberMarketingRole = "Paoli Member - Marketing";
-			public const string PaoliMemberSpecTeamRole = "Paoli Member - Spec Team";
-			public const string PaoliMemberCustomerServiceRole = "Paoli Member - Customer Service";
-			public const string PaoliMemberSalesRole = "Paoli Member - Sales";
-			public const string PaoliSalesRepRole = "Paoli Sales Rep";
-			public const string DealerPrincipalRole = "Dealer Principal";
-			public const string DealerSalesRepRole = "Dealer Sales Rep";
-			public const string DealerDesignerRole = "Dealer Designer";
-			public const string DealerAccountingRole = "Dealer Accounting";
-			public const string EndUserRole = "End User";
-			public const string AandDUserRole = "A&D User";
-
 			public static Dictionary<int, string> RoleList
 			{
 				get
 				{
 					return new Dictionary<int, string>() {
-						{ SuperAdmin,					SuperAdminRole },				
-						{ PaoliMemberAdmin,				PaoliMemberAdminRole },			
-						{ PaoliMemberMarketing,			PaoliMemberMarketingRole },		
-						{ PaoliMemberSpecTeam,			PaoliMemberSpecTeamRole },		
-						{ PaoliMemberCustomerService,	PaoliMemberCustomerServiceRole },
-						{ PaoliMemberSales,				PaoliMemberSalesRole },			
-						{ PaoliSalesRep,				PaoliSalesRepRole },			
-						{ DealerPrincipal,				DealerPrincipalRole },			
-						{ DealerSalesRep,				DealerSalesRepRole },			
-						{ DealerDesigner,				DealerDesignerRole },			
-						{ DealerAccounting,				DealerAccountingRole },			
-						{ EndUser,						EndUserRole },			
-						{ AandDUser,					AandDUserRole },			
+						{ SuperAdmin,					"Super Admin" },				
+						{ PaoliMemberAdmin,				"Paoli Member - Admin" },			
+						{ PaoliMemberMarketing,			"Paoli Member - Marketing" },		
+						{ PaoliMemberSpecTeam,			"Paoli Member - Spec Team" },		
+						{ PaoliMemberCustomerService,	"Paoli Member - Customer Service" },
+						{ PaoliMemberSales,				"Paoli Member - Sales" },			
+						{ PaoliSalesRep,				"Paoli Sales Rep" },			
+						{ DealerPrincipal,				"Dealer Principal" },			
+						{ DealerSalesRep,				"Dealer Sales Rep" },			
+						{ DealerDesigner,				"Dealer Designer" },			
+						{ DealerAccounting,				"Dealer Accounting" },			
+						{ EndUser,						"End User" },			
+						{ AandDUser,					"A&D User" },			
                     };
 				}
 			}
@@ -204,7 +190,7 @@ namespace PDWInfrastructure
 		public bool CanSeeMainUsers { get { return CanManageUsers || CanManageCompanies; } }
 		public bool CanSeeMainProducts { get { return CanManageImport || CanManageImages || CanManageCollateral || CanManageTypicals || CanManageSearchLog; } }
 
-		public bool CanSeeMainCMSLink { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin ); } }
+		public bool CanSeeMainCMSLink { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
 
 		public bool CanManageImport { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin ); } }
 		public bool CanManageImages { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin, PaoliWebRole.PaoliMemberMarketing ); } }
@@ -216,5 +202,37 @@ namespace PDWInfrastructure
 		public bool CanManageUsers { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin ); } }
 		public bool CanManageCompanies { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
 
+		public string ProductsHomePage
+		{
+			get
+			{
+				UrlHelper u = new UrlHelper( HttpContext.Current.Request.RequestContext );
+				switch( AccountType )
+				{
+					case PaoliWebRole.SuperAdmin:
+						return u.Action( "Index", "Import" );
+					case PaoliWebRole.PaoliMemberAdmin:
+						return u.Action( "Index", "Import" );
+					case PaoliWebRole.PaoliMemberMarketing:
+						return u.Action( "Images", "Import" );
+					case PaoliWebRole.PaoliMemberSpecTeam:
+						return u.Action( "Manage", "SpecRequest" );
+					case PaoliWebRole.PaoliMemberCustomerService:
+						return u.Action( "Manage", "SpecRequest" );
+					case PaoliWebRole.PaoliMemberSales:
+						return u.Action( "Manage", "SpecRequest" );
+					case PaoliWebRole.PaoliSalesRep:
+					case PaoliWebRole.DealerPrincipal:
+					case PaoliWebRole.DealerSalesRep:
+					case PaoliWebRole.DealerDesigner:
+					case PaoliWebRole.DealerAccounting:
+					case PaoliWebRole.EndUser:
+					case PaoliWebRole.AandDUser:
+						break;
+				}
+
+				return "";
+			}
+		}
 	}
 }
