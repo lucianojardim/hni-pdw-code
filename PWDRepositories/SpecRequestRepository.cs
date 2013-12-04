@@ -27,7 +27,7 @@ namespace PWDRepositories
 				RequestID = sRequest.RequestID,
 				Name = sRequest.Name,
 				Dealer = sRequest.PrimaryCompanyID.HasValue ? sRequest.PrimaryCompany.Name : "",
-				RepGroup = sRequest.PaoliSalesRepGroupID.HasValue ? sRequest.PaoliSalesRepGroup.Name : "",
+				ProjectName = sRequest.ProjectName,
 				SpecTeamMember = sRequest.PaoliSpecTeamMemberID.HasValue ? sRequest.SpecTeamMember.FullName : "",
 				IsRecommended = sRequest.IsGoodForWeb ?? false,
 				IsPublished = sRequest.Typicals.Any()
@@ -48,7 +48,7 @@ namespace PWDRepositories
 				requestList = requestList.Where( i =>
 					i.Name.Contains( paramDetails.sSearch ) ||
 					i.PrimaryCompany.Name.Contains( paramDetails.sSearch ) ||
-					i.PaoliSalesRepGroup.Name.Contains( paramDetails.sSearch ) ||
+					i.ProjectName.Contains( paramDetails.sSearch ) ||
 					i.SpecTeamMember.FirstName.Contains( paramDetails.sSearch ) ||
 					i.SpecTeamMember.LastName.Contains( paramDetails.sSearch ) );
 			}
@@ -81,14 +81,14 @@ namespace PWDRepositories
 						filteredAndSorted = requestList.OrderByDescending( v => v.PrimaryCompany.Name );
 					}
 					break;
-				case "repgroup":
+				case "projectname":
 					if( paramDetails.sSortDir_0.ToLower() == "asc" )
 					{
-						filteredAndSorted = requestList.OrderBy( v => v.PaoliSalesRepGroup.Name );
+						filteredAndSorted = requestList.OrderBy( v => v.ProjectName );
 					}
 					else
 					{
-						filteredAndSorted = requestList.OrderByDescending( v => v.PaoliSalesRepGroup.Name );
+						filteredAndSorted = requestList.OrderByDescending( v => v.ProjectName );
 					}
 					break;
 				case "specteammember":

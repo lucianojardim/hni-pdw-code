@@ -10,7 +10,7 @@ namespace PDWModels.SpecRequests
 		public int RequestID { get; set; }
 		public string Name { get; set; }
 		public string Dealer { get; set; }
-		public string RepGroup { get; set; }
+		public string ProjectName { get; set; }
 		public string SpecTeamMember { get; set; }
 		public string EditButtons { get; set; }
 		public bool IsRecommended { get; set; }
