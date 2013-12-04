@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net.Mail;
+using System.Configuration;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace PDWInfrastructure
 {
 	public class EmailSender
 	{
-		public static bool SubmitEmail(
+		protected static MailAddress FromAddress = new MailAddress( "support@paoli.com", "Paoli Support" );
+
+		protected static bool SubmitEmail(
 			IList<string> toList,
 			IList<string> ccList,
 			IList<string> bccList,
@@ -29,12 +34,12 @@ namespace PDWInfrastructure
 
 			msg.Subject = messageSubject;
 			msg.Body = messageBody;
-			msg.From = new MailAddress( "support@paoli.com", "Paoli Support" );
+			msg.From = FromAddress;
 
 			return SubmitEmail( msg );
 		}
 
-		public static bool SubmitEmail( MailMessage message )
+		protected static bool SubmitEmail( MailMessage message )
 		{
 			if( message != null )
 			{
@@ -42,12 +47,8 @@ namespace PDWInfrastructure
 				{
 					SmtpClient smtp = new SmtpClient();
 
-					if( Environment.MachineName.ToLower().Contains( "matt3400" ) )
-						message.Body += " (from Matt's Development machine)";
-					else if( Environment.MachineName.ToLower().Contains( "paoli-test01" ) )
-						message.Body += " (from WDD Test Server)";
-
 					smtp.Send( message );
+
 					return true;
 				}
 				catch( Exception e )
@@ -56,6 +57,66 @@ namespace PDWInfrastructure
 				}
 			}
 			return false;
+		}
+
+		protected static bool ReadEmailTemplate( string emailType, out StringBuilder template )
+		{
+			string emailTemplateFileName = emailType + ".htm";
+
+			try
+			{
+				template = new StringBuilder( GetTemplate( emailTemplateFileName ) );
+
+				PerformMachineNameAdditions( template );
+			}
+			catch( Exception ex )
+			{
+				System.Diagnostics.Debug.WriteLine( "Unable to read email template: {0}", ex.Message );
+				throw ex;
+			}
+
+			return true;
+		}
+
+		protected static string GetTemplate( string templateFileName )
+		{
+			// get this from the web.config
+			string templateDirectory = ConfigurationManager.AppSettings["EmailTemplates"];
+			string templateFilePath = Path.Combine( templateDirectory, templateFileName );
+
+			if( !System.IO.File.Exists( templateFilePath ) )
+			{
+				throw new Exception();
+			}
+
+			using( StreamReader reader = new StreamReader( new FileStream( templateFilePath, FileMode.Open, FileAccess.Read, FileShare.Read ) ) )
+			{
+				return reader.ReadToEnd();
+			}
+		}
+
+		protected static string GetSubject( StringBuilder template )
+		{
+			string pattern = Regex.Escape( "<title>" ) + "(.*?)" + Regex.Escape( "</title>" );
+			var matching = Regex.Match( template.ToString(), pattern, RegexOptions.Singleline | RegexOptions.IgnoreCase );
+
+			if( matching.Success )
+			{
+				return matching.Groups[1].ToString();
+			}
+
+			return "Paoli Email";
+		}
+
+		protected static void PerformMachineNameAdditions( StringBuilder template )
+		{
+			var extraInfo = "";
+			if( Environment.MachineName.ToLower().Contains( "matt3400" ) )
+				extraInfo = "<p>(from Matt's Development machine)</p>";
+			else if( Environment.MachineName.ToLower().Contains( "paoli-test01" ) )
+				extraInfo = "<p>(from WDD Test Server)</p>";
+			
+			template.Replace( "[{MachineName}]", extraInfo );
 		}
 	}
 }

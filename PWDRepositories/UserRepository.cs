@@ -133,15 +133,7 @@ namespace PWDRepositories
 
 			if( database.SaveChanges() > 0 )
 			{
-				EmailSender.SubmitEmail( new List<string>() { newUser.Email }, null, null, "Login Information for Paoli",
-					string.Format( @"A new account has been created for you on Paoli.  Your password is:
-
-Password: {1}
-
-Please log in to http://my.paoli.com soon to change your password to a more secure option.
-
-Thanks,
-Paoli Admin", newUser.Email, password ) );
+				NewAccountEmailSender.SubmitEmail( newUser.Email, password );
 
 				return true;
 			}
@@ -259,15 +251,7 @@ Paoli Admin", newUser.Email, password ) );
 
 			if( database.SaveChanges() > 0 )
 			{
-				EmailSender.SubmitEmail( new List<string>() { eUser.Email }, null, null, "Login Information for Paoli",
-					string.Format( @"Your password on Paoli has been reset.  Your new password is:
-
-Password: {1}
-
-Please log in to http://my.paoli.com soon to change your password to a more secure option.
-
-Thanks,
-Paoli Admin", eUser.Email, password ) );
+				ResetPasswordEmailSender.SubmitEmail( eUser.Email, password );
 
 				return true;
 			}
