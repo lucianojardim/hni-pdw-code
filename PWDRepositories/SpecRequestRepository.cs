@@ -391,19 +391,22 @@ namespace PWDRepositories
 			}
 			tData.FeaturedSeries = rSeries.Name;
 
-			foreach( var indVal in tInfo.SeriesList.Split( ',' ).Select( s => s.Trim() ) )
+			if( ( tInfo.SeriesList ?? "" ).Any() )
 			{
-				var oSeries = database.Serieses.FirstOrDefault( s => s.Name == indVal );
-				if( oSeries != null )
+				foreach( var indVal in tInfo.SeriesList.Split( ',' ).Select( s => s.Trim() ) )
 				{
-					SeriesTypical stData = new SeriesTypical();
-					stData.IsPrimary = false;
-					stData.Series = oSeries;
-					stData.Typical = tData;
-					database.SeriesTypicals.AddObject( stData );
+					var oSeries = database.Serieses.FirstOrDefault( s => s.Name == indVal );
+					if( oSeries != null )
+					{
+						SeriesTypical stData = new SeriesTypical();
+						stData.IsPrimary = false;
+						stData.Series = oSeries;
+						stData.Typical = tData;
+						database.SeriesTypicals.AddObject( stData );
+					}
 				}
+				tData.SeriesList = string.Join( ", ", tData.SeriesTypicals.Where( st => !st.IsPrimary ).Select( st => st.Series.Name ) );
 			}
-			tData.SeriesList = string.Join( ", ", tData.SeriesTypicals.Where( st => !st.IsPrimary ).Select( st => st.Series.Name ) );
 
 			var img = database.ImageFiles.FirstOrDefault( i => i.Name == tInfo.RenderingImage );
 			if( img != null )
@@ -610,19 +613,26 @@ namespace PWDRepositories
 			}
 			tData.FeaturedSeries = rSeries.Name;
 
-			foreach( var indVal in tInfo.SeriesList.Split( ',' ).Select( s => s.Trim() ) )
+			if( ( tInfo.SeriesList ?? "" ).Any() )
 			{
-				var oSeries = database.Serieses.FirstOrDefault( s => s.Name == indVal );
-				if( oSeries != null )
+				foreach( var indVal in tInfo.SeriesList.Split( ',' ).Select( s => s.Trim() ) )
 				{
-					SeriesTypical stData = new SeriesTypical();
-					stData.IsPrimary = false;
-					stData.Series = oSeries;
-					stData.Typical = tData;
-					database.SeriesTypicals.AddObject( stData );
+					var oSeries = database.Serieses.FirstOrDefault( s => s.Name == indVal );
+					if( oSeries != null )
+					{
+						SeriesTypical stData = new SeriesTypical();
+						stData.IsPrimary = false;
+						stData.Series = oSeries;
+						stData.Typical = tData;
+						database.SeriesTypicals.AddObject( stData );
+					}
 				}
+				tData.SeriesList = string.Join( ", ", tData.SeriesTypicals.Where( st => !st.IsPrimary ).Select( st => st.Series.Name ) );
 			}
-			tData.SeriesList = string.Join( ", ", tData.SeriesTypicals.Where( st => !st.IsPrimary ).Select( st => st.Series.Name ) );
+			else
+			{
+				tData.SeriesList = null;
+			}
 
 			tData.TypicalImageFiles.ToList().ForEach( tif => database.DeleteObject( tif ) );
 
