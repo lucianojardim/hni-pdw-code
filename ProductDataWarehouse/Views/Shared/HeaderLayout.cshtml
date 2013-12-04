@@ -41,7 +41,7 @@
    {
 	   if( CurrentUser.CanSeeMainProducts ) 
 	   {
-			<li class="@(ViewBag.CurrentPage == "Database" ? "current_page" : "")"><a href="@Url.Action( "Index", "Import" )">Products</a></li>
+			<li class="@(ViewBag.CurrentPage == "Database" ? "current_page" : "")"><a href="@CurrentUser.ProductsHomePage">Products</a></li>
 	   }
 	   if( CurrentUser.CanSeeMainUsers )
 	   {
