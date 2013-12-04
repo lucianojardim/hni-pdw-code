@@ -164,6 +164,7 @@ Paoli Admin", newUser.Email, password ) );
 				FirstName = eUser.FirstName,
 				LastName = eUser.LastName,
 				CompanyID = eUser.CompanyID,
+				CompanyName = eUser.Company.Name,
 				Address1 = eUser.Address1,
 				Address2 = eUser.Address2,
 				City = eUser.City,

@@ -47,5 +47,8 @@ namespace PDWModels.Users
 		[DisplayName( "Title" )]
 		[StringLength( 50 )]
 		public string Title { get; set; }
+
+		[DisplayName( "Company" )]
+		public string CompanyName { get; set; }
 	}
 }
