@@ -26,21 +26,23 @@ else
 		var seriesList = [@Html.Raw(SpecRequestController.GetJustSeriesNameList())];
 
     	function reloadDealerSalesRepList() {
-    		$.ajax({
-    			dataType: 'json',
-    			type: 'GET',
-    			url: '/User/GetDealerSalesRepListForCompany',
-    			data: { companyId: $('#CompanyID').val() },
-    			success: function (data, textStatus, jqXHR) {
-    				$('#DealerSalesRep').empty();
-    				$.each(data.theList, function (idx, item) {
-    					$('#DealerSalesRep').append('<option value="' + item.Value + '">' + item.Text + '</option>');
-    				});
-    			},
-    			error: function (jqXHR, textStatus, errorThrown) {
-    				alert('Error getting Dealer Sales Rep list:' + errorThrown)
-    			}
-    		});			
+			if($('#CompanyID').val() != null){
+    			$.ajax({
+    				dataType: 'json',
+    				type: 'GET',
+    				url: '/User/GetDealerSalesRepListForCompany',
+    				data: { companyId: $('#CompanyID').val() },
+    				success: function (data, textStatus, jqXHR) {
+    					$('#DealerSalesRep').empty();
+    					$.each(data.theList, function (idx, item) {
+    						$('#DealerSalesRep').append('<option value="' + item.Value + '">' + item.Text + '</option>');
+    					});
+    				},
+    				error: function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Dealer Sales Rep list:' + errorThrown)
+    				}
+    			});			
+			}
     	}
 
     	$(document).ready(function () {
