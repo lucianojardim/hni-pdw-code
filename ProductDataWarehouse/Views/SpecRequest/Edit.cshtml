@@ -94,7 +94,8 @@ else
     @using( Html.BeginForm( "Edit", "SpecRequest", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
 	{
 		@Html.HiddenFor( m => m.RequestID )
-        <span class="dataRow">@Html.MJLabelFor( m => m.ProjectName, true )@Html.TextBoxFor( m => m.ProjectName )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.ProjectName, true )@Html.TextBoxFor( m => m.ProjectName )
+			@Html.MJLabelFor( m => m.CreatedDate, true )@Html.DisplayFor( m => m.CreatedDate )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.CompanyID, true )@Html.DropDownListFor( m => m.CompanyID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer ) )
 			@Html.MJLabelFor( m => m.DealerSalesRep, true )@Html.DropDownListFor( m => m.DealerSalesRep, UserController.GetUserDDList( PDWInfrastructure.PaoliWebUser.PaoliWebRole.DealerSalesRep ) )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )@Html.DropDownListFor( m => m.PaoliSalesRepGroupID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup ) )

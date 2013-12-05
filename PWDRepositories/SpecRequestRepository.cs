@@ -167,7 +167,8 @@ namespace PWDRepositories
 				sp4FileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles, "sp4" ),
 				pdfFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles, "pdf" ),
 				dwgFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles, "dwg" ),
-				imgFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles, "img" )
+				imgFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles, "img" ),
+				CreatedDate = sInfo.RequestDate.HasValue ? sInfo.RequestDate.Value.ToShortDateString() : ""
 					
 			};
 		}

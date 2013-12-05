@@ -95,6 +95,8 @@ namespace PDWModels.SpecRequests
 		public FileListing pdfFileList { get; set; }
 		public FileListing dwgFileList { get; set; }
 		public FileListing imgFileList { get; set; }
-		
+
+		[DisplayName( "Created Date" )]
+		public string CreatedDate { get; set; }
 	}
 }
