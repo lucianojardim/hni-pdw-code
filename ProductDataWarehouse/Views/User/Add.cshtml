@@ -64,6 +64,7 @@ else
         <span class="dataRow">@Html.MJLabelFor( m => m.BusinessPhone, true )@Html.TextBoxFor( m => m.BusinessPhone )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.CellPhone, true )@Html.TextBoxFor( m => m.CellPhone )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.Title, true )@Html.TextBoxFor( m => m.Title )<br/></span>
+		<div class="padr30 padl30"><hr /></div>
         <span class="dataRow">@Html.MJLabelFor( m => m.AccountType, true )@Html.DropDownListFor( m => m.AccountType, UserController.GetUserRoleDDList() )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.Enabled, true )@Html.CheckBoxFor( m => m.Enabled )<br/></span>
 @Html.ValidationSummary()
