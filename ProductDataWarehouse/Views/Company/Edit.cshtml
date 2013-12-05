@@ -38,6 +38,7 @@ else
         <span class="dataRow">@Html.MJLabelFor( m => m.Zip, true )@Html.TextBoxFor( m => m.Zip )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.Phone, true )@Html.TextBoxFor( m => m.Phone )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.FAX, true )@Html.TextBoxFor( m => m.FAX )<br/></span>
+		<div class="padr30 padl30"><hr /></div>
         <span class="dataRow">@Html.MJLabelFor( m => m.CompanyType, true )@Html.DropDownListFor( m => m.CompanyType, CompanyController.GetCompanyTypeDDList() )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.MasterID, true )@Html.TextBoxFor( m => m.MasterID )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.SubCompanyIDs, true )@Html.TextBoxFor( m => m.SubCompanyIDs )<br/></span>
