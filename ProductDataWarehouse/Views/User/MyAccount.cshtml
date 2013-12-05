@@ -26,5 +26,13 @@
         <span class="dataRow">@Html.MJLabelFor( m => m.BusinessPhone, true )@Html.TextBoxFor( m => m.BusinessPhone )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.CellPhone, true )@Html.TextBoxFor( m => m.CellPhone )<br/></span>
 @Html.ValidationSummary()
+        if( ViewBag.AccountUpdateSuccess ?? false )
+        {
+            <div style='color:#008000;font-weight:bold;'>
+                <ul>
+                    <li>Your account has been updated.</li>
+                </ul>
+            </div>            
+		}
         <input type="submit" class="btn_type1" value="Update" id="submitBtn" />
 	}

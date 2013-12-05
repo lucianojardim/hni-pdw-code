@@ -149,7 +149,10 @@ namespace ProductDataWarehouse.Controllers
 
 					uRepository.UpdateUser( uInfo );
 
-					return Redirect( PaoliWebUser.CurrentUser.HomePage );
+					ViewBag.AccountUpdateSuccess = true;
+
+					// yes, do this - it forces the account to be retrieved from the database again, but keeps the viewbag entry
+					return MyAccount();
 				}
 				catch( Exception )
 				{
