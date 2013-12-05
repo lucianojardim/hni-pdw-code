@@ -203,7 +203,7 @@ namespace PWDRepositories
 			{
 				database.Refresh( System.Data.Objects.RefreshMode.StoreWins, newSpec );
 
-				newSpec.Name = string.Format( "S{0}", newSpec.RequestID.ToString( "D4" ) );
+				newSpec.Name = string.Format( "T{0}", newSpec.RequestID.ToString( "D4" ) );
 
 				var rootLocation = Path.Combine( ConfigurationManager.AppSettings["SpecRequestDocumentLocation"], newSpec.Name );
 
