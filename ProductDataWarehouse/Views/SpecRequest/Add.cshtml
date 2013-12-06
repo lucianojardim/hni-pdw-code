@@ -26,7 +26,7 @@ else
 		var seriesList = [@Html.Raw(SpecRequestController.GetJustSeriesNameList())];
 
     	function reloadDealerSalesRepList() {
-			if($('#CompanyID').val() != null){
+			if($('#CompanyID').val() != null && $('#CompanyID').val() != ''){
     			$.ajax({
     				dataType: 'json',
     				type: 'GET',
@@ -42,6 +42,8 @@ else
     					alert('Error getting Dealer Sales Rep list:' + errorThrown)
     				}
     			});			
+			} else {
+    			$('#DealerSalesRep').empty();
 			}
     	}
 
@@ -118,7 +120,7 @@ else
 	{
         <span class="dataRow">@Html.MJLabelFor( m => m.ProjectName, true )@Html.TextBoxFor( m => m.ProjectName )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.CompanyID, true )@Html.DropDownListFor( m => m.CompanyID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer ) )
-			@Html.MJLabelFor( m => m.DealerSalesRep, true )@Html.DropDownListFor( m => m.DealerSalesRep, UserController.GetUserDDList( PDWInfrastructure.PaoliWebUser.PaoliWebRole.DealerSalesRep ) )<br/></span>
+			@Html.MJLabelFor( m => m.DealerSalesRep, true )@Html.DropDownListFor( m => m.DealerSalesRep, new List<SelectListItem>() )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )@Html.DropDownListFor( m => m.PaoliSalesRepGroupID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup ) )
 			@Html.MJLabelFor( m => m.PaoliSpecTeamMember, true )@Html.DropDownListFor( m => m.PaoliSpecTeamMember, UserController.GetUserDDList( PDWInfrastructure.PaoliWebUser.PaoliWebRole.PaoliMemberSpecTeam ) )<br/></span>
 		<div class="padr30 padl30"><hr /></div>

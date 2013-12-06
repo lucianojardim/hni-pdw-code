@@ -154,7 +154,7 @@ namespace PWDRepositories
 				SeriesList = sInfo.SeriesList,
 				Received = sInfo.Received ?? false,
 				SPLQuote = sInfo.SPLQuote,
-				PaoliSpecTeamMember = sInfo.PaoliSpecTeamMemberID,
+				PaoliSpecTeamMember = sInfo.PaoliSpecTeamMemberID ?? 0,
 				IsGoodForWeb = sInfo.IsGoodForWeb ?? false,
 				AvailableForIn2 = sInfo.AvailableForIn2 ?? false,
 				Footprint = sInfo.Footprint,
@@ -188,7 +188,7 @@ namespace PWDRepositories
 			newSpec.SeriesList = sInfo.SeriesList;
 			newSpec.Received = sInfo.Received;
 			newSpec.SPLQuote = sInfo.SPLQuote;
-			newSpec.PaoliSpecTeamMemberID = sInfo.PaoliSpecTeamMember;
+			newSpec.PaoliSpecTeamMemberID = (sInfo.PaoliSpecTeamMember ?? 0) > 0 ? sInfo.PaoliSpecTeamMember : null;
 			newSpec.LastModifiedDate = DateTime.UtcNow;
 			newSpec.IsGoodForWeb = sInfo.IsGoodForWeb;
 			newSpec.AvailableForIn2 = sInfo.AvailableForIn2;
@@ -263,7 +263,7 @@ namespace PWDRepositories
 			specInfo.SeriesList = sInfo.SeriesList;
 			specInfo.Received = sInfo.Received;
 			specInfo.SPLQuote = sInfo.SPLQuote;
-			specInfo.PaoliSpecTeamMemberID = sInfo.PaoliSpecTeamMember;
+			specInfo.PaoliSpecTeamMemberID = ( sInfo.PaoliSpecTeamMember ?? 0 ) > 0 ? sInfo.PaoliSpecTeamMember : null;
 			specInfo.LastModifiedDate = DateTime.UtcNow;
 			specInfo.IsGoodForWeb = sInfo.IsGoodForWeb;
 			specInfo.AvailableForIn2 = sInfo.AvailableForIn2;

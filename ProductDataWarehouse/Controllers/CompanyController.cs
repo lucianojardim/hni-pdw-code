@@ -150,7 +150,9 @@ namespace ProductDataWarehouse.Controllers
 
 		public static IEnumerable<SelectListItem> GetCompanyDDList( int? companyType = null )
 		{
-			return ( new CompanyRepository() ).GetFullCompanyList( companyType ).Select( c => new SelectListItem() { Value = c.CompanyID.ToString(), Text = c.Name } );
+			var theList = ( new CompanyRepository() ).GetFullCompanyList( companyType ).Select( c => new SelectListItem() { Value = c.CompanyID.ToString(), Text = c.Name } ).ToList();
+			theList.Insert( 0, new SelectListItem() );
+			return theList;
 		}
 
 		public static IEnumerable<SelectListItem> GetCompanyTypeDDList()

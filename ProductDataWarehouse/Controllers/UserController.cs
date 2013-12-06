@@ -269,8 +269,17 @@ namespace ProductDataWarehouse.Controllers
 
 		public static IEnumerable<SelectListItem> GetUserDDList( int accountType )
 		{
-			return ( new UserRepository() ).GetUserListForAccountType( accountType )
-				.Select( u => new SelectListItem() { Value = u.UserID.ToString(), Text = u.FullName } );
+			var theList = ( new UserRepository() ).GetUserListForAccountType( accountType )
+				.Select( u => new SelectListItem() { Value = u.UserID.ToString(), Text = u.FullName } ).ToList();
+			if( accountType == PaoliWebUser.PaoliWebRole.PaoliMemberSpecTeam )
+			{
+				theList.Insert( 0, new SelectListItem() { Text = "Not Assigned", Value = "0" } );
+			}
+			else
+			{
+				theList.Insert( 0, new SelectListItem() );
+			}
+			return theList;
 		}
 
 		public JsonResult GetDealerSalesRepListForCompany( int companyId )

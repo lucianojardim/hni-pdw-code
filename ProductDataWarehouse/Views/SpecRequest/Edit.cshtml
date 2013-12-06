@@ -26,7 +26,7 @@ else
 		var seriesList = [@Html.Raw(SpecRequestController.GetJustSeriesNameList())];
 
     	function reloadDealerSalesRepList() {
-			if($('#CompanyID').val() != null){
+			if($('#CompanyID').val() != null && $('#CompanyID').val() != ''){
     			$.ajax({
     				dataType: 'json',
     				type: 'GET',
@@ -42,6 +42,8 @@ else
     					alert('Error getting Dealer Sales Rep list:' + errorThrown)
     				}
     			});			
+			} else {
+    			$('#DealerSalesRep').empty();
 			}
     	}
 
