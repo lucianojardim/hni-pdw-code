@@ -132,7 +132,7 @@ else
 			@Html.MJLabelFor( m => m.AvailableForIn2, true )@Html.CheckBoxFor( m => m.AvailableForIn2 )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.Material, true )@Html.TextBoxFor( m => m.Material )
 			@Html.MJLabelFor( m => m.Finish, true )@Html.TextBoxFor( m => m.Finish )<br/></span>
-        <span class="dataRow">@Html.MJLabelFor( m => m.Footprint, true )@Html.TextBoxFor( m => m.Footprint )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Footprint, true )@Html.DropDownListFor( m => m.Footprint, SpecRequestController.GetFootprintDDList() )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.SavedLocation, true )@Html.TextBoxFor( m => m.SavedLocation )
 			@Html.MJLabelFor( m => m.Notes, true )@Html.TextAreaFor( m => m.Notes )<br/></span>
 		<div class="padr30 padl30"><hr /></div>

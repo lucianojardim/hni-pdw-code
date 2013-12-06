@@ -123,6 +123,39 @@ namespace ProductDataWarehouse.Controllers
 			return "'" + string.Join( "','", list ) + "'";
 		}
 
+		public static IEnumerable<SelectListItem> GetFootprintDDList()
+		{
+			var footprints = ( new AttributeRepository() ).GetTypicalOptionList( "Footprint" ).Select( s => s.Name ).ToList();
+
+			footprints.Add( "" );
+
+			footprints.Sort( delegate( string x, string y )
+			{
+				var xSizes = x.Split( 'x' );
+				var ySizes = y.Split( 'x' );
+				if( xSizes.Count() == ySizes.Count() && xSizes.Count() == 2 )
+				{
+					int x1 = 0, x2 = 0, y1 = 0, y2 = 0;
+
+					if( int.TryParse( xSizes[0], out x1 ) &&
+						int.TryParse( xSizes[1], out x2 ) &&
+						int.TryParse( ySizes[0], out y1 ) &&
+						int.TryParse( ySizes[1], out y1 ) )
+					{
+						if( x1 == y1 )
+						{
+							return x2 < y2 ? -1 : ( ( x2 > y2 ) ? 1 : 0 );
+						}
+						return x1 < y1 ? -1 : ( ( x1 > y1 ) ? 1 : 0 );
+					}
+				}
+
+				return string.Compare( x, y );
+			} );
+
+			return footprints.Select( a => new SelectListItem() { Text = a, Value = a } );
+		}
+
 		[PaoliAuthorize( "CanManageTypicals" )]
 		public ActionResult Edit( int id )
 		{

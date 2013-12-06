@@ -59,33 +59,6 @@ else
     			}
     		});
 
-    		$('#Footprint').tagit({
-    			allowSpaces: true,
-    			autocomplete: ({
-    				source: function (request, response) {
-    					$.ajax({
-    						url: '@Url.Action("GetTypeAheadTypicalOptionList", "PDW")',
-    						data: { format: "json", attr: 'Footprint', query: request.term },
-    						dataType: 'json',
-    						type: 'GET',
-    						success: function (data) {
-    							response($.map(data, function (item) {
-    								return {
-    									label: item,
-    									value: item
-    								}
-    							}));
-    						},
-    						error: function (request, status, error) {
-    							alert(error);
-    						}
-    					}
-					)
-    				},
-    				minLength: 0
-    			})
-    		});
-
     		$('#Material').tagit({
     			allowSpaces: true,
     			autocomplete: ({
@@ -181,7 +154,7 @@ else
 			@Html.MJLabelFor( m => m.AvailableForIn2, true )@Html.CheckBoxFor( m => m.AvailableForIn2 )</span>
         <span class="dataRow">@Html.MJLabelFor( m => m.Material, true )@Html.TextBoxFor( m => m.Material, new { style = "display:none" } )
 			@Html.MJLabelFor( m => m.Finish, true )@Html.TextBoxFor( m => m.Finish, new { style = "display:none" } )</span>
-        <span class="dataRow">@Html.MJLabelFor( m => m.Footprint, true )@Html.TextBoxFor( m => m.Footprint, new { style = "display:none" } )</span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Footprint, true )@Html.DropDownListFor( m => m.Footprint, SpecRequestController.GetFootprintDDList() )</span>
 		<span class="dataRow">@Html.MJLabelFor( m => m.RenderingImage, true )@Html.TextBoxFor( m => m.RenderingImage )
 			@Html.MJLabelFor( m => m.Notes, true )@Html.TextAreaFor( m => m.Notes )</span>
 		<div class="padr30 padl30"><hr /></div>
