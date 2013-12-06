@@ -40,7 +40,7 @@ namespace ProductDataWarehouse.Controllers
 		[PaoliAuthorize( "CanManageUsers" )]
 		public ActionResult Add()
 		{
-			return View( new UserInformation() { Enabled = true } );
+			return View( new UserInformation() { Enabled = true, SendWelcomeEmail = true } );
 		}
 
 		[PaoliAuthorize( "CanManageUsers" )]
@@ -111,6 +111,18 @@ namespace ProductDataWarehouse.Controllers
 			}
 
 			return View( uInfo );
+		}
+
+		[PaoliAuthorize( "CanManageUsers" )]
+		public JsonResult SendWelcomeEmail( int id )
+		{
+			bool bSuccess = ( new UserRepository() ).SendWelcomeEmail( id );
+			
+			return Json( new
+			{
+				success = bSuccess
+			},
+				JsonRequestBehavior.AllowGet );
 		}
 
 		[PaoliAuthorize( "CanManageUsers" )]

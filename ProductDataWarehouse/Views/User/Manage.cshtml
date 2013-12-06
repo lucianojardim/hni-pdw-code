@@ -22,7 +22,7 @@ Account Type: @Html.DropDownList( "AccountType", ProductDataWarehouse.Controller
 
 		$("#addNewUser").fancybox({
 			'autoDimensions': false,
-			'width': 400,
+			'width': 600,
 			'height': 600,
 			'padding': 20,
 			'margin': 0,
@@ -47,6 +47,24 @@ Account Type: @Html.DropDownList( "AccountType", ProductDataWarehouse.Controller
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
 					alert('Error resetting password for User:' + errorThrown)
+				}
+			});
+		}
+	}
+
+	function sendWelcomeEmail(dID) {
+		if (confirm('Send Welcome Email for User?')) {
+			$.ajax({
+				dataType: 'json',
+				type: 'GET',
+				url: '/User/SendWelcomeEmail',
+				data: { id: dID },
+				success: function (data, textStatus, jqXHR) {
+					alert('A welcome email has been sent to this user.');
+					loadUsers();
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					alert('Error send welcome email to User:' + errorThrown)
 				}
 			});
 		}
@@ -81,7 +99,7 @@ Account Type: @Html.DropDownList( "AccountType", ProductDataWarehouse.Controller
 						fnCallback(data, textStatus, jqXHR);
 						$('.fbImageBtn').fancybox({
 							'autoDimensions': false,
-							'width': 400,
+							'width': 600,
 							'height': 600,
 							'padding': 20,
 							'margin': 0,
@@ -132,8 +150,13 @@ Account Type: @Html.DropDownList( "AccountType", ProductDataWarehouse.Controller
                     	"fnRender": function (oObj) {
                     		var s;
                     		s = '<a href=\"@Url.Action( "Edit", "User" )/' + oObj.aData["UserID"] + '/?iframe\" class="fbImageBtn">Edit</a>';
-                    		s += '&nbsp;|&nbsp;';
-                    		s += '<a href=\"#\" onclick="resetPassword(' + oObj.aData["UserID"] + ');">Reset Password</a>';
+                    		if (oObj.aData["SentWelcomeEmail"] && oObj.aData["Enabled"]) {
+                    			s += '&nbsp;|&nbsp;';
+                    			s += '<a href=\"#\" onclick="resetPassword(' + oObj.aData["UserID"] + ');">Reset Password</a>';
+                    		} else if (!oObj.aData["SentWelcomeEmail"]) {
+                    			s += '&nbsp;|&nbsp;';
+                    			s += '<a href=\"#\" onclick="sendWelcomeEmail(' + oObj.aData["UserID"] + ');">Send Welcome Email</a>';
+                    		}
                     		return s;
                     	}
                     }

@@ -7696,7 +7696,8 @@ namespace PDWDBContext
         /// <param name="enabled">Initial value of the Enabled property.</param>
         /// <param name="accountType">Initial value of the AccountType property.</param>
         /// <param name="companyID">Initial value of the CompanyID property.</param>
-        public static User CreateUser(global::System.Int32 userID, global::System.String firstName, global::System.String lastName, global::System.String email, global::System.String password, global::System.Boolean enabled, global::System.Int32 accountType, global::System.Int32 companyID)
+        /// <param name="recWelcomeEmail">Initial value of the RecWelcomeEmail property.</param>
+        public static User CreateUser(global::System.Int32 userID, global::System.String firstName, global::System.String lastName, global::System.String email, global::System.String password, global::System.Boolean enabled, global::System.Int32 accountType, global::System.Int32 companyID, global::System.Boolean recWelcomeEmail)
         {
             User user = new User();
             user.UserID = userID;
@@ -7707,6 +7708,7 @@ namespace PDWDBContext
             user.Enabled = enabled;
             user.AccountType = accountType;
             user.CompanyID = companyID;
+            user.RecWelcomeEmail = recWelcomeEmail;
             return user;
         }
 
@@ -8100,6 +8102,30 @@ namespace PDWDBContext
         private global::System.Int32 _CompanyID;
         partial void OnCompanyIDChanging(global::System.Int32 value);
         partial void OnCompanyIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean RecWelcomeEmail
+        {
+            get
+            {
+                return _RecWelcomeEmail;
+            }
+            set
+            {
+                OnRecWelcomeEmailChanging(value);
+                ReportPropertyChanging("RecWelcomeEmail");
+                _RecWelcomeEmail = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("RecWelcomeEmail");
+                OnRecWelcomeEmailChanged();
+            }
+        }
+        private global::System.Boolean _RecWelcomeEmail;
+        partial void OnRecWelcomeEmailChanging(global::System.Boolean value);
+        partial void OnRecWelcomeEmailChanged();
 
         #endregion
 

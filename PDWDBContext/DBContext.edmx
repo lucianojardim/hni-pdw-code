@@ -529,6 +529,7 @@
           <Property Name="Enabled" Type="bit" Nullable="false" />
           <Property Name="AccountType" Type="int" Nullable="false" />
           <Property Name="CompanyID" Type="int" Nullable="false" />
+          <Property Name="RecWelcomeEmail" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="VideoLinks">
           <Key>
@@ -1859,6 +1860,7 @@
           <NavigationProperty Name="SpecRequests1" Relationship="PaoliPDWModel.fkSpec_PaoliSpecTeam" FromRole="User" ToRole="SpecRequest" />
           <Property Type="Int32" Name="CompanyID" Nullable="false" />
           <NavigationProperty Name="Company" Relationship="PaoliPDWModel.fkUser_Company" FromRole="User" ToRole="Company" />
+          <Property Type="Boolean" Name="RecWelcomeEmail" Nullable="false" />
           </EntityType>
         <EntityType Name="Company">
           <Key>
@@ -2276,6 +2278,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="PaoliPDWModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="RecWelcomeEmail" ColumnName="RecWelcomeEmail" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
                 <ScalarProperty Name="AccountType" ColumnName="AccountType" />
                 <ScalarProperty Name="Enabled" ColumnName="Enabled" />

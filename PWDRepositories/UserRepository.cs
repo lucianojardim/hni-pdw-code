@@ -25,7 +25,8 @@ namespace PWDRepositories
 				LastName = u.LastName,
 				CompanyName = u.Company.Name,
 				EmailAddress = u.Email,
-				Enabled = u.Enabled
+				Enabled = u.Enabled,
+				SentWelcomeEmail = u.RecWelcomeEmail
 			};
 		}
 
@@ -123,7 +124,8 @@ namespace PWDRepositories
 			newUser.CellPhone = uInfo.CellPhone;
 			newUser.Title = uInfo.Title;
 			newUser.AccountType = uInfo.AccountType;
-			newUser.Enabled = uInfo.Enabled;
+			newUser.Enabled = uInfo.Enabled && uInfo.SendWelcomeEmail;
+			newUser.RecWelcomeEmail = uInfo.SendWelcomeEmail;
 
 			string password = GenerateNewPassword();
 			PaoliEncryption enc = new PaoliEncryption( PaoliEncryption.DataPassPhrase );
@@ -133,7 +135,10 @@ namespace PWDRepositories
 
 			if( database.SaveChanges() > 0 )
 			{
-				NewAccountEmailSender.SubmitEmail( newUser.Email, password );
+				if( uInfo.SendWelcomeEmail )
+				{
+					NewAccountEmailSender.SubmitEmail( newUser.Email, password );
+				}
 
 				return true;
 			}
@@ -166,7 +171,8 @@ namespace PWDRepositories
 				CellPhone = eUser.CellPhone,
 				Title = eUser.Title,
 				AccountType = eUser.AccountType,
-				Enabled = eUser.Enabled
+				Enabled = eUser.Enabled,
+				SendWelcomeEmail = eUser.RecWelcomeEmail
 			};
 		}
 
@@ -183,7 +189,7 @@ namespace PWDRepositories
 				throw new Exception( "Unable to update user - Email address already exists." );
 			}
 
-			var bChangeEmail = false;
+			bool bChangeEmail = false, bWelcomeEmail = false;
 			if( eUser.Email == PaoliWebUser.CurrentUser.EmailAddress )
 			{
 				bChangeEmail = (eUser.Email != uInfo.EmailAddress);
@@ -201,11 +207,18 @@ namespace PWDRepositories
 			eUser.CellPhone = uInfo.CellPhone;
 			eUser.Title = uInfo.Title;
 
+			string password = GenerateNewPassword();
 			if( uInfo is UserInformation )
 			{
 				eUser.AccountType = ( uInfo as UserInformation ).AccountType;
 				eUser.Enabled = ( uInfo as UserInformation ).Enabled;
 				eUser.CompanyID = ( uInfo as UserInformation ).CompanyID;
+				if( !eUser.RecWelcomeEmail && ( uInfo as UserInformation ).SendWelcomeEmail )
+				{
+					bWelcomeEmail = true;
+					PaoliEncryption enc = new PaoliEncryption( PaoliEncryption.DataPassPhrase );
+					eUser.Password = enc.Encrypt( password );
+				}
 			}
 
 			if( database.SaveChanges() > 0 )
@@ -214,6 +227,34 @@ namespace PWDRepositories
 				{
 					System.Web.Security.FormsAuthentication.SetAuthCookie( uInfo.EmailAddress, false );
 				}
+				if( bWelcomeEmail )
+				{
+					NewAccountEmailSender.SubmitEmail( eUser.Email, password );
+				}
+
+				return true;
+			}
+
+			return false;
+		}
+
+		public bool SendWelcomeEmail( int id )
+		{
+			var eUser = database.Users.FirstOrDefault( u => u.UserID == id );
+			if( eUser == null )
+			{
+				throw new Exception( "Unable to find user." );
+			}
+
+			string password = GenerateNewPassword();
+			PaoliEncryption enc = new PaoliEncryption( PaoliEncryption.DataPassPhrase );
+			eUser.Password = enc.Encrypt( password );
+			eUser.RecWelcomeEmail = true;
+			eUser.Enabled = true;
+
+			if( database.SaveChanges() > 0 )
+			{
+				NewAccountEmailSender.SubmitEmail( eUser.Email, password );
 
 				return true;
 			}
@@ -223,7 +264,7 @@ namespace PWDRepositories
 
 		public bool ResetUserPassword( string email )
 		{
-			var eUser = database.Users.FirstOrDefault( u => u.Email == email );
+			var eUser = database.Users.FirstOrDefault( u => u.Email == email && u.Enabled );
 			if( eUser == null )
 			{
 				throw new Exception( "Unable to find user." );

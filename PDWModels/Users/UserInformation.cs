@@ -17,6 +17,8 @@ namespace PDWModels.Users
 		[DisplayName( "Company" )]
 		[Required]
 		public int CompanyID { get; set; }
+		[DisplayName( "Send Welcome Email" )]
+		public bool SendWelcomeEmail { get; set; }
 
 	}
 }
