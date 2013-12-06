@@ -18,7 +18,7 @@ namespace PWDRepositories
 		}
 
 		public TypicalDetailListGallery GetTypicalDetailData( string category, int? seriesId, string fpSize, string keywords,
-			int? minPrice, int? maxPrice,
+			int? minPrice, int? maxPrice, bool? in2Only,
 			string sortBy, int pageNum, int pageSize )
 		{
 			TypicalDetailListGallery gallery = new TypicalDetailListGallery();
@@ -100,6 +100,10 @@ namespace PWDRepositories
 			if( maxPrice.HasValue )
 			{
 				theList = theList.Where( s => s.TypicalIntAttributes.FirstOrDefault( a => a.TAttribute.Name == "Pricing" ).Value <= maxPrice.Value );
+			}
+			if( in2Only ?? false )
+			{
+				theList = theList.Where( t => t.AvailableForIn2 ?? false );
 			}
 
 			gallery.FilteredListCount = theList.Count();
@@ -188,7 +192,7 @@ namespace PWDRepositories
 		}
 
 		public TypicalListGallery GetTypicalData( string category, int? seriesId, string fpSize, string keywords,
-			int? minPrice, int? maxPrice, 
+			int? minPrice, int? maxPrice, bool? in2Only,
 			string sortBy, int pageNum, int pageSize )
 		{
 			TypicalListGallery gallery = new TypicalListGallery();
@@ -270,7 +274,11 @@ namespace PWDRepositories
 			if( maxPrice.HasValue )
 			{
 				theList = theList.Where( s => s.TypicalIntAttributes.FirstOrDefault( a => a.TAttribute.Name == "Pricing" ).Value <= maxPrice.Value );
-			}	
+			}
+			if( in2Only ?? false )
+			{
+				theList = theList.Where( t => t.AvailableForIn2 ?? false );
+			}
 
 			gallery.FilteredListCount = theList.Count();
 
@@ -308,7 +316,7 @@ namespace PWDRepositories
 		}
 
 		public TypicalListGallery GetTypicalCoverData( string category, int? seriesId, string fpSize, string keywords,
-			int? minPrice, int? maxPrice,
+			int? minPrice, int? maxPrice, bool? in2Only,
 			string sortBy, int? typicalId, string itemList )
 		{
 			if( !typicalId.HasValue )
@@ -400,6 +408,10 @@ namespace PWDRepositories
 			if( maxPrice.HasValue )
 			{
 				theList = theList.Where( s => s.TypicalIntAttributes.FirstOrDefault( a => a.TAttribute.Name == "Pricing" ).Value <= maxPrice.Value );
+			}
+			if( in2Only ?? false )
+			{
+				theList = theList.Where( t => t.AvailableForIn2 ?? false );
 			}
 
 			gallery.FilteredListCount = theList.Count();
