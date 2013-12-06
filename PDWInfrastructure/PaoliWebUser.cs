@@ -196,7 +196,7 @@ namespace PDWInfrastructure
 		public bool CanManageImages { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin, PaoliWebRole.PaoliMemberMarketing ); } }
 		public bool CanManageCollateral { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
 		public bool CanManageTypicals { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin,
-					PaoliWebRole.PaoliMemberMarketing, PaoliWebRole.PaoliMemberSpecTeam, PaoliWebRole.PaoliMemberCustomerService, PaoliWebRole.PaoliSalesRep ); } }
+					PaoliWebRole.PaoliMemberMarketing, PaoliWebRole.PaoliMemberSpecTeam, PaoliWebRole.PaoliMemberCustomerService, PaoliWebRole.PaoliMemberSales ); } }
 		public bool CanManageSearchLog { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin, PaoliWebRole.PaoliMemberMarketing ); } }
 
 		public bool CanManageUsers { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin ); } }
