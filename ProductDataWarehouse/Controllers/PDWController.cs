@@ -390,7 +390,7 @@ namespace ProductDataWarehouse.Controllers
 
 			return new JsonpResult()
 			{
-				Data = sRepo.GetSeriesTextData( new List<string>() { "Price List" }, new List<string>() { } ),
+				Data = sRepo.GetSeriesTextData( new List<string>() { "Price List", "IN2 Price List" }, new List<string>() { } ),
 				JsonRequestBehavior = JsonRequestBehavior.AllowGet
 			};
 		}
