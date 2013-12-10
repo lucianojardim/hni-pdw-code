@@ -442,6 +442,7 @@
           <Property Name="AvailableForIn2" Type="bit" />
           <Property Name="Footprint" Type="nvarchar" MaxLength="100" />
           <Property Name="Notes" Type="ntext" />
+          <Property Name="IsCompleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="TAttributeOptions">
           <Key>
@@ -1927,6 +1928,7 @@
           <NavigationProperty Name="DealerSalesRep" Relationship="PaoliPDWModel.fkSpec_DealerSalesRep" FromRole="SpecRequest" ToRole="User" />
           <NavigationProperty Name="SpecTeamMember" Relationship="PaoliPDWModel.fkSpec_PaoliSpecTeam" FromRole="SpecRequest" ToRole="User" />
           <NavigationProperty Name="Typicals" Relationship="PaoliPDWModel.fkTypical_Spec" FromRole="SpecRequest" ToRole="Typical" />
+          <Property Type="Boolean" Name="IsCompleted" Nullable="false" />
         </EntityType>
         <Association Name="fkSpec_Company">
           <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="0..1" />
@@ -2332,6 +2334,7 @@
           <EntitySetMapping Name="SpecRequests">
             <EntityTypeMapping TypeName="PaoliPDWModel.SpecRequest">
               <MappingFragment StoreEntitySet="SpecRequests">
+                <ScalarProperty Name="IsCompleted" ColumnName="IsCompleted" />
                 <ScalarProperty Name="Notes" ColumnName="Notes" />
                 <ScalarProperty Name="Footprint" ColumnName="Footprint" />
                 <ScalarProperty Name="AvailableForIn2" ColumnName="AvailableForIn2" />

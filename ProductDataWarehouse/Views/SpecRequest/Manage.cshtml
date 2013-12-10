@@ -75,40 +75,49 @@
 				})
 			},
 			"bProcessing": false, // don't want to use the default progress indicator at this time
-			"aaSorting": [[1, "asc"]],
+			"aaSorting": [[0, "asc"]],
 			"aoColumnDefs": [
-                    { "sName": "RecommendedStar",
-                    	"aTargets": [0],
+                    { "sName": "Name", "sTitle": "Name", "aTargets": [0], "mDataProp": "Name", "sWidth": "8%" },
+                    { "sName": "Dealer", "sTitle": "Dealer", "aTargets": [1], "mDataProp": "Dealer", "sWidth": "21%" },
+                    { "sName": "ProjectName", "sTitle": "Project Name", "aTargets": [2], "mDataProp": "ProjectName", "sWidth": "22%" },
+                    { "sName": "SpecTeamMember", "sTitle": "Spec Team Member", "aTargets": [3], "mDataProp": "SpecTeamMember", "sWidth": "19%" },
+                    { "sName": "Status",
+                    	"aTargets": [4],
                     	"bSearchable": false,
                     	"bSortable": false,
-                    	"mDataProp": "RecommendedStar", "sWidth": "3%",
+                    	"mDataProp": "Status", "sTitle": "Status", "sWidth": "10%",
                     	"fnRender": function (oObj) {
-                    		var s = '';
-                    		if (oObj.aData["IsRecommended"]) {
-                    			s += '<span class="ui-icon-star ui-icon" title="Recommended for use on the Web"></span>';
+                    		if (oObj.aData["IsCompleted"]) {
+                    			return 'Completed';
                     		}
-                    		return s;
+                    		return 'Pending';
                     	}
                     },
-                    { "sName": "Name", "sTitle": "Name", "aTargets": [1], "mDataProp": "Name", "sWidth": "15%" },
-                    { "sName": "Dealer", "sTitle": "Dealer", "aTargets": [2], "mDataProp": "Dealer", "sWidth": "25%" },
-                    { "sName": "ProjectName", "sTitle": "Project Name", "aTargets": [3], "mDataProp": "ProjectName", "sWidth": "21%" },
-                    { "sName": "SpecTeamMember", "sTitle": "Spec Team Member", "aTargets": [4], "mDataProp": "SpecTeamMember", "sWidth": "21%" },
-                    { "sName": "EditButtons",
+                    { "sName": "TypicalFinder",
                     	"aTargets": [5],
                     	"bSearchable": false,
                     	"bSortable": false,
-                    	"mDataProp": "EditButtons", "sWidth": "15%",
+                    	"mDataProp": "TypicalFinder", "sTitle": "Typical Finder", "sWidth": "15%",
                     	"fnRender": function (oObj) {
-                    		var s;
-                    		s = '<a href=\"@Url.Action( "Edit", "SpecRequest" )/' + oObj.aData["RequestID"] + '/?iframe\" class="fbImageBtn">Edit</a>';
-                    		s += '&nbsp;|&nbsp;';
                     		if (oObj.aData["IsPublished"]) {
-                    			s += '<a href=\"@Url.Action( "EditTypical", "SpecRequest" )/' + oObj.aData["RequestID"] + '/?iframe\" class="fbImageBtn">Live Version</a>';
-                    		} else {
-                    			s += '<a href=\"@Url.Action( "AddTypical", "SpecRequest" )/' + oObj.aData["RequestID"] + '/?iframe\" class="fbImageBtn">Publish</a>';
+                    			return '<a href=\"@Url.Action( "EditTypical", "SpecRequest" )/' + oObj.aData["RequestID"] + '/?iframe\" class="fbImageBtn">Published</a>';
+                    		} else if (oObj.aData["IsCompleted"]) {
+                    			if (oObj.aData["IsRecommended"]) {
+                    				return '<a href=\"@Url.Action( "AddTypical", "SpecRequest" )/' + oObj.aData["RequestID"] + '/?iframe\" class="fbImageBtn">Recommended</a>';
+                    			} else {
+                    				return 'Not recommended';
+                    			}
                     		}
-                    		return s;
+                    		return '';
+                    	}
+                    },
+                    { "sName": "EditButtons",
+                    	"aTargets": [6],
+                    	"bSearchable": false,
+                    	"bSortable": false,
+                    	"mDataProp": "EditButtons", "sWidth": "5%",
+                    	"fnRender": function (oObj) {
+                    		return '<a href=\"@Url.Action( "Edit", "SpecRequest" )/' + oObj.aData["RequestID"] + '/?iframe\" class="fbImageBtn">Edit</a>';
                     	}
                     }
                 ]

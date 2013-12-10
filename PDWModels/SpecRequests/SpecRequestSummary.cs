@@ -12,9 +12,12 @@ namespace PDWModels.SpecRequests
 		public string Dealer { get; set; }
 		public string ProjectName { get; set; }
 		public string SpecTeamMember { get; set; }
-		public string EditButtons { get; set; }
 		public bool IsRecommended { get; set; }
 		public bool IsPublished { get; set; }
-		public string RecommendedStar { get; set; }
+		public bool IsCompleted { get; set; }
+
+		public string Status { get; set; }
+		public string TypicalFinder { get; set; }
+		public string EditButtons { get; set; }
 	}
 }

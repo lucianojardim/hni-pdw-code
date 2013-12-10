@@ -47,12 +47,23 @@ else
 			}
     	}
 
+		function showHideIsGoodForWeb() {
+    		if ($('#IsCompleted:checked').length > 0) {
+    			$('.isGoodForWeb').show();
+    		} else {
+    			$('.isGoodForWeb').hide();
+    		}
+		}
+
     	$(document).ready(function () {
     		reloadDealerSalesRepList();
 
     		$('#CompanyID').change(function () {
     			reloadDealerSalesRepList();
     		});
+
+    		$('#IsCompleted').click(showHideIsGoodForWeb);
+			showHideIsGoodForWeb();
 
     		$('#SeriesList').tagit({
 				availableTags: seriesList,
@@ -129,9 +140,10 @@ else
         <span class="dataRow">@Html.MJLabelFor( m => m.FeaturedSeries, true )@Html.TextBoxFor( m => m.FeaturedSeries, new { style = "display:none" } )
 			@Html.MJLabelFor( m => m.SeriesList, true )@Html.TextBoxFor( m => m.SeriesList, new { style = "display:none" } )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.IsGSA, true )@Html.CheckBoxFor( m => m.IsGSA )
-			@Html.MJLabelFor( m => m.IsGoodForWeb, true )@Html.CheckBoxFor( m => m.IsGoodForWeb )<br/></span>
+			@Html.MJLabelFor( m => m.IsCompleted, true )@Html.CheckBoxFor( m => m.IsCompleted )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.Received, true )@Html.CheckBoxFor( m => m.Received )
-			@Html.MJLabelFor( m => m.AvailableForIn2, true )@Html.CheckBoxFor( m => m.AvailableForIn2 )<br/></span>
+			@Html.MJLabelFor( m => m.IsGoodForWeb, true, new { @style = "display:none;", @class = "isGoodForWeb" } )@Html.CheckBoxFor( m => m.IsGoodForWeb, new { @style = "display:none;", @class = "isGoodForWeb" } )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.AvailableForIn2, true )@Html.CheckBoxFor( m => m.AvailableForIn2 )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.Material, true )@Html.TextBoxFor( m => m.Material )
 			@Html.MJLabelFor( m => m.Finish, true )@Html.TextBoxFor( m => m.Finish )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.Footprint, true )@Html.DropDownListFor( m => m.Footprint, SpecRequestController.GetFootprintDDList() )<br/></span>

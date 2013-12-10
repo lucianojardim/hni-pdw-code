@@ -5022,10 +5022,12 @@ namespace PDWDBContext
         /// Create a new SpecRequest object.
         /// </summary>
         /// <param name="requestID">Initial value of the RequestID property.</param>
-        public static SpecRequest CreateSpecRequest(global::System.Int32 requestID)
+        /// <param name="isCompleted">Initial value of the IsCompleted property.</param>
+        public static SpecRequest CreateSpecRequest(global::System.Int32 requestID, global::System.Boolean isCompleted)
         {
             SpecRequest specRequest = new SpecRequest();
             specRequest.RequestID = requestID;
+            specRequest.IsCompleted = isCompleted;
             return specRequest;
         }
 
@@ -5563,6 +5565,30 @@ namespace PDWDBContext
         private global::System.String _Notes;
         partial void OnNotesChanging(global::System.String value);
         partial void OnNotesChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsCompleted
+        {
+            get
+            {
+                return _IsCompleted;
+            }
+            set
+            {
+                OnIsCompletedChanging(value);
+                ReportPropertyChanging("IsCompleted");
+                _IsCompleted = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsCompleted");
+                OnIsCompletedChanged();
+            }
+        }
+        private global::System.Boolean _IsCompleted;
+        partial void OnIsCompletedChanging(global::System.Boolean value);
+        partial void OnIsCompletedChanged();
 
         #endregion
 

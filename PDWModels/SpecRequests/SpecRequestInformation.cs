@@ -53,13 +53,15 @@ namespace PDWModels.SpecRequests
 		public string SeriesList { get; set; }
 		[DisplayName( "Received?" )]
 		public bool Received { get; set; }
+		[DisplayName( "Completed?" )]
+		public bool IsCompleted { get; set; }
 		[DisplayName( "SPL Quote" )]
 		public int? SPLQuote { get; set; }
 		[DisplayName( "Paoli Spec Team Member" )]
 		public int? PaoliSpecTeamMember { get; set; }
-		[DisplayName( "Recommended for Web" )]
+		[DisplayName( "Recommended for Web?" )]
 		public bool IsGoodForWeb { get; set; }
-		[DisplayName( "Available for In2" )]
+		[DisplayName( "Available for In2?" )]
 		public bool AvailableForIn2 { get; set; }
 		[DisplayName( "Footprint" )]
 		[StringLength( 100 )]

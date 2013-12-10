@@ -30,7 +30,8 @@ namespace PWDRepositories
 				ProjectName = sRequest.ProjectName,
 				SpecTeamMember = sRequest.PaoliSpecTeamMemberID.HasValue ? sRequest.SpecTeamMember.FullName : "",
 				IsRecommended = sRequest.IsGoodForWeb ?? false,
-				IsPublished = sRequest.Typicals.Any()
+				IsPublished = sRequest.Typicals.Any(),
+				IsCompleted = sRequest.IsCompleted
 			};
 		}
 
@@ -155,8 +156,9 @@ namespace PWDRepositories
 				Received = sInfo.Received ?? false,
 				SPLQuote = sInfo.SPLQuote,
 				PaoliSpecTeamMember = sInfo.PaoliSpecTeamMemberID ?? 0,
-				IsGoodForWeb = sInfo.IsGoodForWeb ?? false,
+				IsGoodForWeb = ( sInfo.IsGoodForWeb ?? false ) && sInfo.IsCompleted,
 				AvailableForIn2 = sInfo.AvailableForIn2 ?? false,
+				IsCompleted = sInfo.IsCompleted,
 				Footprint = sInfo.Footprint,
 				FeaturedSeries = sInfo.FeaturedSeries,
 				Material = sInfo.Material,
@@ -190,7 +192,8 @@ namespace PWDRepositories
 			newSpec.SPLQuote = sInfo.SPLQuote;
 			newSpec.PaoliSpecTeamMemberID = (sInfo.PaoliSpecTeamMember ?? 0) > 0 ? sInfo.PaoliSpecTeamMember : null;
 			newSpec.LastModifiedDate = DateTime.UtcNow;
-			newSpec.IsGoodForWeb = sInfo.IsGoodForWeb;
+			newSpec.IsGoodForWeb = sInfo.IsGoodForWeb && sInfo.IsCompleted;
+			newSpec.IsCompleted = sInfo.IsCompleted;
 			newSpec.AvailableForIn2 = sInfo.AvailableForIn2;
 			newSpec.Footprint = sInfo.Footprint;
 			newSpec.FeaturedSeries = sInfo.FeaturedSeries;
@@ -265,7 +268,8 @@ namespace PWDRepositories
 			specInfo.SPLQuote = sInfo.SPLQuote;
 			specInfo.PaoliSpecTeamMemberID = ( sInfo.PaoliSpecTeamMember ?? 0 ) > 0 ? sInfo.PaoliSpecTeamMember : null;
 			specInfo.LastModifiedDate = DateTime.UtcNow;
-			specInfo.IsGoodForWeb = sInfo.IsGoodForWeb;
+			specInfo.IsGoodForWeb = sInfo.IsGoodForWeb && sInfo.IsCompleted;
+			specInfo.IsCompleted = sInfo.IsCompleted;
 			specInfo.AvailableForIn2 = sInfo.AvailableForIn2;
 			specInfo.Footprint = sInfo.Footprint;
 			specInfo.FeaturedSeries = sInfo.FeaturedSeries;

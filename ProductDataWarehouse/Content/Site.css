@@ -367,6 +367,7 @@ span.dataRow label
 	padding-right: 10px;
 	padding-bottom: 5px;
 	vertical-align: top;
+	width: 185px;
 }
 
 span.dataRow input + label,
