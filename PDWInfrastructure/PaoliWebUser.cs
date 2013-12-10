@@ -43,7 +43,7 @@ namespace PDWInfrastructure
 							PaoliWebRole.PaoliMemberCustomerService, PaoliWebRole.PaoliMemberSales } },
 						{ PaoliRepGroup, new List<int>() { PaoliWebRole.PaoliSalesRep } },
 						{ Dealer, new List<int>() { PaoliWebRole.DealerPrincipal, PaoliWebRole.DealerSalesRep,
-							PaoliWebRole.DealerDesigner, PaoliWebRole.DealerAccounting } },
+							PaoliWebRole.DealerDesigner, PaoliWebRole.DealerAdmin } },
 						{ EndUser, new List<int>() { PaoliWebRole.EndUser } },
 						{ AandDUser, new List<int>() { PaoliWebRole.AandDUser } }
 					};
@@ -63,7 +63,7 @@ namespace PDWInfrastructure
 			public const int DealerPrincipal = 8;
 			public const int DealerSalesRep = 9;
 			public const int DealerDesigner = 10;
-			public const int DealerAccounting = 11;
+			public const int DealerAdmin = 11;
 			public const int EndUser = 12;
 			public const int AandDUser = 13;
 
@@ -79,10 +79,10 @@ namespace PDWInfrastructure
 						{ PaoliMemberCustomerService,	"Paoli Member - Customer Service" },
 						{ PaoliMemberSales,				"Paoli Member - Sales" },			
 						{ PaoliSalesRep,				"Paoli Sales Rep" },			
+						{ DealerAdmin,					"Dealer Admin" },			
 						{ DealerPrincipal,				"Dealer Principal" },			
 						{ DealerSalesRep,				"Dealer Sales Rep" },			
 						{ DealerDesigner,				"Dealer Designer" },			
-						{ DealerAccounting,				"Dealer Accounting" },			
 						{ EndUser,						"End User" },			
 						{ AandDUser,					"A&D User" },			
                     };
@@ -225,7 +225,7 @@ namespace PDWInfrastructure
 					case PaoliWebRole.DealerPrincipal:
 					case PaoliWebRole.DealerSalesRep:
 					case PaoliWebRole.DealerDesigner:
-					case PaoliWebRole.DealerAccounting:
+					case PaoliWebRole.DealerAdmin:
 					case PaoliWebRole.EndUser:
 					case PaoliWebRole.AandDUser:
 						break;
