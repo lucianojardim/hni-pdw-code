@@ -356,6 +356,36 @@ login styles
 	font-style: normal;
 }
 
+table.dataLayout td
+{
+	padding-right: 15px;
+	vertical-align: top;
+}
+
+table.dataLayout td textarea,
+table.dataLayout td input[type="text"],
+table.dataLayout td input[type="password"]
+{
+	width: 250px;
+}
+
+table.dataLayout td select
+{
+	width: 261px;
+}
+
+table.dataLayout td label
+{
+	width: 185px;
+}
+
+table.dataLayout td ul.tagit
+{
+	margin-top:0px;
+	margin-bottom:0px;
+	width:250px;
+}
+
 span.dataRow
 {
 	display: table-row;
@@ -420,6 +450,11 @@ input[type="password"]
 	padding: 0px 3px 0px 6px;
 	transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
 	border-radius: 3px;
+	margin-bottom: 5px;
+}
+
+input[type="file"]
+{
 	margin-bottom: 5px;
 }
 
