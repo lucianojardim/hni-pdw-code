@@ -145,24 +145,25 @@ else
 
     @using( Html.BeginForm( "EditTypical", "SpecRequest", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
 	{
-		@Html.HiddenFor( m => m.TypicalID )
+		<table cellpadding="0" cellspacing="0" class="dataLayout">
 		@Html.HiddenFor( m => m.RequestID )
 		@Html.HiddenFor( m => m.Name )
-        <span class="dataRow">@Html.MJLabelFor( m => m.FeaturedSeries, true )@Html.DropDownListFor( m => m.FeaturedSeries, ImportController.GetSeriesDDList( true ) )
-			@Html.MJLabelFor( m => m.SeriesList, true )@Html.TextBoxFor( m => m.SeriesList, new { style = "display:none" } )</span>
-        <span class="dataRow">@Html.MJLabelFor( m => m.ListPrice, true )@Html.TextBoxFor( m => m.ListPrice )
-			@Html.MJLabelFor( m => m.AvailableForIn2, true )@Html.CheckBoxFor( m => m.AvailableForIn2 )</span>
-        <span class="dataRow">@Html.MJLabelFor( m => m.Material, true )@Html.TextBoxFor( m => m.Material, new { style = "display:none" } )
-			@Html.MJLabelFor( m => m.Finish, true )@Html.TextBoxFor( m => m.Finish, new { style = "display:none" } )</span>
-        <span class="dataRow">@Html.MJLabelFor( m => m.Footprint, true )@Html.DropDownListFor( m => m.Footprint, SpecRequestController.GetFootprintDDList() )</span>
-		<span class="dataRow">@Html.MJLabelFor( m => m.RenderingImage, true )@Html.TextBoxFor( m => m.RenderingImage )
-			@Html.MJLabelFor( m => m.Notes, true )@Html.TextAreaFor( m => m.Notes )</span>
-		<div class="padr30 padl30"><hr /></div>
-		<span class="dataRow">@Html.MJLabelFor( m => m.xlsFile, true )<input type="file" id="xlsFile" name="xlsFile" accept=".xls,.xlsx" /><label>@Html.DisplayFor( m => m.xlsFileName )</label></span>
-		<span class="dataRow">@Html.MJLabelFor( m => m.sifFile, true )<input type="file" id="sifFile" name="sifFile" accept=".sif" /><label>@Html.DisplayFor( m => m.sifFileName )</label></span>
-		<span class="dataRow">@Html.MJLabelFor( m => m.sp4File, true )<input type="file" id="sp4File" name="sp4File" accept=".sp4" /><label>@Html.DisplayFor( m => m.sp4FileName )</label></span>
-		<span class="dataRow">@Html.MJLabelFor( m => m.pdfFile, true )<input type="file" id="pdfFile" name="pdfFile" accept=".pdf" /><label>@Html.DisplayFor( m => m.pdfFileName )</label></span>
-		<span class="dataRow">@Html.MJLabelFor( m => m.dwgFile, true )<input type="file" id="dwgFile" name="dwgFile" accept=".dwg" /><label>@Html.DisplayFor( m => m.dwgFileName )</label></span>
+        <tr><td>@Html.MJLabelFor( m => m.FeaturedSeries, true )</td><td>@Html.DropDownListFor( m => m.FeaturedSeries, ImportController.GetSeriesDDList( true ) )</td><td>
+			@Html.MJLabelFor( m => m.SeriesList, true )</td><td>@Html.TextBoxFor( m => m.SeriesList, new { style = "display:none" } )</td></tr>
+        <tr><td>@Html.MJLabelFor( m => m.ListPrice, true )</td><td>@Html.TextBoxFor( m => m.ListPrice )</td><td>
+			@Html.MJLabelFor( m => m.AvailableForIn2, true )</td><td>@Html.CheckBoxFor( m => m.AvailableForIn2 )</td></tr>
+        <tr><td>@Html.MJLabelFor( m => m.Material, true )</td><td>@Html.TextBoxFor( m => m.Material, new { style = "display:none" } )</td><td>
+			@Html.MJLabelFor( m => m.Finish, true )</td><td>@Html.TextBoxFor( m => m.Finish, new { style = "display:none" } )</td></tr>
+        <tr><td>@Html.MJLabelFor( m => m.Footprint, true )</td><td>@Html.DropDownListFor( m => m.Footprint, SpecRequestController.GetFootprintDDList() )</td></tr>
+		<tr><td>@Html.MJLabelFor( m => m.RenderingImage, true )</td><td>@Html.TextBoxFor( m => m.RenderingImage )</td><td>
+			@Html.MJLabelFor( m => m.Notes, true )</td><td>@Html.TextAreaFor( m => m.Notes )</td></tr>
+		<tr><td class="padr30 padl30" colspan="4"><hr /></td></tr>
+		<tr><td>@Html.MJLabelFor( m => m.xlsFile, true )</td><td><input type="file" id="xlsFile" name="xlsFile" accept=".xls,.xlsx" /></td><td><label>@Html.DisplayFor( m => m.xlsFileName )</label></td></tr>
+		<tr><td>@Html.MJLabelFor( m => m.sifFile, true )</td><td><input type="file" id="sifFile" name="sifFile" accept=".sif" /></td><td><label>@Html.DisplayFor( m => m.sifFileName )</label></td></tr>
+		<tr><td>@Html.MJLabelFor( m => m.sp4File, true )</td><td><input type="file" id="sp4File" name="sp4File" accept=".sp4" /></td><td><label>@Html.DisplayFor( m => m.sp4FileName )</label></td></tr>
+		<tr><td>@Html.MJLabelFor( m => m.pdfFile, true )</td><td><input type="file" id="pdfFile" name="pdfFile" accept=".pdf" /></td><td><label>@Html.DisplayFor( m => m.pdfFileName )</label></td></tr>
+		<tr><td>@Html.MJLabelFor( m => m.dwgFile, true )</td><td><input type="file" id="dwgFile" name="dwgFile" accept=".dwg" /></td><td><label>@Html.DisplayFor( m => m.dwgFileName )</label></td></tr>
+		</table>
 @Html.ValidationSummary()
         <input type="submit" class="btn_type1" value="Update" id="submitBtn" />
 	}
