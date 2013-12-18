@@ -69,7 +69,7 @@ Company Type: @Html.DropDownList( "CompanyType", ProductDataWarehouse.Controller
 			"fnServerParams": function (aoData) {
 				aoData.push({ "name": "companyType", "value": $('#CompanyType').val() });
 			},
-			"iDisplayLength": 10,
+			"iDisplayLength": 100,
 			"fnServerData": function (sSource, aoData, fnCallback) {
 				$.ajax({
 					dataType: 'json',

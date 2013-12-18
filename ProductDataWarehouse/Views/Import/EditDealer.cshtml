@@ -72,7 +72,7 @@ else
 		<div>
 			<label style="vertical-align:top">Product Listing:</label>
 			<div style="display:inline-block;overflow-y:scroll;width:75%;height:100px;">
-			@foreach( var seriesItem in ImportController.GetSeriesDDList() )
+			@foreach( var seriesItem in ImportController.GetSeriesDDList( false ) )
    {
 				<input type="checkbox" id="ProductList" name="ProductList" @(Model.ProductList.Contains( seriesItem.Value ) ? "checked" : "") value="@seriesItem.Value"/><text>&nbsp;</text>@seriesItem.Text<br />
    }

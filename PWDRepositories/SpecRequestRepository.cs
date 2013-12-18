@@ -54,6 +54,15 @@ namespace PWDRepositories
 					i.SpecTeamMember.LastName.Contains( paramDetails.sSearch ) );
 			}
 
+			if( paramDetails.pendingOnly )
+			{
+				requestList = requestList.Where( i => !i.IsCompleted );
+			}
+			if( paramDetails.recommendedOnly )
+			{
+				requestList = requestList.Where( i => i.IsCompleted && (i.IsGoodForWeb ?? false) && !i.Typicals.Any() );
+			}
+
 			displayedRecords = requestList.Count();
 
 			string sortCol = paramDetails.sColumns.Split( ',' )[paramDetails.iSortCol_0];

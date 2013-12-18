@@ -17,7 +17,7 @@ namespace PDWModels.SpecRequests
 		[DisplayName( "List Price" )]
 		[Required]
 		public int ListPrice { get; set; }
-		[DisplayName( "Series List" )]
+		[DisplayName( "Additional Series" )]
 		public string SeriesList { get; set; }
 		[DisplayName( "Available for In2" )]
 		public bool AvailableForIn2 { get; set; }

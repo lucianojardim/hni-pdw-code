@@ -7,5 +7,7 @@ namespace PDWInfrastructure
 {
 	public class SpecRequestTableParams : DataTableParams
 	{
+		public bool pendingOnly { get; set; }
+		public bool recommendedOnly { get; set; }
 	}
 }

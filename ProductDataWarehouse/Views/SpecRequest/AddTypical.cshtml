@@ -41,7 +41,7 @@ else
 					return isValid;
     			}
     		});
-
+			/*
     		$('#FeaturedSeries').tagit({
 				availableTags: seriesList,
     			allowSpaces: true,
@@ -58,7 +58,7 @@ else
 					return isValid;
     			}
     		});
-
+			*/
     		$('#Material').tagit({
     			allowSpaces: true,
     			autocomplete: ({
@@ -147,7 +147,7 @@ else
 	{
 		@Html.HiddenFor( m => m.RequestID )
 		@Html.HiddenFor( m => m.Name )
-        <span class="dataRow">@Html.MJLabelFor( m => m.FeaturedSeries, true )@Html.TextBoxFor( m => m.FeaturedSeries, new { style = "display:none" } )
+        <span class="dataRow">@Html.MJLabelFor( m => m.FeaturedSeries, true )@Html.DropDownListFor( m => m.FeaturedSeries, ImportController.GetSeriesDDList( true ) )
 			@Html.MJLabelFor( m => m.SeriesList, true )@Html.TextBoxFor( m => m.SeriesList, new { style = "display:none" } )</span>
         <span class="dataRow">@Html.MJLabelFor( m => m.ListPrice, true )@Html.TextBoxFor( m => m.ListPrice )
 			@Html.MJLabelFor( m => m.AvailableForIn2, true )@Html.CheckBoxFor( m => m.AvailableForIn2 )</span>

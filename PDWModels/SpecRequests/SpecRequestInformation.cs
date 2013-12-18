@@ -49,7 +49,7 @@ namespace PDWModels.SpecRequests
 		public string SavedLocation { get; set; }
 		[DisplayName( "List Price" )]
 		public int? ListPrice { get; set; }
-		[DisplayName( "Series List" )]
+		[DisplayName( "Additional Series" )]
 		public string SeriesList { get; set; }
 		[DisplayName( "Received?" )]
 		public bool Received { get; set; }

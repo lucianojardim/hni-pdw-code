@@ -8,6 +8,8 @@
 <h2>Spec Request List</h2>
 
 <a href="@Url.Action( "Add", "SpecRequest" )?iframe" id="addNewRequest">Add New</a><br />
+@Html.CheckBox( "PendingOnly" )Show Only Pending Spec Requests<br />
+@Html.CheckBox( "RecommendedOnly" )Show Only Recommended Spec Requests<br />
 <div>
     <table id="specRequestList">
     <thead></thead>
@@ -17,6 +19,9 @@
 
 <script type="text/javascript">
 	$(document).ready(function () {
+		$('#PendingOnly').click(loadSpecRequests);
+		$('#RecommendedOnly').click(loadSpecRequests);
+
 		$("#addNewRequest").fancybox({
 			'autoDimensions': false,
 			'width': 900,
@@ -47,8 +52,10 @@
 			"bInfo": true,
 			"sAjaxSource": '@Url.Action( "FullRequestList" )',
 			"fnServerParams": function (aoData) {
+				aoData.push({ "name": "pendingOnly", "value": $('#PendingOnly:checked').length > 0 });
+				aoData.push({ "name": "recommendedOnly", "value": $('#RecommendedOnly:checked').length > 0 });
 			},
-			"iDisplayLength": 10,
+			"iDisplayLength": 100,
 			"oLanguage": {
 				"sSearch": "Filter by Keyword:"
 			},
@@ -75,7 +82,7 @@
 				})
 			},
 			"bProcessing": false, // don't want to use the default progress indicator at this time
-			"aaSorting": [[0, "asc"]],
+			"aaSorting": [[0, "desc"]],
 			"aoColumnDefs": [
                     { "sName": "Name", "sTitle": "Name", "aTargets": [0], "mDataProp": "Name", "sWidth": "8%" },
                     { "sName": "Dealer", "sTitle": "Dealer", "aTargets": [1], "mDataProp": "Dealer", "sWidth": "21%" },

@@ -34,8 +34,12 @@ else
     				data: { companyId: $('#CompanyID').val() },
     				success: function (data, textStatus, jqXHR) {
     					$('#DealerSalesRep').empty();
+						$('#DealerSalesRep').hide();
+						$('#DSRLabel').hide();
     					$.each(data.theList, function (idx, item) {
     						$('#DealerSalesRep').append('<option value="' + item.Value + '">' + item.Text + '</option>');
+							$('#DealerSalesRep').show();
+							$('#DSRLabel').show();
     					});
     				},
     				error: function (jqXHR, textStatus, errorThrown) {
@@ -44,6 +48,8 @@ else
     			});			
 			} else {
     			$('#DealerSalesRep').empty();
+				$('#DealerSalesRep').hide();
+				$('#DSRLabel').hide();
 			}
     	}
 
@@ -103,7 +109,7 @@ else
 					return isValid;
     			}
     		});
-
+			/*
     		$('#FeaturedSeries').tagit({
 				availableTags: seriesList,
     			allowSpaces: true,
@@ -119,7 +125,7 @@ else
 					console.log( 'pre add: ' + ui.tagLabel + ' = ' + isValid );
 					return isValid;
     			}
-    		});
+    		});*/
 
     	});
 
@@ -131,13 +137,13 @@ else
 	{
         <span class="dataRow">@Html.MJLabelFor( m => m.ProjectName, true )@Html.TextBoxFor( m => m.ProjectName )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.CompanyID, true )@Html.DropDownListFor( m => m.CompanyID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer ) )
-			@Html.MJLabelFor( m => m.DealerSalesRep, true )@Html.DropDownListFor( m => m.DealerSalesRep, new List<SelectListItem>() )<br/></span>
+			@Html.MJLabelFor( m => m.DealerSalesRep, true, new { id = "DSRLabel" } )@Html.DropDownListFor( m => m.DealerSalesRep, new List<SelectListItem>() )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )@Html.DropDownListFor( m => m.PaoliSalesRepGroupID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup ) )
 			@Html.MJLabelFor( m => m.PaoliSpecTeamMember, true )@Html.DropDownListFor( m => m.PaoliSpecTeamMember, UserController.GetUserDDList( PDWInfrastructure.PaoliWebUser.PaoliWebRole.PaoliMemberSpecTeam ) )<br/></span>
 		<div class="padr30 padl30"><hr /></div>
         <span class="dataRow">@Html.MJLabelFor( m => m.ListPrice, true )@Html.TextBoxFor( m => m.ListPrice )
 			@Html.MJLabelFor( m => m.SPLQuote, true )@Html.TextBoxFor( m => m.SPLQuote )<br/></span>
-        <span class="dataRow">@Html.MJLabelFor( m => m.FeaturedSeries, true )@Html.TextBoxFor( m => m.FeaturedSeries, new { style = "display:none" } )
+        <span class="dataRow">@Html.MJLabelFor( m => m.FeaturedSeries, true )@Html.DropDownListFor( m => m.FeaturedSeries, ImportController.GetSeriesDDList(true) )
 			@Html.MJLabelFor( m => m.SeriesList, true )@Html.TextBoxFor( m => m.SeriesList, new { style = "display:none" } )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.IsGSA, true )@Html.CheckBoxFor( m => m.IsGSA )
 			@Html.MJLabelFor( m => m.IsCompleted, true )@Html.CheckBoxFor( m => m.IsCompleted )<br/></span>

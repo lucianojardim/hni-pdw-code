@@ -784,13 +784,19 @@ namespace ProductDataWarehouse.Controllers
 			return results.Select( i => new SelectListItem() { Text = i.Name, Value = i.PageID.ToString() } );
 		}
 
-		public static IEnumerable<SelectListItem> GetSeriesDDList()
+		public static IEnumerable<SelectListItem> GetSeriesDDList( bool bIncludeBlank )
 		{
 			SeriesRepository sRepository = new SeriesRepository();
 
 			var results = sRepository.GetSeriesNameList( null ).OrderBy( v => v.Name );
 
-			return results.Select( i => new SelectListItem() { Text = i.Name, Value = i.Name } );
+			List<SelectListItem> theList = new List<SelectListItem>();
+			if( bIncludeBlank )
+			{
+				theList.Add( new SelectListItem() { Text = "", Value = "" } );
+			}
+
+			return theList.Union( results.Select( i => new SelectListItem() { Text = i.Name, Value = i.Name } ) );
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]

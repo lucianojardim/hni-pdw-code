@@ -211,6 +211,7 @@ namespace ProductDataWarehouse.Controllers
 		public static IEnumerable<SelectListItem> GetStateDDList()
 		{
 			return new List<SelectListItem>() {
+				new SelectListItem()  { Text = "", Value = ""   },
 				new SelectListItem()  { Text = "Alabama", Value = "AL"   },
 				new SelectListItem()  { Text = "Alaska", Value = "AK"   },
 				new SelectListItem()  { Text = "Arizona", Value = "AZ"   },

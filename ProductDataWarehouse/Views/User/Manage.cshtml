@@ -88,7 +88,7 @@ Account Type: @Html.DropDownList( "AccountType", ProductDataWarehouse.Controller
 			"fnServerParams": function (aoData) {
 				aoData.push({ "name": "accountType", "value": $('#AccountType').val() });
 			},
-			"iDisplayLength": 10,
+			"iDisplayLength": 100,
 			"fnServerData": function (sSource, aoData, fnCallback) {
 				$.ajax({
 					dataType: 'json',
