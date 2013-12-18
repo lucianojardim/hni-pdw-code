@@ -34,6 +34,8 @@ namespace PDWModels.SpecRequests
 		public string Notes { get; set; }
 		[DisplayName( "Rendering Image" )]
 		public string RenderingImage { get; set; }
+		[DisplayName( "Additional Images" )]
+		public string AdditionalImages { get; set; }
 
 		[DisplayName( "XLS File" )]
 		public HttpPostedFileBase xlsFile { get; set; }

@@ -37,7 +37,6 @@ else
 							isValid = true;
 						}
 					});
-					console.log( 'pre add: ' + ui.tagLabel + ' = ' + isValid );
 					return isValid;
     			}
     		});
@@ -54,7 +53,6 @@ else
 							isValid = true;
 						}
 					});
-					console.log( 'pre add: ' + ui.tagLabel + ' = ' + isValid );
 					return isValid;
     			}
     		});
@@ -137,6 +135,47 @@ else
     				minLength: 2
     			});
 
+			var returnedImages = [];
+    		$('#AdditionalImages').tagit({
+    			allowSpaces: true,
+    			beforeTagAdded: function (event, ui) {
+    				// do something special
+					var isValid = false;
+					$.each(returnedImages, function(idx, i) {
+						if (i.toLowerCase() == ui.tagLabel.toLowerCase()) {
+							isValid = true;
+							return false; // break the loop
+						}
+					});
+					return isValid;
+    			},
+    			autocomplete: ({
+    				source: function (request, response) {
+    					$.ajax({
+    						url: '@Url.Action( "GetTypeaheadImageList", "PDW" )',
+    						data: { format: "json", query: request.term, max: 15 },
+    						dataType: 'json',
+    						type: 'GET',
+    						success: function (data) {
+								returnedImages = data;
+    							response($.map(data, function (item) {
+    								return {
+    									label: item,
+    									value: item
+    								}
+    							}));
+    						},
+    						error: function (request, status, error) {
+    							alert(error);
+								returnedImages = [];
+    						}
+    					}
+					)
+    				},
+    				minLength: 2
+    			})
+    		});
+
     	});
 
     </script>    
@@ -156,7 +195,8 @@ else
 			@Html.MJLabelFor( m => m.Finish, true )</td><td>@Html.TextBoxFor( m => m.Finish, new { style = "display:none" } )</td></tr>
         <tr><td>@Html.MJLabelFor( m => m.Footprint, true )</td><td>@Html.DropDownListFor( m => m.Footprint, SpecRequestController.GetFootprintDDList() )</td></tr>
 		<tr><td>@Html.MJLabelFor( m => m.RenderingImage, true )</td><td>@Html.TextBoxFor( m => m.RenderingImage )</td><td>
-			@Html.MJLabelFor( m => m.Notes, true )</td><td>@Html.TextAreaFor( m => m.Notes )</td></tr>
+			@Html.MJLabelFor( m => m.AdditionalImages, true )</td><td>@Html.TextBoxFor( m => m.AdditionalImages, new { style = "display:none" } )</td></tr>
+		<tr><td>@Html.MJLabelFor( m => m.Notes, true )</td><td>@Html.TextAreaFor( m => m.Notes )</td></tr>
 		<tr><td class="padr30 padl30" colspan="4"><hr /></td></tr>
 		<tr><td>@Html.MJLabelFor( m => m.xlsFile, true )</td><td><input type="file" id="xlsFile" name="xlsFile" accept=".xls,.xlsx" /></td></tr>
 		<tr><td>@Html.MJLabelFor( m => m.sifFile, true )</td><td><input type="file" id="sifFile" name="sifFile" accept=".sif" /></td></tr>

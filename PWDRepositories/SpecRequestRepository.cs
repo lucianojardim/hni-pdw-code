@@ -432,6 +432,22 @@ namespace PWDRepositories
 				database.TypicalImageFiles.AddObject( sif );
 			}
 
+			if( ( tInfo.AdditionalImages ?? "" ).Any() )
+			{
+				foreach( var indVal in tInfo.AdditionalImages.Split( ',' ).Select( s => s.Trim() ) )
+				{
+					var oImg = database.ImageFiles.FirstOrDefault( s => s.Name == indVal );
+					if( oImg != null )
+					{
+						TypicalImageFile sif = new TypicalImageFile();
+						sif.IsFeatured = false;
+						sif.ImageFile = oImg;
+						sif.Typical = tData;
+						database.TypicalImageFiles.AddObject( sif );
+					}
+				}
+			}
+
 			{
 				var attData = database.TAttributes.FirstOrDefault( a => a.Name == "pricing" );
 				if( attData == null )
@@ -560,6 +576,7 @@ namespace PWDRepositories
 				Finish = string.Join( ",", tInfo.AttributeSet( "Finish" ) ),
 
 				RenderingImage = string.Join( ",", tInfo.TypicalImageFiles.Where( tif => tif.IsFeatured ).Select( tif => tif.ImageFile.Name ) ),
+				AdditionalImages = string.Join( ",", tInfo.TypicalImageFiles.Where( tif => !tif.IsFeatured ).Select( tif => tif.ImageFile.Name ) ),
 
 				xlsFileName = "",
 				sifFileName = "",
@@ -658,6 +675,22 @@ namespace PWDRepositories
 				sif.ImageFile = img;
 				sif.Typical = tData;
 				database.TypicalImageFiles.AddObject( sif );
+			}
+
+			if( ( tInfo.AdditionalImages ?? "" ).Any() )
+			{
+				foreach( var indVal in tInfo.AdditionalImages.Split( ',' ).Select( s => s.Trim() ) )
+				{
+					var oImg = database.ImageFiles.FirstOrDefault( s => s.Name == indVal );
+					if( oImg != null )
+					{
+						TypicalImageFile sif = new TypicalImageFile();
+						sif.IsFeatured = false;
+						sif.ImageFile = oImg;
+						sif.Typical = tData;
+						database.TypicalImageFiles.AddObject( sif );
+					}
+				}
 			}
 
 			{
