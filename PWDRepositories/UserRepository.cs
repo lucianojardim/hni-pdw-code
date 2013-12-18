@@ -172,7 +172,8 @@ namespace PWDRepositories
 				Title = eUser.Title,
 				AccountType = eUser.AccountType,
 				Enabled = eUser.Enabled,
-				SendWelcomeEmail = eUser.RecWelcomeEmail
+				SendWelcomeEmail = eUser.RecWelcomeEmail,
+				LockAccountType = eUser.SpecRequests.Any() || eUser.SpecRequests1.Any()
 			};
 		}
 

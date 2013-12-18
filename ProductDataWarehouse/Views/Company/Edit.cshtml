@@ -21,6 +21,12 @@ else
 {
     <script type="text/javascript">
     	$(document).ready(function () {
+			@if( Model.LockCompanyType )
+			{
+			<text>
+			$('#CompanyType').attr('disabled', 'disabled');
+			</text>
+			}
     	});
 
     </script>    

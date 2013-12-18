@@ -20,5 +20,6 @@ namespace PDWModels.Users
 		[DisplayName( "Send Welcome Email" )]
 		public bool SendWelcomeEmail { get; set; }
 
+		public bool LockAccountType { get; set; }
 	}
 }

@@ -46,5 +46,7 @@ namespace PDWModels.Companies
 		[DisplayName( "Company Type" )]
 		[Required]
 		public int CompanyType { get; set; }
+
+		public bool LockCompanyType { get; set; }
 	}
 }

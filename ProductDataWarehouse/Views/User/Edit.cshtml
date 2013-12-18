@@ -38,6 +38,13 @@ else
     		if ($('#SendWelcomeEmail:checked').length > 0) {
     			$('#SendWelcomeEmail').attr("disabled", true);
     		}
+			@if( Model.LockAccountType )
+			{
+			<text>
+			$('#CompanyID').attr('disabled', 'disabled');
+			$('#AccountType').attr('disabled', 'disabled');
+			</text>
+			}
     	});
 
     	function reloadAccountType() {

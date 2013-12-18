@@ -73,6 +73,7 @@ namespace PWDRepositories
 				SubCompanyIDs = eCompany.SubCompanyIDs,
 				TripIncentive = eCompany.TripIncentive,
 				CompanyType = eCompany.CompanyType,
+				LockCompanyType = eCompany.Users.Any() || eCompany.SpecRequests.Any() || eCompany.SpecRequests1.Any()
 			};
 		}
 
