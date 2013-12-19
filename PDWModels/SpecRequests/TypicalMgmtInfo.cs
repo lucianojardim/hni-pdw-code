@@ -32,7 +32,7 @@ namespace PDWModels.SpecRequests
 		public string Finish { get; set; }
 		[DisplayName( "Notes" )]
 		public string Notes { get; set; }
-		[DisplayName( "Rendering Image" )]
+		[DisplayName( "Isometric Image" )]
 		public string RenderingImage { get; set; }
 		[DisplayName( "Additional Images" )]
 		public string AdditionalImages { get; set; }
