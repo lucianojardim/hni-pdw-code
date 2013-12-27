@@ -24,7 +24,7 @@ else
 			@if( Model.LockCompanyType )
 			{
 			<text>
-			$('#CompanyType').attr('disabled', 'disabled');
+			$('select#CompanyType').attr('disabled', 'disabled');
 			</text>
 			}
 
@@ -51,6 +51,10 @@ else
     @using( Html.BeginForm( "Edit", "Company", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
 	{
 		@Html.HiddenFor( m => m.CompanyID )
+		if( Model.LockCompanyType )
+  {
+			@Html.HiddenFor( m => m.CompanyType )
+  }
         <span class="dataRow">@Html.MJLabelFor( m => m.Name, true )@Html.TextBoxFor( m => m.Name )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.Address1, true )@Html.TextBoxFor( m => m.Address1 )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.Address2, true )@Html.TextBoxFor( m => m.Address2 )<br/></span>
