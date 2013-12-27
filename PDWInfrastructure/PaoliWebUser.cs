@@ -185,6 +185,9 @@ namespace PDWInfrastructure
 			}
 		}
 
+		public bool IsDealerUser { get { return OneOfRoles( PaoliWebRole.DealerAdmin, PaoliWebRole.DealerDesigner, 
+			PaoliWebRole.DealerPrincipal, PaoliWebRole.DealerSalesRep ); } }
+
 		public bool CanBeLoggedIn { get { return true; } }
 		public bool CanSeeMainUsers { get { return CanManageUsers || CanManageCompanies; } }
 		public bool CanSeeMainProducts { get { return CanManageImport || CanManageImages || CanManageCollateral || CanManageTypicals || CanManageSearchLog; } }
@@ -201,8 +204,8 @@ namespace PDWInfrastructure
 		public bool CanManageUsers { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin ); } }
 		public bool CanManageCompanies { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
 
-		public bool CanSeeTheScoop { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.DealerAdmin, PaoliWebRole.DealerDesigner, 
-			PaoliWebRole.DealerPrincipal, PaoliWebRole.DealerSalesRep ); } }
+		public bool CanSeeTheScoop { get { return OneOfRoles( PaoliWebRole.SuperAdmin ) || IsDealerUser; } }
+		public bool HasContacts { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliSalesRep ) || IsDealerUser; } }
 
 		public string ProductsHomePage
 		{

@@ -460,5 +460,29 @@ namespace PWDRepositories
 
 			database.SaveChanges();
 		}
+
+		public IEnumerable<UserContactInfo> GetPaoliRepContacts( int userId )
+		{
+			var theList = new List<UserContactInfo>();
+
+			var eUser = database.Users.FirstOrDefault( u => u.UserID == userId );
+			if( eUser != null )
+			{
+				if( eUser.Company.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer )
+				{
+					theList = eUser.Company
+						.Territory
+						.Companies
+						.Where( c => c.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup )
+						.SelectMany( c => c.Users )
+						.ToList()
+						.Select( u => new UserContactInfo() { FullName = u.FullName, EmailAddress = u.Email, PhoneNumber = u.BusinessPhone } )
+						.ToList();
+				}
+			}
+
+			return theList;
+			
+		}
 	}
 }

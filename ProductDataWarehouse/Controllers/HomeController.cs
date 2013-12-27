@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PDWInfrastructure;
+using PWDRepositories;
 
 namespace ProductDataWarehouse.Controllers
 {
@@ -16,6 +17,7 @@ namespace ProductDataWarehouse.Controllers
 		public ActionResult Index()
         {
 			ViewBag.RSSURL = FullSiteURL() + "/";
+			ViewBag.PaoliRepContacts = ( new UserRepository() ).GetPaoliRepContacts( PaoliWebUser.CurrentUser.UserId );
 
 			return View();
         }

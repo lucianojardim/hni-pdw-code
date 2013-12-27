@@ -1,0 +1,38 @@
+﻿@if( PDWInfrastructure.PaoliWebUser.CurrentUser.IsDealerUser )
+{
+<h2>My Paoli Rep</h2>
+foreach( var contact in ViewBag.PaoliRepContacts )
+{
+<div class="padb10">
+<div>@contact.FullName</div>
+<div class="fs11">@contact.EmailAddress | @contact.PhoneNumber</div>
+</div>
+	 
+}
+<hr />
+}
+
+<h2>My Paoli Contacts</h2>
+
+<div class="padb10">
+<div>Kevin Stree</div>
+<div class="fs11">kevin-stree@paoli.com | 317.555.5555</div>
+</div>
+<div class="padb10">
+<div>Steve Smith</div>
+<div class="fs11">steve-smith@paoli.com | 317.555.5555</div>
+</div>
+<div class="padb10">
+<div>Mona Hoffman</div>
+<div class="fs11">mona-hoffman@paoli.com | 317.555.5555</div>
+</div>
+<hr />
+<div class="padb10">
+<div>Spec Team - <span class="fs11">317.555.5555</span></div>
+</div>
+<div class="padb10">
+<div>Customer Service - <span class="fs11">317.555.5555</span></div>
+</div>
+<div class="padb10">
+<div>Sales - <span class="fs11">317.555.5555</span></div>
+</div>

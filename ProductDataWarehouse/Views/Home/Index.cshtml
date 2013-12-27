@@ -23,4 +23,10 @@
 @{Html.RenderPartial( "ScoopRSSFeed", PDWInfrastructure.UmbracoAPI.UmbracoInterface.GetScoopItems( RSSURL ) );}
 </div>
 }
+@if( CurrentUser.HasContacts )
+{
+<div class="dashLittle">
+@{Html.RenderPartial( "MyContactList" );}
+</div>
+}
 <div class="clear"></div>
