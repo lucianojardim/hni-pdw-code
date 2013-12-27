@@ -56,6 +56,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSpec_PaoliSpecTeam", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkUser_Company", "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.Company), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.User), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkTypical_Spec", "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.SpecRequest), "Typical", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Typical), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCompany_Territory", "Territory", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.Territory), "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Company), true)]
 
 #endregion
 
@@ -554,6 +555,22 @@ namespace PDWDBContext
             }
         }
         private ObjectSet<SpecRequest> _SpecRequests;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Territory> Territories
+        {
+            get
+            {
+                if ((_Territories == null))
+                {
+                    _Territories = base.CreateObjectSet<Territory>("Territories");
+                }
+                return _Territories;
+            }
+        }
+        private ObjectSet<Territory> _Territories;
 
         #endregion
 
@@ -781,6 +798,14 @@ namespace PDWDBContext
         public void AddToSpecRequests(SpecRequest specRequest)
         {
             base.AddObject("SpecRequests", specRequest);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Territories EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToTerritories(Territory territory)
+        {
+            base.AddObject("Territories", territory);
         }
 
         #endregion
@@ -1619,6 +1644,30 @@ namespace PDWDBContext
         private global::System.Int32 _CompanyType;
         partial void OnCompanyTypeChanging(global::System.Int32 value);
         partial void OnCompanyTypeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> TerritoryID
+        {
+            get
+            {
+                return _TerritoryID;
+            }
+            set
+            {
+                OnTerritoryIDChanging(value);
+                ReportPropertyChanging("TerritoryID");
+                _TerritoryID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("TerritoryID");
+                OnTerritoryIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _TerritoryID;
+        partial void OnTerritoryIDChanging(Nullable<global::System.Int32> value);
+        partial void OnTerritoryIDChanged();
 
         #endregion
 
@@ -1687,6 +1736,44 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<User>("PaoliPDWModel.fkUser_Company", "User", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkCompany_Territory", "Territory")]
+        public Territory Territory
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Territory>("PaoliPDWModel.fkCompany_Territory", "Territory").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Territory>("PaoliPDWModel.fkCompany_Territory", "Territory").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Territory> TerritoryReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Territory>("PaoliPDWModel.fkCompany_Territory", "Territory");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Territory>("PaoliPDWModel.fkCompany_Territory", "Territory", value);
                 }
             }
         }
@@ -6390,6 +6477,115 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<TAttribute>("PaoliPDWModel.fkTOption_Attribute", "TAttribute", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="Territory")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Territory : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Territory object.
+        /// </summary>
+        /// <param name="territoryID">Initial value of the TerritoryID property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        public static Territory CreateTerritory(global::System.Int32 territoryID, global::System.String name)
+        {
+            Territory territory = new Territory();
+            territory.TerritoryID = territoryID;
+            territory.Name = name;
+            return territory;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 TerritoryID
+        {
+            get
+            {
+                return _TerritoryID;
+            }
+            set
+            {
+                if (_TerritoryID != value)
+                {
+                    OnTerritoryIDChanging(value);
+                    ReportPropertyChanging("TerritoryID");
+                    _TerritoryID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("TerritoryID");
+                    OnTerritoryIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _TerritoryID;
+        partial void OnTerritoryIDChanging(global::System.Int32 value);
+        partial void OnTerritoryIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkCompany_Territory", "Company")]
+        public EntityCollection<Company> Companies
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Company>("PaoliPDWModel.fkCompany_Territory", "Company");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Company>("PaoliPDWModel.fkCompany_Territory", "Company", value);
                 }
             }
         }

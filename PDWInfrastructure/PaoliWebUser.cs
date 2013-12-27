@@ -49,6 +49,14 @@ namespace PDWInfrastructure
 					};
 				}
 			}
+
+			public static List<int> HasTerritory
+			{
+				get
+				{
+					return new List<int>() { PaoliRepGroup, Dealer };
+				}
+			}
 		}
 
 		public static class PaoliWebRole

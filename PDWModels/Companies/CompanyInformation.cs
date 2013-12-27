@@ -46,6 +46,8 @@ namespace PDWModels.Companies
 		[DisplayName( "Company Type" )]
 		[Required]
 		public int CompanyType { get; set; }
+		[DisplayName( "Territory ID" )]
+		public int? TerritoryID { get; set; }
 
 		public bool LockCompanyType { get; set; }
 	}

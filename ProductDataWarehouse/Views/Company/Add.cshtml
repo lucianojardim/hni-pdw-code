@@ -21,8 +21,21 @@ else
 {
     <script type="text/javascript">
     	$(document).ready(function () {
+    		showHideTerritoryID();
+
+    		$('#CompanyType').change(function () {
+    			showHideTerritoryID();
+    		});
     	});
 
+    	function showHideTerritoryID() {
+			console.log( $('#CompanyType').val() );
+			if( $.inArray($('#CompanyType').val(), ['@Html.Raw(string.Join("','", PDWInfrastructure.PaoliWebUser.PaoliCompanyType.HasTerritory))'] ) != -1 ) {
+				$('#territoryRow').show();
+			} else {
+				$('#territoryRow').hide();
+			}
+    	}
     </script>    
 }
     <h2>Add Company</h2>
@@ -41,6 +54,7 @@ else
         <span class="dataRow">@Html.MJLabelFor( m => m.CompanyType, true )@Html.DropDownListFor( m => m.CompanyType, CompanyController.GetCompanyTypeDDList() )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.MasterID, true )@Html.TextBoxFor( m => m.MasterID )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.SubCompanyIDs, true )@Html.TextBoxFor( m => m.SubCompanyIDs )<br/></span>
+        <span class="dataRow" id="territoryRow">@Html.MJLabelFor( m => m.TerritoryID, true )@Html.DropDownListFor( m => m.TerritoryID, CompanyController.GetTerritoryDDList() )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.TripIncentive, true )@Html.CheckBoxFor( m => m.TripIncentive )<br/></span>
 @Html.ValidationSummary()
         <input type="submit" class="btn_type1" value="Add" id="submitBtn" />

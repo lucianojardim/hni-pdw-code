@@ -164,5 +164,11 @@ namespace ProductDataWarehouse.Controllers
 		{
 			return new List<SelectListItem>() { new SelectListItem() { Text = "All", Value = "0", Selected = true } }.Union( GetCompanyTypeDDList() );
 		}
+
+		public static IEnumerable<SelectListItem> GetTerritoryDDList()
+		{
+			return new List<SelectListItem>() { new SelectListItem() { Text = "", Value = "", Selected = true } }
+				.Union( (new CompanyRepository()).GetTerritoryList().Select( t => new SelectListItem() { Value = t.TerritoryID.ToString(), Text = t.Name }) );
+		}
 	}
 }

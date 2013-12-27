@@ -30,6 +30,12 @@ namespace PWDRepositories
 
 		public bool AddCompany( CompanyInformation cInfo )
 		{
+			if( PaoliWebUser.PaoliCompanyType.HasTerritory.Contains( cInfo.CompanyType ) && 
+				!cInfo.TerritoryID.HasValue )
+			{
+				throw new Exception( "Territory ID is a required field" );
+			}
+
 			Company newCompany = new Company();
 
 			newCompany.Name = cInfo.Name;
@@ -44,6 +50,7 @@ namespace PWDRepositories
 			newCompany.SubCompanyIDs = cInfo.SubCompanyIDs;
 			newCompany.TripIncentive = cInfo.TripIncentive;
 			newCompany.CompanyType = cInfo.CompanyType;
+			newCompany.TerritoryID = PaoliWebUser.PaoliCompanyType.HasTerritory.Contains( cInfo.CompanyType ) ? cInfo.TerritoryID : null;
 
 			database.Companies.AddObject( newCompany );
 
@@ -73,12 +80,19 @@ namespace PWDRepositories
 				SubCompanyIDs = eCompany.SubCompanyIDs,
 				TripIncentive = eCompany.TripIncentive,
 				CompanyType = eCompany.CompanyType,
+				TerritoryID = eCompany.TerritoryID,
 				LockCompanyType = eCompany.Users.Any() || eCompany.SpecRequests.Any() || eCompany.SpecRequests1.Any()
 			};
 		}
 
 		public bool UpdateCompany( CompanyInformation cInfo )
 		{
+			if( PaoliWebUser.PaoliCompanyType.HasTerritory.Contains( cInfo.CompanyType ) &&
+				!cInfo.TerritoryID.HasValue )
+			{
+				throw new Exception( "Territory ID is a required field" );
+			}
+
 			var eCompany = database.Companies.FirstOrDefault( u => u.CompanyID == cInfo.CompanyID );
 			if( eCompany == null )
 			{
@@ -97,6 +111,7 @@ namespace PWDRepositories
 			eCompany.SubCompanyIDs = cInfo.SubCompanyIDs;
 			eCompany.TripIncentive = cInfo.TripIncentive;
 			eCompany.CompanyType = cInfo.CompanyType;
+			eCompany.TerritoryID = PaoliWebUser.PaoliCompanyType.HasTerritory.Contains( cInfo.CompanyType ) ? cInfo.TerritoryID : null;
 
 			return database.SaveChanges() > 0;
 		}
@@ -179,6 +194,13 @@ namespace PWDRepositories
 				.OrderBy( c => c.Name )
 				.ToList()
 				.Select( c => ToCompanySummary( c ) );
+		}
+
+		public IEnumerable<TerritorySummary> GetTerritoryList()
+		{
+			return database.Territories
+				.ToList()
+				.Select( t => new TerritorySummary() { TerritoryID = t.TerritoryID, Name = t.Name } );
 		}
 	}
 }
