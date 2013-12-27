@@ -9,7 +9,7 @@ using PDWModels.Dealers;
 
 namespace ProductDataWarehouse.Controllers
 {
-    public class DealerController : Controller
+	public class DealerController : BaseController
     {
 		public ActionResult Index( string id )
 		{
@@ -28,22 +28,6 @@ namespace ProductDataWarehouse.Controllers
 			}
 
 			return Redirect( FullSiteURL() + "/404-page/" );
-		}
-
-		public string FullSiteURL()
-		{
-			var url = Request.Url.DnsSafeHost.ToLower();
-
-			if( url.Contains( "localhost" ) )
-				return "http://localhost:8787";
-			else if( url.Contains( "matt3400" ) )
-				return "http://matt3400.wdd.local:8787";
-			else if( url.Contains( "jamesburnes" ) || url.Contains( "getvitaminj" ) )
-				return "http://desktop.paoli.getvitaminj.com";
-			else if( url.Contains( "paoli-test01" ) )
-				return "http://paoli-test01";
-
-			return "http://desktop.paoli.com";
 		}
     }
 }

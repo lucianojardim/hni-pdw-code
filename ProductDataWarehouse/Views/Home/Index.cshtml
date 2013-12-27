@@ -4,10 +4,13 @@
 	ViewBag.CurrentSubPage = "";
 	Layout = "~/Views/Shared/HeaderLayout.cshtml";
 }
-@{var CurrentUser = PDWInfrastructure.PaoliWebUser.CurrentUser;}
+@{
+	var CurrentUser = PDWInfrastructure.PaoliWebUser.CurrentUser;
+	string RSSURL = ViewBag.RSSURL;
+}
 
 <div class="dashBig">
-@{Html.RenderPartial( "NewsRSSFeed", PDWInfrastructure.UmbracoAPI.UmbracoInterface.GetNewsItems( "http://matt3400.wdd.local:8787/" ) );}
+@{Html.RenderPartial( "NewsRSSFeed", PDWInfrastructure.UmbracoAPI.UmbracoInterface.GetNewsItems( RSSURL ) );}
 </div>
 <div class="dashLittle">
 @{Html.RenderPartial( "SubscriptionsAndAlerts" );}
@@ -17,7 +20,7 @@
 @if( CurrentUser.CanSeeTheScoop )
 {
 <div class="dashBig">
-@{Html.RenderPartial( "ScoopRSSFeed", PDWInfrastructure.UmbracoAPI.UmbracoInterface.GetScoopItems( "http://matt3400.wdd.local:8787/" ) );}
+@{Html.RenderPartial( "ScoopRSSFeed", PDWInfrastructure.UmbracoAPI.UmbracoInterface.GetScoopItems( RSSURL ) );}
 </div>
 }
 <div class="clear"></div>

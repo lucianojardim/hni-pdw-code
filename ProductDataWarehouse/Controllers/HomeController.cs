@@ -7,7 +7,7 @@ using PDWInfrastructure;
 
 namespace ProductDataWarehouse.Controllers
 {
-    public class HomeController : Controller
+	public class HomeController : BaseController
     {
         //
         // GET: /Home/
@@ -15,6 +15,8 @@ namespace ProductDataWarehouse.Controllers
 		[PaoliAuthorize( "CanBeLoggedIn" )]
 		public ActionResult Index()
         {
+			ViewBag.RSSURL = FullSiteURL() + "/";
+
 			return View();
         }
     }
