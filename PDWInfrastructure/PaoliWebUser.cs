@@ -93,17 +93,7 @@ namespace PDWInfrastructure
 			{
 				UrlHelper u = new UrlHelper( HttpContext.Current.Request.RequestContext );
 
-				switch( role )
-				{
-					case SuperAdmin:
-						return u.Action( "Index", "Import" );
-					case PaoliMemberAdmin:
-						return u.Action( "Index", "Import" );
-					case PaoliMemberMarketing:
-						return u.Action( "Images", "Import" );
-				}
-
-				return u.Action( "MyAccount", "User" );
+				return u.Action( "Index", "Home" );
 			}
 		}
 
