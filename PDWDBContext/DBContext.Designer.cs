@@ -57,6 +57,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkUser_Company", "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.Company), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.User), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkTypical_Spec", "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.SpecRequest), "Typical", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Typical), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCompany_Territory", "Territory", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.Territory), "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Company), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "UserSubscriptions", "Subscription", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Subscription), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.User))]
 
 #endregion
 
@@ -571,6 +572,22 @@ namespace PDWDBContext
             }
         }
         private ObjectSet<Territory> _Territories;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Subscription> Subscriptions
+        {
+            get
+            {
+                if ((_Subscriptions == null))
+                {
+                    _Subscriptions = base.CreateObjectSet<Subscription>("Subscriptions");
+                }
+                return _Subscriptions;
+            }
+        }
+        private ObjectSet<Subscription> _Subscriptions;
 
         #endregion
 
@@ -806,6 +823,14 @@ namespace PDWDBContext
         public void AddToTerritories(Territory territory)
         {
             base.AddObject("Territories", territory);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Subscriptions EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToSubscriptions(Subscription subscription)
+        {
+            base.AddObject("Subscriptions", subscription);
         }
 
         #endregion
@@ -6114,6 +6139,115 @@ namespace PDWDBContext
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="Subscription")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Subscription : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Subscription object.
+        /// </summary>
+        /// <param name="subscriptionID">Initial value of the SubscriptionID property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        public static Subscription CreateSubscription(global::System.Int32 subscriptionID, global::System.String name)
+        {
+            Subscription subscription = new Subscription();
+            subscription.SubscriptionID = subscriptionID;
+            subscription.Name = name;
+            return subscription;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 SubscriptionID
+        {
+            get
+            {
+                return _SubscriptionID;
+            }
+            set
+            {
+                if (_SubscriptionID != value)
+                {
+                    OnSubscriptionIDChanging(value);
+                    ReportPropertyChanging("SubscriptionID");
+                    _SubscriptionID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("SubscriptionID");
+                    OnSubscriptionIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _SubscriptionID;
+        partial void OnSubscriptionIDChanging(global::System.Int32 value);
+        partial void OnSubscriptionIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "UserSubscriptions", "User")]
+        public EntityCollection<User> Users
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<User>("PaoliPDWModel.UserSubscriptions", "User");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<User>("PaoliPDWModel.UserSubscriptions", "User", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="TAttribute")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -8432,6 +8566,28 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Company>("PaoliPDWModel.fkUser_Company", "Company", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "UserSubscriptions", "Subscription")]
+        public EntityCollection<Subscription> Subscriptions
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Subscription>("PaoliPDWModel.UserSubscriptions", "Subscription");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Subscription>("PaoliPDWModel.UserSubscriptions", "Subscription", value);
                 }
             }
         }

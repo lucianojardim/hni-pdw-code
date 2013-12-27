@@ -208,6 +208,33 @@ namespace ProductDataWarehouse.Controllers
 			return View();
 		}
 
+		[Authorize]
+		public ActionResult Subscriptions()
+		{
+			return View( new UserRepository().GetUserSubscriptionSummary( PaoliWebUser.CurrentUser.UserId ) );
+		}
+
+		[Authorize]
+		[HttpPost]
+		public ActionResult Subscriptions( UserSubscriptionSummary uSummary )
+		{
+			if( ModelState.IsValid )
+			{
+				try
+				{
+					new UserRepository().UpdateUserSubscriptions( uSummary );
+
+					return Redirect( PaoliWebUser.CurrentUser.HomePage );
+				}
+				catch( Exception )
+				{
+					ModelState.AddModelError( "", "Unable to update your settings at this time." );
+				}
+			}
+
+			return View( uSummary );
+		}
+
 		public static IEnumerable<SelectListItem> GetStateDDList()
 		{
 			return new List<SelectListItem>() {

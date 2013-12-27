@@ -28,6 +28,7 @@
           <EntitySet Name="SeriesTypicals" EntityType="PaoliPDWModel.Store.SeriesTypicals" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SpecRequestFiles" EntityType="PaoliPDWModel.Store.SpecRequestFiles" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SpecRequests" EntityType="PaoliPDWModel.Store.SpecRequests" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Subscriptions" EntityType="PaoliPDWModel.Store.Subscriptions" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="TAttributeOptions" EntityType="PaoliPDWModel.Store.TAttributeOptions" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="TAttributes" EntityType="PaoliPDWModel.Store.TAttributes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Territories" EntityType="PaoliPDWModel.Store.Territories" store:Type="Tables" Schema="dbo" />
@@ -37,6 +38,7 @@
           <EntitySet Name="Typicals" EntityType="PaoliPDWModel.Store.Typicals" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="TypicalTextAttributes" EntityType="PaoliPDWModel.Store.TypicalTextAttributes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Users" EntityType="PaoliPDWModel.Store.Users" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserSubscriptions" EntityType="PaoliPDWModel.Store.UserSubscriptions" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="VideoLinks" EntityType="PaoliPDWModel.Store.VideoLinks" store:Type="Tables" Schema="dbo" />
           <AssociationSet Name="fkCompany_Territory" Association="PaoliPDWModel.Store.fkCompany_Territory">
             <End Role="Territories" EntitySet="Territories" />
@@ -201,6 +203,14 @@
           <AssociationSet Name="fkUser_Company" Association="PaoliPDWModel.Store.fkUser_Company">
             <End Role="Companies" EntitySet="Companies" />
             <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="fkUSub_Subscription" Association="PaoliPDWModel.Store.fkUSub_Subscription">
+            <End Role="Subscriptions" EntitySet="Subscriptions" />
+            <End Role="UserSubscriptions" EntitySet="UserSubscriptions" />
+          </AssociationSet>
+          <AssociationSet Name="fkUSub_User" Association="PaoliPDWModel.Store.fkUSub_User">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserSubscriptions" EntitySet="UserSubscriptions" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="AttributeOptions">
@@ -450,6 +460,13 @@
           <Property Name="Notes" Type="ntext" />
           <Property Name="IsCompleted" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Subscriptions">
+          <Key>
+            <PropertyRef Name="SubscriptionID" />
+          </Key>
+          <Property Name="SubscriptionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
         <EntityType Name="TAttributeOptions">
           <Key>
             <PropertyRef Name="OptionID" />
@@ -544,6 +561,14 @@
           <Property Name="AccountType" Type="int" Nullable="false" />
           <Property Name="CompanyID" Type="int" Nullable="false" />
           <Property Name="RecWelcomeEmail" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserSubscriptions">
+          <Key>
+            <PropertyRef Name="SubscriptionID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="SubscriptionID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="VideoLinks">
           <Key>
@@ -1045,6 +1070,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fkUSub_Subscription">
+          <End Role="Subscriptions" Type="PaoliPDWModel.Store.Subscriptions" Multiplicity="1" />
+          <End Role="UserSubscriptions" Type="PaoliPDWModel.Store.UserSubscriptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subscriptions">
+              <PropertyRef Name="SubscriptionID" />
+            </Principal>
+            <Dependent Role="UserSubscriptions">
+              <PropertyRef Name="SubscriptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkUSub_User">
+          <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="1" />
+          <End Role="UserSubscriptions" Type="PaoliPDWModel.Store.UserSubscriptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserSubscriptions">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -1230,6 +1279,11 @@
           <AssociationSet Name="fkCompany_Territory" Association="PaoliPDWModel.fkCompany_Territory">
             <End Role="Territory" EntitySet="Territories" />
             <End Role="Company" EntitySet="Companies" />
+          </AssociationSet>
+          <EntitySet Name="Subscriptions" EntityType="PaoliPDWModel.Subscription" />
+          <AssociationSet Name="UserSubscriptions" Association="PaoliPDWModel.UserSubscriptions">
+            <End Role="Subscription" EntitySet="Subscriptions" />
+            <End Role="User" EntitySet="Users" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AttributeOption">
@@ -1892,6 +1946,7 @@
           <Property Type="Int32" Name="CompanyID" Nullable="false" />
           <NavigationProperty Name="Company" Relationship="PaoliPDWModel.fkUser_Company" FromRole="User" ToRole="Company" />
           <Property Type="Boolean" Name="RecWelcomeEmail" Nullable="false" />
+          <NavigationProperty Name="Subscriptions" Relationship="PaoliPDWModel.UserSubscriptions" FromRole="User" ToRole="Subscription" />
           </EntityType>
         <EntityType Name="Company">
           <Key>
@@ -2065,6 +2120,18 @@
               <PropertyRef Name="TerritoryID" />
             </Dependent>
           </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Subscription">
+          <Key>
+            <PropertyRef Name="SubscriptionID" />
+          </Key>
+          <Property Type="Int32" Name="SubscriptionID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="PaoliPDWModel.UserSubscriptions" FromRole="Subscription" ToRole="User" />
+        </EntityType>
+        <Association Name="UserSubscriptions">
+          <End Type="PaoliPDWModel.Subscription" Role="Subscription" Multiplicity="*" />
+          <End Type="PaoliPDWModel.User" Role="User" Multiplicity="*" />
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -2421,6 +2488,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Subscriptions">
+            <EntityTypeMapping TypeName="PaoliPDWModel.Subscription">
+              <MappingFragment StoreEntitySet="Subscriptions">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SubscriptionID" ColumnName="SubscriptionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="UserSubscriptions" TypeName="PaoliPDWModel.UserSubscriptions" StoreEntitySet="UserSubscriptions">
+            <EndProperty Name="User">
+              <ScalarProperty Name="UserID" ColumnName="UserID" />
+            </EndProperty>
+            <EndProperty Name="Subscription">
+              <ScalarProperty Name="SubscriptionID" ColumnName="SubscriptionID" />
+            </EndProperty>
+          </AssociationSetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -2648,24 +2731,20 @@
         <EntityTypeShape EntityType="PaoliPDWModel.VideoLink" Width="1.5" PointX="13.625" PointY="16.625" Height="1.5923063151041674" />
         <AssociationConnector Association="PaoliPDWModel.DealerPageLinks" >
           <ConnectorPoint PointX="12.875" PointY="15.046153157552084" />
-          <ConnectorPoint PointX="13.229166666666666" PointY="15.046153157552084" />
-          <ConnectorPoint PointX="13.395833333333334" PointY="15.046153157552084" />
+          <ConnectorPoint PointX="13.041666666666666" PointY="15.046153157552084" />
+          <ConnectorPoint PointX="13.208333333333334" PointY="15.046153157552084" />
           <ConnectorPoint PointX="13.625" PointY="15.046153157552084" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.DealerVideoLinks" >
           <ConnectorPoint PointX="12.875" PointY="16.870160884014425" />
-          <ConnectorPoint PointX="13.125" PointY="17.120160884014425" />
-          <ConnectorPoint PointX="13.125" PointY="16.099616384615384" />
-          <ConnectorPoint PointX="13.253574434901122" PointY="16.228190819516506" />
-          <ConnectorPoint PointX="13.371425565098878" PointY="16.346041949714262" />
+          <ConnectorPoint PointX="13.5" PointY="17.495160884014425" />
+          <ConnectorPoint PointX="13.5" PointY="16.474616384615384" />
           <ConnectorPoint PointX="13.650383615384616" PointY="16.625" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkDealer_VideoLink" >
           <ConnectorPoint PointX="13.631922076923077" PointY="16.625" />
-          <ConnectorPoint PointX="13.37142556509888" PointY="16.364503488175803" />
-          <ConnectorPoint PointX="13.253574434901122" PointY="16.246652357978046" />
-          <ConnectorPoint PointX="13.03125" PointY="16.024327923076925" />
-          <ConnectorPoint PointX="13.03125" PointY="17.063334960937503" />
+          <ConnectorPoint PointX="13.40625" PointY="16.399327923076925" />
+          <ConnectorPoint PointX="13.40625" PointY="17.438334960937503" />
           <ConnectorPoint PointX="12.875" PointY="16.907084960937503" />
         </AssociationConnector>
         <EntityTypeShape EntityType="PaoliPDWModel.DealerFeaturedProduct" Width="1.5" PointX="13.625" PointY="19.625" Height="1.427958984374996" />
@@ -2694,44 +2773,48 @@
           <ConnectorPoint PointX="18.125" PointY="7.4176741536458337" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkSpec_DealerSalesRep" >
-          <ConnectorPoint PointX="15.125" PointY="7.1643962319691976" />
-          <ConnectorPoint PointX="15.875" PointY="7.1643962319691976" />
+          <ConnectorPoint PointX="15.125" PointY="7.361396584582204" />
+          <ConnectorPoint PointX="15.875" PointY="7.361396584582204" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkSpec_PaoliSpecTeam" >
-          <ConnectorPoint PointX="15.125" PointY="5.8946981159845988" />
-          <ConnectorPoint PointX="15.875" PointY="5.8946981159845988" />
+          <ConnectorPoint PointX="15.125" PointY="5.993198292291102" />
+          <ConnectorPoint PointX="15.875" PointY="5.993198292291102" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkUser_Company" >
           <ConnectorPoint PointX="13.625" PointY="2.0919187199519227" />
-          <ConnectorPoint PointX="13.125" PointY="2.0919187199519227" />
-          <ConnectorPoint PointX="13.125" PointY="6.3609318033854176" />
-          <ConnectorPoint PointX="13.229166666666666" PointY="6.3609318033854167" />
-          <ConnectorPoint PointX="13.395833333333334" PointY="6.3609318033854176" />
-          <ConnectorPoint PointX="13.625" PointY="6.3609318033854176" />
+          <ConnectorPoint PointX="13.375" PointY="2.0919187199519227" />
+          <ConnectorPoint PointX="13.375" PointY="6.44310546875" />
+          <ConnectorPoint PointX="13.625" PointY="6.44310546875" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkTypical_Spec" >
           <ConnectorPoint PointX="16.625" PointY="10.450989583333334" />
           <ConnectorPoint PointX="16.625" PointY="11.25" />
-          <ConnectorPoint PointX="13.395833333333334" PointY="11.25" />
-          <ConnectorPoint PointX="13.229166666666666" PointY="11.25" />
+          <ConnectorPoint PointX="14.333333333333334" PointY="11.25" />
+          <ConnectorPoint PointX="14.166666666666666" PointY="11.25" />
+          <ConnectorPoint PointX="13.208333333333334" PointY="11.25" />
+          <ConnectorPoint PointX="13.041666666666666" PointY="11.25" />
           <ConnectorPoint PointX="11.083333333333334" PointY="11.25" />
           <ConnectorPoint PointX="10.916666666666666" PointY="11.25" />
           <ConnectorPoint PointX="7.875" PointY="11.25" />
           <ConnectorPoint PointX="7.875" PointY="12.671000976562496" />
-          <ConnectorPoint PointX="5" PointY="12.671000976562496" />
-          <ConnectorPoint PointX="5" PointY="12.30833330492511" />
-          <ConnectorPoint PointX="4.958333333333333" PointY="12.30833330492511" />
-          <ConnectorPoint PointX="4.791666666666667" PointY="12.30833330492511" />
-          <ConnectorPoint PointX="4.5" PointY="12.30833330492511" />
+          <ConnectorPoint PointX="5.125" PointY="12.671000976562496" />
+          <ConnectorPoint PointX="5.125" PointY="13.049436149660059" />
+          <ConnectorPoint PointX="4.5" PointY="13.049436149660059" />
         </AssociationConnector>
         <EntityTypeShape EntityType="PaoliPDWModel.Territory" Width="1.5" PointX="11.375" PointY="18" Height="1.427958984374996" />
         <AssociationConnector Association="PaoliPDWModel.fkCompany_Territory" >
-          <ConnectorPoint PointX="12.875" PointY="18.06151107932692" />
-          <ConnectorPoint PointX="13.19107443490112" PointY="17.745436644425798" />
-          <ConnectorPoint PointX="13.308925565098878" PointY="17.627585514228041" />
-          <ConnectorPoint PointX="13.3125" PointY="17.62401107932692" />
-          <ConnectorPoint PointX="13.3125" PointY="2.69658447265625" />
+          <ConnectorPoint PointX="12.125" PointY="18" />
+          <ConnectorPoint PointX="12.125" PointY="17.157084960937503" />
+          <ConnectorPoint PointX="13.125" PointY="17.157084960937503" />
+          <ConnectorPoint PointX="13.125" PointY="2.69658447265625" />
+          <ConnectorPoint PointX="13.291666666666666" PointY="2.6965844726562493" />
+          <ConnectorPoint PointX="13.458333333333334" PointY="2.69658447265625" />
           <ConnectorPoint PointX="13.625" PointY="2.69658447265625" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="PaoliPDWModel.Subscription" Width="1.5" PointX="13.375" PointY="11.875" Height="1.427958984374996" />
+        <AssociationConnector Association="PaoliPDWModel.UserSubscriptions" >
+          <ConnectorPoint PointX="14.25" PointY="11.875" />
+          <ConnectorPoint PointX="14.25" PointY="8.6362109375" />
         </AssociationConnector>
         </Diagram>
     </Diagrams>

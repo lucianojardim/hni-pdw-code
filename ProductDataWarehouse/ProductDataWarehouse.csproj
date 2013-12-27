@@ -546,6 +546,9 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\NewsRSSFeed.cshtml" />
     <Content Include="Views\Home\ScoopRSSFeed.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\SubscriptionInfo.cshtml" />
+    <Content Include="Views\User\Subscriptions.cshtml" />
+    <Content Include="Views\Home\SubscriptionsAndAlerts.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

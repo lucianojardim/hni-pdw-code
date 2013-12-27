@@ -6,14 +6,17 @@
 }
 @{var CurrentUser = PDWInfrastructure.PaoliWebUser.CurrentUser;}
 
-<div class="col66">
+<div class="dashBig">
 @{Html.RenderPartial( "NewsRSSFeed", PDWInfrastructure.UmbracoAPI.UmbracoInterface.GetNewsItems( "http://matt3400.wdd.local:8787/" ) );}
+</div>
+<div class="dashLittle">
+@{Html.RenderPartial( "SubscriptionsAndAlerts" );}
 </div>
 <div class="clear"></div>
 
 @if( CurrentUser.CanSeeTheScoop )
 {
-<div class="col66">
+<div class="dashBig">
 @{Html.RenderPartial( "ScoopRSSFeed", PDWInfrastructure.UmbracoAPI.UmbracoInterface.GetScoopItems( "http://matt3400.wdd.local:8787/" ) );}
 </div>
 }

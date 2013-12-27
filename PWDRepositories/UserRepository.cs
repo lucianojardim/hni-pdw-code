@@ -422,5 +422,43 @@ namespace PWDRepositories
 				.OrderBy( u => u.FullName )
 				.Select( v => ToUserSummary( v ) );
 		}
+
+		public UserSubscriptionSummary GetUserSubscriptionSummary( int userId )
+		{
+			var usSummary = new UserSubscriptionSummary();
+
+			usSummary.UserID = userId;
+			usSummary.subInfo = database.Subscriptions
+				.Select( s1 => new UserSubscriptionSummary.SubscriptionInfo()
+				{
+					SubscriptionID = s1.SubscriptionID,
+					Name = s1.Name,
+					Checked = s1.Users.Any( u => u.UserID == userId )
+				} )
+				.ToList();
+
+			return usSummary;
+		}
+
+		public void UpdateUserSubscriptions( UserSubscriptionSummary uSummary )
+		{
+			var eUser = database.Users.FirstOrDefault( u => u.UserID == uSummary.UserID );
+			if( eUser == null )
+			{
+				throw new Exception( "Unable to find user." );
+			}
+
+			eUser.Subscriptions.Clear();
+
+			foreach( var sub in uSummary.subInfo )
+			{
+				if( sub.Checked )
+				{
+					eUser.Subscriptions.Add( database.Subscriptions.First( s => s.SubscriptionID == sub.SubscriptionID ) );
+				}
+			}
+
+			database.SaveChanges();
+		}
 	}
 }
