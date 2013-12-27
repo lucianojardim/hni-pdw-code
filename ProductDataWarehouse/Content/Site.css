@@ -70,6 +70,18 @@ section {
 .right{ float: right; }
 .clear{ clear: both; }
 
+.dashBig
+{
+	float:left;
+	width:600px;
+	padding-right:15px;
+}
+.dashLittle
+{
+	float:left;
+	width:300px;
+}
+
 /* Styles for basic forms
 -----------------------------------------------------------*/
 
@@ -486,4 +498,10 @@ span.dataRow ul.tagit
 {
 	color:#263f6a;
 	text-decoration:none;
+}
+
+.img_size_thumb
+{
+	height: 40px;
+	width: auto;
 }

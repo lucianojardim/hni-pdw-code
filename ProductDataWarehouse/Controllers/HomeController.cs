@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Configuration;
+using PDWInfrastructure;
 
 namespace ProductDataWarehouse.Controllers
 {
@@ -12,10 +12,10 @@ namespace ProductDataWarehouse.Controllers
         //
         // GET: /Home/
 
-        public ActionResult Index()
+		[PaoliAuthorize( "CanBeLoggedIn" )]
+		public ActionResult Index()
         {
-			return Redirect( ConfigurationManager.AppSettings["HomePageRedirect"] );
+			return View();
         }
-
     }
 }

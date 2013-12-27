@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Paoli Portal";
+	ViewBag.CurrentPage = "";
+	ViewBag.CurrentSubPage = "";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+@{var CurrentUser = PDWInfrastructure.PaoliWebUser.CurrentUser;}
+
+<div class="col66">
+@{Html.RenderPartial( "NewsRSSFeed", PDWInfrastructure.UmbracoAPI.UmbracoInterface.GetNewsItems( "http://matt3400.wdd.local:8787/" ) );}
+</div>
+<div class="clear"></div>
+
+@if( CurrentUser.CanSeeTheScoop )
+{
+<div class="col66">
+@{Html.RenderPartial( "ScoopRSSFeed", PDWInfrastructure.UmbracoAPI.UmbracoInterface.GetScoopItems( "http://matt3400.wdd.local:8787/" ) );}
+</div>
+}
+<div class="clear"></div>

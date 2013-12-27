@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\DealerController.cs" />
+    <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImportController.cs" />
     <Compile Include="Controllers\PDWController.cs" />
@@ -542,6 +543,9 @@
     <Content Include="Views\Shared\EditorTemplates\FileListing.cshtml" />
     <Content Include="Views\SpecRequest\AddTypical.cshtml" />
     <Content Include="Views\SpecRequest\EditTypical.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\NewsRSSFeed.cshtml" />
+    <Content Include="Views\Home\ScoopRSSFeed.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

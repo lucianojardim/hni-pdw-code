@@ -1,0 +1,20 @@
+﻿@model List<PDWInfrastructure.UmbracoAPI.UmbracoInterface.ScoopItem>
+
+<h2>The Scoop</h2>
+@foreach( var item in Model )
+{
+	<div class="dashBig">
+	<div class="left">
+	<a href="@item.Link">@item.Headline</a>
+	<p>@item.PubDate.ToLongDateString() | @item.Author</p>
+	</div>
+	<div class="right">
+	<img class="img_size_thumb" src="@item.Image" />
+	</div>
+	<div class="clear"></div>
+	@if( Model.IndexOf( item ) != Model.Count - 1 )
+ {
+	<hr />
+ }
+	</div>
+}
