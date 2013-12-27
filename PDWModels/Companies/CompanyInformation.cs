@@ -35,10 +35,10 @@ namespace PDWModels.Companies
 		[DisplayName( "FAX Number" )]
 		[PhoneNumber]
 		public string FAX { get; set; }
-		[DisplayName( "Master ID" )]
+		[DisplayName( "Master Consolidated Number" )]
 		[StringLength( 20 )]
 		public string MasterID { get; set; }
-		[DisplayName( "Sub Company IDs" )]
+		[DisplayName( "Customer Base Number" )]
 		[StringLength( 200 )]
 		public string SubCompanyIDs { get; set; }
 		[DisplayName( "Trip Incentive" )]

@@ -22,7 +22,7 @@ Company Type: @Html.DropDownList( "CompanyType", ProductDataWarehouse.Controller
 
 		$("#addNewCompany").fancybox({
 			'autoDimensions': false,
-			'width': 400,
+			'width': 600,
 			'height': 600,
 			'padding': 20,
 			'margin': 0,
@@ -80,7 +80,7 @@ Company Type: @Html.DropDownList( "CompanyType", ProductDataWarehouse.Controller
 						fnCallback(data, textStatus, jqXHR);
 						$('.fbImageBtn').fancybox({
 							'autoDimensions': false,
-							'width': 400,
+							'width': 600,
 							'height': 600,
 							'padding': 20,
 							'margin': 0,
@@ -96,7 +96,7 @@ Company Type: @Html.DropDownList( "CompanyType", ProductDataWarehouse.Controller
 			"aaSorting": [[0, "asc"]],
 			"aoColumnDefs": [
                     { "sName": "Name", "sTitle": "Name", "aTargets": [0], "mDataProp": "Name", "sWidth": "30%" },
-                    { "sName": "MasterID", "sTitle": "Master ID", "aTargets": [1], "mDataProp": "MasterID", "sWidth": "30%" },
+                    { "sName": "MasterID", "sTitle": "Master Consolidated Number", "aTargets": [1], "mDataProp": "MasterID", "sWidth": "30%" },
                     { "sName": "CompanyType", "sTitle": "Company Type", "aTargets": [2], "mDataProp": "CompanyType", "sWidth": "25%" },
                     { "sName": "EditButtons",
                     	"aTargets": [3],
