@@ -146,7 +146,7 @@ namespace PWDRepositories
 
 		public IEnumerable<ImageComboItem> GetRecentImageList( int ct )
 		{
-			var imageTypeList = ImageFile.ImageTypes.Where( i => i.CanLightbox )
+			var imageTypeList = ImageFile.ImageTypes.Where( i => i.CommonImage )
 					.Select( iType => iType.Abbreviation )
 					.ToList();
 			var imgList = database.ImageFiles
@@ -195,7 +195,7 @@ namespace PWDRepositories
 		{
 			ImageThumbnailGallery gallery = new ImageThumbnailGallery();
 
-			var imageTypeList = ImageFile.ImageTypes.Where( i => i.CanLightbox )
+			var imageTypeList = ImageFile.ImageTypes.Where( i => i.CommonImage )
 					.Select( iType => iType.Abbreviation )
 					.ToList();
 			var imgList = database.ImageFiles
@@ -295,7 +295,7 @@ namespace PWDRepositories
 		{
 			ImageListGallery gallery = new ImageListGallery();
 
-			var imageTypeList = ImageFile.ImageTypes.Where( i => i.CanLightbox )
+			var imageTypeList = ImageFile.ImageTypes.Where( i => i.CommonImage )
 					.Select( iType => iType.Abbreviation );
 			var imgList = database.ImageFiles
 				.Where( imgFile => imageTypeList.Any( it => it == imgFile.ImageType ) )
@@ -386,7 +386,7 @@ namespace PWDRepositories
 		{
 			var termList = SearchText.GetSearchList( searchText );
 
-			var imageTypeList = ImageFile.ImageTypes.Where( i => i.CanLightbox )
+			var imageTypeList = ImageFile.ImageTypes.Where( i => i.CommonImage )
 					.Select( iType => iType.Abbreviation );
 
 			Dictionary<int, int> termImageList = new Dictionary<int,int>();
