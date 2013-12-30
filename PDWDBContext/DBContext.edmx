@@ -450,7 +450,7 @@
           <Property Name="FeaturedSeries" Type="nvarchar" MaxLength="50" />
           <Property Name="SeriesList" Type="ntext" />
           <Property Name="Received" Type="bit" />
-          <Property Name="SPLQuote" Type="int" />
+          <Property Name="SPLQuote" Type="nvarchar" MaxLength="20" />
           <Property Name="LastModifiedDate" Type="datetime" />
           <Property Name="Material" Type="nvarchar" MaxLength="100" />
           <Property Name="Finish" Type="nvarchar" MaxLength="100" />
@@ -2001,7 +2001,7 @@
           <Property Type="String" Name="FeaturedSeries" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="SeriesList" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="Boolean" Name="Received" />
-          <Property Type="Int32" Name="SPLQuote" />
+          <Property Type="String" Name="SPLQuote" Unicode="true" MaxLength="20" FixedLength="false" />
           <Property Type="DateTime" Name="LastModifiedDate" />
           <Property Type="String" Name="Material" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Finish" MaxLength="100" FixedLength="false" Unicode="true" />

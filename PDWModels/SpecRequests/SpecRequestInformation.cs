@@ -56,7 +56,7 @@ namespace PDWModels.SpecRequests
 		[DisplayName( "Completed?" )]
 		public bool IsCompleted { get; set; }
 		[DisplayName( "SPL Quote" )]
-		public int? SPLQuote { get; set; }
+		public string SPLQuote { get; set; }
 		[DisplayName( "Paoli Spec Team Member" )]
 		public int? PaoliSpecTeamMember { get; set; }
 		[DisplayName( "Recommended for Web?" )]

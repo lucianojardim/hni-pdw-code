@@ -5491,7 +5491,7 @@ namespace PDWDBContext
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int32> SPLQuote
+        public global::System.String SPLQuote
         {
             get
             {
@@ -5501,13 +5501,13 @@ namespace PDWDBContext
             {
                 OnSPLQuoteChanging(value);
                 ReportPropertyChanging("SPLQuote");
-                _SPLQuote = StructuralObject.SetValidValue(value);
+                _SPLQuote = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("SPLQuote");
                 OnSPLQuoteChanged();
             }
         }
-        private Nullable<global::System.Int32> _SPLQuote;
-        partial void OnSPLQuoteChanging(Nullable<global::System.Int32> value);
+        private global::System.String _SPLQuote;
+        partial void OnSPLQuoteChanging(global::System.String value);
         partial void OnSPLQuoteChanged();
     
         /// <summary>
