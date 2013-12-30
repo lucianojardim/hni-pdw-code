@@ -268,7 +268,7 @@ namespace PWDRepositories
 			{
 				case "mostpopular":
 					orderedList = orderedList
-						.OrderByDescending( i => i.SeriesImageFiles.Where( s => s.Series.IsActive ).Max( sif => sif.Series.SeriesIntAttributes.FirstOrDefault( a => a.Attribute.Name == "Ranking" ).Value ) );
+						.OrderByDescending( i => i.Popularity ).ThenByDescending( i => i.CreatedDate );
 					break;
 				case "mostrecent":
 					orderedList = orderedList
@@ -354,7 +354,7 @@ namespace PWDRepositories
 			{
 				case "mostpopular":
 					orderedList = orderedList
-						.OrderByDescending( i => i.SeriesImageFiles.Where( s => s.Series.IsActive ).Max( sif => sif.Series.SeriesIntAttributes.FirstOrDefault( a => a.Attribute.Name == "Ranking" ).Value ) );
+						.OrderByDescending( i => i.Popularity ).ThenByDescending( i => i.CreatedDate );
 					break;
 				case "mostrecent":
 					orderedList = orderedList
