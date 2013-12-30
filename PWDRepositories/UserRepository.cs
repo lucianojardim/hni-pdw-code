@@ -476,8 +476,15 @@ namespace PWDRepositories
 						.Where( c => c.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup )
 						.SelectMany( c => c.Users )
 						.ToList()
-						.Select( u => new UserContactInfo() { FullName = u.FullName, EmailAddress = u.Email, PhoneNumber = u.BusinessPhone } )
+						.Select( u => new UserContactInfo() { FullName = u.FullName, EmailAddress = u.Email, PhoneNumber = u.BusinessPhone, CompanyName = u.Company.Name } )
 						.ToList();
+				}
+				else if( eUser.AccountType == PaoliWebUser.PaoliWebRole.PaoliSalesRep )
+				{
+					theList = new List<UserContactInfo>() { 
+						new UserContactInfo() { FullName = "Kevin Street", EmailAddress = "kevin-street@paoli.com", PhoneNumber = "812-865-7135", CompanyName = null },
+						new UserContactInfo() { FullName = "Steve Smith", EmailAddress = "steve-smith@paoli.com", PhoneNumber = "812-865-7014", CompanyName = null }
+					};
 				}
 			}
 
