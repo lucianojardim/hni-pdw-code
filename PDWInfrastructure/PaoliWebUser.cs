@@ -190,7 +190,7 @@ namespace PDWInfrastructure
 
 		public bool CanBeLoggedIn { get { return true; } }
 		public bool CanSeeMainUsers { get { return CanManageUsers || CanManageCompanies; } }
-		public bool CanSeeMainProducts { get { return CanManageImport || CanManageImages || CanManageCollateral || CanManageTypicals || CanManageSearchLog; } }
+		public bool CanSeeMainProducts { get { return CanManageImport || CanManageImages || CanManageCollateral || CanManageTypicals || CanManageSearchLog || CanViewSpecRequests; } }
 
 		public bool CanSeeMainCMSLink { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
 
@@ -199,13 +199,15 @@ namespace PDWInfrastructure
 		public bool CanManageCollateral { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
 		public bool CanManageTypicals { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin,
 					PaoliWebRole.PaoliMemberMarketing, PaoliWebRole.PaoliMemberSpecTeam, PaoliWebRole.PaoliMemberCustomerService, PaoliWebRole.PaoliMemberSales ); } }
+		public bool CanViewSpecRequests { get { return CanManageTypicals || IsDealerUser || OneOfRoles( PaoliWebRole.PaoliSalesRep ); } }
+
 		public bool CanManageSearchLog { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin, PaoliWebRole.PaoliMemberMarketing ); } }
 
 		public bool CanManageUsers { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin ); } }
 		public bool CanManageCompanies { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
 
-		public bool CanSeeTheScoop { get { return OneOfRoles( PaoliWebRole.SuperAdmin ) || IsDealerUser; } }
-		public bool HasContacts { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliSalesRep ) || IsDealerUser; } }
+		public bool CanSeeTheScoop { get { return IsDealerUser; } }
+		public bool HasContacts { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ) || IsDealerUser; } }
 
 		public string ProductsHomePage
 		{
@@ -227,10 +229,15 @@ namespace PDWInfrastructure
 					case PaoliWebRole.PaoliMemberSales:
 						return u.Action( "Manage", "SpecRequest" );
 					case PaoliWebRole.PaoliSalesRep:
+						return u.Action( "ViewAll", "SpecRequest" );
 					case PaoliWebRole.DealerPrincipal:
+						return u.Action( "ViewAll", "SpecRequest" );
 					case PaoliWebRole.DealerSalesRep:
+						return u.Action( "ViewAll", "SpecRequest" );
 					case PaoliWebRole.DealerDesigner:
+						return u.Action( "ViewAll", "SpecRequest" );
 					case PaoliWebRole.DealerAdmin:
+						return u.Action( "ViewAll", "SpecRequest" );
 					case PaoliWebRole.EndUser:
 					case PaoliWebRole.AandDUser:
 						break;

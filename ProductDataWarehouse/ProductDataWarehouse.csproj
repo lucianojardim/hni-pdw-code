@@ -551,6 +551,10 @@
     <Content Include="Views\User\Subscriptions.cshtml" />
     <Content Include="Views\Home\SubscriptionsAndAlerts.cshtml" />
     <Content Include="Views\Home\MyContactList.cshtml" />
+    <Content Include="Views\Shared\MySpecList.cshtml" />
+    <Content Include="Views\SpecRequest\ViewAll.cshtml" />
+    <Content Include="Views\SpecRequest\View.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\FileListing.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

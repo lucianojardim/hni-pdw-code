@@ -100,5 +100,10 @@ namespace PDWModels.SpecRequests
 
 		[DisplayName( "Created Date" )]
 		public string CreatedDate { get; set; }
+
+		public string DealerName { get; set; }
+		public string SalesRepGroupName { get; set; }
+		public string DealerSalesRepName { get; set; }
+		public string SpecTeamMemberName { get; set; }
 	}
 }

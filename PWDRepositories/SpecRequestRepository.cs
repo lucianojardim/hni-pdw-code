@@ -36,6 +36,119 @@ namespace PWDRepositories
 			};
 		}
 
+		public IEnumerable<SpecRequestSummary> GetUserRequestList( UserSpecRequestTableParams paramDetails, out int totalRecords, out int displayedRecords )
+		{
+			totalRecords = 0;
+			displayedRecords = 0;
+
+			var requestList = database.SpecRequests.AsQueryable();
+
+			if( PaoliWebUser.CurrentUser.IsDealerUser )
+			{
+				displayedRecords = 10;
+				requestList = requestList.Where( s => s.PrimaryCompanyID == database.Users.FirstOrDefault( u => u.UserID == PaoliWebUser.CurrentUser.UserId ).CompanyID );
+				requestList = requestList.OrderByDescending( s => s.RequestID );
+			}
+			else if( PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
+			{
+				displayedRecords = 10;
+				requestList = requestList.Where( s => s.DealerSalesRepID == database.Users.FirstOrDefault( u => u.UserID == PaoliWebUser.CurrentUser.UserId ).CompanyID );
+				requestList = requestList.OrderByDescending( s => s.RequestID );
+			}
+			else
+			{
+				displayedRecords = Math.Max( database.SpecRequests.Count( s => !s.IsCompleted ), 10 );
+				requestList = requestList.OrderBy( s => s.IsCompleted ).ThenByDescending( s => s.RequestID );
+			}
+
+			totalRecords = requestList.Count();
+
+			if( !string.IsNullOrEmpty( paramDetails.sSearch ) )
+			{
+				requestList = requestList.Where( i =>
+					i.Name.Contains( paramDetails.sSearch ) ||
+					i.PrimaryCompany.Name.Contains( paramDetails.sSearch ) ||
+					i.PaoliSalesRepGroup.Name.Contains( paramDetails.sSearch ) ||
+					i.ProjectName.Contains( paramDetails.sSearch ) ||
+					i.SpecTeamMember.FirstName.Contains( paramDetails.sSearch ) ||
+					i.SpecTeamMember.LastName.Contains( paramDetails.sSearch ) );
+			}
+
+			if( paramDetails.bMinView )
+			{
+				requestList = requestList.Take( displayedRecords );
+
+				return requestList.ToList().Select( v => ToSpecRequestSummary( v ) );
+			}
+
+			string sortCol = paramDetails.sColumns.Split( ',' )[paramDetails.iSortCol_0];
+
+			IQueryable<SpecRequest> filteredAndSorted = null;
+			switch( sortCol.ToLower() )
+			{
+				case "dealer":
+					if( paramDetails.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = requestList.OrderBy( v => v.PrimaryCompany.Name );
+					}
+					else
+					{
+						filteredAndSorted = requestList.OrderByDescending( v => v.PrimaryCompany.Name );
+					}
+					break;
+				case "projectname":
+					if( paramDetails.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = requestList.OrderBy( v => v.ProjectName );
+					}
+					else
+					{
+						filteredAndSorted = requestList.OrderByDescending( v => v.ProjectName );
+					}
+					break;
+				case "specteammember":
+					if( paramDetails.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = requestList.OrderBy( v => v.SpecTeamMember.LastName );
+					}
+					else
+					{
+						filteredAndSorted = requestList.OrderByDescending( v => v.SpecTeamMember.LastName );
+					}
+					break;
+				case "salesrepgroup":
+					if( paramDetails.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = requestList.OrderBy( v => v.PaoliSalesRepGroup.Name );
+					}
+					else
+					{
+						filteredAndSorted = requestList.OrderByDescending( v => v.PaoliSalesRepGroup.Name );
+					}
+					break;
+				case "status":
+				default:
+					if( paramDetails.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = requestList.OrderByDescending( s => s.IsCompleted ).ThenBy( s => s.RequestID );
+					}
+					else
+					{
+						filteredAndSorted = requestList.OrderBy( s => s.IsCompleted ).ThenByDescending( s => s.RequestID );
+					}
+					break;
+			}
+
+			displayedRecords = requestList.Count();
+
+			if( ( displayedRecords > paramDetails.iDisplayLength ) && ( paramDetails.iDisplayLength > 0 ) )
+			{
+				filteredAndSorted = filteredAndSorted.Skip( paramDetails.iDisplayStart ).Take( paramDetails.iDisplayLength );
+			}
+
+			return filteredAndSorted.ToList().Select( v => ToSpecRequestSummary( v ) );
+		}
+
 		public IEnumerable<SpecRequestSummary> GetFullRequestList( SpecRequestTableParams paramDetails, out int totalRecords, out int displayedRecords )
 		{
 			totalRecords = 0;
@@ -191,7 +304,12 @@ namespace PWDRepositories
 				pdfFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles, "pdf" ),
 				dwgFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles, "dwg" ),
 				imgFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles, "img" ),
-				CreatedDate = sInfo.RequestDate.HasValue ? sInfo.RequestDate.Value.ToShortDateString() : ""
+				CreatedDate = sInfo.RequestDate.HasValue ? sInfo.RequestDate.Value.ToShortDateString() : "",
+				DealerName = sInfo.PrimaryCompanyID.HasValue ? sInfo.PrimaryCompany.Name : "",
+				SalesRepGroupName = sInfo.PaoliSalesRepGroupID.HasValue ? sInfo.PaoliSalesRepGroup.Name : "",
+				DealerSalesRepName = sInfo.DealerSalesRepID.HasValue ? sInfo.DealerSalesRep.FullName : "",
+				SpecTeamMemberName = sInfo.PaoliSpecTeamMemberID.HasValue ? sInfo.SpecTeamMember.FullName : ""
+
 					
 			};
 		}

@@ -20,6 +20,32 @@ namespace ProductDataWarehouse.Controllers
 			return View();
 		}
 
+		[PaoliAuthorize( "CanViewSpecRequests" )]
+		public ActionResult ViewAll()
+		{
+			return View();
+		}
+
+		[PaoliAuthorize( "CanViewSpecRequests" )]
+		public JsonResult UserRequestList( UserSpecRequestTableParams paramDetails )
+		{
+			int totalCount = 0, filteredCount = 0;
+
+			SpecRequestRepository sRepository = new SpecRequestRepository();
+
+			var results = sRepository.GetUserRequestList(
+				paramDetails, out totalCount, out filteredCount );
+
+			return Json( new
+			{
+				sEcho = paramDetails.sEcho,
+				iTotalRecords = totalCount,
+				iTotalDisplayRecords = filteredCount,
+				aaData = results
+			},
+				JsonRequestBehavior.AllowGet );
+		}
+
 		[PaoliAuthorize( "CanManageTypicals" )]
 		public JsonResult FullRequestList( SpecRequestTableParams paramDetails )
 		{
@@ -154,6 +180,14 @@ namespace ProductDataWarehouse.Controllers
 			} );
 
 			return footprints.Select( a => new SelectListItem() { Text = a, Value = a } );
+		}
+
+		[PaoliAuthorize( "CanViewSpecRequests" )]
+		public ActionResult View( int id )
+		{
+			SpecRequestRepository sRepository = new SpecRequestRepository();
+
+			return View( sRepository.GetSpecRequest( id ) );
 		}
 
 		[PaoliAuthorize( "CanManageTypicals" )]

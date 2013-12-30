@@ -67,6 +67,7 @@
     <Compile Include="ResetPasswordEmailSender.cs" />
     <Compile Include="SpecRequestTableParams.cs" />
     <Compile Include="UmbracoAPI\UmbracoInterface.cs" />
+    <Compile Include="UserSpecRequestTableParams.cs" />
     <Compile Include="UserTableParams.cs" />
     <Compile Include="VideoTableParams.cs" />
   </ItemGroup>

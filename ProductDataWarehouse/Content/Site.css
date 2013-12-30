@@ -376,7 +376,8 @@ table.dataLayout td
 
 table.dataLayout td textarea,
 table.dataLayout td input[type="text"],
-table.dataLayout td input[type="password"]
+table.dataLayout td input[type="password"],
+table.dataLayout td.dataInfo
 {
 	width: 250px;
 }
@@ -386,7 +387,8 @@ table.dataLayout td select
 	width: 261px;
 }
 
-table.dataLayout td label
+table.dataLayout td label,
+table.dataLayout td.dataLabel
 {
 	width: 185px;
 }

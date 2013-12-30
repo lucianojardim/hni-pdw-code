@@ -36,7 +36,6 @@ else
     	});
 
     	function showHideTerritoryID() {
-			console.log( $('#CompanyType').val() );
 			if( $.inArray($('#CompanyType').val(), ['@Html.Raw(string.Join("','", PDWInfrastructure.PaoliWebUser.PaoliCompanyType.HasTerritory))'] ) != -1 ) {
 				$('#territoryRow').show();
 			} else {
