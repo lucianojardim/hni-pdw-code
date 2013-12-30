@@ -226,6 +226,10 @@ namespace ProductDataWarehouse.Controllers
 
 					return Redirect( PaoliWebUser.CurrentUser.HomePage );
 				}
+				catch( ApplicationException e )
+				{
+					ModelState.AddModelError( "", e.Message );
+				}
 				catch( Exception )
 				{
 					ModelState.AddModelError( "", "Unable to update your settings at this time." );

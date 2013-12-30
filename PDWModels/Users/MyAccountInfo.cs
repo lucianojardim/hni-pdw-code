@@ -41,7 +41,7 @@ namespace PDWModels.Users
 		[DisplayName( "Business Phone" )]
 		[PhoneNumber]
 		public string BusinessPhone { get; set; }
-		[DisplayName( "Cell Phone" )]
+		[DisplayName( "Mobile Phone" )]
 		[PhoneNumber]
 		public string CellPhone { get; set; }
 		[DisplayName( "Title" )]

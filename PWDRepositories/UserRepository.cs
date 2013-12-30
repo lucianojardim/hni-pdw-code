@@ -425,38 +425,52 @@ namespace PWDRepositories
 
 		public UserSubscriptionSummary GetUserSubscriptionSummary( int userId )
 		{
-			var usSummary = new UserSubscriptionSummary();
-
-			usSummary.UserID = userId;
-			usSummary.subInfo = database.Subscriptions
-				.Select( s1 => new UserSubscriptionSummary.SubscriptionInfo()
+			var eUser = database.UserSubscriptions.FirstOrDefault( u => u.UserID == userId );
+			if( eUser == null )
+			{
+				return new UserSubscriptionSummary()
 				{
-					SubscriptionID = s1.SubscriptionID,
-					Name = s1.Name,
-					Checked = s1.Users.Any( u => u.UserID == userId )
-				} )
-				.ToList();
+					UserID = userId
+				};
+			}
 
-			return usSummary;
+			return new UserSubscriptionSummary()
+			{
+				UserID = userId,
+				ProductIntroductions = eUser.ProductIntroductions,
+				BehindTheScenes = eUser.BehindTheScenes,
+				MeetOurMembers = eUser.MeetOurMembers,
+				ProgramChanges = eUser.ProgramChanges,
+				PricelistUpdates = eUser.PricelistUpdates,
+				QuoteRequests = eUser.QuoteRequests,
+				SMSAlerts = eUser.SMSAlerts,
+				SMSPhoneNumber = eUser.SMSAlerts ? eUser.SMSPhoneNumber : eUser.User.CellPhone
+			};
 		}
 
 		public void UpdateUserSubscriptions( UserSubscriptionSummary uSummary )
 		{
-			var eUser = database.Users.FirstOrDefault( u => u.UserID == uSummary.UserID );
+			var eUser = database.UserSubscriptions.FirstOrDefault( u => u.UserID == uSummary.UserID );
 			if( eUser == null )
 			{
-				throw new Exception( "Unable to find user." );
+				eUser = new UserSubscription();
+				eUser.UserID = uSummary.UserID;
+				database.UserSubscriptions.AddObject( eUser );
 			}
 
-			eUser.Subscriptions.Clear();
-
-			foreach( var sub in uSummary.subInfo )
+			if( uSummary.SMSAlerts && uSummary.SMSPhoneNumber == null )
 			{
-				if( sub.Checked )
-				{
-					eUser.Subscriptions.Add( database.Subscriptions.First( s => s.SubscriptionID == sub.SubscriptionID ) );
-				}
+				throw new ApplicationException( "Please provide a phone number in order to receive SMS Alerts" );
 			}
+
+			eUser.ProductIntroductions = uSummary.ProductIntroductions;
+			eUser.BehindTheScenes = uSummary.BehindTheScenes;
+			eUser.MeetOurMembers = uSummary.MeetOurMembers;
+			eUser.ProgramChanges = uSummary.ProgramChanges;
+			eUser.PricelistUpdates = uSummary.PricelistUpdates;
+			eUser.QuoteRequests = uSummary.QuoteRequests;
+			eUser.SMSAlerts = uSummary.SMSAlerts;
+			eUser.SMSPhoneNumber = uSummary.SMSAlerts ? uSummary.SMSPhoneNumber : null;
 
 			database.SaveChanges();
 		}

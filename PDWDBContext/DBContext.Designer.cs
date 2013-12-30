@@ -57,7 +57,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkUser_Company", "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.Company), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.User), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkTypical_Spec", "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.SpecRequest), "Typical", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Typical), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCompany_Territory", "Territory", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.Territory), "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Company), true)]
-[assembly: EdmRelationshipAttribute("PaoliPDWModel", "UserSubscriptions", "Subscription", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Subscription), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.User))]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkUSub_User", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.User), "UserSubscription", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.UserSubscription), true)]
 
 #endregion
 
@@ -576,18 +576,18 @@ namespace PDWDBContext
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<Subscription> Subscriptions
+        public ObjectSet<UserSubscription> UserSubscriptions
         {
             get
             {
-                if ((_Subscriptions == null))
+                if ((_UserSubscriptions == null))
                 {
-                    _Subscriptions = base.CreateObjectSet<Subscription>("Subscriptions");
+                    _UserSubscriptions = base.CreateObjectSet<UserSubscription>("UserSubscriptions");
                 }
-                return _Subscriptions;
+                return _UserSubscriptions;
             }
         }
-        private ObjectSet<Subscription> _Subscriptions;
+        private ObjectSet<UserSubscription> _UserSubscriptions;
 
         #endregion
 
@@ -826,11 +826,11 @@ namespace PDWDBContext
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the Subscriptions EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the UserSubscriptions EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToSubscriptions(Subscription subscription)
+        public void AddToUserSubscriptions(UserSubscription userSubscription)
         {
-            base.AddObject("Subscriptions", subscription);
+            base.AddObject("UserSubscriptions", userSubscription);
         }
 
         #endregion
@@ -6163,115 +6163,6 @@ namespace PDWDBContext
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="Subscription")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class Subscription : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new Subscription object.
-        /// </summary>
-        /// <param name="subscriptionID">Initial value of the SubscriptionID property.</param>
-        /// <param name="name">Initial value of the Name property.</param>
-        public static Subscription CreateSubscription(global::System.Int32 subscriptionID, global::System.String name)
-        {
-            Subscription subscription = new Subscription();
-            subscription.SubscriptionID = subscriptionID;
-            subscription.Name = name;
-            return subscription;
-        }
-
-        #endregion
-
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 SubscriptionID
-        {
-            get
-            {
-                return _SubscriptionID;
-            }
-            set
-            {
-                if (_SubscriptionID != value)
-                {
-                    OnSubscriptionIDChanging(value);
-                    ReportPropertyChanging("SubscriptionID");
-                    _SubscriptionID = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("SubscriptionID");
-                    OnSubscriptionIDChanged();
-                }
-            }
-        }
-        private global::System.Int32 _SubscriptionID;
-        partial void OnSubscriptionIDChanging(global::System.Int32 value);
-        partial void OnSubscriptionIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String Name
-        {
-            get
-            {
-                return _Name;
-            }
-            set
-            {
-                OnNameChanging(value);
-                ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("Name");
-                OnNameChanged();
-            }
-        }
-        private global::System.String _Name;
-        partial void OnNameChanging(global::System.String value);
-        partial void OnNameChanged();
-
-        #endregion
-
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "UserSubscriptions", "User")]
-        public EntityCollection<User> Users
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<User>("PaoliPDWModel.UserSubscriptions", "User");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<User>("PaoliPDWModel.UserSubscriptions", "User", value);
-                }
-            }
-        }
-
-        #endregion
-
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="TAttribute")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -8600,18 +8491,339 @@ namespace PDWDBContext
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "UserSubscriptions", "Subscription")]
-        public EntityCollection<Subscription> Subscriptions
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkUSub_User", "UserSubscription")]
+        public UserSubscription UserSubscription
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Subscription>("PaoliPDWModel.UserSubscriptions", "Subscription");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<UserSubscription>("PaoliPDWModel.fkUSub_User", "UserSubscription").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<UserSubscription>("PaoliPDWModel.fkUSub_User", "UserSubscription").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<UserSubscription> UserSubscriptionReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<UserSubscription>("PaoliPDWModel.fkUSub_User", "UserSubscription");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Subscription>("PaoliPDWModel.UserSubscriptions", "Subscription", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<UserSubscription>("PaoliPDWModel.fkUSub_User", "UserSubscription", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="UserSubscription")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class UserSubscription : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new UserSubscription object.
+        /// </summary>
+        /// <param name="userID">Initial value of the UserID property.</param>
+        /// <param name="productIntroductions">Initial value of the ProductIntroductions property.</param>
+        /// <param name="behindTheScenes">Initial value of the BehindTheScenes property.</param>
+        /// <param name="meetOurMembers">Initial value of the MeetOurMembers property.</param>
+        /// <param name="programChanges">Initial value of the ProgramChanges property.</param>
+        /// <param name="pricelistUpdates">Initial value of the PricelistUpdates property.</param>
+        /// <param name="quoteRequests">Initial value of the QuoteRequests property.</param>
+        /// <param name="sMSAlerts">Initial value of the SMSAlerts property.</param>
+        public static UserSubscription CreateUserSubscription(global::System.Int32 userID, global::System.Boolean productIntroductions, global::System.Boolean behindTheScenes, global::System.Boolean meetOurMembers, global::System.Boolean programChanges, global::System.Boolean pricelistUpdates, global::System.Boolean quoteRequests, global::System.Boolean sMSAlerts)
+        {
+            UserSubscription userSubscription = new UserSubscription();
+            userSubscription.UserID = userID;
+            userSubscription.ProductIntroductions = productIntroductions;
+            userSubscription.BehindTheScenes = behindTheScenes;
+            userSubscription.MeetOurMembers = meetOurMembers;
+            userSubscription.ProgramChanges = programChanges;
+            userSubscription.PricelistUpdates = pricelistUpdates;
+            userSubscription.QuoteRequests = quoteRequests;
+            userSubscription.SMSAlerts = sMSAlerts;
+            return userSubscription;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 UserID
+        {
+            get
+            {
+                return _UserID;
+            }
+            set
+            {
+                if (_UserID != value)
+                {
+                    OnUserIDChanging(value);
+                    ReportPropertyChanging("UserID");
+                    _UserID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("UserID");
+                    OnUserIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _UserID;
+        partial void OnUserIDChanging(global::System.Int32 value);
+        partial void OnUserIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean ProductIntroductions
+        {
+            get
+            {
+                return _ProductIntroductions;
+            }
+            set
+            {
+                OnProductIntroductionsChanging(value);
+                ReportPropertyChanging("ProductIntroductions");
+                _ProductIntroductions = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ProductIntroductions");
+                OnProductIntroductionsChanged();
+            }
+        }
+        private global::System.Boolean _ProductIntroductions;
+        partial void OnProductIntroductionsChanging(global::System.Boolean value);
+        partial void OnProductIntroductionsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean BehindTheScenes
+        {
+            get
+            {
+                return _BehindTheScenes;
+            }
+            set
+            {
+                OnBehindTheScenesChanging(value);
+                ReportPropertyChanging("BehindTheScenes");
+                _BehindTheScenes = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("BehindTheScenes");
+                OnBehindTheScenesChanged();
+            }
+        }
+        private global::System.Boolean _BehindTheScenes;
+        partial void OnBehindTheScenesChanging(global::System.Boolean value);
+        partial void OnBehindTheScenesChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean MeetOurMembers
+        {
+            get
+            {
+                return _MeetOurMembers;
+            }
+            set
+            {
+                OnMeetOurMembersChanging(value);
+                ReportPropertyChanging("MeetOurMembers");
+                _MeetOurMembers = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("MeetOurMembers");
+                OnMeetOurMembersChanged();
+            }
+        }
+        private global::System.Boolean _MeetOurMembers;
+        partial void OnMeetOurMembersChanging(global::System.Boolean value);
+        partial void OnMeetOurMembersChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean ProgramChanges
+        {
+            get
+            {
+                return _ProgramChanges;
+            }
+            set
+            {
+                OnProgramChangesChanging(value);
+                ReportPropertyChanging("ProgramChanges");
+                _ProgramChanges = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ProgramChanges");
+                OnProgramChangesChanged();
+            }
+        }
+        private global::System.Boolean _ProgramChanges;
+        partial void OnProgramChangesChanging(global::System.Boolean value);
+        partial void OnProgramChangesChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean PricelistUpdates
+        {
+            get
+            {
+                return _PricelistUpdates;
+            }
+            set
+            {
+                OnPricelistUpdatesChanging(value);
+                ReportPropertyChanging("PricelistUpdates");
+                _PricelistUpdates = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("PricelistUpdates");
+                OnPricelistUpdatesChanged();
+            }
+        }
+        private global::System.Boolean _PricelistUpdates;
+        partial void OnPricelistUpdatesChanging(global::System.Boolean value);
+        partial void OnPricelistUpdatesChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean QuoteRequests
+        {
+            get
+            {
+                return _QuoteRequests;
+            }
+            set
+            {
+                OnQuoteRequestsChanging(value);
+                ReportPropertyChanging("QuoteRequests");
+                _QuoteRequests = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("QuoteRequests");
+                OnQuoteRequestsChanged();
+            }
+        }
+        private global::System.Boolean _QuoteRequests;
+        partial void OnQuoteRequestsChanging(global::System.Boolean value);
+        partial void OnQuoteRequestsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean SMSAlerts
+        {
+            get
+            {
+                return _SMSAlerts;
+            }
+            set
+            {
+                OnSMSAlertsChanging(value);
+                ReportPropertyChanging("SMSAlerts");
+                _SMSAlerts = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("SMSAlerts");
+                OnSMSAlertsChanged();
+            }
+        }
+        private global::System.Boolean _SMSAlerts;
+        partial void OnSMSAlertsChanging(global::System.Boolean value);
+        partial void OnSMSAlertsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String SMSPhoneNumber
+        {
+            get
+            {
+                return _SMSPhoneNumber;
+            }
+            set
+            {
+                OnSMSPhoneNumberChanging(value);
+                ReportPropertyChanging("SMSPhoneNumber");
+                _SMSPhoneNumber = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("SMSPhoneNumber");
+                OnSMSPhoneNumberChanged();
+            }
+        }
+        private global::System.String _SMSPhoneNumber;
+        partial void OnSMSPhoneNumberChanging(global::System.String value);
+        partial void OnSMSPhoneNumberChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkUSub_User", "User")]
+        public User User
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkUSub_User", "User").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkUSub_User", "User").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<User> UserReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkUSub_User", "User");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("PaoliPDWModel.fkUSub_User", "User", value);
                 }
             }
         }

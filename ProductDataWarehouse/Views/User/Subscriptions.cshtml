@@ -7,15 +7,26 @@
 	Layout = "~/Views/Shared/HeaderLayout.cshtml";
 }
 
-<h2>Subsciptions and Alerts</h2>
-
     @using( Html.BeginForm( "Subscriptions", "User", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
 	{
-		@Html.HiddenFor( m => m.UserID )
-		for( int i = 0; i < Model.subInfo.Count; i++ )
-  {
-	  @Html.EditorFor( m => m.subInfo[i] )
-  }
+@Html.HiddenFor( m => m.UserID )
+
+	<h2>Email Newsletters</h2>
+@Html.CheckBoxFor( m => m.ProductIntroductions ) @Html.LabelFor( m => m.ProductIntroductions )<br />
+@Html.CheckBoxFor( m => m.BehindTheScenes ) @Html.LabelFor( m => m.BehindTheScenes )<br />
+@Html.CheckBoxFor( m => m.MeetOurMembers ) @Html.LabelFor( m => m.MeetOurMembers )<br />
+
+<h2>Email Alerts</h2>
+
+@Html.CheckBoxFor( m => m.ProgramChanges ) @Html.LabelFor( m => m.ProgramChanges )<br />
+@Html.CheckBoxFor( m => m.PricelistUpdates ) @Html.LabelFor( m => m.PricelistUpdates )<br />
+@Html.CheckBoxFor( m => m.QuoteRequests ) @Html.LabelFor( m => m.QuoteRequests )<br />
+
+<h2>SMS Alerts</h2>
+
+<span>Paoli.com will be offering text message alerts in the future. This service will be free. However, you may see usage charges from your service provider depending on the type of data/rate plan you are currently on.<br /></span>
+
+@Html.CheckBoxFor( m => m.SMSAlerts ) @Html.LabelFor( m => m.SMSAlerts ) @Html.TextBoxFor( m => m.SMSPhoneNumber )<br />
 @Html.ValidationSummary()
         <input type="submit" class="btn_type1" value="Save" id="submitBtn" />
 	}
