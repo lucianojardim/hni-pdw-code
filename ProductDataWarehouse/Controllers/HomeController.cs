@@ -17,6 +17,7 @@ namespace ProductDataWarehouse.Controllers
 		public ActionResult Index()
         {
 			ViewBag.RSSURL = FullSiteURLLocal() + "/";
+			ViewBag.SiteURL = FullSiteURL() + "/";
 			ViewBag.PaoliRepContacts = ( new UserRepository() ).GetPaoliRepContacts( PaoliWebUser.CurrentUser.UserId );
 
 			return View();

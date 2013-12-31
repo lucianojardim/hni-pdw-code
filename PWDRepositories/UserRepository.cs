@@ -484,14 +484,17 @@ namespace PWDRepositories
 			{
 				if( eUser.Company.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer )
 				{
-					theList = eUser.Company
-						.Territory
-						.Companies
-						.Where( c => c.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup )
-						.SelectMany( c => c.Users )
-						.ToList()
-						.Select( u => new UserContactInfo() { FullName = u.FullName, EmailAddress = u.Email, PhoneNumber = u.BusinessPhone, CompanyName = u.Company.Name } )
-						.ToList();
+					if( eUser.Company.Territory != null )
+					{
+						theList = eUser.Company
+							.Territory
+							.Companies
+							.Where( c => c.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup )
+							.SelectMany( c => c.Users )
+							.ToList()
+							.Select( u => new UserContactInfo() { FullName = u.FullName, EmailAddress = u.Email, PhoneNumber = u.BusinessPhone, CompanyName = u.Company.Name } )
+							.ToList();
+					}
 				}
 				else if( eUser.AccountType == PaoliWebUser.PaoliWebRole.PaoliSalesRep )
 				{
