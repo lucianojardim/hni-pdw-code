@@ -16,7 +16,7 @@ namespace ProductDataWarehouse.Controllers
 		[PaoliAuthorize( "CanBeLoggedIn" )]
 		public ActionResult Index()
         {
-			ViewBag.RSSURL = FullSiteURL() + "/";
+			ViewBag.RSSURL = FullSiteURLLocal() + "/";
 			ViewBag.PaoliRepContacts = ( new UserRepository() ).GetPaoliRepContacts( PaoliWebUser.CurrentUser.UserId );
 
 			return View();
