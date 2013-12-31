@@ -52,7 +52,7 @@ namespace PWDRepositories
 			else if( PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
 			{
 				displayedRecords = 10;
-				requestList = requestList.Where( s => s.DealerSalesRepID == database.Users.FirstOrDefault( u => u.UserID == PaoliWebUser.CurrentUser.UserId ).CompanyID );
+				requestList = requestList.Where( s => s.PaoliSalesRepGroupID == database.Users.FirstOrDefault( u => u.UserID == PaoliWebUser.CurrentUser.UserId ).CompanyID );
 				requestList = requestList.OrderByDescending( s => s.RequestID );
 			}
 			else
