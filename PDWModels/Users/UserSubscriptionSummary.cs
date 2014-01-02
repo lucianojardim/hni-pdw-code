@@ -25,6 +25,7 @@ namespace PDWModels.Users
 		[DisplayName( "Yes, please contact me at:" )]
 		public bool SMSAlerts { get; set; }
 		[PhoneNumber]
+		[DisplayName( "SMS Phone Number" )]
 		public string SMSPhoneNumber { get; set; }
 	}
 }

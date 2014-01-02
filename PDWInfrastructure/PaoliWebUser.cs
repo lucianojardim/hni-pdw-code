@@ -206,7 +206,7 @@ namespace PDWInfrastructure
 		public bool CanManageUsers { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin ); } }
 		public bool CanManageCompanies { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
 
-		public bool CanSeeTheScoop { get { return IsDealerUser; } }
+		public bool CanSeeTheScoop { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ); } }
 		public bool HasContacts { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ) || IsDealerUser; } }
 
 		public string ProductsHomePage

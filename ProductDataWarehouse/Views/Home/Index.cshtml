@@ -1,6 +1,6 @@
 ﻿@{
-    ViewBag.Title = "Paoli Portal";
-	ViewBag.CurrentPage = "";
+    ViewBag.Title = "Welcome to My Paoli";
+	ViewBag.CurrentPage = "Home";
 	ViewBag.CurrentSubPage = "";
 	Layout = "~/Views/Shared/HeaderLayout.cshtml";
 }
@@ -12,21 +12,18 @@
 <div class="dashBig">
 @{Html.RenderPartial( "NewsRSSFeed", PDWInfrastructure.UmbracoAPI.UmbracoInterface.GetNewsItems( RSSURL ) );}
 </div>
+@if( CurrentUser.HasContacts )
+{
 <div class="dashLittle">
-@{Html.RenderPartial( "SubscriptionsAndAlerts" );}
+@{Html.RenderPartial( "MyContactList" );}
 </div>
+}
 <div class="clear"></div>
 
 @if( CurrentUser.CanSeeTheScoop )
 {
 <div class="dashBig">
 @{Html.RenderPartial( "ScoopRSSFeed", PDWInfrastructure.UmbracoAPI.UmbracoInterface.GetScoopItems( RSSURL ) );}
-</div>
-}
-@if( CurrentUser.HasContacts )
-{
-<div class="dashLittle">
-@{Html.RenderPartial( "MyContactList" );}
 </div>
 }
 <div class="clear"></div>

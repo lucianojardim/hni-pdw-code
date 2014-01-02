@@ -86,6 +86,16 @@ namespace PWDRepositories
 			IQueryable<SpecRequest> filteredAndSorted = null;
 			switch( sortCol.ToLower() )
 			{
+				case "name":
+					if( paramDetails.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = requestList.OrderBy( v => v.Name );
+					}
+					else
+					{
+						filteredAndSorted = requestList.OrderByDescending( v => v.Name );
+					}
+					break;
 				case "dealer":
 					if( paramDetails.sSortDir_0.ToLower() == "asc" )
 					{

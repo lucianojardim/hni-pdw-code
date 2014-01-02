@@ -14,7 +14,7 @@ namespace PDWInfrastructure
 
 		public override string FormatErrorMessage( string name )
 		{
-			return String.Format( "{0} must be in the format ###-####.", name );
+			return String.Format( "{0} must be in the format ###-###-####.", name );
 		}
 	}
 }

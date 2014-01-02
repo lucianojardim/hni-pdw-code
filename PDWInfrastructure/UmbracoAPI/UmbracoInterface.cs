@@ -47,7 +47,7 @@ namespace PDWInfrastructure.UmbracoAPI
 
 				theList.Add( news );
 
-				if( theList.Count >= 3 )
+				if( theList.Count >= 5 )
 				{
 					break;
 				}
@@ -93,7 +93,7 @@ namespace PDWInfrastructure.UmbracoAPI
 
 				theList.Add( news );
 
-				if( theList.Count >= 3 )
+				if( theList.Count >= 5 )
 				{
 					break;
 				}

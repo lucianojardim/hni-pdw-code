@@ -39,7 +39,8 @@
         <ul id="nav">
 			@if( HttpContext.Current.User.Identity.IsAuthenticated )
    {
-	   if( CurrentUser.CanSeeMainProducts ) 
+			<li class="@(ViewBag.CurrentPage == "Home" ? "current_page" : "")"><a href="@Url.Action( "Index", "Home" )">Home</a></li>
+	   if( CurrentUser.CanSeeMainProducts )
 	   {
 			<li class="@(ViewBag.CurrentPage == "Database" ? "current_page" : "")"><a href="@CurrentUser.ProductsHomePage">Products</a></li>
 	   }
@@ -70,7 +71,7 @@
 	   @if( CurrentUser.CanManageUsers )
 	{
 				<li class="@(ViewBag.CurrentSubPage == "Users" ? "on_focus" : "")"><a href="@Url.Action( "Manage", "User" )">Users</a></li>
-		}
+	}
 		@if( CurrentUser.CanManageCompanies )
   {
 				<li class="@(ViewBag.CurrentSubPage == "Companies" ? "on_focus" : "")"><a href="@Url.Action( "Manage", "Company" )">Companies</a></li>

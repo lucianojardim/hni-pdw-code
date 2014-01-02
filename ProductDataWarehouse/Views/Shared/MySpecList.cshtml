@@ -75,19 +75,20 @@
 			},
 			"bProcessing": false, // don't want to use the default progress indicator at this time
 			"aoColumnDefs": [
+                    { "sName": "Name", "sTitle": "Name", "aTargets": [@(colNum++)], "mDataProp": "Name", "sWidth": "9%" },
 			@if( !PaoliWebUser.CurrentUser.IsDealerUser && !PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
    {
 	<text>
-                    { "sName": "SalesRepGroup", "sTitle": "Rep Group", "aTargets": [@(colNum++)], "mDataProp": "SalesRepGroup", "sWidth": "30%" },
+                    { "sName": "SalesRepGroup", "sTitle": "Rep Group", "aTargets": [@(colNum++)], "mDataProp": "SalesRepGroup", "sWidth": "27%" },
 	</text>
    }
 	@if( !PaoliWebUser.CurrentUser.IsDealerUser )
  {
 	<text>
-                    { "sName": "Dealer", "sTitle": "Dealer", "aTargets": [@(colNum++)], "mDataProp": "Dealer", "sWidth": "30%" },
+                    { "sName": "Dealer", "sTitle": "Dealer", "aTargets": [@(colNum++)], "mDataProp": "Dealer", "sWidth": "27%" },
 	</text>
  }
-                    { "sName": "ProjectName", "sTitle": "Project Name", "aTargets": [@(colNum++)], "mDataProp": "ProjectName", "sWidth": "30%" },
+                    { "sName": "ProjectName", "sTitle": "Project Name", "aTargets": [@(colNum++)], "mDataProp": "ProjectName", "sWidth": "27%" },
                     { "sName": "Status",
                     	"aTargets": [@(colNum)],
                     	"bSearchable": false,
