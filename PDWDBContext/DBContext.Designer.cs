@@ -2713,6 +2713,30 @@ namespace PDWDBContext
         private Nullable<global::System.Int32> _GoToGuidePage;
         partial void OnGoToGuidePageChanging(Nullable<global::System.Int32> value);
         partial void OnGoToGuidePageChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> Popularity
+        {
+            get
+            {
+                return _Popularity;
+            }
+            set
+            {
+                OnPopularityChanging(value);
+                ReportPropertyChanging("Popularity");
+                _Popularity = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Popularity");
+                OnPopularityChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _Popularity;
+        partial void OnPopularityChanging(Nullable<global::System.Int32> value);
+        partial void OnPopularityChanged();
 
         #endregion
 
