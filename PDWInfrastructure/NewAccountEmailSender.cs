@@ -8,7 +8,7 @@ namespace PDWInfrastructure
 {
 	public class NewAccountEmailSender : EmailSender
 	{
-		public static bool SubmitEmail(
+		public bool SubmitNewAccountEmail(
 			string emailAddress,
 			string newPassword )
 		{
@@ -20,19 +20,7 @@ namespace PDWInfrastructure
 					// perform substitutions
 					template.Replace( "[{Password}]", newPassword );
 
-					var message = new MailMessage();
-
-					if( ( emailAddress ?? "" ).Any() )
-						message.To.Add( emailAddress );
-					else
-						return false;
-
-					message.Subject = GetSubject( template );
-					message.Body = template.ToString();
-					message.IsBodyHtml = true;
-					message.From = FromAddress;
-
-					return SubmitEmail( message );
+					return SubmitEmail( new List<string>() { emailAddress }, null, null, GetSubject( template ), template.ToString() );
 				}
 			}
 			catch( Exception ex )

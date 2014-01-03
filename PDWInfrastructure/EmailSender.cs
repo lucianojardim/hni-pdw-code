@@ -2,18 +2,83 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Net.Mail;
 using System.Configuration;
 using System.IO;
 using System.Text.RegularExpressions;
+using Microsoft.Exchange.WebServices.Data;
+using System.Net.Mail;
+using System.Net;
 
 namespace PDWInfrastructure
 {
 	public class EmailSender
 	{
-		protected static MailAddress FromAddress = new MailAddress( "support@paoli.com", "Paoli Support" );
+		protected delegate bool SubmitEmailFunction(
+			IList<string> toList,
+			IList<string> ccList,
+			IList<string> bccList,
+			string messageSubject,
+			string messageBody );
 
-		protected static bool SubmitEmail(
+		protected SubmitEmailFunction SubmitEmail = null;
+		private ExchangeService service = null;
+		private bool UseExchange { get; set; }
+
+		protected EmailSender()
+		{
+			var config = ExchangeMailConfiguration.Config;
+
+			if( config.Settings.UseExchange )
+			{
+				service = new ExchangeService();
+				service.Credentials = new NetworkCredential( config.Settings.Username, config.Settings.Password, config.Settings.Domain );
+				service.Url = new Uri( config.Settings.ServerAddress );
+				SubmitEmail = SubmitExchangeEmail;
+			}
+			else
+			{
+				SubmitEmail = SubmitSMTPEmail;
+			}
+		}
+
+		private bool SubmitExchangeEmail(
+			IList<string> toList,
+			IList<string> ccList,
+			IList<string> bccList,
+			string messageSubject,
+			string messageBody )
+		{
+			EmailMessage message = new EmailMessage( service );
+			message.Subject = messageSubject;
+			message.Body = messageBody;
+			
+			if( ( toList != null ) && toList.Any() )
+				message.ToRecipients.AddRange( toList );
+			else
+				return false;
+
+			if( ccList != null )
+				message.CcRecipients.AddRange( ccList );
+			if( bccList != null )
+				message.BccRecipients.AddRange( bccList );
+
+			message.From = new EmailAddress( "Paoli Helpdesk", "helpdesk@paoli.com" );
+
+			try
+			{
+				message.SendAndSaveCopy();
+
+				return true;
+			}
+			catch( Exception e )
+			{
+				System.Diagnostics.Debug.WriteLine( format: "Error sending email: {0}", args: e.Message );
+			}
+
+			return false;
+		}
+
+		protected bool SubmitSMTPEmail(
 			IList<string> toList,
 			IList<string> ccList,
 			IList<string> bccList,
@@ -34,32 +99,25 @@ namespace PDWInfrastructure
 
 			msg.Subject = messageSubject;
 			msg.Body = messageBody;
-			msg.From = FromAddress;
+			msg.From = new MailAddress( "helpdesk@paoli.com", "Paoli Helpdesk" );
 
-			return SubmitEmail( msg );
-		}
-
-		protected static bool SubmitEmail( MailMessage message )
-		{
-			if( message != null )
+			try
 			{
-				try
-				{
-					SmtpClient smtp = new SmtpClient();
+				SmtpClient smtp = new SmtpClient();
 
-					smtp.Send( message );
+				smtp.Send( msg );
 
-					return true;
-				}
-				catch( Exception e )
-				{
-					System.Diagnostics.Debug.WriteLine( "Unable to send email: {0}", e.Message );
-				}
+				return true;
 			}
+			catch( Exception e )
+			{
+				System.Diagnostics.Debug.WriteLine( "Unable to send email: {0}", e.Message );
+			}
+
 			return false;
 		}
 
-		protected static bool ReadEmailTemplate( string emailType, out StringBuilder template )
+		protected bool ReadEmailTemplate( string emailType, out StringBuilder template )
 		{
 			string emailTemplateFileName = emailType + ".htm";
 
@@ -78,7 +136,7 @@ namespace PDWInfrastructure
 			return true;
 		}
 
-		protected static string GetTemplate( string templateFileName )
+		protected string GetTemplate( string templateFileName )
 		{
 			// get this from the web.config
 			string templateDirectory = ConfigurationManager.AppSettings["EmailTemplates"];
@@ -95,7 +153,7 @@ namespace PDWInfrastructure
 			}
 		}
 
-		protected static string GetSubject( StringBuilder template )
+		protected string GetSubject( StringBuilder template )
 		{
 			string pattern = Regex.Escape( "<title>" ) + "(.*?)" + Regex.Escape( "</title>" );
 			var matching = Regex.Match( template.ToString(), pattern, RegexOptions.Singleline | RegexOptions.IgnoreCase );
@@ -108,7 +166,7 @@ namespace PDWInfrastructure
 			return "Paoli Email";
 		}
 
-		protected static void PerformMachineNameAdditions( StringBuilder template )
+		protected void PerformMachineNameAdditions( StringBuilder template )
 		{
 			var extraInfo = "";
 			if( Environment.MachineName.ToLower().Contains( "matt3400" ) )

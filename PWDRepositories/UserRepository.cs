@@ -137,7 +137,7 @@ namespace PWDRepositories
 			{
 				if( uInfo.SendWelcomeEmail )
 				{
-					NewAccountEmailSender.SubmitEmail( newUser.Email, password );
+					( new NewAccountEmailSender() ).SubmitNewAccountEmail( newUser.Email, password );
 				}
 
 				return true;
@@ -230,7 +230,7 @@ namespace PWDRepositories
 				}
 				if( bWelcomeEmail )
 				{
-					NewAccountEmailSender.SubmitEmail( eUser.Email, password );
+					( new NewAccountEmailSender() ).SubmitNewAccountEmail( eUser.Email, password );
 				}
 
 				return true;
@@ -255,7 +255,7 @@ namespace PWDRepositories
 
 			if( database.SaveChanges() > 0 )
 			{
-				NewAccountEmailSender.SubmitEmail( eUser.Email, password );
+				( new NewAccountEmailSender() ).SubmitNewAccountEmail( eUser.Email, password );
 
 				return true;
 			}
@@ -293,7 +293,7 @@ namespace PWDRepositories
 
 			if( database.SaveChanges() > 0 )
 			{
-				ResetPasswordEmailSender.SubmitEmail( eUser.Email, password );
+				( new ResetPasswordEmailSender() ).SubmitResetPasswordEmail( eUser.Email, password );
 
 				return true;
 			}
