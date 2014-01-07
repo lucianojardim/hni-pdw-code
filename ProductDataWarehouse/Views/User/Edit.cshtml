@@ -35,9 +35,6 @@ else
     			}
     		});
 
-    		if ($('#SendWelcomeEmail:checked').length > 0) {
-    			$('#SendWelcomeEmail').attr("disabled", true);
-    		}
 			@if( Model.LockAccountType )
 			{
 			<text>
@@ -76,12 +73,13 @@ else
 
     @using( Html.BeginForm( "Edit", "User", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
 	{
-		@Html.HiddenFor( m=> m.UserID )
-				if( Model.LockAccountType )
-  {
+		@Html.HiddenFor( m => m.UserID )
+		@Html.HiddenFor( m => m.LockAccountType )
+		if( Model.LockAccountType )
+		{
 			@Html.HiddenFor( m => m.CompanyID )
   			@Html.HiddenFor( m => m.AccountType )
-  }
+		}
 
         <span class="dataRow">@Html.MJLabelFor( m => m.EmailAddress, true )@Html.TextBoxFor( m => m.EmailAddress )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.FirstName, true )@Html.TextBoxFor( m => m.FirstName )<br/></span>
@@ -97,15 +95,22 @@ else
         <span class="dataRow">@Html.MJLabelFor( m => m.Title, true )@Html.TextBoxFor( m => m.Title )<br/></span>
 		<div class="padr30 padl30"><hr /></div>
         <span class="dataRow">@Html.MJLabelFor( m => m.AccountType, true )@Html.DropDownListFor( m => m.AccountType, UserController.GetUserRoleDDList() )<br/></span>
-				if( PDWInfrastructure.PaoliWebUser.CurrentUser.UserId != Model.UserID )
-				{
+		if( PDWInfrastructure.PaoliWebUser.CurrentUser.UserId != Model.UserID )
+		{
         <span class="dataRow">@Html.MJLabelFor( m => m.Enabled, true )@Html.CheckBoxFor( m => m.Enabled, Model.SendWelcomeEmail ? null : new { @disabled = true } )<br/></span>
-				}
-				else
-				{
+		}
+		else
+		{
 			@Html.HiddenFor( m => m.Enabled )
-				}
+		}
+		if( Model.SendWelcomeEmail )
+		{
+			@Html.HiddenFor( m => m.SendWelcomeEmail )
+		}
+		else
+		{
         <span class="dataRow">@Html.MJLabelFor( m => m.SendWelcomeEmail, true )@Html.CheckBoxFor( m => m.SendWelcomeEmail )<br/></span>
+		}
 @Html.ValidationSummary()
         <input type="submit" class="btn_type1" value="Update" id="submitBtn" />
 	}
