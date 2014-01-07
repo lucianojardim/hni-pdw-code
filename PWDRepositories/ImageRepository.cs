@@ -79,7 +79,6 @@ namespace PWDRepositories
 		private ImageItemDetails ToImageItemDetails( ImageFile img )
 		{
 			var seriesList = img.SeriesImageFiles
-					.Where( s => s.Series.IsActive )
 					.Select( s => new ImageItemDetails.ImageSeries()
 					{
 						SeriesID = s.SeriesID,
@@ -93,7 +92,7 @@ namespace PWDRepositories
 			// add orphaned typicals
 			foreach( var typicalImage in img.TypicalImageFiles )
 			{
-				foreach( var typicalSeries in typicalImage.Typical.SeriesTypicals.Where( s => s.Series.IsActive ).Select( st => st.Series ) )
+				foreach( var typicalSeries in typicalImage.Typical.SeriesTypicals.Select( st => st.Series ) )
 				{
 					var imageSeries = seriesList.FirstOrDefault( s => typicalSeries.SeriesID == s.SeriesID );
 					if( imageSeries == null )
@@ -135,7 +134,7 @@ namespace PWDRepositories
 				Caption = img.Caption,
 				Name = img.Name,
 				SecondaryName = ao.Name,
-				SeriesList = ao.SeriesOptionAttributes.Where( s => s.Series.IsActive ).Select( s => new ImageItemDetails.ImageSeries()
+				SeriesList = ao.SeriesOptionAttributes.Select( s => new ImageItemDetails.ImageSeries()
 					{
 						SeriesID = s.SeriesID,
 						Name = s.Series.Name,
@@ -223,7 +222,7 @@ namespace PWDRepositories
 			if( (categories ?? "").Any() )
 			{
 				var catList = categories.Split( ',' );
-				imgList = imgList.Where( img => catList.Intersect( img.SeriesImageFiles.Where( s => s.Series.IsActive ).Select( s => s.Series.Category.Name ) ).Any() );
+				imgList = imgList.Where( img => catList.Intersect( img.SeriesImageFiles.Select( s => s.Series.Category.Name ) ).Any() );
 			}
 			if( pubId.HasValue )
 			{
@@ -321,7 +320,7 @@ namespace PWDRepositories
 			if( (categories ?? "").Any() )
 			{
 				var catList = categories.Split( ',' );
-				imgList = imgList.Where( img => catList.Intersect( img.SeriesImageFiles.Where( s => s.Series.IsActive ).Select( s => s.Series.Category.Name ) ).Any() );
+				imgList = imgList.Where( img => catList.Intersect( img.SeriesImageFiles.Select( s => s.Series.Category.Name ) ).Any() );
 			}
 			if( (keywords ?? "").Any() )
 			{

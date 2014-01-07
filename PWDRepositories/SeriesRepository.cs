@@ -21,14 +21,12 @@ namespace PWDRepositories
 		{
 			return database.Serieses
 				.Where( s => s.Category.Name == category || category == null )
-				.Where( s => s.IsActive )
 				.Select( s => new SeriesComboItem() { SeriesID = s.SeriesID, Name = s.Name } ).Distinct();
 		}
 
 		public IEnumerable<string> GetJustSeriesNameList()
 		{
 			return database.Serieses
-				.Where( s => s.IsActive )
 				.Select( s => s.Name ).Distinct();
 		}
 
@@ -36,7 +34,6 @@ namespace PWDRepositories
 		{
 			return database.Serieses
 				.Where( se => se.SeriesTypicals.Any() )
-				.Where( s => s.IsActive )
 				.Select( s => new SeriesComboItem() { SeriesID = s.SeriesID, Name = s.Name } ).Distinct();
 		}
 
@@ -140,7 +137,6 @@ namespace PWDRepositories
 		public IEnumerable<SeriesDocListData> GetSeriesTextData( IEnumerable<string> attList, IEnumerable<string> detailList )
 		{
 			return database.Serieses
-				.Where( s => s.IsActive )
 				.OrderBy( s => s.Name )
 				.ToList()
 				.Select( s => ToSeriesDocListData( s, attList, detailList ) );
