@@ -55,9 +55,7 @@ namespace ProductDataWarehouse.Controllers
 
 					cRepository.AddCompany( uInfo );
 
-					ViewBag.CloseFancyBox = true;
-
-					return View( uInfo );
+					return RedirectToAction( "Manage" );
 				}
 				catch( Exception ex )
 				{
@@ -95,9 +93,7 @@ namespace ProductDataWarehouse.Controllers
 
 					cRepository.UpdateCompany( uInfo );
 
-					ViewBag.CloseFancyBox = true;
-
-					return View( uInfo );
+					return RedirectToAction( "Manage" );
 				}
 				catch( Exception ex )
 				{

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using PWDRepositories;
 using System.Configuration;
+using PDWInfrastructure;
 
 namespace ProductDataWarehouse.Controllers
 {
@@ -484,6 +485,15 @@ namespace ProductDataWarehouse.Controllers
 			return new JsonpResult()
 			{
 				Data = new ImageRepository().GetGoToGuideImageList(),
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
+
+		public JsonpResult FindARep( string zipCode )
+		{
+			return new JsonpResult()
+			{
+				Data = new CompanyRepository().GetSalesRep( zipCode ),
 				JsonRequestBehavior = JsonRequestBehavior.AllowGet
 			};
 		}

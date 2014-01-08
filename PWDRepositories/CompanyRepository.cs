@@ -51,6 +51,49 @@ namespace PWDRepositories
 			newCompany.TripIncentive = cInfo.TripIncentive;
 			newCompany.CompanyType = cInfo.CompanyType;
 			newCompany.TerritoryID = PaoliWebUser.PaoliCompanyType.HasTerritory.Contains( cInfo.CompanyType ) ? cInfo.TerritoryID : null;
+			newCompany.PublicAddress1 = cInfo.PublicAddress1;
+			newCompany.PublicAddress2 = cInfo.PublicAddress2;
+			newCompany.PublicCity = cInfo.PublicCity;
+			newCompany.PublicState = cInfo.PublicState;
+			newCompany.PublicZip = cInfo.PublicZip;
+			newCompany.PublicPhone = cInfo.PublicPhone;
+			newCompany.PublicFAX = cInfo.PublicFAX;
+			newCompany.ContactEmail = cInfo.ContactEmail;
+			newCompany.WebSite = cInfo.WebSite;
+			newCompany.PublicContactEmail = cInfo.PublicContactEmail;
+			newCompany.PublicWebSite = cInfo.PublicWebSite;
+			newCompany.PublicDisplayName = cInfo.PublicDisplayName;
+
+			if( cInfo.HasShowroom )
+			{
+				Showroom newShowroom = new Showroom();
+
+				newShowroom.DisplayName = cInfo.ShowroomDisplayName;
+				newShowroom.Address1 = cInfo.ShowroomAddress1;
+				newShowroom.Address2 = cInfo.ShowroomAddress2;
+				newShowroom.City = cInfo.ShowroomCity;
+				newShowroom.State = cInfo.ShowroomState;
+				newShowroom.Zip = cInfo.ShowroomZip;
+				newShowroom.Phone = cInfo.ShowroomPhone;
+				newShowroom.FAX = cInfo.ShowroomFAX;
+				newShowroom.WebSite = cInfo.ShowroomWebsite;
+				newShowroom.Description = cInfo.ShowroomDescription;
+				newShowroom.Hours = cInfo.ShowroomHours;
+
+				newCompany.Showroom = newShowroom;
+
+				if( ( cInfo.ShowroomImages ?? "" ).Any() )
+				{
+					foreach( var indVal in cInfo.ShowroomImages.Split( ',' ).Select( s => s.Trim() ) )
+					{
+						var oImg = database.ImageFiles.FirstOrDefault( s => s.Name == indVal );
+						if( oImg != null )
+						{
+							newCompany.ShowroomImages.Add( oImg );
+						}
+					}
+				}
+			}
 
 			database.Companies.AddObject( newCompany );
 
@@ -76,12 +119,39 @@ namespace PWDRepositories
 				Zip = eCompany.Zip,
 				Phone = eCompany.Phone,
 				FAX = eCompany.FAX,
+				PublicAddress1 = eCompany.PublicAddress1,
+				PublicAddress2 = eCompany.PublicAddress2,
+				PublicCity = eCompany.PublicCity,
+				PublicState = eCompany.PublicState,
+				PublicZip = eCompany.PublicZip,
+				PublicPhone = eCompany.PublicPhone,
+				PublicFAX = eCompany.PublicFAX,
 				MasterID = eCompany.MasterID,
 				SubCompanyIDs = eCompany.SubCompanyIDs,
 				TripIncentive = eCompany.TripIncentive,
 				CompanyType = eCompany.CompanyType,
 				TerritoryID = eCompany.TerritoryID,
-				LockCompanyType = eCompany.Users.Any() || eCompany.SpecRequests.Any() || eCompany.SpecRequests1.Any()
+				LockCompanyType = eCompany.Users.Any() || eCompany.SpecRequests.Any() || eCompany.SpecRequests1.Any(),
+				ContactEmail = eCompany.ContactEmail,
+				WebSite = eCompany.WebSite,
+				PublicContactEmail = eCompany.PublicContactEmail,
+				PublicWebSite = eCompany.PublicWebSite,
+				PublicDisplayName = eCompany.PublicDisplayName,
+
+				HasShowroom = eCompany.Showroom != null,
+				ShowroomDisplayName = eCompany.Showroom != null ? eCompany.Showroom.DisplayName : null,
+				ShowroomAddress1 = eCompany.Showroom != null ? eCompany.Showroom.Address1 : null,
+				ShowroomAddress2 = eCompany.Showroom != null ? eCompany.Showroom.Address2 : null,
+				ShowroomCity = eCompany.Showroom != null ? eCompany.Showroom.City : null,
+				ShowroomState = eCompany.Showroom != null ? eCompany.Showroom.State : null,
+				ShowroomZip = eCompany.Showroom != null ? eCompany.Showroom.Zip : null,
+				ShowroomPhone = eCompany.Showroom != null ? eCompany.Showroom.Phone : null,
+				ShowroomFAX = eCompany.Showroom != null ? eCompany.Showroom.FAX : null,
+				ShowroomWebsite = eCompany.Showroom != null ? eCompany.Showroom.WebSite : null,
+				ShowroomDescription = eCompany.Showroom != null ? eCompany.Showroom.Description : null,
+				ShowroomHours = eCompany.Showroom != null ? eCompany.Showroom.Hours : null,
+				ShowroomImages = eCompany.Showroom != null ? string.Join( ",", eCompany.ShowroomImages.Select( sri => sri.Name ) ) : null
+
 			};
 		}
 
@@ -112,6 +182,59 @@ namespace PWDRepositories
 			eCompany.TripIncentive = cInfo.TripIncentive;
 			eCompany.CompanyType = cInfo.CompanyType;
 			eCompany.TerritoryID = PaoliWebUser.PaoliCompanyType.HasTerritory.Contains( cInfo.CompanyType ) ? cInfo.TerritoryID : null;
+			eCompany.PublicAddress1 = cInfo.PublicAddress1;
+			eCompany.PublicAddress2 = cInfo.PublicAddress2;
+			eCompany.PublicCity = cInfo.PublicCity;
+			eCompany.PublicState = cInfo.PublicState;
+			eCompany.PublicZip = cInfo.PublicZip;
+			eCompany.PublicPhone = cInfo.PublicPhone;
+			eCompany.PublicFAX = cInfo.PublicFAX;
+			eCompany.ContactEmail = cInfo.ContactEmail;
+			eCompany.WebSite = cInfo.WebSite;
+			eCompany.PublicContactEmail = cInfo.PublicContactEmail;
+			eCompany.PublicWebSite = cInfo.PublicWebSite;
+			eCompany.PublicDisplayName = cInfo.PublicDisplayName;
+
+			eCompany.ShowroomImages.Clear();
+
+			if( cInfo.HasShowroom )
+			{
+				Showroom eShowroom = eCompany.Showroom;
+				if( eShowroom == null )
+				{
+					eShowroom = new Showroom();
+					eCompany.Showroom = eShowroom;
+				}
+
+				eShowroom.DisplayName = cInfo.ShowroomDisplayName;
+				eShowroom.Address1 = cInfo.ShowroomAddress1;
+				eShowroom.Address2 = cInfo.ShowroomAddress2;
+				eShowroom.City = cInfo.ShowroomCity;
+				eShowroom.State = cInfo.ShowroomState;
+				eShowroom.Zip = cInfo.ShowroomZip;
+				eShowroom.Phone = cInfo.ShowroomPhone;
+				eShowroom.FAX = cInfo.ShowroomFAX;
+				eShowroom.WebSite = cInfo.ShowroomWebsite;
+				eShowroom.Description = cInfo.ShowroomDescription;
+				eShowroom.Hours = cInfo.ShowroomHours;
+				
+				if( ( cInfo.ShowroomImages ?? "" ).Any() )
+				{
+					foreach( var indVal in cInfo.ShowroomImages.Split( ',' ).Select( s => s.Trim() ) )
+					{
+						var oImg = database.ImageFiles.FirstOrDefault( s => s.Name == indVal );
+						if( oImg != null )
+						{
+							eCompany.ShowroomImages.Add( oImg );
+						}
+					}
+				}
+
+			}
+			else if( eCompany.Showroom != null )
+			{
+				database.DeleteObject( eCompany.Showroom );
+			}
 
 			return database.SaveChanges() > 0;
 		}
@@ -124,7 +247,12 @@ namespace PWDRepositories
 				throw new Exception( "Unable to find company." );
 			}
 
-			database.Companies.DeleteObject( eCompany );
+			eCompany.ShowroomImages.Clear();
+			if( eCompany.Showroom != null )
+			{
+				database.DeleteObject( eCompany.Showroom );
+			}
+			database.DeleteObject( eCompany );
 
 			return database.SaveChanges() > 0;
 		}
@@ -201,6 +329,64 @@ namespace PWDRepositories
 			return database.Territories
 				.ToList()
 				.Select( t => new TerritorySummary() { TerritoryID = t.TerritoryID, Name = t.Name } );
+		}
+
+		public ClosestRepInfo GetSalesRep( string zipCode )
+		{
+			var chosenZip = database.ZipCodeInfoes.FirstOrDefault( z => z.ZipCode == zipCode );
+			if( chosenZip == null )
+			{
+				return null;
+			}
+
+			var closestCompany = database.Companies
+				.FirstOrDefault( c => c.TerritoryID == chosenZip.TerritoryID && 
+					c.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup );
+			if( closestCompany == null )
+			{
+				return null;
+			}
+
+			var closestShowroom = database.ClosestShowroom( chosenZip.Latitude, chosenZip.Longitude )
+				.FirstOrDefault();
+
+			return new ClosestRepInfo()
+			{
+				Name = closestCompany.PublicDisplayName,
+				Address1 = closestCompany.PublicAddress1,
+				Address2 = closestCompany.PublicAddress2,
+				City = closestCompany.PublicCity,
+				State = closestCompany.PublicState,
+				Zip = closestCompany.PublicZip,
+				Phone = closestCompany.PublicPhone,
+				FAX = closestCompany.PublicFAX,
+				ContactEmail = closestCompany.PublicContactEmail,
+				WebSite = closestCompany.PublicWebSite,
+
+				ShowroomDisplayName = closestShowroom != null ? closestShowroom.DisplayName : null,
+				ShowroomAddress1 = closestShowroom != null ? closestShowroom.Address1 : null,
+				ShowroomAddress2 = closestShowroom != null ? closestShowroom.Address2 : null,
+				ShowroomCity = closestShowroom != null ? closestShowroom.City : null,
+				ShowroomState = closestShowroom != null ? closestShowroom.State : null,
+				ShowroomZip = closestShowroom != null ? closestShowroom.Zip : null,
+				ShowroomPhone = closestShowroom != null ? closestShowroom.Phone : null,
+				ShowroomFAX = closestShowroom != null ? closestShowroom.FAX : null,
+				ShowroomWebsite = closestShowroom != null ? closestShowroom.WebSite : null,
+				ShowroomDescription = closestShowroom != null ? closestShowroom.Description : null,
+				ShowroomHours = closestShowroom != null ? closestShowroom.Hours : null,
+
+				Contacts = closestCompany.Users.Where( u => u.AccountType == PaoliWebUser.PaoliWebRole.PaoliSalesRep )
+					.ToList()
+					.Select( u => new ClosestRepInfo.RepInfo() { Name = u.FullName, Email = u.Email, Phone = u.BusinessPhone } ),
+
+				ShowroomImages = closestShowroom != null ? closestShowroom.Company.ShowroomImages.Select( sri => new PDWModels.Images.ImageSummary() 
+				{ 
+					Name = sri.Name, 
+					FileName = sri.ThumbnailImageData( "m16to9" ).FileName, 
+					ImageID = sri.ImageID, 
+					CanLightbox = ImageFile.ImageCanLightbox( sri.ImageType ) 
+				} ) : new List<PDWModels.Images.ImageSummary>()
+			};
 		}
 	}
 }
