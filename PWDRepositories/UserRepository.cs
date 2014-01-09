@@ -5,6 +5,9 @@ using System.Text;
 using PDWDBContext;
 using PDWInfrastructure;
 using PDWModels.Users;
+using System.IO;
+using System.Drawing;
+using System.Configuration;
 
 namespace PWDRepositories
 {
@@ -102,7 +105,7 @@ namespace PWDRepositories
 			return retVal;
 		}
 
-		public bool AddUser( UserInformation uInfo )
+		public bool AddUser( UserInformation uInfo, Stream imgStream, string fileName )
 		{
 			if( database.Users.Any( u => u.Email == uInfo.EmailAddress ) )
 			{
@@ -130,6 +133,15 @@ namespace PWDRepositories
 			string password = GenerateNewPassword();
 			PaoliEncryption enc = new PaoliEncryption( PaoliEncryption.DataPassPhrase );
 			newUser.Password = enc.Encrypt( password );
+
+			if( imgStream != null )
+			{
+				newUser.ImageFileName = Guid.NewGuid().ToString() + Path.GetExtension( fileName );
+
+				Image fullSizeImg = Image.FromStream( imgStream );
+				fullSizeImg.Save( Path.Combine( ConfigurationManager.AppSettings["ImageFileLocation"],
+					newUser.ImageFileName ) );
+			}
 
 			database.Users.AddObject( newUser );
 
@@ -173,11 +185,12 @@ namespace PWDRepositories
 				AccountType = eUser.AccountType,
 				Enabled = eUser.Enabled,
 				SendWelcomeEmail = eUser.RecWelcomeEmail,
-				LockAccountType = eUser.SpecRequests.Any() || eUser.SpecRequests1.Any()
+				LockAccountType = eUser.SpecRequests.Any() || eUser.SpecRequests1.Any(),
+				UserImageFileName = eUser.ImageFileName
 			};
 		}
 
-		public bool UpdateUser( MyAccountInfo uInfo )
+		public bool UpdateUser( MyAccountInfo uInfo, Stream imgStream = null, string fileName = null )
 		{
 			var eUser = database.Users.FirstOrDefault( u => u.UserID == uInfo.UserID );
 			if( eUser == null )
@@ -219,6 +232,15 @@ namespace PWDRepositories
 					bWelcomeEmail = true;
 					PaoliEncryption enc = new PaoliEncryption( PaoliEncryption.DataPassPhrase );
 					eUser.Password = enc.Encrypt( password );
+				}
+
+				if( imgStream != null )
+				{
+					eUser.ImageFileName = Guid.NewGuid().ToString() + Path.GetExtension( fileName );
+
+					Image fullSizeImg = Image.FromStream( imgStream );
+					fullSizeImg.Save( Path.Combine( ConfigurationManager.AppSettings["ImageFileLocation"],
+						eUser.ImageFileName ) );
 				}
 			}
 

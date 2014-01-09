@@ -7,7 +7,7 @@
 
 <h2>Paoli User List</h2>
 
-<a href="@Url.Action( "Add", "User" )?iframe" id="addNewUser">Add New</a><br />
+<a href="@Url.Action( "Add", "User" )" id="addNewUser">Add New</a><br />
 Account Type: @Html.DropDownList( "AccountType", ProductDataWarehouse.Controllers.UserController.GetUserRoleFilterList() )
 <div>
     <table id="userList">
@@ -19,17 +19,6 @@ Account Type: @Html.DropDownList( "AccountType", ProductDataWarehouse.Controller
 <script type="text/javascript">
 	$(document).ready(function () {
 		$('#AccountType').change(loadUsers);
-
-		$("#addNewUser").fancybox({
-			'autoDimensions': false,
-			'width': 600,
-			'height': 600,
-			'padding': 20,
-			'margin': 0,
-			'scrolling': 'auto',
-			'titleShow': false,
-			'type': 'iframe'
-		});
 
 		loadUsers();
 	});
@@ -97,16 +86,6 @@ Account Type: @Html.DropDownList( "AccountType", ProductDataWarehouse.Controller
 					data: aoData,
 					success: function (data, textStatus, jqXHR) {
 						fnCallback(data, textStatus, jqXHR);
-						$('.fbImageBtn').fancybox({
-							'autoDimensions': false,
-							'width': 600,
-							'height': 600,
-							'padding': 20,
-							'margin': 0,
-							'scrolling': 'auto',
-							'titleShow': false,
-							'type': 'iframe'
-						});
 					},
 					error: function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Users:' + errorThrown) }
 				})
@@ -149,7 +128,7 @@ Account Type: @Html.DropDownList( "AccountType", ProductDataWarehouse.Controller
                     	"mDataProp": "EditButtons", "sWidth": "20%",
                     	"fnRender": function (oObj) {
                     		var s;
-                    		s = '<a href=\"@Url.Action( "Edit", "User" )/' + oObj.aData["UserID"] + '/?iframe\" class="fbImageBtn">Edit</a>';
+                    		s = '<a href=\"@Url.Action( "Edit", "User" )/' + oObj.aData["UserID"] + '" class="fbImageBtn">Edit</a>';
                     		if (oObj.aData["SentWelcomeEmail"] && oObj.aData["Enabled"]) {
                     			s += '&nbsp;|&nbsp;';
                     			s += '<a href=\"#\" onclick="resetPassword(' + oObj.aData["UserID"] + ');">Reset Password</a>';

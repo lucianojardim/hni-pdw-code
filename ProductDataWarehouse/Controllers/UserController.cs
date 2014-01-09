@@ -45,7 +45,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageUsers" )]
 		[HttpPost]
-		public ActionResult Add( UserInformation uInfo )
+		public ActionResult Add( UserInformation uInfo, HttpPostedFileBase UserImage )
 		{
 			if( ModelState.IsValid )
 			{
@@ -53,11 +53,9 @@ namespace ProductDataWarehouse.Controllers
 				{
 					UserRepository uRepository = new UserRepository();
 
-					uRepository.AddUser( uInfo );
+					uRepository.AddUser( uInfo, UserImage.InputStream, UserImage.FileName );
 
-					ViewBag.CloseFancyBox = true;
-
-					return View( uInfo );
+					return RedirectToAction( "Manage" );
 				}
 				catch( Exception ex )
 				{
@@ -85,7 +83,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageUsers" )]
 		[HttpPost]
-		public ActionResult Edit( UserInformation uInfo )
+		public ActionResult Edit( UserInformation uInfo, HttpPostedFileBase UserImage )
 		{
 			if( ModelState.IsValid )
 			{
@@ -93,11 +91,9 @@ namespace ProductDataWarehouse.Controllers
 				{
 					UserRepository uRepository = new UserRepository();
 
-					uRepository.UpdateUser( uInfo );
+					uRepository.UpdateUser( uInfo, UserImage != null ? UserImage.InputStream : null, UserImage != null ? UserImage.FileName : null );
 
-					ViewBag.CloseFancyBox = true;
-
-					return View( uInfo );
+					return RedirectToAction( "Manage" );
 				}
 				catch( Exception ex )
 				{

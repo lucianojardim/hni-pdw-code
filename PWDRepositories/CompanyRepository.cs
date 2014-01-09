@@ -377,7 +377,7 @@ namespace PWDRepositories
 
 				Contacts = closestCompany.Users.Where( u => u.AccountType == PaoliWebUser.PaoliWebRole.PaoliSalesRep )
 					.ToList()
-					.Select( u => new ClosestRepInfo.RepInfo() { Name = u.FullName, Email = u.Email, Phone = u.BusinessPhone } ),
+					.Select( u => new ClosestRepInfo.RepInfo() { Name = u.FullName, Email = u.Email, Phone = u.BusinessPhone, ImageFile = u.ImageFileName } ),
 
 				ShowroomImages = closestShowroom != null ? closestShowroom.Company.ShowroomImages.Select( sri => new PDWModels.Images.ImageSummary() 
 				{ 

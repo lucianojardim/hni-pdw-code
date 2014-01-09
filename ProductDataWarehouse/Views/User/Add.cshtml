@@ -2,23 +2,12 @@
 @model PDWModels.Users.UserInformation
 @{
 	ViewBag.Title = "Add User";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.CurrentPage = "Users";
+	ViewBag.CurrentSubPage = "Users";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
 }
 @using ProductDataWarehouse.Controllers
 
-@if( ViewBag.CloseFancyBox ?? false )
-{
-    <script type="text/javascript">
-    	$(document).ready(function () {
-    		parent.$.fancybox.close();
-    		if (parent.loadUsers) {
-    			parent.loadUsers();
-    		}
-    	});
-    </script>
-}
-else
-{
     <script type="text/javascript">
     	$(document).ready(function () {
     		reloadAccountType();
@@ -58,7 +47,7 @@ else
     		}			
     	}
     </script>    
-}
+
     <h2>Add User</h2>
 
     @using( Html.BeginForm( "Add", "User", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
@@ -79,6 +68,7 @@ else
         <span class="dataRow">@Html.MJLabelFor( m => m.AccountType, true )@Html.DropDownListFor( m => m.AccountType, UserController.GetUserRoleDDList() )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.Enabled, true )@Html.CheckBoxFor( m => m.Enabled )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.SendWelcomeEmail, true )@Html.CheckBoxFor( m => m.SendWelcomeEmail )<br/></span>
+		<span class="dataRow">@Html.MJLabelFor( m => m.UserImageFileName, true )<input type="file" id="UserImage" name="UserImage" accept=".jpg,.png,.gif,.bmp" /></span>
 @Html.ValidationSummary()
         <input type="submit" class="btn_type1" value="Add" id="submitBtn" />
 	}

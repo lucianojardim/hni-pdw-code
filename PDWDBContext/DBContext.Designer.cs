@@ -9267,6 +9267,30 @@ namespace PDWDBContext
         private global::System.Boolean _RecWelcomeEmail;
         partial void OnRecWelcomeEmailChanging(global::System.Boolean value);
         partial void OnRecWelcomeEmailChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ImageFileName
+        {
+            get
+            {
+                return _ImageFileName;
+            }
+            set
+            {
+                OnImageFileNameChanging(value);
+                ReportPropertyChanging("ImageFileName");
+                _ImageFileName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ImageFileName");
+                OnImageFileNameChanged();
+            }
+        }
+        private global::System.String _ImageFileName;
+        partial void OnImageFileNameChanging(global::System.String value);
+        partial void OnImageFileNameChanged();
 
         #endregion
 

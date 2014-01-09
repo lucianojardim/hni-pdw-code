@@ -2,23 +2,12 @@
 @model PDWModels.Users.UserInformation
 @{
 	ViewBag.Title = "Edit User";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.CurrentPage = "Users";
+	ViewBag.CurrentSubPage = "Users";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
 }
 @using ProductDataWarehouse.Controllers
 
-@if( ViewBag.CloseFancyBox ?? false )
-{
-    <script type="text/javascript">
-    	$(document).ready(function () {
-    		parent.$.fancybox.close();
-    		if (parent.loadUsers) {
-    			parent.loadUsers();
-    		}
-    	});
-    </script>
-}
-else
-{
     <script type="text/javascript">
     	$(document).ready(function () {
     		reloadAccountType();
@@ -68,7 +57,7 @@ else
 			
     	}
     </script>    
-}
+
     <h2>Edit User</h2>
 
     @using( Html.BeginForm( "Edit", "User", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
@@ -111,6 +100,7 @@ else
 		{
         <span class="dataRow">@Html.MJLabelFor( m => m.SendWelcomeEmail, true )@Html.CheckBoxFor( m => m.SendWelcomeEmail )<br/></span>
 		}
+		<span class="dataRow">@Html.MJLabelFor( m => m.UserImageFileName, true )@if( Model.UserImageFileName != null ) { @Html.HiddenFor( m => m.UserImageFileName ) <img class="img_size_thumb" src="/Images/@Model.UserImageFileName" /> }<input type="file" id="UserImage" name="UserImage" accept=".jpg,.png,.gif,.bmp" /></span>
 @Html.ValidationSummary()
         <input type="submit" class="btn_type1" value="Update" id="submitBtn" />
 	}

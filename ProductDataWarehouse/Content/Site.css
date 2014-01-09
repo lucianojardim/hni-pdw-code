@@ -439,6 +439,11 @@ span.dataRow input[type="password"]
 	vertical-align: top;
 }
 
+span.dataRow input[type="file"]
+{
+	vertical-align: top;
+}
+
 span.dataRow select
 {
 	width: 261px;
