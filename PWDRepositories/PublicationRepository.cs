@@ -104,7 +104,7 @@ namespace PWDRepositories
 		{
 			if( database.Publications.Any( p => p.Name == pubInfo.Name ) )
 			{
-				throw new Exception( "Collateral with this name already exists." );
+				throw new Exception( "Print Material with this name already exists." );
 			}
 
 			Publication pubData = new Publication();
@@ -126,7 +126,7 @@ namespace PWDRepositories
 				return ToPublicationInformation( pubInfo );
 			}
 
-			throw new Exception( "Collateral Does Not Exist" );
+			throw new Exception( "Print Material Does Not Exist" );
 		}
 
 		public void UpdatePublication( PublicationInformation pubInfo )
@@ -137,7 +137,7 @@ namespace PWDRepositories
 			{
 				if( database.Publications.Any( p => (p.Name == pubInfo.Name) && (p.PublicationID != pubInfo.PublicationID) ) )
 				{
-					throw new Exception( "Collateral with this name already exists." );
+					throw new Exception( "Print Material with this name already exists." );
 				}
 
 				pubData.Name = pubInfo.Name;
@@ -149,7 +149,7 @@ namespace PWDRepositories
 				return;
 			}
 
-			throw new Exception( "Collateral Does Not Exist" );
+			throw new Exception( "Print Material Does Not Exist" );
 		}
 
 		public void AddPubImage( int pubId, int imageId, int? pageNumber )
@@ -158,11 +158,11 @@ namespace PWDRepositories
 			var img = database.ImageFiles.FirstOrDefault( i => i.ImageID == imageId );
 
 			if( pub == null )
-				throw new Exception( "Collateral does not exist" );
+				throw new Exception( "Print Material does not exist" );
 			if( img == null )
 				throw new Exception( "Image does not exist" );
 			if( pub.PublicationImages.Any( pi => pi.ImageID == imageId ) )
-				throw new Exception( "Image is already associated with Collateral" );
+				throw new Exception( "Image is already associated with Print Material" );
 
 			PublicationImage pubImg = new PublicationImage();
 			pubImg.ImageFile = img;
@@ -185,7 +185,7 @@ namespace PWDRepositories
 			var pubImg = pub.PublicationImages.FirstOrDefault( pi => pi.ImageID == imageId );
 
 			if( pubImg == null )
-				throw new Exception( "Image is not associated with Collateral" );
+				throw new Exception( "Image is not associated with Print Material" );
 
 			pub.PublicationImages.Remove( pubImg );
 

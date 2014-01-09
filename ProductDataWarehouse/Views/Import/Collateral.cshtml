@@ -1,13 +1,13 @@
 ﻿@{
-    ViewBag.Title = "Collateral";
+	ViewBag.Title = "Print Material";
 	ViewBag.CurrentPage = "Database";
-	ViewBag.CurrentSubPage = "Collateral";
+	ViewBag.CurrentSubPage = "PrintMaterial";
 	Layout = "~/Views/Shared/HeaderLayout.cshtml";
 }
 
-<h2>Manage Collateral</h2>
+<h2>Manage Print Material</h2>
 
-<a href="@Url.Action( "AddCollateral", "Import" )?iframe" id="addNewCollateral">Add New</a><br />
+<a href="@Url.Action( "AddPrintMaterial", "Import" )?iframe" id="addNewPrintMaterial">Add New</a><br />
 <div>
     <table id="pubList">
     <thead></thead>
@@ -17,7 +17,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#addNewCollateral").fancybox({
+    	$("#addNewPrintMaterial").fancybox({
             'autoDimensions': false,
             'width': 400,
             'height': 600,
@@ -28,11 +28,11 @@
             'type': 'iframe'
         });
 
-        loadCollateral();
+           loadPrintMaterial();
     });
 
     var oTable = null;
-    function loadCollateral() {
+    function loadPrintMaterial() {
         if (oTable != null) {
             oTable.fnDraw();
             return;
@@ -45,7 +45,7 @@
             "bLengthChange": false, // don't show dropdown for #items per page
             "bPaginate": true,
             "bInfo": true,
-            "sAjaxSource": '@Url.Action( "FullCollateralList" )',
+            "sAjaxSource": '@Url.Action( "FullPrintMaterialList" )',
             "fnServerParams": function (aoData) {
             },
             "iDisplayLength": 25,
@@ -68,13 +68,13 @@
                             'type': 'iframe'
                         });
                     },
-                    error: function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Collateral:' + errorThrown) }
+                          error: function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Print Material:' + errorThrown) }
                 })
             },
             "bProcessing": false, // don't want to use the default progress indicator at this time
             "aaSorting": [[0, "asc"]],
             "aoColumnDefs": [
-                    { "sName": "Name", "sTitle": "Collateral Name", "aTargets": [0], "mDataProp": "Name", "sWidth": "100px" },
+                    { "sName": "Name", "sTitle": "Print Material Name", "aTargets": [0], "mDataProp": "Name", "sWidth": "100px" },
                     { "sName": "PubDate", "sTitle": "Publication Date", "aTargets": [1], "mDataProp": "PubDate", "sWidth": "100px" },
                     { "sName": "ImageCt", "sTitle": "Image Count", "aTargets": [2], "mDataProp": "ImageCt", "sWidth": "100px" },
                     { "sName": "PublicationID",
@@ -84,8 +84,8 @@
                         "mDataProp": "PublicationID", "sWidth": "75px",
                         "fnRender": function (oObj) {
                             var s;
-                            s = '<a href=\"@Url.Action( "EditCollateral", "Import" )/' + oObj.aData["PublicationID"] + '/?iframe\" class="fbImageBtn">Edit</a>&nbsp;|&nbsp;';
-                            s += '<a href=\"@Url.Action( "CollateralImages", "Import" )/' + oObj.aData["PublicationID"] + '\" class="">Manage Images</a>';
+                            s = '<a href=\"@Url.Action( "EditPrintMaterial", "Import" )/' + oObj.aData["PublicationID"] + '/?iframe\" class="fbImageBtn">Edit</a>&nbsp;|&nbsp;';
+                            s += '<a href=\"@Url.Action( "PrintMaterialImages", "Import" )/' + oObj.aData["PublicationID"] + '\" class="">Manage Images</a>';
                             return s;
                         }
                     }

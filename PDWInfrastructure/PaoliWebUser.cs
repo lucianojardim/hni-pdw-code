@@ -190,13 +190,13 @@ namespace PDWInfrastructure
 
 		public bool CanBeLoggedIn { get { return true; } }
 		public bool CanSeeMainUsers { get { return CanManageUsers || CanManageCompanies; } }
-		public bool CanSeeMainProducts { get { return CanManageImport || CanManageImages || CanManageCollateral || CanManageTypicals || CanManageSearchLog || CanViewSpecRequests; } }
+		public bool CanSeeMainProducts { get { return CanManageImport || CanManageImages || CanManagePrintMaterial || CanManageTypicals || CanManageSearchLog || CanViewSpecRequests; } }
 
 		public bool CanSeeMainCMSLink { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
 
 		public bool CanManageImport { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin ); } }
 		public bool CanManageImages { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin, PaoliWebRole.PaoliMemberMarketing ); } }
-		public bool CanManageCollateral { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
+		public bool CanManagePrintMaterial { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
 		public bool CanManageTypicals { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin,
 					PaoliWebRole.PaoliMemberMarketing, PaoliWebRole.PaoliMemberSpecTeam, PaoliWebRole.PaoliMemberCustomerService, PaoliWebRole.PaoliMemberSales ); } }
 		public bool CanViewSpecRequests { get { return CanManageTypicals || IsDealerUser || OneOfRoles( PaoliWebRole.PaoliSalesRep ); } }

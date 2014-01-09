@@ -101,9 +101,9 @@
 	{
 				<li class="@(ViewBag.CurrentSubPage == "Images" ? "on_focus" : "")"><a href="@Url.Action( "Images", "Import" )">Image Engine</a></li>
 	}
-	   @if( CurrentUser.CanManageCollateral )
+	   @if( CurrentUser.CanManagePrintMaterial )
 	{
-				<li class="@(ViewBag.CurrentSubPage == "Collateral" ? "on_focus" : "")"><a href="@Url.Action( "Collateral", "Import" )">Collateral</a></li>
+				<li class="@(ViewBag.CurrentSubPage == "PrintMaterial" ? "on_focus" : "")"><a href="@Url.Action( "PrintMaterial", "Import" )">Print Material</a></li>
 	}
 	   @if( CurrentUser.CanManageTypicals )
 	{

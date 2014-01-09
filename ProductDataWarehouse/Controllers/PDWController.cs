@@ -462,7 +462,7 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
-		public JsonpResult GetCollateralList()
+		public JsonpResult GetPrintMaterialList()
 		{
 			return new JsonpResult()
 			{
@@ -565,7 +565,7 @@ namespace ProductDataWarehouse.Controllers
 			new APIDefinition() { url = "/PDW/GetImageCMInfo", parameters = "" },
 			new APIDefinition() { url = "/PDW/GetRecentImageList", parameters = "{\"ct\":6}" },
 			new APIDefinition() { url = "/PDW/GetSustainabilityList", parameters = "" },
-			new APIDefinition() { url = "/PDW/GetCollateralList", parameters = "" },
+			new APIDefinition() { url = "/PDW/GetPrintMaterialList", parameters = "" },
 			new APIDefinition() { url = "/PDW/GetImageContentTypeList", parameters = "" },
 			new APIDefinition() { url = "/PDW/GetGoToGuideImageList", parameters = "" },
 			

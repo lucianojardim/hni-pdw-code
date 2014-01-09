@@ -1,12 +1,12 @@
 ﻿@model PDWModels.Publications.PublicationInformation
 
 @{
-    ViewBag.Title = "Collateral Images";
+	ViewBag.Title = "Print Material Images";
 }
 
 <h1>Edit Images for @Html.DisplayFor( m => m.Name )</h1>
 <div style="float:right;">
-    <a href="@Url.Action( "Collateral" )">Back to Manage Collateral</a>
+    <a href="@Url.Action( "PrintMaterial" )">Back to Manage Print Material</a>
 </div>
 <div style="clear:both;"></div>
 
@@ -21,7 +21,7 @@
 &nbsp;
 </div>
 <div style="float:left; width:45%;">
-<h2>Collateral Image List</h2>
+<h2>Print Material Image List</h2>
     <table id="pubImageList">
     <thead></thead>
     <tfoot></tfoot>

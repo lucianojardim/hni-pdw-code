@@ -565,15 +565,15 @@ namespace ProductDataWarehouse.Controllers
 			return View( logList );
 		}
 
-		#region Collateral Management
-		[PaoliAuthorize( "CanManageCollateral" )]
-		public ActionResult Collateral()
+		#region Print Material Management
+		[PaoliAuthorize( "CanManagePrintMaterial" )]
+		public ActionResult PrintMaterial()
 		{
 			return View();
 		}
 
-		[PaoliAuthorize( "CanManageCollateral" )]
-		public JsonResult FullCollateralList( DataTableParams param )
+		[PaoliAuthorize( "CanManagePrintMaterial" )]
+		public JsonResult FullPrintMaterialList( DataTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
 
@@ -592,15 +592,15 @@ namespace ProductDataWarehouse.Controllers
 				JsonRequestBehavior.AllowGet );
 		}
 
-		[PaoliAuthorize( "CanManageCollateral" )]
-		public ActionResult AddCollateral()
+		[PaoliAuthorize( "CanManagePrintMaterial" )]
+		public ActionResult AddPrintMaterial()
 		{
 			return View( new PublicationInformation() { PublicationDate = DateTime.Now } );
 		}
 
 		[HttpPost]
-		[PaoliAuthorize( "CanManageCollateral" )]
-		public ActionResult AddCollateral( PublicationInformation pubInfo )
+		[PaoliAuthorize( "CanManagePrintMaterial" )]
+		public ActionResult AddPrintMaterial( PublicationInformation pubInfo )
 		{
 			if( ModelState.IsValid )
 			{
@@ -626,15 +626,15 @@ namespace ProductDataWarehouse.Controllers
 			return View( pubInfo );
 		}
 
-		[PaoliAuthorize( "CanManageCollateral" )]
-		public ActionResult EditCollateral( int id )
+		[PaoliAuthorize( "CanManagePrintMaterial" )]
+		public ActionResult EditPrintMaterial( int id )
 		{
 			return View( new PublicationRepository().GetPublicationInformation( id ) );
 		}
 
 		[HttpPost]
-		[PaoliAuthorize( "CanManageCollateral" )]
-		public ActionResult EditCollateral( PublicationInformation pubInfo )
+		[PaoliAuthorize( "CanManagePrintMaterial" )]
+		public ActionResult EditPrintMaterial( PublicationInformation pubInfo )
 		{
 			if( ModelState.IsValid )
 			{
@@ -660,13 +660,13 @@ namespace ProductDataWarehouse.Controllers
 			return View( pubInfo );
 		}
 
-		[PaoliAuthorize( "CanManageCollateral" )]
-		public ActionResult CollateralImages( int id )
+		[PaoliAuthorize( "CanManagePrintMaterial" )]
+		public ActionResult PrintMaterialImages( int id )
 		{
 			return View( new PublicationRepository().GetPublicationInformation( id ) );
 		}
 
-		[PaoliAuthorize( "CanManageCollateral" )]
+		[PaoliAuthorize( "CanManagePrintMaterial" )]
 		public JsonResult NonPubImageList( PubImageTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -686,7 +686,7 @@ namespace ProductDataWarehouse.Controllers
 				JsonRequestBehavior.AllowGet );
 		}
 
-		[PaoliAuthorize( "CanManageCollateral" )]
+		[PaoliAuthorize( "CanManagePrintMaterial" )]
 		public JsonResult PubImageList( PubImageTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -706,7 +706,7 @@ namespace ProductDataWarehouse.Controllers
 				JsonRequestBehavior.AllowGet );
 		}
 
-		[PaoliAuthorize( "CanManageCollateral" )]
+		[PaoliAuthorize( "CanManagePrintMaterial" )]
 		public JsonResult AddPubImage( int pubId, int imageId, int? pageNumber )
 		{
 			new PublicationRepository().AddPubImage( pubId, imageId, pageNumber );
@@ -714,7 +714,7 @@ namespace ProductDataWarehouse.Controllers
 			return Json( new { success = true }, JsonRequestBehavior.AllowGet );
 		}
 
-		[PaoliAuthorize( "CanManageCollateral" )]
+		[PaoliAuthorize( "CanManagePrintMaterial" )]
 		public JsonResult RemovePubImage( int pubId, int imageId )
 		{
 			new PublicationRepository().RemovePubImage( pubId, imageId );

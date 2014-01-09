@@ -1,7 +1,7 @@
 ﻿@model PDWModels.Publications.PublicationInformation
 
 @{
-    ViewBag.Title = "Edit Collateral";
+	ViewBag.Title = "Edit Print Material";
 }
 @using ProductDataWarehouse.Controllers
 @using ProductDataWarehouse.Models
@@ -11,8 +11,8 @@
     <script type="text/javascript">
         $(document).ready(function () {
             parent.$.fancybox.close();
-            if (parent.loadCollateral) {
-                parent.loadCollateral();
+            if (parent.loadPrintMaterial) {
+            	parent.loadPrintMaterial();
             }
         });
     </script>
@@ -32,9 +32,9 @@ else
         });
     </script>    
 }
-    <h2>Edit Collateral</h2>
+    <h2>Edit Print Material</h2>
 
-    @using( Html.BeginForm( "EditCollateral", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm" } ) )
+    @using( Html.BeginForm( "EditPrintMaterial", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm" } ) )
     {
         @Html.HiddenFor( m => m.PublicationID )
         <span class="dataRow">@Html.MJLabelFor( m => m.Name, true )@Html.TextBoxFor( m => m.Name )<br /></span>
