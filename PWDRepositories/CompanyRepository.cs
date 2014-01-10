@@ -347,8 +347,12 @@ namespace PWDRepositories
 				return null;
 			}
 
-			var closestShowroom = database.ClosestShowroom( chosenZip.Latitude, chosenZip.Longitude )
-				.FirstOrDefault();
+			var closestShowroom = closestCompany.Showroom;
+			if( closestShowroom == null )
+			{
+				closestShowroom = database.ClosestShowroom( chosenZip.Latitude, chosenZip.Longitude )
+					.FirstOrDefault();
+			}
 
 			return new ClosestRepInfo()
 			{
@@ -377,14 +381,22 @@ namespace PWDRepositories
 
 				Contacts = closestCompany.Users.Where( u => u.AccountType == PaoliWebUser.PaoliWebRole.PaoliSalesRep )
 					.ToList()
-					.Select( u => new ClosestRepInfo.RepInfo() { Name = u.FullName, Email = u.Email, Phone = u.BusinessPhone, ImageFile = u.ImageFileName } ),
+					.Select( u => new ClosestRepInfo.RepInfo()
+					{
+						Name = u.FullName,
+						Email = u.Email,
+						Phone = u.BusinessPhone ?? closestCompany.PublicPhone,
+						ImageFile = u.ImageFileName,
+						City = u.City ?? closestCompany.PublicCity,
+						State = u.State ?? closestCompany.PublicState
+					} ),
 
-				ShowroomImages = closestShowroom != null ? closestShowroom.Company.ShowroomImages.Select( sri => new PDWModels.Images.ImageSummary() 
-				{ 
-					Name = sri.Name, 
-					FileName = sri.ThumbnailImageData( "m16to9" ).FileName, 
-					ImageID = sri.ImageID, 
-					CanLightbox = ImageFile.ImageCanLightbox( sri.ImageType ) 
+				ShowroomImages = closestShowroom != null ? closestShowroom.Company.ShowroomImages.Select( sri => new PDWModels.Images.ImageSummary()
+				{
+					Name = sri.Name,
+					FileName = sri.ThumbnailImageData( "m16to9" ).FileName,
+					ImageID = sri.ImageID,
+					CanLightbox = ImageFile.ImageCanLightbox( sri.ImageType )
 				} ) : new List<PDWModels.Images.ImageSummary>()
 			};
 		}
