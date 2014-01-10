@@ -222,5 +222,21 @@ namespace PWDRepositories
 				.OrderBy( c => c.Name )
 				.ToDictionary( c => c.CollateralID, c => c.Name );
 		}
+
+		public bool AddCollateralShipment( List<CollateralShipmentDetail> theList )
+		{
+			foreach( var detail in theList )
+			{
+				var cItem = database.CollateralItems.FirstOrDefault( c => c.CollateralID == detail.CollateralID );
+				if( cItem == null )
+				{
+					throw new Exception( "Unable to find collateral." );
+				}
+
+				cItem.Quantity += detail.Quantity;
+			}
+
+			return database.SaveChanges() > 0;
+		}
 	}
 }

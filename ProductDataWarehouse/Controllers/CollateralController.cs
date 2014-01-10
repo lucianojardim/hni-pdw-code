@@ -137,6 +137,18 @@ namespace ProductDataWarehouse.Controllers
 		[HttpPost]
 		public ActionResult AddShipment( List<CollateralShipmentDetail> theList )
 		{
+			try
+			{
+				CollateralRepository cRepository = new CollateralRepository();
+
+				cRepository.AddCollateralShipment( theList );
+
+				return RedirectToAction( "Manage" );
+			}
+			catch( Exception )
+			{
+				ModelState.AddModelError( "", "Unable to add a shipment at this time." );
+			}
 			return View( theList );
 		}
 
