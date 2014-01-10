@@ -439,6 +439,7 @@ span.dataRow input[type="password"]
 	vertical-align: top;
 }
 
+table.dataLayout td input[type="file"],
 span.dataRow input[type="file"]
 {
 	vertical-align: top;

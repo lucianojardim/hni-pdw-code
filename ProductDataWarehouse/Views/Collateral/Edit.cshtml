@@ -1,0 +1,81 @@
+﻿@model PDWModels.Collateral.CollateralInformation
+@{
+	ViewBag.Title = "Edit Collateral";
+	ViewBag.CurrentPage = "Database";
+	ViewBag.CurrentSubPage = "Collateral";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+
+    <script type="text/javascript">
+    	$(document).ready(function () {
+    		showHideStatusDate();
+
+    		$('#Status').change(function () {
+    			showHideStatusDate();
+    		});
+
+    		$('#StatusDate').datepicker(
+            {
+            	dateFormat: "mm/dd/yy",
+            	minDate: new Date(),
+            	changeMonth: true,
+            	changeYear: true,
+            	yearRange: '2014:2100'
+            });
+    	});
+
+           function showHideStatusDate() {
+           	if ($('#Status').val() == @PDWModels.Collateral.CollateralStatus.Backordered ) {
+           		$('.statusDateRow').show();
+           	} else {
+           		$('.statusDateRow').hide();
+           	}
+           }
+    </script>    
+
+    <h2>Edit Collateral</h2>
+
+    @using( Html.BeginForm( "Edit", "Collateral", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
+	{
+		@Html.HiddenFor( m => m.CollateralID )
+		<table cellpadding="0" cellspacing="0" class="dataLayout">
+        <tr>
+		<td>@Html.MJLabelFor( m => m.Name, true )</td><td>@Html.TextBoxFor( m => m.Name )</td>
+		</tr>
+		<tr>
+		<td>@Html.MJLabelFor( m => m.CollateralTypeID, true )</td><td>@Html.DropDownListFor( m => m.CollateralTypeID, CollateralController.GetCollateralTypeDDList() )</td>
+		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.Description, true )</td><td>@Html.TextAreaFor( m => m.Description )</td>
+		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.LeadTime, true )</td><td>@Html.TextBoxFor( m => m.LeadTime )</td>
+		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.WaitTime, true )</td><td>@Html.TextBoxFor( m => m.WaitTime )</td>
+		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.Quantity, true )</td><td>@Html.TextBoxFor( m => m.Quantity )</td>
+		</tr>
+		<tr>
+		<td>@Html.MJLabelFor( m => m.Status, true )</td><td>@Html.DropDownListFor( m => m.Status, CollateralController.GetCollateralStatusDDList() )</td>
+		</tr>
+		<tr class="statusDateRow">
+		<td>@Html.MJLabelFor( m => m.StatusDate, true )</td><td>@Html.TextBoxFor( m => m.StatusDate )</td>
+		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.Price, true )</td><td>$@Html.TextBoxFor( m => m.Price )</td>
+		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.Shipping, true )</td><td>$@Html.TextBoxFor( m => m.Shipping )</td>
+		</tr>
+		<tr>
+		<td>@Html.MJLabelFor( m => m.ImageFileName, true )</td><td>@if( Model.ImageFileName != null ) { @Html.HiddenFor( m => m.ImageFileName ) <img class="img_size_thumb" src="/Images/@Model.ImageFileName" /> }<input type="file" id="CollateralImage" name="CollateralImage" accept=".jpg,.png,.gif,.bmp" /></td>
+		</tr>
+		
+		</table>
+@Html.ValidationSummary()
+        <input type="submit" class="btn_type1" value="Update" id="submitBtn" />
+	}

@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttributeRepository.cs" />
+    <Compile Include="CollateralRepository.cs" />
     <Compile Include="CompanyRepository.cs" />
     <Compile Include="DealerRepository.cs" />
     <Compile Include="ImageRepository.cs" />

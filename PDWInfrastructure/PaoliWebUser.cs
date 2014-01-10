@@ -190,9 +190,10 @@ namespace PDWInfrastructure
 
 		public bool CanBeLoggedIn { get { return true; } }
 		public bool CanSeeMainUsers { get { return CanManageUsers || CanManageCompanies; } }
-		public bool CanSeeMainProducts { get { return CanManageImport || CanManageImages || CanManagePrintMaterial || CanManageTypicals || CanManageSearchLog || CanViewSpecRequests; } }
+		public bool CanSeeMainProducts { get { return CanManageImport || CanManageImages || CanManagePrintMaterial || CanManageTypicals || CanManageSearchLog || 
+			CanViewSpecRequests || CanManageCollateral; } }
 
-		public bool CanSeeMainCMSLink { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
+		public bool CanSeeMainCMSLink { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberMarketing ); } }
 
 		public bool CanManageImport { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin ); } }
 		public bool CanManageImages { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin, PaoliWebRole.PaoliMemberMarketing ); } }
@@ -200,6 +201,8 @@ namespace PDWInfrastructure
 		public bool CanManageTypicals { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin,
 					PaoliWebRole.PaoliMemberMarketing, PaoliWebRole.PaoliMemberSpecTeam, PaoliWebRole.PaoliMemberCustomerService, PaoliWebRole.PaoliMemberSales ); } }
 		public bool CanViewSpecRequests { get { return CanManageTypicals || IsDealerUser || OneOfRoles( PaoliWebRole.PaoliSalesRep ); } }
+		public bool CanManageCollateral { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin,
+					PaoliWebRole.PaoliMemberMarketing, PaoliWebRole.PaoliMemberCustomerService, PaoliWebRole.PaoliMemberSales ); } }
 
 		public bool CanManageSearchLog { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin, PaoliWebRole.PaoliMemberMarketing ); } }
 

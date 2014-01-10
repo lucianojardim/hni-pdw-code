@@ -47,6 +47,10 @@
     <Compile Include="Attributes\AttributeInformation.cs" />
     <Compile Include="Attributes\CMInformation.cs" />
     <Compile Include="Attributes\FinishInformation.cs" />
+    <Compile Include="Collateral\CollateralInformation.cs" />
+    <Compile Include="Collateral\CollateralShipmentDetail.cs" />
+    <Compile Include="Collateral\CollateralStatus.cs" />
+    <Compile Include="Collateral\CollateralSummary.cs" />
     <Compile Include="Companies\ClosestRepInfo.cs" />
     <Compile Include="Companies\CompanyInformation.cs" />
     <Compile Include="Companies\CompanySummary.cs" />

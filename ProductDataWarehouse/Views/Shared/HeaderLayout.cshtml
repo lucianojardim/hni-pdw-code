@@ -105,6 +105,10 @@
 	{
 				<li class="@(ViewBag.CurrentSubPage == "PrintMaterial" ? "on_focus" : "")"><a href="@Url.Action( "PrintMaterial", "Import" )">Print Material</a></li>
 	}
+	   @if( CurrentUser.CanManageCollateral )
+	{
+				<li class="@(ViewBag.CurrentSubPage == "Collateral" ? "on_focus" : "")"><a href="@Url.Action( "Manage", "Collateral" )">Collateral</a></li>
+	}
 	   @if( CurrentUser.CanManageTypicals )
 	{
 				<li class="@(ViewBag.CurrentSubPage == "Typicals" ? "on_focus" : "")"><a href="@Url.Action( "Manage", "SpecRequest" )">Spec Requests</a></li>

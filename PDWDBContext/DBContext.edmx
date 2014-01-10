@@ -9,6 +9,8 @@
           <EntitySet Name="AttributeOptions" EntityType="PaoliPDWModel.Store.AttributeOptions" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Attributes" EntityType="PaoliPDWModel.Store.Attributes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Categories" EntityType="PaoliPDWModel.Store.Categories" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CollateralItems" EntityType="PaoliPDWModel.Store.CollateralItems" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CollateralTypes" EntityType="PaoliPDWModel.Store.CollateralTypes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Companies" EntityType="PaoliPDWModel.Store.Companies" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="DealerFeaturedProducts" EntityType="PaoliPDWModel.Store.DealerFeaturedProducts" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="DealerPageLinks" EntityType="PaoliPDWModel.Store.DealerPageLinks" store:Type="Tables" Schema="dbo" />
@@ -42,6 +44,10 @@
           <EntitySet Name="UserSubscriptions" EntityType="PaoliPDWModel.Store.UserSubscriptions" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="VideoLinks" EntityType="PaoliPDWModel.Store.VideoLinks" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ZipCodeInfo" EntityType="PaoliPDWModel.Store.ZipCodeInfo" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="fkCollateral_Type" Association="PaoliPDWModel.Store.fkCollateral_Type">
+            <End Role="CollateralTypes" EntitySet="CollateralTypes" />
+            <End Role="CollateralItems" EntitySet="CollateralItems" />
+          </AssociationSet>
           <AssociationSet Name="fkCompany_Territory" Association="PaoliPDWModel.Store.fkCompany_Territory">
             <End Role="Territories" EntitySet="Territories" />
             <End Role="Companies" EntitySet="Companies" />
@@ -248,6 +254,30 @@
             <PropertyRef Name="CategoryID" />
           </Key>
           <Property Name="CategoryID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CollateralItems">
+          <Key>
+            <PropertyRef Name="CollateralID" />
+          </Key>
+          <Property Name="CollateralID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="CollateralTypeID" Type="int" Nullable="false" />
+          <Property Name="Description" Type="ntext" />
+          <Property Name="LeadTime" Type="nvarchar" MaxLength="20" />
+          <Property Name="WaitTime" Type="nvarchar" MaxLength="20" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="StatusDate" Type="datetime" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="ImageFileName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Price" Type="float" />
+          <Property Name="Shipping" Type="float" />
+        </EntityType>
+        <EntityType Name="CollateralTypes">
+          <Key>
+            <PropertyRef Name="CollateralTypeID" />
+          </Key>
+          <Property Name="CollateralTypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
         </EntityType>
         <EntityType Name="Companies">
@@ -639,6 +669,18 @@
           <Property Name="Longitude" Type="float" Nullable="false" />
           <Property Name="Latitude" Type="float" Nullable="false" />
         </EntityType>
+        <Association Name="fkCollateral_Type">
+          <End Role="CollateralTypes" Type="PaoliPDWModel.Store.CollateralTypes" Multiplicity="1" />
+          <End Role="CollateralItems" Type="PaoliPDWModel.Store.CollateralItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CollateralTypes">
+              <PropertyRef Name="CollateralTypeID" />
+            </Principal>
+            <Dependent Role="CollateralItems">
+              <PropertyRef Name="CollateralTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fkCompany_Territory">
           <End Role="Territories" Type="PaoliPDWModel.Store.Territories" Multiplicity="0..1" />
           <End Role="Companies" Type="PaoliPDWModel.Store.Companies" Multiplicity="*" />
@@ -1409,6 +1451,12 @@
           <AssociationSet Name="ShowroomImages" Association="PaoliPDWModel.ShowroomImages">
             <End Role="Company" EntitySet="Companies" />
             <End Role="ImageFile" EntitySet="ImageFiles" />
+          </AssociationSet>
+          <EntitySet Name="CollateralItems" EntityType="PaoliPDWModel.CollateralItem" />
+          <EntitySet Name="CollateralTypes" EntityType="PaoliPDWModel.CollateralType" />
+          <AssociationSet Name="fkCollateral_Type" Association="PaoliPDWModel.fkCollateral_Type">
+            <End Role="CollateralType" EntitySet="CollateralTypes" />
+            <End Role="CollateralItem" EntitySet="CollateralItems" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AttributeOption">
@@ -2347,6 +2395,44 @@
           <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="*" />
           <End Type="PaoliPDWModel.ImageFile" Role="ImageFile" Multiplicity="*" />
         </Association>
+        <EntityType Name="CollateralItem">
+          <Key>
+            <PropertyRef Name="CollateralID" />
+          </Key>
+          <Property Type="Int32" Name="CollateralID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="CollateralTypeID" Nullable="false" />
+          <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LeadTime" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="WaitTime" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+          <Property Type="DateTime" Name="StatusDate" />
+          <Property Type="Int32" Name="Quantity" Nullable="false" />
+          <NavigationProperty Name="CollateralType" Relationship="PaoliPDWModel.fkCollateral_Type" FromRole="CollateralItem" ToRole="CollateralType" />
+          <Property Type="String" Name="ImageFileName" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="Double" Name="Price" />
+          <Property Type="Double" Name="Shipping" />
+        </EntityType>
+        <EntityType Name="CollateralType">
+          <Key>
+            <PropertyRef Name="CollateralTypeID" />
+          </Key>
+          <Property Type="Int32" Name="CollateralTypeID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CollateralItems" Relationship="PaoliPDWModel.fkCollateral_Type" FromRole="CollateralType" ToRole="CollateralItem" />
+        </EntityType>
+        <Association Name="fkCollateral_Type">
+          <End Type="PaoliPDWModel.CollateralType" Role="CollateralType" Multiplicity="1" />
+          <End Type="PaoliPDWModel.CollateralItem" Role="CollateralItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CollateralType">
+              <PropertyRef Name="CollateralTypeID" />
+            </Principal>
+            <Dependent Role="CollateralItem">
+              <PropertyRef Name="CollateralTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2768,6 +2854,32 @@
               <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="CollateralItems">
+            <EntityTypeMapping TypeName="PaoliPDWModel.CollateralItem">
+              <MappingFragment StoreEntitySet="CollateralItems">
+                <ScalarProperty Name="Shipping" ColumnName="Shipping" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="ImageFileName" ColumnName="ImageFileName" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="StatusDate" ColumnName="StatusDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="WaitTime" ColumnName="WaitTime" />
+                <ScalarProperty Name="LeadTime" ColumnName="LeadTime" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CollateralTypeID" ColumnName="CollateralTypeID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CollateralID" ColumnName="CollateralID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CollateralTypes">
+            <EntityTypeMapping TypeName="PaoliPDWModel.CollateralType">
+              <MappingFragment StoreEntitySet="CollateralTypes">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CollateralTypeID" ColumnName="CollateralTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -3122,6 +3234,12 @@
           <ConnectorPoint PointX="8.0833333333333339" PointY="8.01149824414063" />
           <ConnectorPoint PointX="7.916666666666667" PointY="8.01149824414063" />
           <ConnectorPoint PointX="7.625" PointY="8.01149824414063" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="PaoliPDWModel.CollateralItem" Width="1.5" PointX="18.625" PointY="16" Height="2.5783902994791674" />
+        <EntityTypeShape EntityType="PaoliPDWModel.CollateralType" Width="1.5" PointX="16.375" PointY="16.5" Height="1.427958984374996" />
+        <AssociationConnector Association="PaoliPDWModel.fkCollateral_Type" >
+          <ConnectorPoint PointX="17.875" PointY="17.213979492187498" />
+          <ConnectorPoint PointX="18.625" PointY="17.213979492187498" />
         </AssociationConnector>
         </Diagram>
     </Diagrams>
