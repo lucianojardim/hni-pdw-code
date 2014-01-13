@@ -11,13 +11,13 @@ create table [CollateralItems] (
 	[CollateralTypeID] [int] not null constraint [fkCollateral_Type] foreign key references [CollateralTypes]([CollateralTypeID]),
 	[Description] [ntext] null,
 	[LeadTime] [nvarchar](20) null,
-	[WaitTime] [nvarchar](20) null,
 	[Status] [int] not null,
 	[StatusDate] [datetime] null,
 	[Quantity] [int] not null,
 	[ImageFileName] [nvarchar](100) null,
 	[Price] [float] null,
 	[Shipping] [float] null,
+	[Weight] [float] null,
 	CONSTRAINT [pkCollateralItems] PRIMARY KEY CLUSTERED ([CollateralID])
 ) on [primary]
 go

@@ -118,7 +118,7 @@ namespace PWDRepositories
 			newItem.CollateralTypeID = cInfo.CollateralTypeID;
 			newItem.Description = cInfo.Description;
 			newItem.LeadTime = cInfo.LeadTime;
-			newItem.WaitTime = cInfo.WaitTime;
+			newItem.Weight = cInfo.Weight;
 			newItem.Status = cInfo.Status;
 			newItem.StatusDate = cInfo.StatusDate;
 			newItem.Quantity = cInfo.Quantity;
@@ -154,7 +154,7 @@ namespace PWDRepositories
 				CollateralTypeID = cInfo.CollateralTypeID,
 				Description = cInfo.Description,
 				LeadTime = cInfo.LeadTime,
-				WaitTime = cInfo.WaitTime,
+				Weight = cInfo.Weight,
 				Status = cInfo.Status,
 				StatusDate = cInfo.StatusDate,
 				Quantity = cInfo.Quantity,
@@ -177,7 +177,7 @@ namespace PWDRepositories
 			cItem.CollateralTypeID = cInfo.CollateralTypeID;
 			cItem.Description = cInfo.Description;
 			cItem.LeadTime = cInfo.LeadTime;
-			cItem.WaitTime = cInfo.WaitTime;
+			cItem.Weight = cInfo.Weight;
 			cItem.Status = cInfo.Status;
 			cItem.StatusDate = cInfo.StatusDate;
 			cItem.Quantity = cInfo.Quantity;

@@ -1647,30 +1647,6 @@ namespace PDWDBContext
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String WaitTime
-        {
-            get
-            {
-                return _WaitTime;
-            }
-            set
-            {
-                OnWaitTimeChanging(value);
-                ReportPropertyChanging("WaitTime");
-                _WaitTime = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("WaitTime");
-                OnWaitTimeChanged();
-            }
-        }
-        private global::System.String _WaitTime;
-        partial void OnWaitTimeChanging(global::System.String value);
-        partial void OnWaitTimeChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.Int32 Status
@@ -1811,6 +1787,30 @@ namespace PDWDBContext
         private Nullable<global::System.Double> _Shipping;
         partial void OnShippingChanging(Nullable<global::System.Double> value);
         partial void OnShippingChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Double> Weight
+        {
+            get
+            {
+                return _Weight;
+            }
+            set
+            {
+                OnWeightChanging(value);
+                ReportPropertyChanging("Weight");
+                _Weight = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Weight");
+                OnWeightChanged();
+            }
+        }
+        private Nullable<global::System.Double> _Weight;
+        partial void OnWeightChanging(Nullable<global::System.Double> value);
+        partial void OnWeightChanged();
 
         #endregion
 

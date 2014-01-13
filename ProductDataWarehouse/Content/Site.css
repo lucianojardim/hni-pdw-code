@@ -518,3 +518,9 @@ span.dataRow ul.tagit
 	height: 40px;
 	width: auto;
 }
+
+.img_size_thumb_wide
+{
+	height: auto;
+	width: 75px;
+}

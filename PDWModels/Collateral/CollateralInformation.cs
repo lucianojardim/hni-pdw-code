@@ -22,9 +22,9 @@ namespace PDWModels.Collateral
 		[DisplayName( "Lead Time" )]
 		[StringLength( 20 )]
 		public string LeadTime { get; set; }
-		[DisplayName( "Wait Time" )]
-		[StringLength( 20 )]
-		public string WaitTime { get; set; }
+		[DisplayName( "Weight" )]
+		[Range( 0, float.MaxValue, ErrorMessage = "The field Weight must be greater than or equal to 0." )]
+		public double? Weight { get; set; }
 		[DisplayName( "Status" )]
 		[Required]
 		public int Status { get; set; }
