@@ -512,11 +512,11 @@
     <Content Include="Views\Import\Logon.cshtml" />
     <Content Include="Views\Import\SearchLog.cshtml" />
     <Content Include="Views\PDW\APIDef.cshtml" />
-    <Content Include="Views\Import\Collateral.cshtml" />
-    <Content Include="Views\Import\AddCollateral.cshtml" />
+    <Content Include="Views\Import\PrintMaterial.cshtml" />
+    <Content Include="Views\Import\AddPrintMaterial.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
-    <Content Include="Views\Import\EditCollateral.cshtml" />
-    <Content Include="Views\Import\CollateralImages.cshtml" />
+    <Content Include="Views\Import\EditPrintMaterial.cshtml" />
+    <Content Include="Views\Import\PrintMaterialImages.cshtml" />
     <Content Include="Views\Shared\HeaderLayout.cshtml" />
     <Content Include="Views\Import\ManageDealers.cshtml" />
     <Content Include="Views\Import\AddDealer.cshtml" />
@@ -560,6 +560,8 @@
     <Content Include="Views\Collateral\Add.cshtml" />
     <Content Include="Views\Collateral\Edit.cshtml" />
     <Content Include="Views\Collateral\AddShipment.cshtml" />
+    <Content Include="Views\Collateral\AddGroup.cshtml" />
+    <Content Include="Views\Collateral\EditGroup.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
