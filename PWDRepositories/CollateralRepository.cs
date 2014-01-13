@@ -25,9 +25,10 @@ namespace PWDRepositories
 			{
 				CollateralID = cItem.CollateralID,
 				Name = cItem.Name,
-				CollateralType = cItem.CollateralType.Name,
+				CollateralType = cItem.IsGroup ? "Group" : cItem.CollateralType.Name,
 				Status = CollateralStatus.DisplayStrings[cItem.Status],
-				Quantity = cItem.Quantity
+				Quantity = cItem.IsGroup ? cItem.CollateralGroupItems.Min( cgi => cgi.ChildCollateralItem.Quantity / cgi.Quantity ) : cItem.Quantity,
+				IsGroup = cItem.IsGroup
 			};
 		}
 
@@ -52,60 +53,61 @@ namespace PWDRepositories
 
 			displayedRecords = collateralList.Count();
 
+			var localList = collateralList.ToList().Select( c => ToCollateralSummary( c ) ).AsQueryable();
+
 			string sortCol = param.sColumns.Split( ',' )[param.iSortCol_0];
 
-			IQueryable<CollateralItem> filteredAndSorted = null;
 			switch( sortCol.ToLower() )
 			{
 				case "name":
 				default:
 					if( param.sSortDir_0.ToLower() == "asc" )
 					{
-						filteredAndSorted = collateralList.OrderBy( v => v.Name );
+						localList = localList.OrderBy( v => v.Name );
 					}
 					else
 					{
-						filteredAndSorted = collateralList.OrderByDescending( v => v.Name );
+						localList = localList.OrderByDescending( v => v.Name );
 					}
 					break;
 				case "collateraltype":
 					if( param.sSortDir_0.ToLower() == "asc" )
 					{
-						filteredAndSorted = collateralList.OrderBy( v => v.CollateralType.Name );
+						localList = localList.OrderBy( v => v.CollateralType );
 					}
 					else
 					{
-						filteredAndSorted = collateralList.OrderByDescending( v => v.CollateralType.Name );
+						localList = localList.OrderByDescending( v => v.CollateralType );
 					}
 					break;
 				case "status":
 					if( param.sSortDir_0.ToLower() == "asc" )
 					{
-						filteredAndSorted = collateralList.OrderBy( v => v.Status );
+						localList = localList.OrderBy( v => v.Status );
 					}
 					else
 					{
-						filteredAndSorted = collateralList.OrderByDescending( v => v.Status );
+						localList = localList.OrderByDescending( v => v.Status );
 					}
 					break;
 				case "quantity":
 					if( param.sSortDir_0.ToLower() == "asc" )
 					{
-						filteredAndSorted = collateralList.OrderBy( v => v.Quantity );
+						localList = localList.OrderBy( v => v.Quantity );
 					}
 					else
 					{
-						filteredAndSorted = collateralList.OrderByDescending( v => v.Quantity );
+						localList = localList.OrderByDescending( v => v.Quantity );
 					}
 					break;
 			}
 
 			if( ( displayedRecords > param.iDisplayLength ) && ( param.iDisplayLength > 0 ) )
 			{
-				filteredAndSorted = filteredAndSorted.Skip( param.iDisplayStart ).Take( param.iDisplayLength );
+				localList = localList.Skip( param.iDisplayStart ).Take( param.iDisplayLength );
 			}
 
-			return filteredAndSorted.ToList().Select( v => ToCollateralSummary( v ) );
+			return localList;
 		}
 
 
@@ -136,6 +138,29 @@ namespace PWDRepositories
 
 			database.CollateralItems.AddObject( newItem );
 
+			if( cInfo is CollateralGroupInformation )
+			{
+				newItem.CollateralTypeID = null;
+				newItem.IsGroup = true;
+
+				foreach( var groupCollateral in ( cInfo as CollateralGroupInformation ).GroupItems )
+				{
+					var childItem = database.CollateralItems.FirstOrDefault( ci => ci.CollateralID == groupCollateral.ItemID );
+					if( childItem == null )
+					{
+						throw new Exception( "Unable to find Collateral." );
+					}
+
+					var newcgi = new CollateralGroupItem()
+					{
+						GroupCollateralItem = newItem,
+						ChildCollateralItem = childItem,
+						Quantity = groupCollateral.Quantity
+					};
+					database.CollateralGroupItems.AddObject( newcgi );
+				}
+			}
+
 			return database.SaveChanges() > 0;
 		}
 
@@ -161,6 +186,40 @@ namespace PWDRepositories
 				ImageFileName = cInfo.ImageFileName,
 				Price = cInfo.Price,
 				Shipping = cInfo.Shipping
+			};
+		}
+
+		public CollateralGroupInformation GetCollateralGroup( int collateralId )
+		{
+			var cInfo = database.CollateralItems.FirstOrDefault( c => c.CollateralID == collateralId );
+			if( cInfo == null )
+			{
+				throw new Exception( "Unable to find collateral." );
+			}
+			if( !cInfo.IsGroup )
+			{
+				throw new Exception( "Unable to find collateral." );
+			}
+			return new CollateralGroupInformation()
+			{
+				CollateralID = cInfo.CollateralID,
+				Name = cInfo.Name,
+				CollateralTypeID = cInfo.CollateralTypeID,
+				Description = cInfo.Description,
+				LeadTime = cInfo.LeadTime,
+				Weight = cInfo.Weight,
+				Status = cInfo.Status,
+				StatusDate = cInfo.StatusDate,
+				Quantity = cInfo.Quantity,
+				ImageFileName = cInfo.ImageFileName,
+				Price = cInfo.Price,
+				Shipping = cInfo.Shipping,
+				GroupItems = cInfo.CollateralGroupItems
+					.Select( cgi => new CollateralGroupInformation.GroupInfoDetail()
+					{
+						ItemID = cgi.ChildCollateralItem.CollateralID,
+						Quantity = cgi.Quantity
+					} ).ToList()
 			};
 		}
 
@@ -193,6 +252,31 @@ namespace PWDRepositories
 					cItem.ImageFileName ) );
 			}
 
+			if( cInfo is CollateralGroupInformation )
+			{
+				cItem.CollateralTypeID = null;
+				cItem.IsGroup = true;
+
+				cItem.CollateralGroupItems.ToList().ForEach( cgi => database.DeleteObject( cgi ) );
+
+				foreach( var groupCollateral in ( cInfo as CollateralGroupInformation ).GroupItems )
+				{
+					var childItem = database.CollateralItems.FirstOrDefault( ci => ci.CollateralID == groupCollateral.ItemID );
+					if( childItem == null )
+					{
+						throw new Exception( "Unable to find Collateral." );
+					}
+
+					var newcgi = new CollateralGroupItem()
+					{
+						GroupCollateralItem = cItem,
+						ChildCollateralItem = childItem,
+						Quantity = groupCollateral.Quantity
+					};
+					database.CollateralGroupItems.AddObject( newcgi );
+				}
+			}
+
 			return database.SaveChanges() > 0;
 		}
 
@@ -216,9 +300,10 @@ namespace PWDRepositories
 				.ToDictionary( c => c.CollateralTypeID, c => c.Name );
 		}
 
-		public Dictionary<int, string> GetCollateralList()
+		public Dictionary<int, string> GetCollateralList( bool includeGroups )
 		{
 			return database.CollateralItems
+				.Where( c => !c.IsGroup || includeGroups )
 				.OrderBy( c => c.Name )
 				.ToDictionary( c => c.CollateralID, c => c.Name );
 		}

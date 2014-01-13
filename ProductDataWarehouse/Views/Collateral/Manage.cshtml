@@ -7,7 +7,9 @@
 
 <h2>Collateral List</h2>
 
-<a href="@Url.Action( "Add", "Collateral" )" id="addNewCollateral">Add New</a> | <a href="@Url.Action( "AddShipment", "Collateral" )" id="addNewCollateral">Add Shipment</a><br />
+<a href="@Url.Action( "Add", "Collateral" )" id="addNewCollateral">Add New</a> |
+<a href="@Url.Action( "AddGroup", "Collateral" )" id="addNewCollateral">Add Group</a> |
+<a href="@Url.Action( "AddShipment", "Collateral" )" id="addNewCollateral">Add Shipment</a><br />
 Collateral Type: @Html.DropDownList( "CollateralType", ProductDataWarehouse.Controllers.CollateralController.GetCollateralTypeFilterList() )
 <div>
     <table id="collateralList">
@@ -84,10 +86,14 @@ Collateral Type: @Html.DropDownList( "CollateralType", ProductDataWarehouse.Cont
                     	"bSortable": false,
                     	"mDataProp": "EditButtons", "sWidth": "15%",
                     	"fnRender": function (oObj) {
-                    		var s;
-                    		s = '<a href=\"@Url.Action( "Edit", "Collateral" )/' + oObj.aData["CollateralID"] + '">Edit</a>';
-                   			s += '&nbsp;|&nbsp;';
-                   			s += '<a href=\"#\" onclick="deleteCollateral(' + oObj.aData["CollateralID"] + ');">Delete</a>';
+                    		var s = '';
+                    		if (oObj.aData["IsGroup"]) {
+                    			s += '<a href=\"@Url.Action( "EditGroup", "Collateral" )/' + oObj.aData["CollateralID"] + '">Edit</a>';
+                    		} else {
+                    			s += '<a href=\"@Url.Action( "Edit", "Collateral" )/' + oObj.aData["CollateralID"] + '">Edit</a>';
+                    		}
+//                    		s += '&nbsp;|&nbsp;';
+//                  		s += '<a href=\"#\" onclick="deleteCollateral(' + oObj.aData["CollateralID"] + ');">Delete</a>';
                     		return s;
                     	}
                     }

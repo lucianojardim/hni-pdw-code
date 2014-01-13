@@ -74,6 +74,45 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCollateral" )]
+		public ActionResult AddGroup()
+		{
+			var detail = new CollateralGroupInformation();
+			detail.GroupItems.Add( new CollateralGroupInformation.GroupInfoDetail() );
+
+			return View( detail );
+		}
+
+		[PaoliAuthorize( "CanManageCollateral" )]
+		[HttpPost]
+		public ActionResult AddGroup( CollateralGroupInformation cInfo, HttpPostedFileBase CollateralImage )
+		{
+			if( ModelState.IsValid )
+			{
+				try
+				{
+					CollateralRepository cRepository = new CollateralRepository();
+
+					cRepository.AddCollateral( cInfo,
+						CollateralImage != null ? CollateralImage.InputStream : null,
+						CollateralImage != null ? CollateralImage.FileName : null );
+
+					return RedirectToAction( "Manage" );
+				}
+				catch( Exception ex )
+				{
+					ModelState.AddModelError( "", ex.Message );
+					if( ex.InnerException != null )
+					{
+						ModelState.AddModelError( "", ex.InnerException.Message );
+					}
+				}
+
+			}
+
+			return View( cInfo );
+		}
+
+		[PaoliAuthorize( "CanManageCollateral" )]
 		public ActionResult Edit( int id )
 		{
 			CollateralRepository cRepository = new CollateralRepository();
@@ -86,6 +125,46 @@ namespace ProductDataWarehouse.Controllers
 		[PaoliAuthorize( "CanManageCollateral" )]
 		[HttpPost]
 		public ActionResult Edit( CollateralInformation cInfo, HttpPostedFileBase CollateralImage )
+		{
+			if( ModelState.IsValid )
+			{
+				try
+				{
+					CollateralRepository cRepository = new CollateralRepository();
+
+					cRepository.UpdateCollateral( cInfo,
+						CollateralImage != null ? CollateralImage.InputStream : null,
+						CollateralImage != null ? CollateralImage.FileName : null );
+
+					return RedirectToAction( "Manage" );
+				}
+				catch( Exception ex )
+				{
+					ModelState.AddModelError( "", ex.Message );
+					if( ex.InnerException != null )
+					{
+						ModelState.AddModelError( "", ex.InnerException.Message );
+					}
+				}
+
+			}
+
+			return View( cInfo );
+		}
+
+		[PaoliAuthorize( "CanManageCollateral" )]
+		public ActionResult EditGroup( int id )
+		{
+			CollateralRepository cRepository = new CollateralRepository();
+
+			var cInfo = cRepository.GetCollateralGroup( id );
+
+			return View( cInfo );
+		}
+
+		[PaoliAuthorize( "CanManageCollateral" )]
+		[HttpPost]
+		public ActionResult EditGroup( CollateralGroupInformation cInfo, HttpPostedFileBase CollateralImage )
 		{
 			if( ModelState.IsValid )
 			{
@@ -167,9 +246,9 @@ namespace ProductDataWarehouse.Controllers
 			return CollateralStatus.DisplayStrings.Select( u => new SelectListItem() { Value = u.Key.ToString(), Text = u.Value } );
 		}
 
-		public static IEnumerable<SelectListItem> GetProductDDList()
+		public static IEnumerable<SelectListItem> GetProductDDList( int? itemId = null )
 		{
-			return ( new CollateralRepository() ).GetCollateralList().Select( c => new SelectListItem() { Value = c.Key.ToString(), Text = c.Value } );
+			return ( new CollateralRepository() ).GetCollateralList( false ).Select( c => new SelectListItem() { Value = c.Key.ToString(), Text = c.Value, Selected = (c.Key == (itemId ?? 0)) } );
 		}
     }
 }

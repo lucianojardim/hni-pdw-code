@@ -12,6 +12,7 @@ namespace PDWModels.Collateral
 		public string CollateralType { get; set; }
 		public string Status { get; set; }
 		public int Quantity { get; set; }
+		public bool IsGroup { get; set; }
 		public string EditButtons { get; set; }
 	}
 }

@@ -16,7 +16,7 @@ namespace PDWModels.Collateral
 		public string Name { get; set; }
 		[DisplayName( "Type" )]
 		[Required]
-		public int CollateralTypeID { get; set; }
+		public int? CollateralTypeID { get; set; }
 		[DisplayName( "Description" )]
 		public string Description { get; set; }
 		[DisplayName( "Lead Time" )]
