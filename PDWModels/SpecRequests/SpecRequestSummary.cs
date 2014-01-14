@@ -16,6 +16,7 @@ namespace PDWModels.SpecRequests
 		public bool IsRecommended { get; set; }
 		public bool IsPublished { get; set; }
 		public bool IsCompleted { get; set; }
+		public string CreatedDate { get; set; }
 
 		public string Status { get; set; }
 		public string TypicalFinder { get; set; }

@@ -32,7 +32,8 @@ namespace PWDRepositories
 				SalesRepGroup = sRequest.PaoliSalesRepGroupID.HasValue ? sRequest.PaoliSalesRepGroup.Name : "",
 				IsRecommended = sRequest.IsGoodForWeb ?? false,
 				IsPublished = sRequest.Typicals.Any(),
-				IsCompleted = sRequest.IsCompleted
+				IsCompleted = sRequest.IsCompleted,
+				CreatedDate = !sRequest.RequestDate.HasValue ? "" : sRequest.RequestDate.Value.ToShortDateString()
 			};
 		}
 
@@ -244,6 +245,16 @@ namespace PWDRepositories
 					else
 					{
 						filteredAndSorted = requestList.OrderByDescending( v => v.PaoliSalesRepGroup.Name );
+					}
+					break;
+				case "createddate":
+					if( paramDetails.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = requestList.OrderBy( v => v.RequestDate );
+					}
+					else
+					{
+						filteredAndSorted = requestList.OrderByDescending( v => v.RequestDate );
 					}
 					break;
 			}
