@@ -33,6 +33,7 @@ namespace PDWDBContext
 				new PDWImageType() { Abbreviation= "OFp", Description = "Overhead Footprint", CanLightbox = true, CommonImage = false },
 				new PDWImageType() { Abbreviation= "RR", Description = "Rough Render", CanLightbox = true, CommonImage = false },
 				new PDWImageType() { Abbreviation= "LDr", Description = "Line Drawing", CanLightbox = true, CommonImage = false },
+				new PDWImageType() { Abbreviation = "Sho", Description = "Showroom Image", CanLightbox = true, CommonImage = false },
 			};
 
 		public static bool ImageCanLightbox( string imageType )
