@@ -25,7 +25,7 @@ namespace PWDRepositories
 			{
 				CollateralID = cItem.CollateralID,
 				Name = cItem.Name,
-				CollateralType = cItem.IsGroup ? "Group" : cItem.CollateralType.Name,
+				CollateralType = cItem.IsGroup ? "Bundle" : cItem.CollateralType.Name,
 				Status = CollateralStatus.DisplayStrings[cItem.Status],
 				Quantity = cItem.IsGroup ? cItem.CollateralGroupItems.Min( cgi => cgi.ChildCollateralItem.Quantity / cgi.Quantity ) : cItem.Quantity,
 				IsGroup = cItem.IsGroup
@@ -46,9 +46,13 @@ namespace PWDRepositories
 				collateralList = collateralList.Where( i =>
 					i.Name.Contains( param.sSearch ) );
 			}
-			if( param.collateralType != 0 )
+			if( param.collateralType > 0 )
 			{
 				collateralList = collateralList.Where( c => c.CollateralTypeID == param.collateralType );
+			}
+			else if( param.collateralType == -1 )
+			{
+				collateralList = collateralList.Where( c => c.IsGroup );
 			}
 
 			displayedRecords = collateralList.Count();

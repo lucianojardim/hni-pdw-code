@@ -1,6 +1,6 @@
 ﻿@model PDWModels.Collateral.CollateralGroupInformation
 @{
-	ViewBag.Title = "Add Collateral Group";
+	ViewBag.Title = "Add Collateral Bundle";
 	ViewBag.CurrentPage = "Database";
 	ViewBag.CurrentSubPage = "Collateral";
 	Layout = "~/Views/Shared/HeaderLayout.cshtml";
@@ -62,7 +62,7 @@
 
 		function isFormValid() {
 			if( $('#groupData tbody tr').length == 0 ) {
-				alert( 'Please add at least one item to this group.' );
+				alert( 'Please add at least one item to this Bundle.' );
 				return false;
 			}
 			return true;
@@ -78,7 +78,7 @@
 
     </script>    
 
-    <h2>Add Collateral Group</h2>
+    <h2>Add Collateral Bundle</h2>
 
     @using( Html.BeginForm( "AddGroup", "Collateral", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
 	{
@@ -114,7 +114,8 @@
 		</tr>
 		
 		</table>
-		
+		<hr />
+		<h3>Manage Bundle Contents</h3>
 		<table cellpadding="0" cellspacing="0" class="dataLayout" id="groupData">
 		<thead>
 		<tr>
@@ -136,5 +137,6 @@
 		</table>
 @Html.ValidationSummary()
         <input type="button" class="btn_type1" value="Add Item" id="addItemBtn" />
-        <input type="submit" class="btn_type1" value="Add Group" id="submitBtn" onclick="return isFormValid();" />
+		<hr />
+        <input type="submit" class="btn_type1" value="Add Bundle" id="submitBtn" onclick="return isFormValid();" />
 	}

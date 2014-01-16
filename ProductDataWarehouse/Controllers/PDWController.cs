@@ -232,15 +232,6 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
-		public JsonpResult GetImageFormatList()
-		{
-			return new JsonpResult()
-			{
-				Data = ImageRepository.ImageTypes,
-				JsonRequestBehavior = JsonRequestBehavior.AllowGet
-			};
-		}
-
 		public JsonpResult GetImageThumbnailList( string categories, string imageTypes, int? seriesId, string sortBy, string keywords, 
 			int? pubId, string pubPageNum, string contentTypes, bool? includePeople = false,
 			int? pageNum = 1, int? pageSize = 28 )
@@ -548,7 +539,6 @@ namespace ProductDataWarehouse.Controllers
 			new APIDefinition() { url = "/PDW/GetTypicalInfo", parameters = "{\"id\":0}" },
 			new APIDefinition() { url = "/PDW/GetTypicalInfoByName", parameters = "{\"typicalName\":\"\"}" },
 			new APIDefinition() { url = "/PDW/GetFullSeriesImageList", parameters = "{\"id\":0}" },
-			new APIDefinition() { url = "/PDW/GetImageFormatList", parameters = "" },
 			new APIDefinition() { url = "/PDW/GetImageThumbnailList", parameters = "{\"categories\":\"\",\"seriesId\":0,\"imageTypes\":\"\",\"contentTypes\":\"\",\"keywords\":\"\",\"sortBy\":\"\",\"pageNum\":0,\"pageSize\":0}", notes = "all fields are optional" },
 			new APIDefinition() { url = "/PDW/GetImageDetailList", parameters = "{\"categories\":\"\",\"seriesId\":0,\"imageTypes\":\"\",\"contentTypes\":\"\",\"keywords\":\"\",\"sortBy\":\"\",\"pageNum\":0,\"pageSize\":0}", notes = "all fields are optional" },
 			new APIDefinition() { url = "/PDW/GetImageDetailInfo", parameters = "{\"imageId\":0}" },

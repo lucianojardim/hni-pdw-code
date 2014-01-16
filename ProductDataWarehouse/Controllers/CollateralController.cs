@@ -238,7 +238,14 @@ namespace ProductDataWarehouse.Controllers
 
 		public static IEnumerable<SelectListItem> GetCollateralTypeFilterList()
 		{
-			return new List<SelectListItem>() { new SelectListItem() { Text = "All", Value = "0", Selected = true } }.Union( GetCollateralTypeDDList() );
+			var theList = GetCollateralTypeDDList().ToList();
+			theList.Add( new SelectListItem() { Text = "Bundle", Value = "-1" } );
+			theList.Sort( delegate( SelectListItem x, SelectListItem y )
+				{
+					return x.Text.CompareTo( y.Text );
+				} );
+			theList.Insert( 0, new SelectListItem() { Text = "All", Value = "0", Selected = true } );
+			return theList;
 		}
 
 		public static IEnumerable<SelectListItem> GetCollateralStatusDDList()

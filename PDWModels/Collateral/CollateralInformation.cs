@@ -22,7 +22,7 @@ namespace PDWModels.Collateral
 		[DisplayName( "Lead Time" )]
 		[StringLength( 20 )]
 		public string LeadTime { get; set; }
-		[DisplayName( "Weight" )]
+		[DisplayName( "Weight (oz)" )]
 		[Range( 0, float.MaxValue, ErrorMessage = "The field Weight must be greater than or equal to 0." )]
 		public double? Weight { get; set; }
 		[DisplayName( "Status" )]
@@ -37,7 +37,7 @@ namespace PDWModels.Collateral
 		public string ImageFileName { get; set; }
 		[DisplayName( "Price per Item" )]
 		public double? Price { get; set; }
-		[DisplayName( "Shipping per Item" )]
+		[DisplayName( "Shipping Fee" )]
 		public double? Shipping { get; set; }
 	}
 }
