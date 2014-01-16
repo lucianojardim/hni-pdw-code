@@ -62,6 +62,14 @@ else
 		}
 
     	$(document).ready(function () {
+			@if( Model.CreatedDate.HasValue ) {
+			<text>
+                var cDate = new Date('@Model.CreatedDate.Value.ToString()');
+                var offset = new Date().getTimezoneOffset();
+                cDate.setMinutes(cDate.getMinutes() - offset);
+                $('#createdDate').text((cDate.getMonth() + 1) + '/' + cDate.getDate() + '/' + cDate.getFullYear());
+			</text>
+			}
     		reloadDealerSalesRepList();
 
     		$('#CompanyID').change(function () {
@@ -113,7 +121,7 @@ else
 		<table cellpadding="0" cellspacing="0" class="dataLayout">
 		@Html.HiddenFor( m => m.RequestID )
         <tr><td>@Html.MJLabelFor( m => m.ProjectName, true )</td><td>@Html.TextBoxFor( m => m.ProjectName )</td><td>
-			@Html.MJLabelFor( m => m.CreatedDate, true )</td><td>@Html.DisplayFor( m => m.CreatedDate )</td></tr>
+			@Html.MJLabelFor( m => m.CreatedDate, true )</td><td id="createdDate"></td></tr>
         <tr><td>@Html.MJLabelFor( m => m.CompanyID, true )</td><td>@Html.DropDownListFor( m => m.CompanyID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer ) )</td><td>
 			@Html.MJLabelFor( m => m.DealerSalesRep, true, new { id = "DSRLabel" } )</td><td>@Html.DropDownListFor( m => m.DealerSalesRep, UserController.GetUserDDList( PDWInfrastructure.PaoliWebUser.PaoliWebRole.DealerSalesRep ) )</td></tr>
         <tr><td>@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )</td><td>@Html.DropDownListFor( m => m.PaoliSalesRepGroupID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup ) )</td><td>

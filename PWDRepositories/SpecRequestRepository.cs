@@ -33,7 +33,7 @@ namespace PWDRepositories
 				IsRecommended = sRequest.IsGoodForWeb ?? false,
 				IsPublished = sRequest.Typicals.Any(),
 				IsCompleted = sRequest.IsCompleted,
-				CreatedDate = !sRequest.RequestDate.HasValue ? "" : sRequest.RequestDate.Value.ToShortDateString()
+				CreatedDate = sRequest.RequestDate
 			};
 		}
 
@@ -325,7 +325,7 @@ namespace PWDRepositories
 				pdfFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles, "pdf" ),
 				dwgFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles, "dwg" ),
 				imgFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles, "img" ),
-				CreatedDate = sInfo.RequestDate.HasValue ? sInfo.RequestDate.Value.ToShortDateString() : "",
+				CreatedDate = sInfo.RequestDate.Value,
 				DealerName = sInfo.PrimaryCompanyID.HasValue ? sInfo.PrimaryCompany.Name : "",
 				SalesRepGroupName = sInfo.PaoliSalesRepGroupID.HasValue ? sInfo.PaoliSalesRepGroup.Name : "",
 				DealerSalesRepName = sInfo.DealerSalesRepID.HasValue ? sInfo.DealerSalesRep.FullName : "",

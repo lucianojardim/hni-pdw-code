@@ -99,7 +99,7 @@ namespace PDWModels.SpecRequests
 		public FileListing imgFileList { get; set; }
 
 		[DisplayName( "Created Date" )]
-		public string CreatedDate { get; set; }
+		public DateTime? CreatedDate { get; set; }
 
 		public string DealerName { get; set; }
 		public string SalesRepGroupName { get; set; }
