@@ -86,7 +86,7 @@ namespace ProductDataWarehouse.Controllers
 
 					ViewBag.CloseFancyBox = true;
 
-					return View( sInfo );
+					return RedirectToAction( "Manage" );
 				}
 				catch( Exception ex )
 				{
@@ -212,7 +212,7 @@ namespace ProductDataWarehouse.Controllers
 
 					ViewBag.CloseFancyBox = true;
 
-					return View( sInfo );
+					return RedirectToAction( "Manage" );
 				}
 				catch( Exception ex )
 				{

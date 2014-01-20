@@ -7,7 +7,7 @@
 
 <h2>Spec Request List</h2>
 
-<a href="@Url.Action( "Add", "SpecRequest" )?iframe" id="addNewRequest">Add New</a><br />
+<a href="@Url.Action( "Add", "SpecRequest" )" id="addNewRequest">Add New</a><br />
 @Html.CheckBox( "PendingOnly" )Show Only Pending Spec Requests<br />
 @Html.CheckBox( "RecommendedOnly" )Show Only Recommended Spec Requests<br />
 <div>
@@ -21,17 +21,6 @@
 	$(document).ready(function () {
 		$('#PendingOnly').click(loadSpecRequests);
 		$('#RecommendedOnly').click(loadSpecRequests);
-
-		$("#addNewRequest").fancybox({
-			'autoDimensions': false,
-			'width': 900,
-			'height': 700,
-			'padding': 20,
-			'margin': 0,
-			'scrolling': 'auto',
-			'titleShow': false,
-			'type': 'iframe'
-		});
 
 		loadSpecRequests();
 	});
@@ -137,7 +126,7 @@
                     	"bSortable": false,
                     	"mDataProp": "EditButtons", "sWidth": "5%",
                     	"fnRender": function (oObj) {
-                    		return '<a href=\"@Url.Action( "Edit", "SpecRequest" )/' + oObj.aData["RequestID"] + '/?iframe\" class="fbImageBtn">Edit</a>';
+                    		return '<a href=\"@Url.Action( "Edit", "SpecRequest" )/' + oObj.aData["RequestID"] + '\">Edit</a>';
                     	}
                     }
                 ]

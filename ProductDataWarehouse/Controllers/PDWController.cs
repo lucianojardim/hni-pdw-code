@@ -504,6 +504,15 @@ namespace ProductDataWarehouse.Controllers
 			return Json( theList, JsonRequestBehavior.AllowGet );
 		}
 
+		public JsonResult GetTypeAheadSpecRequestFootprintList( string query )
+		{
+			SpecRequestRepository sRepo = new SpecRequestRepository();
+
+			var theList = sRepo.GetFootprintList( query );
+
+			return Json( theList, JsonRequestBehavior.AllowGet );
+		}
+
 		public ActionResult APIDef()
         {
 //			if( (Request.ServerVariables["SERVER_NAME"].ToLower().Contains( "matt3400" )) ||
