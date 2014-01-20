@@ -63,6 +63,7 @@
     <Compile Include="Dealers\DealerSummary.cs" />
     <Compile Include="Dealers\DealerVideoInformation.cs" />
     <Compile Include="Dealers\DealerVideoSummary.cs" />
+    <Compile Include="IDToTextItem.cs" />
     <Compile Include="Images\HiResImageInfo.cs" />
     <Compile Include="Images\ImageComboItem.cs" />
     <Compile Include="Images\ImageContentType.cs" />
