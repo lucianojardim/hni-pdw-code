@@ -524,3 +524,13 @@ span.dataRow ul.tagit
 	height: auto;
 	width: 75px;
 }
+
+div.box div.loginRow div.loginLabel
+{
+	width: 100px;
+	display: inline-block;
+}
+div.box div.loginRow input
+{
+	width: 350px;
+}

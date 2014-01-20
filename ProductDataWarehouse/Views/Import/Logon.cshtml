@@ -5,27 +5,6 @@
 
 <script type="text/javascript">
 	$(document).ready(function () {
-		$('.usernameField').focus(function () {
-			if ($(this).val() == 'Email Address') {
-				$(this).val('');
-
-			}
-		}).blur(function () {
-			if ($(this).val() == '') {
-				$(this).val('Email Address');
-			}
-		});
-		$('.passwordField').focus(function () {
-			if ($(this).val() == 'Password') {
-				$(this).val('');
-
-			}
-		}).blur(function () {
-			if ($(this).val() == '') {
-				$(this).val('Password');
-			}
-		});
-
 		$("#forgotPasswordLink").fancybox({
 			'autoDimensions': false,
 			'width': 400,
@@ -45,12 +24,14 @@
 @using( Html.BeginForm() )
 {
             @Html.ValidationSummary( "", new { @class = "form_errors" } )
-			<p class="field">
-            @Html.TextBox( "username", "Email Address", new { @class = "textBox usernameField" } )
-			</p>
-			<p class="field">
-            @Html.Password( "password", "Password", new { @class = "textBox passwordField", autocomplete = "off" } )
-			</p>
+			<div class="loginRow">
+			<div class="loginLabel">Email Address:</div>
+            @Html.TextBox( "username", null, new { @class = "usernameField" } )
+			</div>
+			<div class="loginRow">
+			<div class="loginLabel">Password:</div>
+            @Html.Password( "password", null, new { @class = "passwordField", autocomplete = "off" } )
+			</div>
 			<p class="field" id="loginSubmit">
 				<input type='submit' class='btn_type1 left' value='Login'/>
 				<a class="right" id="forgotPasswordLink" href="@Url.Action( "ForgotPassword", "Import" )?iframe">Forgot Password</a>
