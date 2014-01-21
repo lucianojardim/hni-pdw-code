@@ -958,5 +958,14 @@ namespace PWDRepositories
 				}
 			}
 		}
+
+		public IEnumerable<string> GetFootprintList( string query )
+		{
+			return database.SpecRequests
+				.Where( ao => ao.Footprint.Contains( query ) )
+				.Select( ao => ao.Footprint )
+				.Distinct()
+				.OrderBy( s => s );
+		}
 	}
 }

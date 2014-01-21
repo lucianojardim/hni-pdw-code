@@ -5,6 +5,7 @@ using System.Text;
 using PDWDBContext;
 using PDWModels.Companies;
 using PDWInfrastructure;
+using PDWModels;
 
 namespace PWDRepositories
 {
@@ -315,13 +316,13 @@ namespace PWDRepositories
 			return filteredAndSorted.ToList().Select( v => ToCompanySummary( v ) );
 		}
 
-		public IEnumerable<CompanySummary> GetFullCompanyList( int? companyType )
+		public IEnumerable<IDToTextItem> GetFullCompanyList( int? companyType )
 		{
 			return database.Companies
-				.Where( c => !companyType.HasValue || (companyType.HasValue && companyType.Value == c.CompanyType) )
+				.Where( c => !companyType.HasValue || ( companyType.HasValue && companyType.Value == c.CompanyType ) )
 				.OrderBy( c => c.Name )
 				.ToList()
-				.Select( c => ToCompanySummary( c ) );
+				.Select( c => new IDToTextItem() { ID = c.CompanyID, Text = c.Name } );
 		}
 
 		public IEnumerable<TerritorySummary> GetTerritoryList()
