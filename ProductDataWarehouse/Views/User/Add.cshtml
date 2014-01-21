@@ -1,0 +1,74 @@
+﻿@using ProductDataWarehouse.Models
+@model PDWModels.Users.UserInformation
+@{
+	ViewBag.Title = "Add User";
+	ViewBag.CurrentPage = "Users";
+	ViewBag.CurrentSubPage = "Users";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+@using ProductDataWarehouse.Controllers
+
+    <script type="text/javascript">
+    	$(document).ready(function () {
+    		reloadAccountType();
+
+    		$('#CompanyID').change(function () {
+    			reloadAccountType();
+    		});
+
+    		$('#SendWelcomeEmail').click(function () {
+    			if ($('#SendWelcomeEmail:checked').length > 0) {
+    				$('#Enabled').removeAttr("disabled");
+    			} else {
+    				$('#Enabled').attr("disabled", true);
+    			}
+    		});
+    	});
+
+    	function reloadAccountType() {
+    		if ($('#CompanyID').val() != null && $('#CompanyID').val() != '') {
+    			$.ajax({
+    				dataType: 'json',
+    				type: 'GET',
+    				url: '/Company/GetTypeListForCompany',
+    				data: { companyId: $('#CompanyID').val() },
+    				success: function (data, textStatus, jqXHR) {
+    					$('#AccountType').empty();
+    					$.each(data.theList, function (idx, item) {
+    						$('#AccountType').append('<option value="' + item.Value + '">' + item.Text + '</option>');
+    					});
+    				},
+    				error: function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Account Type list:' + errorThrown)
+    				}
+    			});
+    		} else {
+    			$('#AccountType').empty();
+    		}			
+    	}
+    </script>    
+
+    <h2>Add User</h2>
+
+    @using( Html.BeginForm( "Add", "User", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
+	{
+        <span class="dataRow">@Html.MJLabelFor( m => m.EmailAddress, true )@Html.TextBoxFor( m => m.EmailAddress )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.FirstName, true )@Html.TextBoxFor( m => m.FirstName )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.LastName, true )@Html.TextBoxFor( m => m.LastName )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.CompanyID, true )@Html.DropDownListFor( m => m.CompanyID, CompanyController.GetCompanyDDList() )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Address1, true )@Html.TextBoxFor( m => m.Address1 )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Address2, true )@Html.TextBoxFor( m => m.Address2 )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.City, true )@Html.TextBoxFor( m => m.City )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.State, true )@Html.DropDownListFor( m => m.State, UserController.GetStateDDList() )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Zip, true )@Html.TextBoxFor( m => m.Zip )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.BusinessPhone, true )@Html.TextBoxFor( m => m.BusinessPhone )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.CellPhone, true )@Html.TextBoxFor( m => m.CellPhone )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Title, true )@Html.TextBoxFor( m => m.Title )<br/></span>
+		<div class="padr30 padl30"><hr /></div>
+        <span class="dataRow">@Html.MJLabelFor( m => m.AccountType, true )@Html.DropDownListFor( m => m.AccountType, UserController.GetUserRoleDDList() )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Enabled, true )@Html.CheckBoxFor( m => m.Enabled )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.SendWelcomeEmail, true )@Html.CheckBoxFor( m => m.SendWelcomeEmail )<br/></span>
+		<span class="dataRow">@Html.MJLabelFor( m => m.UserImageFileName, true )<input type="file" id="UserImage" name="UserImage" accept=".jpg,.png,.gif,.bmp" /></span>
+@Html.ValidationSummary()
+        <input type="submit" class="btn_type1" value="Add" id="submitBtn" />
+	}

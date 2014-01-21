@@ -1,0 +1,1 @@
+update Attributes set Name = 'Price List' where Name = 'price guide'

@@ -1,0 +1,226 @@
+﻿@model PDWModels.Companies.CompanyInformation
+@{
+	ViewBag.Title = "Edit Company";
+	ViewBag.CurrentPage = "Users";
+	ViewBag.CurrentSubPage = "Companies";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+
+<link href="@Url.Content( "~/Content/jquery.tagit.css" )" rel="stylesheet" type="text/css" />
+<script src="@Url.Content( "~/Scripts/tag-it.js" )" type="text/javascript"></script>
+
+    <script type="text/javascript">
+    	$(document).ready(function () {
+			@if( Model.LockCompanyType )
+   {
+			<text>
+			$('select#CompanyType').attr('disabled', 'disabled');
+			</text>
+   }
+
+    		showHideTerritoryID();
+
+    		$('#CompanyType').change(function () {
+    			showHideTerritoryID();
+    		});
+
+    		showHideShowrooms();
+
+    		$('#HasShowroom').change(function () {
+    			showHideShowrooms();
+    		});
+
+@{var currentImages = "'" + string.Join("','", (Model.ShowroomImages ?? "").Split(',')) + "'";}
+			var returnedImages = [@Html.Raw(currentImages)];
+    		$('#ShowroomImages').tagit({
+    			allowSpaces: true,
+    			beforeTagAdded: function (event, ui) {
+    				// do something special
+					var isValid = false;
+					$.each(returnedImages, function(idx, i) {
+						if (i.toLowerCase() == ui.tagLabel.toLowerCase()) {
+							isValid = true;
+							return false; // break the loop
+						}
+					});
+					return isValid;
+    			},
+    			autocomplete: ({
+    				source: function (request, response) {
+    					$.ajax({
+    						url: '@Url.Action( "GetTypeaheadImageList", "PDW" )',
+    						data: { format: "json", query: request.term, max: 15 },
+    						dataType: 'json',
+    						type: 'GET',
+    						success: function (data) {
+								returnedImages = data;
+    							response($.map(data, function (item) {
+    								return {
+    									label: item,
+    									value: item
+    								}
+    							}));
+    						},
+    						error: function (request, status, error) {
+    							alert(error);
+								returnedImages = [];
+    						}
+    					}
+					)
+    				},
+    				minLength: 2
+    			})
+    		});
+    	});
+
+    	function showHideTerritoryID() {
+			if( $.inArray($('#CompanyType').val(), ['@Html.Raw( string.Join( "','", PDWInfrastructure.PaoliWebUser.PaoliCompanyType.HasTerritory ) )'] ) != -1 ) {
+				$('#territoryRow').show();
+			} else {
+				$('#territoryRow').hide();
+			}
+    	}
+
+    	function showHideShowrooms() {
+    		if ($('#HasShowroom:checked').length > 0) {
+    			$('.showRoomRow').show();
+    		} else {
+    			$('.showRoomRow').hide();
+    		}
+    	}
+
+    </script>    
+
+    <h2>Edit Company</h2>
+
+    @using( Html.BeginForm( "Edit", "Company", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
+	{
+		@Html.HiddenFor( m => m.CompanyID )
+		if( Model.LockCompanyType )
+		{
+			@Html.HiddenFor( m => m.CompanyType )
+		}
+		<table cellpadding="0" cellspacing="0" class="dataLayout">
+		<tr>
+		<td class="padr30 padl30" colspan="4"><hr /></td>
+		</tr>
+
+		<tr>
+		<td  colspan="4"><h3>Official Company Information</h3></td>
+		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.Name, true )</td><td>@Html.TextBoxFor( m => m.Name, new { tabindex = 1 } )</td>
+		</tr>
+		<tr>
+		<td>@Html.MJLabelFor( m => m.Address1, true )</td><td>@Html.TextBoxFor( m => m.Address1, new { tabindex = 2 } )</td>
+		<td>@Html.MJLabelFor( m => m.Phone, true )</td><td>@Html.TextBoxFor( m => m.Phone, new { tabindex = 7 } )</td>
+		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.Address2, true )</td><td>@Html.TextBoxFor( m => m.Address2, new { tabindex = 3 } )</td>
+		<td>@Html.MJLabelFor( m => m.FAX, true )</td><td>@Html.TextBoxFor( m => m.FAX, new { tabindex = 8 } )</td>
+		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.City, true )</td><td>@Html.TextBoxFor( m => m.City, new { tabindex = 4 } )</td>
+		<td>@Html.MJLabelFor( m => m.ContactEmail, true )</td><td>@Html.TextBoxFor( m => m.ContactEmail, new { tabindex = 9 } )</td>
+		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.State, true )</td><td>@Html.DropDownListFor( m => m.State, UserController.GetStateDDList(), new { tabindex = 5 } )</td>
+		<td>@Html.MJLabelFor( m => m.WebSite, true )</td><td>@Html.TextBoxFor( m => m.WebSite, new { tabindex = 10 } )</td>
+		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.Zip, true )</td><td>@Html.TextBoxFor( m => m.Zip, new { tabindex = 6 } )</td>
+		</tr>
+		
+		<tr><td class="padr30 padl30" colspan="4"><hr /></td></tr>
+		<tr>
+		<td  colspan="4"><h3>Account Information</h3></td>
+		</tr>
+        
+		<tr>
+		<td>@Html.MJLabelFor( m => m.CompanyType, true )</td><td>@Html.DropDownListFor( m => m.CompanyType, CompanyController.GetCompanyTypeDDList(), new { tabindex = 11 } )</td>
+		<td class="territoryRow">@Html.MJLabelFor( m => m.TerritoryID, true )</td><td class="territoryRow">@Html.DropDownListFor( m => m.TerritoryID, CompanyController.GetTerritoryDDList(), new { tabindex = 15 } )</td>
+		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.MasterID, true )</td><td>@Html.TextBoxFor( m => m.MasterID, new { tabindex = 12 } )</td>
+		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.SubCompanyIDs, true )</td><td>@Html.TextBoxFor( m => m.SubCompanyIDs, new { tabindex = 13 } )</td>
+		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.TripIncentive, true )</td><td>@Html.CheckBoxFor( m => m.TripIncentive, new { tabindex = 14 } )</td>
+		</tr>
+
+		<tr><td class="padr30 padl30" colspan="4"><hr /></td></tr>
+		<tr>
+		<td  colspan="4"><h3>Paoli.com Public Profile Information</h3></td>
+		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.PublicDisplayName, true )</td><td>@Html.TextBoxFor( m => m.PublicDisplayName, new { tabindex = 16 } )</td>
+		</tr>
+		<tr>
+		<td>@Html.MJLabelFor( m => m.PublicAddress1, true )</td><td>@Html.TextBoxFor( m => m.PublicAddress1, new { tabindex = 17 } )</td>
+		<td>@Html.MJLabelFor( m => m.PublicPhone, true )</td><td>@Html.TextBoxFor( m => m.PublicPhone, new { tabindex = 22 } )</td>
+		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.PublicAddress2, true )</td><td>@Html.TextBoxFor( m => m.PublicAddress2, new { tabindex = 18 } )</td>
+		<td>@Html.MJLabelFor( m => m.PublicFAX, true )</td><td>@Html.TextBoxFor( m => m.PublicFAX, new { tabindex = 23 } )</td>
+		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.PublicCity, true )</td><td>@Html.TextBoxFor( m => m.PublicCity, new { tabindex = 19 } )</td>
+		<td>@Html.MJLabelFor( m => m.PublicContactEmail, true )</td><td>@Html.TextBoxFor( m => m.PublicContactEmail, new { tabindex = 24 } )</td>
+		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.PublicState, true )</td><td>@Html.DropDownListFor( m => m.PublicState, UserController.GetStateDDList(), new { tabindex = 20 } )</td>
+		<td>@Html.MJLabelFor( m => m.PublicWebSite, true )</td><td>@Html.TextBoxFor( m => m.PublicWebSite, new { tabindex = 25 } )</td>
+		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.PublicZip, true )</td><td>@Html.TextBoxFor( m => m.PublicZip, new { tabindex = 21 } )</td>
+		</tr>
+
+        <tr>
+		<td>@Html.MJLabelFor( m => m.HasShowroom, true )</td><td>@Html.CheckBoxFor( m => m.HasShowroom, new { tabindex = 26 } )</td>
+		</tr>
+		<tr class="showRoomRow"><td class="padr30 padl30" colspan="4"><hr /></td></tr>
+		<tr class="showRoomRow">
+		<td  colspan="4"><h3>Showroom Information</h3></td>
+		</tr>
+        <tr class="showRoomRow">
+		<td>@Html.MJLabelFor( m => m.ShowroomDisplayName, true )</td><td>@Html.TextBoxFor( m => m.ShowroomDisplayName, new { tabindex = 27 } )</td>
+		</tr>
+		<tr class="showRoomRow">
+		<td>@Html.MJLabelFor( m => m.ShowroomAddress1, true )</td><td>@Html.TextBoxFor( m => m.ShowroomAddress1, new { tabindex = 28 } )</td>
+		<td>@Html.MJLabelFor( m => m.ShowroomDescription, true )</td>
+		</tr>
+        <tr class="showRoomRow">
+		<td>@Html.MJLabelFor( m => m.ShowroomAddress2, true )</td><td>@Html.TextBoxFor( m => m.ShowroomAddress2, new { tabindex = 29 } )</td>
+		<td rowspan="3" colspan="2">@Html.TextAreaFor( m => m.ShowroomDescription, new { tabindex = 36 } )</td>
+		</tr>
+        <tr class="showRoomRow">
+		<td>@Html.MJLabelFor( m => m.ShowroomCity, true )</td><td>@Html.TextBoxFor( m => m.ShowroomCity, new { tabindex = 30 } )</td>
+		</tr>
+        <tr class="showRoomRow">
+		<td>@Html.MJLabelFor( m => m.ShowroomState, true )</td><td>@Html.DropDownListFor( m => m.ShowroomState, UserController.GetStateDDList(), new { tabindex = 31 } )</td>
+		</tr>
+        <tr class="showRoomRow">
+		<td>@Html.MJLabelFor( m => m.ShowroomZip, true )</td><td>@Html.TextBoxFor( m => m.ShowroomZip, new { tabindex = 32 } )</td>
+		<td>@Html.MJLabelFor( m => m.ShowroomHours, true )</td>
+		</tr>
+		<tr class="showRoomRow">
+		<td>@Html.MJLabelFor( m => m.ShowroomPhone, true )</td><td>@Html.TextBoxFor( m => m.ShowroomPhone, new { tabindex = 33 } )</td>
+		<td rowspan="3" colspan="2">@Html.TextAreaFor( m => m.ShowroomHours, new { tabindex = 37 } )</td>
+		</tr>
+		<tr class="showRoomRow">
+		<td>@Html.MJLabelFor( m => m.ShowroomFAX, true )</td><td>@Html.TextBoxFor( m => m.ShowroomFAX, new { tabindex = 34 } )</td>
+		</tr>
+		<tr class="showRoomRow">
+		<td>@Html.MJLabelFor( m => m.ShowroomWebsite, true )</td><td>@Html.TextBoxFor( m => m.ShowroomWebsite, new { tabindex = 35 } )</td>
+		</tr>
+		<tr class="showRoomRow">
+		<td>@Html.MJLabelFor( m => m.ShowroomImages, true )</td><td>@Html.TextBoxFor( m => m.ShowroomImages, new { style = "display:none" } )</td>
+		</tr>
+		</table>
+@Html.ValidationSummary()
+        <input type="submit" class="btn_type1" value="Update" id="submitBtn" />
+	}

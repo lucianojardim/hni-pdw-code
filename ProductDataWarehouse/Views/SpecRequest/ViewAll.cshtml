@@ -1,0 +1,11 @@
+﻿@{
+	ViewBag.Title = "Spec Requests";
+	ViewBag.CurrentPage = "Database";
+	ViewBag.CurrentSubPage = "ViewSpecRequests";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+
+@{
+	ViewData["bMinView"] = false;
+	Html.RenderPartial( "MySpecList" );
+}

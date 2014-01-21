@@ -1,0 +1,6 @@
+﻿@using PDWModels.Users
+@model UserSubscriptionSummary.SubscriptionInfo
+		   
+<span class="dataRow">@Html.Label( Model.Name )@Html.CheckBoxFor( x => x.Checked )</span>
+@Html.HiddenFor( x => x.SubscriptionID )
+@Html.HiddenFor( x => x.Name )

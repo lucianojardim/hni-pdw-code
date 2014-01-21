@@ -1,0 +1,54 @@
+﻿@model PDWModels.SpecRequests.SpecRequestInformation
+@{
+	ViewBag.Title = "View Spec Request";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+
+    <script type="text/javascript">
+		function showHideIsGoodForWeb() {
+    		if ($('#IsCompleted:checked').length > 0) {
+    			$('.isGoodForWeb').show();
+    		} else {
+    			$('.isGoodForWeb').hide();
+    		}
+		}
+
+    	$(document).ready(function () {
+			showHideIsGoodForWeb();
+    	});
+
+    </script>    
+    <h2>View Spec Request - @Model.Name</h2>
+
+		<table cellpadding="0" cellspacing="0" class="dataLayout">
+        <tr><td class="dataLabel">@Html.MJLabelFor( m => m.ProjectName, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.ProjectName )</td>
+			<td class="dataLabel">@Html.MJLabelFor( m => m.CreatedDate, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.CreatedDate )</td></tr>
+        <tr><td class="dataLabel">@Html.MJLabelFor( m => m.CompanyID, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.DealerName )</td>
+			@if( Model.DealerName.Any() ) { <td class="dataLabel">@Html.MJLabelFor( m => m.DealerSalesRep, true, new { id = "DSRLabel" } )</td><td class="dataInfo">@Html.DisplayFor( m => m.DealerSalesRepName )</td> } </tr>
+        <tr><td class="dataLabel">@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.SalesRepGroupName )</td>
+			<td class="dataLabel">@Html.MJLabelFor( m => m.PaoliSpecTeamMember, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.SpecTeamMemberName )</td></tr>
+		<tr><td class="padr30 padl30" colspan="4"><hr /></td></tr>
+        <tr><td class="dataLabel">@Html.MJLabelFor( m => m.ListPrice, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.ListPrice )</td>
+			<td class="dataLabel">@Html.MJLabelFor( m => m.SPLQuote, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.SPLQuote )</td></tr>
+        <tr><td class="dataLabel">@Html.MJLabelFor( m => m.FeaturedSeries, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.FeaturedSeries, ImportController.GetSeriesDDList( true ) )</td>
+			<td class="dataLabel">@Html.MJLabelFor( m => m.SeriesList, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.SeriesList, new { style = "display:none" } )</td></tr>
+        <tr><td class="dataLabel">@Html.MJLabelFor( m => m.IsGSA, true )</td><td class="dataInfo">@((bool)Model.IsGSA ? "Yes" : "No")</td>
+			<td class="dataLabel">@Html.MJLabelFor( m => m.IsCompleted, true )</td><td class="dataInfo">@((bool)Model.IsCompleted ? "Yes" : "No")</td></tr>
+        <tr><td class="dataLabel">@Html.MJLabelFor( m => m.Received, true )</td><td class="dataInfo">@((bool)Model.Received ? "Yes" : "No")</td>
+			@if( Model.IsCompleted ) { <td class="dataLabel">@Html.MJLabelFor( m => m.IsGoodForWeb, true )</td><td>@((bool)Model.IsGoodForWeb ? "Yes" : "No")</td> } </tr>
+        <tr><td class="dataLabel">@Html.MJLabelFor( m => m.AvailableForIn2, true )</td><td class="dataInfo">@((bool)Model.AvailableForIn2 ? "Yes" : "No")</td></tr>
+        <tr><td class="dataLabel">@Html.MJLabelFor( m => m.Material, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.Material )</td>
+			<td class="dataLabel">@Html.MJLabelFor( m => m.Finish, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.Finish )</td></tr>
+        <tr><td class="dataLabel">@Html.MJLabelFor( m => m.Footprint, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.Footprint, SpecRequestController.GetFootprintDDList() )</td></tr>
+        <tr><td class="dataLabel">@Html.MJLabelFor( m => m.SavedLocation, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.SavedLocation )</td>
+			<td class="dataLabel">@Html.MJLabelFor( m => m.Notes, true )</td><td class="dataInfo">@Html.TextAreaFor( m => m.Notes, new { @readonly = "readonly" } )</td></tr>
+		<tr><td class="padr30 padl30" colspan="4"><hr /></td></tr>
+		<tr><td class="dataLabel">@Html.MJLabelFor( m => m.xlsFile, true )</td><td colspan="3">@Html.DisplayFor( m => m.xlsFileList )</td></tr>
+		<tr><td class="dataLabel">@Html.MJLabelFor( m => m.sifFile, true )</td><td colspan="3">@Html.DisplayFor( m => m.sifFileList )</td></tr>
+		<tr><td class="dataLabel">@Html.MJLabelFor( m => m.sp4File, true )</td><td colspan="3">@Html.DisplayFor( m => m.sp4FileList )</td></tr>
+		<tr><td class="dataLabel">@Html.MJLabelFor( m => m.pdfFile, true )</td><td colspan="3">@Html.DisplayFor( m => m.pdfFileList )</td></tr>
+		<tr><td class="dataLabel">@Html.MJLabelFor( m => m.dwgFile, true )</td><td colspan="3">@Html.DisplayFor( m => m.dwgFileList )</td></tr>
+		<tr><td class="dataLabel">@Html.MJLabelFor( m => m.imgFile, true )</td><td colspan="3">@Html.DisplayFor( m => m.imgFileList )</td></tr>
+		</table>

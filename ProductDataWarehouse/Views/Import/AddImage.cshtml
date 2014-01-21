@@ -1,0 +1,165 @@
+﻿@model PDWModels.Images.ImageInformation
+@{
+	ViewBag.Title = "AddImage";
+}
+@using ProductDataWarehouse.Controllers
+@using ProductDataWarehouse.Models
+
+@if( ViewBag.CloseFancyBox ?? false )
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            parent.$.fancybox.close();
+            if (parent.loadImages) {
+                parent.loadImages();
+            }
+        });
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        var finishSubTypes = [
+            @foreach( var subType in ImportController.GetFinishSubTypeList() )
+			{
+            <text>{ id: @subType.Value, name: "@subType.Text" },</text>
+			}
+        ];
+        $(document).ready(function () {
+            $('#ImageContent').change(doImageContentChange);
+            $('#FinishType').change(doFinishTypeChange);
+            doImageContentChange();
+            doFinishTypeChange();
+        });
+
+        function doFinishTypeChange() {
+            var typeText = $('#FinishType option:selected').text();
+            $('#FinishSubType').html('');
+            $.each(finishSubTypes, function (i, opt) {
+                if (opt.name.indexOf(typeText) >= 0) {
+                    $('#FinishSubType').append('<option value=' + opt.id + '>' + opt.name + '</option>');
+                }
+            });
+        }
+
+        function doImageContentChange() {
+            switch ($('#ImageContent').val()) {
+                case '1':
+                    $('.imageTypeRange').show();
+                    $('.hasPeopleRange').show();
+                    $('.featuredEdgeRange').hide();
+                    $('.featuredPullRange').hide();
+                    $('.featuredFinishRange').hide();
+                    $('.featuredTableShapeRange').hide();
+                    $('.featuredTableBaseRange').hide();
+					$('.controlMechanismRange').hide();
+					$('.goToGuideRange').hide();
+                    break;
+                case '2':
+                    $('.imageTypeRange').hide();
+                    $('.hasPeopleRange').hide();
+                    $('.featuredEdgeRange').show();
+                    $('.featuredPullRange').hide();
+                    $('.featuredFinishRange').hide();
+                    $('.featuredTableShapeRange').hide();
+                    $('.featuredTableBaseRange').hide();
+					$('.controlMechanismRange').hide();
+					$('.goToGuideRange').hide();
+                    break;
+                case '3':
+                    $('.imageTypeRange').hide();
+                    $('.hasPeopleRange').hide();
+                    $('.featuredEdgeRange').hide();
+                    $('.featuredPullRange').show();
+                    $('.featuredFinishRange').hide();
+                    $('.featuredTableShapeRange').hide();
+                    $('.featuredTableBaseRange').hide();
+					$('.controlMechanismRange').hide();
+					$('.goToGuideRange').hide();
+                    break;
+                case '4':
+                    $('.imageTypeRange').hide();
+                    $('.hasPeopleRange').hide();
+                    $('.featuredEdgeRange').hide();
+                    $('.featuredPullRange').hide();
+                    $('.featuredFinishRange').show();
+                    $('.featuredTableShapeRange').hide();
+                    $('.featuredTableBaseRange').hide();
+					$('.controlMechanismRange').hide();
+					$('.goToGuideRange').hide();
+                    break;
+                case '5':
+                    $('.imageTypeRange').hide();
+                    $('.hasPeopleRange').hide();
+                    $('.featuredEdgeRange').hide();
+                    $('.featuredPullRange').hide();
+                    $('.featuredFinishRange').hide();
+                    $('.featuredTableShapeRange').show();
+                    $('.featuredTableBaseRange').hide();
+					$('.controlMechanismRange').hide();
+					$('.goToGuideRange').hide();
+                    break;
+                case '6':
+                    $('.imageTypeRange').hide();
+                    $('.hasPeopleRange').hide();
+                    $('.featuredEdgeRange').hide();
+                    $('.featuredPullRange').hide();
+                    $('.featuredFinishRange').hide();
+                    $('.featuredTableShapeRange').hide();
+                    $('.featuredTableBaseRange').show();
+					$('.controlMechanismRange').hide();
+					$('.goToGuideRange').hide();
+                    break;
+                case '7':
+                    $('.imageTypeRange').hide();
+                    $('.hasPeopleRange').hide();
+                    $('.featuredEdgeRange').hide();
+                    $('.featuredPullRange').hide();
+                    $('.featuredFinishRange').hide();
+                    $('.featuredTableShapeRange').hide();
+                    $('.featuredTableBaseRange').hide();
+					$('.controlMechanismRange').show();
+					$('.goToGuideRange').hide();
+                    break;
+                case '8':
+                    $('.imageTypeRange').hide();
+                    $('.hasPeopleRange').hide();
+                    $('.featuredEdgeRange').hide();
+                    $('.featuredPullRange').hide();
+                    $('.featuredFinishRange').hide();
+                    $('.featuredTableShapeRange').hide();
+                    $('.featuredTableBaseRange').hide();
+					$('.controlMechanismRange').hide();
+					$('.goToGuideRange').show();
+                    break;
+            }
+        }
+    </script>    
+}
+    <h2>Import Image File</h2>
+
+    @using( Html.BeginForm( "AddImage", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
+	{
+        <span class="dataRow">@Html.MJLabelFor( m => m.ImageName, true )@Html.TextBoxFor( m => m.ImageName )<br /></span>
+		<span class="dataRow">@Html.Label( "Image File Name: " )<input type="file" name="imageFile" data-val-required="The Image File Name is a required field." data-val="true" /><br /></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Caption, true )@Html.TextAreaFor( m => m.Caption )<br /></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Keywords, true )@Html.TextAreaFor( m => m.Keywords )<br /></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.ImageContent, true )@Html.DropDownListFor( m => m.ImageContent, ImportController.GetImageContentList( false ) )<br /></span>
+        <span class="imageTypeRange dataRow">@Html.MJLabelFor( m => m.ImageType, true )@Html.DropDownListFor( m => m.ImageType, ImportController.GetImageTypeList() )<br /></span>
+        <span class="hasPeopleRange dataRow">@Html.MJLabelFor( m => m.HasPeople, true )@Html.CheckBoxFor( m => m.HasPeople )<br /></span>
+        <span class="featuredEdgeRange dataRow">@Html.MJLabelFor( m => m.FeaturedEdge, true )@Html.TextBoxFor( m => m.FeaturedEdge )<br /></span>
+        <span class="featuredPullRange dataRow">@Html.MJLabelFor( m => m.FeaturedPull, true )@Html.TextBoxFor( m => m.FeaturedPull )<br /></span>
+        <span class="featuredFinishRange dataRow">@Html.MJLabelFor( m => m.FeaturedFinish, true ) @Html.TextBoxFor( m => m.FeaturedFinish )<br /></span>
+        <span class="featuredFinishRange dataRow">@Html.MJLabelFor( m => m.FinishType, true ) @Html.DropDownListFor( m => m.FinishType, ImportController.GetFinishTypeList() )<br /></span>
+        <span class="featuredFinishRange dataRow">@Html.MJLabelFor( m => m.FinishSubType, true ) @Html.DropDownListFor( m => m.FinishSubType, ImportController.GetFinishSubTypeList() )<br /></span>
+        <span class="featuredTableShapeRange dataRow">@Html.MJLabelFor( m => m.FeaturedTableShape, true ) @Html.TextBoxFor( m => m.FeaturedTableShape )<br /></span>
+        <span class="featuredTableBaseRange dataRow">@Html.MJLabelFor( m => m.FeaturedTableBase, true ) @Html.TextBoxFor( m => m.FeaturedTableBase )<br /></span>
+		<span class="controlMechanismRange dataRow">@Html.MJLabelFor( m => m.ControlMechanism, true ) @Html.TextBoxFor( m => m.ControlMechanism )<br /></span>
+		<span class="controlMechanismRange dataRow">@Html.MJLabelFor( m => m.ControlDescription, true ) @Html.TextAreaFor( m => m.ControlDescription )<br /></span>
+        <span class="goToGuideRange dataRow">@Html.MJLabelFor( m => m.GoToGuidePageNum, true ) @Html.TextBoxFor( m => m.GoToGuidePageNum )<br /></span>
+@Html.ValidationSummary()
+        <input type="submit" class="btn_type1" value="Import" onclick="$('#inProgress').show();" />
+	}
+    <div style="display:none;margin-top:25px;" id="inProgress">
+        <img src="@Url.Content( "~/Content/Images/baprogress.gif" )" alt="" style="display:inline;"/>&nbsp;<span>Uploading...</span>
+    </div>

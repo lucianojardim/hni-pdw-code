@@ -1,0 +1,38 @@
+﻿@model PDWModels.Users.MyAccountInfo
+@{
+    ViewBag.Title = "My Account";
+	ViewBag.CurrentPage = "Account";
+	ViewBag.CurrentSubPage = "MyAccount";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+
+    <h2>My Account</h2>
+
+    @using( Html.BeginForm() )
+	{
+		@Html.HiddenFor( m=> m.UserID )
+        <span class="dataRow">@Html.MJLabelFor( m => m.EmailAddress, true )@Html.TextBoxFor( m => m.EmailAddress )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.FirstName, true )@Html.TextBoxFor( m => m.FirstName )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.LastName, true )@Html.TextBoxFor( m => m.LastName )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.CompanyName, true )@Html.DisplayFor( m => m.CompanyName )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Title, true )@Html.TextBoxFor( m => m.Title )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Address1, true )@Html.TextBoxFor( m => m.Address1 )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Address2, true )@Html.TextBoxFor( m => m.Address2 )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.City, true )@Html.TextBoxFor( m => m.City )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.State, true )@Html.DropDownListFor( m => m.State, UserController.GetStateDDList() )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Zip, true )@Html.TextBoxFor( m => m.Zip )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.BusinessPhone, true )@Html.TextBoxFor( m => m.BusinessPhone )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.CellPhone, true )@Html.TextBoxFor( m => m.CellPhone )<br/></span>
+@Html.ValidationSummary()
+        if( ViewBag.AccountUpdateSuccess ?? false )
+        {
+            <div style='color:#008000;font-weight:bold;'>
+                <ul>
+                    <li>Your account has been updated.</li>
+                </ul>
+            </div>            
+		}
+        <input type="submit" class="btn_type1" value="Update" id="submitBtn" />
+	}

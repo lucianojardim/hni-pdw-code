@@ -1,0 +1,27 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Error</title>
+</head>
+<body>
+    <h2>
+        Sorry, an error occurred while processing your request.
+    </h2>
+		@{var e = Model.Exception;}
+        @while( e != null )
+        {
+        <!-- 
+@e.Message
+        -->
+        <!-- 
+@e.StackTrace 
+        -->
+			e = e.InnerException;
+        }
+</body>
+</html>

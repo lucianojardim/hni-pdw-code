@@ -1,0 +1,45 @@
+﻿@model PDWModels.Publications.PublicationInformation
+
+@{
+	ViewBag.Title = "Edit Print Material";
+}
+@using ProductDataWarehouse.Controllers
+@using ProductDataWarehouse.Models
+
+@if( ViewBag.CloseFancyBox ?? false )
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            parent.$.fancybox.close();
+            if (parent.loadPrintMaterial) {
+            	parent.loadPrintMaterial();
+            }
+        });
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.datePicker').datepicker(
+            {
+                dateFormat: "mm/dd/yy",
+                minDate: new Date(1900, 1 - 1, 1),
+                changeMonth: true,
+                changeYear: true,
+                yearRange: '1900:2100'
+            });
+        });
+    </script>    
+}
+    <h2>Edit Print Material</h2>
+
+    @using( Html.BeginForm( "EditPrintMaterial", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm" } ) )
+    {
+        @Html.HiddenFor( m => m.PublicationID )
+        <span class="dataRow">@Html.MJLabelFor( m => m.Name, true )@Html.TextBoxFor( m => m.Name )<br /></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.PublicationDate, true )@Html.EditorFor( m => m.PublicationDate )<br /></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.FilterVisible, true )@Html.EditorFor( m => m.FilterVisible )<br /></span>
+@Html.ValidationSummary()
+        <input type="submit" class="btn_type1" value="Save" />
+    }

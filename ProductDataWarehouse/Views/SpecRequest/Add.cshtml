@@ -1,0 +1,167 @@
+﻿@model PDWModels.SpecRequests.SpecRequestInformation
+@{
+	ViewBag.Title = "Add Spec Request";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+
+<link href="@Url.Content( "~/Content/jquery.tagit.css" )" rel="stylesheet" type="text/css" />
+<script src="@Url.Content( "~/Scripts/tag-it.js" )" type="text/javascript"></script>
+
+@if( ViewBag.CloseFancyBox ?? false )
+{
+    <script type="text/javascript">
+    	$(document).ready(function () {
+    		parent.$.fancybox.close();
+    		if (parent.loadSpecRequests) {
+    			parent.loadSpecRequests();
+    		}
+    	});
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+		var seriesList = [@Html.Raw(SpecRequestController.GetJustSeriesNameList())];
+
+    	function reloadDealerSalesRepList() {
+			if($('#CompanyID').val() != null && $('#CompanyID').val() != ''){
+    			$.ajax({
+    				dataType: 'json',
+    				type: 'GET',
+    				url: '/User/GetDealerSalesRepListForCompany',
+    				data: { companyId: $('#CompanyID').val() },
+    				success: function (data, textStatus, jqXHR) {
+    					$('#DealerSalesRep').empty();
+						$('#DealerSalesRep').hide();
+						$('#DSRLabel').hide();
+    					$.each(data.theList, function (idx, item) {
+    						$('#DealerSalesRep').append('<option value="' + item.Value + '">' + item.Text + '</option>');
+							$('#DealerSalesRep').show();
+							$('#DSRLabel').show();
+    					});
+    				},
+    				error: function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Dealer Sales Rep list:' + errorThrown)
+    				}
+    			});			
+			} else {
+    			$('#DealerSalesRep').empty();
+				$('#DealerSalesRep').hide();
+				$('#DSRLabel').hide();
+			}
+    	}
+
+		function showHideIsGoodForWeb() {
+    		if ($('#IsCompleted:checked').length > 0) {
+    			$('.isGoodForWeb').show();
+    		} else {
+    			$('.isGoodForWeb').hide();
+    		}
+		}
+
+    	$(document).ready(function () {
+    		reloadDealerSalesRepList();
+
+    		$('#CompanyID').change(function () {
+    			reloadDealerSalesRepList();
+    		});
+
+    		$('#IsCompleted').click(showHideIsGoodForWeb);
+			showHideIsGoodForWeb();
+
+    		$('#SeriesList').tagit({
+				availableTags: seriesList,
+    			allowSpaces: true,
+/*    			autocomplete: ({
+    				source: function (request, response) {
+    					$.ajax({
+    						url: '@Url.Action("GetJustSeriesNameList", "PDW")',
+    						data: { format: "json", query: request.term },
+    						dataType: 'json',
+    						type: 'GET',
+    						success: function (data) {
+    							response($.map(data, function (item) {
+    								return {
+    									label: item,
+    									value: item
+    								}
+    							}));
+    						},
+    						error: function (request, status, error) {
+    							alert(error);
+    						}
+    					}
+					)
+    				},
+    				minLength: 2
+    			}),*/
+    			beforeTagAdded: function (event, ui) {
+    				// do something special
+					var isValid = false;
+					$.each(seriesList, function(idx, i) {
+						if (i.toLowerCase() == ui.tagLabel.toLowerCase()) {
+							isValid = true;
+						}
+					});
+					return isValid;
+    			}
+    		});
+			/*
+    		$('#FeaturedSeries').tagit({
+				availableTags: seriesList,
+    			allowSpaces: true,
+				tagLimit: 1,
+    			beforeTagAdded: function (event, ui) {
+    				// do something special
+					var isValid = false;
+					$.each(seriesList, function(idx, i) {
+						if (i.toLowerCase() == ui.tagLabel.toLowerCase()) {
+							isValid = true;
+						}
+					});
+					return isValid;
+    			}
+    		});*/
+
+    	});
+
+    </script>    
+}
+    <h2>Add Spec Request</h2>
+
+    @using( Html.BeginForm( "Add", "SpecRequest", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
+	{
+		<table cellpadding="0" cellspacing="0" class="dataLayout">
+        <tr><td>@Html.MJLabelFor( m => m.ProjectName, true )</td><td>@Html.TextBoxFor( m => m.ProjectName )</td></tr>
+        <tr><td>@Html.MJLabelFor( m => m.CompanyID, true )</td><td>@Html.DropDownListFor( m => m.CompanyID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer ) )</td><td>
+			@Html.MJLabelFor( m => m.DealerSalesRep, true, new { id = "DSRLabel" } )</td><td>@Html.DropDownListFor( m => m.DealerSalesRep, new List<SelectListItem>() )</td></tr>
+        <tr><td>@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )</td><td>@Html.DropDownListFor( m => m.PaoliSalesRepGroupID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup ) )</td><td>
+			@Html.MJLabelFor( m => m.PaoliSpecTeamMember, true )</td><td>@Html.DropDownListFor( m => m.PaoliSpecTeamMember, UserController.GetUserDDList( PDWInfrastructure.PaoliWebUser.PaoliWebRole.PaoliMemberSpecTeam ) )</td></tr>
+		<tr><td class="padr30 padl30" colspan="4"><hr /></td></tr>
+        <tr><td>@Html.MJLabelFor( m => m.ListPrice, true )</td><td>@Html.TextBoxFor( m => m.ListPrice )</td><td>
+			@Html.MJLabelFor( m => m.SPLQuote, true )</td><td>@Html.TextBoxFor( m => m.SPLQuote )</td></tr>
+        <tr><td>@Html.MJLabelFor( m => m.FeaturedSeries, true )</td><td>@Html.DropDownListFor( m => m.FeaturedSeries, ImportController.GetSeriesDDList( true ) )</td><td>
+			@Html.MJLabelFor( m => m.SeriesList, true )</td><td>@Html.TextBoxFor( m => m.SeriesList, new { style = "display:none" } )</td></tr>
+        <tr><td>@Html.MJLabelFor( m => m.IsGSA, true )</td><td>@Html.CheckBoxFor( m => m.IsGSA )</td><td>
+			@Html.MJLabelFor( m => m.IsCompleted, true )</td><td>@Html.CheckBoxFor( m => m.IsCompleted )</td></tr>
+        <tr><td>@Html.MJLabelFor( m => m.Received, true )</td><td>@Html.CheckBoxFor( m => m.Received )</td><td>
+			@Html.MJLabelFor( m => m.IsGoodForWeb, true, new { @style = "display:none;", @class = "isGoodForWeb" } )</td><td>@Html.CheckBoxFor( m => m.IsGoodForWeb, new { @style = "display:none;", @class = "isGoodForWeb" } )</td></tr>
+        <tr><td>@Html.MJLabelFor( m => m.AvailableForIn2, true )</td><td>@Html.CheckBoxFor( m => m.AvailableForIn2 )</td></tr>
+        <tr><td>@Html.MJLabelFor( m => m.Material, true )</td><td>@Html.TextBoxFor( m => m.Material )</td><td>
+			@Html.MJLabelFor( m => m.Finish, true )</td><td>@Html.TextBoxFor( m => m.Finish )</td></tr>
+        <tr><td>@Html.MJLabelFor( m => m.Footprint, true )</td><td>@Html.DropDownListFor( m => m.Footprint, SpecRequestController.GetFootprintDDList() )</td></tr>
+        <tr><td>@Html.MJLabelFor( m => m.SavedLocation, true )</td><td>@Html.TextBoxFor( m => m.SavedLocation )</td><td>
+			@Html.MJLabelFor( m => m.Notes, true )</td><td>@Html.TextAreaFor( m => m.Notes )</td></tr>
+		<tr><td class="padr30 padl30" colspan="4"><hr /></td></tr>
+		<tr><td>@Html.MJLabelFor( m => m.xlsFile, true )</td><td><input type="file" id="xlsFile" name="xlsFile" accept=".xls,.xlsx" /></td></tr>
+		<tr><td>@Html.MJLabelFor( m => m.sifFile, true )</td><td><input type="file" id="sifFile" name="sifFile" accept=".sif" /></td></tr>
+		<tr><td>@Html.MJLabelFor( m => m.sp4File, true )</td><td><input type="file" id="sp4File" name="sp4File" accept=".sp4" /></td></tr>
+		<tr><td>@Html.MJLabelFor( m => m.pdfFile, true )</td><td><input type="file" id="pdfFile" name="pdfFile" accept=".pdf" /></td></tr>
+		<tr><td>@Html.MJLabelFor( m => m.dwgFile, true )</td><td><input type="file" id="dwgFile" name="dwgFile" accept=".dwg" /></td></tr>
+		<tr><td>@Html.MJLabelFor( m => m.imgFile, true )</td><td><input type="file" id="imgFile" name="imgFile" accept=".jpg,.png,.gif,.bmp" /></td></tr>
+		</table>
+@Html.ValidationSummary()
+        <input type="submit" class="btn_type1" value="Add" id="submitBtn" />
+	}

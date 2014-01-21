@@ -1,0 +1,32 @@
+﻿<h2>My Paoli Contacts</h2>
+@foreach( var contact in ViewBag.PaoliRepContacts )
+{
+<div class="padb10">
+<div>@contact.FullName
+@if( contact.CompanyName != null )
+{
+	<text>
+	(@contact.CompanyName)
+	</text>
+}
+</div>
+<div class="fs11"><a href="mailto:@contact.EmailAddress">@contact.EmailAddress</a> | @contact.PhoneNumber</div>
+</div>
+	 
+}
+<hr />
+<div class="padb10">
+<div>Spec & Renderings</div> <div class="fs11"><a href="mailto:specrequests@paoli.com">specrequests@paoli.com</a></div>
+</div>
+<div class="padb10">
+<div>Customer Service</div> <div class="fs11">800-457-7415</div>
+</div>
+@if( !PDWInfrastructure.PaoliWebUser.CurrentUser.IsDealerUser )
+{
+<div class="padb10">
+<div>Marketing requests</div> <div class="fs11"><a href="mailto:ask@paoli.com">ask@paoli.com</a></div>
+</div>
+}
+<div class="padb10">
+<div>Website questions</div> <div class="fs11"><a href="mailto:helpdesk@paoli.com">helpdesk@paoli.com</a></div>
+</div>

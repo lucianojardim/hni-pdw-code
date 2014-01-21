@@ -1,0 +1,526 @@
+body, ul.tagit
+{
+    font-size: 14px;
+    font-family: adelle_sansregular,Arial,"Helvetica Neue",Helvetica,sans-serif;
+    color: #232323;
+    background-color: #fff;
+    padding: 0;
+    margin: 0;
+}
+
+html 
+{
+    padding: 0px;
+    margin: 0px;
+}
+
+header,
+footer,
+nav,
+section {
+    display: block;
+}
+
+.mart5{margin-top:5px} .mart10{margin-top:10px} .mart15{margin-top:15px} .mart20{margin-top:20px} .mart25{margin-top:25px} .mart30{margin-top:30px} .mart40{margin-top:40px} .mart50{margin-top:50px}
+.marb5{margin-bottom:5px} .marb10{margin-bottom:10px} .marb15{margin-bottom:15px} .marb20{margin-bottom:20px} .marb25{margin-bottom:25px} .marb30{margin-bottom:30px} .marb35{margin-bottom:35px} .marb40{margin-bottom:40px} .marb45{margin-bottom:45px} .marb50{margin-bottom:50px}
+.padb5{padding-bottom:5px} .padb10{padding-bottom:10px} .padb15{padding-bottom:15px} .padb20{padding-bottom:20px} .padb25{padding-bottom:25px} .padb30{padding-bottom:30px} .padb40{padding-bottom:40px} .padb50{padding-bottom:50px}
+.padt5{padding-top:5px} .padt10{padding-top:10px} .padt15{padding-top:15px} .padt20{padding-top:20px} .padt25{padding-top:25px} .padt30{padding-top:30px} .padt40{padding-top:40px} .padt50{padding-top:50px} .padt60{padding-top:60px}
+.pad5{padding:5px} .pad10{padding:10px} .pad15{padding:15px} .pad20{padding:20px} .pad25{padding:25px}
+.padr10{padding-right:10px}
+.padr20{padding-right:20px}
+.padl20{padding-left:20px}
+.padr30{padding-right:30px}
+.padl30{padding-left:30px}
+.marr5{margin-right:5px}
+.marr10{margin-right:10px}
+.marl10{margin-left:10px}
+.marr20{margin-right:20px}
+.marr30{margin-right:30px}
+.padtoppage{padding-top:115px}
+
+.tac{text-align:center}
+.ttu{text-transform:uppercase}
+.fs11{font-size:11px}
+.fs13{font-size:13px}
+.fs15{font-size:15px}
+.fs16{font-size:16px}
+.fs18{font-size:18px}
+.fs20{font-size:20px}
+.fs24{font-size:24px}
+.fs30{font-size:30px}
+.fs36{font-size:36px}
+.fs48, .page_content .fs48{font-size:48px}
+.fs90{font-size:90px}
+.fs72{font-size:72px}
+.lhe22{line-height:22px}
+.lhe24{line-height:24px}
+
+.ffareg{font-family:adelle_sansregular}
+.ffaregi{font-family:adelle_sansregular!important}
+.ffathin{font-family:adelle_sansthin}
+.ffabold{font-family:adelle_sansbold}
+.ffait{font-family:adelle_sansitalic}
+.ffsemib{font-family:adelle_sans_sbregular}
+.ffweber{font-family:weberhand}
+.ffweberi{font-family:weberhand!important}
+
+.fflighter { color: rgb(182, 180, 180); }
+
+.left{ float: left; }
+.right{ float: right; }
+.clear{ clear: both; }
+
+.dashBig
+{
+	float:left;
+	width:600px;
+	padding-right:15px;
+}
+.dashLittle
+{
+	float:left;
+	width:300px;
+}
+
+/* Styles for basic forms
+-----------------------------------------------------------*/
+
+fieldset 
+{
+    border:1px solid #ddd;
+    padding:0 1.4em 1.4em 1.4em;
+    margin:0 0 1.5em 0;
+}
+
+legend 
+{
+    font-size:1.2em;
+    font-weight: bold;
+}
+
+textarea 
+{
+    min-height: 75px;
+}
+
+.editor-label 
+{
+    margin: 1em 0 0 0;
+}
+
+.editor-field 
+{
+    margin:0.5em 0 0 0;
+}
+
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error
+{
+    color: #ff0000;
+}
+
+.field-validation-valid
+{
+    display: none;
+}
+
+.input-validation-error
+{
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
+.validation-summary-errors
+{
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.validation-summary-valid
+{
+    display: none;
+}
+
+/*
+Header styles
+*/
+#page_navigation{
+	background:url(images/nav_bar_bg.png) top left repeat-x;
+	padding:13px 0;
+	margin-top:20px;
+	position:fixed;
+	width:100%;
+	z-index:1000;
+	height:64px
+}
+
+.wrapper{margin:0 auto;width:1000px}
+.wrapper.p20 {
+    width: 960px;
+    padding: 0px 20px;
+}
+
+#logo{display:inline-block; float:left}	
+
+#nav{
+	float:right;
+	padding-top:15px;
+	*clear: none;
+	*margin-top: -50px;
+	list-style:none;
+	margin:0
+}
+#nav li{
+	float:left; padding-left:15px; margin-left:15px;
+	border-left:1px solid #c7c2ba;
+}
+#nav li:first-child{border:none}
+#nav .current_page a{color:#e3e0db;
+	font:16px adelle_sansbold;
+	padding-top:0
+}
+#nav a{color:#c7c2ba; padding-top:2px; display:block}
+#nav a:hover{color:#fff}
+
+#nav a{
+	clear: none;
+}
+
+#nav a:link, #nav a:visited {
+    text-decoration: none;
+    outline: medium none;
+}
+
+#sub_nav{
+	background-color:#c7c2ba;
+	-moz-box-shadow: 0px 2px 2px #9b9b9b;
+	-webkit-box-shadow: 0px 2px 2px #9b9b9b;
+	box-shadow: 0px 2px 2px #9b9b9b;
+	overflow:hidden;
+}
+#sub_nav li{float:left}
+#sub_nav li.breadcrumbs{
+	background-color:#b5b0a7;
+	padding:0 5px;
+}
+#sub_nav li.breadcrumbs a{
+	padding:8px 8px;
+	font:16px adelle_sansbold;
+}
+#sub_nav li a{
+	cursor:pointer;
+	display:inline-block;
+	padding:8px 8px;
+	color:#313131;
+	font:14px adelle_sansregular;
+	height:20px;
+}
+#sub_nav li a:hover, #sub_nav .current{
+	background-color:#bab4ab
+}
+#sub_nav .nav_type_3 .on_focus a{
+	font:16px adelle_sansbold;
+	padding:8px 20px 10px
+}	
+#sub_nav .nav_type_3 a{
+	padding:9px 20px
+}
+#sub_nav.stuckontop2, #sub_nav.stuckontop{
+	position:fixed;
+	width:100%;
+	z-index:900
+}
+#sub_nav.stuckontop2{ top:77px;}
+#sub_nav.stuckontop{ top:112px;}
+#sub_nav ul
+{
+	list-style:none;
+	margin:0
+}
+#sub_nav a, #sub_nav a:link, #sub_nav a:visited 
+{
+    text-decoration: none;
+}
+
+/*
+login styles
+*/
+
+#loginBox {
+    width: 522px;
+    margin: 50px auto;
+}
+
+#loginBox h2 {
+    font-size: 36px;
+    font-weight: bold;
+    color: rgb(45, 44, 44);
+    margin: 0px 0px 15px 5px;
+}
+
+#loginBox .box {
+	background: url('images/blueTop.png') repeat-x #fff;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px; 
+	border: 1px solid #c5c5c5;
+	-webkit-box-shadow: 0px 0px 2px 0px rgba(197, 197, 197, 30);
+	-moz-box-shadow: 0px 0px 2px 0px rgba(197, 197, 197, 30);
+	box-shadow: 0px 0px 2px 0px rgba(197, 197, 197, 30); 
+	padding: 30px 20px;
+	margin: 0;
+}
+
+.field {
+    margin: 15px 0px 0px;
+    overflow: hidden;
+}
+
+#loginSubmit {
+    margin: 25px 0px 0px;
+}
+
+#loginSubmit input {
+    float: left;
+}
+
+.btn_type1 {
+    background-color: rgb(38, 63, 106);
+    background-image: linear-gradient(rgb(33, 58, 116), rgb(43, 68, 126));
+    box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.2) inset;
+    text-shadow: 0px 0px 0px transparent, -1px -1px 0px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgb(26, 42, 68);
+    border-radius: 5px 5px 5px 5px;
+    color: white;
+    padding: 6px 9px;
+    font-weight: bold;
+}
+
+a.btn_type1 
+{
+	text-decoration:none;
+}
+
+@font-face {
+    font-family: 'adelle_sansbold';
+    src: url('Fonts/adellesans_bold-webfont.eot');
+    src: url('Fonts/adellesans_bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Fonts/adellesans_bold-webfont.woff') format('woff'),
+         url('Fonts/adellesans_bold-webfont.ttf') format('truetype'),
+         url('Fonts/adellesans_bold-webfont.svg#adelle_sansbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'adelle_sansregular';
+    src: url('Fonts/adellesans_regular-webfont.eot');
+    src: url('Fonts/adellesans_regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Fonts/adellesans_regular-webfont.woff') format('woff'),
+         url('Fonts/adellesans_regular-webfont.ttf') format('truetype'),
+         url('Fonts/adellesans_regular-webfont.svg#adelle_sansregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'adelle_sansthin';
+    src: url('Fonts/adellesans_thin-webfont.eot');
+    src: url('Fonts/adellesans_thin-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Fonts/adellesans_thin-webfont.woff') format('woff'),
+         url('Fonts/adellesans_thin-webfont.ttf') format('truetype'),
+         url('Fonts/adellesans_thin-webfont.svg#adelle_sans_thregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'adelle_sans_sbregular';
+    src: url('Fonts/adellesans_semibold-webfont.eot');
+    src: url('Fonts/adellesans_semibold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Fonts/adellesans_semibold-webfont.woff') format('woff'),
+         url('Fonts/adellesans_semibold-webfont.ttf') format('truetype'),
+         url('Fonts/adellesans_semibold-webfont.svg#adelle_sans_sbregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+	font-family: 'weberhand';
+	src: url('Fonts/WeberHandITCStd-Bold.eot');
+	src: local('?'), url('Fonts/WeberHandITCStd-Bold.woff') format('woff'), url('Fonts/WeberHandITCStd-Bold.ttf') format('truetype'), url('Fonts/WeberHandITCStd-Bold.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+    font-family: 'adelle_sansitalic';
+    src: url('Fonts/adellesans_italic-webfont.eot');
+    src: url('Fonts/adellesans_italic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Fonts/adellesans_italic-webfont.woff') format('woff'),
+         url('Fonts/adellesans_italic-webfont.ttf') format('truetype'),
+         url('Fonts/adellesans_italic-webfont.svg#adelle_sansitalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+	font-family: 'adelle_sanslight';
+	src: url('Fonts/AdelleSans_Light.eot');
+	src: local('?'), url('Fonts/AdelleSans_Light.woff') format('woff'), url('Fonts/AdelleSans_Light.ttf') format('truetype'), url('Fonts/AdelleSans_Light.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+table.dataLayout td
+{
+	padding-right: 15px;
+	vertical-align: top;
+}
+
+table.dataLayout td textarea,
+table.dataLayout td input[type="text"],
+table.dataLayout td input[type="password"],
+table.dataLayout td.dataInfo
+{
+	width: 250px;
+}
+
+table.dataLayout td select
+{
+	width: 261px;
+}
+
+table.dataLayout td label,
+table.dataLayout td.dataLabel
+{
+	width: 185px;
+}
+
+table.dataLayout td ul.tagit
+{
+	margin-top:0px;
+	margin-bottom:5px;
+	width:250px;
+}
+
+span.dataRow
+{
+	display: table-row;
+}
+
+span.dataRow label
+{
+	display: table-cell;
+	padding-right: 10px;
+	padding-bottom: 5px;
+	vertical-align: top;
+	width: 185px;
+}
+
+span.dataRow input + label,
+span.dataRow select + label,
+span.dataRow ul.tagit + label
+{
+	padding-left: 15px;
+}
+
+span.dataRow input
+{
+	display: table-cell;
+}
+
+span.dataRow textarea,
+span.dataRow input[type="text"],
+span.dataRow input[type="password"]
+{
+	width: 250px;
+	vertical-align: top;
+}
+
+table.dataLayout td input[type="file"],
+span.dataRow input[type="file"]
+{
+	vertical-align: top;
+}
+
+span.dataRow select
+{
+	width: 261px;
+}
+
+#forgotPasswordLink
+{
+	color:#263f6a;
+	font:15px adelle_sansregular;
+	display:block;
+	text-decoration:none;
+}
+
+select,
+input[type="text"],
+input[type="password"]
+{
+	height:26px;
+}
+
+select,
+textarea,
+input[type="text"],
+input[type="password"]
+{
+	font-size:14px;
+	border: 1px solid rgb(204, 204, 204);
+	padding: 0px 3px 0px 6px;
+	transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
+	border-radius: 3px;
+	margin-bottom: 5px;
+}
+
+input[type="file"]
+{
+	margin-bottom: 5px;
+}
+
+select 
+{
+	padding: 2px 3px 2px 6px;
+}
+
+.textBox {
+    width: 469px;
+	color:#263f6a;
+}
+
+span.dataRow ul.tagit
+{
+	margin-top:0px;
+	margin-bottom:0px;
+	display: table-cell;
+	width:250px;
+}
+
+.contactHelp
+{
+	color: rgb(182, 180, 180);
+	font-size: 12px;
+}
+
+.contactHelp a
+{
+	color:#263f6a;
+	text-decoration:none;
+}
+
+.img_size_thumb
+{
+	height: 40px;
+	width: auto;
+}
+
+.img_size_thumb_wide
+{
+	height: auto;
+	width: 75px;
+}

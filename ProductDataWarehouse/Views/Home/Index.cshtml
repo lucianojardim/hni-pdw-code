@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Welcome to My Paoli";
+	ViewBag.CurrentPage = "Home";
+	ViewBag.CurrentSubPage = "";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+@{
+	var CurrentUser = PDWInfrastructure.PaoliWebUser.CurrentUser;
+	string RSSURL = ViewBag.RSSURL;
+}
+
+<div class="dashBig">
+@{Html.RenderPartial( "NewsRSSFeed", PDWInfrastructure.UmbracoAPI.UmbracoInterface.GetNewsItems( RSSURL ) );}
+</div>
+@if( CurrentUser.HasContacts )
+{
+<div class="dashLittle">
+@{Html.RenderPartial( "MyContactList" );}
+</div>
+}
+<div class="clear"></div>
+
+@if( CurrentUser.CanSeeTheScoop )
+{
+<div class="dashBig">
+@{Html.RenderPartial( "ScoopRSSFeed", PDWInfrastructure.UmbracoAPI.UmbracoInterface.GetScoopItems( RSSURL ) );}
+</div>
+}
+<div class="clear"></div>
+@if( CurrentUser.CanViewSpecRequests )
+{
+	<div>
+@{
+	ViewData["bMinView"] = true;
+	Html.RenderPartial( "MySpecList" );
+}
+	</div>
+}

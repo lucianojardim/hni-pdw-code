@@ -1,0 +1,21 @@
+﻿@model PDWModels.Users.ChangePWDetail
+@{
+    ViewBag.Title = "My Account";
+	ViewBag.CurrentPage = "Account";
+	ViewBag.CurrentSubPage = "ChangePW";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+
+    <h2>Change My Password</h2>
+
+    @using( Html.BeginForm() )
+	{
+		<p class="ffait fs11 fflighter">Password must be at least 8 characters, and contain an upper-case letter, a lower-case letter, and a non-letter.</p>
+        <span class="dataRow">@Html.MJLabelFor( m => m.OldPassword, true )@Html.PasswordFor( m => m.OldPassword )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.NewPassword, true )@Html.PasswordFor( m => m.NewPassword )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.ConfirmPassword, true )@Html.PasswordFor( m => m.ConfirmPassword )<br/></span>
+@Html.ValidationSummary()
+        <input type="submit" class="btn_type1" value="Update" id="submitBtn" />
+	}
