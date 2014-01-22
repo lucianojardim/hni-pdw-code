@@ -30,8 +30,8 @@
     			e.preventDefault();
 
     			var newRow = $('#groupData tbody tr:first-child').clone();
-    			newRow.find('.ddlCollateral').attr('name', '[' + itemCount + '].CollateralID');
-    			newRow.find('.txtQuantity').attr('name', '[' + itemCount + '].Quantity');
+    			newRow.find('.ddlCollateral').attr('name', 'GroupItems[' + itemCount + '].ItemID');
+    			newRow.find('.txtQuantity').attr('name', 'GroupItems[' + itemCount + '].Quantity');
 				newRow.find('.txtQuantity').val(0);
 				newRow.find('#GroupItems_Index').val(itemCount);
     			newRow.appendTo('#groupData tbody');
