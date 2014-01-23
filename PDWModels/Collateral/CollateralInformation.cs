@@ -20,7 +20,6 @@ namespace PDWModels.Collateral
 		[DisplayName( "Description" )]
 		public string Description { get; set; }
 		[DisplayName( "Lead Time" )]
-		[StringLength( 20 )]
 		public string LeadTime { get; set; }
 		[DisplayName( "Weight (oz)" )]
 		[Range( 0, float.MaxValue, ErrorMessage = "The field Weight must be greater than or equal to 0." )]
