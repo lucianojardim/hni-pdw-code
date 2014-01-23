@@ -246,6 +246,7 @@ namespace ProductDataWarehouse.Controllers
 				new SelectListItem()  { Text = "California", Value = "CA"   },
 				new SelectListItem()  { Text = "Colorado", Value = "CO"   },
 				new SelectListItem()  { Text = "Connecticut", Value = "CT"   },
+				new SelectListItem()  { Text = "District of Columbia", Value = "DC"   },
 				new SelectListItem()  { Text = "Delaware", Value = "DE"   },
 				new SelectListItem()  { Text = "Florida", Value = "FL"   },
 				new SelectListItem()  { Text = "Georgia", Value = "GA"   },
