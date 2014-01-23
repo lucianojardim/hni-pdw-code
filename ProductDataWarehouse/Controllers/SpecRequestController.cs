@@ -67,14 +67,16 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageTypicals" )]
-		public ActionResult Add()
+		public ActionResult AddRequest()
 		{
+			ViewBag.BlankInformation = new SpecRequestRepository().NewSpecRequest();
+
 			return View();
 		}
 
 		[PaoliAuthorize( "CanManageTypicals" )]
 		[HttpPost]
-		public ActionResult Add( SpecRequestInformation sInfo )
+		public ActionResult AddRequest( SpecRequestInformation sInfo )
 		{
 			if( ModelState.IsValid )
 			{
@@ -83,8 +85,6 @@ namespace ProductDataWarehouse.Controllers
 					SpecRequestRepository sRepository = new SpecRequestRepository();
 
 					sRepository.AddSpecRequest( sInfo );
-
-					ViewBag.CloseFancyBox = true;
 
 					return RedirectToAction( "Manage" );
 				}
@@ -96,8 +96,8 @@ namespace ProductDataWarehouse.Controllers
 						ModelState.AddModelError( "", ex.InnerException.Message );
 					}
 				}
-
 			}
+			ViewBag.BlankInformation = new SpecRequestRepository().NewSpecRequest();
 
 			return View( sInfo );
 		}
@@ -183,7 +183,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanViewSpecRequests" )]
-		public ActionResult View( int id )
+		public ActionResult ViewRequest( int id )
 		{
 			SpecRequestRepository sRepository = new SpecRequestRepository();
 
@@ -191,16 +191,18 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageTypicals" )]
-		public ActionResult Edit( int id )
+		public ActionResult EditRequest( int id )
 		{
 			SpecRequestRepository sRepository = new SpecRequestRepository();
+
+			ViewBag.BlankInformation = sRepository.NewSpecRequest();
 
 			return View( sRepository.GetSpecRequest( id ) );
 		}
 
 		[PaoliAuthorize( "CanManageTypicals" )]
 		[HttpPost]
-		public ActionResult Edit( SpecRequestInformation sInfo )
+		public ActionResult EditRequest( SpecRequestInformation sInfo )
 		{
 			if( ModelState.IsValid )
 			{
@@ -209,8 +211,6 @@ namespace ProductDataWarehouse.Controllers
 					SpecRequestRepository sRepository = new SpecRequestRepository();
 
 					sRepository.UpdateSpecRequest( sInfo );
-
-					ViewBag.CloseFancyBox = true;
 
 					return RedirectToAction( "Manage" );
 				}
@@ -224,6 +224,7 @@ namespace ProductDataWarehouse.Controllers
 				}
 
 			}
+			ViewBag.BlankInformation = new SpecRequestRepository().NewSpecRequest();
 
 			return View( sInfo );
 		}

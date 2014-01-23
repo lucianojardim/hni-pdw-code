@@ -144,6 +144,15 @@ namespace ProductDataWarehouse.Controllers
 			
 		}
 
+		public JsonResult GetDealerListForSalesRep( int salesRepCompanyId )
+		{
+			var theList = ( new CompanyRepository() ).GetDealerList( salesRepCompanyId ).ToList();
+
+			theList.Insert( 0, new PDWModels.IDToTextItem() { ID = 0, Text = "" } );
+			
+			return Json( theList, JsonRequestBehavior.AllowGet );
+		}
+
 		public static IEnumerable<SelectListItem> GetCompanyDDList( int? companyType = null )
 		{
 			var theList = ( new CompanyRepository() ).GetFullCompanyList( companyType ).Select( c => new SelectListItem() { Value = c.ID.ToString(), Text = c.Text } ).ToList();

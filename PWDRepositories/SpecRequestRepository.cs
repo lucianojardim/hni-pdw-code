@@ -197,6 +197,7 @@ namespace PWDRepositories
 			switch( sortCol.ToLower() )
 			{
 				case "name":
+				case "editbuttons":
 				default:
 					if( paramDetails.sSortDir_0.ToLower() == "asc" )
 					{
@@ -267,24 +268,34 @@ namespace PWDRepositories
 			return filteredAndSorted.ToList().Select( v => ToSpecRequestSummary( v ) );
 		}
 
-		private SpecRequestInformation.FileListing GetFileListing( string name, IEnumerable<SpecRequestFile> fileList, string fileType )
+		private SpecRequestInformation.FileListing GetFileListing( string name, IEnumerable<SpecRequestFile> fileList )
 		{
 			return new SpecRequestInformation.FileListing()
 			{
 				SpecName = name,
-				Extension = fileType,
 				FileList =
 					fileList
-					.Where( f => f.Extension == fileType )
 					.OrderByDescending( f => f.UploadDate )
 					.Select( i =>
 						new SpecRequestInformation.FileInformation()
 						{
 							FileName = i.Name,
+							Extension = i.Extension,
 							UploadDate = i.UploadDate.ToString( "MM/dd/yyyy HH:mm" ),
 							VersionNumber = i.VersionNumber
 						} )
 					.ToList()
+			};
+		}
+
+		public SpecRequestInformation NewSpecRequest()
+		{
+			return new SpecRequestInformation()
+			{
+				Casegoods = database.Serieses.Where( s => s.Category.Name == "Casegood" ).Select( s => s.Name ).ToList(),
+				Seating = database.Serieses.Where( s => s.Category.Name == "Seating" ).Select( s => s.Name ).ToList(),
+				Conferencing = database.Serieses.Where( s => s.Category.Name == "Tables" ).Select( s => s.Name ).ToList(),
+				Finishes = new List<string>() { "Laminate", "Veneer", "Other" }
 			};
 		}
 
@@ -302,12 +313,12 @@ namespace PWDRepositories
 				Name = sInfo.Name,
 				ProjectName = sInfo.ProjectName,
 				PaoliSalesRepGroupID = sInfo.PaoliSalesRepGroupID,
-				CompanyID = sInfo.PrimaryCompanyID,
-				DealerSalesRep = sInfo.DealerSalesRepID,
+				PaoliSalesRepMemberID = sInfo.PaoliSalesRepMemberID,
+				DealerID = sInfo.PrimaryCompanyID,
+				DealerMemberID = sInfo.DealerSalesRepID,
 				IsGSA = sInfo.IsGSA ?? false,
 				SavedLocation = sInfo.SavedLocation,
 				ListPrice = sInfo.ListPrice,
-				SeriesList = sInfo.SeriesList,
 				Received = sInfo.Received ?? false,
 				SPLQuote = sInfo.SPLQuote,
 				PaoliSpecTeamMember = sInfo.PaoliSpecTeamMemberID ?? 0,
@@ -315,21 +326,34 @@ namespace PWDRepositories
 				AvailableForIn2 = sInfo.AvailableForIn2 ?? false,
 				IsCompleted = sInfo.IsCompleted,
 				Footprint = sInfo.Footprint,
-				FeaturedSeries = sInfo.FeaturedSeries,
-				Material = sInfo.Material,
-				Finish = sInfo.Finish,
 				Notes = sInfo.Notes,
-				xlsFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles, "xls" ),
-				sifFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles, "sif" ),
-				sp4FileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles, "sp4" ),
-				pdfFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles, "pdf" ),
-				dwgFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles, "dwg" ),
-				imgFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles, "img" ),
+				addlFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles ),
 				CreatedDate = sInfo.RequestDate.Value,
-				DealerName = sInfo.PrimaryCompanyID.HasValue ? sInfo.PrimaryCompany.Name : "",
-				SalesRepGroupName = sInfo.PaoliSalesRepGroupID.HasValue ? sInfo.PaoliSalesRepGroup.Name : "",
-				DealerSalesRepName = sInfo.DealerSalesRepID.HasValue ? sInfo.DealerSalesRep.FullName : "",
-				SpecTeamMemberName = sInfo.PaoliSpecTeamMemberID.HasValue ? sInfo.SpecTeamMember.FullName : ""
+				DealerName = sInfo.PrimaryCompanyID.HasValue ? sInfo.PrimaryCompany.Name : "None",
+				SalesRepGroupName = sInfo.PaoliSalesRepGroupID.HasValue ? sInfo.PaoliSalesRepGroup.Name : "None",
+				SalesRepMemberName = sInfo.PaoliSalesRepMemberID.HasValue ? sInfo.PaoliSalesRepMember.FullName : "None",
+				DealerSalesRepName = sInfo.DealerSalesRepID.HasValue ? sInfo.DealerSalesRep.FullName : "None",
+				SpecTeamMemberName = sInfo.PaoliSpecTeamMemberID.HasValue ? sInfo.SpecTeamMember.FullName : "None",
+				EndCustomer = sInfo.EndCustomer,
+				ProjectSize = sInfo.ProjectSize,
+				QuoteDueDate = sInfo.QuoteDueDate,
+				NeedFloorplanSpecs = sInfo.NeedFloorplanSpecs,
+				Need3DDrawing = sInfo.Need3DDrawing,
+				NeedValueEng = sInfo.NeedValueEng,
+				NeedPhotoRendering = sInfo.NeedPhotoRendering,
+				Need2DDrawing = sInfo.Need2DDrawing,
+				NeedAuditSpecs = sInfo.NeedAuditSpecs,
+				Casegoods = sInfo.Casegoods.Split( ',' ).ToList(),
+				Conferencing = sInfo.Conferencing.Split( ',' ).ToList(),
+				Seating = sInfo.Seating.Split( ',' ).ToList(),
+				Finishes = sInfo.Finishes.Split( ',' ).ToList(),
+				OtherFinishDetails = sInfo.Finishes.Contains( "Other" ) ? sInfo.OtherFinishDetails : null,
+				Grommets = sInfo.Grommets,
+				GrommetDetails = sInfo.Grommets ? sInfo.GrommetDetails : null,
+				DrawerOption = sInfo.DrawerOption,
+				FabricGrade = sInfo.FabricGrade,
+				Fabric = sInfo.FabricDetails,
+				SpecialRequests = sInfo.SpecialRequests
 
 					
 			};
@@ -340,26 +364,43 @@ namespace PWDRepositories
 			SpecRequest newSpec = new SpecRequest();
 
 			newSpec.ProjectName = sInfo.ProjectName;
-			newSpec.PaoliSalesRepGroupID = sInfo.PaoliSalesRepGroupID;
-			newSpec.PrimaryCompanyID = sInfo.CompanyID;
-			newSpec.DealerSalesRepID = sInfo.DealerSalesRep;
+			newSpec.PaoliSalesRepGroupID = ( sInfo.PaoliSalesRepGroupID ?? 0 ) > 0 ? sInfo.PaoliSalesRepGroupID : null;
+			newSpec.PaoliSalesRepMemberID = ( sInfo.PaoliSalesRepMemberID ?? 0 ) > 0 ? sInfo.PaoliSalesRepMemberID : null;
+			newSpec.PrimaryCompanyID = ( sInfo.DealerID ?? 0 ) > 0 ? sInfo.DealerID : null;
+			newSpec.DealerSalesRepID = ( sInfo.DealerMemberID ?? 0 ) > 0 ? sInfo.DealerMemberID : null;
 			newSpec.RequestDate = DateTime.UtcNow;
 			newSpec.IsGSA = sInfo.IsGSA;
-			newSpec.SavedLocation = sInfo.SavedLocation;
-			newSpec.ListPrice = sInfo.ListPrice;
-			newSpec.SeriesList = sInfo.SeriesList;
-			newSpec.Received = sInfo.Received;
-			newSpec.SPLQuote = sInfo.SPLQuote;
-			newSpec.PaoliSpecTeamMemberID = (sInfo.PaoliSpecTeamMember ?? 0) > 0 ? sInfo.PaoliSpecTeamMember : null;
-			newSpec.LastModifiedDate = DateTime.UtcNow;
-			newSpec.IsGoodForWeb = sInfo.IsGoodForWeb && sInfo.IsCompleted;
-			newSpec.IsCompleted = sInfo.IsCompleted;
 			newSpec.AvailableForIn2 = sInfo.AvailableForIn2;
-			newSpec.Footprint = sInfo.Footprint;
-			newSpec.FeaturedSeries = sInfo.FeaturedSeries;
-			newSpec.Material = sInfo.Material;
-			newSpec.Finish = sInfo.Finish;
+			newSpec.PaoliSpecTeamMemberID = ( sInfo.PaoliSpecTeamMember ?? 0 ) > 0 ? sInfo.PaoliSpecTeamMember : null;
+			newSpec.LastModifiedDate = DateTime.UtcNow;
 			newSpec.Notes = sInfo.Notes;
+			newSpec.EndCustomer = sInfo.EndCustomer;
+			newSpec.ProjectSize = sInfo.ProjectSize;
+			newSpec.QuoteDueDate = sInfo.QuoteDueDate;
+			newSpec.NeedFloorplanSpecs = sInfo.NeedFloorplanSpecs;
+			newSpec.Need3DDrawing = sInfo.Need3DDrawing;
+			newSpec.NeedValueEng = sInfo.NeedValueEng;
+			newSpec.NeedPhotoRendering = sInfo.NeedPhotoRendering;
+			newSpec.Need2DDrawing = sInfo.Need2DDrawing;
+			newSpec.NeedAuditSpecs = sInfo.NeedAuditSpecs;
+			newSpec.Casegoods = string.Join( ",", sInfo.Casegoods );
+			newSpec.Conferencing = string.Join( ",", sInfo.Conferencing );
+			newSpec.Seating = string.Join( ",", sInfo.Seating );
+			newSpec.Finishes = string.Join( ",", sInfo.Finishes );
+			newSpec.OtherFinishDetails = sInfo.Finishes.Contains( "Other" ) ? sInfo.OtherFinishDetails : null;
+			newSpec.Grommets = sInfo.Grommets;
+			newSpec.GrommetDetails = sInfo.Grommets ? sInfo.GrommetDetails : null;
+			newSpec.DrawerOption = sInfo.DrawerOption;
+			newSpec.FabricGrade = sInfo.FabricGrade;
+			newSpec.FabricDetails = sInfo.Fabric;
+			newSpec.SpecialRequests = sInfo.SpecialRequests;
+			newSpec.SavedLocation = null;
+			newSpec.ListPrice = null;
+			newSpec.Received = false;
+			newSpec.SPLQuote = null;
+			newSpec.IsGoodForWeb = false;
+			newSpec.IsCompleted = false;
+			newSpec.Footprint = null;
 
 			database.SpecRequests.AddObject( newSpec );
 
@@ -371,35 +412,12 @@ namespace PWDRepositories
 
 				var rootLocation = Path.Combine( ConfigurationManager.AppSettings["SpecRequestDocumentLocation"], newSpec.Name );
 
-				bool bAddFile = false;
-				if( sInfo.xlsFile != null )
+				foreach( var fileStream in sInfo.addlFiles )
 				{
-					bAddFile |= SaveNewFileVersion( newSpec, rootLocation, "xls", sInfo.xlsFile.InputStream, sInfo.xlsFile.FileName );
-				}
-
-				if( sInfo.sifFile != null )
-				{
-					bAddFile |= SaveNewFileVersion( newSpec, rootLocation, "sif", sInfo.sifFile.InputStream, sInfo.sifFile.FileName );
-				}
-
-				if( sInfo.sp4File != null )
-				{
-					bAddFile |= SaveNewFileVersion( newSpec, rootLocation, "sp4", sInfo.sp4File.InputStream, sInfo.sp4File.FileName );
-				}
-
-				if( sInfo.pdfFile != null )
-				{
-					bAddFile |= SaveNewFileVersion( newSpec, rootLocation, "pdf", sInfo.pdfFile.InputStream, sInfo.pdfFile.FileName );
-				}
-
-				if( sInfo.dwgFile != null )
-				{
-					bAddFile |= SaveNewFileVersion( newSpec, rootLocation, "dwg", sInfo.dwgFile.InputStream, sInfo.dwgFile.FileName );
-				}
-
-				if( sInfo.imgFile != null )
-				{
-					bAddFile |= SaveNewFileVersion( newSpec, rootLocation, "img", sInfo.imgFile.InputStream, sInfo.imgFile.FileName );
+					if( fileStream != null )
+					{
+						SaveNewFileVersion( newSpec, rootLocation, Path.GetExtension( fileStream.FileName ).Trim( '.' ), fileStream.InputStream, fileStream.FileName );
+					}
 				}
 
 				return database.SaveChanges() > 0;
@@ -417,57 +435,52 @@ namespace PWDRepositories
 			}
 
 			specInfo.ProjectName = sInfo.ProjectName;
-			specInfo.PaoliSalesRepGroupID = sInfo.PaoliSalesRepGroupID;
-			specInfo.PrimaryCompanyID = sInfo.CompanyID;
-			specInfo.DealerSalesRepID = sInfo.DealerSalesRep;
+			specInfo.PaoliSalesRepGroupID = ( sInfo.PaoliSalesRepGroupID ?? 0 ) > 0 ? sInfo.PaoliSalesRepGroupID : null;
+			specInfo.PaoliSalesRepMemberID = ( sInfo.PaoliSalesRepMemberID ?? 0 ) > 0 ? sInfo.PaoliSalesRepMemberID : null;
+			specInfo.PrimaryCompanyID = ( sInfo.DealerID ?? 0 ) > 0 ? sInfo.DealerID : null;
+			specInfo.DealerSalesRepID = ( sInfo.DealerMemberID ?? 0 ) > 0 ? sInfo.DealerMemberID : null;
+			specInfo.RequestDate = DateTime.UtcNow;
 			specInfo.IsGSA = sInfo.IsGSA;
-			specInfo.SavedLocation = sInfo.SavedLocation;
-			specInfo.ListPrice = sInfo.ListPrice;
-			specInfo.SeriesList = sInfo.SeriesList;
-			specInfo.Received = sInfo.Received;
-			specInfo.SPLQuote = sInfo.SPLQuote;
+			specInfo.AvailableForIn2 = sInfo.AvailableForIn2;
 			specInfo.PaoliSpecTeamMemberID = ( sInfo.PaoliSpecTeamMember ?? 0 ) > 0 ? sInfo.PaoliSpecTeamMember : null;
 			specInfo.LastModifiedDate = DateTime.UtcNow;
-			specInfo.IsGoodForWeb = sInfo.IsGoodForWeb && sInfo.IsCompleted;
-			specInfo.IsCompleted = sInfo.IsCompleted;
-			specInfo.AvailableForIn2 = sInfo.AvailableForIn2;
-			specInfo.Footprint = sInfo.Footprint;
-			specInfo.FeaturedSeries = sInfo.FeaturedSeries;
-			specInfo.Material = sInfo.Material;
-			specInfo.Finish = sInfo.Finish;
 			specInfo.Notes = sInfo.Notes;
+			specInfo.EndCustomer = sInfo.EndCustomer;
+			specInfo.ProjectSize = sInfo.ProjectSize;
+			specInfo.QuoteDueDate = sInfo.QuoteDueDate;
+			specInfo.NeedFloorplanSpecs = sInfo.NeedFloorplanSpecs;
+			specInfo.Need3DDrawing = sInfo.Need3DDrawing;
+			specInfo.NeedValueEng = sInfo.NeedValueEng;
+			specInfo.NeedPhotoRendering = sInfo.NeedPhotoRendering;
+			specInfo.Need2DDrawing = sInfo.Need2DDrawing;
+			specInfo.NeedAuditSpecs = sInfo.NeedAuditSpecs;
+			specInfo.Casegoods = string.Join( ",", sInfo.Casegoods );
+			specInfo.Conferencing = string.Join( ",", sInfo.Conferencing );
+			specInfo.Seating = string.Join( ",", sInfo.Seating );
+			specInfo.Finishes = string.Join( ",", sInfo.Finishes );
+			specInfo.OtherFinishDetails = sInfo.Finishes.Contains( "Other" ) ? sInfo.OtherFinishDetails : null;
+			specInfo.Grommets = sInfo.Grommets;
+			specInfo.GrommetDetails = sInfo.Grommets ? sInfo.GrommetDetails : null;
+			specInfo.DrawerOption = sInfo.DrawerOption;
+			specInfo.FabricGrade = sInfo.FabricGrade;
+			specInfo.FabricDetails = sInfo.Fabric;
+			specInfo.SpecialRequests = sInfo.SpecialRequests;
+			specInfo.SavedLocation = sInfo.SavedLocation;
+			specInfo.ListPrice = sInfo.ListPrice;
+			specInfo.Received = sInfo.Received;
+			specInfo.SPLQuote = sInfo.SPLQuote;
+			specInfo.IsGoodForWeb = sInfo.IsCompleted && sInfo.IsGoodForWeb;
+			specInfo.IsCompleted = sInfo.IsCompleted;
+			specInfo.Footprint = sInfo.Footprint;
 
 			var rootLocation = Path.Combine( ConfigurationManager.AppSettings["SpecRequestDocumentLocation"], specInfo.Name );
 
-			bool bAddFile = false;
-			if( sInfo.xlsFile != null )
+			foreach( var fileStream in sInfo.addlFiles )
 			{
-				bAddFile |= SaveNewFileVersion( specInfo, rootLocation, "xls", sInfo.xlsFile.InputStream, sInfo.xlsFile.FileName );
-			}
-
-			if( sInfo.sifFile != null )
-			{
-				bAddFile |= SaveNewFileVersion( specInfo, rootLocation, "sif", sInfo.sifFile.InputStream, sInfo.sifFile.FileName );
-			}
-
-			if( sInfo.sp4File != null )
-			{
-				bAddFile |= SaveNewFileVersion( specInfo, rootLocation, "sp4", sInfo.sp4File.InputStream, sInfo.sp4File.FileName );
-			}
-
-			if( sInfo.pdfFile != null )
-			{
-				bAddFile |= SaveNewFileVersion( specInfo, rootLocation, "pdf", sInfo.pdfFile.InputStream, sInfo.pdfFile.FileName );
-			}
-
-			if( sInfo.dwgFile != null )
-			{
-				bAddFile |= SaveNewFileVersion( specInfo, rootLocation, "dwg", sInfo.dwgFile.InputStream, sInfo.dwgFile.FileName );
-			}
-
-			if( sInfo.imgFile != null )
-			{
-				bAddFile |= SaveNewFileVersion( specInfo, rootLocation, "img", sInfo.imgFile.InputStream, sInfo.imgFile.FileName );
+				if( fileStream != null )
+				{
+					SaveNewFileVersion( specInfo, rootLocation, Path.GetExtension( fileStream.FileName ).Trim( '.' ), fileStream.InputStream, fileStream.FileName );
+				}
 			}
 
 			return database.SaveChanges() > 0;

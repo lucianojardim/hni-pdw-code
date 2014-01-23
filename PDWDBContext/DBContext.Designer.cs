@@ -64,6 +64,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCollateral_Type", "CollateralType", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.CollateralType), "CollateralItem", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralItem), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCGI_Children", "CollateralItem", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.CollateralItem), "CollateralGroupItem", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralGroupItem), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCGI_Parent", "CollateralItem", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.CollateralItem), "CollateralGroupItem", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralGroupItem), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSpecRequest_PSRMember", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
 
 #endregion
 
@@ -6822,11 +6823,25 @@ namespace PDWDBContext
         /// </summary>
         /// <param name="requestID">Initial value of the RequestID property.</param>
         /// <param name="isCompleted">Initial value of the IsCompleted property.</param>
-        public static SpecRequest CreateSpecRequest(global::System.Int32 requestID, global::System.Boolean isCompleted)
+        /// <param name="needFloorplanSpecs">Initial value of the NeedFloorplanSpecs property.</param>
+        /// <param name="need3DDrawing">Initial value of the Need3DDrawing property.</param>
+        /// <param name="needValueEng">Initial value of the NeedValueEng property.</param>
+        /// <param name="needPhotoRendering">Initial value of the NeedPhotoRendering property.</param>
+        /// <param name="need2DDrawing">Initial value of the Need2DDrawing property.</param>
+        /// <param name="needAuditSpecs">Initial value of the NeedAuditSpecs property.</param>
+        /// <param name="grommets">Initial value of the Grommets property.</param>
+        public static SpecRequest CreateSpecRequest(global::System.Int32 requestID, global::System.Boolean isCompleted, global::System.Boolean needFloorplanSpecs, global::System.Boolean need3DDrawing, global::System.Boolean needValueEng, global::System.Boolean needPhotoRendering, global::System.Boolean need2DDrawing, global::System.Boolean needAuditSpecs, global::System.Boolean grommets)
         {
             SpecRequest specRequest = new SpecRequest();
             specRequest.RequestID = requestID;
             specRequest.IsCompleted = isCompleted;
+            specRequest.NeedFloorplanSpecs = needFloorplanSpecs;
+            specRequest.Need3DDrawing = need3DDrawing;
+            specRequest.NeedValueEng = needValueEng;
+            specRequest.NeedPhotoRendering = needPhotoRendering;
+            specRequest.Need2DDrawing = need2DDrawing;
+            specRequest.NeedAuditSpecs = needAuditSpecs;
+            specRequest.Grommets = grommets;
             return specRequest;
         }
 
@@ -7388,6 +7403,510 @@ namespace PDWDBContext
         private global::System.Boolean _IsCompleted;
         partial void OnIsCompletedChanging(global::System.Boolean value);
         partial void OnIsCompletedChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> PaoliSalesRepMemberID
+        {
+            get
+            {
+                return _PaoliSalesRepMemberID;
+            }
+            set
+            {
+                OnPaoliSalesRepMemberIDChanging(value);
+                ReportPropertyChanging("PaoliSalesRepMemberID");
+                _PaoliSalesRepMemberID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("PaoliSalesRepMemberID");
+                OnPaoliSalesRepMemberIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _PaoliSalesRepMemberID;
+        partial void OnPaoliSalesRepMemberIDChanging(Nullable<global::System.Int32> value);
+        partial void OnPaoliSalesRepMemberIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String EndCustomer
+        {
+            get
+            {
+                return _EndCustomer;
+            }
+            set
+            {
+                OnEndCustomerChanging(value);
+                ReportPropertyChanging("EndCustomer");
+                _EndCustomer = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("EndCustomer");
+                OnEndCustomerChanged();
+            }
+        }
+        private global::System.String _EndCustomer;
+        partial void OnEndCustomerChanging(global::System.String value);
+        partial void OnEndCustomerChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ProjectSize
+        {
+            get
+            {
+                return _ProjectSize;
+            }
+            set
+            {
+                OnProjectSizeChanging(value);
+                ReportPropertyChanging("ProjectSize");
+                _ProjectSize = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ProjectSize");
+                OnProjectSizeChanged();
+            }
+        }
+        private global::System.String _ProjectSize;
+        partial void OnProjectSizeChanging(global::System.String value);
+        partial void OnProjectSizeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> QuoteDueDate
+        {
+            get
+            {
+                return _QuoteDueDate;
+            }
+            set
+            {
+                OnQuoteDueDateChanging(value);
+                ReportPropertyChanging("QuoteDueDate");
+                _QuoteDueDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("QuoteDueDate");
+                OnQuoteDueDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _QuoteDueDate;
+        partial void OnQuoteDueDateChanging(Nullable<global::System.DateTime> value);
+        partial void OnQuoteDueDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean NeedFloorplanSpecs
+        {
+            get
+            {
+                return _NeedFloorplanSpecs;
+            }
+            set
+            {
+                OnNeedFloorplanSpecsChanging(value);
+                ReportPropertyChanging("NeedFloorplanSpecs");
+                _NeedFloorplanSpecs = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("NeedFloorplanSpecs");
+                OnNeedFloorplanSpecsChanged();
+            }
+        }
+        private global::System.Boolean _NeedFloorplanSpecs;
+        partial void OnNeedFloorplanSpecsChanging(global::System.Boolean value);
+        partial void OnNeedFloorplanSpecsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean Need3DDrawing
+        {
+            get
+            {
+                return _Need3DDrawing;
+            }
+            set
+            {
+                OnNeed3DDrawingChanging(value);
+                ReportPropertyChanging("Need3DDrawing");
+                _Need3DDrawing = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Need3DDrawing");
+                OnNeed3DDrawingChanged();
+            }
+        }
+        private global::System.Boolean _Need3DDrawing;
+        partial void OnNeed3DDrawingChanging(global::System.Boolean value);
+        partial void OnNeed3DDrawingChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean NeedValueEng
+        {
+            get
+            {
+                return _NeedValueEng;
+            }
+            set
+            {
+                OnNeedValueEngChanging(value);
+                ReportPropertyChanging("NeedValueEng");
+                _NeedValueEng = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("NeedValueEng");
+                OnNeedValueEngChanged();
+            }
+        }
+        private global::System.Boolean _NeedValueEng;
+        partial void OnNeedValueEngChanging(global::System.Boolean value);
+        partial void OnNeedValueEngChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean NeedPhotoRendering
+        {
+            get
+            {
+                return _NeedPhotoRendering;
+            }
+            set
+            {
+                OnNeedPhotoRenderingChanging(value);
+                ReportPropertyChanging("NeedPhotoRendering");
+                _NeedPhotoRendering = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("NeedPhotoRendering");
+                OnNeedPhotoRenderingChanged();
+            }
+        }
+        private global::System.Boolean _NeedPhotoRendering;
+        partial void OnNeedPhotoRenderingChanging(global::System.Boolean value);
+        partial void OnNeedPhotoRenderingChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean Need2DDrawing
+        {
+            get
+            {
+                return _Need2DDrawing;
+            }
+            set
+            {
+                OnNeed2DDrawingChanging(value);
+                ReportPropertyChanging("Need2DDrawing");
+                _Need2DDrawing = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Need2DDrawing");
+                OnNeed2DDrawingChanged();
+            }
+        }
+        private global::System.Boolean _Need2DDrawing;
+        partial void OnNeed2DDrawingChanging(global::System.Boolean value);
+        partial void OnNeed2DDrawingChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean NeedAuditSpecs
+        {
+            get
+            {
+                return _NeedAuditSpecs;
+            }
+            set
+            {
+                OnNeedAuditSpecsChanging(value);
+                ReportPropertyChanging("NeedAuditSpecs");
+                _NeedAuditSpecs = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("NeedAuditSpecs");
+                OnNeedAuditSpecsChanged();
+            }
+        }
+        private global::System.Boolean _NeedAuditSpecs;
+        partial void OnNeedAuditSpecsChanging(global::System.Boolean value);
+        partial void OnNeedAuditSpecsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Casegoods
+        {
+            get
+            {
+                return _Casegoods;
+            }
+            set
+            {
+                OnCasegoodsChanging(value);
+                ReportPropertyChanging("Casegoods");
+                _Casegoods = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Casegoods");
+                OnCasegoodsChanged();
+            }
+        }
+        private global::System.String _Casegoods;
+        partial void OnCasegoodsChanging(global::System.String value);
+        partial void OnCasegoodsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Conferencing
+        {
+            get
+            {
+                return _Conferencing;
+            }
+            set
+            {
+                OnConferencingChanging(value);
+                ReportPropertyChanging("Conferencing");
+                _Conferencing = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Conferencing");
+                OnConferencingChanged();
+            }
+        }
+        private global::System.String _Conferencing;
+        partial void OnConferencingChanging(global::System.String value);
+        partial void OnConferencingChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Seating
+        {
+            get
+            {
+                return _Seating;
+            }
+            set
+            {
+                OnSeatingChanging(value);
+                ReportPropertyChanging("Seating");
+                _Seating = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Seating");
+                OnSeatingChanged();
+            }
+        }
+        private global::System.String _Seating;
+        partial void OnSeatingChanging(global::System.String value);
+        partial void OnSeatingChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Finishes
+        {
+            get
+            {
+                return _Finishes;
+            }
+            set
+            {
+                OnFinishesChanging(value);
+                ReportPropertyChanging("Finishes");
+                _Finishes = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Finishes");
+                OnFinishesChanged();
+            }
+        }
+        private global::System.String _Finishes;
+        partial void OnFinishesChanging(global::System.String value);
+        partial void OnFinishesChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean Grommets
+        {
+            get
+            {
+                return _Grommets;
+            }
+            set
+            {
+                OnGrommetsChanging(value);
+                ReportPropertyChanging("Grommets");
+                _Grommets = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Grommets");
+                OnGrommetsChanged();
+            }
+        }
+        private global::System.Boolean _Grommets;
+        partial void OnGrommetsChanging(global::System.Boolean value);
+        partial void OnGrommetsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String GrommetDetails
+        {
+            get
+            {
+                return _GrommetDetails;
+            }
+            set
+            {
+                OnGrommetDetailsChanging(value);
+                ReportPropertyChanging("GrommetDetails");
+                _GrommetDetails = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("GrommetDetails");
+                OnGrommetDetailsChanged();
+            }
+        }
+        private global::System.String _GrommetDetails;
+        partial void OnGrommetDetailsChanging(global::System.String value);
+        partial void OnGrommetDetailsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String DrawerOption
+        {
+            get
+            {
+                return _DrawerOption;
+            }
+            set
+            {
+                OnDrawerOptionChanging(value);
+                ReportPropertyChanging("DrawerOption");
+                _DrawerOption = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("DrawerOption");
+                OnDrawerOptionChanged();
+            }
+        }
+        private global::System.String _DrawerOption;
+        partial void OnDrawerOptionChanging(global::System.String value);
+        partial void OnDrawerOptionChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String FabricGrade
+        {
+            get
+            {
+                return _FabricGrade;
+            }
+            set
+            {
+                OnFabricGradeChanging(value);
+                ReportPropertyChanging("FabricGrade");
+                _FabricGrade = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("FabricGrade");
+                OnFabricGradeChanged();
+            }
+        }
+        private global::System.String _FabricGrade;
+        partial void OnFabricGradeChanging(global::System.String value);
+        partial void OnFabricGradeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String FabricDetails
+        {
+            get
+            {
+                return _FabricDetails;
+            }
+            set
+            {
+                OnFabricDetailsChanging(value);
+                ReportPropertyChanging("FabricDetails");
+                _FabricDetails = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("FabricDetails");
+                OnFabricDetailsChanged();
+            }
+        }
+        private global::System.String _FabricDetails;
+        partial void OnFabricDetailsChanging(global::System.String value);
+        partial void OnFabricDetailsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String SpecialRequests
+        {
+            get
+            {
+                return _SpecialRequests;
+            }
+            set
+            {
+                OnSpecialRequestsChanging(value);
+                ReportPropertyChanging("SpecialRequests");
+                _SpecialRequests = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("SpecialRequests");
+                OnSpecialRequestsChanged();
+            }
+        }
+        private global::System.String _SpecialRequests;
+        partial void OnSpecialRequestsChanging(global::System.String value);
+        partial void OnSpecialRequestsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String OtherFinishDetails
+        {
+            get
+            {
+                return _OtherFinishDetails;
+            }
+            set
+            {
+                OnOtherFinishDetailsChanging(value);
+                ReportPropertyChanging("OtherFinishDetails");
+                _OtherFinishDetails = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("OtherFinishDetails");
+                OnOtherFinishDetailsChanged();
+            }
+        }
+        private global::System.String _OtherFinishDetails;
+        partial void OnOtherFinishDetailsChanging(global::System.String value);
+        partial void OnOtherFinishDetailsChanged();
 
         #endregion
 
@@ -7586,6 +8105,44 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Typical>("PaoliPDWModel.fkTypical_Spec", "Typical", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSpecRequest_PSRMember", "User")]
+        public User PaoliSalesRepMember
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkSpecRequest_PSRMember", "User").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkSpecRequest_PSRMember", "User").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<User> PaoliSalesRepMemberReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkSpecRequest_PSRMember", "User");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("PaoliPDWModel.fkSpecRequest_PSRMember", "User", value);
                 }
             }
         }
@@ -10228,6 +10785,28 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<UserSubscription>("PaoliPDWModel.fkUSub_User", "UserSubscription", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSpecRequest_PSRMember", "SpecRequest")]
+        public EntityCollection<SpecRequest> SpecRequests2
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<SpecRequest>("PaoliPDWModel.fkSpecRequest_PSRMember", "SpecRequest");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SpecRequest>("PaoliPDWModel.fkSpecRequest_PSRMember", "SpecRequest", value);
                 }
             }
         }

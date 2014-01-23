@@ -1,0 +1,172 @@
+﻿@model PDWModels.SpecRequests.SpecRequestInformation
+@{
+	ViewBag.Title = "View A Spec Quote Request";
+	ViewBag.CurrentPage = "Database";
+	ViewBag.CurrentSubPage = "Typicals";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+
+    <script type="text/javascript">
+    	$(document).ready(function () {
+			@if( Model.CreatedDate.HasValue ) {
+			<text>
+                var cDate = new Date('@Model.CreatedDate.Value.ToString()');
+                var offset = new Date().getTimezoneOffset();
+                cDate.setMinutes(cDate.getMinutes() - offset);
+                $('#createdDate').text((cDate.getMonth() + 1) + '/' + cDate.getDate() + '/' + cDate.getFullYear());
+			</text>
+			}
+    	});
+	</script>
+
+		@Html.HiddenFor( m => m.RequestID )
+		<div>
+		<div class="left">
+			<h2>View A Spec Quote Request - @Model.Name</h2>
+		</div>
+		<div class="right">
+		@Html.MJLabelFor( m => m.CreatedDate, true )<span id="createdDate"></span>
+		</div>
+		<div class="clear"></div>
+		</div>
+		<div class="requestPanel">
+			<h3>Who's Requesting</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.SalesRepGroupName )</td>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.PaoliSalesRepMemberID, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.SalesRepMemberName )</td>
+				</tr>
+				<tr>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.DealerID, false )</td><td class="dataInfo">@Html.DisplayFor( m => m.DealerName )</td>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.DealerMemberID, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.DealerSalesRepName )</td>
+				</tr>
+				<tr>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.PaoliSpecTeamMember, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.SpecTeamMemberName )</td>
+				</tr>
+			</table>
+		</div>
+		<div class="requestPanel">
+			<h3>About This Project</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.EndCustomer, false )</td><td class="dataInfo">@Html.DisplayFor( m => m.EndCustomer )</td>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.ProjectName, false )</td><td class="dataInfo">@Html.DisplayFor( m => m.ProjectName )</td>
+				</tr>
+				<tr>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.ProjectSize, false )</td><td class="dataInfo">@Html.DisplayFor( m => m.ProjectSize )</td>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.QuoteDueDate, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.QuoteDueDate, templateName: "DateOnly" )</td>
+				</tr>
+				<tr>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.IsGSA, false )</td><td class="dataInfo">@Html.DisplayFor( m => m.IsGSA, templateName: "YesNo" )</td>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.AvailableForIn2, false )</td><td class="dataInfo">@Html.DisplayFor( m => m.AvailableForIn2, templateName: "YesNo" )</td>
+				</tr>
+			</table>
+		</div>
+		<div class="requestPanel">
+			<h3>Services Requested</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.NeedFloorplanSpecs, true )</td><td class="dataInfoThin">@Html.DisplayFor( m => m.NeedFloorplanSpecs, templateName: "YesNo" )</td>
+					<td rowspan="6" id="fileContainer" class="dataInfo">@Html.MJLabelFor( m => m.addlFiles, true )<br />@Html.EditorFor( m => m.addlFileList )</td>
+					<td rowspan="6" class="dataInfo">@Html.MJLabelFor( m => m.Notes, true ) <br/> @Html.DisplayFor( m => m.Notes )</td>
+				</tr>
+				<tr>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.NeedPhotoRendering, true )</td><td class="dataInfoThin">@Html.DisplayFor( m => m.NeedFloorplanSpecs, templateName: "YesNo" )</td>
+				</tr>
+				<tr>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.Need3DDrawing, true )</td><td class="dataInfoThin">@Html.DisplayFor( m => m.NeedFloorplanSpecs, templateName: "YesNo" )</td>
+				</tr>
+				<tr>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.Need2DDrawing, true )</td><td class="dataInfoThin">@Html.DisplayFor( m => m.NeedFloorplanSpecs, templateName: "YesNo" )</td>
+				</tr>
+				<tr>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.NeedValueEng, true )</td><td class="dataInfoThin">@Html.DisplayFor( m => m.NeedFloorplanSpecs, templateName: "YesNo" )</td>
+				</tr>
+				<tr>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.NeedAuditSpecs, true )</td><td class="dataInfoThin">@Html.DisplayFor( m => m.NeedFloorplanSpecs, templateName: "YesNo" )</td>
+				</tr>
+			</table>
+		</div>
+		<div class="requestPanel">
+			<h3>Project Requirements</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.Casegoods, true )</td><td>@Html.DisplayFor( m => m.Casegoods, templateName: "StringList" )</td>
+				</tr>
+				<tr>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.Conferencing, true )</td><td>@Html.DisplayFor( m => m.Conferencing, templateName: "StringList" )</td>
+				</tr>
+				<tr>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.Seating, true )</td><td>@Html.DisplayFor( m => m.Seating, templateName: "StringList" )</td>
+				</tr>
+			</table>
+			<hr />
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.Grommets, true )</td><td>@Html.DisplayFor( m => m.Grommets, templateName: "YesNo" )</td>
+					@if( Model.Grommets )
+	 {
+					<td>@Html.DisplayFor( m => m.GrommetDetails )</td>
+	 }
+				</tr>
+			</table>
+			<hr />
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.Finishes, true )</td><td>@Html.DisplayFor( m => m.Finishes, templateName: "StringList" )</td>
+					@if( Model.Finishes.Contains( "Other" ) )
+	 {
+					<td>@Html.DisplayFor( m => m.OtherFinishDetails )</td>
+	 }
+				</tr>
+			</table>
+			<hr />
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.DrawerOption, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.DrawerOption )</td>
+				</tr>
+			</table>
+			<hr />
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.FabricGrade, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.FabricGrade )</td>
+				</tr>
+				<tr>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.Fabric, false )</td><td class="dataInfo">@Html.DisplayFor( m => m.Fabric )</td>
+				</tr>
+			</table>
+		</div>
+		<div class="requestPanel">
+			<h3>Specials</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.SpecialRequests, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.SpecialRequests )</td>
+				</tr>
+			</table>
+		</div>
+		<div class="requestPanel">
+			<h3>Additional Details</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+				<td class="dataLabel">@Html.MJLabelFor( m => m.ListPrice, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.ListPrice, templateName: "Currency" )</td>
+				<td class="dataLabel">@Html.MJLabelFor( m => m.SPLQuote, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.SPLQuote )</td>
+				</tr>
+				<tr>
+				<td class="dataLabel">@Html.MJLabelFor( m => m.Received, false )</td><td class="dataInfo">@Html.DisplayFor( m => m.Received, templateName: "YesNo" )</td>
+				<td class="dataLabel">@Html.MJLabelFor( m => m.IsCompleted, false )</td><td class="dataInfo">@Html.DisplayFor( m => m.IsCompleted, templateName: "YesNo" )</td>
+				</tr>
+				@if( Model.IsCompleted )
+	{
+				<tr>
+				<td></td><td></td>
+				<td class="dataLabel">@Html.MJLabelFor( m => m.IsGoodForWeb, false )</td><td class="dataInfo">@Html.DisplayFor( m => m.IsGoodForWeb, templateName: "YesNo" )</td>
+				</tr>
+	}
+				<tr>
+				<td class="dataLabel">@Html.MJLabelFor( m => m.Footprint, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.Footprint )</td>
+				<td class="dataLabel">@Html.MJLabelFor( m => m.SavedLocation, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.SavedLocation )</td>
+				</tr>
+			</table>
+		</div>

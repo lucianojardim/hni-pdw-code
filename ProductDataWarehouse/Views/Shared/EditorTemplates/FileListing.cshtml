@@ -3,20 +3,19 @@
 
 		@if( Model != null && Model.FileList.Any() )
   {
-	  var linkId = Model.Extension + "Download";
-	  var functionName = Model.Extension + "ChangeHistoryDropdown";
-	  var ddlId = Model.Extension + "DDL";
-	  <label>History:</label>
+	  var linkId = Model.SpecName + "Download";
+	  var functionName = Model.SpecName + "ChangeHistoryDropdown";
+	  var ddlId = Model.SpecName + "DDL";
 	  <select id="@ddlId" onchange="@functionName ();">
 	  @foreach( var item in Model.FileList )
    {
-	   <option value="@item.VersionNumber" data-fileName="@item.FileName">@item.FileName (@item.UploadDate)</option>
+	   <option value="@item.VersionNumber" data-extension="@item.Extension" data-fileName="@item.FileName">@item.FileName (@item.UploadDate)</option>
    }
 	  </select>
 	  <a id="@linkId" href="#" target="_blank">Download</a>
 	  <script type="text/javascript">
 		function @functionName () {
-			$('#@linkId').attr('href', '/Documents/Typicals/@Model.SpecName/@Model.Extension/' + $('#@ddlId').val() + '/' + $('#@ddlId option:selected').data('fileName'));
+			$('#@linkId').attr('href', '/Documents/Typicals/@Model.SpecName/' + $('#@ddlId option:selected').data('extension') + '/' + $('#@ddlId').val() + '/' + $('#@ddlId option:selected').data('fileName'));
 		}
 		$(document).ready(function () {
 			@functionName ();

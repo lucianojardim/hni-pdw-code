@@ -7,7 +7,7 @@
 
 <h2>Spec Request List</h2>
 
-<a href="@Url.Action( "Add", "SpecRequest" )" id="addNewRequest">Add New</a><br />
+<a href="@Url.Action( "AddRequest", "SpecRequest" )" id="addNewRequest">Add New</a><br />
 @Html.CheckBox( "PendingOnly" )Show Only Pending Spec Requests<br />
 @Html.CheckBox( "RecommendedOnly" )Show Only Recommended Spec Requests<br />
 <div>
@@ -73,10 +73,17 @@
 			"bProcessing": false, // don't want to use the default progress indicator at this time
 			"aaSorting": [[0, "desc"]],
 			"aoColumnDefs": [
-                    { "sName": "Name", "sTitle": "Name", "aTargets": [0], "mDataProp": "Name", "sWidth": "8%" },
-                    { "sName": "Dealer", "sTitle": "Dealer", "aTargets": [1], "mDataProp": "Dealer", "sWidth": "15%" },
-                    { "sName": "ProjectName", "sTitle": "Project Name", "aTargets": [2], "mDataProp": "ProjectName", "sWidth": "15%" },
-                    { "sName": "SalesRepGroup", "sTitle": "Rep Group", "aTargets": [3], "mDataProp": "SalesRepGroup", "sWidth": "15%" },
+					{ "sName": "EditButtons",
+						"sTitle": "Name", 
+						"aTargets": [0],
+                    	"mDataProp": "EditButtons", "sWidth": "8%",
+                    	"fnRender": function (oObj) {
+                    		return '<a href=\"@Url.Action( "EditRequest", "SpecRequest" )/' + oObj.aData["RequestID"] + '\">' + oObj.aData["Name"] + '</a>';
+                    	}
+                    },
+                    { "sName": "Dealer", "sTitle": "Dealer", "aTargets": [1], "mDataProp": "Dealer", "sWidth": "17%" },
+                    { "sName": "ProjectName", "sTitle": "Project Name", "aTargets": [2], "mDataProp": "ProjectName", "sWidth": "16%" },
+                    { "sName": "SalesRepGroup", "sTitle": "Rep Group", "aTargets": [3], "mDataProp": "SalesRepGroup", "sWidth": "17%" },
                     { "sName": "SpecTeamMember", "sTitle": "Member", "aTargets": [4], "mDataProp": "SpecTeamMember", "sWidth": "10%" },
                     { "sName": "CreatedDate", "sTitle": "Created", "aTargets": [5], "mDataProp": "CreatedDate", "sWidth": "9%",
                     	"fnRender": function (oObj) {
@@ -118,15 +125,6 @@
                     			}
                     		}
                     		return '';
-                    	}
-                    },
-                    { "sName": "EditButtons",
-                    	"aTargets": [8],
-                    	"bSearchable": false,
-                    	"bSortable": false,
-                    	"mDataProp": "EditButtons", "sWidth": "5%",
-                    	"fnRender": function (oObj) {
-                    		return '<a href=\"@Url.Action( "Edit", "SpecRequest" )/' + oObj.aData["RequestID"] + '\">Edit</a>';
                     	}
                     }
                 ]

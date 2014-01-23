@@ -59,16 +59,6 @@
 					data: aoData,
 					success: function (data, textStatus, jqXHR) {
 						fnCallback(data, textStatus, jqXHR);
-						$('.fbImageBtn').fancybox({
-							'autoDimensions': false,
-							'width': 900,
-							'height': 700,
-							'padding': 20,
-							'margin': 0,
-							'scrolling': 'auto',
-							'titleShow': false,
-							'type': 'iframe'
-						});
 					},
 					error: function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Requests:' + errorThrown) }
 				})
@@ -95,7 +85,7 @@
                     	"bSortable": true,
                     	"mDataProp": "Status", "sTitle": "Status", "sWidth": "10%",
                     	"fnRender": function (oObj) {
-                    		var s = '<a href=\"@Url.Action( "View", "SpecRequest" )/' + oObj.aData["RequestID"] + '/?iframe\" class="fbImageBtn">';
+                    		var s = '<a href=\"@Url.Action( "ViewRequest", "SpecRequest" )/' + oObj.aData["RequestID"] + '\" class="fbImageBtn">';
 							if (oObj.aData["IsCompleted"]) {
                     			s += 'Completed';
                     		} else {

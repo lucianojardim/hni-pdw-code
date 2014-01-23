@@ -322,6 +322,18 @@ namespace ProductDataWarehouse.Controllers
 			return theList;
 		}
 
+		public JsonResult GetPaoliSalesRepListForCompany( int companyId )
+		{
+			var theList = ( new UserRepository() ).GetUserListForAccountType( companyId, PaoliWebUser.PaoliWebRole.PaoliSalesRep )
+				.Select( u => new SelectListItem() { Value = u.UserID.ToString(), Text = u.FullName } );
+
+			return Json( new
+			{
+				theList = theList
+			},
+				JsonRequestBehavior.AllowGet );
+		}
+
 		public JsonResult GetDealerSalesRepListForCompany( int companyId )
 		{
 			var theList = ( new UserRepository() ).GetUserListForAccountType( companyId, PaoliWebUser.PaoliWebRole.DealerSalesRep )

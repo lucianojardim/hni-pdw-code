@@ -398,6 +398,11 @@ table.dataLayout td.dataLabel
 	width: 185px;
 }
 
+table.dataLayout td.dataInfoThin
+{
+	width: 60px;
+}
+
 table.dataLayout td ul.tagit
 {
 	margin-top:0px;
@@ -533,4 +538,23 @@ div.box div.loginRow div.loginLabel
 div.box div.loginRow input
 {
 	width: 350px;
+}
+
+div.futureSection table.dataLayout,
+div.futureSection hr
+{
+	display: none;
+}
+div.futureSection h3
+{
+	color: #cccccc;
+}
+
+span.littleHelp
+{
+	font-size: 10px;
+	color: #999999;
+	width: 250px;
+	margin-bottom: 15px;
+	display: block;
 }

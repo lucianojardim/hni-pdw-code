@@ -1,0 +1,417 @@
+﻿@model PDWModels.SpecRequests.SpecRequestInformation
+@{
+	ViewBag.Title = "Edit A Spec Quote Request";
+	ViewBag.CurrentPage = "Database";
+	ViewBag.CurrentSubPage = "Typicals";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+
+    <script type="text/javascript">
+    	var fileCount = 1;
+    	$(document).ready(function () {
+			@if( Model.CreatedDate.HasValue ) {
+			<text>
+                var cDate = new Date('@Model.CreatedDate.Value.ToString()');
+                var offset = new Date().getTimezoneOffset();
+                cDate.setMinutes(cDate.getMinutes() - offset);
+                $('#createdDate').text((cDate.getMonth() + 1) + '/' + cDate.getDate() + '/' + cDate.getFullYear());
+			</text>
+			}
+
+    		$('#DealerID').change(function () {
+    			reloadDealerSalesRepList();
+    		});
+
+    		reloadPaoliSalesRepList( @(Model.PaoliSalesRepMemberID.HasValue ? Model.PaoliSalesRepMemberID.Value.ToString() : "null"), 
+				@(Model.DealerID.HasValue ? Model.DealerID.Value.ToString() : "null"), 
+				@(Model.DealerMemberID.HasValue ? Model.DealerMemberID.Value.ToString() : "null") );
+
+    		$('#PaoliSalesRepGroupID').change(function () {
+    			reloadPaoliSalesRepList();
+    		});
+
+    		$('#QuoteDueDate').datepicker(
+            {
+            	dateFormat: "mm/dd/yy",
+            	minDate: new Date(),
+            	changeMonth: true,
+            	changeYear: true,
+            	yearRange: '2014:2100'
+            });
+
+            $('.chkFinish').each(function () {
+            	changeFinish($(this));
+            });
+            $('.chkFinish').change(function (e) {
+    			changeFinish($(this));
+    		});
+
+    		changeGrommets($('#Grommets'));
+    		$('#Grommets').change(function (e) {
+    			changeGrommets($(this));
+    		});
+
+    		$('.chkServices').each(function () {
+    			changeChkServices($(this));
+    		});
+    		$('.chkServices').change(function () {
+    			changeChkServices($(this));
+    		});
+
+    		$('#IsCompleted').click(showHideIsGoodForWeb);
+    		showHideIsGoodForWeb();
+
+    		$('#Footprint').autocomplete({
+    			source: function (request, response) {
+    				$.ajax({
+    					url: '@Url.Action( "GetTypeAheadSpecRequestFootprintList", "PDW" )',
+    					data: { format: "json", query: request.term },
+    					dataType: 'json',
+    					type: 'GET',
+    					success: function (data) {
+    						response($.map(data, function (item) {
+    							return {
+    								label: item,
+    								value: item
+    							}
+    						}));
+    					},
+    					error: function (request, status, error) {
+    						alert(error);
+    					}
+    				}
+				)
+    			},
+    			minLength: 0
+    		});
+    	});
+
+    	function showHideIsGoodForWeb() {
+    		if ($('#IsCompleted:checked').length > 0) {
+    			$('.isGoodForWeb').show();
+    		} else {
+    			$('.isGoodForWeb').hide();
+    		}
+    	}
+
+    	function changeFinish(chkMark) {
+    		if (chkMark.attr("value") == 'Other') {
+    			if (chkMark.attr("checked")) {
+    				$('#OtherFinishDetails').show();
+    				$('#OtherFinishDetails').siblings('span.littleHelp').show();
+    			} else {
+    				$('#OtherFinishDetails').hide();
+    				$('#OtherFinishDetails').siblings('span.littleHelp').hide();
+    			}
+    		}
+    	}
+
+    	function changeGrommets(chkMark) {
+    		if (chkMark.attr("checked")) {
+    			$('.grommetDetails').show();
+    		} else {
+    			$('.grommetDetails').hide();
+    		}
+    	}
+
+    	function changeChkServices(chkMark) {
+    		var helpText = chkMark.siblings('span.littleHelp');
+    		if (helpText.length > 0) {
+    			if (chkMark.attr("checked")) {
+    				helpText.show();
+    			} else {
+    				helpText.hide();
+    			}
+    		}
+    	}
+    	function fileChanged() {
+    		var doInsert = true;
+    		$('#fileContainer input[type="file"]').each(function (i, fc) {
+    			if (fc.files.length == 0) {
+    				doInsert = false;
+    				return false;
+    			}
+    		});
+    		if (doInsert) {
+    			$('#fileContainer').append('<br/><input type="file" name="addlFiles[' + fileCount + ']" class="addlFiles" onchange="fileChanged()" />' +
+				'<input type="hidden" name="addlFiles.Index" value="' + fileCount + '" />');
+    			fileCount++;
+    		}
+    	}
+
+    	function reloadDealerSalesRepList( dsrMemberID ) {
+    		if ($('#DealerID').val() != null && $('#DealerID').val() != '' && $('#DealerID').val() != '0') {
+    			$.ajax({
+    				dataType: 'json',
+    				type: 'GET',
+    				url: '/User/GetDealerSalesRepListForCompany',
+    				data: { companyId: $('#DealerID').val() },
+    				success: function (data, textStatus, jqXHR) {
+    					$('#DealerMemberID').empty();
+    					$('.DSRCell').hide();
+    					$.each(data.theList, function (idx, item) {
+    						$('#DealerMemberID').append('<option value="' + item.Value + '" ' + (item.Value == dsrMemberID ? 'selected' : '') + '>' + item.Text + '</option>');
+    						$('.DSRCell').show();
+    					});
+    				},
+    				error: function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Dealer Sales Rep list:' + errorThrown)
+    				}
+    			});
+    		} else {
+    			$('#DealerMemberID').empty();
+    			$('.DSRCell').hide();
+    		}
+    	}
+
+    	function reloadPaoliSalesRepList( psrMemberID, dealerID, dsrMemberID ) {
+    		if ($('#PaoliSalesRepGroupID').val() != null && $('#PaoliSalesRepGroupID').val() != '' && $('#PaoliSalesRepGroupID').val() != '0') {
+    			$.ajax({
+    				dataType: 'json',
+    				type: 'GET',
+    				url: '/User/GetPaoliSalesRepListForCompany',
+    				data: { companyId: $('#PaoliSalesRepGroupID').val() },
+    				success: function (data, textStatus, jqXHR) {
+    					$('#PaoliSalesRepMemberID').empty();
+    					$('.PSRCell').hide();
+    					$.each(data.theList, function (idx, item) {
+    						$('#PaoliSalesRepMemberID').append('<option value="' + item.Value + '" ' + (item.Value == psrMemberID ? 'selected' : '') + '>' + item.Text + '</option>');
+    						$('.PSRCell').show();
+    					});
+    				},
+    				error: function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Paoli Sales Rep list:' + errorThrown)
+    				}
+    			});
+
+    			$.ajax({
+    				dataType: 'json',
+    				type: 'GET',
+    				url: '/Company/GetDealerListForSalesRep',
+    				data: { salesRepCompanyId: $('#PaoliSalesRepGroupID').val() },
+    				success: function (data, textStatus, jqXHR) {
+    					$('#DealerID').empty();
+    					$('.DealerRow').hide();
+    					$.each(data, function (idx, item) {
+    						$('#DealerID').append('<option value="' + item.ID + '" ' + (item.Value == dealerID ? 'selected' : '') + '>' + item.Text + '</option>');
+    						$('.DealerRow').show();
+    					});
+    					reloadDealerSalesRepList(dsrMemberID);
+    				},
+    				error: function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Dealer list:' + errorThrown)
+    				}
+    			});
+
+    		} else {
+    			$('#PaoliSalesRepMemberID').empty();
+    			$('#DealerID').empty();
+    			$('.PSRCell').hide();
+    			$('.DealerRow').hide();
+    		}
+    	}
+	</script>
+
+    @using( Html.BeginForm( "EditRequest", "SpecRequest", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
+	{
+		@Html.HiddenFor( m => m.RequestID )
+		<div>
+		<div class="left">
+			<h2>Edit A Spec Quote Request - @Model.Name</h2>
+		</div>
+		<div class="right">
+		@Html.MJLabelFor( m => m.CreatedDate, true )<span id="createdDate"></span>
+		</div>
+		<div class="clear"></div>
+		</div>
+		<div class="requestPanel">
+			<h3>Who's Requesting</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td>@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )</td><td>@Html.DropDownListFor( m => m.PaoliSalesRepGroupID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup ) )</td>
+					<td class="PSRCell">@Html.MJLabelFor( m => m.PaoliSalesRepMemberID, true )</td><td class="PSRCell">@Html.DropDownListFor( m => m.PaoliSalesRepMemberID, new List<SelectListItem>() )</td>
+				</tr>
+				<tr class="DealerRow">
+					<td>@Html.MJLabelFor( m => m.DealerID, false )</td><td>@Html.DropDownListFor( m => m.DealerID, new List<SelectListItem>() )</td>
+					<td class="DSRCell">@Html.MJLabelFor( m => m.DealerMemberID, true )</td><td class="DSRCell">@Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>() )</td>
+				</tr>
+				<tr>
+					<td>@Html.MJLabelFor( m => m.PaoliSpecTeamMember, true )</td><td>@Html.DropDownListFor( m => m.PaoliSpecTeamMember, UserController.GetUserDDList( PDWInfrastructure.PaoliWebUser.PaoliWebRole.PaoliMemberSpecTeam ) )</td>
+				</tr>
+			</table>
+		</div>
+		<div class="requestPanel">
+			<h3>About This Project</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td>@Html.MJLabelFor( m => m.EndCustomer, false )</td><td>@Html.TextBoxFor( m => m.EndCustomer )</td>
+					<td>@Html.MJLabelFor( m => m.ProjectName, false )</td><td>@Html.TextBoxFor( m => m.ProjectName )</td>
+				</tr>
+				<tr>
+					<td></td><td><span class="littleHelp">Provide the end user company name.</span></td>
+					<td></td><td><span class="littleHelp">Provide a short project name that will help us identify this project such as project name, facility, etc.</span></td>
+				</tr>
+				<tr>
+					<td>@Html.MJLabelFor( m => m.ProjectSize, false )</td><td>@Html.TextBoxFor( m => m.ProjectSize )</td>
+					<td>@Html.MJLabelFor( m => m.QuoteDueDate, true )</td><td>@Html.EditorFor( m => m.QuoteDueDate, new { @readonly = "readonly" } )</td>
+				</tr>
+				<tr>
+					<td></td><td><span class="littleHelp">Need to determine helpful text to guide the user on quality input here. Any suggestions?</span></td>
+					<td></td><td><span class="littleHelp"></span></td>
+				</tr>
+				<tr>
+					<td>@Html.MJLabelFor( m => m.IsGSA, false )</td><td>@Html.CheckBoxFor( m => m.IsGSA )</td>
+					<td>@Html.MJLabelFor( m => m.AvailableForIn2, true )</td><td>@Html.CheckBoxFor( m => m.AvailableForIn2 )</td>
+				</tr>
+			</table>
+		</div>
+		<div class="requestPanel">
+			<h3>Services Requested</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td>@Html.CheckBoxFor( m => m.NeedFloorplanSpecs, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedFloorplanSpecs, false )<span class="littleHelp" style="display:none;">Please attach a legible drawing/sketch of the furniture layout with sizes and details clearly noted.</span></td>
+					<td rowspan="6" id="fileContainer">@Html.MJLabelFor( m => m.addlFiles, true ) @Html.EditorFor( m => m.addlFileList )<span class="littleHelp">Attach PDFs or other applicable files to help the specificaton engineer complete this request.</span><input type="file" name="addlFiles[0]" class="addlFiles" onchange="fileChanged()" /><input type="hidden" name="addlFiles.Index" value="0" /></td>
+					<td rowspan="6">@Html.MJLabelFor( m => m.Notes, true ) <br/> @Html.TextAreaFor( m => m.Notes )</td>
+				</tr>
+				<tr>
+					<td>@Html.CheckBoxFor( m => m.NeedPhotoRendering, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedPhotoRendering, false )<span class="littleHelp" style="display:none;">Initial rendering is no charge, changes and additional renderings may incur fees. Check with Specification services. Extended lead times may apply.</span></td>
+				</tr>
+				<tr>
+					<td>@Html.CheckBoxFor( m => m.Need3DDrawing, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.Need3DDrawing, false )</td>
+				</tr>
+				<tr>
+					<td>@Html.CheckBoxFor( m => m.Need2DDrawing, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.Need2DDrawing, false )</td>
+				</tr>
+				<tr>
+					<td>@Html.CheckBoxFor( m => m.NeedValueEng, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedValueEng, false )<span class="littleHelp" style="display:none;">Please include a parts list and a legible drawing/sketch of the furniture layout with sizes and details clearly noted.</span></td>
+				</tr>
+				<tr>
+					<td>@Html.CheckBoxFor( m => m.NeedAuditSpecs, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedAuditSpecs, false )<span class="littleHelp" style="display:none;">Please include a parts list and a legible drawing/sketch of the furniture layout with sizes and details clearly noted.</span></td>
+				</tr>
+			</table>
+		</div>
+		<div class="requestPanel">
+			<h3>Project Requirements</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td width="200px">@Html.MJLabelFor( m => m.Casegoods, false )</td>
+					<td width="200px">@Html.MJLabelFor( m => m.Conferencing, false )</td>
+					<td width="200px">@Html.MJLabelFor( m => m.Seating, false )</td>
+				</tr>
+				<tr>
+					<td>@for( int i = 0; i < ViewBag.BlankInformation.Casegoods.Count; i++ )
+		 {
+			 <input type="hidden" name="Casegoods.Index" value="@i" />
+			 <input type="checkbox" name="Casegoods[@i]" value="@ViewBag.BlankInformation.Casegoods[i]" class="chkCasegoods" @(Model.Casegoods.Contains( ViewBag.BlankInformation.Casegoods[i] ) ? "checked" : "") /> <label for="Casegoods[@i]">@ViewBag.BlankInformation.Casegoods[i]</label><br />
+		 }</td>
+					<td>@for( int i = 0; i < ViewBag.BlankInformation.Conferencing.Count; i++ )
+		 {
+			 <input type="hidden" name="Conferencing.Index" value="@i" />
+			 <input type="checkbox" name="Conferencing[@i]" value="@ViewBag.BlankInformation.Conferencing[i]" class="chkConferencing" @(Model.Conferencing.Contains( ViewBag.BlankInformation.Conferencing[i] ) ? "checked" : "") /> <label for="Conferencing[@i]">@ViewBag.BlankInformation.Conferencing[i]</label><br />
+		 }</td>
+					<td>@for( int i = 0; i < ViewBag.BlankInformation.Seating.Count; i++ )
+		 {
+			 <input type="hidden" name="Seating.Index" value="@i" />
+			 <input type="checkbox" name="Seating[@i]" value="@ViewBag.BlankInformation.Seating[i]" class="chkSeating" @(Model.Seating.Contains( ViewBag.BlankInformation.Seating[i] ) ? "checked" : "") /> <label for="Seating[@i]">@ViewBag.BlankInformation.Seating[i]</label><br />
+		 }</td>
+				</tr>
+			</table>
+			<hr />
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td>@Html.CheckBoxFor( m => m.Grommets ) @Html.MJLabelFor( m => m.Grommets, false )</td>
+					<td class="grommetDetails" style="display:none">@Html.MJLabelFor( m => m.GrommetDetails, false )<span class="littleHelp">Please indicate number, location or other specifications.</span></td><td class="grommetDetails" style="display:none">@Html.TextAreaFor( m => m.GrommetDetails )</td>
+				</tr>
+			</table>
+			<hr />
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td>@Html.MJLabelFor( m => m.Finishes, false )<br />
+					@for( int i = 0; i < ViewBag.BlankInformation.Finishes.Count; i++ )
+	 {
+			 <input type="hidden" name="Finishes.Index" value="@i" />
+			 <input type="checkbox" name="Finishes[@i]" value="@ViewBag.BlankInformation.Finishes[i]" class="chkFinish" @(Model.Finishes.Contains( ViewBag.BlankInformation.Finishes[i] ) ? "checked" : "") /> <label for="Finishes[@i]">@ViewBag.BlankInformation.Finishes[i]</label><br />
+	 }
+		 @Html.TextBoxFor( m => m.OtherFinishDetails,
+	new { style = "display:none" } )
+	<span class="littleHelp" style="display:none;">Please specify under "Other" if you there is a combination of finishes required by top vs. base, etc. Please include all appropriate detail of the user preference.</span>
+		 </td>
+		 </tr>
+			</table>
+			<hr />
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+		 <tr>
+		 <td>
+			@Html.MJLabelFor( m => m.DrawerOption, false )</td><td>
+			@Html.DropDownListFor( m => m.DrawerOption, new List<SelectListItem>() { 
+	new SelectListItem() { Text = "Vinyl Wrap", Value = "Vinyl Wrap" }, 
+	new SelectListItem() { Text = "Wood", Value = "Wood" } } )
+		 </td>
+				</tr>
+			</table>
+			<hr />
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td>
+			@Html.MJLabelFor( m => m.FabricGrade, false )</td><td>
+			@Html.DropDownListFor( m => m.FabricGrade, new List<SelectListItem>() { 
+	new SelectListItem() { Text = "A", Value = "A" },
+	new SelectListItem() { Text = "B", Value = "B" },
+	new SelectListItem() { Text = "C", Value = "C" },
+	new SelectListItem() { Text = "D", Value = "D" },
+	new SelectListItem() { Text = "E", Value = "E" },
+	new SelectListItem() { Text = "F", Value = "F" } 
+} )
+					</td>
+				</tr><tr>
+					<td>
+					@Html.MJLabelFor( m => m.Fabric, false )</td><td>
+					@Html.TextBoxFor( m => m.Fabric )
+					<span class="littleHelp">Please specify the exact fabric code if you know what the user wants specified for pricing purposes.</span>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="requestPanel">
+			<h3>Specials</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td>@Html.MJLabelFor( m => m.SpecialRequests, true )</td><td>@Html.TextAreaFor( m => m.SpecialRequests )</td>
+				</tr>
+				<tr>
+				<td></td><td><span class="littleHelp">Please provide any additional information you may have regarding edge profile, finish, pulls, drawer options and grommets, etc.</span></td>
+				</tr>
+			</table>
+		</div>
+		<div class="requestPanel">
+			<h3>Additional Details</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+				<td>@Html.MJLabelFor( m => m.ListPrice, true )</td><td>@Html.TextBoxFor( m => m.ListPrice )</td>
+				<td>@Html.MJLabelFor( m => m.SPLQuote, true )</td><td>@Html.TextBoxFor( m => m.SPLQuote )</td>
+				</tr>
+				<tr>
+				<td>@Html.MJLabelFor( m => m.Received, true )</td><td>@Html.CheckBoxFor( m => m.Received )</td>
+				<td>@Html.MJLabelFor( m => m.IsCompleted, true )</td><td>@Html.CheckBoxFor( m => m.IsCompleted )</td>
+				</tr>
+				<tr>
+				<td></td><td></td>
+				<td>@Html.MJLabelFor( m => m.IsGoodForWeb, true, new { @style = "display:none;", @class = "isGoodForWeb" } )</td><td>@Html.CheckBoxFor( m => m.IsGoodForWeb, new { @style = "display:none;", @class = "isGoodForWeb" } )</td>
+				</tr>
+				<tr>
+				<td>@Html.MJLabelFor( m => m.Footprint, true )</td><td>@Html.TextBoxFor( m => m.Footprint )</td>
+				<td>@Html.MJLabelFor( m => m.SavedLocation, true )</td><td>@Html.TextBoxFor( m => m.SavedLocation )</td>
+				</tr>
+			</table>
+		</div>
+		<hr />
+@Html.ValidationSummary()
+		<div>
+		<div class="left">
+        <input type="submit" class="btn_type1" value="Update" id="submitBtn" />
+		</div>
+		<div class="clear"></div>
+		</div>
+	}

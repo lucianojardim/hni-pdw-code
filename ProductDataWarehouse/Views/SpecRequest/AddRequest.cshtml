@@ -1,0 +1,499 @@
+﻿@model PDWModels.SpecRequests.SpecRequestInformation
+@{
+	ViewBag.Title = "Create A New Spec Quote Request";
+	ViewBag.CurrentPage = "Database";
+	ViewBag.CurrentSubPage = "Typicals";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+
+<h2>Create A New Spec Quote Request</h2>
+
+    <script type="text/javascript">
+		var fileCount = 1;
+		$(document).ready(function () {
+			reloadDealerSalesRepList();
+
+			$('#DealerID').change(function () {
+				reloadDealerSalesRepList();
+			});
+
+			reloadPaoliSalesRepList();
+
+			$('#PaoliSalesRepGroupID').change(function () {
+				reloadPaoliSalesRepList();
+			});
+
+			$('#QuoteDueDate').datepicker(
+            {
+            	dateFormat: "mm/dd/yy",
+            	minDate: new Date(),
+            	changeMonth: true,
+            	changeYear: true,
+            	yearRange: '2014:2100'
+            });
+
+			$('#nextBtn').click(function (e) {
+				e.preventDefault();
+				if ($('#theForm').valid()) {
+					setPanel(1);
+				}
+			});
+
+			$('#previousBtn').click(function (e) {
+				e.preventDefault();
+				setPanel(-1);
+			});
+
+			$('.chkFinish').change(function (e) {
+				if ($(this).attr("value") == 'Other') {
+					if ($(this).attr("checked")) {
+						$('#OtherFinishDetails').show();
+						$('#OtherFinishDetails').siblings('span.littleHelp').show();
+					} else {
+						$('#OtherFinishDetails').hide();
+						$('#OtherFinishDetails').siblings('span.littleHelp').hide();
+					}
+				}
+			});
+
+			$('#Grommets').change(function (e) {
+				if ($(this).attr("checked")) {
+					$('.grommetDetails').show();
+				} else {
+					$('.grommetDetails').hide();
+				}
+			});
+
+			$('.chkServices').change(function (e) {
+				var helpText = $(this).siblings('span.littleHelp');
+				if (helpText.length > 0) {
+					if ($(this).attr("checked")) {
+						helpText.show();
+					} else {
+						helpText.hide();
+					}
+				}
+			});
+		});
+
+    	function fileChanged() {
+    		var doInsert = true;
+    		$('#fileContainer input[type="file"]').each(function (i, fc) {
+    			if (fc.files.length == 0) {
+    				doInsert = false;
+    				return false;
+    			}
+    		});
+    		if (doInsert) {
+    			$('#fileContainer').append('<br/><input type="file" name="addlFiles[' + fileCount + ']" class="addlFiles" onchange="fileChanged()" />' +
+				'<input type="hidden" name="addlFiles.Index" value="' + fileCount + '" />');
+    			fileCount++;
+    		}		
+    	}
+
+    	function setPanel(offset) {
+    		var curIdx = $('#theForm div.activeSection').index('#theForm div');
+    		var divCount = $('#theForm div.requestPanel').length;
+//    		console.log('curIdx: ' + curIdx + ' divCount: ' + divCount + ' offset: ' + offset);
+    		if (offset == -1 && curIdx > 0) {
+    			$('.activeSection').removeClass('activeSection').addClass('futureSection');
+    			$('#theForm div:eq(' + (curIdx + offset) + ')').removeClass('futureSection').addClass('activeSection');
+    			if (curIdx + offset > 0) {
+    				$('#previousBtn').show();
+    			} else {
+    				$('#previousBtn').hide();
+    			}
+    			$('#nextBtn').show();
+    			$('#submitBtn').hide();
+    		} else if (offset == 1 && curIdx < (divCount - 1)) {
+    			$('.activeSection').removeClass('activeSection').addClass('futureSection');
+    			$('#theForm div:eq(' + (curIdx + offset) + ')').removeClass('futureSection').addClass('activeSection');
+    			if (curIdx + offset < (divCount - 1)) {
+    				$('#nextBtn').show();
+    			} else {
+    				$('#nextBtn').hide();
+    				$('#submitBtn').show();
+    				fillConfirmForm();
+    			}
+    			$('#previousBtn').show();
+    		}
+    	}
+
+    	function fillConfirmForm() {
+    		var t = $('#confirmTable tbody');
+    		t.empty();
+    		if ($('#PaoliSalesRepGroupID').val() != null && $('#PaoliSalesRepGroupID').val() != '' && $('#PaoliSalesRepGroupID').val() != '0') {
+    			addConfirmRow(t, '@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )', $('#PaoliSalesRepGroupID option:selected').text());
+    			if ($('#PaoliSalesRepMemberID').val() != null && $('#PaoliSalesRepMemberID').val() != '' && $('#PaoliSalesRepMemberID').val() != '0') {
+    				addConfirmRow(t, '@Html.MJLabelFor( m => m.PaoliSalesRepMemberID, true )', $('#PaoliSalesRepMemberID option:selected').text());
+    			}
+    			if ($('#DealerID').val() != null && $('#DealerID').val() != '' && $('#DealerID').val() != '0') {
+    				addConfirmRow(t, '@Html.MJLabelFor( m => m.DealerID, true )', $('#DealerID option:selected').text());
+    				if ($('#DealerMemberID').val() != null && $('#DealerMemberID').val() != '' && $('#DealerMemberID').val() != '0') {
+    					addConfirmRow(t, '@Html.MJLabelFor( m => m.DealerMemberID, true )', $('#DealerMemberID option:selected').text());
+    				}
+    			}
+    		}
+    		if ($('#PaoliSpecTeamMember').val() != null && $('#PaoliSpecTeamMember').val() != '' && $('#PaoliSpecTeamMember').val() != '0') {
+    			addConfirmRow(t, '@Html.MJLabelFor( m => m.PaoliSpecTeamMember, true )', $('#PaoliSpecTeamMember option:selected').text());
+    		}
+
+    		if ($('#EndCustomer').val() != null) {
+    			addConfirmRow(t, '@Html.MJLabelFor( m => m.EndCustomer, false )', $('#EndCustomer').val());
+    		}
+    		if ($('#ProjectName').val() != null) {
+    			addConfirmRow(t, '@Html.MJLabelFor( m => m.ProjectName, false )', $('#ProjectName').val());
+    		}
+    		if ($('#ProjectSize').val() != null) {
+    			addConfirmRow(t, '@Html.MJLabelFor( m => m.ProjectSize, false )', $('#ProjectSize').val());
+    		}
+    		if ($('#QuoteDueDate').val() != null) {
+    			addConfirmRow(t, '@Html.MJLabelFor( m => m.QuoteDueDate, false )', $('#QuoteDueDate').val());
+    		}
+
+    		$('.chkServices').each(function () {
+    			if ($(this).attr('checked')) {
+    				addConfirmRow(t, $(this).siblings('label').text(), 'Yes');
+    			}
+    		});
+			var fileList = new Array();
+			$('#fileContainer input[type="file"]').each(function (i, fc) {
+				if (fc.files.length != 0) {
+					fileList.push(fc.files[0].name);
+				}
+			});
+			if (fileList.length != 0) {
+				addConfirmRow(t, '@Html.MJLabelFor( m => m.addlFiles, true )', fileList.join(', '));
+			}
+			if ($('#Notes').val() != null) {
+				addConfirmRow(t, '@Html.MJLabelFor( m => m.Notes, true )', $('#Notes').val());
+			}
+
+			var casegoodsList = new Array();
+			$('.chkCasegoods').each(function (i, fc) {
+				if ($(this).attr('checked')) {
+					casegoodsList.push($(this).next('label').text());
+				}
+			});
+			if (casegoodsList.length != 0) {
+				addConfirmRow(t, '@Html.MJLabelFor( m => m.Casegoods, false )', casegoodsList.join(', '));
+			}
+
+			var conferencingList = new Array();
+			$('.chkConferencing').each(function (i, fc) {
+				if ($(this).attr('checked')) {
+					conferencingList.push($(this).next('label').text());
+				}
+			});
+			if (conferencingList.length != 0) {
+				addConfirmRow(t, '@Html.MJLabelFor( m => m.Conferencing, false )', conferencingList.join(', '));
+			}
+
+			var seatingList = new Array();
+			$('.chkSeating').each(function (i, fc) {
+				if ($(this).attr('checked')) {
+					seatingList.push($(this).next('label').text());
+				}
+			});
+			if (seatingList.length != 0) {
+				addConfirmRow(t, '@Html.MJLabelFor( m => m.Seating, false )', seatingList.join(', '));
+			}
+
+			if ($('#Grommets').is(':checked')) {
+				var grommetsValue = 'Yes';
+				if ($('#GrommetDetails').val() != null) {
+					grommetsValue += ('; ' + $('#GrommetDetails').val());
+				}
+				addConfirmRow(t, '@Html.MJLabelFor( m => m.Grommets, false )', grommetsValue);
+			}
+
+			var finishList = new Array();
+			var otherFinishes = null;
+			$('.chkFinish').each(function (i, fc) {
+				if ($(this).attr('checked')) {
+					finishList.push($(this).next('label').text());
+					if ($(this).attr('value') == 'Other') {
+						otherFinishes = $('#OtherFinishDetails').val();
+					}
+				}
+			});
+			if (finishList.length != 0) {
+				addConfirmRow(t, '@Html.MJLabelFor( m => m.Finishes, false )', finishList.join(', ') + (otherFinishes != null ? ('<br/>' + otherFinishes) : ''));
+			}
+			addConfirmRow(t, '@Html.MJLabelFor( m => m.DrawerOption, true )', $('#DrawerOption option:selected').text());
+			addConfirmRow(t, '@Html.MJLabelFor( m => m.FabricGrade, true )', $('#FabricGrade option:selected').text());
+			if ($('#Fabric').val() != null) {
+				addConfirmRow(t, '@Html.MJLabelFor( m => m.Fabric, true )', $('#Fabric').val());
+			}
+
+			if ($('#SpecialRequests').val() != null) {
+				addConfirmRow(t, '@Html.MJLabelFor( m => m.SpecialRequests, true )', $('#SpecialRequests').val());
+			}
+
+		}
+
+    	function addConfirmRow(table, label, text) {
+    		table.append('<tr><td>' + label + '</td><td>' + text + '</td></tr>');
+    	}
+
+    	function reloadDealerSalesRepList() {
+    		if ($('#DealerID').val() != null && $('#DealerID').val() != '' && $('#DealerID').val() != '0') {
+    			$.ajax({
+    				dataType: 'json',
+    				type: 'GET',
+    				url: '/User/GetDealerSalesRepListForCompany',
+    				data: { companyId: $('#DealerID').val() },
+    				success: function (data, textStatus, jqXHR) {
+    					$('#DealerMemberID').empty();
+    					$('.DSRCell').hide();
+    					$.each(data.theList, function (idx, item) {
+    						$('#DealerMemberID').append('<option value="' + item.Value + '">' + item.Text + '</option>');
+    						$('.DSRCell').show();
+    					});
+    				},
+    				error: function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Dealer Sales Rep list:' + errorThrown)
+    				}
+    			});
+    		} else {
+    			$('#DealerMemberID').empty();
+    			$('.DSRCell').hide();
+    		}
+    	}
+
+    	function reloadPaoliSalesRepList() {
+    		if ($('#PaoliSalesRepGroupID').val() != null && $('#PaoliSalesRepGroupID').val() != '' && $('#PaoliSalesRepGroupID').val() != '0') {
+    			$.ajax({
+    				dataType: 'json',
+    				type: 'GET',
+    				url: '/User/GetPaoliSalesRepListForCompany',
+    				data: { companyId: $('#PaoliSalesRepGroupID').val() },
+    				success: function (data, textStatus, jqXHR) {
+    					$('#PaoliSalesRepMemberID').empty();
+    					$('.PSRCell').hide();
+    					$.each(data.theList, function (idx, item) {
+    						$('#PaoliSalesRepMemberID').append('<option value="' + item.Value + '">' + item.Text + '</option>');
+    						$('.PSRCell').show();
+    					});
+    				},
+    				error: function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Paoli Sales Rep list:' + errorThrown)
+    				}
+    			});
+
+    			$.ajax({
+    				dataType: 'json',
+    				type: 'GET',
+    				url: '/Company/GetDealerListForSalesRep',
+    				data: { salesRepCompanyId: $('#PaoliSalesRepGroupID').val() },
+    				success: function (data, textStatus, jqXHR) {
+    					$('#DealerID').empty();
+    					$('.DealerRow').hide();
+    					$.each(data, function (idx, item) {
+    						$('#DealerID').append('<option value="' + item.ID + '">' + item.Text + '</option>');
+    						$('.DealerRow').show();
+    					});
+    					reloadDealerSalesRepList();
+    				},
+    				error: function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Dealer list:' + errorThrown)
+    				}
+    			});
+
+    		} else {
+    			$('#PaoliSalesRepMemberID').empty();
+    			$('#DealerID').empty();
+    			$('.PSRCell').hide();
+    			$('.DealerRow').hide();
+    		}
+    	}
+	</script>
+
+    @using( Html.BeginForm( "AddRequest", "SpecRequest", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
+	{
+		<div class="activeSection requestPanel">
+			<h3>Who's Requesting</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td>@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )</td><td>@Html.DropDownListFor( m => m.PaoliSalesRepGroupID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup ) )</td>
+					<td class="PSRCell">@Html.MJLabelFor( m => m.PaoliSalesRepMemberID, true )</td><td class="PSRCell">@Html.DropDownListFor( m => m.PaoliSalesRepMemberID, new List<SelectListItem>() )</td>
+				</tr>
+				<tr class="DealerRow">
+					<td>@Html.MJLabelFor( m => m.DealerID, false )</td><td>@Html.DropDownListFor( m => m.DealerID, new List<SelectListItem>() )</td>
+					<td class="DSRCell">@Html.MJLabelFor( m => m.DealerMemberID, true )</td><td class="DSRCell">@Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>() )</td>
+				</tr>
+				<tr>
+					<td>@Html.MJLabelFor( m => m.PaoliSpecTeamMember, true )</td><td>@Html.DropDownListFor( m => m.PaoliSpecTeamMember, UserController.GetUserDDList( PDWInfrastructure.PaoliWebUser.PaoliWebRole.PaoliMemberSpecTeam ) )</td>
+				</tr>
+			</table>
+		</div>
+		<div class="futureSection requestPanel">
+			<h3>About This Project</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td>@Html.MJLabelFor( m => m.EndCustomer, false )</td><td>@Html.TextBoxFor( m => m.EndCustomer )</td>
+					<td>@Html.MJLabelFor( m => m.ProjectName, false )</td><td>@Html.TextBoxFor( m => m.ProjectName )</td>
+				</tr>
+				<tr>
+					<td></td><td><span class="littleHelp">Provide the end user company name.</span></td>
+					<td></td><td><span class="littleHelp">Provide a short project name that will help us identify this project such as project name, facility, etc.</span></td>
+				</tr>
+				<tr>
+					<td>@Html.MJLabelFor( m => m.ProjectSize, false )</td><td>@Html.TextBoxFor( m => m.ProjectSize )</td>
+					<td>@Html.MJLabelFor( m => m.QuoteDueDate, true )</td><td>@Html.TextBoxFor( m => m.QuoteDueDate, new { @readonly = "readonly" } )</td>
+				</tr>
+				<tr>
+					<td></td><td><span class="littleHelp">Need to determine helpful text to guide the user on quality input here. Any suggestions?</span></td>
+					<td></td><td><span class="littleHelp"></span></td>
+				</tr>
+				<tr>
+					<td>@Html.MJLabelFor( m => m.IsGSA, false )</td><td>@Html.CheckBoxFor( m => m.IsGSA )</td>
+					<td>@Html.MJLabelFor( m => m.AvailableForIn2, true )</td><td>@Html.CheckBoxFor( m => m.AvailableForIn2 )</td>
+				</tr>
+			</table>
+		</div>
+		<div class="futureSection requestPanel">
+			<h3>Services Requested</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td>@Html.CheckBoxFor( m => m.NeedFloorplanSpecs, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedFloorplanSpecs, false )<span class="littleHelp" style="display:none;">Please attach a legible drawing/sketch of the furniture layout with sizes and details clearly noted.</span></td>
+					<td rowspan="6" id="fileContainer">@Html.MJLabelFor( m => m.addlFiles, true )<span class="littleHelp">Attach PDFs or other applicable files to help the specificaton engineer complete this request.</span><input type="file" name="addlFiles[0]" class="addlFiles" onchange="fileChanged()" /><input type="hidden" name="addlFiles.Index" value="0" /></td>
+					<td rowspan="6">@Html.MJLabelFor( m => m.Notes, true ) <br/> @Html.TextAreaFor( m => m.Notes )</td>
+				</tr>
+				<tr>
+					<td>@Html.CheckBoxFor( m => m.NeedPhotoRendering, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedPhotoRendering, false )<span class="littleHelp" style="display:none;">Initial rendering is no charge, changes and additional renderings may incur fees. Check with Specification services. Extended lead times may apply.</span></td>
+				</tr>
+				<tr>
+					<td>@Html.CheckBoxFor( m => m.Need3DDrawing, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.Need3DDrawing, false )</td>
+				</tr>
+				<tr>
+					<td>@Html.CheckBoxFor( m => m.Need2DDrawing, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.Need2DDrawing, false )</td>
+				</tr>
+				<tr>
+					<td>@Html.CheckBoxFor( m => m.NeedValueEng, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedValueEng, false )<span class="littleHelp" style="display:none;">Please include a parts list and a legible drawing/sketch of the furniture layout with sizes and details clearly noted.</span></td>
+				</tr>
+				<tr>
+					<td>@Html.CheckBoxFor( m => m.NeedAuditSpecs, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedAuditSpecs, false )<span class="littleHelp" style="display:none;">Please include a parts list and a legible drawing/sketch of the furniture layout with sizes and details clearly noted.</span></td>
+				</tr>
+			</table>
+		</div>
+		<div class="futureSection requestPanel">
+			<h3>Project Requirements</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td width="200px">@Html.MJLabelFor( m => m.Casegoods, false )</td>
+					<td width="200px">@Html.MJLabelFor( m => m.Conferencing, false )</td>
+					<td width="200px">@Html.MJLabelFor( m => m.Seating, false )</td>
+				</tr>
+				<tr>
+					<td>@for( int i = 0; i < ViewBag.BlankInformation.Casegoods.Count; i++ )
+		 {
+			 <input type="hidden" name="Casegoods.Index" value="@i" />
+			 <input type="checkbox" name="Casegoods[@i]" value="@ViewBag.BlankInformation.Casegoods[i]" class="chkCasegoods" /> <label for="Casegoods[@i]">@ViewBag.BlankInformation.Casegoods[i]</label><br />
+		 }</td>
+					<td>@for( int i = 0; i < ViewBag.BlankInformation.Conferencing.Count; i++ )
+		 {
+			 <input type="hidden" name="Conferencing.Index" value="@i" />
+			 <input type="checkbox" name="Conferencing[@i]" value="@ViewBag.BlankInformation.Conferencing[i]" class="chkConferencing" /> <label for="Conferencing[@i]">@ViewBag.BlankInformation.Conferencing[i]</label><br />
+		 }</td>
+					<td>@for( int i = 0; i < ViewBag.BlankInformation.Seating.Count; i++ )
+		 {
+			 <input type="hidden" name="Seating.Index" value="@i" />
+			 <input type="checkbox" name="Seating[@i]" value="@ViewBag.BlankInformation.Seating[i]" class="chkSeating" /> <label for="Seating[@i]">@ViewBag.BlankInformation.Seating[i]</label><br />
+		 }</td>
+				</tr>
+			</table>
+			<hr />
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td>@Html.CheckBoxFor( m => m.Grommets ) @Html.MJLabelFor( m => m.Grommets, false )</td>
+					<td class="grommetDetails" style="display:none">@Html.MJLabelFor( m => m.GrommetDetails, false )<span class="littleHelp">Please indicate number, location or other specifications.</span></td><td class="grommetDetails" style="display:none">@Html.TextAreaFor( m => m.GrommetDetails )</td>
+				</tr>
+			</table>
+			<hr />
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td>@Html.MJLabelFor( m => m.Finishes, false )<br />
+					@for( int i = 0; i < ViewBag.BlankInformation.Finishes.Count; i++ )
+	 {
+			 <input type="hidden" name="Finishes.Index" value="@i" />
+			 <input type="checkbox" name="Finishes[@i]" value="@ViewBag.BlankInformation.Finishes[i]" class="chkFinish" /> <label for="Finishes[@i]">@ViewBag.BlankInformation.Finishes[i]</label><br />
+	 }
+		 @Html.TextBoxFor( m => m.OtherFinishDetails,
+	new { style = "display:none" } )
+	<span class="littleHelp" style="display:none;">Please specify under "Other" if you there is a combination of finishes required by top vs. base, etc. Please include all appropriate detail of the user preference.</span>
+		 </td>
+		 </tr>
+			</table>
+			<hr />
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+		 <tr>
+		 <td>
+			@Html.MJLabelFor( m => m.DrawerOption, false )</td><td>
+			@Html.DropDownListFor( m => m.DrawerOption, new List<SelectListItem>() { 
+	new SelectListItem() { Text = "Vinyl Wrap", Value = "Vinyl Wrap" }, 
+	new SelectListItem() { Text = "Wood", Value = "Wood" } } )
+		 </td>
+				</tr>
+			</table>
+			<hr />
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td>
+			@Html.MJLabelFor( m => m.FabricGrade, false )</td><td>
+			@Html.DropDownListFor( m => m.FabricGrade, new List<SelectListItem>() { 
+	new SelectListItem() { Text = "A", Value = "A" },
+	new SelectListItem() { Text = "B", Value = "B" },
+	new SelectListItem() { Text = "C", Value = "C" },
+	new SelectListItem() { Text = "D", Value = "D" },
+	new SelectListItem() { Text = "E", Value = "E" },
+	new SelectListItem() { Text = "F", Value = "F" } 
+} )
+					</td>
+				</tr><tr>
+					<td>
+					@Html.MJLabelFor( m => m.Fabric, false )</td><td>
+					@Html.TextBoxFor( m => m.Fabric )
+					<span class="littleHelp">Please specify the exact fabric code if you know what the user wants specified for pricing purposes.</span>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="futureSection requestPanel">
+			<h3>Specials</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td>@Html.MJLabelFor( m => m.SpecialRequests, true )</td><td>@Html.TextAreaFor( m => m.SpecialRequests )</td>
+				</tr>
+				<tr>
+				<td></td><td><span class="littleHelp">Please provide any additional information you may have regarding edge profile, finish, pulls, drawer options and grommets, etc.</span></td>
+				</tr>
+			</table>
+		</div>
+		<div class="futureSection requestPanel">
+			<h3>Confirm</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout" id="confirmTable">
+			<thead>
+			<tr>
+			<td width="300px"></td><td></td>
+			</tr>
+			</thead>
+			<tbody>
+			</tbody>
+			</table>
+		</div>
+		<hr />
+@Html.ValidationSummary()
+		<div>
+		<div class="left">
+        <input type="button" class="btn_type1" value="Previous" id="previousBtn" style="display:none;" />
+		</div>
+		<div class="right">
+        <input type="button" class="btn_type1" value="Next" id="nextBtn" />
+        <input type="submit" class="btn_type1" value="Submit Request" id="submitBtn" style="display:none;" />
+		</div>
+		<div class="clear"></div>
+		</div>
+	}
