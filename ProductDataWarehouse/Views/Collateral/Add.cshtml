@@ -10,12 +10,6 @@
 
     <script type="text/javascript">
     	$(document).ready(function () {
-    		showHideStatusDate();
-
-    		$('#Status').change(function () {
-    			showHideStatusDate();
-    		});
-
     		$('#StatusDate').datepicker(
             {
             	dateFormat: "mm/dd/yy",
@@ -25,14 +19,6 @@
             	yearRange: '2014:2100'
             });
     	});
-
-           function showHideStatusDate() {
-           	if ($('#Status').val() == @PDWModels.Collateral.CollateralStatus.Backordered ) {
-           		$('.statusDateRow').show();
-           	} else {
-           		$('.statusDateRow').hide();
-           	}
-           }
     </script>    
 
     <h2>Add Collateral</h2>
@@ -57,9 +43,6 @@
 		</tr>
         <tr>
 		<td>@Html.MJLabelFor( m => m.Quantity, true )</td><td>@Html.TextBoxFor( m => m.Quantity )</td>
-		</tr>
-		<tr>
-		<td>@Html.MJLabelFor( m => m.Status, true )</td><td>@Html.DropDownListFor( m => m.Status, CollateralController.GetCollateralStatusDDList() )</td>
 		</tr>
 		<tr class="statusDateRow">
 		<td>@Html.MJLabelFor( m => m.StatusDate, true )</td><td>@Html.TextBoxFor( m => m.StatusDate )</td>

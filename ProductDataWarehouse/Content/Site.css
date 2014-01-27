@@ -400,7 +400,11 @@ table.dataLayout td.dataLabel
 
 table.dataLayout td.dataInfoThin
 {
-	width: 60px;
+	width: 80px;
+}
+table.dataLayout td.dataInfoThin input[type="text"]
+{
+	width: 75px;
 }
 
 table.dataLayout td ul.tagit
@@ -557,4 +561,8 @@ span.littleHelp
 	width: 250px;
 	margin-bottom: 15px;
 	display: block;
+}
+td.dataInfoThin span.littleHelp
+{
+	width: 80px;
 }

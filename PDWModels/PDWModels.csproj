@@ -49,12 +49,14 @@
     <Compile Include="Attributes\FinishInformation.cs" />
     <Compile Include="Collateral\CollateralGroupInformation.cs" />
     <Compile Include="Collateral\CollateralInformation.cs" />
+    <Compile Include="Collateral\CollateralOrderSummary.cs" />
     <Compile Include="Collateral\CollateralShipmentDetail.cs" />
-    <Compile Include="Collateral\CollateralStatus.cs" />
     <Compile Include="Collateral\CollateralSummary.cs" />
+    <Compile Include="Collateral\NewOrderInformation.cs" />
     <Compile Include="Companies\ClosestRepInfo.cs" />
     <Compile Include="Companies\CompanyInformation.cs" />
     <Compile Include="Companies\CompanySummary.cs" />
+    <Compile Include="Companies\ShippingAddress.cs" />
     <Compile Include="Companies\TerritorySummary.cs" />
     <Compile Include="Dealers\DealerDetail.cs" />
     <Compile Include="Dealers\DealerInformation.cs" />

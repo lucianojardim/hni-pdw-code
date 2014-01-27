@@ -11,6 +11,8 @@
           <EntitySet Name="Categories" EntityType="PaoliPDWModel.Store.Categories" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="CollateralGroupItems" EntityType="PaoliPDWModel.Store.CollateralGroupItems" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="CollateralItems" EntityType="PaoliPDWModel.Store.CollateralItems" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CollateralOrderDetails" EntityType="PaoliPDWModel.Store.CollateralOrderDetails" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CollateralOrders" EntityType="PaoliPDWModel.Store.CollateralOrders" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="CollateralTypes" EntityType="PaoliPDWModel.Store.CollateralTypes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Companies" EntityType="PaoliPDWModel.Store.Companies" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="DealerFeaturedProducts" EntityType="PaoliPDWModel.Store.DealerFeaturedProducts" store:Type="Tables" Schema="dbo" />
@@ -53,6 +55,14 @@
             <End Role="CollateralItems" EntitySet="CollateralItems" />
             <End Role="CollateralGroupItems" EntitySet="CollateralGroupItems" />
           </AssociationSet>
+          <AssociationSet Name="fkCODetail_Collateral" Association="PaoliPDWModel.Store.fkCODetail_Collateral">
+            <End Role="CollateralItems" EntitySet="CollateralItems" />
+            <End Role="CollateralOrderDetails" EntitySet="CollateralOrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="fkCODetail_Order" Association="PaoliPDWModel.Store.fkCODetail_Order">
+            <End Role="CollateralOrders" EntitySet="CollateralOrders" />
+            <End Role="CollateralOrderDetails" EntitySet="CollateralOrderDetails" />
+          </AssociationSet>
           <AssociationSet Name="fkCollateral_Type" Association="PaoliPDWModel.Store.fkCollateral_Type">
             <End Role="CollateralTypes" EntitySet="CollateralTypes" />
             <End Role="CollateralItems" EntitySet="CollateralItems" />
@@ -60,6 +70,22 @@
           <AssociationSet Name="fkCompany_Territory" Association="PaoliPDWModel.Store.fkCompany_Territory">
             <End Role="Territories" EntitySet="Territories" />
             <End Role="Companies" EntitySet="Companies" />
+          </AssociationSet>
+          <AssociationSet Name="fkCOrder_Dealer" Association="PaoliPDWModel.Store.fkCOrder_Dealer">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="CollateralOrders" EntitySet="CollateralOrders" />
+          </AssociationSet>
+          <AssociationSet Name="fkCOrder_DealerMember" Association="PaoliPDWModel.Store.fkCOrder_DealerMember">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="CollateralOrders" EntitySet="CollateralOrders" />
+          </AssociationSet>
+          <AssociationSet Name="fkCOrder_SalesRep" Association="PaoliPDWModel.Store.fkCOrder_SalesRep">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="CollateralOrders" EntitySet="CollateralOrders" />
+          </AssociationSet>
+          <AssociationSet Name="fkCOrder_SalesRepMember" Association="PaoliPDWModel.Store.fkCOrder_SalesRepMember">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="CollateralOrders" EntitySet="CollateralOrders" />
           </AssociationSet>
           <AssociationSet Name="fkDealer_VideoLink" Association="PaoliPDWModel.Store.fkDealer_VideoLink">
             <End Role="VideoLinks" EntitySet="VideoLinks" />
@@ -287,7 +313,6 @@
           <Property Name="CollateralTypeID" Type="int" />
           <Property Name="Description" Type="ntext" />
           <Property Name="LeadTime" Type="nvarchar(max)" />
-          <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="StatusDate" Type="datetime" />
           <Property Name="Quantity" Type="int" Nullable="false" />
           <Property Name="ImageFileName" Type="nvarchar" MaxLength="100" />
@@ -295,6 +320,46 @@
           <Property Name="Shipping" Type="float" />
           <Property Name="Weight" Type="float" />
           <Property Name="IsGroup" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CollateralOrderDetails">
+          <Key>
+            <PropertyRef Name="DetailID" />
+          </Key>
+          <Property Name="DetailID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrderID" Type="int" Nullable="false" />
+          <Property Name="CollateralID" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CollateralOrders">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="RequestingParty" Type="int" Nullable="false" />
+          <Property Name="MemberFirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="MemberLastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="PaoliRepGroupID" Type="int" />
+          <Property Name="DealerID" Type="int" />
+          <Property Name="EndUserFirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="EndUserLastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="EndUserPhoneNumber" Type="nvarchar" MaxLength="20" />
+          <Property Name="EndUserEMailAddress" Type="nvarchar" MaxLength="50" />
+          <Property Name="ShippingType" Type="int" Nullable="false" />
+          <Property Name="ShippingFedexAccount" Type="nvarchar" MaxLength="50" />
+          <Property Name="ShippingFirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ShippingLastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ShippingCompanyName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ShippingAddress1" Type="nvarchar" MaxLength="100" />
+          <Property Name="ShippingAddress2" Type="nvarchar" MaxLength="100" />
+          <Property Name="ShippingCity" Type="nvarchar" MaxLength="50" />
+          <Property Name="ShippingState" Type="nvarchar" MaxLength="5" />
+          <Property Name="ShippingZip" Type="nvarchar" MaxLength="15" />
+          <Property Name="ShippingPhoneNumber" Type="nvarchar" MaxLength="20" />
+          <Property Name="ShippingEmailAddress" Type="nvarchar" MaxLength="50" />
+          <Property Name="OrderDate" Type="datetime" Nullable="false" />
+          <Property Name="PaoliRepGroupMemberID" Type="int" />
+          <Property Name="DealerMemberID" Type="int" />
+          <Property Name="ShippingAddressType" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="CollateralTypes">
           <Key>
@@ -737,6 +802,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fkCODetail_Collateral">
+          <End Role="CollateralItems" Type="PaoliPDWModel.Store.CollateralItems" Multiplicity="1" />
+          <End Role="CollateralOrderDetails" Type="PaoliPDWModel.Store.CollateralOrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CollateralItems">
+              <PropertyRef Name="CollateralID" />
+            </Principal>
+            <Dependent Role="CollateralOrderDetails">
+              <PropertyRef Name="CollateralID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkCODetail_Order">
+          <End Role="CollateralOrders" Type="PaoliPDWModel.Store.CollateralOrders" Multiplicity="1" />
+          <End Role="CollateralOrderDetails" Type="PaoliPDWModel.Store.CollateralOrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CollateralOrders">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="CollateralOrderDetails">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fkCollateral_Type">
           <End Role="CollateralTypes" Type="PaoliPDWModel.Store.CollateralTypes" Multiplicity="0..1" />
           <End Role="CollateralItems" Type="PaoliPDWModel.Store.CollateralItems" Multiplicity="*" />
@@ -758,6 +847,54 @@
             </Principal>
             <Dependent Role="Companies">
               <PropertyRef Name="TerritoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkCOrder_Dealer">
+          <End Role="Companies" Type="PaoliPDWModel.Store.Companies" Multiplicity="0..1" />
+          <End Role="CollateralOrders" Type="PaoliPDWModel.Store.CollateralOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="CollateralOrders">
+              <PropertyRef Name="DealerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkCOrder_DealerMember">
+          <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="0..1" />
+          <End Role="CollateralOrders" Type="PaoliPDWModel.Store.CollateralOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="CollateralOrders">
+              <PropertyRef Name="DealerMemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkCOrder_SalesRep">
+          <End Role="Companies" Type="PaoliPDWModel.Store.Companies" Multiplicity="0..1" />
+          <End Role="CollateralOrders" Type="PaoliPDWModel.Store.CollateralOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="CollateralOrders">
+              <PropertyRef Name="PaoliRepGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkCOrder_SalesRepMember">
+          <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="0..1" />
+          <End Role="CollateralOrders" Type="PaoliPDWModel.Store.CollateralOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="CollateralOrders">
+              <PropertyRef Name="PaoliRepGroupMemberID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1551,6 +1688,32 @@
             <End Role="User" EntitySet="Users" />
             <End Role="SpecRequest" EntitySet="SpecRequests" />
           </AssociationSet>
+          <EntitySet Name="CollateralOrderDetails" EntityType="PaoliPDWModel.CollateralOrderDetail" />
+          <EntitySet Name="CollateralOrders" EntityType="PaoliPDWModel.CollateralOrder" />
+          <AssociationSet Name="fkCODetail_Collateral" Association="PaoliPDWModel.fkCODetail_Collateral">
+            <End Role="CollateralItem" EntitySet="CollateralItems" />
+            <End Role="CollateralOrderDetail" EntitySet="CollateralOrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="fkCODetail_Order" Association="PaoliPDWModel.fkCODetail_Order">
+            <End Role="CollateralOrder" EntitySet="CollateralOrders" />
+            <End Role="CollateralOrderDetail" EntitySet="CollateralOrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="fkCOrder_Dealer" Association="PaoliPDWModel.fkCOrder_Dealer">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="CollateralOrder" EntitySet="CollateralOrders" />
+          </AssociationSet>
+          <AssociationSet Name="fkCOrder_SalesRep" Association="PaoliPDWModel.fkCOrder_SalesRep">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="CollateralOrder" EntitySet="CollateralOrders" />
+          </AssociationSet>
+          <AssociationSet Name="fkCOrder_DealerMember" Association="PaoliPDWModel.fkCOrder_DealerMember">
+            <End Role="User" EntitySet="Users" />
+            <End Role="CollateralOrder" EntitySet="CollateralOrders" />
+          </AssociationSet>
+          <AssociationSet Name="fkCOrder_SalesRepMember" Association="PaoliPDWModel.fkCOrder_SalesRepMember">
+            <End Role="User" EntitySet="Users" />
+            <End Role="CollateralOrder" EntitySet="CollateralOrders" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="AttributeOption">
           <Key>
@@ -2217,6 +2380,8 @@
           <NavigationProperty Name="UserSubscription" Relationship="PaoliPDWModel.fkUSub_User" FromRole="User" ToRole="UserSubscription" />
           <Property Type="String" Name="ImageFileName" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="SpecRequests2" Relationship="PaoliPDWModel.fkSpecRequest_PSRMember" FromRole="User" ToRole="SpecRequest" />
+          <NavigationProperty Name="CollateralOrders" Relationship="PaoliPDWModel.fkCOrder_DealerMember" FromRole="User" ToRole="CollateralOrder" />
+          <NavigationProperty Name="CollateralOrders1" Relationship="PaoliPDWModel.fkCOrder_SalesRepMember" FromRole="User" ToRole="CollateralOrder" />
           </EntityType>
         <EntityType Name="Company">
           <Key>
@@ -2254,6 +2419,8 @@
           <Property Type="String" Name="PublicDisplayName" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Showroom" Relationship="PaoliPDWModel.fkShowroom_Company" FromRole="Company" ToRole="Showroom" />
           <NavigationProperty Name="ShowroomImages" ToRole="ImageFile" FromRole="Company" Relationship="PaoliPDWModel.ShowroomImages" />
+          <NavigationProperty Name="CollateralOrders" Relationship="PaoliPDWModel.fkCOrder_Dealer" FromRole="Company" ToRole="CollateralOrder" />
+          <NavigationProperty Name="CollateralOrders1" Relationship="PaoliPDWModel.fkCOrder_SalesRep" FromRole="Company" ToRole="CollateralOrder" />
         </EntityType>
         <EntityType Name="SpecRequestFile">
           <Key>
@@ -2519,7 +2686,6 @@
           <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="LeadTime" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="Status" Nullable="false" />
           <Property Type="DateTime" Name="StatusDate" />
           <Property Type="Int32" Name="Quantity" Nullable="false" />
           <Property Type="String" Name="ImageFileName" MaxLength="100" FixedLength="false" Unicode="true" />
@@ -2531,6 +2697,7 @@
           <NavigationProperty Name="CollateralType" Relationship="PaoliPDWModel.fkCollateral_Type" FromRole="CollateralItem" ToRole="CollateralType" />
           <NavigationProperty Name="CollateralGroups" Relationship="PaoliPDWModel.fkCGI_Children" FromRole="CollateralItem" ToRole="CollateralGroupItem" />
           <NavigationProperty Name="CollateralGroupItems" Relationship="PaoliPDWModel.fkCGI_Parent" FromRole="CollateralItem" ToRole="CollateralGroupItem" />
+          <NavigationProperty Name="CollateralOrderDetails" Relationship="PaoliPDWModel.fkCODetail_Collateral" FromRole="CollateralItem" ToRole="CollateralOrderDetail" />
         </EntityType>
         <EntityType Name="CollateralType">
           <Key>
@@ -2596,6 +2763,125 @@
             </Principal>
             <Dependent Role="SpecRequest">
               <PropertyRef Name="PaoliSalesRepMemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CollateralOrderDetail">
+          <Key>
+            <PropertyRef Name="DetailID" />
+          </Key>
+          <Property Type="Int32" Name="DetailID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="OrderID" Nullable="false" />
+          <Property Type="Int32" Name="CollateralID" Nullable="false" />
+          <Property Type="Int32" Name="Quantity" Nullable="false" />
+          <NavigationProperty Name="CollateralItem" Relationship="PaoliPDWModel.fkCODetail_Collateral" FromRole="CollateralOrderDetail" ToRole="CollateralItem" />
+          <NavigationProperty Name="CollateralOrder" Relationship="PaoliPDWModel.fkCODetail_Order" FromRole="CollateralOrderDetail" ToRole="CollateralOrder" />
+        </EntityType>
+        <EntityType Name="CollateralOrder">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Type="Int32" Name="OrderID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="RequestingParty" Nullable="false" />
+          <Property Type="String" Name="MemberFirstName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="MemberLastName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="PaoliRepGroupID" />
+          <Property Type="Int32" Name="DealerID" />
+          <Property Type="String" Name="EndUserFirstName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="EndUserLastName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="EndUserPhoneNumber" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="EndUserEMailAddress" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="ShippingType" Nullable="false" />
+          <Property Type="String" Name="ShippingFedexAccount" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ShippingFirstName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ShippingLastName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ShippingCompanyName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ShippingAddress1" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ShippingAddress2" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ShippingCity" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ShippingState" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ShippingZip" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ShippingPhoneNumber" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ShippingEmailAddress" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CollateralOrderDetails" Relationship="PaoliPDWModel.fkCODetail_Order" FromRole="CollateralOrder" ToRole="CollateralOrderDetail" />
+          <NavigationProperty Name="Dealer" Relationship="PaoliPDWModel.fkCOrder_Dealer" FromRole="CollateralOrder" ToRole="Company" />
+          <NavigationProperty Name="PaoliSalesRep" Relationship="PaoliPDWModel.fkCOrder_SalesRep" FromRole="CollateralOrder" ToRole="Company" />
+          <Property Type="DateTime" Name="OrderDate" Nullable="false" />
+          <Property Type="Int32" Name="PaoliRepGroupMemberID" />
+          <Property Type="Int32" Name="DealerMemberID" />
+          <NavigationProperty Name="DealerMember" Relationship="PaoliPDWModel.fkCOrder_DealerMember" FromRole="CollateralOrder" ToRole="User" />
+          <NavigationProperty Name="PaoliSalesRepMember" Relationship="PaoliPDWModel.fkCOrder_SalesRepMember" FromRole="CollateralOrder" ToRole="User" />
+          <Property Type="Int32" Name="ShippingAddressType" Nullable="false" />
+        </EntityType>
+        <Association Name="fkCODetail_Collateral">
+          <End Type="PaoliPDWModel.CollateralItem" Role="CollateralItem" Multiplicity="1" />
+          <End Type="PaoliPDWModel.CollateralOrderDetail" Role="CollateralOrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CollateralItem">
+              <PropertyRef Name="CollateralID" />
+            </Principal>
+            <Dependent Role="CollateralOrderDetail">
+              <PropertyRef Name="CollateralID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkCODetail_Order">
+          <End Type="PaoliPDWModel.CollateralOrder" Role="CollateralOrder" Multiplicity="1" />
+          <End Type="PaoliPDWModel.CollateralOrderDetail" Role="CollateralOrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CollateralOrder">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="CollateralOrderDetail">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkCOrder_Dealer">
+          <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="PaoliPDWModel.CollateralOrder" Role="CollateralOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="CollateralOrder">
+              <PropertyRef Name="DealerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkCOrder_SalesRep">
+          <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="PaoliPDWModel.CollateralOrder" Role="CollateralOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="CollateralOrder">
+              <PropertyRef Name="PaoliRepGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkCOrder_DealerMember">
+          <End Type="PaoliPDWModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="PaoliPDWModel.CollateralOrder" Role="CollateralOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="CollateralOrder">
+              <PropertyRef Name="DealerMemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkCOrder_SalesRepMember">
+          <End Type="PaoliPDWModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="PaoliPDWModel.CollateralOrder" Role="CollateralOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="CollateralOrder">
+              <PropertyRef Name="PaoliRepGroupMemberID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3052,7 +3338,6 @@
                 <ScalarProperty Name="ImageFileName" ColumnName="ImageFileName" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="StatusDate" ColumnName="StatusDate" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="LeadTime" ColumnName="LeadTime" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3074,6 +3359,48 @@
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="CollateralID" ColumnName="CollateralID" />
                 <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CollateralOrderDetails">
+            <EntityTypeMapping TypeName="PaoliPDWModel.CollateralOrderDetail">
+              <MappingFragment StoreEntitySet="CollateralOrderDetails">
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="CollateralID" ColumnName="CollateralID" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="DetailID" ColumnName="DetailID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CollateralOrders">
+            <EntityTypeMapping TypeName="PaoliPDWModel.CollateralOrder">
+              <MappingFragment StoreEntitySet="CollateralOrders">
+                <ScalarProperty Name="ShippingAddressType" ColumnName="ShippingAddressType" />
+                <ScalarProperty Name="DealerMemberID" ColumnName="DealerMemberID" />
+                <ScalarProperty Name="PaoliRepGroupMemberID" ColumnName="PaoliRepGroupMemberID" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="ShippingEmailAddress" ColumnName="ShippingEmailAddress" />
+                <ScalarProperty Name="ShippingPhoneNumber" ColumnName="ShippingPhoneNumber" />
+                <ScalarProperty Name="ShippingZip" ColumnName="ShippingZip" />
+                <ScalarProperty Name="ShippingState" ColumnName="ShippingState" />
+                <ScalarProperty Name="ShippingCity" ColumnName="ShippingCity" />
+                <ScalarProperty Name="ShippingAddress2" ColumnName="ShippingAddress2" />
+                <ScalarProperty Name="ShippingAddress1" ColumnName="ShippingAddress1" />
+                <ScalarProperty Name="ShippingCompanyName" ColumnName="ShippingCompanyName" />
+                <ScalarProperty Name="ShippingLastName" ColumnName="ShippingLastName" />
+                <ScalarProperty Name="ShippingFirstName" ColumnName="ShippingFirstName" />
+                <ScalarProperty Name="ShippingFedexAccount" ColumnName="ShippingFedexAccount" />
+                <ScalarProperty Name="ShippingType" ColumnName="ShippingType" />
+                <ScalarProperty Name="EndUserEMailAddress" ColumnName="EndUserEMailAddress" />
+                <ScalarProperty Name="EndUserPhoneNumber" ColumnName="EndUserPhoneNumber" />
+                <ScalarProperty Name="EndUserLastName" ColumnName="EndUserLastName" />
+                <ScalarProperty Name="EndUserFirstName" ColumnName="EndUserFirstName" />
+                <ScalarProperty Name="DealerID" ColumnName="DealerID" />
+                <ScalarProperty Name="PaoliRepGroupID" ColumnName="PaoliRepGroupID" />
+                <ScalarProperty Name="MemberLastName" ColumnName="MemberLastName" />
+                <ScalarProperty Name="MemberFirstName" ColumnName="MemberFirstName" />
+                <ScalarProperty Name="RequestingParty" ColumnName="RequestingParty" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3304,7 +3631,7 @@
         <EntityTypeShape EntityType="PaoliPDWModel.VideoLink" Width="1.5" PointX="13.625" PointY="16.625" Height="1.5923063151041674" />
         <AssociationConnector Association="PaoliPDWModel.DealerPageLinks" >
           <ConnectorPoint PointX="12.875" PointY="15.046153157552084" />
-          <ConnectorPoint PointX="13.197916666666666" PointY="15.046153157552084" />
+          <ConnectorPoint PointX="13.182291666666666" PointY="15.046153157552082" />
           <ConnectorPoint PointX="13.442708333333334" PointY="15.046153157552084" />
           <ConnectorPoint PointX="13.625" PointY="15.046153157552084" />
         </AssociationConnector>
@@ -3318,8 +3645,8 @@
           <ConnectorPoint PointX="13.631922076923077" PointY="16.625" />
           <ConnectorPoint PointX="13.40625" PointY="16.399327923076925" />
           <ConnectorPoint PointX="13.40625" PointY="17.438334960937503" />
-          <ConnectorPoint PointX="13.34017556509888" PointY="17.372260526036381" />
-          <ConnectorPoint PointX="13.222324434901122" PointY="17.254409395838625" />
+          <ConnectorPoint PointX="13.35580056509888" PointY="17.387885526036381" />
+          <ConnectorPoint PointX="13.206699434901122" PointY="17.238784395838625" />
           <ConnectorPoint PointX="12.875" PointY="16.907084960937503" />
         </AssociationConnector>
         <EntityTypeShape EntityType="PaoliPDWModel.DealerFeaturedProduct" Width="1.5" PointX="13.625" PointY="19.625" Height="1.427958984374996" />
@@ -3334,16 +3661,12 @@
         <EntityTypeShape EntityType="PaoliPDWModel.SpecRequestFile" Width="1.5" PointX="18.125" PointY="6.375" Height="2.0853483072916674" />
         <EntityTypeShape EntityType="PaoliPDWModel.SpecRequest" Width="1.5" PointX="15.875" PointY="4.75" Height="5.37229492187501" />
         <AssociationConnector Association="PaoliPDWModel.fkSpec_Company" >
-          <ConnectorPoint PointX="15.125" PointY="5.8000197804226792" />
-          <ConnectorPoint PointX="15.291666666666666" PointY="5.8000197804226783" />
-          <ConnectorPoint PointX="15.458333333333334" PointY="5.8000197804226792" />
-          <ConnectorPoint PointX="15.875" PointY="5.8000197804226792" />
+          <ConnectorPoint PointX="15.125" PointY="6.1759936282890138" />
+          <ConnectorPoint PointX="15.875" PointY="6.1759936282890138" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkSpec_RepGroup" >
-          <ConnectorPoint PointX="15.125" PointY="5.21250989021134" />
-          <ConnectorPoint PointX="15.291666666666666" PointY="5.2125098902113391" />
-          <ConnectorPoint PointX="15.458333333333334" PointY="5.21250989021134" />
-          <ConnectorPoint PointX="15.875" PointY="5.21250989021134" />
+          <ConnectorPoint PointX="15.125" PointY="5.4004968141445069" />
+          <ConnectorPoint PointX="15.875" PointY="5.4004968141445069" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkSpecFile_Request" >
           <ConnectorPoint PointX="17.375" PointY="7.4176741536458337" />
@@ -3352,34 +3675,38 @@
           <ConnectorPoint PointX="18.125" PointY="7.4176741536458337" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkSpec_DealerSalesRep" >
-          <ConnectorPoint PointX="12.875" PointY="7.6190751318352952" />
-          <ConnectorPoint PointX="13.197916666666666" PointY="7.6190751318352943" />
-          <ConnectorPoint PointX="13.364583333333334" PointY="7.6190751318352952" />
-          <ConnectorPoint PointX="14.291666666666666" PointY="7.6190751318352943" />
-          <ConnectorPoint PointX="14.458333333333334" PointY="7.6190751318352952" />
-          <ConnectorPoint PointX="15.875" PointY="7.6190751318352952" />
+          <ConnectorPoint PointX="12.875" PointY="7.472580708048266" />
+          <ConnectorPoint PointX="13.197916666666666" PointY="7.4725807080482651" />
+          <ConnectorPoint PointX="13.364583333333334" PointY="7.472580708048266" />
+          <ConnectorPoint PointX="14.291666666666666" PointY="7.4725807080482651" />
+          <ConnectorPoint PointX="14.458333333333334" PointY="7.472580708048266" />
+          <ConnectorPoint PointX="15.217290368504997" PointY="7.4725807080482651" />
+          <ConnectorPoint PointX="15.465881112094742" PointY="7.472580708048266" />
+          <ConnectorPoint PointX="15.875" PointY="7.472580708048266" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkSpec_PaoliSpecTeam" >
-          <ConnectorPoint PointX="12.875" PointY="7.1649577539036811" />
-          <ConnectorPoint PointX="13.197916666666666" PointY="7.16495775390368" />
-          <ConnectorPoint PointX="13.364583333333334" PointY="7.1649577539036811" />
-          <ConnectorPoint PointX="14.291666666666666" PointY="7.16495775390368" />
-          <ConnectorPoint PointX="14.458333333333334" PointY="7.1649577539036811" />
-          <ConnectorPoint PointX="15.875" PointY="7.1649577539036811" />
+          <ConnectorPoint PointX="12.875" PointY="7.723750548543058" />
+          <ConnectorPoint PointX="13.197916666666666" PointY="7.7237505485430571" />
+          <ConnectorPoint PointX="13.364583333333334" PointY="7.723750548543058" />
+          <ConnectorPoint PointX="14.291666666666666" PointY="7.7237505485430571" />
+          <ConnectorPoint PointX="14.458333333333334" PointY="7.723750548543058" />
+          <ConnectorPoint PointX="15.875" PointY="7.723750548543058" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkUser_Company" >
-          <ConnectorPoint PointX="13.625" PointY="5.1595157877604159" />
-          <ConnectorPoint PointX="13.364583333333334" PointY="5.159515787760415" />
-          <ConnectorPoint PointX="13.197916666666666" PointY="5.1595157877604159" />
-          <ConnectorPoint PointX="12.875" PointY="5.1595157877604159" />
+          <ConnectorPoint PointX="13.625" PointY="5.3238631184895828" />
+          <ConnectorPoint PointX="13.364583333333334" PointY="5.3238631184895819" />
+          <ConnectorPoint PointX="13.197916666666666" PointY="5.3238631184895828" />
+          <ConnectorPoint PointX="12.875" PointY="5.3238631184895828" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkTypical_Spec" >
           <ConnectorPoint PointX="16.625" PointY="14.066630859375001" />
           <ConnectorPoint PointX="16.625" PointY="14.316630859375003" />
+          <ConnectorPoint PointX="15.677083333333334" PointY="14.316630859375001" />
+          <ConnectorPoint PointX="15.416666666666666" PointY="14.316630859375003" />
           <ConnectorPoint PointX="15.375" PointY="14.316630859375003" />
           <ConnectorPoint PointX="15.375" PointY="13.006653645833325" />
-          <ConnectorPoint PointX="13.442708333333334" PointY="13.006653645833325" />
-          <ConnectorPoint PointX="13.197916666666666" PointY="13.006653645833325" />
+          <ConnectorPoint PointX="13.442708333333334" PointY="13.006653645833323" />
+          <ConnectorPoint PointX="13.182291666666666" PointY="13.006653645833325" />
           <ConnectorPoint PointX="11.083333333333334" PointY="13.006653645833325" />
           <ConnectorPoint PointX="10.916666666666666" PointY="13.006653645833325" />
           <ConnectorPoint PointX="10" PointY="13.006653645833325" />
@@ -3387,17 +3714,17 @@
           <ConnectorPoint PointX="7.875" PointY="11.25" />
           <ConnectorPoint PointX="7.875" PointY="12.671000976562496" />
           <ConnectorPoint PointX="5" PointY="12.671000976562496" />
-          <ConnectorPoint PointX="5" PointY="12.229918653137689" />
-          <ConnectorPoint PointX="4.958333333333333" PointY="12.229918653137689" />
-          <ConnectorPoint PointX="4.791666666666667" PointY="12.229918653137689" />
-          <ConnectorPoint PointX="4.5" PointY="12.229918653137689" />
+          <ConnectorPoint PointX="5" PointY="12.305251415148089" />
+          <ConnectorPoint PointX="4.958333333333333" PointY="12.305251415148089" />
+          <ConnectorPoint PointX="4.791666666666667" PointY="12.305251415148089" />
+          <ConnectorPoint PointX="4.5" PointY="12.305251415148089" />
         </AssociationConnector>
         <EntityTypeShape EntityType="PaoliPDWModel.Territory" Width="1.5" PointX="11.375" PointY="18" Height="1.427958984374996" />
         <AssociationConnector Association="PaoliPDWModel.fkCompany_Territory" >
           <ConnectorPoint PointX="12.850769230769231" PointY="18" />
           <ConnectorPoint PointX="13.28125" PointY="17.569519230769231" />
-          <ConnectorPoint PointX="13.28125" PointY="2.9235058938802143" />
-          <ConnectorPoint PointX="13.625" PointY="2.9235058938802143" />
+          <ConnectorPoint PointX="13.28125" PointY="3.0286333829927128" />
+          <ConnectorPoint PointX="13.625" PointY="3.0286333829927128" />
         </AssociationConnector>
         <EntityTypeShape EntityType="PaoliPDWModel.UserSubscription" Width="1.5" PointX="15.875" PointY="1.125" Height="2.5783902994791674" />
         <AssociationConnector Association="PaoliPDWModel.fkUSub_User" >
@@ -3419,13 +3746,13 @@
         <AssociationConnector Association="PaoliPDWModel.fkZip_Territory" >
           <ConnectorPoint PointX="12.875" PointY="18.040383615384613" />
           <ConnectorPoint PointX="13.19107443490112" PointY="17.724309180483491" />
-          <ConnectorPoint PointX="13.308925565098878" PointY="17.606458050285735" />
+          <ConnectorPoint PointX="13.355800565098878" PointY="17.559583050285735" />
           <ConnectorPoint PointX="13.359375" PointY="17.556008615384613" />
           <ConnectorPoint PointX="13.359375" PointY="11.878326822916662" />
           <ConnectorPoint PointX="13.625" PointY="11.878326822916662" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.ShowroomImages" >
-          <ConnectorPoint PointX="14.375" PointY="6.9440315755208326" />
+          <ConnectorPoint PointX="14.375" PointY="7.2727262369791656" />
           <ConnectorPoint PointX="14.375" PointY="8.375" />
           <ConnectorPoint PointX="13.364583333333334" PointY="8.375" />
           <ConnectorPoint PointX="13.197916666666666" PointY="8.375" />
@@ -3435,7 +3762,7 @@
           <ConnectorPoint PointX="7.916666666666667" PointY="8.01149824414063" />
           <ConnectorPoint PointX="7.625" PointY="8.01149824414063" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="PaoliPDWModel.CollateralItem" Width="1.5" PointX="18.625" PointY="16" Height="3.2357796223958353" />
+        <EntityTypeShape EntityType="PaoliPDWModel.CollateralItem" Width="1.5" PointX="18.625" PointY="16" Height="3.4001269531250031" />
         <EntityTypeShape EntityType="PaoliPDWModel.CollateralType" Width="1.5" PointX="16.375" PointY="16.5" Height="1.427958984374996" />
         <AssociationConnector Association="PaoliPDWModel.fkCollateral_Type" >
           <ConnectorPoint PointX="17.875" PointY="17.213979492187498" />
@@ -3443,20 +3770,61 @@
         </AssociationConnector>
         <EntityTypeShape EntityType="PaoliPDWModel.CollateralGroupItem" Width="1.5" PointX="20.875" PointY="16.875" Height="1.7566536458333388" />
         <AssociationConnector Association="PaoliPDWModel.fkCGI_Children" >
-          <ConnectorPoint PointX="20.125" PointY="17.753326822916669" />
-          <ConnectorPoint PointX="20.875" PointY="17.753326822916669" />
+          <ConnectorPoint PointX="20.125" PointY="18.0825434366862" />
+          <ConnectorPoint PointX="20.875" PointY="18.0825434366862" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkCGI_Parent" >
-          <ConnectorPoint PointX="20.125" PointY="17.251663411458335" />
-          <ConnectorPoint PointX="20.875" PointY="17.251663411458335" />
+          <ConnectorPoint PointX="20.125" PointY="17.4162717183431" />
+          <ConnectorPoint PointX="20.875" PointY="17.4162717183431" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkSpecRequest_PSRMember" >
-          <ConnectorPoint PointX="12.875" PointY="7.9169903653968143" />
-          <ConnectorPoint PointX="13.197916666666666" PointY="7.9169903653968134" />
-          <ConnectorPoint PointX="13.364583333333334" PointY="7.9169903653968143" />
-          <ConnectorPoint PointX="14.291666666666666" PointY="7.9169903653968134" />
-          <ConnectorPoint PointX="14.458333333333334" PointY="7.9169903653968143" />
-          <ConnectorPoint PointX="15.875" PointY="7.9169903653968143" />
+          <ConnectorPoint PointX="12.875" PointY="8.04937527427153" />
+          <ConnectorPoint PointX="13.197916666666666" PointY="8.04937527427153" />
+          <ConnectorPoint PointX="13.364583333333334" PointY="8.04937527427153" />
+          <ConnectorPoint PointX="14.291666666666666" PointY="8.04937527427153" />
+          <ConnectorPoint PointX="14.458333333333334" PointY="8.04937527427153" />
+          <ConnectorPoint PointX="15.416666666666666" PointY="8.0493752742715277" />
+          <ConnectorPoint PointX="15.677083333333334" PointY="8.04937527427153" />
+          <ConnectorPoint PointX="15.875" PointY="8.04937527427153" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="PaoliPDWModel.CollateralOrderDetail" Width="1.5" PointX="20.875" PointY="20.25" Height="1.9210009765625102" />
+        <EntityTypeShape EntityType="PaoliPDWModel.CollateralOrder" Width="1.5" PointX="15.875" PointY="19.5" Height="5.0436002604166674" />
+        <AssociationConnector Association="PaoliPDWModel.fkCODetail_Collateral" >
+          <ConnectorPoint PointX="19.375" PointY="19.564474283854171" />
+          <ConnectorPoint PointX="19.375" PointY="21.450628110351563" />
+          <ConnectorPoint PointX="20.875" PointY="21.450628110351563" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkCODetail_Order" >
+          <ConnectorPoint PointX="17.375" PointY="20.78781405517578" />
+          <ConnectorPoint PointX="19.291666666666668" PointY="20.78781405517578" />
+          <ConnectorPoint PointX="19.458333333333332" PointY="20.78781405517578" />
+          <ConnectorPoint PointX="20.875" PointY="20.78781405517578" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkCOrder_Dealer" >
+          <ConnectorPoint PointX="15.125" PointY="7.215032929286858" />
+          <ConnectorPoint PointX="15.59375" PointY="7.683782929286858" />
+          <ConnectorPoint PointX="15.59375" PointY="23.7659073548177" />
+          <ConnectorPoint PointX="15.875" PointY="23.7659073548177" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkCOrder_SalesRep" >
+          <ConnectorPoint PointX="15.100769230769231" PointY="7.2727262369791656" />
+          <ConnectorPoint PointX="15.5" PointY="7.6719570062099347" />
+          <ConnectorPoint PointX="15.5" PointY="22.432668457031248" />
+          <ConnectorPoint PointX="15.510416666666666" PointY="22.432668457031248" />
+          <ConnectorPoint PointX="15.677083333333334" PointY="22.432668457031248" />
+          <ConnectorPoint PointX="15.875" PointY="22.432668457031248" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkCOrder_DealerMember" >
+          <ConnectorPoint PointX="12.850769230769231" PointY="8.4186002604166656" />
+          <ConnectorPoint PointX="13.265625" PointY="8.8334560296474347" />
+          <ConnectorPoint PointX="13.265625" PointY="24.596874134440093" />
+          <ConnectorPoint PointX="15.875" PointY="24.596874134440093" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkCOrder_SalesRepMember" >
+          <ConnectorPoint PointX="12.875" PointY="8.3470607988782053" />
+          <ConnectorPoint PointX="13.296875" PointY="8.7689357988782053" />
+          <ConnectorPoint PointX="13.296875" PointY="24.596874134440093" />
+          <ConnectorPoint PointX="15.875" PointY="24.596874134440093" />
         </AssociationConnector>
         </Diagram>
     </Diagrams>

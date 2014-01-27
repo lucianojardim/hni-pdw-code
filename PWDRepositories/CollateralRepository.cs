@@ -26,8 +26,8 @@ namespace PWDRepositories
 				CollateralID = cItem.CollateralID,
 				Name = cItem.Name,
 				CollateralType = cItem.IsGroup ? "Bundle" : cItem.CollateralType.Name,
-				Status = CollateralStatus.DisplayStrings[cItem.Status],
-				Quantity = cItem.IsGroup ? cItem.CollateralGroupItems.Min( cgi => cgi.ChildCollateralItem.Quantity / cgi.Quantity ) : cItem.Quantity,
+				Status = cItem.StatusValue,
+				Quantity = cItem.ComputeQuantity,
 				IsGroup = cItem.IsGroup
 			};
 		}
@@ -125,7 +125,6 @@ namespace PWDRepositories
 			newItem.Description = cInfo.Description;
 			newItem.LeadTime = cInfo.LeadTime;
 			newItem.Weight = cInfo.Weight;
-			newItem.Status = cInfo.Status;
 			newItem.StatusDate = cInfo.StatusDate;
 			newItem.Quantity = cInfo.Quantity;
 			newItem.Price = cInfo.Price;
@@ -184,7 +183,6 @@ namespace PWDRepositories
 				Description = cInfo.Description,
 				LeadTime = cInfo.LeadTime,
 				Weight = cInfo.Weight,
-				Status = cInfo.Status,
 				StatusDate = cInfo.StatusDate,
 				Quantity = cInfo.Quantity,
 				ImageFileName = cInfo.ImageFileName,
@@ -212,7 +210,6 @@ namespace PWDRepositories
 				Description = cInfo.Description,
 				LeadTime = cInfo.LeadTime,
 				Weight = cInfo.Weight,
-				Status = cInfo.Status,
 				StatusDate = cInfo.StatusDate,
 				Quantity = cInfo.Quantity,
 				ImageFileName = cInfo.ImageFileName,
@@ -241,7 +238,6 @@ namespace PWDRepositories
 			cItem.Description = cInfo.Description;
 			cItem.LeadTime = cInfo.LeadTime;
 			cItem.Weight = cInfo.Weight;
-			cItem.Status = cInfo.Status;
 			cItem.StatusDate = cInfo.StatusDate;
 			cItem.Quantity = cInfo.Quantity;
 			cItem.Price = cInfo.Price;
@@ -327,5 +323,351 @@ namespace PWDRepositories
 
 			return database.SaveChanges() > 0;
 		}
+
+		#region Order Information
+		public NewOrderInformation BlankOrderInformation()
+		{
+			var orderInfo = new NewOrderInformation();
+
+			orderInfo.OrderDetails =
+				database.CollateralItems
+					.ToList()
+					.Select( ci => new NewOrderInformation.OrderDetail()
+					{
+						CollateralID = ci.CollateralID,
+						CollateralTypeID = ci.CollateralTypeID.HasValue ? ci.CollateralTypeID.Value : -1,
+						Description = ci.Description,
+						Name = ci.Name,
+						Quantity = 0,
+						Status = ci.StatusValue
+					} )
+					.ToList();
+
+			return orderInfo;
+		}
+
+		public bool AddCollateralOrder( NewOrderInformation orderInfo )
+		{
+			var newOrder = new CollateralOrder();
+
+			newOrder.RequestingParty = orderInfo.RequestingParty;
+			switch( newOrder.RequestingParty )
+			{
+				case NewOrderInformation.RPPaoliMember:
+					newOrder.MemberFirstName = orderInfo.MemberFirstName;
+					newOrder.MemberLastName = orderInfo.MemberLastName;
+					break;
+				case NewOrderInformation.RPPaoliRepresentative:
+					newOrder.PaoliRepGroupID = orderInfo.PaoliRepGroupID;
+					newOrder.PaoliRepGroupMemberID = orderInfo.PaoliRepGroupMemberID;
+					break;
+				case NewOrderInformation.RPDealer:
+					newOrder.DealerID = orderInfo.DealerID;
+					newOrder.DealerMemberID = orderInfo.DealerMemberID;
+					break;
+				case NewOrderInformation.RPEndUser:
+					newOrder.EndUserFirstName = orderInfo.EndUserFirstName;
+					newOrder.EndUserLastName = orderInfo.EndUserLastName;
+					newOrder.EndUserPhoneNumber = orderInfo.EndUserPhoneNumber;
+					newOrder.EndUserEMailAddress = orderInfo.EndUserEMailAddress;
+					break;
+			}
+			newOrder.ShippingType = orderInfo.ShippingType;
+			newOrder.ShippingAddressType = orderInfo.ShippingAddressType;
+			newOrder.ShippingFedexAccount = orderInfo.ShippingFedexAccount;
+			newOrder.ShippingFirstName = orderInfo.ShippingFirstName;
+			newOrder.ShippingLastName = orderInfo.ShippingLastName;
+			newOrder.ShippingCompanyName = orderInfo.ShippingCompanyName;
+			newOrder.ShippingAddress1 = orderInfo.ShippingAddress1;
+			newOrder.ShippingAddress2 = orderInfo.ShippingAddress2;
+			newOrder.ShippingCity = orderInfo.ShippingCity;
+			newOrder.ShippingState = orderInfo.ShippingState;
+			newOrder.ShippingZip = orderInfo.ShippingZip;
+			newOrder.ShippingPhoneNumber = orderInfo.ShippingPhoneNumber;
+			newOrder.ShippingEmailAddress = orderInfo.ShippingEmailAddress;
+			newOrder.OrderDate = DateTime.UtcNow;
+
+			foreach( var detail in orderInfo.OrderDetails.Where( o => o.Quantity > 0 ) )
+			{
+				var newCollateral = database.CollateralItems.FirstOrDefault( c => c.CollateralID == detail.CollateralID );
+				if( newCollateral != null )
+				{
+					if( newCollateral.IsGroup )
+					{
+						newCollateral.CollateralGroupItems.ToList().ForEach( c => c.ChildCollateralItem.Quantity -= (c.Quantity * detail.Quantity) );
+					}
+					else
+					{
+						newCollateral.Quantity -= detail.Quantity;
+					}
+					newOrder.CollateralOrderDetails.Add( new CollateralOrderDetail()
+					{
+						CollateralID = detail.CollateralID,
+						Quantity = detail.Quantity
+					} );
+				}
+			}
+
+			database.CollateralOrders.AddObject( newOrder );
+
+			return database.SaveChanges() > 0;
+		}
+
+		public IEnumerable<CollateralOrderSummary> GetFullCollateralOrderList( CollateralOrderTableParams param, out int totalRecords, out int displayedRecords )
+		{
+			totalRecords = 0;
+			displayedRecords = 0;
+
+			var collateralList = database.CollateralOrders.AsQueryable();
+
+			totalRecords = collateralList.Count();
+
+			if( !string.IsNullOrEmpty( param.sSearch ) )
+			{
+			}
+
+			displayedRecords = collateralList.Count();
+
+			string sortCol = param.sColumns.Split( ',' )[param.iSortCol_0];
+
+			switch( sortCol.ToLower() )
+			{
+				case "editbuttons":
+				case "orderid":
+				default:
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						collateralList = collateralList.OrderBy( v => v.OrderID );
+					}
+					else
+					{
+						collateralList = collateralList.OrderByDescending( v => v.OrderID );
+					}
+					break;
+				case "requestingparty":
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						collateralList = collateralList.OrderBy( v => v.OrderID );
+					}
+					else
+					{
+						collateralList = collateralList.OrderByDescending( v => v.OrderID );
+					}
+					break;
+				case "orderdate":
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						collateralList = collateralList.OrderBy( v => v.OrderDate );
+					}
+					else
+					{
+						collateralList = collateralList.OrderByDescending( v => v.OrderDate );
+					}
+					break;
+				case "status":
+/*					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						collateralList = collateralList.OrderBy( v => v.Quantity );
+					}
+					else
+					{
+						collateralList = collateralList.OrderByDescending( v => v.Quantity );
+					}*/
+					break;
+			}
+
+			if( ( displayedRecords > param.iDisplayLength ) && ( param.iDisplayLength > 0 ) )
+			{
+				collateralList = collateralList.Skip( param.iDisplayStart ).Take( param.iDisplayLength );
+			}
+
+			return collateralList.ToList().Select( c => ToCollateralOrderSummary( c ) );
+		}
+
+		private CollateralOrderSummary ToCollateralOrderSummary( CollateralOrder c )
+		{
+			return new CollateralOrderSummary()
+			{
+				OrderID = c.OrderID,
+				OrderDate = c.OrderDate,
+				Status = "Pending",
+				RequestingParty = ( c.RequestingParty == NewOrderInformation.RPPaoliMember ) ? 
+					(c.MemberFirstName + " " + c.MemberLastName) : 
+					((c.RequestingParty == NewOrderInformation.RPPaoliRepresentative) ? 
+						(c.PaoliSalesRep.Name + ((c.PaoliRepGroupMemberID.HasValue) ? (" (" + c.PaoliSalesRepMember.FullName + ")") : "")) : 
+						((c.RequestingParty == NewOrderInformation.RPDealer) ?
+							( c.Dealer.Name + ( ( c.DealerMemberID.HasValue ) ? ( " (" + c.DealerMember.FullName + ")" ) : "" ) ) : 
+							(c.EndUserFirstName + " " + c.EndUserLastName)))
+			};
+		}
+
+		public NewOrderInformation GetOrderInformation( int id )
+		{
+			var eOrder = database.CollateralOrders.FirstOrDefault( co => co.OrderID == id );
+			if( eOrder == null )
+			{
+				throw new Exception( "Unable to find Collateral Order" );
+			}
+
+			var orderInfo = new NewOrderInformation();
+			orderInfo.OrderID = eOrder.OrderID;
+			orderInfo.RequestingParty = eOrder.RequestingParty;
+			switch( orderInfo.RequestingParty )
+			{
+				case NewOrderInformation.RPPaoliMember:
+					orderInfo.MemberFirstName = eOrder.MemberFirstName;
+					orderInfo.MemberLastName = eOrder.MemberLastName;
+					break;
+				case NewOrderInformation.RPPaoliRepresentative:
+					orderInfo.PaoliRepGroupID = eOrder.PaoliRepGroupID;
+					orderInfo.PaoliRepGroupMemberID = eOrder.PaoliRepGroupMemberID;
+					break;
+				case NewOrderInformation.RPDealer:
+					orderInfo.DealerID = eOrder.DealerID;
+					orderInfo.DealerMemberID = eOrder.DealerMemberID;
+					break;
+				case NewOrderInformation.RPEndUser:
+					orderInfo.EndUserFirstName = eOrder.EndUserFirstName;
+					orderInfo.EndUserLastName = eOrder.EndUserLastName;
+					orderInfo.EndUserPhoneNumber = eOrder.EndUserPhoneNumber;
+					orderInfo.EndUserEMailAddress = eOrder.EndUserEMailAddress;
+					break;
+			}
+			orderInfo.ShippingType = eOrder.ShippingType;
+			orderInfo.ShippingAddressType = eOrder.ShippingAddressType;
+			orderInfo.ShippingFedexAccount = eOrder.ShippingFedexAccount;
+			orderInfo.ShippingFirstName = eOrder.ShippingFirstName;
+			orderInfo.ShippingLastName = eOrder.ShippingLastName;
+			orderInfo.ShippingCompanyName = eOrder.ShippingCompanyName;
+			orderInfo.ShippingAddress1 = eOrder.ShippingAddress1;
+			orderInfo.ShippingAddress2 = eOrder.ShippingAddress2;
+			orderInfo.ShippingCity = eOrder.ShippingCity;
+			orderInfo.ShippingState = eOrder.ShippingState;
+			orderInfo.ShippingZip = eOrder.ShippingZip;
+			orderInfo.ShippingPhoneNumber = eOrder.ShippingPhoneNumber;
+			orderInfo.ShippingEmailAddress = eOrder.ShippingEmailAddress;
+			orderInfo.OrderDate = DateTime.UtcNow;
+
+			orderInfo.OrderDetails =
+				database.CollateralItems
+					.ToList()
+					.Select( ci => new NewOrderInformation.OrderDetail()
+					{
+						CollateralID = ci.CollateralID,
+						CollateralTypeID = ci.CollateralTypeID.HasValue ? ci.CollateralTypeID.Value : -1,
+						Description = ci.Description,
+						Name = ci.Name,
+						Quantity = eOrder.CollateralOrderDetails.Where( cod => cod.CollateralID == ci.CollateralID ).Select( d => d.Quantity ).FirstOrDefault(),
+						Status = ci.StatusValue
+					} )
+					.ToList();
+
+			return orderInfo;
+		}
+
+		public bool UpdateCollateralOrder( NewOrderInformation orderInfo )
+		{
+			var eOrder = database.CollateralOrders.FirstOrDefault( co => co.OrderID == orderInfo.OrderID );
+			if( eOrder == null )
+			{
+				throw new Exception( "Unable to find Collateral Order" );
+			}
+
+			eOrder.RequestingParty = orderInfo.RequestingParty;
+			switch( eOrder.RequestingParty )
+			{
+				case NewOrderInformation.RPPaoliMember:
+					eOrder.MemberFirstName = orderInfo.MemberFirstName;
+					eOrder.MemberLastName = orderInfo.MemberLastName;
+					break;
+				case NewOrderInformation.RPPaoliRepresentative:
+					eOrder.PaoliRepGroupID = orderInfo.PaoliRepGroupID;
+					eOrder.PaoliRepGroupMemberID = orderInfo.PaoliRepGroupMemberID;
+					break;
+				case NewOrderInformation.RPDealer:
+					eOrder.DealerID = orderInfo.DealerID;
+					eOrder.DealerMemberID = orderInfo.DealerMemberID;
+					break;
+				case NewOrderInformation.RPEndUser:
+					eOrder.EndUserFirstName = orderInfo.EndUserFirstName;
+					eOrder.EndUserLastName = orderInfo.EndUserLastName;
+					eOrder.EndUserPhoneNumber = orderInfo.EndUserPhoneNumber;
+					eOrder.EndUserEMailAddress = orderInfo.EndUserEMailAddress;
+					break;
+			}
+			eOrder.ShippingType = orderInfo.ShippingType;
+			eOrder.ShippingAddressType = orderInfo.ShippingAddressType;
+			eOrder.ShippingFedexAccount = orderInfo.ShippingFedexAccount;
+			eOrder.ShippingFirstName = orderInfo.ShippingFirstName;
+			eOrder.ShippingLastName = orderInfo.ShippingLastName;
+			eOrder.ShippingCompanyName = orderInfo.ShippingCompanyName;
+			eOrder.ShippingAddress1 = orderInfo.ShippingAddress1;
+			eOrder.ShippingAddress2 = orderInfo.ShippingAddress2;
+			eOrder.ShippingCity = orderInfo.ShippingCity;
+			eOrder.ShippingState = orderInfo.ShippingState;
+			eOrder.ShippingZip = orderInfo.ShippingZip;
+			eOrder.ShippingPhoneNumber = orderInfo.ShippingPhoneNumber;
+			eOrder.ShippingEmailAddress = orderInfo.ShippingEmailAddress;
+
+			foreach( var detail in eOrder.CollateralOrderDetails.ToList() )
+			{
+				var eCollateral = database.CollateralItems.FirstOrDefault( c => c.CollateralID == detail.CollateralID );
+				if( eCollateral != null )
+				{
+					var uiDetail = orderInfo.OrderDetails.FirstOrDefault( o => o.CollateralID == detail.CollateralID );
+					if( ( uiDetail != null ) && ( uiDetail.Quantity > 0 ) )
+					{
+						if( eCollateral.IsGroup )
+						{
+							eCollateral.CollateralGroupItems.ToList().ForEach( c => c.ChildCollateralItem.Quantity -= ( c.Quantity * ( uiDetail.Quantity - detail.Quantity ) ) );
+						}
+						else
+						{
+							eCollateral.Quantity -= (uiDetail.Quantity - detail.Quantity);
+						}
+
+						detail.Quantity = uiDetail.Quantity;
+					}
+					else
+					{
+						if( eCollateral.IsGroup )
+						{
+							eCollateral.CollateralGroupItems.ToList().ForEach( c => c.ChildCollateralItem.Quantity += ( c.Quantity * detail.Quantity ) );
+						}
+						else
+						{
+							eCollateral.Quantity += detail.Quantity;
+						}
+						database.DeleteObject( detail );
+					}
+				}
+			}
+
+			foreach( var detail in orderInfo.OrderDetails
+				.Where( o => o.Quantity > 0 && !eOrder.CollateralOrderDetails.Any( c => c.CollateralID == o.CollateralID ) ) )
+			{
+				var newCollateral = database.CollateralItems.FirstOrDefault( c => c.CollateralID == detail.CollateralID );
+				if( newCollateral != null )
+				{
+					if( newCollateral.IsGroup )
+					{
+						newCollateral.CollateralGroupItems.ToList().ForEach( c => c.ChildCollateralItem.Quantity -= ( c.Quantity * detail.Quantity ) );
+					}
+					else
+					{
+						newCollateral.Quantity -= detail.Quantity;
+					}
+					eOrder.CollateralOrderDetails.Add( new CollateralOrderDetail()
+					{
+						CollateralID = detail.CollateralID,
+						Quantity = detail.Quantity
+					} );
+				}
+			}
+
+			return database.SaveChanges() > 0;
+		}
+
+		#endregion
 	}
 }

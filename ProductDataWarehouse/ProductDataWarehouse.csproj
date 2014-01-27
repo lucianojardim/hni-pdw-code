@@ -566,6 +566,9 @@
     <Content Include="Views\Shared\DisplayTemplates\StringList.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DateOnly.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Currency.cshtml" />
+    <Content Include="Views\Collateral\AddOrder.cshtml" />
+    <Content Include="Views\Collateral\Orders.cshtml" />
+    <Content Include="Views\Collateral\EditOrder.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

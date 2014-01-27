@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "Collateral Orders";
+	ViewBag.CurrentPage = "Database";
+	ViewBag.CurrentSubPage = "Collateral";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+
+<h2>Collateral Order List</h2>
+
+<a href="@Url.Action( "AddOrder", "Collateral" )">Add Collateral Order</a><br />
+<div>
+    <table id="orderList">
+    <thead></thead>
+    <tfoot></tfoot>
+    </table>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		loadOrders();
+	});
+
+	function getLocalDate(datetime) {
+		var cDate = new Date(datetime);
+		var offset = new Date().getTimezoneOffset();
+		cDate.setMinutes(cDate.getMinutes() - offset);
+		return (cDate.getMonth() + 1) + '/' + cDate.getDate() + '/' + cDate.getFullYear();
+	}
+
+	var oTable = null;
+	function loadOrders() {
+		if (oTable != null) {
+			oTable.fnDraw();
+			return;
+		}
+
+		oTable = $('#orderList').dataTable({
+			"bServerSide": true,
+			"bAutoWidth": false,
+			"bFilter": true,
+			"bLengthChange": false, // don't show dropdown for #items per page
+			"bPaginate": true,
+			"bInfo": true,
+			"sAjaxSource": '@Url.Action( "FullCollateralOrderList" )',
+			"fnServerParams": function (aoData) {
+			},
+			"iDisplayLength": 100,
+			"fnServerData": function (sSource, aoData, fnCallback) {
+				$.ajax({
+					dataType: 'json',
+					type: "POST",
+					url: sSource,
+					data: aoData,
+					success: function (data, textStatus, jqXHR) {
+						fnCallback(data, textStatus, jqXHR);
+					},
+					error: function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Orders:' + errorThrown) }
+				});
+			},
+			"bProcessing": false, // don't want to use the default progress indicator at this time
+			"aaSorting": [[0, "asc"]],
+			"aoColumnDefs": [
+                    { "sName": "EditButtons",
+                    	"aTargets": [0],
+                    	"sTitle": "Order Number",
+                    	"mDataProp": "EditButtons", "sWidth": "15%",
+                    	"fnRender": function (oObj) {
+                    		var s = '';
+                    		s += '<a href=\"@Url.Action( "EditOrder", "Collateral" )/' + oObj.aData["OrderID"] + '">' + oObj.aData["OrderID"] + '</a>';
+                    		return s;
+                    	}
+                    },
+                    { "sName": "RequestingParty", "sTitle": "Requesting Party", "aTargets": [1], "mDataProp": "RequestingParty", "sWidth": "35%" },
+                    { "sName": "OrderDate", "sTitle": "Order Date", "aTargets": [2], "mDataProp": "OrderDate",
+                    	"fnRender": function (oObj) {
+                    		return getLocalDate(oObj.aData["OrderDateMilliseconds"]);
+                    	}, "sWidth": "25%"
+                    },
+                    { "sName": "Status", "sTitle": "Status", "aTargets": [3], "mDataProp": "Status", "sWidth": "25%" }
+                ]
+		});
+	}
+
+</script>

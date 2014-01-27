@@ -25,7 +25,7 @@ namespace PWDRepositories
 				Name = c.Name,
 				CompanyType = PaoliWebUser.PaoliCompanyType.CompanyTypeList[c.CompanyType],
 				MasterID = c.MasterID,
-				CanDelete = !c.Users.Any() && !c.SpecRequests.Any() && !c.SpecRequests1.Any()
+				CanDelete = !c.Users.Any() && !c.SpecRequests.Any() && !c.SpecRequests1.Any() && !c.CollateralOrders.Any() && !c.CollateralOrders1.Any()
 			};
 		}
 
@@ -132,7 +132,7 @@ namespace PWDRepositories
 				TripIncentive = eCompany.TripIncentive,
 				CompanyType = eCompany.CompanyType,
 				TerritoryID = eCompany.TerritoryID,
-				LockCompanyType = eCompany.Users.Any() || eCompany.SpecRequests.Any() || eCompany.SpecRequests1.Any(),
+				LockCompanyType = eCompany.Users.Any() || eCompany.SpecRequests.Any() || eCompany.SpecRequests1.Any() || eCompany.CollateralOrders.Any() || eCompany.CollateralOrders1.Any(),
 				ContactEmail = eCompany.ContactEmail,
 				WebSite = eCompany.WebSite,
 				PublicContactEmail = eCompany.PublicContactEmail,
@@ -415,6 +415,32 @@ namespace PWDRepositories
 			}
 
 			return new List<IDToTextItem>();
+		}
+
+		public ShippingAddress GetCompanyAddress( int companyId, int? userId )
+		{
+			var eCompany = database.Companies.FirstOrDefault( u => u.CompanyID == companyId );
+			if( eCompany == null )
+			{
+				throw new Exception( "Unable to find company." );
+			}
+
+			User eUser = eCompany.Users.FirstOrDefault( u => u.UserID == userId );
+
+			return new ShippingAddress()
+			{
+				CompanyID = eCompany.CompanyID,
+				ContactFirstName = eUser != null ? eUser.FirstName : "",
+				ContactLastName = eUser != null ? eUser.LastName : "",
+				Name = eCompany.Name,
+				Address1 = eCompany.Address1,
+				Address2 = eCompany.Address2,
+				City = eCompany.City,
+				State = eCompany.State,
+				Zip = eCompany.Zip,
+				Phone = eCompany.Phone,
+				ContactEmail = eCompany.ContactEmail
+			};
 		}
 	}
 }

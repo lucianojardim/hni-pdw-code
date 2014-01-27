@@ -212,6 +212,9 @@ namespace PDWInfrastructure
 		public bool CanSeeTheScoop { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ); } }
 		public bool HasContacts { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ) || IsDealerUser; } }
 
+		public bool CanManageOrders { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin,
+					PaoliWebRole.PaoliMemberCustomerService, PaoliWebRole.PaoliMemberSales ); } }
+
 		public string ProductsHomePage
 		{
 			get

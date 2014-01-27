@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollateralOrderTableParams.cs" />
     <Compile Include="CollateralTableParams.cs" />
     <Compile Include="CompanyTableParams.cs" />
     <Compile Include="DataTableParams.cs" />

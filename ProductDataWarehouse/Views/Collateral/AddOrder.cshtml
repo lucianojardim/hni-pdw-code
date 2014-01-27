@@ -1,0 +1,369 @@
+﻿@model PDWModels.Collateral.NewOrderInformation
+@{
+	ViewBag.Title = "Add Collateral Order";
+	ViewBag.CurrentPage = "Database";
+	ViewBag.CurrentSubPage = "Collateral";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+
+    <script type="text/javascript">
+    	var fileCount = 1;
+    	$(document).ready(function () {
+    		$.data($('#theForm')[0], 'validator').settings.ignore = ':hidden';
+    		$.validator.addMethod(
+					"atLeastOneItem",
+					function (value, element, regexp) {
+						var itemCount = 0;
+						$('.quantityInput').each(function () {
+							itemCount += $(this).val();
+						});
+						return (itemCount > 0);
+					},
+					"Please add at least one item to your order."
+				);
+
+    		$('.quantityInput').last().rules("add", { atLeastOneItem: true, messages: { number: 'Please add at least one item to your order.'} });
+
+    		$('#nextBtn').click(function (e) {
+    			e.preventDefault();
+    			$('.validation-summary-errors ul').empty();
+    			if ($('#theForm').valid()) {
+    				setPanel(1);
+    			}
+    		});
+
+    		$('#previousBtn').click(function (e) {
+    			e.preventDefault();
+    			setPanel(-1);
+    		});
+
+    		setRPDetails();
+    		$('#RequestingParty').change(function (e) {
+    			setRPDetails();
+    		});
+
+    		changeShippingType();
+    		$('#ShippingType').change(function (e) {
+    			changeShippingType();
+    		});
+
+    		$('#ShippingAddressType').change(function (e) {
+    			switch ($(this).val()) {
+    				case '0':
+    					setCompanyDetails();
+    					break;
+    				case '1':
+    					$('#ShippingCompanyName').removeAttr('readonly').val(null);
+    					$('#ShippingFirstName').removeAttr('readonly').val(null);
+    					$('#ShippingLastName').removeAttr('readonly').val(null);
+    					$('#ShippingAddress1').removeAttr('readonly').val(null);
+    					$('#ShippingAddress2').removeAttr('readonly').val(null);
+    					$('#ShippingCity').removeAttr('readonly').val(null);
+    					$('#ShippingState').val(null);
+    					$('#ShippingState option:not(:selected)').removeAttr('disabled');
+    					$('#ShippingZip').removeAttr('readonly').val(null);
+    					$('#ShippingPhoneNumber').removeAttr('readonly').val(null);
+    					$('#ShippingEmailAddress').removeAttr('readonly').val(null);
+    					break;
+    			}
+    		});
+
+    		reloadDealerSalesRepList();
+    		$('#DealerID').change(function () {
+    			reloadDealerSalesRepList();
+    		});
+
+    		reloadPaoliSalesRepList();
+    		$('#PaoliRepGroupID').change(function () {
+    			reloadPaoliSalesRepList();
+    		});
+
+    		$('#PaoliRepGroupMemberID').change(function () {
+    			setCompanyDetails(null, $('#PaoliRepGroupMemberID').val());
+    		});
+
+    		$('#DealerMemberID').change(function () {
+    			setCompanyDetails(null, $('#DealerMemberID').val());
+    		});
+
+    	});
+
+    	function changeShippingType() {
+    		switch ($('#ShippingType').val()) {
+    			case '@PDWModels.Collateral.NewOrderInformation.STGround':
+    				$('.fedexAccount').hide();
+    				break;
+    			case '@PDWModels.Collateral.NewOrderInformation.ST2DayFedex':
+    				$('.fedexAccount').show();
+    				break;
+    			case '@PDWModels.Collateral.NewOrderInformation.STOvernightFedex':
+    				$('.fedexAccount').show();
+    				break;
+
+    		}
+    	}
+
+    	function setCompanyDetails(companyId, userId) {
+    		if (companyId != null) {
+    			$('#officialCompanyID').val(companyId);
+    		}
+    		if (userId != null) {
+    			$('#officialUserID').val(userId);
+    		}
+
+    		$.ajax({
+    			dataType: 'json',
+    			type: 'GET',
+    			url: '/Company/GetCompanyAddress',
+    			data: { companyId: $('#officialCompanyID').val(), userId: $('#officialUserID').val() },
+    			success: function (data, textStatus, jqXHR) {
+					$('#ShippingCompanyName').attr('readonly', 'readonly').val(data.Name);
+					$('#ShippingFirstName').attr('readonly', 'readonly').val(data.ContactFirstName);
+					$('#ShippingLastName').attr('readonly', 'readonly').val(data.ContactLastName);
+					$('#ShippingAddress1').attr('readonly', 'readonly').val(data.Address1);
+					$('#ShippingAddress2').attr('readonly', 'readonly').val(data.Address2);
+					$('#ShippingCity').attr('readonly', 'readonly').val(data.City);
+					$('#ShippingState').val(data.State);
+					$('#ShippingState option:not(:selected)').attr('disabled', true);
+					$('#ShippingZip').attr('readonly', 'readonly').val(data.Zip);
+					$('#ShippingPhoneNumber').attr('readonly', 'readonly').val(data.Phone);
+					$('#ShippingEmailAddress').attr('readonly', 'readonly').val(data.ContactEmail);
+					
+    			},
+    			error: function (jqXHR, textStatus, errorThrown) {
+    				alert('Error getting Company Address:' + errorThrown)
+    			}
+    		});
+
+    	}
+
+    	function setRPDetails() {
+    		switch ($('#RequestingParty').val()) {
+    			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliMember':
+    				$('.RPMember').show();
+    				$('.RPRepGroup').hide();
+    				$('.RPDealer').hide();
+    				$('.RPEndUser').hide();
+    				$('#ShippingAddressType option[value="0"]').attr('disabled', true);
+    				$('#ShippingAddressType').val('1');
+    				break;
+    			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative':
+    				$('.RPMember').hide();
+    				$('.RPRepGroup').show();
+    				$('.RPDealer').hide();
+    				$('.RPEndUser').hide();
+    				$('#ShippingAddressType option[value="0"]').removeAttr('disabled');
+    				$('#ShippingAddressType').val('0');
+    				setCompanyDetails($('#PaoliRepGroupID').val(), $('#PaoliRepGroupMemberID').val());
+    				break;
+    			case '@PDWModels.Collateral.NewOrderInformation.RPDealer':
+    				$('.RPMember').hide();
+    				$('.RPRepGroup').hide();
+    				$('.RPDealer').show();
+    				$('.RPEndUser').hide();
+    				$('#ShippingAddressType option[value="0"]').removeAttr('disabled');
+    				$('#ShippingAddressType').val('0');
+    				setCompanyDetails($('#DealerID').val(), $('#DealerMemberID').val());
+    				break;
+    			case '@PDWModels.Collateral.NewOrderInformation.RPEndUser':
+    				$('.RPMember').hide();
+    				$('.RPRepGroup').hide();
+    				$('.RPDealer').hide();
+    				$('.RPEndUser').show();
+    				$('#ShippingAddressType option[value="0"]').attr('disabled', true);
+    				$('#ShippingAddressType').val('1');
+    				break;
+    		}
+    	}
+
+    	function setPanel(offset) {
+    		var curIdx = $('#theForm div.activeSection').index('#theForm div');
+    		var divCount = $('#theForm div.requestPanel').length;
+    		if (offset == -1 && curIdx > 0) {
+    			$('.activeSection').removeClass('activeSection').addClass('futureSection');
+    			$('#theForm div:eq(' + (curIdx + offset) + ')').removeClass('futureSection').addClass('activeSection');
+    			if (curIdx + offset > 0) {
+    				$('#previousBtn').show();
+    			} else {
+    				$('#previousBtn').hide();
+    			}
+    			$('#nextBtn').show();
+    			$('#submitBtn').hide();
+    		} else if (offset == 1 && curIdx < (divCount - 1)) {
+    			$('.activeSection').removeClass('activeSection').addClass('futureSection');
+    			$('#theForm div:eq(' + (curIdx + offset) + ')').removeClass('futureSection').addClass('activeSection');
+    			if (curIdx + offset < (divCount - 1)) {
+    				$('#nextBtn').show();
+    			} else {
+    				$('#nextBtn').hide();
+    				$('#submitBtn').show();
+    			}
+    			$('#previousBtn').show();
+    		}
+    	}
+
+    	function reloadDealerSalesRepList(dsrMemberID) {
+    		$.ajax({
+    			dataType: 'json',
+    			type: 'GET',
+    			url: '/User/GetDealerSalesRepListForCompany',
+    			data: { companyId: $('#DealerID').val() },
+    			success: function (data, textStatus, jqXHR) {
+    				$('#DealerMemberID').empty();
+    				$.each(data.theList, function (idx, item) {
+    					$('#DealerMemberID').append('<option value="' + item.Value + '" >' + item.Text + '</option>');
+    				});
+    				setCompanyDetails($('#DealerID').val(), $('#DealerMemberID').val());
+    			},
+    			error: function (jqXHR, textStatus, errorThrown) {
+    				alert('Error getting Dealer Sales Rep list:' + errorThrown)
+    			}
+    		});
+    	}
+
+    	function reloadPaoliSalesRepList() {
+    		$.ajax({
+    			dataType: 'json',
+    			type: 'GET',
+    			url: '/User/GetPaoliSalesRepListForCompany',
+    			data: { companyId: $('#PaoliRepGroupID').val() },
+    			success: function (data, textStatus, jqXHR) {
+    				$('#PaoliRepGroupMemberID').empty();
+    				$.each(data.theList, function (idx, item) {
+    					$('#PaoliRepGroupMemberID').append('<option value="' + item.Value + '" >' + item.Text + '</option>');
+    				});
+    				setCompanyDetails($('#PaoliRepGroupID').val(), $('#PaoliRepGroupMemberID').val());
+    			},
+    			error: function (jqXHR, textStatus, errorThrown) {
+    				alert('Error getting Paoli Sales Rep list:' + errorThrown)
+    			}
+    		});
+    	}
+
+	</script>
+
+<h2>Create A New Collateral Order</h2>
+
+    @using( Html.BeginForm( "AddOrder", "Collateral", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
+	{
+		<div class="activeSection requestPanel">
+			<h3>Who's Requesting</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td>@Html.MJLabelFor( m => m.RequestingParty, false )</td><td>@Html.DropDownListFor( m => m.RequestingParty, PDWModels.Collateral.NewOrderInformation.RequestingParties.Select( rp => new SelectListItem() { Text = rp.Value, Value = rp.Key.ToString() } ) )</td>
+				</tr>
+				<tr class="RPMember">
+					<td>@Html.MJLabelFor( m => m.MemberFirstName, true )</td><td>@Html.TextBoxFor( m => m.MemberFirstName )</td>
+					<td>@Html.MJLabelFor( m => m.MemberLastName, true )</td><td>@Html.TextBoxFor( m => m.MemberLastName )</td>
+				</tr>
+				<tr class="RPRepGroup">
+					<td>@Html.MJLabelFor( m => m.PaoliRepGroupID, false )</td><td>@Html.DropDownListFor( m => m.PaoliRepGroupID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, false ) )</td>
+					<td>@Html.MJLabelFor( m => m.PaoliRepGroupMemberID, false )</td><td>@Html.DropDownListFor( m => m.PaoliRepGroupMemberID, new List<SelectListItem>() )</td>
+				</tr>
+				<tr class="RPDealer">
+					<td>@Html.MJLabelFor( m => m.DealerID, false )</td><td>@Html.DropDownListFor( m => m.DealerID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer, false ) )</td>
+					<td>@Html.MJLabelFor( m => m.DealerMemberID, false )</td><td>@Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>() )</td>
+				</tr>
+				<tr class="RPEndUser">
+					<td>@Html.MJLabelFor( m => m.EndUserFirstName, true )</td><td>@Html.TextBoxFor( m => m.EndUserFirstName )</td>
+					<td>@Html.MJLabelFor( m => m.EndUserLastName, true )</td><td>@Html.TextBoxFor( m => m.EndUserLastName )</td>
+				</tr>
+				<tr class="RPEndUser">
+					<td>@Html.MJLabelFor( m => m.EndUserPhoneNumber, true )</td><td>@Html.TextBoxFor( m => m.EndUserPhoneNumber )</td>
+					<td>@Html.MJLabelFor( m => m.EndUserEMailAddress, true )</td><td>@Html.TextBoxFor( m => m.EndUserEMailAddress )</td>
+				</tr>
+			</table>
+		</div>
+		foreach( var collateralType in CollateralController.GetCollateralTypeFilterList().Where( c => Model.OrderDetails.Any( od => od.CollateralTypeID.ToString() == c.Value ) ).OrderBy( c => int.Parse( c.Value ) ) )
+  {
+	  if( collateralType.Value != "0" )
+	  {
+		<div class="futureSection requestPanel collateralSection">
+			<h3>Order Options - @collateralType.Text</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				@{
+		var itemNum = 0;
+	  var startTR = "<tr>";
+	  var endTR = "</tr>";
+	  }
+				@for( int i = 0; i < Model.OrderDetails.Count; i++ )
+	{
+		if( Model.OrderDetails[i].CollateralTypeID.ToString() == collateralType.Value )
+		{
+			if( itemNum % 3 == 0 )
+			{
+				<text>@Html.Raw( startTR )</text>
+			}
+					<td>@Model.OrderDetails[i].Name<br />@Model.OrderDetails[i].Description</td><td class="dataInfoThin">@Html.TextBoxFor( m => m.OrderDetails[i].Quantity, new { @class = "quantityInput" } )<span class="littleHelp">@Model.OrderDetails[i].Status</span></td>
+			@Html.HiddenFor( m => m.OrderDetails[i].CollateralID )
+			if( itemNum % 3 == 2 )
+			{
+				<text>@Html.Raw( endTR )</text>
+			}
+			itemNum++;
+		}
+	}
+			</table>
+		</div>
+	  }
+  }
+		<div class="futureSection requestPanel">
+			<h3>Shipping Information</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td>@Html.LabelFor( m => m.ShippingType )</td><td>@Html.DropDownListFor( m => m.ShippingType, PDWModels.Collateral.NewOrderInformation.ShippingTypes.Select( st => new SelectListItem() { Text = st.Value, Value = st.Key.ToString() } ) )</td>
+				</tr>
+				<tr class="fedexAccount">
+					<td>@Html.LabelFor( m => m.ShippingFedexAccount )</td><td>@Html.TextBoxFor( m => m.ShippingFedexAccount )</td>
+				</tr>
+				<tr>
+					<td>@Html.LabelFor( m => m.ShippingAddressType )</td><td>@Html.DropDownListFor( m => m.ShippingAddressType, new List<SelectListItem>() { 
+															 new SelectListItem() { Text = "Official Business Address", Value = "0" },
+															 new SelectListItem() { Text = "Ship Direct to Another Business", Value = "1" }
+														 })</td>
+				</tr>
+			</table>
+			<input type="hidden" id="officialCompanyID" value="0" />
+			<input type="hidden" id="officialUserID" value="0" />
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td>@Html.LabelFor( m => m.ShippingFirstName )</td><td>@Html.TextBoxFor( m => m.ShippingFirstName )</td>
+					<td>@Html.LabelFor( m => m.ShippingLastName )</td><td>@Html.TextBoxFor( m => m.ShippingLastName )</td>
+				</tr>
+				<tr>
+					<td>@Html.LabelFor( m => m.ShippingCompanyName )</td><td>@Html.TextBoxFor( m => m.ShippingCompanyName )</td>
+				</tr>
+				<tr>
+					<td>@Html.LabelFor( m => m.ShippingAddress1 )</td><td>@Html.TextBoxFor( m => m.ShippingAddress1 )</td>
+					<td>@Html.LabelFor( m => m.ShippingAddress2 )</td><td>@Html.TextBoxFor( m => m.ShippingAddress2 )</td>
+				</tr>
+				<tr>
+					<td>@Html.LabelFor( m => m.ShippingCity )</td><td>@Html.TextBoxFor( m => m.ShippingCity )</td>
+					<td>@Html.LabelFor( m => m.ShippingState )</td><td>@Html.DropDownListFor( m => m.ShippingState, UserController.GetStateDDList() )</td>
+				</tr>
+				<tr>
+					<td>@Html.LabelFor( m => m.ShippingZip )</td><td>@Html.TextBoxFor( m => m.ShippingZip )</td>
+				</tr>
+				<tr>
+					<td>@Html.LabelFor( m => m.ShippingPhoneNumber )</td><td>@Html.TextBoxFor( m => m.ShippingPhoneNumber )</td>
+				</tr>
+				<tr>
+					<td>@Html.LabelFor( m => m.ShippingEmailAddress )</td><td>@Html.TextBoxFor( m => m.ShippingEmailAddress )</td>
+				</tr>
+			</table>
+		</div>
+		<hr />
+@Html.ValidationSummary()
+		<div>
+		<div class="left">
+        <input type="button" class="btn_type1" value="Previous" id="previousBtn" style="display:none;" />
+		</div>
+		<div class="right">
+        <input type="button" class="btn_type1" value="Next" id="nextBtn" />
+        <input type="submit" class="btn_type1" value="Submit Order" id="submitBtn" style="display:none;" />
+		</div>
+		<div class="clear"></div>
+		</div>
+	}

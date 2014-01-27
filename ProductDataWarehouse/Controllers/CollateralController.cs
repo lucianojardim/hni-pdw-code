@@ -231,6 +231,90 @@ namespace ProductDataWarehouse.Controllers
 			return View( theList );
 		}
 
+		[PaoliAuthorize( "CanManageOrders" )]
+		public ActionResult AddOrder()
+		{
+			return View( ( new CollateralRepository() ).BlankOrderInformation() );
+		}
+
+		[PaoliAuthorize( "CanManageOrders" )]
+		[HttpPost]
+		public ActionResult AddOrder( NewOrderInformation orderInfo )
+		{
+			if( ModelState.IsValid )
+			{
+				try
+				{
+					CollateralRepository cRepository = new CollateralRepository();
+
+					cRepository.AddCollateralOrder( orderInfo );
+
+					return RedirectToAction( "Orders" );
+				}
+				catch( Exception )
+				{
+					ModelState.AddModelError( "", "Unable to add an order at this time." );
+				}
+			}
+
+			return View( orderInfo );
+		}
+
+		[PaoliAuthorize( "CanManageOrders" )]
+		public ActionResult EditOrder( int id )
+		{
+			return View( ( new CollateralRepository() ).GetOrderInformation( id ) );
+		}
+
+		[PaoliAuthorize( "CanManageOrders" )]
+		[HttpPost]
+		public ActionResult EditOrder( NewOrderInformation orderInfo )
+		{
+			if( ModelState.IsValid )
+			{
+				try
+				{
+					CollateralRepository cRepository = new CollateralRepository();
+
+					cRepository.UpdateCollateralOrder( orderInfo );
+
+					return RedirectToAction( "Orders" );
+				}
+				catch( Exception )
+				{
+					ModelState.AddModelError( "", "Unable to update order at this time." );
+				}
+			}
+
+			return View( orderInfo );
+		}
+
+		[PaoliAuthorize( "CanManageOrders" )]
+		public ActionResult Orders()
+		{
+			return View();
+		}
+
+		[PaoliAuthorize( "CanManageOrders" )]
+		public JsonResult FullCollateralOrderList( CollateralOrderTableParams param )
+		{
+			int totalCount = 0, filteredCount = 0;
+
+			CollateralRepository cRepository = new CollateralRepository();
+
+			var results = cRepository.GetFullCollateralOrderList(
+				param, out totalCount, out filteredCount );
+
+			return Json( new
+			{
+				sEcho = param.sEcho,
+				iTotalRecords = totalCount,
+				iTotalDisplayRecords = filteredCount,
+				aaData = results
+			},
+				JsonRequestBehavior.AllowGet );
+		}
+
 		public static IEnumerable<SelectListItem> GetCollateralTypeDDList()
 		{
 			return ( new CollateralRepository() ).GetCollateralTypeList().Select( u => new SelectListItem() { Value = u.Key.ToString(), Text = u.Value } );
@@ -246,11 +330,6 @@ namespace ProductDataWarehouse.Controllers
 				} );
 			theList.Insert( 0, new SelectListItem() { Text = "All", Value = "0", Selected = true } );
 			return theList;
-		}
-
-		public static IEnumerable<SelectListItem> GetCollateralStatusDDList()
-		{
-			return CollateralStatus.DisplayStrings.Select( u => new SelectListItem() { Value = u.Key.ToString(), Text = u.Value } );
 		}
 
 		public static IEnumerable<SelectListItem> GetProductDDList( int? itemId = null )

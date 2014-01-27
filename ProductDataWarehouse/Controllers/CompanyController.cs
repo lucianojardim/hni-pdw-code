@@ -144,6 +144,11 @@ namespace ProductDataWarehouse.Controllers
 			
 		}
 
+		public JsonResult GetCompanyAddress( int companyId, int? userId )
+		{
+			return Json( ( new CompanyRepository() ).GetCompanyAddress( companyId, userId ), JsonRequestBehavior.AllowGet );
+		}
+
 		public JsonResult GetDealerListForSalesRep( int salesRepCompanyId )
 		{
 			var theList = ( new CompanyRepository() ).GetDealerList( salesRepCompanyId ).ToList();
@@ -153,10 +158,13 @@ namespace ProductDataWarehouse.Controllers
 			return Json( theList, JsonRequestBehavior.AllowGet );
 		}
 
-		public static IEnumerable<SelectListItem> GetCompanyDDList( int? companyType = null )
+		public static IEnumerable<SelectListItem> GetCompanyDDList( int? companyType = null, bool includeBlank = true )
 		{
 			var theList = ( new CompanyRepository() ).GetFullCompanyList( companyType ).Select( c => new SelectListItem() { Value = c.ID.ToString(), Text = c.Text } ).ToList();
-			theList.Insert( 0, new SelectListItem() );
+			if( includeBlank )
+			{
+				theList.Insert( 0, new SelectListItem() );
+			}
 			return theList;
 		}
 

@@ -9,7 +9,8 @@
 
 <a href="@Url.Action( "Add", "Collateral" )">Add New</a> |
 <a href="@Url.Action( "AddGroup", "Collateral" )">Add Bundle</a> |
-<a href="@Url.Action( "AddShipment", "Collateral" )">Add Shipment</a><br />
+<a href="@Url.Action( "AddShipment", "Collateral" )">Add Shipment</a> |
+<a href="@Url.Action( "Orders", "Collateral" )">Collateral Orders</a><br />
 Collateral Type: @Html.DropDownList( "CollateralType", ProductDataWarehouse.Controllers.CollateralController.GetCollateralTypeFilterList() )
 <div>
     <table id="collateralList">
