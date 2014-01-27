@@ -679,6 +679,7 @@ namespace PWDRepositories
 			}
 
 			imgData.MIMEType = mimeType;
+			imgData.OriginalExtension = Path.GetExtension( origFileName );
 
 			if( database.SaveChanges() > 0 )
 			{
