@@ -53,7 +53,7 @@
             <li><a href="javascript:void(0);" id="cmsLink">Login to CMS</a></li>
 	   }
    }
-            <li><a href="http://www.paoli.com/" id="siteLink">Paoli.com Homepage</a></li>
+            <li><a href="javascript:void(0);" id="siteLink">Paoli.com Homepage</a></li>
 			@if( HttpContext.Current.User.Identity.IsAuthenticated )
    {
    			<li class="@(ViewBag.CurrentPage == "Account" ? "current_page" : "")"><a href="@Url.Action( "MyAccount", "User" )">My Account</a></li>
