@@ -25,7 +25,7 @@
     			showHideShowrooms();
     		});
 
-@{var currentImages = "'" + string.Join("','", Model.ShowroomImages.Split(',')) + "'";}
+@{var currentImages = "'" + string.Join("','", (Model.ShowroomImages ?? "").Split(',')) + "'";}
 			var returnedImages = [@Html.Raw(currentImages)];
     		$('#ShowroomImages').tagit({
     			allowSpaces: true,
