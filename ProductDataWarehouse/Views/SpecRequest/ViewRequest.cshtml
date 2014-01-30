@@ -116,10 +116,7 @@
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
 					<td class="dataLabel">@Html.MJLabelFor( m => m.Finishes, true )</td><td>@Html.DisplayFor( m => m.Finishes, templateName: "StringList" )</td>
-					@if( Model.Finishes.Contains( "Other" ) )
-	 {
 					<td>@Html.DisplayFor( m => m.OtherFinishDetails )</td>
-	 }
 				</tr>
 			</table>
 			<hr />

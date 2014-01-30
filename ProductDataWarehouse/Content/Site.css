@@ -388,6 +388,11 @@ table.dataLayout td.dataInfo
 	width: 250px;
 }
 
+table.dataLayout td.double input[type="text"]
+{
+	width: 490px;
+}
+
 table.dataLayout td select
 {
 	width: 261px;
@@ -563,6 +568,11 @@ span.littleHelp
 	margin-bottom: 15px;
 	display: block;
 }
+td.double span.littleHelp
+{
+	width: 490px;
+}
+
 td.dataInfoThin span.littleHelp
 {
 	width: 80px;

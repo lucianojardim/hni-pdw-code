@@ -89,18 +89,6 @@
     		}
     	}
 
-    	function changeFinish(chkMark) {
-    		if (chkMark.attr("value") == 'Other') {
-    			if (chkMark.attr("checked")) {
-    				$('#OtherFinishDetails').show();
-    				$('#OtherFinishDetails').siblings('span.littleHelp').show();
-    			} else {
-    				$('#OtherFinishDetails').hide();
-    				$('#OtherFinishDetails').siblings('span.littleHelp').hide();
-    			}
-    		}
-    	}
-
     	function changeGrommets(chkMark) {
     		if (chkMark.attr("checked")) {
     			$('.grommetDetails').show();
@@ -321,11 +309,13 @@
 			 <input type="hidden" name="Finishes.Index" value="@i" />
 			 <input type="checkbox" name="Finishes[@i]" value="@ViewBag.BlankInformation.Finishes[i]" class="chkFinish" @(Model.Finishes.Contains( ViewBag.BlankInformation.Finishes[i] ) ? "checked" : "") /> <label for="Finishes[@i]">@ViewBag.BlankInformation.Finishes[i]</label><br />
 	 }
-		 @Html.TextBoxFor( m => m.OtherFinishDetails,
-	new { style = "display:none" } )
-	<span class="littleHelp" style="display:none;">Please specify under "Other" if you there is a combination of finishes required by top vs. base, etc. Please include all appropriate detail of the user preference.</span>
-		 </td>
-		 </tr>
+					</td>
+					<td colspan="2" class="double">
+					<br />
+		 @Html.TextBoxFor( m => m.OtherFinishDetails )
+	<span class="littleHelp">Please specify if you there is a combination of finishes required by top vs. base, etc. Please include all appropriate detail of the user preference.</span>
+					</td>
+				</tr>
 			</table>
 			<hr />
 			<table cellpadding="0" cellspacing="0" class="dataLayout">

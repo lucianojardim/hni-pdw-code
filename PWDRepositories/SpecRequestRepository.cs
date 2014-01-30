@@ -295,7 +295,7 @@ namespace PWDRepositories
 				Casegoods = database.Serieses.Where( s => s.Category.Name == "Casegood" ).Select( s => s.Name ).ToList(),
 				Seating = database.Serieses.Where( s => s.Category.Name == "Seating" ).Select( s => s.Name ).ToList(),
 				Conferencing = database.Serieses.Where( s => s.Category.Name == "Tables" ).Select( s => s.Name ).ToList(),
-				Finishes = new List<string>() { "Laminate", "Veneer", "Other" }
+				Finishes = new List<string>() { "Laminate", "Veneer" }
 			};
 		}
 
@@ -347,7 +347,7 @@ namespace PWDRepositories
 				Conferencing = (sInfo.Conferencing ?? "").Split( ',' ).ToList(),
 				Seating = (sInfo.Seating ?? "").Split( ',' ).ToList(),
 				Finishes = ( sInfo.Finishes ?? "" ).Split( ',' ).ToList(),
-				OtherFinishDetails = ( sInfo.Finishes ?? "" ).Contains( "Other" ) ? sInfo.OtherFinishDetails : null,
+				OtherFinishDetails = sInfo.OtherFinishDetails,
 				Grommets = sInfo.Grommets,
 				GrommetDetails = sInfo.Grommets ? sInfo.GrommetDetails : null,
 				DrawerOption = sInfo.DrawerOption,
@@ -387,7 +387,7 @@ namespace PWDRepositories
 			newSpec.Conferencing = sInfo.Conferencing != null ? string.Join( ",", sInfo.Conferencing ) : "";
 			newSpec.Seating = sInfo.Seating != null ? string.Join( ",", sInfo.Seating ) : "";
 			newSpec.Finishes = sInfo.Finishes != null ? string.Join( ",", sInfo.Finishes ) : "";
-			newSpec.OtherFinishDetails = sInfo.Finishes != null && sInfo.Finishes.Contains( "Other" ) ? sInfo.OtherFinishDetails : null;
+			newSpec.OtherFinishDetails = sInfo.OtherFinishDetails;
 			newSpec.Grommets = sInfo.Grommets;
 			newSpec.GrommetDetails = sInfo.Grommets ? sInfo.GrommetDetails : null;
 			newSpec.DrawerOption = sInfo.DrawerOption;
@@ -458,7 +458,7 @@ namespace PWDRepositories
 			specInfo.Conferencing = sInfo.Conferencing != null ? string.Join( ",", sInfo.Conferencing ) : "";
 			specInfo.Seating = sInfo.Seating != null ? string.Join( ",", sInfo.Seating ) : "";
 			specInfo.Finishes = sInfo.Finishes != null ? string.Join( ",", sInfo.Finishes ) : "";
-			specInfo.OtherFinishDetails = sInfo.Finishes != null && sInfo.Finishes.Contains( "Other" ) ? sInfo.OtherFinishDetails : null;
+			specInfo.OtherFinishDetails = sInfo.OtherFinishDetails;
 			specInfo.Grommets = sInfo.Grommets;
 			specInfo.GrommetDetails = sInfo.Grommets ? sInfo.GrommetDetails : null;
 			specInfo.DrawerOption = sInfo.DrawerOption;
