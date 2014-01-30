@@ -58,7 +58,20 @@
 			$('.chkCasegoods').change(function (e) {
 				showHideDrawerOptions();
 			});
+
+			showHideFabric();
+			$('.chkSeating').change(function (e) {
+				showHideFabric();
+			});
 		});
+
+		function showHideFabric() {
+			if ($('.chkSeating:checked').length > 0) {
+				$('.forFabric').show();
+			} else {
+				$('.forFabric').hide();
+			}
+		}
 
 		function showHideDrawerOptions() {
 			if ($('.chkCasegoods:checked').length > 0) {
@@ -439,8 +452,8 @@
 					</td>
 				</tr>
 			</table>
-			<hr />
-			<table cellpadding="0" cellspacing="0" class="dataLayout">
+			<hr class="forFabric" />
+			<table cellpadding="0" cellspacing="0" class="dataLayout forFabric">
 				<tr>
 					<td>
 			@Html.MJLabelFor( m => m.FabricGrade, false )</td><td>

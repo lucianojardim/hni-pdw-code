@@ -391,8 +391,8 @@ namespace PWDRepositories
 			newSpec.Grommets = sInfo.Grommets;
 			newSpec.GrommetDetails = sInfo.Grommets ? sInfo.GrommetDetails : null;
 			newSpec.DrawerOption = sInfo.Casegoods != null && sInfo.Casegoods.Any() ? sInfo.DrawerOption : null;
-			newSpec.FabricGrade = sInfo.FabricGrade;
-			newSpec.FabricDetails = sInfo.Fabric;
+			newSpec.FabricGrade = sInfo.Seating != null && sInfo.Seating.Any() ? sInfo.FabricGrade : null;
+			newSpec.FabricDetails = sInfo.Seating != null && sInfo.Seating.Any() ? sInfo.Fabric : null;
 			newSpec.SpecialRequests = sInfo.SpecialRequests;
 			newSpec.SavedLocation = null;
 			newSpec.ListPrice = null;
@@ -462,8 +462,8 @@ namespace PWDRepositories
 			specInfo.Grommets = sInfo.Grommets;
 			specInfo.GrommetDetails = sInfo.Grommets ? sInfo.GrommetDetails : null;
 			specInfo.DrawerOption = sInfo.Casegoods != null && sInfo.Casegoods.Any() ? sInfo.DrawerOption : null;
-			specInfo.FabricGrade = sInfo.FabricGrade;
-			specInfo.FabricDetails = sInfo.Fabric;
+			specInfo.FabricGrade = sInfo.Seating != null && sInfo.Seating.Any() ? sInfo.FabricGrade : null;
+			specInfo.FabricDetails = sInfo.Seating != null && sInfo.Seating.Any() ? sInfo.Fabric : null;
 			specInfo.SpecialRequests = sInfo.SpecialRequests;
 			specInfo.SavedLocation = sInfo.SavedLocation;
 			specInfo.ListPrice = sInfo.ListPrice;
