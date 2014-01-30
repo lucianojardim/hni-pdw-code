@@ -41,13 +41,6 @@
             	yearRange: '2014:2100'
             });
 
-            $('.chkFinish').each(function () {
-            	changeFinish($(this));
-            });
-            $('.chkFinish').change(function (e) {
-    			changeFinish($(this));
-    		});
-
     		changeGrommets($('#Grommets'));
     		$('#Grommets').change(function (e) {
     			changeGrommets($(this));
@@ -79,7 +72,20 @@
     			},
     			minLength: 0
     		});
+
+			showHideDrawerOptions();
+			$('.chkCasegoods').change(function (e) { 
+				showHideDrawerOptions();
+			});
     	});
+
+		function showHideDrawerOptions() {
+			if( $('.chkCasegoods:checked').length > 0 ) {
+				$('#drawerOptions').show();
+			} else {
+				$('#drawerOptions').hide();
+			}
+		}
 
     	function showHideIsGoodForWeb() {
     		if ($('#IsCompleted:checked').length > 0) {
@@ -299,6 +305,14 @@
 					<td>@Html.CheckBoxFor( m => m.Grommets ) @Html.MJLabelFor( m => m.Grommets, false )</td>
 					<td class="grommetDetails" style="display:none">@Html.MJLabelFor( m => m.GrommetDetails, false )<span class="littleHelp">Please indicate number, location or other specifications.</span></td><td class="grommetDetails" style="display:none">@Html.TextAreaFor( m => m.GrommetDetails )</td>
 				</tr>
+				<tr id="drawerOptions">
+					<td>
+			@Html.MJLabelFor( m => m.DrawerOption, false )</td><td>
+			@Html.DropDownListFor( m => m.DrawerOption, new List<SelectListItem>() { 
+	new SelectListItem() { Text = "Vinyl Wrap", Value = "Vinyl Wrap" }, 
+	new SelectListItem() { Text = "Wood", Value = "Wood" } } )
+					</td>
+				</tr>
 			</table>
 			<hr />
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
@@ -315,17 +329,6 @@
 		 @Html.TextBoxFor( m => m.OtherFinishDetails )
 	<span class="littleHelp">Please specify if you there is a combination of finishes required by top vs. base, etc. Please include all appropriate detail of the user preference.</span>
 					</td>
-				</tr>
-			</table>
-			<hr />
-			<table cellpadding="0" cellspacing="0" class="dataLayout">
-		 <tr>
-		 <td>
-			@Html.MJLabelFor( m => m.DrawerOption, false )</td><td>
-			@Html.DropDownListFor( m => m.DrawerOption, new List<SelectListItem>() { 
-	new SelectListItem() { Text = "Vinyl Wrap", Value = "Vinyl Wrap" }, 
-	new SelectListItem() { Text = "Wood", Value = "Wood" } } )
-		 </td>
 				</tr>
 			</table>
 			<hr />

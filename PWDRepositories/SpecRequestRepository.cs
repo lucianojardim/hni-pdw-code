@@ -390,7 +390,7 @@ namespace PWDRepositories
 			newSpec.OtherFinishDetails = sInfo.OtherFinishDetails;
 			newSpec.Grommets = sInfo.Grommets;
 			newSpec.GrommetDetails = sInfo.Grommets ? sInfo.GrommetDetails : null;
-			newSpec.DrawerOption = sInfo.DrawerOption;
+			newSpec.DrawerOption = sInfo.Casegoods != null && sInfo.Casegoods.Any() ? sInfo.DrawerOption : null;
 			newSpec.FabricGrade = sInfo.FabricGrade;
 			newSpec.FabricDetails = sInfo.Fabric;
 			newSpec.SpecialRequests = sInfo.SpecialRequests;
@@ -461,7 +461,7 @@ namespace PWDRepositories
 			specInfo.OtherFinishDetails = sInfo.OtherFinishDetails;
 			specInfo.Grommets = sInfo.Grommets;
 			specInfo.GrommetDetails = sInfo.Grommets ? sInfo.GrommetDetails : null;
-			specInfo.DrawerOption = sInfo.DrawerOption;
+			specInfo.DrawerOption = sInfo.Casegoods != null && sInfo.Casegoods.Any() ? sInfo.DrawerOption : null;
 			specInfo.FabricGrade = sInfo.FabricGrade;
 			specInfo.FabricDetails = sInfo.Fabric;
 			specInfo.SpecialRequests = sInfo.SpecialRequests;
