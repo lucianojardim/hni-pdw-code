@@ -77,11 +77,15 @@
     		});
 
     		$('#PaoliRepGroupMemberID').change(function () {
-    			setCompanyDetails(null, $('#PaoliRepGroupMemberID').val());
+    			setCompanyDetails($('#PaoliRepGroupMemberID').val());
     		});
 
     		$('#DealerMemberID').change(function () {
-    			setCompanyDetails(null, $('#DealerMemberID').val());
+    			setCompanyDetails($('#DealerMemberID').val());
+    		});
+ 
+    		$('#PaoliMemberID').change(function () {
+    			setCompanyDetails($('#PaoliMemberID').val());
     		});
 
 			@if( Model.ShippingAddressType == 0 )
@@ -116,10 +120,7 @@
     		}
     	}
 
-    	function setCompanyDetails(companyId, userId) {
-    		if (companyId != null) {
-    			$('#officialCompanyID').val(companyId);
-    		}
+    	function setCompanyDetails(userId) {
     		if (userId != null) {
     			$('#officialUserID').val(userId);
     		}
@@ -127,7 +128,7 @@
     			dataType: 'json',
     			type: 'GET',
     			url: '/Company/GetCompanyAddress',
-    			data: { companyId: $('#officialCompanyID').val(), userId: $('#officialUserID').val() },
+    			data: { userId: $('#officialUserID').val() },
     			success: function (data, textStatus, jqXHR) {
     				$('#ShippingCompanyName').attr('readonly', 'readonly').val(data.Name);
     				$('#ShippingFirstName').attr('readonly', 'readonly').val(data.ContactFirstName);
@@ -157,8 +158,9 @@
     				$('.RPDealer').hide();
     				$('.RPEndUser').hide();
     				if (!bInit) {
-    					$('#ShippingAddressType option[value="0"]').attr('disabled', true);
-    					$('#ShippingAddressType').val('1');
+    					$('#ShippingAddressType option[value="0"]').removeAttr('disabled');
+    					$('#ShippingAddressType').val('0');
+    					setCompanyDetails($('#PaoliMemberID').val());
     				}
     				break;
     			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative':
@@ -169,7 +171,7 @@
     				if (!bInit) {
     					$('#ShippingAddressType option[value="0"]').removeAttr('disabled');
     					$('#ShippingAddressType').val('0');
-    					setCompanyDetails($('#PaoliRepGroupID').val(), $('#PaoliRepGroupMemberID').val());
+    					setCompanyDetails($('#PaoliRepGroupMemberID').val());
     				}
     				break;
     			case '@PDWModels.Collateral.NewOrderInformation.RPDealer':
@@ -180,7 +182,7 @@
     				if (!bInit) {
     					$('#ShippingAddressType option[value="0"]').removeAttr('disabled');
     					$('#ShippingAddressType').val('0');
-    					setCompanyDetails($('#DealerID').val(), $('#DealerMemberID').val());
+    					setCompanyDetails($('#DealerMemberID').val());
     				}
     				break;
     			case '@PDWModels.Collateral.NewOrderInformation.RPEndUser':
@@ -209,7 +211,7 @@
     				});
     				if (dsrMemberID == null && !bInit) {
 						$('#ShippingAddressType').val('0');
-    					setCompanyDetails($('#DealerID').val(), $('#DealerMemberID').val());
+    					setCompanyDetails($('#DealerMemberID').val());
     				}
     			},
     			error: function (jqXHR, textStatus, errorThrown) {
@@ -231,7 +233,7 @@
     				});
     				if (psrMemberID == null && !bInit) {
 						$('#ShippingAddressType').val('0');
-    					setCompanyDetails($('#PaoliRepGroupID').val(), $('#PaoliRepGroupMemberID').val());
+    					setCompanyDetails($('#PaoliRepGroupMemberID').val());
     				}
     			},
     			error: function (jqXHR, textStatus, errorThrown) {

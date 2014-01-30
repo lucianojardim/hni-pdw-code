@@ -144,9 +144,9 @@ namespace ProductDataWarehouse.Controllers
 			
 		}
 
-		public JsonResult GetCompanyAddress( int companyId, int? userId )
+		public JsonResult GetCompanyAddress( int? userId )
 		{
-			return Json( ( new CompanyRepository() ).GetCompanyAddress( companyId, userId ), JsonRequestBehavior.AllowGet );
+			return Json( ( new CompanyRepository() ).GetCompanyAddress( userId ), JsonRequestBehavior.AllowGet );
 		}
 
 		public JsonResult GetDealerListForSalesRep( int salesRepCompanyId )

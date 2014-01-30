@@ -417,29 +417,32 @@ namespace PWDRepositories
 			return new List<IDToTextItem>();
 		}
 
-		public ShippingAddress GetCompanyAddress( int companyId, int? userId )
+		public ShippingAddress GetCompanyAddress( int? userId )
 		{
-			var eCompany = database.Companies.FirstOrDefault( u => u.CompanyID == companyId );
-			if( eCompany == null )
+			if( !userId.HasValue )
 			{
-				throw new Exception( "Unable to find company." );
+				return new ShippingAddress();
 			}
 
-			User eUser = eCompany.Users.FirstOrDefault( u => u.UserID == userId );
+			User eUser = database.Users.FirstOrDefault( u => u.UserID == userId );
+			if( eUser == null )
+			{
+				return new ShippingAddress();
+			}
 
 			return new ShippingAddress()
 			{
-				CompanyID = eCompany.CompanyID,
-				ContactFirstName = eUser != null ? eUser.FirstName : "",
-				ContactLastName = eUser != null ? eUser.LastName : "",
-				Name = eCompany.Name,
-				Address1 = eUser != null ? eUser.Address1 : eCompany.Address1,
-				Address2 = eUser != null ? eUser.Address2 : eCompany.Address2,
-				City = eUser != null ? eUser.City : eCompany.City,
-				State = eUser != null ? eUser.State : eCompany.State,
-				Zip = eUser != null ? eUser.Zip : eCompany.Zip,
-				Phone = eUser != null ? eUser.BusinessPhone : eCompany.Phone,
-				ContactEmail = eUser != null ? eUser.Email : eCompany.ContactEmail
+				CompanyID = eUser.Company.CompanyID,
+				ContactFirstName = eUser.FirstName,
+				ContactLastName = eUser.LastName,
+				Name = eUser.Company.Name,
+				Address1 = eUser.Address1,
+				Address2 = eUser.Address2,
+				City = eUser.City,
+				State = eUser.State,
+				Zip = eUser.Zip,
+				Phone = eUser.BusinessPhone,
+				ContactEmail = eUser.Email
 			};
 		}
 	}
