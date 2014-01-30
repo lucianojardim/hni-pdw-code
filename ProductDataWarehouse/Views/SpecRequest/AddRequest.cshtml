@@ -136,10 +136,6 @@
     				}
     			}
     		}
-    		if ($('#PaoliSpecTeamMember').val() != null && $('#PaoliSpecTeamMember').val() != '' && $('#PaoliSpecTeamMember').val() != '0') {
-    			addConfirmRow(t, '@Html.MJLabelFor( m => m.PaoliSpecTeamMember, true )', $('#PaoliSpecTeamMember option:selected').text());
-    		}
-
     		if ($('#EndCustomer').val() != null) {
     			addConfirmRow(t, '@Html.MJLabelFor( m => m.EndCustomer, false )', $('#EndCustomer').val());
     		}
@@ -323,9 +319,6 @@
 				<tr class="DealerRow">
 					<td>@Html.MJLabelFor( m => m.DealerID, false )</td><td>@Html.DropDownListFor( m => m.DealerID, new List<SelectListItem>() )</td>
 					<td class="DSRCell">@Html.MJLabelFor( m => m.DealerMemberID, true )</td><td class="DSRCell">@Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>() )</td>
-				</tr>
-				<tr>
-					<td>@Html.MJLabelFor( m => m.PaoliSpecTeamMember, true )</td><td>@Html.DropDownListFor( m => m.PaoliSpecTeamMember, UserController.GetUserDDList( PDWInfrastructure.PaoliWebUser.PaoliWebRole.PaoliMemberSpecTeam ) )</td>
 				</tr>
 			</table>
 		</div>
