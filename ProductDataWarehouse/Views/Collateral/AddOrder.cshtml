@@ -179,11 +179,12 @@
     	}
 
     	function setPanel(offset) {
-    		var curIdx = $('#theForm div.activeSection').index('#theForm div');
+    		var curIdx = $('#theForm div.activeSection').index('#theForm div.requestPanel');
     		var divCount = $('#theForm div.requestPanel').length;
+    		//console.log('setPanel [' + offset + '][' + curIdx + '][' + divCount + ']');
     		if (offset == -1 && curIdx > 0) {
     			$('.activeSection').removeClass('activeSection').addClass('futureSection');
-    			$('#theForm div:eq(' + (curIdx + offset) + ')').removeClass('futureSection').addClass('activeSection');
+    			$('#theForm div.requestPanel:eq(' + (curIdx + offset) + ')').removeClass('futureSection').addClass('activeSection');
     			if (curIdx + offset > 0) {
     				$('#previousBtn').show();
     			} else {
@@ -193,7 +194,7 @@
     			$('#submitBtn').hide();
     		} else if (offset == 1 && curIdx < (divCount - 1)) {
     			$('.activeSection').removeClass('activeSection').addClass('futureSection');
-    			$('#theForm div:eq(' + (curIdx + offset) + ')').removeClass('futureSection').addClass('activeSection');
+    			$('#theForm div.requestPanel:eq(' + (curIdx + offset) + ')').removeClass('futureSection').addClass('activeSection');
     			if (curIdx + offset < (divCount - 1)) {
     				$('#nextBtn').show();
     			} else {
@@ -245,11 +246,27 @@
 	</script>
 
 <h2>Create A New Collateral Order</h2>
-
+@{
+	var collTypeList = CollateralController.GetCollateralTypeFilterList().Where( c => Model.OrderDetails.Any( od => od.CollateralTypeID.ToString() == c.Value ) ).OrderBy( c => int.Parse( c.Value ) );
+	var stepCount = collTypeList.Where( i => i.Value != "0" ).Count() + 2;
+	var stepNum = 1;
+}
     @using( Html.BeginForm( "AddOrder", "Collateral", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
 	{
+		<div>
+		<div class="left">
+        <input type="button" class="btn_type1" value="Previous" id="previousBtn" style="display:none;" />
+		</div>
+		<div class="right">
+        <input type="button" class="btn_type1" value="Next" id="nextBtn" />
+        <input type="submit" class="btn_type1" value="Submit Order" id="submitBtn" style="display:none;" />
+		</div>
+		<div class="clear"></div>
+@Html.ValidationSummary()
+		</div>
+		<hr />
 		<div class="activeSection requestPanel">
-			<h3>Who's Requesting</h3>
+			<h3>Step @(stepNum++) of @stepCount: Who's Requesting</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
 					<td>@Html.MJLabelFor( m => m.RequestingParty, false )</td><td>@Html.DropDownListFor( m => m.RequestingParty, PDWModels.Collateral.NewOrderInformation.RequestingParties.Select( rp => new SelectListItem() { Text = rp.Value, Value = rp.Key.ToString() } ) )</td>
@@ -276,17 +293,17 @@
 				</tr>
 			</table>
 		</div>
-		foreach( var collateralType in CollateralController.GetCollateralTypeFilterList().Where( c => Model.OrderDetails.Any( od => od.CollateralTypeID.ToString() == c.Value ) ).OrderBy( c => int.Parse( c.Value ) ) )
-  {
-	  if( collateralType.Value != "0" )
-	  {
+		foreach( var collateralType in collTypeList )
+		{
+			if( collateralType.Value != "0" )
+			{
 		<div class="futureSection requestPanel collateralSection">
-			<h3>Order Options - @collateralType.Text</h3>
+			<h3>Step @(stepNum++) of @stepCount: Order Options - @collateralType.Text</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				@{
-		var itemNum = 0;
-	  var startTR = "<tr>";
-	  var endTR = "</tr>";
+				var itemNum = 0;
+				var startTR = "<tr>";
+				var endTR = "</tr>";
 	  }
 				@for( int i = 0; i < Model.OrderDetails.Count; i++ )
 	{
@@ -307,10 +324,10 @@
 	}
 			</table>
 		</div>
-	  }
-  }
+			}
+		}
 		<div class="futureSection requestPanel">
-			<h3>Shipping Information</h3>
+			<h3>Step @(stepNum++) of @stepCount: Shipping Information</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
 					<td>@Html.LabelFor( m => m.ShippingType )</td><td>@Html.DropDownListFor( m => m.ShippingType, PDWModels.Collateral.NewOrderInformation.ShippingTypes.Select( st => new SelectListItem() { Text = st.Value, Value = st.Key.ToString() } ) )</td>
@@ -322,7 +339,7 @@
 					<td>@Html.LabelFor( m => m.ShippingAddressType )</td><td>@Html.DropDownListFor( m => m.ShippingAddressType, new List<SelectListItem>() { 
 															 new SelectListItem() { Text = "Official Business Address", Value = "0" },
 															 new SelectListItem() { Text = "Ship Direct to Another Business", Value = "1" }
-														 })</td>
+														 } )</td>
 				</tr>
 			</table>
 			<input type="hidden" id="officialCompanyID" value="0" />
@@ -353,17 +370,5 @@
 					<td>@Html.LabelFor( m => m.ShippingEmailAddress )</td><td>@Html.TextBoxFor( m => m.ShippingEmailAddress )</td>
 				</tr>
 			</table>
-		</div>
-		<hr />
-@Html.ValidationSummary()
-		<div>
-		<div class="left">
-        <input type="button" class="btn_type1" value="Previous" id="previousBtn" style="display:none;" />
-		</div>
-		<div class="right">
-        <input type="button" class="btn_type1" value="Next" id="nextBtn" />
-        <input type="submit" class="btn_type1" value="Submit Order" id="submitBtn" style="display:none;" />
-		</div>
-		<div class="clear"></div>
 		</div>
 	}

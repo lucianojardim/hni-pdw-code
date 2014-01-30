@@ -551,7 +551,7 @@ div.futureSection hr
 }
 div.futureSection h3
 {
-	color: #cccccc;
+	display: none;
 }
 
 span.littleHelp
