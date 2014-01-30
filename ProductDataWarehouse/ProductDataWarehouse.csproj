@@ -569,6 +569,7 @@
     <Content Include="Views\Collateral\AddOrder.cshtml" />
     <Content Include="Views\Collateral\Orders.cshtml" />
     <Content Include="Views\Collateral\EditOrder.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\FullFileListing.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
