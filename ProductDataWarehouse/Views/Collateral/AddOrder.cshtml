@@ -253,6 +253,7 @@
 }
     @using( Html.BeginForm( "AddOrder", "Collateral", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
 	{
+		@Html.Hidden( "Status", PDWModels.Collateral.NewOrderInformation.SPending )
 		<div>
 		<div class="left">
         <input type="button" class="btn_type1" value="Previous" id="previousBtn" style="display:none;" />

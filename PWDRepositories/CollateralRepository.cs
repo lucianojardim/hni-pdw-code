@@ -386,6 +386,7 @@ namespace PWDRepositories
 			newOrder.ShippingPhoneNumber = orderInfo.ShippingPhoneNumber;
 			newOrder.ShippingEmailAddress = orderInfo.ShippingEmailAddress;
 			newOrder.OrderDate = DateTime.UtcNow;
+			newOrder.Status = NewOrderInformation.SPending;
 
 			foreach( var detail in orderInfo.OrderDetails.Where( o => o.Quantity > 0 ) )
 			{
@@ -465,14 +466,14 @@ namespace PWDRepositories
 					}
 					break;
 				case "status":
-/*					if( param.sSortDir_0.ToLower() == "asc" )
+					if( param.sSortDir_0.ToLower() == "asc" )
 					{
-						collateralList = collateralList.OrderBy( v => v.Quantity );
+						collateralList = collateralList.OrderBy( v => v.Status );
 					}
 					else
 					{
-						collateralList = collateralList.OrderByDescending( v => v.Quantity );
-					}*/
+						collateralList = collateralList.OrderByDescending( v => v.Status );
+					}
 					break;
 			}
 
@@ -490,7 +491,7 @@ namespace PWDRepositories
 			{
 				OrderID = c.OrderID,
 				OrderDate = c.OrderDate,
-				Status = "Pending",
+				Status = NewOrderInformation.StatusValues[c.Status],
 				RequestingParty = ( c.RequestingParty == NewOrderInformation.RPPaoliMember ) ?
 					( ( c.PaoliMemberID.HasValue ) ? (c.PaoliMember.FullName) : "" ) : 
 					((c.RequestingParty == NewOrderInformation.RPPaoliRepresentative) ? 
@@ -545,7 +546,8 @@ namespace PWDRepositories
 			orderInfo.ShippingZip = eOrder.ShippingZip;
 			orderInfo.ShippingPhoneNumber = eOrder.ShippingPhoneNumber;
 			orderInfo.ShippingEmailAddress = eOrder.ShippingEmailAddress;
-			orderInfo.OrderDate = DateTime.UtcNow;
+			orderInfo.OrderDate = eOrder.OrderDate;
+			orderInfo.Status = eOrder.Status;
 
 			orderInfo.OrderDetails =
 				database.CollateralItems
@@ -607,6 +609,7 @@ namespace PWDRepositories
 			eOrder.ShippingZip = orderInfo.ShippingZip;
 			eOrder.ShippingPhoneNumber = orderInfo.ShippingPhoneNumber;
 			eOrder.ShippingEmailAddress = orderInfo.ShippingEmailAddress;
+			eOrder.Status = orderInfo.Status;
 
 			foreach( var detail in eOrder.CollateralOrderDetails.ToList() )
 			{

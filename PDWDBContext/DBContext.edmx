@@ -363,6 +363,7 @@
           <Property Name="DealerMemberID" Type="int" />
           <Property Name="ShippingAddressType" Type="int" Nullable="false" />
           <Property Name="PaoliMemberID" Type="int" />
+          <Property Name="Status" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="CollateralTypes">
           <Key>
@@ -2832,6 +2833,7 @@
           <Property Type="Int32" Name="ShippingAddressType" Nullable="false" />
           <Property Type="Int32" Name="PaoliMemberID" />
           <NavigationProperty Name="PaoliMember" Relationship="PaoliPDWModel.fkCOrder_PaoliMember" FromRole="CollateralOrder" ToRole="User" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
         </EntityType>
         <Association Name="fkCODetail_Collateral">
           <End Type="PaoliPDWModel.CollateralItem" Role="CollateralItem" Multiplicity="1" />
@@ -3407,6 +3409,7 @@
           <EntitySetMapping Name="CollateralOrders">
             <EntityTypeMapping TypeName="PaoliPDWModel.CollateralOrder">
               <MappingFragment StoreEntitySet="CollateralOrders">
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="PaoliMemberID" ColumnName="PaoliMemberID" />
                 <ScalarProperty Name="ShippingAddressType" ColumnName="ShippingAddressType" />
                 <ScalarProperty Name="DealerMemberID" ColumnName="DealerMemberID" />

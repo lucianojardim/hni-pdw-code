@@ -2215,7 +2215,8 @@ namespace PDWDBContext
         /// <param name="shippingType">Initial value of the ShippingType property.</param>
         /// <param name="orderDate">Initial value of the OrderDate property.</param>
         /// <param name="shippingAddressType">Initial value of the ShippingAddressType property.</param>
-        public static CollateralOrder CreateCollateralOrder(global::System.Int32 orderID, global::System.Int32 requestingParty, global::System.Int32 shippingType, global::System.DateTime orderDate, global::System.Int32 shippingAddressType)
+        /// <param name="status">Initial value of the Status property.</param>
+        public static CollateralOrder CreateCollateralOrder(global::System.Int32 orderID, global::System.Int32 requestingParty, global::System.Int32 shippingType, global::System.DateTime orderDate, global::System.Int32 shippingAddressType, global::System.Int32 status)
         {
             CollateralOrder collateralOrder = new CollateralOrder();
             collateralOrder.OrderID = orderID;
@@ -2223,6 +2224,7 @@ namespace PDWDBContext
             collateralOrder.ShippingType = shippingType;
             collateralOrder.OrderDate = orderDate;
             collateralOrder.ShippingAddressType = shippingAddressType;
+            collateralOrder.Status = status;
             return collateralOrder;
         }
 
@@ -2832,6 +2834,30 @@ namespace PDWDBContext
         private Nullable<global::System.Int32> _PaoliMemberID;
         partial void OnPaoliMemberIDChanging(Nullable<global::System.Int32> value);
         partial void OnPaoliMemberIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Status
+        {
+            get
+            {
+                return _Status;
+            }
+            set
+            {
+                OnStatusChanging(value);
+                ReportPropertyChanging("Status");
+                _Status = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Status");
+                OnStatusChanged();
+            }
+        }
+        private global::System.Int32 _Status;
+        partial void OnStatusChanging(global::System.Int32 value);
+        partial void OnStatusChanged();
 
         #endregion
 
