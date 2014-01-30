@@ -331,6 +331,7 @@ namespace PWDRepositories
 
 			orderInfo.OrderDetails =
 				database.CollateralItems
+					.OrderBy( c => c.Name )
 					.ToList()
 					.Select( ci => new NewOrderInformation.OrderDetail()
 					{
@@ -548,6 +549,7 @@ namespace PWDRepositories
 
 			orderInfo.OrderDetails =
 				database.CollateralItems
+					.OrderBy( c => c.Name )
 					.ToList()
 					.Select( ci => new NewOrderInformation.OrderDetail()
 					{
