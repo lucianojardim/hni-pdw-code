@@ -127,6 +127,8 @@
     	function fillConfirmForm() {
     		var t = $('#confirmTable tbody');
     		t.empty();
+
+    		addConfirmHeaderRow(t, 'Who\'s Requesting?');
     		if ($('#PaoliSalesRepGroupID').val() != null && $('#PaoliSalesRepGroupID').val() != '' && $('#PaoliSalesRepGroupID').val() != '0') {
     			addConfirmRow(t, '@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )', $('#PaoliSalesRepGroupID option:selected').text());
     			if ($('#PaoliSalesRepMemberID').val() != null && $('#PaoliSalesRepMemberID').val() != '' && $('#PaoliSalesRepMemberID').val() != '0') {
@@ -139,6 +141,8 @@
     				}
     			}
     		}
+
+			addConfirmHeaderRow(t, 'About the Project');
     		if ($('#EndCustomer').val() != null) {
     			addConfirmRow(t, '@Html.MJLabelFor( m => m.EndCustomer, false )', $('#EndCustomer').val());
     		}
@@ -152,6 +156,7 @@
     			addConfirmRow(t, '@Html.MJLabelFor( m => m.QuoteDueDate, false )', $('#QuoteDueDate').val());
     		}
 
+			addConfirmHeaderRow(t, 'Services Rendered / Project Requirements');
     		$('.chkServices').each(function () {
     			if ($(this).attr('checked')) {
     				addConfirmRow(t, $(this).siblings('label').text(), 'Yes');
@@ -230,7 +235,11 @@
 
 		}
 
-    	function addConfirmRow(table, label, text) {
+		function addConfirmHeaderRow(table, label) {
+			table.append('<tr><td colspan="2"><hr/><h4>' + label + '</h4></td></tr>');
+		}
+
+		function addConfirmRow(table, label, text) {
     		table.append('<tr><td>' + label + '</td><td>' + text + '</td></tr>');
     	}
 
