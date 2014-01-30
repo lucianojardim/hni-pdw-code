@@ -94,12 +94,12 @@
     	}
 
     	function setPanel(offset) {
-    		var curIdx = $('#theForm div.activeSection').index('#theForm div');
+    		var curIdx = $('#theForm div.activeSection').index('#theForm div.requestPanel');
     		var divCount = $('#theForm div.requestPanel').length;
 //    		console.log('curIdx: ' + curIdx + ' divCount: ' + divCount + ' offset: ' + offset);
     		if (offset == -1 && curIdx > 0) {
     			$('.activeSection').removeClass('activeSection').addClass('futureSection');
-    			$('#theForm div:eq(' + (curIdx + offset) + ')').removeClass('futureSection').addClass('activeSection');
+    			$('#theForm div.requestPanel:eq(' + (curIdx + offset) + ')').removeClass('futureSection').addClass('activeSection');
     			if (curIdx + offset > 0) {
     				$('#previousBtn').show();
     			} else {
@@ -109,7 +109,7 @@
     			$('#submitBtn').hide();
     		} else if (offset == 1 && curIdx < (divCount - 1)) {
     			$('.activeSection').removeClass('activeSection').addClass('futureSection');
-    			$('#theForm div:eq(' + (curIdx + offset) + ')').removeClass('futureSection').addClass('activeSection');
+    			$('#theForm div.requestPanel:eq(' + (curIdx + offset) + ')').removeClass('futureSection').addClass('activeSection');
     			if (curIdx + offset < (divCount - 1)) {
     				$('#nextBtn').show();
     			} else {
@@ -307,10 +307,27 @@
     	}
 	</script>
 
+@{
+	var stepCount = 6;
+	var stepNum = 1;
+}
+
     @using( Html.BeginForm( "AddRequest", "SpecRequest", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
 	{
+		<div>
+		<div class="left">
+        <input type="button" class="btn_type1" value="Previous" id="previousBtn" style="display:none;" />
+		</div>
+		<div class="right">
+        <input type="button" class="btn_type1" value="Next" id="nextBtn" />
+        <input type="submit" class="btn_type1" value="Submit Request" id="submitBtn" style="display:none;" />
+		</div>
+		<div class="clear"></div>
+@Html.ValidationSummary()
+		<hr />
+		</div>
 		<div class="activeSection requestPanel">
-			<h3>Who's Requesting</h3>
+			<h3>Step @(stepNum++) of @stepCount: Who's Requesting</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
 					<td>@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )</td><td>@Html.DropDownListFor( m => m.PaoliSalesRepGroupID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup ) )</td>
@@ -323,7 +340,7 @@
 			</table>
 		</div>
 		<div class="futureSection requestPanel">
-			<h3>About This Project</h3>
+			<h3>Step @(stepNum++) of @stepCount: About This Project</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
 					<td>@Html.MJLabelFor( m => m.EndCustomer, false )</td><td>@Html.TextBoxFor( m => m.EndCustomer )</td>
@@ -348,7 +365,7 @@
 			</table>
 		</div>
 		<div class="futureSection requestPanel">
-			<h3>Services Requested</h3>
+			<h3>Step @(stepNum++) of @stepCount: Services Requested</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
 					<td>@Html.CheckBoxFor( m => m.NeedFloorplanSpecs, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedFloorplanSpecs, false )<span class="littleHelp" style="display:none;">Please attach a legible drawing/sketch of the furniture layout with sizes and details clearly noted.</span></td>
@@ -373,7 +390,7 @@
 			</table>
 		</div>
 		<div class="futureSection requestPanel">
-			<h3>Project Requirements</h3>
+			<h3>Step @(stepNum++) of @stepCount: Project Requirements</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
 					<td width="200px">@Html.MJLabelFor( m => m.Casegoods, false )</td>
@@ -455,7 +472,7 @@
 			</table>
 		</div>
 		<div class="futureSection requestPanel">
-			<h3>Specials</h3>
+			<h3>Step @(stepNum++) of @stepCount: Specials</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
 					<td>@Html.MJLabelFor( m => m.SpecialRequests, true )</td><td>@Html.TextAreaFor( m => m.SpecialRequests )</td>
@@ -466,7 +483,7 @@
 			</table>
 		</div>
 		<div class="futureSection requestPanel">
-			<h3>Confirm</h3>
+			<h3>Step @(stepNum++) of @stepCount: Confirm</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout" id="confirmTable">
 			<thead>
 			<tr>
@@ -476,17 +493,5 @@
 			<tbody>
 			</tbody>
 			</table>
-		</div>
-		<hr />
-@Html.ValidationSummary()
-		<div>
-		<div class="left">
-        <input type="button" class="btn_type1" value="Previous" id="previousBtn" style="display:none;" />
-		</div>
-		<div class="right">
-        <input type="button" class="btn_type1" value="Next" id="nextBtn" />
-        <input type="submit" class="btn_type1" value="Submit Request" id="submitBtn" style="display:none;" />
-		</div>
-		<div class="clear"></div>
 		</div>
 	}
