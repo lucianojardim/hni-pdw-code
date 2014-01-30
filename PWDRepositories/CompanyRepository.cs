@@ -395,7 +395,7 @@ namespace PWDRepositories
 				ShowroomImages = closestShowroom != null ? closestShowroom.Company.ShowroomImages.Select( sri => new PDWModels.Images.ImageSummary()
 				{
 					Name = sri.Name,
-					FileName = sri.ThumbnailImageData( "l16to9" ).FileName,
+					FileName = sri.OriginalImage,
 					ImageID = sri.ImageID,
 					CanLightbox = ImageFile.ImageCanLightbox( sri.ImageType )
 				} ) : new List<PDWModels.Images.ImageSummary>()
