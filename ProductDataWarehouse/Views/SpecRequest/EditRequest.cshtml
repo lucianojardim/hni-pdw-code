@@ -11,14 +11,15 @@
     <script type="text/javascript">
     	var fileCount = 1;
     	$(document).ready(function () {
-			@if( Model.CreatedDate.HasValue ) {
+			@if( Model.CreatedDate.HasValue )
+   {
 			<text>
                 var cDate = new Date('@Model.CreatedDate.Value.ToString()');
                 var offset = new Date().getTimezoneOffset();
                 cDate.setMinutes(cDate.getMinutes() - offset);
                 $('#createdDate').text((cDate.getMonth() + 1) + '/' + cDate.getDate() + '/' + cDate.getFullYear());
 			</text>
-			}
+   }
 
     		$('#DealerID').change(function () {
     			reloadDealerSalesRepList();
@@ -231,6 +232,27 @@
 				</tr>
 			</table>
 		</div>
+		<div class="requestPanel bglg">
+			<h3>Spec Team Only</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+				<td>@Html.MJLabelFor( m => m.ListPrice, true )</td><td>@Html.TextBoxFor( m => m.ListPrice )</td>
+				<td>@Html.MJLabelFor( m => m.SPLQuote, true )</td><td>@Html.TextBoxFor( m => m.SPLQuote )</td>
+				</tr>
+				<tr>
+				<td>@Html.MJLabelFor( m => m.Received, true )</td><td>@Html.CheckBoxFor( m => m.Received )</td>
+				<td>@Html.MJLabelFor( m => m.IsCompleted, true )</td><td>@Html.CheckBoxFor( m => m.IsCompleted )</td>
+				</tr>
+				<tr>
+				<td></td><td></td>
+				<td>@Html.MJLabelFor( m => m.IsGoodForWeb, true, new { @style = "display:none;", @class = "isGoodForWeb" } )</td><td>@Html.CheckBoxFor( m => m.IsGoodForWeb, new { @style = "display:none;", @class = "isGoodForWeb" } )</td>
+				</tr>
+				<tr>
+				<td>@Html.MJLabelFor( m => m.Footprint, true )</td><td>@Html.TextBoxFor( m => m.Footprint )</td>
+				<td>@Html.MJLabelFor( m => m.SavedLocation, true )</td><td>@Html.TextBoxFor( m => m.SavedLocation )</td>
+				</tr>
+			</table>
+		</div>
 		<div class="requestPanel">
 			<h3>About This Project</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
@@ -375,27 +397,6 @@
 				</tr>
 				<tr>
 				<td></td><td class="triple"><span class="littleHelp">Please provide any additional information you may have regarding edge profile, finish, pulls, drawer options and grommets, etc.</span></td>
-				</tr>
-			</table>
-		</div>
-		<div class="requestPanel">
-			<h3>Additional Details</h3>
-			<table cellpadding="0" cellspacing="0" class="dataLayout">
-				<tr>
-				<td>@Html.MJLabelFor( m => m.ListPrice, true )</td><td>@Html.TextBoxFor( m => m.ListPrice )</td>
-				<td>@Html.MJLabelFor( m => m.SPLQuote, true )</td><td>@Html.TextBoxFor( m => m.SPLQuote )</td>
-				</tr>
-				<tr>
-				<td>@Html.MJLabelFor( m => m.Received, true )</td><td>@Html.CheckBoxFor( m => m.Received )</td>
-				<td>@Html.MJLabelFor( m => m.IsCompleted, true )</td><td>@Html.CheckBoxFor( m => m.IsCompleted )</td>
-				</tr>
-				<tr>
-				<td></td><td></td>
-				<td>@Html.MJLabelFor( m => m.IsGoodForWeb, true, new { @style = "display:none;", @class = "isGoodForWeb" } )</td><td>@Html.CheckBoxFor( m => m.IsGoodForWeb, new { @style = "display:none;", @class = "isGoodForWeb" } )</td>
-				</tr>
-				<tr>
-				<td>@Html.MJLabelFor( m => m.Footprint, true )</td><td>@Html.TextBoxFor( m => m.Footprint )</td>
-				<td>@Html.MJLabelFor( m => m.SavedLocation, true )</td><td>@Html.TextBoxFor( m => m.SavedLocation )</td>
 				</tr>
 			</table>
 		</div>
