@@ -21,7 +21,7 @@ namespace PDWModels.Collateral
 			{
 				return new Dictionary<int, string>() {
 					{ RPPaoliMember, "Paoli Member" },				
-					{ RPPaoliRepresentative, "Paoli Representative" },				
+					{ RPPaoliRepresentative, "Paoli Sales Rep" },				
 					{ RPDealer, "Dealer" },				
 					{ RPEndUser, "End User / Customer" },				
                 };
