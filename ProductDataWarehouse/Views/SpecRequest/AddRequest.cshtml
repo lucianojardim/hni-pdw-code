@@ -397,7 +397,12 @@
 			 <input type="hidden" name="Conferencing.Index" value="@i" />
 			 <input type="checkbox" name="Conferencing[@i]" value="@ViewBag.BlankInformation.Conferencing[i]" class="chkConferencing" /> <label for="Conferencing[@i]">@ViewBag.BlankInformation.Conferencing[i]</label><br />
 		 }</td>
-					<td>@for( int i = 0; i < ViewBag.BlankInformation.Seating.Count; i++ )
+					<td>@for( int i = 0; i < ( ViewBag.BlankInformation.Seating.Count + 1 ) / 2; i++ )
+		 {
+			 <input type="hidden" name="Seating.Index" value="@i" />
+			 <input type="checkbox" name="Seating[@i]" value="@ViewBag.BlankInformation.Seating[i]" class="chkSeating" /> <label for="Seating[@i]">@ViewBag.BlankInformation.Seating[i]</label><br />
+		 }</td>
+					<td>@for( int i = ( ViewBag.BlankInformation.Seating.Count + 1 ) / 2; i < ViewBag.BlankInformation.Seating.Count; i++ )
 		 {
 			 <input type="hidden" name="Seating.Index" value="@i" />
 			 <input type="checkbox" name="Seating[@i]" value="@ViewBag.BlankInformation.Seating[i]" class="chkSeating" /> <label for="Seating[@i]">@ViewBag.BlankInformation.Seating[i]</label><br />

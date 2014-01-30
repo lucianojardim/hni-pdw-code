@@ -280,7 +280,7 @@
 				<tr>
 					<td width="200px">@Html.MJLabelFor( m => m.Casegoods, false )</td>
 					<td width="200px">@Html.MJLabelFor( m => m.Conferencing, false )</td>
-					<td width="200px">@Html.MJLabelFor( m => m.Seating, false )</td>
+					<td width="200px" colspan="2">@Html.MJLabelFor( m => m.Seating, false )</td>
 				</tr>
 				<tr>
 					<td>@for( int i = 0; i < ViewBag.BlankInformation.Casegoods.Count; i++ )
@@ -293,7 +293,12 @@
 			 <input type="hidden" name="Conferencing.Index" value="@i" />
 			 <input type="checkbox" name="Conferencing[@i]" value="@ViewBag.BlankInformation.Conferencing[i]" class="chkConferencing" @(Model.Conferencing.Contains( ViewBag.BlankInformation.Conferencing[i] ) ? "checked" : "") /> <label for="Conferencing[@i]">@ViewBag.BlankInformation.Conferencing[i]</label><br />
 		 }</td>
-					<td>@for( int i = 0; i < ViewBag.BlankInformation.Seating.Count; i++ )
+					<td>@for( int i = 0; i < ( ViewBag.BlankInformation.Seating.Count + 1 ) / 2; i++ )
+		 {
+			 <input type="hidden" name="Seating.Index" value="@i" />
+			 <input type="checkbox" name="Seating[@i]" value="@ViewBag.BlankInformation.Seating[i]" class="chkSeating" @(Model.Seating.Contains( ViewBag.BlankInformation.Seating[i] ) ? "checked" : "") /> <label for="Seating[@i]">@ViewBag.BlankInformation.Seating[i]</label><br />
+		 }</td>
+					<td>@for( int i = ( ViewBag.BlankInformation.Seating.Count + 1 ) / 2; i < ViewBag.BlankInformation.Seating.Count; i++ )
 		 {
 			 <input type="hidden" name="Seating.Index" value="@i" />
 			 <input type="checkbox" name="Seating[@i]" value="@ViewBag.BlankInformation.Seating[i]" class="chkSeating" @(Model.Seating.Contains( ViewBag.BlankInformation.Seating[i] ) ? "checked" : "") /> <label for="Seating[@i]">@ViewBag.BlankInformation.Seating[i]</label><br />
