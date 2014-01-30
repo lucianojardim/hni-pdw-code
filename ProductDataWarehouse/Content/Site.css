@@ -393,6 +393,11 @@ table.dataLayout td.double input[type="text"]
 	width: 490px;
 }
 
+table.dataLayout td.triple textarea
+{
+	width: 700px;
+}
+
 table.dataLayout td select
 {
 	width: 261px;
@@ -571,6 +576,10 @@ span.littleHelp
 td.double span.littleHelp
 {
 	width: 490px;
+}
+td.triple span.littleHelp
+{
+	width: 700px;
 }
 
 td.dataInfoThin span.littleHelp

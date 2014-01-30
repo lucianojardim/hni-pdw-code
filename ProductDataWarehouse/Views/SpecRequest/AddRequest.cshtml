@@ -479,10 +479,10 @@
 			<h3>Step @(stepNum++) of @stepCount: Specials</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
-					<td>@Html.MJLabelFor( m => m.SpecialRequests, true )</td><td>@Html.TextAreaFor( m => m.SpecialRequests )</td>
+					<td>@Html.MJLabelFor( m => m.SpecialRequests, true )</td><td class="triple">@Html.TextAreaFor( m => m.SpecialRequests, new { @rows = "15" } )</td>
 				</tr>
 				<tr>
-				<td></td><td><span class="littleHelp">Please provide any additional information you may have regarding edge profile, finish, pulls, drawer options and grommets, etc.</span></td>
+				<td></td><td class="triple"><span class="littleHelp">Please provide any additional information you may have regarding edge profile, finish, pulls, drawer options and grommets, etc.</span></td>
 				</tr>
 			</table>
 		</div>
