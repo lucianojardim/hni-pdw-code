@@ -55,9 +55,9 @@ namespace PDWModels.SpecRequests
 		public string ProjectSize { get; set; }
 		[DisplayName( "I need this quote created no later than" )]
 		public DateTime? QuoteDueDate { get; set; }
-		[DisplayName( "Is this project for GSA?" )]
+		[DisplayName( "Is GSA?" )]
 		public bool IsGSA { get; set; }
-		[DisplayName( "Is this project for an in2 order?" )]
+		[DisplayName( "Is in2?" )]
 		public bool AvailableForIn2 { get; set; }
 
 		[DisplayName( "Floorplan Specifications" )]
