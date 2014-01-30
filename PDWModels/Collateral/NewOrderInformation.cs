@@ -58,10 +58,8 @@ namespace PDWModels.Collateral
 		public int OrderID { get; set; }
 		[DisplayName( "Who is making this request?" )]
 		public int RequestingParty { get; set; }
-		[DisplayName( "First Name" )]
-		public string MemberFirstName { get; set; }
-		[DisplayName( "Last Name" )]
-		public string MemberLastName { get; set; }
+		[DisplayName( "Paoli Member" )]
+		public int? PaoliMemberID { get; set; }
 		[DisplayName( "Paoli Rep Group" )]
 		public int? PaoliRepGroupID { get; set; }
 		[DisplayName( "Paoli Rep" )]

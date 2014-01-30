@@ -354,8 +354,7 @@ namespace PWDRepositories
 			switch( newOrder.RequestingParty )
 			{
 				case NewOrderInformation.RPPaoliMember:
-					newOrder.MemberFirstName = orderInfo.MemberFirstName;
-					newOrder.MemberLastName = orderInfo.MemberLastName;
+					newOrder.PaoliMemberID = orderInfo.PaoliMemberID;
 					break;
 				case NewOrderInformation.RPPaoliRepresentative:
 					newOrder.PaoliRepGroupID = orderInfo.PaoliRepGroupID;
@@ -491,8 +490,8 @@ namespace PWDRepositories
 				OrderID = c.OrderID,
 				OrderDate = c.OrderDate,
 				Status = "Pending",
-				RequestingParty = ( c.RequestingParty == NewOrderInformation.RPPaoliMember ) ? 
-					(c.MemberFirstName + " " + c.MemberLastName) : 
+				RequestingParty = ( c.RequestingParty == NewOrderInformation.RPPaoliMember ) ?
+					( ( c.PaoliMemberID.HasValue ) ? (c.PaoliMember.FullName) : "" ) : 
 					((c.RequestingParty == NewOrderInformation.RPPaoliRepresentative) ? 
 						(c.PaoliSalesRep.Name + ((c.PaoliRepGroupMemberID.HasValue) ? (" (" + c.PaoliSalesRepMember.FullName + ")") : "")) : 
 						((c.RequestingParty == NewOrderInformation.RPDealer) ?
@@ -515,8 +514,7 @@ namespace PWDRepositories
 			switch( orderInfo.RequestingParty )
 			{
 				case NewOrderInformation.RPPaoliMember:
-					orderInfo.MemberFirstName = eOrder.MemberFirstName;
-					orderInfo.MemberLastName = eOrder.MemberLastName;
+					orderInfo.PaoliMemberID = eOrder.PaoliMemberID;
 					break;
 				case NewOrderInformation.RPPaoliRepresentative:
 					orderInfo.PaoliRepGroupID = eOrder.PaoliRepGroupID;
@@ -577,8 +575,7 @@ namespace PWDRepositories
 			switch( eOrder.RequestingParty )
 			{
 				case NewOrderInformation.RPPaoliMember:
-					eOrder.MemberFirstName = orderInfo.MemberFirstName;
-					eOrder.MemberLastName = orderInfo.MemberLastName;
+					eOrder.PaoliMemberID = orderInfo.PaoliMemberID;
 					break;
 				case NewOrderInformation.RPPaoliRepresentative:
 					eOrder.PaoliRepGroupID = orderInfo.PaoliRepGroupID;

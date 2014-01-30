@@ -79,6 +79,10 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="CollateralOrders" EntitySet="CollateralOrders" />
           </AssociationSet>
+          <AssociationSet Name="fkCOrder_PaoliMember" Association="PaoliPDWModel.Store.fkCOrder_PaoliMember">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="CollateralOrders" EntitySet="CollateralOrders" />
+          </AssociationSet>
           <AssociationSet Name="fkCOrder_SalesRep" Association="PaoliPDWModel.Store.fkCOrder_SalesRep">
             <End Role="Companies" EntitySet="Companies" />
             <End Role="CollateralOrders" EntitySet="CollateralOrders" />
@@ -336,8 +340,6 @@
           </Key>
           <Property Name="OrderID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="RequestingParty" Type="int" Nullable="false" />
-          <Property Name="MemberFirstName" Type="nvarchar" MaxLength="50" />
-          <Property Name="MemberLastName" Type="nvarchar" MaxLength="50" />
           <Property Name="PaoliRepGroupID" Type="int" />
           <Property Name="DealerID" Type="int" />
           <Property Name="EndUserFirstName" Type="nvarchar" MaxLength="50" />
@@ -360,6 +362,7 @@
           <Property Name="PaoliRepGroupMemberID" Type="int" />
           <Property Name="DealerMemberID" Type="int" />
           <Property Name="ShippingAddressType" Type="int" Nullable="false" />
+          <Property Name="PaoliMemberID" Type="int" />
         </EntityType>
         <EntityType Name="CollateralTypes">
           <Key>
@@ -871,6 +874,18 @@
             </Principal>
             <Dependent Role="CollateralOrders">
               <PropertyRef Name="DealerMemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkCOrder_PaoliMember">
+          <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="0..1" />
+          <End Role="CollateralOrders" Type="PaoliPDWModel.Store.CollateralOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="CollateralOrders">
+              <PropertyRef Name="PaoliMemberID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1714,6 +1729,10 @@
             <End Role="User" EntitySet="Users" />
             <End Role="CollateralOrder" EntitySet="CollateralOrders" />
           </AssociationSet>
+          <AssociationSet Name="fkCOrder_PaoliMember" Association="PaoliPDWModel.fkCOrder_PaoliMember">
+            <End Role="User" EntitySet="Users" />
+            <End Role="CollateralOrder" EntitySet="CollateralOrders" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="AttributeOption">
           <Key>
@@ -2382,6 +2401,7 @@
           <NavigationProperty Name="SpecRequests2" Relationship="PaoliPDWModel.fkSpecRequest_PSRMember" FromRole="User" ToRole="SpecRequest" />
           <NavigationProperty Name="CollateralOrders" Relationship="PaoliPDWModel.fkCOrder_DealerMember" FromRole="User" ToRole="CollateralOrder" />
           <NavigationProperty Name="CollateralOrders1" Relationship="PaoliPDWModel.fkCOrder_SalesRepMember" FromRole="User" ToRole="CollateralOrder" />
+          <NavigationProperty Name="CollateralOrders1_1" Relationship="PaoliPDWModel.fkCOrder_PaoliMember" FromRole="User" ToRole="CollateralOrder" />
           </EntityType>
         <EntityType Name="Company">
           <Key>
@@ -2783,8 +2803,6 @@
           </Key>
           <Property Type="Int32" Name="OrderID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="RequestingParty" Nullable="false" />
-          <Property Type="String" Name="MemberFirstName" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="MemberLastName" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="PaoliRepGroupID" />
           <Property Type="Int32" Name="DealerID" />
           <Property Type="String" Name="EndUserFirstName" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -2812,6 +2830,8 @@
           <NavigationProperty Name="DealerMember" Relationship="PaoliPDWModel.fkCOrder_DealerMember" FromRole="CollateralOrder" ToRole="User" />
           <NavigationProperty Name="PaoliSalesRepMember" Relationship="PaoliPDWModel.fkCOrder_SalesRepMember" FromRole="CollateralOrder" ToRole="User" />
           <Property Type="Int32" Name="ShippingAddressType" Nullable="false" />
+          <Property Type="Int32" Name="PaoliMemberID" />
+          <NavigationProperty Name="PaoliMember" Relationship="PaoliPDWModel.fkCOrder_PaoliMember" FromRole="CollateralOrder" ToRole="User" />
         </EntityType>
         <Association Name="fkCODetail_Collateral">
           <End Type="PaoliPDWModel.CollateralItem" Role="CollateralItem" Multiplicity="1" />
@@ -2882,6 +2902,18 @@
             </Principal>
             <Dependent Role="CollateralOrder">
               <PropertyRef Name="PaoliRepGroupMemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkCOrder_PaoliMember">
+          <End Type="PaoliPDWModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="PaoliPDWModel.CollateralOrder" Role="CollateralOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="CollateralOrder">
+              <PropertyRef Name="PaoliMemberID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3375,6 +3407,7 @@
           <EntitySetMapping Name="CollateralOrders">
             <EntityTypeMapping TypeName="PaoliPDWModel.CollateralOrder">
               <MappingFragment StoreEntitySet="CollateralOrders">
+                <ScalarProperty Name="PaoliMemberID" ColumnName="PaoliMemberID" />
                 <ScalarProperty Name="ShippingAddressType" ColumnName="ShippingAddressType" />
                 <ScalarProperty Name="DealerMemberID" ColumnName="DealerMemberID" />
                 <ScalarProperty Name="PaoliRepGroupMemberID" ColumnName="PaoliRepGroupMemberID" />
@@ -3397,8 +3430,6 @@
                 <ScalarProperty Name="EndUserFirstName" ColumnName="EndUserFirstName" />
                 <ScalarProperty Name="DealerID" ColumnName="DealerID" />
                 <ScalarProperty Name="PaoliRepGroupID" ColumnName="PaoliRepGroupID" />
-                <ScalarProperty Name="MemberLastName" ColumnName="MemberLastName" />
-                <ScalarProperty Name="MemberFirstName" ColumnName="MemberFirstName" />
                 <ScalarProperty Name="RequestingParty" ColumnName="RequestingParty" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
               </MappingFragment>
@@ -3631,22 +3662,24 @@
         <EntityTypeShape EntityType="PaoliPDWModel.VideoLink" Width="1.5" PointX="13.625" PointY="16.625" Height="1.5923063151041674" />
         <AssociationConnector Association="PaoliPDWModel.DealerPageLinks" >
           <ConnectorPoint PointX="12.875" PointY="15.046153157552084" />
-          <ConnectorPoint PointX="13.182291666666666" PointY="15.046153157552082" />
-          <ConnectorPoint PointX="13.442708333333334" PointY="15.046153157552084" />
+          <ConnectorPoint PointX="13.197916666666666" PointY="15.046153157552082" />
+          <ConnectorPoint PointX="13.458333333333334" PointY="15.046153157552084" />
           <ConnectorPoint PointX="13.625" PointY="15.046153157552084" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.DealerVideoLinks" >
           <ConnectorPoint PointX="12.875" PointY="16.870160884014425" />
-          <ConnectorPoint PointX="13.5" PointY="17.495160884014425" />
-          <ConnectorPoint PointX="13.5" PointY="16.474616384615384" />
+          <ConnectorPoint PointX="13.15625" PointY="17.151410884014425" />
+          <ConnectorPoint PointX="13.15625" PointY="16.130866384615384" />
+          <ConnectorPoint PointX="13.222324434901122" PointY="16.196940819516506" />
+          <ConnectorPoint PointX="13.433925565098878" PointY="16.408541949714262" />
           <ConnectorPoint PointX="13.650383615384616" PointY="16.625" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkDealer_VideoLink" >
           <ConnectorPoint PointX="13.631922076923077" PointY="16.625" />
           <ConnectorPoint PointX="13.40625" PointY="16.399327923076925" />
           <ConnectorPoint PointX="13.40625" PointY="17.438334960937503" />
-          <ConnectorPoint PointX="13.35580056509888" PointY="17.387885526036381" />
-          <ConnectorPoint PointX="13.206699434901122" PointY="17.238784395838625" />
+          <ConnectorPoint PointX="13.37142556509888" PointY="17.403510526036381" />
+          <ConnectorPoint PointX="13.222324434901122" PointY="17.254409395838625" />
           <ConnectorPoint PointX="12.875" PointY="16.907084960937503" />
         </AssociationConnector>
         <EntityTypeShape EntityType="PaoliPDWModel.DealerFeaturedProduct" Width="1.5" PointX="13.625" PointY="19.625" Height="1.427958984374996" />
@@ -3654,6 +3687,8 @@
           <ConnectorPoint PointX="12.838076923076924" PointY="16.907084960937503" />
           <ConnectorPoint PointX="13.25" PointY="17.319008037860577" />
           <ConnectorPoint PointX="13.25" PointY="20.338979492187498" />
+          <ConnectorPoint PointX="13.276041666666666" PointY="20.338979492187498" />
+          <ConnectorPoint PointX="13.458333333333334" PointY="20.338979492187498" />
           <ConnectorPoint PointX="13.625" PointY="20.338979492187498" />
         </AssociationConnector>
         <EntityTypeShape EntityType="PaoliPDWModel.User" Width="1.5" PointX="11.375" PointY="3.375" Height="4.5505582682291674" />
@@ -3675,56 +3710,58 @@
           <ConnectorPoint PointX="18.125" PointY="7.4176741536458337" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkSpec_DealerSalesRep" >
-          <ConnectorPoint PointX="12.875" PointY="7.472580708048266" />
-          <ConnectorPoint PointX="13.197916666666666" PointY="7.4725807080482651" />
-          <ConnectorPoint PointX="13.364583333333334" PointY="7.472580708048266" />
-          <ConnectorPoint PointX="14.291666666666666" PointY="7.4725807080482651" />
-          <ConnectorPoint PointX="14.458333333333334" PointY="7.472580708048266" />
-          <ConnectorPoint PointX="15.217290368504997" PointY="7.4725807080482651" />
-          <ConnectorPoint PointX="15.465881112094742" PointY="7.472580708048266" />
-          <ConnectorPoint PointX="15.875" PointY="7.472580708048266" />
+          <ConnectorPoint PointX="12.875" PointY="7.4842040352477426" />
+          <ConnectorPoint PointX="13.229166666666666" PointY="7.4842040352477417" />
+          <ConnectorPoint PointX="13.395833333333334" PointY="7.4842040352477426" />
+          <ConnectorPoint PointX="14.291666666666666" PointY="7.4842040352477417" />
+          <ConnectorPoint PointX="14.458333333333334" PointY="7.4842040352477426" />
+          <ConnectorPoint PointX="15.228913695704474" PointY="7.4842040352477417" />
+          <ConnectorPoint PointX="15.446350593140373" PointY="7.4842040352477426" />
+          <ConnectorPoint PointX="15.875" PointY="7.4842040352477426" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkSpec_PaoliSpecTeam" >
-          <ConnectorPoint PointX="12.875" PointY="7.723750548543058" />
-          <ConnectorPoint PointX="13.197916666666666" PointY="7.7237505485430571" />
-          <ConnectorPoint PointX="13.364583333333334" PointY="7.723750548543058" />
-          <ConnectorPoint PointX="14.291666666666666" PointY="7.7237505485430571" />
-          <ConnectorPoint PointX="14.458333333333334" PointY="7.723750548543058" />
-          <ConnectorPoint PointX="15.875" PointY="7.723750548543058" />
+          <ConnectorPoint PointX="12.875" PointY="7.8175475411071176" />
+          <ConnectorPoint PointX="13.229166666666666" PointY="7.8175475411071167" />
+          <ConnectorPoint PointX="13.395833333333334" PointY="7.8175475411071176" />
+          <ConnectorPoint PointX="14.291666666666666" PointY="7.8175475411071167" />
+          <ConnectorPoint PointX="14.458333333333334" PointY="7.8175475411071176" />
+          <ConnectorPoint PointX="15.416666666666666" PointY="7.8175475411071167" />
+          <ConnectorPoint PointX="15.645833333333334" PointY="7.8175475411071176" />
+          <ConnectorPoint PointX="15.875" PointY="7.8175475411071176" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkUser_Company" >
           <ConnectorPoint PointX="13.625" PointY="5.3238631184895828" />
-          <ConnectorPoint PointX="13.364583333333334" PointY="5.3238631184895819" />
-          <ConnectorPoint PointX="13.197916666666666" PointY="5.3238631184895828" />
+          <ConnectorPoint PointX="13.395833333333334" PointY="5.3238631184895819" />
+          <ConnectorPoint PointX="13.229166666666666" PointY="5.3238631184895828" />
           <ConnectorPoint PointX="12.875" PointY="5.3238631184895828" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkTypical_Spec" >
           <ConnectorPoint PointX="16.625" PointY="14.066630859375001" />
           <ConnectorPoint PointX="16.625" PointY="14.316630859375003" />
-          <ConnectorPoint PointX="15.677083333333334" PointY="14.316630859375001" />
+          <ConnectorPoint PointX="15.645833333333334" PointY="14.316630859375003" />
           <ConnectorPoint PointX="15.416666666666666" PointY="14.316630859375003" />
           <ConnectorPoint PointX="15.375" PointY="14.316630859375003" />
           <ConnectorPoint PointX="15.375" PointY="13.006653645833325" />
-          <ConnectorPoint PointX="13.442708333333334" PointY="13.006653645833323" />
-          <ConnectorPoint PointX="13.182291666666666" PointY="13.006653645833325" />
+          <ConnectorPoint PointX="13.458333333333334" PointY="13.006653645833323" />
+          <ConnectorPoint PointX="13.197916666666666" PointY="13.006653645833325" />
           <ConnectorPoint PointX="11.083333333333334" PointY="13.006653645833325" />
           <ConnectorPoint PointX="10.916666666666666" PointY="13.006653645833325" />
           <ConnectorPoint PointX="10" PointY="13.006653645833325" />
           <ConnectorPoint PointX="10" PointY="11.25" />
           <ConnectorPoint PointX="7.875" PointY="11.25" />
-          <ConnectorPoint PointX="7.875" PointY="12.671000976562496" />
-          <ConnectorPoint PointX="5" PointY="12.671000976562496" />
-          <ConnectorPoint PointX="5" PointY="12.305251415148089" />
-          <ConnectorPoint PointX="4.958333333333333" PointY="12.305251415148089" />
-          <ConnectorPoint PointX="4.791666666666667" PointY="12.305251415148089" />
-          <ConnectorPoint PointX="4.5" PointY="12.305251415148089" />
+          <ConnectorPoint PointX="7.875" PointY="12.655375976562496" />
+          <ConnectorPoint PointX="4.9375" PointY="12.655375976562496" />
+          <ConnectorPoint PointX="4.9375" PointY="12.200208685764931" />
+          <ConnectorPoint PointX="4.5" PointY="12.200208685764931" />
         </AssociationConnector>
         <EntityTypeShape EntityType="PaoliPDWModel.Territory" Width="1.5" PointX="11.375" PointY="18" Height="1.427958984374996" />
         <AssociationConnector Association="PaoliPDWModel.fkCompany_Territory" >
           <ConnectorPoint PointX="12.850769230769231" PointY="18" />
-          <ConnectorPoint PointX="13.28125" PointY="17.569519230769231" />
-          <ConnectorPoint PointX="13.28125" PointY="3.0286333829927128" />
-          <ConnectorPoint PointX="13.625" PointY="3.0286333829927128" />
+          <ConnectorPoint PointX="13.19107443490112" PointY="17.659694795868109" />
+          <ConnectorPoint PointX="13.308925565098878" PointY="17.541843665670353" />
+          <ConnectorPoint PointX="13.3125" PointY="17.538269230769231" />
+          <ConnectorPoint PointX="13.3125" PointY="3.0675505167219126" />
+          <ConnectorPoint PointX="13.625" PointY="3.0675505167219126" />
         </AssociationConnector>
         <EntityTypeShape EntityType="PaoliPDWModel.UserSubscription" Width="1.5" PointX="15.875" PointY="1.125" Height="2.5783902994791674" />
         <AssociationConnector Association="PaoliPDWModel.fkUSub_User" >
@@ -3744,22 +3781,22 @@
           <ConnectorPoint PointX="18.875" PointY="10.625" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkZip_Territory" >
-          <ConnectorPoint PointX="12.875" PointY="18.040383615384613" />
-          <ConnectorPoint PointX="13.19107443490112" PointY="17.724309180483491" />
-          <ConnectorPoint PointX="13.355800565098878" PointY="17.559583050285735" />
-          <ConnectorPoint PointX="13.359375" PointY="17.556008615384613" />
-          <ConnectorPoint PointX="13.359375" PointY="11.878326822916662" />
+          <ConnectorPoint PointX="12.875" PointY="18.056537461538461" />
+          <ConnectorPoint PointX="13.28125" PointY="17.650287461538461" />
+          <ConnectorPoint PointX="13.28125" PointY="11.878326822916662" />
+          <ConnectorPoint PointX="13.291666666666666" PointY="11.878326822916662" />
+          <ConnectorPoint PointX="13.458333333333334" PointY="11.878326822916662" />
           <ConnectorPoint PointX="13.625" PointY="11.878326822916662" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.ShowroomImages" >
           <ConnectorPoint PointX="14.375" PointY="7.2727262369791656" />
-          <ConnectorPoint PointX="14.375" PointY="8.375" />
-          <ConnectorPoint PointX="13.364583333333334" PointY="8.375" />
-          <ConnectorPoint PointX="13.197916666666666" PointY="8.375" />
-          <ConnectorPoint PointX="8.125" PointY="8.375" />
-          <ConnectorPoint PointX="8.125" PointY="8.01149824414063" />
-          <ConnectorPoint PointX="8.0833333333333339" PointY="8.01149824414063" />
-          <ConnectorPoint PointX="7.916666666666667" PointY="8.01149824414063" />
+          <ConnectorPoint PointX="14.375" PointY="8.5625" />
+          <ConnectorPoint PointX="13.395833333333334" PointY="8.5625" />
+          <ConnectorPoint PointX="13.229166666666666" PointY="8.5625" />
+          <ConnectorPoint PointX="8.0833333333333339" PointY="8.5625" />
+          <ConnectorPoint PointX="7.916666666666667" PointY="8.5625" />
+          <ConnectorPoint PointX="7.71875" PointY="8.5625" />
+          <ConnectorPoint PointX="7.71875" PointY="8.01149824414063" />
           <ConnectorPoint PointX="7.625" PointY="8.01149824414063" />
         </AssociationConnector>
         <EntityTypeShape EntityType="PaoliPDWModel.CollateralItem" Width="1.5" PointX="18.625" PointY="16" Height="3.4001269531250031" />
@@ -3778,53 +3815,65 @@
           <ConnectorPoint PointX="20.875" PointY="17.4162717183431" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkSpecRequest_PSRMember" >
-          <ConnectorPoint PointX="12.875" PointY="8.04937527427153" />
-          <ConnectorPoint PointX="13.197916666666666" PointY="8.04937527427153" />
-          <ConnectorPoint PointX="13.364583333333334" PointY="8.04937527427153" />
-          <ConnectorPoint PointX="14.291666666666666" PointY="8.04937527427153" />
-          <ConnectorPoint PointX="14.458333333333334" PointY="8.04937527427153" />
-          <ConnectorPoint PointX="15.416666666666666" PointY="8.0493752742715277" />
-          <ConnectorPoint PointX="15.677083333333334" PointY="8.04937527427153" />
-          <ConnectorPoint PointX="15.875" PointY="8.04937527427153" />
+          <ConnectorPoint PointX="12.875" PointY="8.1900237705535588" />
+          <ConnectorPoint PointX="13.229166666666666" PointY="8.1900237705535588" />
+          <ConnectorPoint PointX="13.395833333333334" PointY="8.1900237705535588" />
+          <ConnectorPoint PointX="14.291666666666666" PointY="8.1900237705535588" />
+          <ConnectorPoint PointX="14.458333333333334" PointY="8.1900237705535588" />
+          <ConnectorPoint PointX="15.416666666666666" PointY="8.1900237705535588" />
+          <ConnectorPoint PointX="15.645833333333334" PointY="8.1900237705535588" />
+          <ConnectorPoint PointX="15.875" PointY="8.1900237705535588" />
         </AssociationConnector>
         <EntityTypeShape EntityType="PaoliPDWModel.CollateralOrderDetail" Width="1.5" PointX="20.875" PointY="20.25" Height="1.9210009765625102" />
-        <EntityTypeShape EntityType="PaoliPDWModel.CollateralOrder" Width="1.5" PointX="15.875" PointY="19.5" Height="5.0436002604166674" />
+        <EntityTypeShape EntityType="PaoliPDWModel.CollateralOrder" Width="1.5" PointX="15.875" PointY="19.5" Height="6.0296842447916674" />
         <AssociationConnector Association="PaoliPDWModel.fkCODetail_Collateral" >
           <ConnectorPoint PointX="19.375" PointY="19.564474283854171" />
-          <ConnectorPoint PointX="19.375" PointY="21.450628110351563" />
-          <ConnectorPoint PointX="20.875" PointY="21.450628110351563" />
+          <ConnectorPoint PointX="19.375" PointY="21.510660015869139" />
+          <ConnectorPoint PointX="20.875" PointY="21.510660015869139" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkCODetail_Order" >
-          <ConnectorPoint PointX="17.375" PointY="20.78781405517578" />
-          <ConnectorPoint PointX="19.291666666666668" PointY="20.78781405517578" />
-          <ConnectorPoint PointX="19.458333333333332" PointY="20.78781405517578" />
-          <ConnectorPoint PointX="20.875" PointY="20.78781405517578" />
+          <ConnectorPoint PointX="17.375" PointY="20.817830007934568" />
+          <ConnectorPoint PointX="19.291666666666668" PointY="20.817830007934568" />
+          <ConnectorPoint PointX="19.458333333333332" PointY="20.817830007934568" />
+          <ConnectorPoint PointX="20.875" PointY="20.817830007934568" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkCOrder_Dealer" >
-          <ConnectorPoint PointX="15.125" PointY="7.215032929286858" />
-          <ConnectorPoint PointX="15.59375" PointY="7.683782929286858" />
-          <ConnectorPoint PointX="15.59375" PointY="23.7659073548177" />
-          <ConnectorPoint PointX="15.875" PointY="23.7659073548177" />
+          <ConnectorPoint PointX="15.125" PointY="7.2461867754407034" />
+          <ConnectorPoint PointX="15.5625" PointY="7.6836867754407034" />
+          <ConnectorPoint PointX="15.5625" PointY="24.467214012369794" />
+          <ConnectorPoint PointX="15.875" PointY="24.467214012369794" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkCOrder_SalesRep" >
           <ConnectorPoint PointX="15.100769230769231" PointY="7.2727262369791656" />
           <ConnectorPoint PointX="15.5" PointY="7.6719570062099347" />
-          <ConnectorPoint PointX="15.5" PointY="22.432668457031248" />
-          <ConnectorPoint PointX="15.510416666666666" PointY="22.432668457031248" />
-          <ConnectorPoint PointX="15.677083333333334" PointY="22.432668457031248" />
-          <ConnectorPoint PointX="15.875" PointY="22.432668457031248" />
+          <ConnectorPoint PointX="15.5" PointY="20.9454263113848" />
+          <ConnectorPoint PointX="15.875" PointY="20.9454263113848" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkCOrder_DealerMember" >
-          <ConnectorPoint PointX="12.850769230769231" PointY="8.4186002604166656" />
-          <ConnectorPoint PointX="13.265625" PointY="8.8334560296474347" />
-          <ConnectorPoint PointX="13.265625" PointY="24.596874134440093" />
-          <ConnectorPoint PointX="15.875" PointY="24.596874134440093" />
+          <ConnectorPoint PointX="12.875" PointY="8.509100437299681" />
+          <ConnectorPoint PointX="13.253574434901122" PointY="8.887674872200801" />
+          <ConnectorPoint PointX="13.371425565098878" PointY="9.00552600239856" />
+          <ConnectorPoint PointX="13.375" PointY="9.009100437299681" />
+          <ConnectorPoint PointX="13.375" PointY="21.7531553035723" />
+          <ConnectorPoint PointX="15.479166666666666" PointY="21.7531553035723" />
+          <ConnectorPoint PointX="15.645833333333334" PointY="21.7531553035723" />
+          <ConnectorPoint PointX="15.875" PointY="21.7531553035723" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkCOrder_SalesRepMember" >
-          <ConnectorPoint PointX="12.875" PointY="8.3470607988782053" />
-          <ConnectorPoint PointX="13.296875" PointY="8.7689357988782053" />
-          <ConnectorPoint PointX="13.296875" PointY="24.596874134440093" />
-          <ConnectorPoint PointX="15.875" PointY="24.596874134440093" />
+          <ConnectorPoint PointX="12.875" PointY="8.5517927449919888" />
+          <ConnectorPoint PointX="13.296875" PointY="8.9736677449919888" />
+          <ConnectorPoint PointX="13.296875" PointY="22.218133574355178" />
+          <ConnectorPoint PointX="15.479166666666666" PointY="22.218133574355178" />
+          <ConnectorPoint PointX="15.645833333333334" PointY="22.218133574355178" />
+          <ConnectorPoint PointX="15.875" PointY="22.218133574355178" />
+        </AssociationConnector>
+        <AssociationConnector Association="PaoliPDWModel.fkCOrder_PaoliMember" >
+          <ConnectorPoint PointX="12.853076923076923" PointY="8.5829475911458335" />
+          <ConnectorPoint PointX="13.359375" PointY="9.08924566806891" />
+          <ConnectorPoint PointX="13.359375" PointY="22.7600839983724" />
+          <ConnectorPoint PointX="15.479166666666666" PointY="22.7600839983724" />
+          <ConnectorPoint PointX="15.645833333333334" PointY="22.7600839983724" />
+          <ConnectorPoint PointX="15.875" PointY="22.7600839983724" />
         </AssociationConnector>
         </Diagram>
     </Diagrams>

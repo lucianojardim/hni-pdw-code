@@ -308,10 +308,22 @@ namespace ProductDataWarehouse.Controllers
 			return new List<SelectListItem>() { new SelectListItem() { Text = "All", Value = "0", Selected = true } }.Union( GetUserRoleDDList() );
 		}
 
+		private static List<SelectListItem> GetJustUserDDList( List<int> accountTypes )
+		{
+			return ( new UserRepository() ).GetUserListForAccountType( accountTypes )
+				.Select( u => new SelectListItem() { Value = u.UserID.ToString(), Text = u.FullName } ).ToList();
+		}
+
+		public static IEnumerable<SelectListItem> GetPaoliMemberDDList()
+		{
+			return GetJustUserDDList( new List<int>() { PaoliWebUser.PaoliWebRole.PaoliMemberAdmin, 
+				PaoliWebUser.PaoliWebRole.PaoliMemberMarketing, PaoliWebUser.PaoliWebRole.PaoliMemberSpecTeam, 
+				PaoliWebUser.PaoliWebRole.PaoliMemberCustomerService, PaoliWebUser.PaoliWebRole.PaoliMemberSales } );
+		}
+
 		public static IEnumerable<SelectListItem> GetUserDDList( int accountType )
 		{
-			var theList = ( new UserRepository() ).GetUserListForAccountType( accountType )
-				.Select( u => new SelectListItem() { Value = u.UserID.ToString(), Text = u.FullName } ).ToList();
+			var theList = GetJustUserDDList( new List<int>() { accountType } );
 			if( accountType == PaoliWebUser.PaoliWebRole.PaoliMemberSpecTeam )
 			{
 				theList.Insert( 0, new SelectListItem() { Text = "Not Assigned", Value = "0" } );

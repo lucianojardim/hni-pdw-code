@@ -255,8 +255,8 @@
 					<td>@Html.MJLabelFor( m => m.RequestingParty, false )</td><td>@Html.DropDownListFor( m => m.RequestingParty, PDWModels.Collateral.NewOrderInformation.RequestingParties.Select( rp => new SelectListItem() { Text = rp.Value, Value = rp.Key.ToString() } ) )</td>
 				</tr>
 				<tr class="RPMember">
-					<td>@Html.MJLabelFor( m => m.MemberFirstName, true )</td><td>@Html.TextBoxFor( m => m.MemberFirstName )</td>
-					<td>@Html.MJLabelFor( m => m.MemberLastName, true )</td><td>@Html.TextBoxFor( m => m.MemberLastName )</td>
+					<td>@Html.MJLabelFor( m => m.PaoliMemberID, true )</td><td>@Html.DropDownListFor( m => m.PaoliMemberID, UserController.GetPaoliMemberDDList() )</td>
+					<td></td><td></td>
 				</tr>
 				<tr class="RPRepGroup">
 					<td>@Html.MJLabelFor( m => m.PaoliRepGroupID, false )</td><td>@Html.DropDownListFor( m => m.PaoliRepGroupID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, false ) )</td>
