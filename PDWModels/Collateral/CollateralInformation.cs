@@ -25,8 +25,7 @@ namespace PDWModels.Collateral
 		[Range( 0, float.MaxValue, ErrorMessage = "The field Weight must be greater than or equal to 0." )]
 		public double? Weight { get; set; }
 		[DisplayName( "Status" )]
-		[Required]
-		public int Status { get; set; }
+		public string Status { get; set; }
 		[DisplayName( "Backordered Until" )]
 		public DateTime? StatusDate { get; set; }
 		[DisplayName( "Quantity" )]

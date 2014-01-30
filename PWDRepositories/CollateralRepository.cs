@@ -183,6 +183,7 @@ namespace PWDRepositories
 				Description = cInfo.Description,
 				LeadTime = cInfo.LeadTime,
 				Weight = cInfo.Weight,
+				Status = cInfo.StatusValue,
 				StatusDate = cInfo.StatusDate,
 				Quantity = cInfo.Quantity,
 				ImageFileName = cInfo.ImageFileName,
