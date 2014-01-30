@@ -4,3 +4,5 @@ go
 alter table [CollateralOrders] drop column [MemberFirstName]
 alter table [CollateralOrders] drop column [MemberLastName]
 go
+DBCC CHECKIDENT ('CollateralOrders', RESEED, 10000)
+go
