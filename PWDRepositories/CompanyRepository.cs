@@ -433,13 +433,13 @@ namespace PWDRepositories
 				ContactFirstName = eUser != null ? eUser.FirstName : "",
 				ContactLastName = eUser != null ? eUser.LastName : "",
 				Name = eCompany.Name,
-				Address1 = eCompany.Address1,
-				Address2 = eCompany.Address2,
-				City = eCompany.City,
-				State = eCompany.State,
-				Zip = eCompany.Zip,
-				Phone = eCompany.Phone,
-				ContactEmail = eCompany.ContactEmail
+				Address1 = eUser != null ? eUser.Address1 : eCompany.Address1,
+				Address2 = eUser != null ? eUser.Address2 : eCompany.Address2,
+				City = eUser != null ? eUser.City : eCompany.City,
+				State = eUser != null ? eUser.State : eCompany.State,
+				Zip = eUser != null ? eUser.Zip : eCompany.Zip,
+				Phone = eUser != null ? eUser.BusinessPhone : eCompany.Phone,
+				ContactEmail = eUser != null ? eUser.Email : eCompany.ContactEmail
 			};
 		}
 	}
