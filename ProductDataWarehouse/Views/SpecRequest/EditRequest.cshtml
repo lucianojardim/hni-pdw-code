@@ -185,7 +185,7 @@
     					$('#DealerID').empty();
     					$('.DealerRow').hide();
     					$.each(data, function (idx, item) {
-    						$('#DealerID').append('<option value="' + item.ID + '" ' + (item.Value == dealerID ? 'selected' : '') + '>' + item.Text + '</option>');
+    						$('#DealerID').append('<option value="' + item.ID + '" ' + (item.ID == dealerID ? 'selected' : '') + '>' + item.Text + '</option>');
     						$('.DealerRow').show();
     					});
     					reloadDealerSalesRepList(dsrMemberID);
