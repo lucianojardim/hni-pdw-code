@@ -213,7 +213,10 @@ namespace PDWInfrastructure
 		public bool HasContacts { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ) || IsDealerUser; } }
 
 		public bool CanManageOrders { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin,
-					PaoliWebRole.PaoliMemberCustomerService, PaoliWebRole.PaoliMemberSales ); } }
+					PaoliWebRole.PaoliMemberCustomerService, PaoliWebRole.PaoliMemberSales,
+					PaoliWebRole.PaoliMemberMarketing );
+		}
+		}
 
 		public string ProductsHomePage
 		{

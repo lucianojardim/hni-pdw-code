@@ -7,7 +7,15 @@
 
 <h2>Collateral Order List</h2>
 
-<a href="@Url.Action( "AddOrder", "Collateral" )">Add Collateral Order</a><br />
+<a href="@Url.Action( "AddOrder", "Collateral" )">Add Collateral Order</a>
+@if( PDWInfrastructure.PaoliWebUser.CurrentUser.CanManageCollateral )
+{
+	<text>
+ |
+<a href="@Url.Action( "Manage", "Collateral" )">Collateral List</a>
+</text>
+}
+<br />
 <div>
     <table id="orderList">
     <thead></thead>
