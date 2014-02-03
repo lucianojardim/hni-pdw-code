@@ -144,17 +144,47 @@ namespace ProductDataWarehouse.Controllers
 			
 		}
 
-		public JsonResult GetCompanyAddress( int? userId )
+		public JsonResult GetShippingAddress( int? companyID, int? userId )
 		{
-			return Json( ( new CompanyRepository() ).GetCompanyAddress( userId ), JsonRequestBehavior.AllowGet );
+			if( userId.HasValue )
+				return Json( ( new UserRepository() ).GetUserAddress( userId.Value ), JsonRequestBehavior.AllowGet );
+			else if( companyID.HasValue )
+				return Json( ( new CompanyRepository() ).GetCompanyAddress( companyID.Value ), JsonRequestBehavior.AllowGet );
+
+			throw new Exception( "Unable to find shipping address" );
 		}
 
-		public JsonResult GetDealerListForSalesRep( int salesRepCompanyId )
+		public JsonResult GetDealerList( bool includeBlank = true )
+		{
+			var theList = ( new CompanyRepository() ).GetFullCompanyList( PaoliWebUser.PaoliCompanyType.Dealer )
+				.ToList();
+			if( includeBlank )
+			{
+				theList.Insert( 0, new PDWModels.IDToTextItem() { ID = 0, Text = "" } );
+			}
+			return Json( theList, JsonRequestBehavior.AllowGet );
+		}
+
+		public JsonResult GetPaoliRepGroupList( bool includeBlank = true )
+		{
+			var theList = ( new CompanyRepository() ).GetFullCompanyList( PaoliWebUser.PaoliCompanyType.PaoliRepGroup )
+				.ToList();
+			if( includeBlank )
+			{
+				theList.Insert( 0, new PDWModels.IDToTextItem() { ID = 0, Text = "" } );
+			}
+			return Json( theList, JsonRequestBehavior.AllowGet );
+		}
+
+		public JsonResult GetDealerListForSalesRep( int salesRepCompanyId, bool includeBlank = true )
 		{
 			var theList = ( new CompanyRepository() ).GetDealerList( salesRepCompanyId ).ToList();
 
-			theList.Insert( 0, new PDWModels.IDToTextItem() { ID = 0, Text = "" } );
-			
+			if( includeBlank )
+			{
+				theList.Insert( 0, new PDWModels.IDToTextItem() { ID = 0, Text = "" } );
+			}
+
 			return Json( theList, JsonRequestBehavior.AllowGet );
 		}
 

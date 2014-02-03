@@ -31,6 +31,10 @@
     			$('.validation-summary-errors ul').empty();
     			if ($('#theForm').valid()) {
     				setPanel(1);
+
+    				if ($('#ShippingType').closest('.requestPanel').hasClass('activeSection')) {
+    					setCompanyDetails();
+    				}
     			}
     		});
 
@@ -76,18 +80,6 @@
     		$('#PaoliRepGroupID').change(function () {
     			reloadPaoliSalesRepList();
     		});
-
-    		$('#PaoliRepGroupMemberID').change(function () {
-    			setCompanyDetails($('#PaoliRepGroupMemberID').val());
-    		});
-
-    		$('#DealerMemberID').change(function () {
-    			setCompanyDetails($('#DealerMemberID').val());
-    		});
-
-    		$('#PaoliMemberID').change(function () {
-    			setCompanyDetails($('#PaoliMemberID').val());
-    		});
     	});
 
     	function changeShippingType() {
@@ -105,19 +97,40 @@
     		}
     	}
 
-    	function setCompanyDetails(userId) {
-    		if (userId != null) {
-    			$('#officialUserID').val(userId);
-    		}
+    	function setCompanyDetails() {
+    		var officialUserID = null, officialCompanyID = null;
 
+    		switch ($('#RequestingParty').val()) {
+    			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliMember':
+    				officialUserID = $('#PaoliMemberID').val();
+    				//break;
+    			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative':
+    				if ($('#PaoliRepGroupMemberID').val() != null && $('#PaoliRepGroupMemberID').val() != '0') {
+    					officialUserID = $('#PaoliRepGroupMemberID').val();
+    					officialCompanyID = $('#PaoliRepGroupID').val();
+    				} else if ($('#PaoliRepGroupID').val() != null && $('#PaoliRepGroupID').val() != '0') {
+    					officialUserID = null;
+    					officialCompanyID = $('#PaoliRepGroupID').val();
+    				}
+    				//break;
+    			case '@PDWModels.Collateral.NewOrderInformation.RPDealer':
+    				if ($('#DealerMemberID').val() != null && $('#DealerMemberID').val() != '0') {
+    					officialUserID = $('#DealerMemberID').val();
+    					officialCompanyID = $('#DealerID').val();
+    				} else if ($('#DealerID').val() != null && $('#DealerID').val() != '0') {
+    					officialUserID = null;
+    					officialCompanyID = $('#DealerID').val();
+    				}
+    				//break;
+    		}
     		$.ajax({
     			dataType: 'json',
     			type: 'GET',
-    			url: '/Company/GetCompanyAddress',
-    			data: { userId: $('#officialUserID').val() },
+    			url: '/Company/GetShippingAddress',
+    			data: { companyId: officialCompanyID, userId: officialUserID },
     			success: function (data, textStatus, jqXHR) {
 					$('#ShippingCompanyName').attr('readonly', 'readonly').val(data.Name);
-					$('#ShippingAttn').attr('readonly', 'readonly').val(data.ContactFirstName + ' ' + data.ContactLastName);
+					$('#ShippingAttn').attr('readonly', 'readonly').val(data.ContactAttn);
 					$('#ShippingAddress1').attr('readonly', 'readonly').val(data.Address1);
 					$('#ShippingAddress2').attr('readonly', 'readonly').val(data.Address2);
 					$('#ShippingCity').attr('readonly', 'readonly').val(data.City);
@@ -139,21 +152,20 @@
     		switch ($('#RequestingParty').val()) {
     			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliMember':
     				$('.RPMember').show();
-    				$('.RPRepGroup').hide();
-    				$('.RPDealer').hide();
+    				$('.RPRepGroup').show();
+    				$('.RPDealer').show();
     				$('.RPEndUser').hide();
     				$('#ShippingAddressType option[value="0"]').removeAttr('disabled');
     				$('#ShippingAddressType').val('0');
-    				setCompanyDetails($('#PaoliMemberID').val());
     				break;
     			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative':
     				$('.RPMember').hide();
     				$('.RPRepGroup').show();
-    				$('.RPDealer').hide();
+    				$('.RPDealer').show();
     				$('.RPEndUser').hide();
     				$('#ShippingAddressType option[value="0"]').removeAttr('disabled');
     				$('#ShippingAddressType').val('0');
-    				setCompanyDetails($('#PaoliRepGroupMemberID').val());
+    				loadDealerList();
     				break;
     			case '@PDWModels.Collateral.NewOrderInformation.RPDealer':
     				$('.RPMember').hide();
@@ -162,7 +174,7 @@
     				$('.RPEndUser').hide();
     				$('#ShippingAddressType option[value="0"]').removeAttr('disabled');
     				$('#ShippingAddressType').val('0');
-    				setCompanyDetails($('#DealerMemberID').val());
+    				loadDealerList();
     				break;
     			case '@PDWModels.Collateral.NewOrderInformation.RPEndUser':
     				$('.RPMember').hide();
@@ -231,13 +243,40 @@
     				$.each(data.theList, function (idx, item) {
     					$('#PaoliRepGroupMemberID').append('<option value="' + item.Value + '" >' + item.Text + '</option>');
     				});
-   					setCompanyDetails($('#PaoliRepGroupMemberID').val());
     			},
     			error: function (jqXHR, textStatus, errorThrown) {
     				alert('Error getting Paoli Sales Rep list:' + errorThrown)
     			}
     		});
+
+    		loadDealerList();
     	}
+
+		function loadDealerList() {
+			var theUrl = '/Company/GetDealerList';
+			var dataSet = { includeBlank: 'false' };
+			if( $('.RPRepGroup:hidden').length == 0 ) {
+				// rep group is showing - only load dealers for the group
+				theUrl = '/Company/GetDealerListForSalesRep';
+				dataSet = { salesRepCompanyId: $('#PaoliRepGroupID').val(), includeBlank: 'true' };
+			}
+			$.ajax({
+				dataType: 'json',
+				type: 'GET',
+				url: theUrl,
+				data: dataSet,
+				success: function (data, textStatus, jqXHR) {
+					$('#DealerID').empty();
+					$.each(data, function (idx, item) {
+						$('#DealerID').append('<option value="' + item.ID + '">' + item.Text + '</option>');
+					});
+					reloadDealerSalesRepList();
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					alert('Error getting Dealer list:' + errorThrown)
+				}
+			});
+		}
 
 	</script>
 
@@ -335,12 +374,10 @@
 				<tr>
 					<td>@Html.LabelFor( m => m.ShippingAddressType )</td><td>@Html.DropDownListFor( m => m.ShippingAddressType, new List<SelectListItem>() { 
 															 new SelectListItem() { Text = "Current Address on File", Value = "0" },
-															 new SelectListItem() { Text = "Ship Direct to Another Business", Value = "1" }
+															 new SelectListItem() { Text = "Other", Value = "1" }
 														 } )</td>
 				</tr>
 			</table>
-			<input type="hidden" id="officialCompanyID" value="0" />
-			<input type="hidden" id="officialUserID" value="0" />
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
 					<td>@Html.LabelFor( m => m.ShippingAttn )</td><td>@Html.TextBoxFor( m => m.ShippingAttn )</td>

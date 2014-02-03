@@ -11,7 +11,7 @@ namespace PDWDBContext
 		{
 			get
 			{
-				return FirstName + "  " + LastName;
+				return FirstName + " " + LastName;
 			}
 		}
 	}

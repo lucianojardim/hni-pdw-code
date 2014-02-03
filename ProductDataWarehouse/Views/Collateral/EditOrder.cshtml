@@ -70,21 +70,20 @@
     			reloadDealerSalesRepList(null, false);
     		});
 
-    		reloadPaoliSalesRepList(@(Model.PaoliRepGroupMemberID.HasValue ? Model.PaoliRepGroupMemberID.Value.ToString() : "null"), true);
     		$('#PaoliRepGroupID').change(function () {
     			reloadPaoliSalesRepList(null, false);
     		});
 
     		$('#PaoliRepGroupMemberID').change(function () {
-    			setCompanyDetails($('#PaoliRepGroupMemberID').val());
+    			setCompanyDetails();
     		});
 
     		$('#DealerMemberID').change(function () {
-    			setCompanyDetails($('#DealerMemberID').val());
+    			setCompanyDetails();
     		});
  
     		$('#PaoliMemberID').change(function () {
-    			setCompanyDetails($('#PaoliMemberID').val());
+    			setCompanyDetails();
     		});
 
 			@if( Model.ShippingAddressType == 0 )
@@ -118,18 +117,43 @@
     		}
     	}
 
-    	function setCompanyDetails(userId) {
-    		if (userId != null) {
-    			$('#officialUserID').val(userId);
+    	function setCompanyDetails() {
+			if ($('#ShippingAddressType').val() != '0') {
+				return;
+			}
+    		var officialUserID = null, officialCompanyID = null;
+
+    		switch ($('#RequestingParty').val()) {
+    			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliMember':
+    				officialUserID = $('#PaoliMemberID').val();
+    				//break;
+    			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative':
+    				if ($('#PaoliRepGroupMemberID').val() != null && $('#PaoliRepGroupMemberID').val() != '0') {
+    					officialUserID = $('#PaoliRepGroupMemberID').val();
+    					officialCompanyID = $('#PaoliRepGroupID').val();
+    				} else if ($('#PaoliRepGroupID').val() != null && $('#PaoliRepGroupID').val() != '0') {
+						officialUserID = null;
+    					officialCompanyID = $('#PaoliRepGroupID').val();
+    				}
+    				//break;
+    			case '@PDWModels.Collateral.NewOrderInformation.RPDealer':
+    				if ($('#DealerMemberID').val() != null && $('#DealerMemberID').val() != '0') {
+    					officialUserID = $('#DealerMemberID').val();
+    					officialCompanyID = $('#DealerID').val();
+    				} else if ($('#DealerID').val() != null && $('#DealerID').val() != '0') {
+						officialUserID = null;
+    					officialCompanyID = $('#DealerID').val();
+    				}
+					//break;
     		}
     		$.ajax({
     			dataType: 'json',
     			type: 'GET',
-    			url: '/Company/GetCompanyAddress',
-    			data: { userId: $('#officialUserID').val() },
+    			url: '/Company/GetShippingAddress',
+    			data: { companyId: officialCompanyID, userId: officialUserID },
     			success: function (data, textStatus, jqXHR) {
     				$('#ShippingCompanyName').attr('readonly', 'readonly').val(data.Name);
-    				$('#ShippingAttn').attr('readonly', 'readonly').val(data.ContactFirstName + ' ' + data.ContactLastName);
+    				$('#ShippingAttn').attr('readonly', 'readonly').val(data.ContactAttn);
     				$('#ShippingAddress1').attr('readonly', 'readonly').val(data.Address1);
     				$('#ShippingAddress2').attr('readonly', 'readonly').val(data.Address2);
     				$('#ShippingCity').attr('readonly', 'readonly').val(data.City);
@@ -151,25 +175,32 @@
     		switch ($('#RequestingParty').val()) {
     			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliMember':
     				$('.RPMember').show();
-    				$('.RPRepGroup').hide();
-    				$('.RPDealer').hide();
+    				$('.RPRepGroup').show();
+    				$('.RPDealer').show();
     				$('.RPEndUser').hide();
     				if (!bInit) {
     					$('#ShippingAddressType option[value="0"]').removeAttr('disabled');
-    					$('#ShippingAddressType').val('0');
-    					setCompanyDetails($('#PaoliMemberID').val());
-    				}
+						loadPaoliRepGroupList(true);
+   						//setCompanyDetails();
+    				} else {
+			    		reloadPaoliSalesRepList(@(Model.PaoliRepGroupMemberID.HasValue ? Model.PaoliRepGroupMemberID.Value.ToString() : "null"), true);
+						loadDealerList(true, @(Model.DealerID.HasValue ? Model.DealerID.Value.ToString() : "null"), 
+							@(Model.DealerMemberID.HasValue ? Model.DealerMemberID.Value.ToString() : "null"));
+					}
     				break;
     			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative':
     				$('.RPMember').hide();
     				$('.RPRepGroup').show();
-    				$('.RPDealer').hide();
+    				$('.RPDealer').show();
     				$('.RPEndUser').hide();
     				if (!bInit) {
     					$('#ShippingAddressType option[value="0"]').removeAttr('disabled');
-    					$('#ShippingAddressType').val('0');
-    					setCompanyDetails($('#PaoliRepGroupMemberID').val());
-    				}
+						loadPaoliRepGroupList(false);
+    				} else {
+			    		reloadPaoliSalesRepList(@(Model.PaoliRepGroupMemberID.HasValue ? Model.PaoliRepGroupMemberID.Value.ToString() : "null"), true);
+						loadDealerList(true, @(Model.DealerID.HasValue ? Model.DealerID.Value.ToString() : "null"), 
+							@(Model.DealerMemberID.HasValue ? Model.DealerMemberID.Value.ToString() : "null"));
+					}
     				break;
     			case '@PDWModels.Collateral.NewOrderInformation.RPDealer':
     				$('.RPMember').hide();
@@ -178,9 +209,11 @@
     				$('.RPEndUser').hide();
     				if (!bInit) {
     					$('#ShippingAddressType option[value="0"]').removeAttr('disabled');
-    					$('#ShippingAddressType').val('0');
-    					setCompanyDetails($('#DealerMemberID').val());
-    				}
+						loadDealerList(false, null, null);
+    				} else {
+						loadDealerList(true, @(Model.DealerID.HasValue ? Model.DealerID.Value.ToString() : "null"), 
+							@(Model.DealerMemberID.HasValue ? Model.DealerMemberID.Value.ToString() : "null"));
+					}
     				break;
     			case '@PDWModels.Collateral.NewOrderInformation.RPEndUser':
     				$('.RPMember').hide();
@@ -196,25 +229,29 @@
     	}
 
     	function reloadDealerSalesRepList(dsrMemberID, bInit) {
-    		$.ajax({
-    			dataType: 'json',
-    			type: 'GET',
-    			url: '/User/GetDealerSalesRepListForCompany',
-    			data: { companyId: $('#DealerID').val() },
-    			success: function (data, textStatus, jqXHR) {
-    				$('#DealerMemberID').empty();
-    				$.each(data.theList, function (idx, item) {
-    					$('#DealerMemberID').append('<option value="' + item.Value + '" ' + ((dsrMemberID == item.Value) ? 'selected' : '') + '>' + item.Text + '</option>');
-    				});
-    				if (dsrMemberID == null && !bInit) {
-						$('#ShippingAddressType').val('0');
-    					setCompanyDetails($('#DealerMemberID').val());
+			if( $('#DealerID').val() != '0' && $('#DealerID').val() != null ) {
+    			$.ajax({
+    				dataType: 'json',
+    				type: 'GET',
+    				url: '/User/GetDealerSalesRepListForCompany',
+    				data: { companyId: $('#DealerID').val() },
+    				success: function (data, textStatus, jqXHR) {
+    					$('#DealerMemberID').empty();
+    					$.each(data.theList, function (idx, item) {
+    						$('#DealerMemberID').append('<option value="' + item.Value + '" ' + ((dsrMemberID == item.Value) ? 'selected' : '') + '>' + item.Text + '</option>');
+    					});
+    					if (dsrMemberID == null && !bInit) {
+    						setCompanyDetails();
+    					}
+    				},
+    				error: function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Dealer Sales Rep list:' + errorThrown)
     				}
-    			},
-    			error: function (jqXHR, textStatus, errorThrown) {
-    				alert('Error getting Dealer Sales Rep list:' + errorThrown)
-    			}
-    		});
+    			});
+			} else {
+    			$('#DealerMemberID').empty();
+				setCompanyDetails();
+			}
     	}
 
     	function reloadPaoliSalesRepList(psrMemberID, bInit) {
@@ -229,15 +266,65 @@
     					$('#PaoliRepGroupMemberID').append('<option value="' + item.Value + '" ' + ((psrMemberID == item.Value) ? 'selected' : '') + '>' + item.Text + '</option>');
     				});
     				if (psrMemberID == null && !bInit) {
-						$('#ShippingAddressType').val('0');
-    					setCompanyDetails($('#PaoliRepGroupMemberID').val());
+    					setCompanyDetails();
     				}
     			},
     			error: function (jqXHR, textStatus, errorThrown) {
     				alert('Error getting Paoli Sales Rep list:' + errorThrown)
     			}
     		});
+			if( !bInit ) {
+	    		loadDealerList(bInit, null, null);
+			}
     	}
+
+		function loadDealerList(bInit, dealerId, dsrMemberId) {
+			var theUrl = '/Company/GetDealerList';
+			var dataSet = { includeBlank: 'false' };
+			if( $('.RPRepGroup:hidden').length == 0 ) {
+				// rep group is showing - only load dealers for the group
+				theUrl = '/Company/GetDealerListForSalesRep';
+				dataSet = { salesRepCompanyId: $('#PaoliRepGroupID').val(), includeBlank: 'true' };
+			}
+			$.ajax({
+				dataType: 'json',
+				type: 'GET',
+				url: theUrl,
+				data: dataSet,
+				success: function (data, textStatus, jqXHR) {
+					$('#DealerID').empty();
+					$.each(data, function (idx, item) {
+						$('#DealerID').append('<option value="' + item.ID + '" ' + ((dealerId == item.ID) ? 'selected' : '') + '>' + item.Text + '</option>');
+					});
+					reloadDealerSalesRepList(dsrMemberId, false);
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					alert('Error getting Dealer list:' + errorThrown)
+				}
+			});
+		}
+
+		function loadPaoliRepGroupList(bBlank) {
+			var theUrl = '/Company/GetPaoliRepGroupList';
+			var dataSet = { includeBlank: bBlank ? 'true' : 'false' };
+			$.ajax({
+				dataType: 'json',
+				type: 'GET',
+				url: theUrl,
+				data: dataSet,
+				success: function (data, textStatus, jqXHR) {
+					$('#PaoliRepGroupID').empty();
+					$.each(data, function (idx, item) {
+						$('#PaoliRepGroupID').append('<option value="' + item.ID + '" >' + item.Text + '</option>');
+					});
+					reloadPaoliSalesRepList(null, false);
+					loadDealerList(false, null, null);
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					alert('Error getting Rep Group list:' + errorThrown)
+				}
+			});
+		}
 
 	</script>
 
@@ -268,7 +355,7 @@
 					<td>@Html.MJLabelFor( m => m.PaoliRepGroupMemberID, false )</td><td>@Html.DropDownListFor( m => m.PaoliRepGroupMemberID, new List<SelectListItem>() )</td>
 				</tr>
 				<tr class="RPDealer">
-					<td>@Html.MJLabelFor( m => m.DealerID, false )</td><td>@Html.DropDownListFor( m => m.DealerID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer, false ) )</td>
+					<td>@Html.MJLabelFor( m => m.DealerID, false )</td><td>@Html.DropDownListFor( m => m.DealerID, new List<SelectListItem>() )</td>
 					<td>@Html.MJLabelFor( m => m.DealerMemberID, false )</td><td>@Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>() )</td>
 				</tr>
 				<tr class="RPEndUser">
@@ -326,7 +413,7 @@
 				<tr>
 					<td>@Html.LabelFor( m => m.ShippingAddressType )</td><td>@Html.DropDownListFor( m => m.ShippingAddressType, new List<SelectListItem>() { 
 															 new SelectListItem() { Text = "Current Address on File", Value = "0" },
-															 new SelectListItem() { Text = "Ship Direct to Another Business", Value = "1" }
+															 new SelectListItem() { Text = "Other", Value = "1" }
 														 } )</td>
 				</tr>
 			</table>

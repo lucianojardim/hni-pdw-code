@@ -417,32 +417,26 @@ namespace PWDRepositories
 			return new List<IDToTextItem>();
 		}
 
-		public ShippingAddress GetCompanyAddress( int? userId )
+		public ShippingAddress GetCompanyAddress( int companyId )
 		{
-			if( !userId.HasValue )
-			{
-				return new ShippingAddress();
-			}
-
-			User eUser = database.Users.FirstOrDefault( u => u.UserID == userId );
-			if( eUser == null )
+			var eCompany = database.Companies.FirstOrDefault( u => u.CompanyID == companyId );
+			if( eCompany == null )
 			{
 				return new ShippingAddress();
 			}
 
 			return new ShippingAddress()
 			{
-				CompanyID = eUser.Company.CompanyID,
-				ContactFirstName = eUser.FirstName,
-				ContactLastName = eUser.LastName,
-				Name = eUser.Company.Name,
-				Address1 = eUser.Address1,
-				Address2 = eUser.Address2,
-				City = eUser.City,
-				State = eUser.State,
-				Zip = eUser.Zip,
-				Phone = eUser.BusinessPhone,
-				ContactEmail = eUser.Email
+				CompanyID = eCompany.CompanyID,
+				ContactAttn = null,
+				Name = eCompany.Name,
+				Address1 = eCompany.Address1,
+				Address2 = eCompany.Address2,
+				City = eCompany.City,
+				State = eCompany.State,
+				Zip = eCompany.Zip,
+				Phone = eCompany.Phone,
+				ContactEmail = eCompany.ContactEmail
 			};
 		}
 	}

@@ -530,5 +530,28 @@ namespace PWDRepositories
 			return theList;
 			
 		}
+
+		public PDWModels.Companies.ShippingAddress GetUserAddress( int userId )
+		{
+			var eUser = database.Users.FirstOrDefault( u => u.UserID == userId );
+			if( eUser == null )
+			{
+				return new PDWModels.Companies.ShippingAddress();
+			}
+
+			return new PDWModels.Companies.ShippingAddress()
+			{
+				CompanyID = eUser.CompanyID,
+				ContactAttn = eUser.FullName,
+				Name = eUser.Company.Name,
+				Address1 = eUser.Address1,
+				Address2 = eUser.Address2,
+				City = eUser.City,
+				State = eUser.State,
+				Zip = eUser.Zip,
+				Phone = eUser.BusinessPhone,
+				ContactEmail = eUser.Email
+			};
+		}
 	}
 }
