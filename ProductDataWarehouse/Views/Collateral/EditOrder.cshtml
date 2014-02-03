@@ -52,8 +52,7 @@
     					break;
     				case '1':
     					$('#ShippingCompanyName').removeAttr('readonly').val(null);
-    					$('#ShippingFirstName').removeAttr('readonly').val(null);
-    					$('#ShippingLastName').removeAttr('readonly').val(null);
+    					$('#ShippingAttn').removeAttr('readonly').val(null);
     					$('#ShippingAddress1').removeAttr('readonly').val(null);
     					$('#ShippingAddress2').removeAttr('readonly').val(null);
     					$('#ShippingCity').removeAttr('readonly').val(null);
@@ -92,8 +91,7 @@
 			{
 			<text>
     			$('#ShippingCompanyName').attr('readonly', 'readonly');
-    			$('#ShippingFirstName').attr('readonly', 'readonly');
-    			$('#ShippingLastName').attr('readonly', 'readonly');
+    			$('#ShippingAttn').attr('readonly', 'readonly');
     			$('#ShippingAddress1').attr('readonly', 'readonly');
     			$('#ShippingAddress2').attr('readonly', 'readonly');
     			$('#ShippingCity').attr('readonly', 'readonly');
@@ -131,8 +129,7 @@
     			data: { userId: $('#officialUserID').val() },
     			success: function (data, textStatus, jqXHR) {
     				$('#ShippingCompanyName').attr('readonly', 'readonly').val(data.Name);
-    				$('#ShippingFirstName').attr('readonly', 'readonly').val(data.ContactFirstName);
-    				$('#ShippingLastName').attr('readonly', 'readonly').val(data.ContactLastName);
+    				$('#ShippingAttn').attr('readonly', 'readonly').val(data.ContactFirstName + ' ' + data.ContactLastName);
     				$('#ShippingAddress1').attr('readonly', 'readonly').val(data.Address1);
     				$('#ShippingAddress2').attr('readonly', 'readonly').val(data.Address2);
     				$('#ShippingCity').attr('readonly', 'readonly').val(data.City);
@@ -337,10 +334,7 @@
 			<input type="hidden" id="officialUserID" value="0" />
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingFirstName )</td><td>@Html.TextBoxFor( m => m.ShippingFirstName )</td>
-					<td>@Html.LabelFor( m => m.ShippingLastName )</td><td>@Html.TextBoxFor( m => m.ShippingLastName )</td>
-				</tr>
-				<tr>
+					<td>@Html.LabelFor( m => m.ShippingAttn )</td><td>@Html.TextBoxFor( m => m.ShippingAttn )</td>
 					<td>@Html.LabelFor( m => m.ShippingCompanyName )</td><td>@Html.TextBoxFor( m => m.ShippingCompanyName )</td>
 				</tr>
 				<tr>

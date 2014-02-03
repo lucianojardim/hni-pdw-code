@@ -376,8 +376,7 @@ namespace PWDRepositories
 			newOrder.ShippingType = orderInfo.ShippingType;
 			newOrder.ShippingAddressType = orderInfo.ShippingAddressType;
 			newOrder.ShippingFedexAccount = orderInfo.ShippingFedexAccount;
-			newOrder.ShippingFirstName = orderInfo.ShippingFirstName;
-			newOrder.ShippingLastName = orderInfo.ShippingLastName;
+			newOrder.ShippingAttn = orderInfo.ShippingAttn;
 			newOrder.ShippingCompanyName = orderInfo.ShippingCompanyName;
 			newOrder.ShippingAddress1 = orderInfo.ShippingAddress1;
 			newOrder.ShippingAddress2 = orderInfo.ShippingAddress2;
@@ -537,8 +536,7 @@ namespace PWDRepositories
 			orderInfo.ShippingType = eOrder.ShippingType;
 			orderInfo.ShippingAddressType = eOrder.ShippingAddressType;
 			orderInfo.ShippingFedexAccount = eOrder.ShippingFedexAccount;
-			orderInfo.ShippingFirstName = eOrder.ShippingFirstName;
-			orderInfo.ShippingLastName = eOrder.ShippingLastName;
+			orderInfo.ShippingAttn = eOrder.ShippingAttn;
 			orderInfo.ShippingCompanyName = eOrder.ShippingCompanyName;
 			orderInfo.ShippingAddress1 = eOrder.ShippingAddress1;
 			orderInfo.ShippingAddress2 = eOrder.ShippingAddress2;
@@ -600,8 +598,7 @@ namespace PWDRepositories
 			eOrder.ShippingType = orderInfo.ShippingType;
 			eOrder.ShippingAddressType = orderInfo.ShippingAddressType;
 			eOrder.ShippingFedexAccount = orderInfo.ShippingFedexAccount;
-			eOrder.ShippingFirstName = orderInfo.ShippingFirstName;
-			eOrder.ShippingLastName = orderInfo.ShippingLastName;
+			eOrder.ShippingAttn = orderInfo.ShippingAttn;
 			eOrder.ShippingCompanyName = orderInfo.ShippingCompanyName;
 			eOrder.ShippingAddress1 = orderInfo.ShippingAddress1;
 			eOrder.ShippingAddress2 = orderInfo.ShippingAddress2;

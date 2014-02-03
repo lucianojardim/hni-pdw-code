@@ -102,10 +102,8 @@ namespace PDWModels.Collateral
 		public int ShippingAddressType { get; set; }
 		[DisplayName( "Fedex Account Number" )]
 		public string ShippingFedexAccount { get; set; }
-		[DisplayName( "First Name" )]
-		public string ShippingFirstName { get; set; }
-		[DisplayName( "Last Name" )]
-		public string ShippingLastName { get; set; }
+		[DisplayName( "Attn To" )]
+		public string ShippingAttn { get; set; }
 		[DisplayName( "Company" )]
 		public string ShippingCompanyName { get; set; }
 		[DisplayName( "Address 1" )]

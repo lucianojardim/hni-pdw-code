@@ -2480,54 +2480,6 @@ namespace PDWDBContext
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String ShippingFirstName
-        {
-            get
-            {
-                return _ShippingFirstName;
-            }
-            set
-            {
-                OnShippingFirstNameChanging(value);
-                ReportPropertyChanging("ShippingFirstName");
-                _ShippingFirstName = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("ShippingFirstName");
-                OnShippingFirstNameChanged();
-            }
-        }
-        private global::System.String _ShippingFirstName;
-        partial void OnShippingFirstNameChanging(global::System.String value);
-        partial void OnShippingFirstNameChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String ShippingLastName
-        {
-            get
-            {
-                return _ShippingLastName;
-            }
-            set
-            {
-                OnShippingLastNameChanging(value);
-                ReportPropertyChanging("ShippingLastName");
-                _ShippingLastName = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("ShippingLastName");
-                OnShippingLastNameChanged();
-            }
-        }
-        private global::System.String _ShippingLastName;
-        partial void OnShippingLastNameChanging(global::System.String value);
-        partial void OnShippingLastNameChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
         public global::System.String ShippingCompanyName
         {
             get
@@ -2858,6 +2810,30 @@ namespace PDWDBContext
         private global::System.Int32 _Status;
         partial void OnStatusChanging(global::System.Int32 value);
         partial void OnStatusChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ShippingAttn
+        {
+            get
+            {
+                return _ShippingAttn;
+            }
+            set
+            {
+                OnShippingAttnChanging(value);
+                ReportPropertyChanging("ShippingAttn");
+                _ShippingAttn = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ShippingAttn");
+                OnShippingAttnChanged();
+            }
+        }
+        private global::System.String _ShippingAttn;
+        partial void OnShippingAttnChanging(global::System.String value);
+        partial void OnShippingAttnChanged();
 
         #endregion
 
