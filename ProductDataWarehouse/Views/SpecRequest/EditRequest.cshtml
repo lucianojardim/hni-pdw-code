@@ -33,15 +33,6 @@
     			reloadPaoliSalesRepList();
     		});
 
-    		$('#QuoteDueDate').datepicker(
-            {
-            	dateFormat: "mm/dd/yy",
-            	minDate: new Date(),
-            	changeMonth: true,
-            	changeYear: true,
-            	yearRange: '2014:2100'
-            });
-
     		changeGrommets($('#Grommets'));
     		$('#Grommets').change(function (e) {
     			changeGrommets($(this));
@@ -278,7 +269,6 @@
 				</tr>
 				<tr>
 					<td>@Html.MJLabelFor( m => m.ProjectSize, false )</td><td>@Html.TextBoxFor( m => m.ProjectSize )</td>
-					<td>@Html.MJLabelFor( m => m.QuoteDueDate, true )</td><td>@Html.EditorFor( m => m.QuoteDueDate, new { @readonly = "readonly" } )</td>
 				</tr>
 				<tr>
 					<td></td><td><span class="littleHelp">Need number of private offices and/or meeting spaces</span></td>

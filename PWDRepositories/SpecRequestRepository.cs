@@ -336,7 +336,6 @@ namespace PWDRepositories
 				SpecTeamMemberName = sInfo.PaoliSpecTeamMemberID.HasValue ? sInfo.SpecTeamMember.FullName : "None",
 				EndCustomer = sInfo.EndCustomer,
 				ProjectSize = sInfo.ProjectSize,
-				QuoteDueDate = sInfo.QuoteDueDate,
 				NeedFloorplanSpecs = sInfo.NeedFloorplanSpecs,
 				Need3DDrawing = sInfo.Need3DDrawing,
 				NeedValueEng = sInfo.NeedValueEng,
@@ -378,7 +377,6 @@ namespace PWDRepositories
 			newSpec.Notes = sInfo.Notes;
 			newSpec.EndCustomer = sInfo.EndCustomer;
 			newSpec.ProjectSize = sInfo.ProjectSize;
-			newSpec.QuoteDueDate = sInfo.QuoteDueDate;
 			newSpec.NeedFloorplanSpecs = sInfo.NeedFloorplanSpecs;
 			newSpec.Need3DDrawing = sInfo.Need3DDrawing;
 			newSpec.NeedValueEng = sInfo.NeedValueEng;
@@ -450,7 +448,6 @@ namespace PWDRepositories
 			specInfo.Notes = sInfo.Notes;
 			specInfo.EndCustomer = sInfo.EndCustomer;
 			specInfo.ProjectSize = sInfo.ProjectSize;
-			specInfo.QuoteDueDate = sInfo.QuoteDueDate;
 			specInfo.NeedFloorplanSpecs = sInfo.NeedFloorplanSpecs;
 			specInfo.Need3DDrawing = sInfo.Need3DDrawing;
 			specInfo.NeedValueEng = sInfo.NeedValueEng;

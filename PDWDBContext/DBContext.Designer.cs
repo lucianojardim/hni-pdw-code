@@ -8649,30 +8649,6 @@ namespace PDWDBContext
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.DateTime> QuoteDueDate
-        {
-            get
-            {
-                return _QuoteDueDate;
-            }
-            set
-            {
-                OnQuoteDueDateChanging(value);
-                ReportPropertyChanging("QuoteDueDate");
-                _QuoteDueDate = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("QuoteDueDate");
-                OnQuoteDueDateChanged();
-            }
-        }
-        private Nullable<global::System.DateTime> _QuoteDueDate;
-        partial void OnQuoteDueDateChanging(Nullable<global::System.DateTime> value);
-        partial void OnQuoteDueDateChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.Boolean NeedFloorplanSpecs

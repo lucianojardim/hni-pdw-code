@@ -25,15 +25,6 @@
 				reloadPaoliSalesRepList();
 			});
 
-			$('#QuoteDueDate').datepicker(
-            {
-            	dateFormat: "mm/dd/yy",
-            	minDate: new Date(),
-            	changeMonth: true,
-            	changeYear: true,
-            	yearRange: '2014:2100'
-            });
-
 			$('#nextBtn').click(function (e) {
 				e.preventDefault();
 				if ($('#theForm').valid()) {
@@ -151,9 +142,6 @@
     		}
     		if ($('#ProjectSize').val() != null) {
     			addConfirmRow(t, '@Html.MJLabelFor( m => m.ProjectSize, false )', $('#ProjectSize').val());
-    		}
-    		if ($('#QuoteDueDate').val() != null) {
-    			addConfirmRow(t, '@Html.MJLabelFor( m => m.QuoteDueDate, false )', $('#QuoteDueDate').val());
     		}
 
 			addConfirmHeaderRow(t, 'Services Rendered / Project Requirements');
@@ -361,7 +349,6 @@
 				</tr>
 				<tr>
 					<td>@Html.MJLabelFor( m => m.ProjectSize, false )</td><td>@Html.TextBoxFor( m => m.ProjectSize )</td>
-					<td>@Html.MJLabelFor( m => m.QuoteDueDate, true )</td><td>@Html.TextBoxFor( m => m.QuoteDueDate, new { @readonly = "readonly" } )</td>
 				</tr>
 				<tr>
 					<td></td><td><span class="littleHelp">Need number of private offices and/or meeting spaces</span></td>

@@ -53,8 +53,6 @@ namespace PDWModels.SpecRequests
 		[DisplayName( "What is the size and scope of the project?" )]
 		[StringLength( 100 )]
 		public string ProjectSize { get; set; }
-		[DisplayName( "I need this quote created no later than" )]
-		public DateTime? QuoteDueDate { get; set; }
 		[DisplayName( "Is GSA?" )]
 		public bool IsGSA { get; set; }
 		[DisplayName( "Is in2?" )]
