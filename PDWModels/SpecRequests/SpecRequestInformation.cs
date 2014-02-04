@@ -136,6 +136,10 @@ namespace PDWModels.SpecRequests
 
 		[DisplayName( "Created Date" )]
 		public DateTime? CreatedDate { get; set; }
+		[DisplayName( "Created By" )]
+		public string CreatedByUser { get; set; }
+		public string CreatedByUserPhone { get; set; }
+		public string CreatedByUserEmail { get; set; }
 
 		public string DealerName { get; set; }
 		public string DealerSalesRepName { get; set; }

@@ -14,5 +14,13 @@ namespace PDWDBContext
 				return FirstName + " " + LastName;
 			}
 		}
+
+		public string FullNameWithCompany
+		{
+			get
+			{
+				return FullName + " (" + Company.Name + ")";
+			}
+		}
 	}
 }

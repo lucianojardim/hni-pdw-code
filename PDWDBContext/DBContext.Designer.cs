@@ -72,6 +72,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCOrder_DealerMember", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "CollateralOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrder), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCOrder_SalesRepMember", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "CollateralOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrder), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCOrder_PaoliMember", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "CollateralOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrder), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSRequest_CreatedBy", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
 
 #endregion
 
@@ -9076,6 +9077,30 @@ namespace PDWDBContext
         private global::System.String _OtherFinishDetails;
         partial void OnOtherFinishDetailsChanging(global::System.String value);
         partial void OnOtherFinishDetailsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> CreatedByUserId
+        {
+            get
+            {
+                return _CreatedByUserId;
+            }
+            set
+            {
+                OnCreatedByUserIdChanging(value);
+                ReportPropertyChanging("CreatedByUserId");
+                _CreatedByUserId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CreatedByUserId");
+                OnCreatedByUserIdChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _CreatedByUserId;
+        partial void OnCreatedByUserIdChanging(Nullable<global::System.Int32> value);
+        partial void OnCreatedByUserIdChanged();
 
         #endregion
 
@@ -9312,6 +9337,44 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("PaoliPDWModel.fkSpecRequest_PSRMember", "User", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSRequest_CreatedBy", "User")]
+        public User CreatedByUser
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkSRequest_CreatedBy", "User").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkSRequest_CreatedBy", "User").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<User> CreatedByUserReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkSRequest_CreatedBy", "User");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("PaoliPDWModel.fkSRequest_CreatedBy", "User", value);
                 }
             }
         }
@@ -12042,6 +12105,28 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<CollateralOrder>("PaoliPDWModel.fkCOrder_PaoliMember", "CollateralOrder", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSRequest_CreatedBy", "SpecRequest")]
+        public EntityCollection<SpecRequest> SpecRequests3
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<SpecRequest>("PaoliPDWModel.fkSRequest_CreatedBy", "SpecRequest");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SpecRequest>("PaoliPDWModel.fkSRequest_CreatedBy", "SpecRequest", value);
                 }
             }
         }

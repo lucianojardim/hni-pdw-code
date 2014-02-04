@@ -353,8 +353,10 @@ namespace PWDRepositories
 				DrawerOption = sInfo.DrawerOption,
 				FabricGrade = sInfo.FabricGrade,
 				Fabric = sInfo.FabricDetails,
-				SpecialRequests = sInfo.SpecialRequests
-
+				SpecialRequests = sInfo.SpecialRequests,
+				CreatedByUser = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.FullNameWithCompany : null,
+				CreatedByUserPhone = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.BusinessPhone : null,
+				CreatedByUserEmail = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.Email : null,
 					
 			};
 		}
@@ -401,6 +403,7 @@ namespace PWDRepositories
 			newSpec.IsGoodForWeb = false;
 			newSpec.IsCompleted = false;
 			newSpec.Footprint = null;
+			newSpec.CreatedByUserId = PaoliWebUser.CurrentUser.UserId;
 
 			database.SpecRequests.AddObject( newSpec );
 
