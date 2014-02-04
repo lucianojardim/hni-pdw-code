@@ -13,6 +13,8 @@
     <script type="text/javascript">
 		var fileCount = 1;
 		$(document).ready(function () {
+			$.data($('#theForm')[0], 'validator').settings.ignore = ':hidden';
+
 			reloadDealerSalesRepList();
 
 			$('#DealerID').change(function () {
@@ -27,6 +29,7 @@
 
 			$('#nextBtn').click(function (e) {
 				e.preventDefault();
+				$('.validation-summary-errors ul').empty();
 				if ($('#theForm').valid()) {
 					setPanel(1);
 				}
@@ -171,6 +174,7 @@
 			});
 			if (casegoodsList.length != 0) {
 				addConfirmRow(t, '@Html.MJLabelFor( m => m.Casegoods, false )', casegoodsList.join(', '));
+				addConfirmRow(t, '@Html.MJLabelFor( m => m.DrawerOption, true )', $('#DrawerOption option:selected').text());
 			}
 
 			var conferencingList = new Array();
@@ -191,6 +195,10 @@
 			});
 			if (seatingList.length != 0) {
 				addConfirmRow(t, '@Html.MJLabelFor( m => m.Seating, false )', seatingList.join(', '));
+				addConfirmRow(t, '@Html.MJLabelFor( m => m.FabricGrade, true )', $('#FabricGrade option:selected').text());
+				if ($('#Fabric').val() != null) {
+					addConfirmRow(t, '@Html.MJLabelFor( m => m.Fabric, true )', $('#Fabric').val());
+				}
 			}
 
 			if ($('#Grommets').is(':checked')) {
@@ -210,11 +218,6 @@
 			});
 			if (finishList.length != 0) {
 				addConfirmRow(t, '@Html.MJLabelFor( m => m.Finishes, false )', finishList.join(', ') + (otherFinishes != null ? ('<br/>' + otherFinishes) : ''));
-			}
-			addConfirmRow(t, '@Html.MJLabelFor( m => m.DrawerOption, true )', $('#DrawerOption option:selected').text());
-			addConfirmRow(t, '@Html.MJLabelFor( m => m.FabricGrade, true )', $('#FabricGrade option:selected').text());
-			if ($('#Fabric').val() != null) {
-				addConfirmRow(t, '@Html.MJLabelFor( m => m.Fabric, true )', $('#Fabric').val());
 			}
 
 			if ($('#SpecialRequests').val() != null) {

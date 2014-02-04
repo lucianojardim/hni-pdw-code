@@ -47,8 +47,9 @@ namespace PDWModels.SpecRequests
 		[DisplayName( "Who is the end customer?" )]
 		[StringLength( 100 )]
 		public string EndCustomer { get; set; }
-		[DisplayName( "How can we identify this project?" )]
+		[DisplayName( "What will we call this project?" )]
 		[StringLength( 50 )]
+		[Required]
 		public string ProjectName { get; set; }
 		[DisplayName( "What is the size and scope of the project?" )]
 		[StringLength( 100 )]
