@@ -369,7 +369,8 @@
 				<tr>
 					<td>@Html.CheckBoxFor( m => m.NeedFloorplanSpecs, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedFloorplanSpecs, false )<span class="littleHelp">Please attach a legible drawing/sketch of the furniture layout with sizes and details clearly noted.</span></td>
 					<td rowspan="6" id="fileContainer">@Html.MJLabelFor( m => m.addlFiles, true )<span class="littleHelp">Attach PDFs or other applicable files to help the specificaton engineer complete this request.</span><input type="file" name="addlFiles[0]" class="addlFiles" onchange="fileChanged()" /><input type="hidden" name="addlFiles.Index" value="0" /></td>
-					<td rowspan="6">@Html.MJLabelFor( m => m.Notes, true ) <br/> @Html.TextAreaFor( m => m.Notes, new { @rows = "18" } )</td>
+					<td rowspan="6">@Html.MJLabelFor( m => m.Notes, true ) <br/> @Html.TextAreaFor( m => m.Notes, new { @rows = "15" } )
+					<span class="littleHelp">Copy and paste any content from your email including Name and contact info for the requestor here.</span></td>
 				</tr>
 				<tr>
 					<td>@Html.CheckBoxFor( m => m.NeedPhotoRendering, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedPhotoRendering, false )<span class="littleHelp">Initial rendering is no charge, changes and additional renderings may incur fees. Check with Specification services. Extended lead times may apply.</span></td>
