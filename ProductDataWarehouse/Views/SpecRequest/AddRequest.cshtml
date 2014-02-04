@@ -245,7 +245,7 @@
     					$('#DealerMemberID').empty();
     					$('.DSRCell').hide();
     					$.each(data.theList, function (idx, item) {
-    						$('#DealerMemberID').append('<option value="' + item.Value + '">' + item.Text + '</option>');
+    						$('#DealerMemberID').append('<option value="' + item.UserID + '">' + item.FullName + '</option>');
     						$('.DSRCell').show();
     					});
     				},
@@ -270,7 +270,7 @@
     					$('#PaoliSalesRepMemberID').empty();
     					$('.PSRCell').hide();
     					$.each(data.theList, function (idx, item) {
-    						$('#PaoliSalesRepMemberID').append('<option value="' + item.Value + '">' + item.Text + '</option>');
+    						$('#PaoliSalesRepMemberID').append('<option value="' + item.UserID + '">' + item.FullName + '</option>');
     						$('.PSRCell').show();
     					});
     				},

@@ -238,7 +238,7 @@
     				success: function (data, textStatus, jqXHR) {
     					$('#DealerMemberID').empty();
     					$.each(data.theList, function (idx, item) {
-    						$('#DealerMemberID').append('<option value="' + item.Value + '" ' + ((dsrMemberID == item.Value) ? 'selected' : '') + '>' + item.Text + '</option>');
+    						$('#DealerMemberID').append('<option value="' + item.UserID + '" ' + ((dsrMemberID == item.UserID) ? 'selected' : '') + '>' + item.FullName + '</option>');
     					});
     					if (dsrMemberID == null && !bInit) {
     						setCompanyDetails();
@@ -263,7 +263,7 @@
     			success: function (data, textStatus, jqXHR) {
     				$('#PaoliRepGroupMemberID').empty();
     				$.each(data.theList, function (idx, item) {
-    					$('#PaoliRepGroupMemberID').append('<option value="' + item.Value + '" ' + ((psrMemberID == item.Value) ? 'selected' : '') + '>' + item.Text + '</option>');
+    					$('#PaoliRepGroupMemberID').append('<option value="' + item.UserID + '" ' + ((psrMemberID == item.UserID) ? 'selected' : '') + '>' + item.FullName + '</option>');
     				});
     				if (psrMemberID == null && !bInit) {
     					setCompanyDetails();

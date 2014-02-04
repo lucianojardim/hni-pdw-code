@@ -33,6 +33,14 @@
     			reloadPaoliSalesRepList();
     		});
 
+			$('#PaoliSalesRepMemberID').change(function() {
+				showPSRContactInfo();
+			});
+
+			$('#DealerMemberID').change(function() {
+				showPSRContactInfo();
+			});
+
     		changeGrommets($('#Grommets'));
     		$('#Grommets').change(function (e) {
     			changeGrommets($(this));
@@ -133,9 +141,13 @@
     					$('#DealerMemberID').empty();
     					$('.DSRCell').hide();
     					$.each(data.theList, function (idx, item) {
-    						$('#DealerMemberID').append('<option value="' + item.Value + '" ' + (item.Value == dsrMemberID ? 'selected' : '') + '>' + item.Text + '</option>');
+    						$('#DealerMemberID').append('<option value="' + item.UserID + '" ' + (item.UserID == dsrMemberID ? 'selected ' : ' ') + 
+								(item.PhoneNumber != null ? 'data-phone="' + item.PhoneNumber + '" ' : ' ') +
+								(item.EmailAddress != null ? 'data-email="' + item.EmailAddress + '" ' : ' ') +
+								'>' + item.FullName + '</option>');
     						$('.DSRCell').show();
     					});
+						showDSRContactInfo();
     				},
     				error: function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting Dealer Sales Rep list:' + errorThrown)
@@ -146,6 +158,32 @@
     			$('.DSRCell').hide();
     		}
     	}
+
+		function showPSRContactInfo() {
+			var selInfo = $('#PaoliSalesRepMemberID option:selected');
+			if( selInfo.length > 0 ) {
+				$('#psrContactInfo').text(
+					(selInfo.data('phone') != null ? selInfo.data('phone') : '') + 
+					(selInfo.data('phone') != null && selInfo.data('email') != null ? ' | ' : '') + 
+					(selInfo.data('email') != null ? selInfo.data('email') : '')
+				);
+			} else {
+				$('#psrContactInfo').empty();
+			}
+		}
+
+		function showDSRContactInfo() {
+			var selInfo = $('#DealerMemberID option:selected');
+			if( selInfo.length > 0 ) {
+				$('#dsrContactInfo').text(
+					(selInfo.data('phone') != null ? selInfo.data('phone') : '') + 
+					(selInfo.data('phone') != null && selInfo.data('email') != null ? ' | ' : '') + 
+					(selInfo.data('email') != null ? selInfo.data('email') : '')
+				);
+			} else {
+				$('#dsrContactInfo').empty();
+			}
+		}
 
     	function reloadPaoliSalesRepList( psrMemberID, dealerID, dsrMemberID ) {
     		if ($('#PaoliSalesRepGroupID').val() != null && $('#PaoliSalesRepGroupID').val() != '' && $('#PaoliSalesRepGroupID').val() != '0') {
@@ -158,9 +196,13 @@
     					$('#PaoliSalesRepMemberID').empty();
     					$('.PSRCell').hide();
     					$.each(data.theList, function (idx, item) {
-    						$('#PaoliSalesRepMemberID').append('<option value="' + item.Value + '" ' + (item.Value == psrMemberID ? 'selected' : '') + '>' + item.Text + '</option>');
+    						$('#PaoliSalesRepMemberID').append('<option value="' + item.UserID + '" ' + (item.UserID == psrMemberID ? 'selected ' : ' ') + 
+								(item.PhoneNumber != null ? 'data-phone="' + item.PhoneNumber + '" ' : ' ') +
+								(item.EmailAddress != null ? 'data-email="' + item.EmailAddress + '" ' : ' ') +
+								'>' + item.FullName + '</option>');
     						$('.PSRCell').show();
     					});
+						showPSRContactInfo();
     				},
     				error: function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting Paoli Sales Rep list:' + errorThrown)
@@ -224,11 +266,11 @@
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
 					<td>@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )</td><td>@Html.DropDownListFor( m => m.PaoliSalesRepGroupID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup ) )</td>
-					<td class="PSRCell">@Html.MJLabelFor( m => m.PaoliSalesRepMemberID, true )</td><td class="PSRCell">@Html.DropDownListFor( m => m.PaoliSalesRepMemberID, new List<SelectListItem>() )</td>
+					<td class="PSRCell">@Html.MJLabelFor( m => m.PaoliSalesRepMemberID, true )</td><td class="PSRCell">@Html.DropDownListFor( m => m.PaoliSalesRepMemberID, new List<SelectListItem>() )<span class="littleHelp" id="psrContactInfo"></span></td>
 				</tr>
 				<tr class="DealerRow">
 					<td>@Html.MJLabelFor( m => m.DealerID, false )</td><td>@Html.DropDownListFor( m => m.DealerID, new List<SelectListItem>() )</td>
-					<td class="DSRCell">@Html.MJLabelFor( m => m.DealerMemberID, true )</td><td class="DSRCell">@Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>() )</td>
+					<td class="DSRCell">@Html.MJLabelFor( m => m.DealerMemberID, true )</td><td class="DSRCell">@Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>() )<span class="littleHelp" id="dsrContactInfo"></span></td>
 				</tr>
 				<tr>
 					<td>@Html.MJLabelFor( m => m.PaoliSpecTeamMember, true )</td><td>@Html.DropDownListFor( m => m.PaoliSpecTeamMember, UserController.GetUserDDList( PDWInfrastructure.PaoliWebUser.PaoliWebRole.PaoliMemberSpecTeam ) )</td>

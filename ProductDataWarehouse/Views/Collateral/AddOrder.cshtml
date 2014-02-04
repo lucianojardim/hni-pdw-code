@@ -223,7 +223,7 @@
     			success: function (data, textStatus, jqXHR) {
     				$('#DealerMemberID').empty();
     				$.each(data.theList, function (idx, item) {
-    					$('#DealerMemberID').append('<option value="' + item.Value + '" >' + item.Text + '</option>');
+    					$('#DealerMemberID').append('<option value="' + item.UserID + '" >' + item.FullName + '</option>');
     				});
     			},
     			error: function (jqXHR, textStatus, errorThrown) {
@@ -241,7 +241,7 @@
     			success: function (data, textStatus, jqXHR) {
     				$('#PaoliRepGroupMemberID').empty();
     				$.each(data.theList, function (idx, item) {
-    					$('#PaoliRepGroupMemberID').append('<option value="' + item.Value + '" >' + item.Text + '</option>');
+    					$('#PaoliRepGroupMemberID').append('<option value="' + item.UserID + '" >' + item.FullName + '</option>');
     				});
     			},
     			error: function (jqXHR, textStatus, errorThrown) {

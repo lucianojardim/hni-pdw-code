@@ -28,6 +28,7 @@ namespace PWDRepositories
 				LastName = u.LastName,
 				CompanyName = u.Company.Name,
 				EmailAddress = u.Email,
+				PhoneNumber = u.BusinessPhone,
 				Enabled = u.Enabled,
 				SentWelcomeEmail = u.RecWelcomeEmail
 			};

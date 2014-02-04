@@ -337,8 +337,7 @@ namespace ProductDataWarehouse.Controllers
 
 		public JsonResult GetPaoliSalesRepListForCompany( int companyId )
 		{
-			var theList = ( new UserRepository() ).GetUserListForAccountType( companyId, PaoliWebUser.PaoliWebRole.PaoliSalesRep )
-				.Select( u => new SelectListItem() { Value = u.UserID.ToString(), Text = u.FullName } );
+			var theList = ( new UserRepository() ).GetUserListForAccountType( companyId, PaoliWebUser.PaoliWebRole.PaoliSalesRep );
 
 			return Json( new
 			{
@@ -349,8 +348,7 @@ namespace ProductDataWarehouse.Controllers
 
 		public JsonResult GetDealerSalesRepListForCompany( int companyId )
 		{
-			var theList = ( new UserRepository() ).GetUserListForAccountType( companyId, PaoliWebUser.PaoliWebRole.DealerSalesRep )
-				.Select( u => new SelectListItem() { Value = u.UserID.ToString(), Text = u.FullName } );
+			var theList = ( new UserRepository() ).GetUserListForAccountType( companyId, PaoliWebUser.PaoliWebRole.DealerSalesRep );
 
 			return Json( new
 			{
