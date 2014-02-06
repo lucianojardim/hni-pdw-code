@@ -73,6 +73,12 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCOrder_SalesRepMember", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "CollateralOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrder), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCOrder_PaoliMember", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "CollateralOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrder), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSRequest_CreatedBy", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCOD_Group", "CollateralItem", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.CollateralItem), "CollateralOrderDetail", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrderDetail), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCO_CreatedUser", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.User), "CollateralOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrder), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkShipmentDetail_CODetail", "CollateralOrderDetail", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.CollateralOrderDetail), "CollateralOrderShipmentDetail", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrderShipmentDetail), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkShipment_COrder", "CollateralOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.CollateralOrder), "CollateralOrderShipment", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrderShipment), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkShipmentDetail_Shipment", "CollateralOrderShipment", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.CollateralOrderShipment), "CollateralOrderShipmentDetail", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrderShipmentDetail), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCO_CanceledUser", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "CollateralOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrder), true)]
 
 #endregion
 
@@ -715,6 +721,38 @@ namespace PDWDBContext
             }
         }
         private ObjectSet<CollateralOrder> _CollateralOrders;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<CollateralOrderShipmentDetail> CollateralOrderShipmentDetails
+        {
+            get
+            {
+                if ((_CollateralOrderShipmentDetails == null))
+                {
+                    _CollateralOrderShipmentDetails = base.CreateObjectSet<CollateralOrderShipmentDetail>("CollateralOrderShipmentDetails");
+                }
+                return _CollateralOrderShipmentDetails;
+            }
+        }
+        private ObjectSet<CollateralOrderShipmentDetail> _CollateralOrderShipmentDetails;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<CollateralOrderShipment> CollateralOrderShipments
+        {
+            get
+            {
+                if ((_CollateralOrderShipments == null))
+                {
+                    _CollateralOrderShipments = base.CreateObjectSet<CollateralOrderShipment>("CollateralOrderShipments");
+                }
+                return _CollateralOrderShipments;
+            }
+        }
+        private ObjectSet<CollateralOrderShipment> _CollateralOrderShipments;
 
         #endregion
 
@@ -1014,6 +1052,22 @@ namespace PDWDBContext
         public void AddToCollateralOrders(CollateralOrder collateralOrder)
         {
             base.AddObject("CollateralOrders", collateralOrder);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the CollateralOrderShipmentDetails EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToCollateralOrderShipmentDetails(CollateralOrderShipmentDetail collateralOrderShipmentDetail)
+        {
+            base.AddObject("CollateralOrderShipmentDetails", collateralOrderShipmentDetail);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the CollateralOrderShipments EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToCollateralOrderShipments(CollateralOrderShipment collateralOrderShipment)
+        {
+            base.AddObject("CollateralOrderShipments", collateralOrderShipment);
         }
 
         #endregion
@@ -2193,6 +2247,28 @@ namespace PDWDBContext
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkCOD_Group", "CollateralOrderDetail")]
+        public EntityCollection<CollateralOrderDetail> CollateralOrderDetails_1
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<CollateralOrderDetail>("PaoliPDWModel.fkCOD_Group", "CollateralOrderDetail");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<CollateralOrderDetail>("PaoliPDWModel.fkCOD_Group", "CollateralOrderDetail", value);
+                }
+            }
+        }
 
         #endregion
 
@@ -2217,7 +2293,8 @@ namespace PDWDBContext
         /// <param name="orderDate">Initial value of the OrderDate property.</param>
         /// <param name="shippingAddressType">Initial value of the ShippingAddressType property.</param>
         /// <param name="status">Initial value of the Status property.</param>
-        public static CollateralOrder CreateCollateralOrder(global::System.Int32 orderID, global::System.Int32 requestingParty, global::System.Int32 shippingType, global::System.DateTime orderDate, global::System.Int32 shippingAddressType, global::System.Int32 status)
+        /// <param name="createdByUserID">Initial value of the CreatedByUserID property.</param>
+        public static CollateralOrder CreateCollateralOrder(global::System.Int32 orderID, global::System.Int32 requestingParty, global::System.Int32 shippingType, global::System.DateTime orderDate, global::System.Int32 shippingAddressType, global::System.Int32 status, global::System.Int32 createdByUserID)
         {
             CollateralOrder collateralOrder = new CollateralOrder();
             collateralOrder.OrderID = orderID;
@@ -2226,6 +2303,7 @@ namespace PDWDBContext
             collateralOrder.OrderDate = orderDate;
             collateralOrder.ShippingAddressType = shippingAddressType;
             collateralOrder.Status = status;
+            collateralOrder.CreatedByUserID = createdByUserID;
             return collateralOrder;
         }
 
@@ -2835,6 +2913,78 @@ namespace PDWDBContext
         private global::System.String _ShippingAttn;
         partial void OnShippingAttnChanging(global::System.String value);
         partial void OnShippingAttnChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 CreatedByUserID
+        {
+            get
+            {
+                return _CreatedByUserID;
+            }
+            set
+            {
+                OnCreatedByUserIDChanging(value);
+                ReportPropertyChanging("CreatedByUserID");
+                _CreatedByUserID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CreatedByUserID");
+                OnCreatedByUserIDChanged();
+            }
+        }
+        private global::System.Int32 _CreatedByUserID;
+        partial void OnCreatedByUserIDChanging(global::System.Int32 value);
+        partial void OnCreatedByUserIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> CanceledByUserID
+        {
+            get
+            {
+                return _CanceledByUserID;
+            }
+            set
+            {
+                OnCanceledByUserIDChanging(value);
+                ReportPropertyChanging("CanceledByUserID");
+                _CanceledByUserID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CanceledByUserID");
+                OnCanceledByUserIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _CanceledByUserID;
+        partial void OnCanceledByUserIDChanging(Nullable<global::System.Int32> value);
+        partial void OnCanceledByUserIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> CanceledOnDateTime
+        {
+            get
+            {
+                return _CanceledOnDateTime;
+            }
+            set
+            {
+                OnCanceledOnDateTimeChanging(value);
+                ReportPropertyChanging("CanceledOnDateTime");
+                _CanceledOnDateTime = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CanceledOnDateTime");
+                OnCanceledOnDateTimeChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _CanceledOnDateTime;
+        partial void OnCanceledOnDateTimeChanging(Nullable<global::System.DateTime> value);
+        partial void OnCanceledOnDateTimeChanged();
 
         #endregion
 
@@ -3052,6 +3202,104 @@ namespace PDWDBContext
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkCO_CreatedUser", "User")]
+        public User CreatedByUser
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkCO_CreatedUser", "User").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkCO_CreatedUser", "User").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<User> CreatedByUserReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkCO_CreatedUser", "User");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("PaoliPDWModel.fkCO_CreatedUser", "User", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkShipment_COrder", "CollateralOrderShipment")]
+        public EntityCollection<CollateralOrderShipment> CollateralOrderShipments
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<CollateralOrderShipment>("PaoliPDWModel.fkShipment_COrder", "CollateralOrderShipment");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<CollateralOrderShipment>("PaoliPDWModel.fkShipment_COrder", "CollateralOrderShipment", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkCO_CanceledUser", "User")]
+        public User CanceledByUser
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkCO_CanceledUser", "User").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkCO_CanceledUser", "User").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<User> CanceledByUserReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkCO_CanceledUser", "User");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("PaoliPDWModel.fkCO_CanceledUser", "User", value);
+                }
+            }
+        }
 
         #endregion
 
@@ -3186,6 +3434,30 @@ namespace PDWDBContext
         private global::System.Int32 _Quantity;
         partial void OnQuantityChanging(global::System.Int32 value);
         partial void OnQuantityChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> GroupID
+        {
+            get
+            {
+                return _GroupID;
+            }
+            set
+            {
+                OnGroupIDChanging(value);
+                ReportPropertyChanging("GroupID");
+                _GroupID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("GroupID");
+                OnGroupIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _GroupID;
+        partial void OnGroupIDChanging(Nullable<global::System.Int32> value);
+        partial void OnGroupIDChanged();
 
         #endregion
 
@@ -3264,6 +3536,764 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<CollateralOrder>("PaoliPDWModel.fkCODetail_Order", "CollateralOrder", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkCOD_Group", "CollateralItem")]
+        public CollateralItem CollateralItemGroup
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CollateralItem>("PaoliPDWModel.fkCOD_Group", "CollateralItem").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CollateralItem>("PaoliPDWModel.fkCOD_Group", "CollateralItem").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<CollateralItem> CollateralItemGroupReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CollateralItem>("PaoliPDWModel.fkCOD_Group", "CollateralItem");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<CollateralItem>("PaoliPDWModel.fkCOD_Group", "CollateralItem", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkShipmentDetail_CODetail", "CollateralOrderShipmentDetail")]
+        public EntityCollection<CollateralOrderShipmentDetail> CollateralOrderShipmentDetails
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<CollateralOrderShipmentDetail>("PaoliPDWModel.fkShipmentDetail_CODetail", "CollateralOrderShipmentDetail");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<CollateralOrderShipmentDetail>("PaoliPDWModel.fkShipmentDetail_CODetail", "CollateralOrderShipmentDetail", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="CollateralOrderShipment")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class CollateralOrderShipment : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new CollateralOrderShipment object.
+        /// </summary>
+        /// <param name="shipmentID">Initial value of the ShipmentID property.</param>
+        /// <param name="orderID">Initial value of the OrderID property.</param>
+        public static CollateralOrderShipment CreateCollateralOrderShipment(global::System.Int32 shipmentID, global::System.Int32 orderID)
+        {
+            CollateralOrderShipment collateralOrderShipment = new CollateralOrderShipment();
+            collateralOrderShipment.ShipmentID = shipmentID;
+            collateralOrderShipment.OrderID = orderID;
+            return collateralOrderShipment;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ShipmentID
+        {
+            get
+            {
+                return _ShipmentID;
+            }
+            set
+            {
+                if (_ShipmentID != value)
+                {
+                    OnShipmentIDChanging(value);
+                    ReportPropertyChanging("ShipmentID");
+                    _ShipmentID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ShipmentID");
+                    OnShipmentIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ShipmentID;
+        partial void OnShipmentIDChanging(global::System.Int32 value);
+        partial void OnShipmentIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 OrderID
+        {
+            get
+            {
+                return _OrderID;
+            }
+            set
+            {
+                OnOrderIDChanging(value);
+                ReportPropertyChanging("OrderID");
+                _OrderID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("OrderID");
+                OnOrderIDChanged();
+            }
+        }
+        private global::System.Int32 _OrderID;
+        partial void OnOrderIDChanging(global::System.Int32 value);
+        partial void OnOrderIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Vendor
+        {
+            get
+            {
+                return _Vendor;
+            }
+            set
+            {
+                OnVendorChanging(value);
+                ReportPropertyChanging("Vendor");
+                _Vendor = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Vendor");
+                OnVendorChanged();
+            }
+        }
+        private global::System.String _Vendor;
+        partial void OnVendorChanging(global::System.String value);
+        partial void OnVendorChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String TrackingNumber
+        {
+            get
+            {
+                return _TrackingNumber;
+            }
+            set
+            {
+                OnTrackingNumberChanging(value);
+                ReportPropertyChanging("TrackingNumber");
+                _TrackingNumber = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("TrackingNumber");
+                OnTrackingNumberChanged();
+            }
+        }
+        private global::System.String _TrackingNumber;
+        partial void OnTrackingNumberChanging(global::System.String value);
+        partial void OnTrackingNumberChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String GLCode
+        {
+            get
+            {
+                return _GLCode;
+            }
+            set
+            {
+                OnGLCodeChanging(value);
+                ReportPropertyChanging("GLCode");
+                _GLCode = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("GLCode");
+                OnGLCodeChanged();
+            }
+        }
+        private global::System.String _GLCode;
+        partial void OnGLCodeChanging(global::System.String value);
+        partial void OnGLCodeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ShippingType
+        {
+            get
+            {
+                return _ShippingType;
+            }
+            set
+            {
+                OnShippingTypeChanging(value);
+                ReportPropertyChanging("ShippingType");
+                _ShippingType = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ShippingType");
+                OnShippingTypeChanged();
+            }
+        }
+        private global::System.String _ShippingType;
+        partial void OnShippingTypeChanging(global::System.String value);
+        partial void OnShippingTypeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ShippingFedexAccount
+        {
+            get
+            {
+                return _ShippingFedexAccount;
+            }
+            set
+            {
+                OnShippingFedexAccountChanging(value);
+                ReportPropertyChanging("ShippingFedexAccount");
+                _ShippingFedexAccount = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ShippingFedexAccount");
+                OnShippingFedexAccountChanged();
+            }
+        }
+        private global::System.String _ShippingFedexAccount;
+        partial void OnShippingFedexAccountChanging(global::System.String value);
+        partial void OnShippingFedexAccountChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ShippingAttn
+        {
+            get
+            {
+                return _ShippingAttn;
+            }
+            set
+            {
+                OnShippingAttnChanging(value);
+                ReportPropertyChanging("ShippingAttn");
+                _ShippingAttn = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ShippingAttn");
+                OnShippingAttnChanged();
+            }
+        }
+        private global::System.String _ShippingAttn;
+        partial void OnShippingAttnChanging(global::System.String value);
+        partial void OnShippingAttnChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ShippingCompanyName
+        {
+            get
+            {
+                return _ShippingCompanyName;
+            }
+            set
+            {
+                OnShippingCompanyNameChanging(value);
+                ReportPropertyChanging("ShippingCompanyName");
+                _ShippingCompanyName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ShippingCompanyName");
+                OnShippingCompanyNameChanged();
+            }
+        }
+        private global::System.String _ShippingCompanyName;
+        partial void OnShippingCompanyNameChanging(global::System.String value);
+        partial void OnShippingCompanyNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ShippingAddress1
+        {
+            get
+            {
+                return _ShippingAddress1;
+            }
+            set
+            {
+                OnShippingAddress1Changing(value);
+                ReportPropertyChanging("ShippingAddress1");
+                _ShippingAddress1 = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ShippingAddress1");
+                OnShippingAddress1Changed();
+            }
+        }
+        private global::System.String _ShippingAddress1;
+        partial void OnShippingAddress1Changing(global::System.String value);
+        partial void OnShippingAddress1Changed();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ShippingAddress2
+        {
+            get
+            {
+                return _ShippingAddress2;
+            }
+            set
+            {
+                OnShippingAddress2Changing(value);
+                ReportPropertyChanging("ShippingAddress2");
+                _ShippingAddress2 = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ShippingAddress2");
+                OnShippingAddress2Changed();
+            }
+        }
+        private global::System.String _ShippingAddress2;
+        partial void OnShippingAddress2Changing(global::System.String value);
+        partial void OnShippingAddress2Changed();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ShippingCity
+        {
+            get
+            {
+                return _ShippingCity;
+            }
+            set
+            {
+                OnShippingCityChanging(value);
+                ReportPropertyChanging("ShippingCity");
+                _ShippingCity = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ShippingCity");
+                OnShippingCityChanged();
+            }
+        }
+        private global::System.String _ShippingCity;
+        partial void OnShippingCityChanging(global::System.String value);
+        partial void OnShippingCityChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ShippingState
+        {
+            get
+            {
+                return _ShippingState;
+            }
+            set
+            {
+                OnShippingStateChanging(value);
+                ReportPropertyChanging("ShippingState");
+                _ShippingState = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ShippingState");
+                OnShippingStateChanged();
+            }
+        }
+        private global::System.String _ShippingState;
+        partial void OnShippingStateChanging(global::System.String value);
+        partial void OnShippingStateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ShippingZip
+        {
+            get
+            {
+                return _ShippingZip;
+            }
+            set
+            {
+                OnShippingZipChanging(value);
+                ReportPropertyChanging("ShippingZip");
+                _ShippingZip = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ShippingZip");
+                OnShippingZipChanged();
+            }
+        }
+        private global::System.String _ShippingZip;
+        partial void OnShippingZipChanging(global::System.String value);
+        partial void OnShippingZipChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ShippingPhoneNumber
+        {
+            get
+            {
+                return _ShippingPhoneNumber;
+            }
+            set
+            {
+                OnShippingPhoneNumberChanging(value);
+                ReportPropertyChanging("ShippingPhoneNumber");
+                _ShippingPhoneNumber = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ShippingPhoneNumber");
+                OnShippingPhoneNumberChanged();
+            }
+        }
+        private global::System.String _ShippingPhoneNumber;
+        partial void OnShippingPhoneNumberChanging(global::System.String value);
+        partial void OnShippingPhoneNumberChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ShippingEmailAddress
+        {
+            get
+            {
+                return _ShippingEmailAddress;
+            }
+            set
+            {
+                OnShippingEmailAddressChanging(value);
+                ReportPropertyChanging("ShippingEmailAddress");
+                _ShippingEmailAddress = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ShippingEmailAddress");
+                OnShippingEmailAddressChanged();
+            }
+        }
+        private global::System.String _ShippingEmailAddress;
+        partial void OnShippingEmailAddressChanging(global::System.String value);
+        partial void OnShippingEmailAddressChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkShipment_COrder", "CollateralOrder")]
+        public CollateralOrder CollateralOrder
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CollateralOrder>("PaoliPDWModel.fkShipment_COrder", "CollateralOrder").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CollateralOrder>("PaoliPDWModel.fkShipment_COrder", "CollateralOrder").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<CollateralOrder> CollateralOrderReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CollateralOrder>("PaoliPDWModel.fkShipment_COrder", "CollateralOrder");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<CollateralOrder>("PaoliPDWModel.fkShipment_COrder", "CollateralOrder", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkShipmentDetail_Shipment", "CollateralOrderShipmentDetail")]
+        public EntityCollection<CollateralOrderShipmentDetail> CollateralOrderShipmentDetails
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<CollateralOrderShipmentDetail>("PaoliPDWModel.fkShipmentDetail_Shipment", "CollateralOrderShipmentDetail");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<CollateralOrderShipmentDetail>("PaoliPDWModel.fkShipmentDetail_Shipment", "CollateralOrderShipmentDetail", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="CollateralOrderShipmentDetail")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class CollateralOrderShipmentDetail : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new CollateralOrderShipmentDetail object.
+        /// </summary>
+        /// <param name="detailID">Initial value of the DetailID property.</param>
+        /// <param name="shipmentID">Initial value of the ShipmentID property.</param>
+        /// <param name="orderDetailID">Initial value of the OrderDetailID property.</param>
+        /// <param name="quantity">Initial value of the Quantity property.</param>
+        public static CollateralOrderShipmentDetail CreateCollateralOrderShipmentDetail(global::System.Int32 detailID, global::System.Int32 shipmentID, global::System.Int32 orderDetailID, global::System.Int32 quantity)
+        {
+            CollateralOrderShipmentDetail collateralOrderShipmentDetail = new CollateralOrderShipmentDetail();
+            collateralOrderShipmentDetail.DetailID = detailID;
+            collateralOrderShipmentDetail.ShipmentID = shipmentID;
+            collateralOrderShipmentDetail.OrderDetailID = orderDetailID;
+            collateralOrderShipmentDetail.Quantity = quantity;
+            return collateralOrderShipmentDetail;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 DetailID
+        {
+            get
+            {
+                return _DetailID;
+            }
+            set
+            {
+                if (_DetailID != value)
+                {
+                    OnDetailIDChanging(value);
+                    ReportPropertyChanging("DetailID");
+                    _DetailID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("DetailID");
+                    OnDetailIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _DetailID;
+        partial void OnDetailIDChanging(global::System.Int32 value);
+        partial void OnDetailIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ShipmentID
+        {
+            get
+            {
+                return _ShipmentID;
+            }
+            set
+            {
+                OnShipmentIDChanging(value);
+                ReportPropertyChanging("ShipmentID");
+                _ShipmentID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ShipmentID");
+                OnShipmentIDChanged();
+            }
+        }
+        private global::System.Int32 _ShipmentID;
+        partial void OnShipmentIDChanging(global::System.Int32 value);
+        partial void OnShipmentIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 OrderDetailID
+        {
+            get
+            {
+                return _OrderDetailID;
+            }
+            set
+            {
+                OnOrderDetailIDChanging(value);
+                ReportPropertyChanging("OrderDetailID");
+                _OrderDetailID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("OrderDetailID");
+                OnOrderDetailIDChanged();
+            }
+        }
+        private global::System.Int32 _OrderDetailID;
+        partial void OnOrderDetailIDChanging(global::System.Int32 value);
+        partial void OnOrderDetailIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Quantity
+        {
+            get
+            {
+                return _Quantity;
+            }
+            set
+            {
+                OnQuantityChanging(value);
+                ReportPropertyChanging("Quantity");
+                _Quantity = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Quantity");
+                OnQuantityChanged();
+            }
+        }
+        private global::System.Int32 _Quantity;
+        partial void OnQuantityChanging(global::System.Int32 value);
+        partial void OnQuantityChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkShipmentDetail_CODetail", "CollateralOrderDetail")]
+        public CollateralOrderDetail CollateralOrderDetail
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CollateralOrderDetail>("PaoliPDWModel.fkShipmentDetail_CODetail", "CollateralOrderDetail").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CollateralOrderDetail>("PaoliPDWModel.fkShipmentDetail_CODetail", "CollateralOrderDetail").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<CollateralOrderDetail> CollateralOrderDetailReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CollateralOrderDetail>("PaoliPDWModel.fkShipmentDetail_CODetail", "CollateralOrderDetail");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<CollateralOrderDetail>("PaoliPDWModel.fkShipmentDetail_CODetail", "CollateralOrderDetail", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkShipmentDetail_Shipment", "CollateralOrderShipment")]
+        public CollateralOrderShipment CollateralOrderShipment
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CollateralOrderShipment>("PaoliPDWModel.fkShipmentDetail_Shipment", "CollateralOrderShipment").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CollateralOrderShipment>("PaoliPDWModel.fkShipmentDetail_Shipment", "CollateralOrderShipment").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<CollateralOrderShipment> CollateralOrderShipmentReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CollateralOrderShipment>("PaoliPDWModel.fkShipmentDetail_Shipment", "CollateralOrderShipment");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<CollateralOrderShipment>("PaoliPDWModel.fkShipmentDetail_Shipment", "CollateralOrderShipment", value);
                 }
             }
         }
@@ -12103,6 +13133,50 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SpecRequest>("PaoliPDWModel.fkSRequest_CreatedBy", "SpecRequest", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkCO_CreatedUser", "CollateralOrder")]
+        public EntityCollection<CollateralOrder> CollateralOrders_1
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<CollateralOrder>("PaoliPDWModel.fkCO_CreatedUser", "CollateralOrder");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<CollateralOrder>("PaoliPDWModel.fkCO_CreatedUser", "CollateralOrder", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkCO_CanceledUser", "CollateralOrder")]
+        public EntityCollection<CollateralOrder> CollateralOrders_2
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<CollateralOrder>("PaoliPDWModel.fkCO_CanceledUser", "CollateralOrder");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<CollateralOrder>("PaoliPDWModel.fkCO_CanceledUser", "CollateralOrder", value);
                 }
             }
         }

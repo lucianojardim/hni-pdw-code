@@ -13,10 +13,7 @@
     	$(document).ready(function () {
 			@if( Model.OrderDate.HasValue ) {
 			<text>
-                var cDate = new Date('@Model.OrderDate.Value.ToString()');
-                var offset = new Date().getTimezoneOffset();
-                cDate.setMinutes(cDate.getMinutes() - offset);
-                $('#orderDate').text((cDate.getMonth() + 1) + '/' + cDate.getDate() + '/' + cDate.getFullYear());
+                $('#orderDate').text(getLocalDate('@Model.OrderDate.Value.ToString()'));
 			</text>
 			}
 
@@ -32,8 +29,16 @@
 					},
 					"Please add at least one item to your order."
 				);
+			$.validator.addMethod(
+					"atLeastShippedQuantity",
+					function(value, element, regexp) {
+						return parseInt($(element).val()) >= parseInt($(element).data('shipped'));
+					},
+					"Please select a value greater than the shipped amount."
+				);
 
     		$('.quantityInput').last().rules("add", { atLeastOneItem: true, messages: { number: 'Please add at least one item to your order.'} });
+    		$('.quantityInput').rules("add", { atLeastShippedQuantity: true, messages: { number: 'Please select a value greater than the shipped amount.'} });
 
     		setRPDetails(true);
     		$('#RequestingParty').change(function (e) {
@@ -335,7 +340,7 @@
 			<h2>Edit A New Collateral Order - @Model.OrderID</h2>
 		</div>
 		<div class="right">
-		@Html.MJLabelFor( m => m.OrderDate, true )<span id="orderDate"></span>
+		@Html.MJLabelFor( m => m.OrderDate, true ) <span id="orderDate"></span>
 		</div>
 		<div class="clear"></div>
 		</div>
@@ -388,7 +393,7 @@
 			{
 				<text>@Html.Raw( startTR )</text>
 			}
-					<td>@Model.OrderDetails[i].Name<br /><span class="littleHelp fsi">@Model.OrderDetails[i].Description</span></td><td class="dataInfoThin">@Html.TextBoxFor( m => m.OrderDetails[i].Quantity, new { @class = "quantityInput" } )<span class="littleHelp">@Model.OrderDetails[i].Status</span></td>
+					<td>@Model.OrderDetails[i].Name<br /><span class="littleHelp fsi">@Model.OrderDetails[i].Description</span></td><td class="dataInfoThin">@Html.TextBoxFor( m => m.OrderDetails[i].Quantity, new { @class = "quantityInput", data_shipped = Model.OrderDetails[i].ShippedQuantity } )<span class="littleHelp">@Model.OrderDetails[i].Status</span></td>
 			@Html.HiddenFor( m => m.OrderDetails[i].CollateralID )
 			if( itemNum % 3 == 2 )
 			{
@@ -440,14 +445,6 @@
 				</tr>
 				<tr>
 					<td>@Html.LabelFor( m => m.ShippingEmailAddress )</td><td>@Html.TextBoxFor( m => m.ShippingEmailAddress )</td>
-				</tr>
-			</table>
-		</div>
-		<div class="requestPanel">
-			<h3>Status</h3>
-			<table cellpadding="0" cellspacing="0" class="dataLayout">
-				<tr>
-					<td>@Html.LabelFor( m => m.Status )</td><td>@Html.DropDownListFor( m => m.Status, PDWModels.Collateral.NewOrderInformation.StatusValues.Select( st => new SelectListItem() { Text = st.Value, Value = st.Key.ToString() } ) )</td>
 				</tr>
 			</table>
 		</div>

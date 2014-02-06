@@ -28,13 +28,6 @@
 		loadOrders();
 	});
 
-	function getLocalDate(datetime) {
-		var cDate = new Date(datetime);
-		var offset = new Date().getTimezoneOffset();
-		cDate.setMinutes(cDate.getMinutes() - offset);
-		return (cDate.getMonth() + 1) + '/' + cDate.getDate() + '/' + cDate.getFullYear();
-	}
-
 	var oTable = null;
 	function loadOrders() {
 		if (oTable != null) {
@@ -74,7 +67,11 @@
                     	"mDataProp": "EditButtons", "sWidth": "15%",
                     	"fnRender": function (oObj) {
                     		var s = '';
-                    		s += '<a href=\"@Url.Action( "EditOrder", "Collateral" )/' + oObj.aData["OrderID"] + '">' + oObj.aData["OrderID"] + '</a>';
+                    		if (oObj.aData["CanEdit"]) {
+                    			s += '<a href=\"@Url.Action( "EditOrder", "Collateral" )/' + oObj.aData["OrderID"] + '">' + oObj.aData["OrderID"] + '</a>';
+                    		} else {
+                    			s += oObj.aData["OrderID"];
+                    		}
                     		return s;
                     	}
                     },
@@ -84,7 +81,11 @@
                     		return getLocalDate(oObj.aData["OrderDateMilliseconds"]);
                     	}, "sWidth": "25%"
                     },
-                    { "sName": "Status", "sTitle": "Status", "aTargets": [3], "mDataProp": "Status", "sWidth": "25%" }
+                    { "sName": "Status", "sTitle": "Status", "aTargets": [3], "mDataProp": "Status", "sWidth": "25%",
+                    	"fnRender": function (oObj) {
+                    		return '<a href=\"@Url.Action( "ShipOrder", "Collateral" )/' + oObj.aData["OrderID"] + '">' + oObj.aData["Status"] + '</a>';
+                    	}
+                    }
                 ]
 		});
 	}

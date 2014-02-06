@@ -315,6 +315,42 @@ namespace ProductDataWarehouse.Controllers
 				JsonRequestBehavior.AllowGet );
 		}
 
+		[PaoliAuthorize( "CanManageOrders" )]
+		public ActionResult ShipOrder( int id )
+		{
+			return View( (new CollateralRepository()).GetPendingOrder( id ) );
+		}
+
+		[PaoliAuthorize( "CanManageOrders" )]
+		[HttpPost]
+		public ActionResult ShipOrder( int id, PendingOrderInformation.ShipmentSummary summary )
+		{
+			if( ModelState.IsValid )
+			{
+				try
+				{
+					CollateralRepository cRepository = new CollateralRepository();
+
+					cRepository.AddOrderShipment( id, summary );
+
+					return RedirectToAction( "Orders" );
+				}
+				catch( Exception )
+				{
+					ModelState.AddModelError( "", "Unable to add order shipment at this time." );
+				}
+			}
+
+			return View( ( new CollateralRepository() ).GetPendingOrder( id ) );
+		}
+
+		public JsonResult CancelOrder( int id )
+		{
+			CollateralRepository cRepository = new CollateralRepository();
+
+			return Json( cRepository.CancelOrder( id ), JsonRequestBehavior.AllowGet );
+		}
+
 		public static IEnumerable<SelectListItem> GetCollateralTypeDDList()
 		{
 			return ( new CollateralRepository() ).GetCollateralTypeList().Select( u => new SelectListItem() { Value = u.Key.ToString(), Text = u.Value } );

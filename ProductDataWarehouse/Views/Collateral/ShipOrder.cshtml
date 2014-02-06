@@ -1,0 +1,514 @@
+﻿@model PDWModels.Collateral.PendingOrderInformation
+@{
+	ViewBag.Title = "Fulfill Collateral Order";
+	ViewBag.CurrentPage = "Database";
+	ViewBag.CurrentSubPage = "Collateral";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+
+<script type="text/javascript">
+
+    	$(document).ready(function () {
+			@if( Model.OrderDate.HasValue ) {
+			<text>
+                $('#orderDate').text(getLocalDate('@Model.OrderDate.Value.ToString()'));
+			</text>
+			}
+			@if( Model.CanceledOnDateTime.HasValue ) {
+			<text>
+                $('#canceledDate').text(getLocalDate('@Model.CanceledOnDateTime.Value.ToString()'));
+			</text>
+			}
+
+    		switch ($('#RequestingPartyID').val()) {
+    			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliMember':
+    				$('.RPMember').show();
+    				$('.RPRepGroup').show();
+    				$('.RPDealer').show();
+    				$('.RPEndUser').hide();
+    				break;
+    			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative':
+    				$('.RPMember').hide();
+    				$('.RPRepGroup').show();
+    				$('.RPDealer').show();
+    				$('.RPEndUser').hide();
+    				break;
+    			case '@PDWModels.Collateral.NewOrderInformation.RPDealer':
+    				$('.RPMember').hide();
+    				$('.RPRepGroup').hide();
+    				$('.RPDealer').show();
+    				$('.RPEndUser').hide();
+    				break;
+    			case '@PDWModels.Collateral.NewOrderInformation.RPEndUser':
+    				$('.RPMember').hide();
+    				$('.RPRepGroup').hide();
+    				$('.RPDealer').hide();
+    				$('.RPEndUser').show();
+    				break;
+    		}
+
+			$('.lessItem').click(function(e) {
+				e.preventDefault();
+				var displayItem = $(this).closest('td').find('span');
+				newVal = Math.max( parseInt(displayItem.text()) - 1, 0 );
+				displayItem.text(newVal);
+
+				showHideCreateShipment();
+			});
+
+			$('.moreItem').click(function(e) {
+				e.preventDefault();
+				var displayItem = $(this).closest('td').find('span');
+				newVal = Math.min( parseInt(displayItem.text()) + 1, displayItem.data('maxquantity') );
+				displayItem.text(newVal);
+
+				showHideCreateShipment();
+			});
+
+			$('#btnShipAll').click(function(e) {
+				e.preventDefault();
+				$('.colQuantity').each(function() {
+					$(this).find('span').text($(this).find('span').data('maxquantity'));
+				});
+
+				showHideCreateShipment();
+			});
+
+			showHideCreateShipment();
+
+			$('#btnNewShipment').click(function() {
+				$('#btnNewShipmentLink').trigger('click');
+			});
+
+			$("#btnNewShipmentLink").fancybox({
+				'autoDimensions': false,
+				'width': 450,
+				'height': 600,
+				'padding': 20,
+				'margin': 0,
+				'scrolling': 'auto',
+				'titleShow': false
+			});
+
+			$("#btnPackingListOKLink").fancybox({
+				'autoDimensions': false,
+				'width': 450,
+				'height': 600,
+				'padding': 20,
+				'margin': 0,
+				'scrolling': 'auto',
+				'titleShow': false
+			});
+
+			$('.shipmentDetailsLink').fancybox({
+				'autoDimensions': false,
+				'width': 600,
+				'height': 600,
+				'padding': 20,
+				'margin': 0,
+				'scrolling': 'auto',
+				'titleShow': false
+			});
+
+			$('#btnPackingListStop').click(function() {
+				$.fancybox.close();
+			});
+
+			$('#btnPackingListOK').click(function() {
+				//$.fancybox.close();
+
+				$('#btnPackingListOKLink').trigger('click');
+			});
+
+			$('#btnCancel').click(function() {
+				if( confirm('Are you sure you want to cancel @if( Model.Shipments.Any() ) {<text>the remaining parts of </text>}this order?') ) {
+    				$.ajax({
+    					dataType: 'json',
+    					type: 'GET',
+    					url: '/Collateral/CancelOrder',
+    					data: { id: @Model.OrderID },
+    					success: function (data, textStatus, jqXHR) {
+							if( data ) {
+								window.location = '/Collateral/Orders';
+							} else {
+								alert('Unable to cancel order at this time.');
+							}
+    					},
+    					error: function (jqXHR, textStatus, errorThrown) {
+    						alert('Error canceling order:' + errorThrown)
+    					}
+    				});
+				};
+			});
+
+			$("#btnNewShipmentLink").click(function() {
+				$('#newShipmentDetailItems').empty();
+				$('#packingListTable tbody').empty();
+
+				var group = null;
+				var itemCount = 0;
+				$('#remainingItemTable tbody tr').each(function() {
+					if( $(this).hasClass('groupHeading') ) {
+						group = $(this).children().first().text();
+					} else {
+						var q = parseInt($(this).find('.colQuantity').find('span').text());
+						if( q > 0 ) {
+							$('#newShipmentDetailItems').append('<input type="hidden" name="Details.Index" value="' + itemCount + '" />');
+							$('#newShipmentDetailItems').append('<input type="hidden" name="Details[' + itemCount + '].OrderDetailID" value="' + $(this).data('id') + '" />');
+							$('#newShipmentDetailItems').append('<input type="hidden" name="Details[' + itemCount + '].Quantity" value="' + q + '" />');
+
+							if( group != null ) {
+								$('#packingListTable tbody').append('<tr><td>' + group + '</td><td class="tac"></td></tr>');
+								group = null;
+							}
+							$('#packingListTable tbody').append('<tr><td class="padl10">' + $(this).find('.colName').text() + '</td><td class="tac">' + q + '</td></tr>');
+
+							itemCount++;
+						}
+					}
+				});
+			});
+		});
+
+		function showHideCreateShipment() {
+			var itemCount = 0;
+			$('.colQuantity').each(function() {
+				itemCount += parseInt( $(this).find('span').text() );
+			});
+			if( itemCount > 0 )
+				$('#btnNewShipment').show();
+			else
+				$('#btnNewShipment').hide();
+		}
+</script>
+		<div>
+		<div class="left">
+			<h2>Fulfill Collateral Order - @Model.OrderID</h2>
+		</div>
+		<div class="right">
+		@Html.MJLabelFor( m => m.OrderDate, true ) <span id="orderDate"></span>
+		@if(Model.CanceledByUserName != null)
+  {
+		<br /><text>Canceled by: </text>@Model.CanceledByUserName
+		<br /><text>Canceled on: </text><span id="canceledDate"></span>
+  }
+  else if( Model.OrderDetails.Any() )
+  {
+		<br /><input type="button" class="btn_type1" id="btnCancel" value="Cancel @if( Model.Shipments.Any() )
+																			{ <text>Remaining </text> }Order" />
+  }
+		</div>
+		<div class="clear"></div>
+		</div>
+		@Html.HiddenFor( m => m.OrderID )
+		@Html.HiddenFor( m => m.RequestingPartyID )
+		<div class="activeSection requestPanel">
+			<div class="left marr50">
+			<h3>Who's Requesting</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td>@Model.CreatedByUserName</td>
+				</tr>
+				<tr>
+					<td>@Model.CreatedByCompany</td>
+				</tr>
+				<tr>
+					<td>@Model.CreatedByEmailAddress</td>
+				</tr>
+				<tr>
+					<td>@Model.CreatedByPhoneNumber</td>
+				</tr>
+			</table>
+			</div>
+			<div class="left">
+			<h3>Shipping Information</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingType )</td><td>@Html.DisplayFor( m => m.ShippingType )</td>
+				</tr>
+				<tr>
+				@switch( Model.ShippingTypeID )
+	{
+		case PDWModels.Collateral.NewOrderInformation.STGround:
+			break;
+		case PDWModels.Collateral.NewOrderInformation.ST2DayFedex:
+		case PDWModels.Collateral.NewOrderInformation.STOvernightFedex:
+				<td>@Html.LabelFor( m => m.ShippingFedexAccount )</td><td>@Html.DisplayFor( m => m.ShippingFedexAccount )</td>
+														 break;
+	}
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingAttn )</td><td>@Html.DisplayFor( m => m.ShippingAttn )</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingCompanyName )</td><td>@Html.DisplayFor( m => m.ShippingCompanyName )</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingAddress1 )</td><td>@Html.DisplayFor( m => m.ShippingAddress1 )</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingAddress2 )</td><td>@Html.DisplayFor( m => m.ShippingAddress2 )</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingCity )</td><td>@Html.DisplayFor( m => m.ShippingCity )</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingState )</td><td>@Html.DisplayFor( m => m.ShippingState )</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingZip )</td><td>@Html.DisplayFor( m => m.ShippingZip )</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingPhoneNumber )</td><td>@Html.DisplayFor( m => m.ShippingPhoneNumber )</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingEmailAddress )</td><td>@Html.DisplayFor( m => m.ShippingEmailAddress )</td>
+				</tr>
+			</table>
+			</div>
+			<div class="clear"></div>
+		</div>
+		@if( Model.OrderDetails.Any() )
+  {
+		<div class="requestPanel">
+			<h3>Order Details</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout" id="remainingItemTable">
+				<thead>
+					<tr class="fwb">
+						<td>Item</td><td class="tac">@if(Model.CanceledByUserName != null) {<text>Unshipped</text>}
+								   else
+								   {<text>Remaining</text>} Quantity</td>@if( Model.CanceledByUserName == null )
+																																			 { <td class="tac">Quantity for this Shipment</td> }
+					</tr>
+				</thead>
+				<tbody>
+				@for( int i = 0; i < Model.OrderDetails.Count; i++ )
+	{
+		if( i == 0 || Model.OrderDetails[i].CollateralTypeID != Model.OrderDetails[i - 1].CollateralTypeID || Model.OrderDetails[i].GroupID != Model.OrderDetails[i - 1].GroupID )
+		{
+			<tr class="groupHeading">
+			<td>@( Model.OrderDetails[i].GroupName != null ? Model.OrderDetails[i].GroupName : Model.OrderDetails[i].CollateralType)</td>
+			<td></td>
+			<td></td>
+			</tr>
+		}
+					<tr data-id="@Model.OrderDetails[i].DetailID">
+						<td class="padl10 colName">@Html.DisplayFor( m => m.OrderDetails[i].Name )</td>
+						<td class="tac">@Html.DisplayFor( m => m.OrderDetails[i].RemainingQuantity )</td>
+						@if( Model.CanceledByUserName == null )
+	  {
+						<td class="tac colQuantity"><input type="button" class="btn_type2 lessItem" value="-" />&nbsp;&nbsp;<span data-maxquantity="@Model.OrderDetails[i].RemainingQuantity">0</span>&nbsp;&nbsp;<input type="button" class="btn_type2 moreItem" value="+" /></td>
+	  }
+					</tr>
+	}
+				</tbody>
+				<tfoot>
+				<tr>
+					<td></td>
+					<td class="tac">@if( Model.CanceledByUserName == null )
+					 { <input type="button" class="btn_type1" id="btnShipAll" value="Ship All" /> }</td>
+					<td class="tac">@if( Model.CanceledByUserName == null )
+					 { <input type="button" class="btn_type1" id="btnNewShipment" value="Next" /><a href="#packingListConfirmation" id="btnNewShipmentLink" style="display:none">Create Shipment</a> } </td>
+				</tr>
+				</tfoot>
+			</table>
+		</div>
+  }
+		@if( Model.Shipments.Any() )
+  {
+		<div class="requestPanel marb30">
+			<h3>Previous Shipments</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout" id="">
+				<thead>
+					<tr class="fwb">
+						<td>Vendor</td><td>Tracking Number</td><td>GL Code</td><td></td>
+					</tr>
+				</thead>
+				<tbody>
+				@foreach( var shipmentInfo in Model.Shipments )
+	{
+		<tr>
+			<td>@shipmentInfo.Vendor</td>
+			<td>@shipmentInfo.TrackingNumber</td>
+			<td>@shipmentInfo.GLCode</td>
+			<td><a href="#shipmentDetails@(shipmentInfo.ShipmentID)" class="shipmentDetailsLink">Details</a></td>
+		</tr>
+	}
+				</tbody>
+			</table>
+		</div>
+  }
+
+<div style="display:none;">
+	<div id="packingListConfirmation">
+		<div class="requestPanel">
+			<h3>Packing List Confirmation</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout" id="packingListTable">
+				<thead>
+				<tr class="fwb">
+				<td>Item</td>
+				<td>Packed Quantity</td>
+				</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+		<div class="padt20">
+		<div class="left">
+        <input type="button" class="btn_type1" value="Previous" id="btnPackingListStop" />
+		</div>
+		<div class="right">
+        <input type="button" class="btn_type1" value="Next" id="btnPackingListOK" /><a href="#shipmentConfirmation" id="btnPackingListOKLink" style="display:none">Next</a>
+		</div>
+		<div class="clear"></div>
+		</div>
+	</div>
+
+	@foreach( var shipmentInfo in Model.Shipments )
+ {
+		<div class="requestPanel" id="shipmentDetails@(shipmentInfo.ShipmentID)">
+			<h3>Shipment Details</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<thead>
+				<tr class="fwb">
+				<td>Item</td>
+				<td>Packed Quantity</td>
+				</tr>
+				</thead>
+				<tbody>
+				@foreach( var detailInfo in shipmentInfo.Details )
+	{
+		<tr>
+			<td>@detailInfo.Name</td><td class="tac">@detailInfo.Quantity</td>
+		</tr>
+	}
+				</tbody>
+			</table>
+			<h3>Shipping Information</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingType )</td><td>@shipmentInfo.ShippingType</td>
+				</tr>
+				@switch( Model.ShippingTypeID )
+	{
+		case PDWModels.Collateral.NewOrderInformation.STGround:
+			break;
+		case PDWModels.Collateral.NewOrderInformation.ST2DayFedex:
+		case PDWModels.Collateral.NewOrderInformation.STOvernightFedex:
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingFedexAccount )</td><td>@shipmentInfo.ShippingFedexAccount</td>
+				</tr>
+														 break;
+	}
+				<tr>
+				<td>Vendor</td><td>@shipmentInfo.Vendor</td>
+				</tr>
+				<tr>
+				<td>Tracking Number</td><td>@shipmentInfo.TrackingNumber</td>
+				</tr>
+				<tr>
+				<td>GL Code</td><td>@shipmentInfo.GLCode</td>
+				</tr>
+				<tr><td>&nbsp;</td><td></td></tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingAttn )</td><td>@shipmentInfo.ShippingAttn</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingCompanyName )</td><td>@shipmentInfo.ShippingCompanyName</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingAddress1 )</td><td>@shipmentInfo.ShippingAddress1</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingAddress2 )</td><td>@shipmentInfo.ShippingAddress2</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingCity )</td><td>@shipmentInfo.ShippingCity</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingState )</td><td>@shipmentInfo.ShippingState</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingZip )</td><td>@shipmentInfo.ShippingZip</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingPhoneNumber )</td><td>@shipmentInfo.ShippingPhoneNumber</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingEmailAddress )</td><td>@shipmentInfo.ShippingEmailAddress</td>
+				</tr>
+			</table>
+		</div>
+ }
+
+    <div id="shipmentConfirmation">
+@using( Html.BeginForm() )
+{
+		<div class="requestPanel">
+			<h3>Shipping Information</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingType )</td><td>@Html.DisplayFor( m => m.ShippingType )</td>
+				</tr>
+				<tr>
+				@switch( Model.ShippingTypeID )
+	{
+		case PDWModels.Collateral.NewOrderInformation.STGround:
+			break;
+		case PDWModels.Collateral.NewOrderInformation.ST2DayFedex:
+		case PDWModels.Collateral.NewOrderInformation.STOvernightFedex:
+				<td>@Html.LabelFor( m => m.ShippingFedexAccount )</td><td>@Html.DisplayFor( m => m.ShippingFedexAccount )</td>
+														 break;
+	}
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingAttn )</td><td>@Html.DisplayFor( m => m.ShippingAttn )</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingCompanyName )</td><td>@Html.DisplayFor( m => m.ShippingCompanyName )</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingAddress1 )</td><td>@Html.DisplayFor( m => m.ShippingAddress1 )</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingAddress2 )</td><td>@Html.DisplayFor( m => m.ShippingAddress2 )</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingCity )</td><td>@Html.DisplayFor( m => m.ShippingCity )</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingState )</td><td>@Html.DisplayFor( m => m.ShippingState )</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingZip )</td><td>@Html.DisplayFor( m => m.ShippingZip )</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingPhoneNumber )</td><td>@Html.DisplayFor( m => m.ShippingPhoneNumber )</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingEmailAddress )</td><td>@Html.DisplayFor( m => m.ShippingEmailAddress )</td>
+				</tr>
+				<tr>
+				<td>&nbsp;</td><td></td>
+				</tr>
+				<tr>
+				<td>Vendor</td><td><input type="text" id="Vendor" name="Vendor" /></td>
+				</tr>
+				<tr>
+				<td>Tracking Number</td><td><input type="text" id="TrackingNumber" name="TrackingNumber" /></td>
+				</tr>
+				<tr>
+				<td>GL Code</td><td><input type="text" id="GLCode" name="GLCode" /></td>
+				</tr>
+			</table>
+		</div>
+		<div id="newShipmentDetailItems"></div>
+		<div>
+			<input type="submit" class="btn_type1" value="Save Shipment" id="submitBtn" />
+		</div>
+}
+	</div>
+</div>

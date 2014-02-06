@@ -14,10 +14,7 @@
 			@if( Model.CreatedDate.HasValue )
    {
 			<text>
-                var cDate = new Date('@Model.CreatedDate.Value.ToString()');
-                var offset = new Date().getTimezoneOffset();
-                cDate.setMinutes(cDate.getMinutes() - offset);
-                $('#createdDate').text((cDate.getMonth() + 1) + '/' + cDate.getDate() + '/' + cDate.getFullYear());
+                $('#createdDate').text(getLocalDate('@Model.CreatedDate.Value.ToString()'));
 			</text>
    }
 

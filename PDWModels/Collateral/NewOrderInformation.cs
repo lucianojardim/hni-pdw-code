@@ -48,6 +48,7 @@ namespace PDWModels.Collateral
 		public const int SPending = 1;
 		public const int SPartial = 2;
 		public const int SFulfilled = 3;
+		public const int SCanceled = 4;
 
 		public static Dictionary<int, string> StatusValues
 		{
@@ -57,7 +58,8 @@ namespace PDWModels.Collateral
 				{
 					{ SPending, "Pending" },
 					{ SPartial, "Partially Fulfilled" },
-					{ SFulfilled, "Fulfilled" }
+					{ SFulfilled, "Fulfilled" },
+					{ SCanceled, "Canceled" }
 				};
 			}
 		}
@@ -69,6 +71,7 @@ namespace PDWModels.Collateral
 			public string Description { get; set; }
 			public string Status { get; set; }
 			public int Quantity { get; set; }
+			public int ShippedQuantity { get; set; }
 			public int CollateralTypeID { get; set; }
 		}
 
@@ -129,7 +132,5 @@ namespace PDWModels.Collateral
 
 		[DisplayName( "Order Date" )]
 		public DateTime? OrderDate { get; set; }
-		[DisplayName( "Order Status" )]
-		public int Status { get; set; }
 	}
 }

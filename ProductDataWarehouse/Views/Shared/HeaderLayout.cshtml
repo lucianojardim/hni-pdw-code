@@ -28,6 +28,13 @@
     	window.open(getSiteUrl());
     }
 
+    function getLocalDate(datetime) {
+    	var cDate = new Date(datetime);
+    	var offset = new Date().getTimezoneOffset();
+    	cDate.setMinutes(cDate.getMinutes() - offset);
+    	return (cDate.getMonth() + 1) + '/' + cDate.getDate() + '/' + cDate.getFullYear();
+    }
+
     $(document).ready(function () {
         $('#cmsLink').click(clickCMSLink);
         $('#siteLink').click(clickSiteLink);

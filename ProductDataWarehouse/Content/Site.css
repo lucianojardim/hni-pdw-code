@@ -27,6 +27,7 @@ section {
 .padt5{padding-top:5px} .padt10{padding-top:10px} .padt15{padding-top:15px} .padt20{padding-top:20px} .padt25{padding-top:25px} .padt30{padding-top:30px} .padt40{padding-top:40px} .padt50{padding-top:50px} .padt60{padding-top:60px}
 .pad5{padding:5px} .pad10{padding:10px} .pad15{padding:15px} .pad20{padding:20px} .pad25{padding:25px}
 .padr10{padding-right:10px}
+.padl10{padding-left:10px}
 .padr20{padding-right:20px}
 .padl20{padding-left:20px}
 .padr30{padding-right:30px}
@@ -36,6 +37,7 @@ section {
 .marl10{margin-left:10px}
 .marr20{margin-right:20px}
 .marr30{margin-right:30px}
+.marr50{margin-right:50px}
 .padtoppage{padding-top:115px}
 
 .tac{text-align:center}
@@ -55,6 +57,7 @@ section {
 .lhe22{line-height:22px}
 .lhe24{line-height:24px}
 .fsi{font-style:italic;}
+.fwb{font-weight:bold;}
 
 .bglg { background-color: #eee }
 
@@ -299,6 +302,19 @@ login styles
     color: white;
     padding: 6px 9px;
     font-weight: bold;
+}
+
+.btn_type2 {
+    background-color: rgb(38, 63, 106);
+    background-image: linear-gradient(rgb(33, 58, 116), rgb(43, 68, 126));
+    box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.2) inset;
+    text-shadow: 0px 0px 0px transparent, -1px -1px 0px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgb(26, 42, 68);
+    border-radius: 5px 5px 5px 5px;
+    color: white;
+    padding: 3px 3px;
+    font-weight: bold;
+    margin-bottom: 3px;
 }
 
 a.btn_type1 

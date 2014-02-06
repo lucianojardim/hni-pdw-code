@@ -74,13 +74,13 @@
 			"aaSorting": [[0, "desc"]],
 			"aoColumnDefs": [
 					{ "sName": "EditButtons",
-						"sTitle": "Name", 
+						"sTitle": "Name",
 						"aTargets": [0],
-                    	"mDataProp": "EditButtons", "sWidth": "8%",
-                    	"fnRender": function (oObj) {
-                    		return '<a href=\"@Url.Action( "EditRequest", "SpecRequest" )/' + oObj.aData["RequestID"] + '\">' + oObj.aData["Name"] + '</a>';
-                    	}
-                    },
+						"mDataProp": "EditButtons", "sWidth": "8%",
+						"fnRender": function (oObj) {
+							return '<a href=\"@Url.Action( "EditRequest", "SpecRequest" )/' + oObj.aData["RequestID"] + '\">' + oObj.aData["Name"] + '</a>';
+						}
+					},
                     { "sName": "Dealer", "sTitle": "Dealer", "aTargets": [1], "mDataProp": "Dealer", "sWidth": "17%" },
                     { "sName": "ProjectName", "sTitle": "Project Name", "aTargets": [2], "mDataProp": "ProjectName", "sWidth": "16%" },
                     { "sName": "SalesRepGroup", "sTitle": "Rep Group", "aTargets": [3], "mDataProp": "SalesRepGroup", "sWidth": "17%" },
@@ -89,10 +89,7 @@
                     	"fnRender": function (oObj) {
                     		if (oObj.aData["CreatedDate"] != null) {
                     			var milli = oObj.aData["CreatedDate"].replace(/\/Date\((-?\d+)\)\//, '$1');
-                    			var cDate = new Date(parseInt(milli));
-                    			var offset = new Date().getTimezoneOffset();
-                    			cDate.setMinutes(cDate.getMinutes() - offset);
-                    			return (cDate.getMonth() + 1) + '/' + cDate.getDate() + '/' + cDate.getFullYear();
+                    			return getLocalDate(parseInt(milli));
                     		}
                     		return '';
                     	}

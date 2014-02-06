@@ -13,5 +13,6 @@ namespace PDWModels.Collateral
 		public string RequestingParty { get; set; }
 		public string Status { get; set; }
 		public string EditButtons { get; set; }
+		public bool CanEdit { get; set; }
 	}
 }
