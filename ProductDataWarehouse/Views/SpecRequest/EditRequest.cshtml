@@ -115,7 +115,7 @@
     	function fileChanged() {
     		var doInsert = true;
     		$('#fileContainer input[type="file"]').each(function (i, fc) {
-    			if (fc.files.length == 0) {
+    			if (fc.value == null || fc.value == '') {
     				doInsert = false;
     				return false;
     			}

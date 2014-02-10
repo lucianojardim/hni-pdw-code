@@ -78,7 +78,7 @@
 		function fileChanged() {
     		var doInsert = true;
     		$('#fileContainer input[type="file"]').each(function (i, fc) {
-    			if (fc.files.length == 0) {
+    			if (fc.value == null || fc.value == '') {
     				doInsert = false;
     				return false;
     			}
@@ -155,8 +155,12 @@
     		});
 			var fileList = new Array();
 			$('#fileContainer input[type="file"]').each(function (i, fc) {
-				if (fc.files.length != 0) {
-					fileList.push(fc.files[0].name);
+				if (fc.files != null) {
+					if (fc.files.length != 0) {
+						fileList.push(fc.files[0].name);
+					}
+				} else if (fc.value != null) {
+					fileList.push(fc.value);
 				}
 			});
 			if (fileList.length != 0) {
