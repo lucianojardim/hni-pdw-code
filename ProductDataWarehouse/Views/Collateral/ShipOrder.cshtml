@@ -55,30 +55,19 @@
     				break;
     		}
 
-			$('.lessItem').click(function(e) {
-				e.preventDefault();
-				var displayItem = $(this).closest('td').find('span');
-				newVal = Math.max( parseInt(displayItem.text()) - 1, 0 );
-				displayItem.text(newVal);
-
-				showHideCreateShipment();
-			});
-
-			$('.moreItem').click(function(e) {
-				e.preventDefault();
-				var displayItem = $(this).closest('td').find('span');
-				newVal = Math.min( parseInt(displayItem.text()) + 1, displayItem.data('maxquantity') );
-				displayItem.text(newVal);
-
-				showHideCreateShipment();
-			});
-
 			$('#btnShipAll').click(function(e) {
 				e.preventDefault();
 				$('.colQuantity').each(function() {
-					$(this).find('span').text($(this).find('span').data('maxquantity'));
+					$(this).find('input[type="text"]').val($(this).find('input[type="text"]').data('maxquantity'));
 				});
 
+				showHideCreateShipment();
+			});
+
+			$('.colQuantity input[type="text"]').keyup(function(e) {
+				showHideCreateShipment();
+			});
+			$('.colQuantity input[type="text"]').change(function(e) {
 				showHideCreateShipment();
 			});
 
@@ -99,7 +88,10 @@
 				'padding': 20,
 				'margin': 0,
 				'scrolling': 'auto',
-				'titleShow': false
+				'titleShow': false,
+				'onStart': function() {
+					return showHideCreateShipment();
+				}
 			});
 
 			$("#btnPackingListOKLink").fancybox({
@@ -153,44 +145,60 @@
 				};
 			});
 
-			$("#btnNewShipmentLink").click(function() {
-				$('#newShipmentDetailItems').empty();
-				$('#packingListTable tbody').empty();
-
-				var group = null;
-				var itemCount = 0;
-				$('#remainingItemTable tbody tr').each(function() {
-					if( $(this).hasClass('groupHeading') ) {
-						group = $(this).children().first().text();
-					} else {
-						var q = parseInt($(this).find('.colQuantity').find('span').text());
-						if( q > 0 ) {
-							$('#newShipmentDetailItems').append('<input type="hidden" name="Details.Index" value="' + itemCount + '" />');
-							$('#newShipmentDetailItems').append('<input type="hidden" name="Details[' + itemCount + '].OrderDetailID" value="' + $(this).data('id') + '" />');
-							$('#newShipmentDetailItems').append('<input type="hidden" name="Details[' + itemCount + '].Quantity" value="' + q + '" />');
-
-							if( group != null ) {
-								$('#packingListTable tbody').append('<tr><td>' + group + '</td><td class="tac"></td></tr>');
-								group = null;
-							}
-							$('#packingListTable tbody').append('<tr><td class="padl10">' + $(this).find('.colName').text() + '</td><td class="tac">' + q + '</td></tr>');
-
-							itemCount++;
-						}
-					}
-				});
+			$("#btnNewShipmentLink").click(function(e) {
 			});
 		});
 
+
 		function showHideCreateShipment() {
+			$('#newShipmentDetailItems').empty();
+			$('#packingListTable tbody').empty();
+
+			var group = null;
 			var itemCount = 0;
-			$('.colQuantity').each(function() {
-				itemCount += parseInt( $(this).find('span').text() );
+			var bRet = true;
+			$('#remainingItemTable tbody tr').each(function() {
+				if( $(this).hasClass('groupHeading') ) {
+					group = $(this).children().first().text();
+				} else {
+					var inputBox = $(this).find('input[type="text"]');
+					var inputText = inputBox.val();
+					var q = parseInt(inputText);
+					if( inputText == '' ) {
+						q = 0;
+					}
+
+					$(this).find('input[type="text"]').removeClass('input-validation-error');
+					if( isNaN(q) ) {
+						bRet = false;
+						$(this).find('input[type="text"]').addClass('input-validation-error');
+					} else if( q < 0 || q > inputBox.data('maxquantity') ) {
+						bRet = false;
+						$(this).find('input[type="text"]').addClass('input-validation-error');
+					} else if( q > 0 ) {
+						$('#newShipmentDetailItems').append('<input type="hidden" name="Details.Index" value="' + itemCount + '" />');
+						$('#newShipmentDetailItems').append('<input type="hidden" name="Details[' + itemCount + '].OrderDetailID" value="' + $(this).data('id') + '" />');
+						$('#newShipmentDetailItems').append('<input type="hidden" name="Details[' + itemCount + '].Quantity" value="' + q + '" />');
+
+						if( group != null ) {
+							$('#packingListTable tbody').append('<tr><td>' + group + '</td><td class="tac"></td></tr>');
+							group = null;
+						}
+						$('#packingListTable tbody').append('<tr><td class="padl10">' + $(this).find('.colName').text() + '</td><td class="tac">' + q + '</td></tr>');
+
+						itemCount++;
+					}
+				}
 			});
-			if( itemCount > 0 )
+			
+			bRet &= (itemCount > 0);
+
+			if( bRet )
 				$('#btnNewShipment').show();
 			else
 				$('#btnNewShipment').hide();
+
+			return bRet;
 		}
 </script>
 		<div>
@@ -309,7 +317,7 @@
 						<td class="tac">@Html.DisplayFor( m => m.OrderDetails[i].RemainingQuantity )</td>
 						@if( Model.CanceledByUserName == null )
 	  {
-						<td class="tac colQuantity"><input type="button" class="btn_type2 lessItem" value="-" />&nbsp;&nbsp;<span data-maxquantity="@Model.OrderDetails[i].RemainingQuantity">0</span>&nbsp;&nbsp;<input type="button" class="btn_type2 moreItem" value="+" /></td>
+						<td class="tac colQuantity"><input type="text" value="0" data-maxquantity="@Model.OrderDetails[i].RemainingQuantity"/></td>
 	  }
 					</tr>
 	}

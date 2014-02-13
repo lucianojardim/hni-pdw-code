@@ -437,6 +437,10 @@ table.dataLayout td.dataInfoThin input[type="text"]
 {
 	width: 75px;
 }
+table.dataLayout td.colQuantity input[type="text"]
+{
+	width: 50px;
+}
 
 table.dataLayout td ul.tagit
 {
