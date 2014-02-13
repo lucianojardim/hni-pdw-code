@@ -126,7 +126,7 @@
     		var t = $('#confirmTable tbody');
     		t.empty();
 
-    		addConfirmHeaderRow(t, 'Who\'s Requesting?');
+    		addConfirmHeaderRow(t, 'This Request is for:');
     		if ($('#PaoliSalesRepGroupID').val() != null && $('#PaoliSalesRepGroupID').val() != '' && $('#PaoliSalesRepGroupID').val() != '0') {
     			addConfirmRow(t, '@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )', $('#PaoliSalesRepGroupID option:selected').text());
     			if ($('#PaoliSalesRepMemberID').val() != null && $('#PaoliSalesRepMemberID').val() != '' && $('#PaoliSalesRepMemberID').val() != '0') {
@@ -336,7 +336,7 @@
 		<hr />
 		</div>
 		<div class="activeSection requestPanel">
-			<h3>Step @(stepNum++) of @stepCount: Who's Requesting</h3>
+			<h3>Step @(stepNum++) of @stepCount: This Request is for:</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
 					<td>@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )</td><td>@Html.DropDownListFor( m => m.PaoliSalesRepGroupID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup ) )</td>
