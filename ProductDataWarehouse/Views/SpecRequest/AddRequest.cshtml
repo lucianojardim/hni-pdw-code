@@ -53,16 +53,30 @@
 			});
 
 			showHideDrawerOptions();
+			showHideCGCSOptions();
+			showHideFabric();
 			$('.chkCasegoods').change(function (e) {
 				showHideDrawerOptions();
+				showHideCGCSOptions();
 			});
 
-			showHideFabric();
 			$('.chkSeating').change(function (e) {
 				showHideFabric();
 			});
+
+			$('.chkConferencing').change(function (e) {
+				showHideCGCSOptions();
+			});
 		});
 
+		function showHideCGCSOptions() {
+			if ($('.chkCasegoods:checked').length > 0 || $('.chkConferencing:checked').length > 0) {
+				$('.cgcsOnly').show();
+			} else {
+				$('.cgcsOnly').hide();
+			}
+		}
+		
 		function showHideFabric() {
 			if ($('.chkSeating:checked').length > 0) {
 				$('.forFabric').show();
@@ -181,7 +195,6 @@
 				}
 			});
 			if (casegoodsList.length != 0) {
-				addConfirmRow(t, '@Html.MJLabelFor( m => m.Casegoods, false )', casegoodsList.join(', '));
 				addConfirmRow(t, '@Html.MJLabelFor( m => m.DrawerOption, true )', $('#DrawerOption option:selected').text());
 			}
 
@@ -203,29 +216,36 @@
 			});
 			if (seatingList.length != 0) {
 				addConfirmRow(t, '@Html.MJLabelFor( m => m.Seating, false )', seatingList.join(', '));
+			}
+
+			if (casegoodsList.length != 0) {
+				addConfirmRow(t, '@Html.MJLabelFor( m => m.DrawerOption, true )', $('#DrawerOption option:selected').text());
+			}
+			if (seatingList.length != 0) {
 				addConfirmRow(t, '@Html.MJLabelFor( m => m.FabricGrade, true )', $('#FabricGrade option:selected').text());
 				if ($('#Fabric').val() != null) {
 					addConfirmRow(t, '@Html.MJLabelFor( m => m.Fabric, true )', $('#Fabric').val());
 				}
 			}
-
-			if ($('#Grommets').is(':checked')) {
-				var grommetsValue = 'Yes';
-				if ($('#GrommetDetails').val() != null) {
-					grommetsValue += ('; ' + $('#GrommetDetails').val());
+			if (casegoodsList.length != 0 || conferencingList.length != 0) {
+				if ($('#Grommets').is(':checked')) {
+					var grommetsValue = 'Yes';
+					if ($('#GrommetDetails').val() != null) {
+						grommetsValue += ('; ' + $('#GrommetDetails').val());
+					}
+					addConfirmRow(t, '@Html.MJLabelFor( m => m.Grommets, false )', grommetsValue);
 				}
-				addConfirmRow(t, '@Html.MJLabelFor( m => m.Grommets, false )', grommetsValue);
-			}
 
-			var finishList = new Array();
-			var otherFinishes = $('#OtherFinishDetails').val();
-			$('.chkFinish').each(function (i, fc) {
-				if ($(this).attr('checked')) {
-					finishList.push($(this).next('label').text());
+				var finishList = new Array();
+				var otherFinishes = $('#OtherFinishDetails').val();
+				$('.chkFinish').each(function (i, fc) {
+					if ($(this).attr('checked')) {
+						finishList.push($(this).next('label').text());
+					}
+				});
+				if (finishList.length != 0) {
+					addConfirmRow(t, '@Html.MJLabelFor( m => m.Finishes, false )', finishList.join(', ') + (otherFinishes != null ? ('<br/>' + otherFinishes) : ''));
 				}
-			});
-			if (finishList.length != 0) {
-				addConfirmRow(t, '@Html.MJLabelFor( m => m.Finishes, false )', finishList.join(', ') + (otherFinishes != null ? ('<br/>' + otherFinishes) : ''));
 			}
 
 			if ($('#SpecialRequests').val() != null) {
@@ -429,9 +449,9 @@
 		 }</td>
 				</tr>
 			</table>
-			<hr />
+			<hr class="cgcsOnly" />
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
-				<tr>
+				<tr class="cgcsOnly">
 					<td>@Html.CheckBoxFor( m => m.Grommets ) @Html.MJLabelFor( m => m.Grommets, false )</td>
 					<td class="grommetDetails" style="display:none">@Html.MJLabelFor( m => m.GrommetDetails, false )<span class="littleHelp">Please indicate number, location or other specifications.</span></td><td class="grommetDetails" style="display:none">@Html.TextAreaFor( m => m.GrommetDetails )</td>
 				</tr>
@@ -444,8 +464,8 @@
 					</td>
 				</tr>
 			</table>
-			<hr />
-			<table cellpadding="0" cellspacing="0" class="dataLayout">
+			<hr class="cgcsOnly" />
+			<table cellpadding="0" cellspacing="0" class="dataLayout cgcsOnly">
 				<tr>
 					<td>@Html.MJLabelFor( m => m.Finishes, false )<br />
 					@for( int i = 0; i < ViewBag.BlankInformation.Finishes.Count; i++ )

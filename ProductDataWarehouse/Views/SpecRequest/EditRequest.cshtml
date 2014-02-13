@@ -75,16 +75,30 @@
     		});
 
 			showHideDrawerOptions();
-			$('.chkCasegoods').change(function (e) { 
+			showHideCGCSOptions();
+			showHideFabric();
+			$('.chkCasegoods').change(function (e) {
 				showHideDrawerOptions();
+				showHideCGCSOptions();
 			});
 
-			showHideFabric();
 			$('.chkSeating').change(function (e) {
 				showHideFabric();
 			});
+
+			$('.chkConferencing').change(function (e) {
+				showHideCGCSOptions();
+			});
     	});
 
+		function showHideCGCSOptions() {
+			if ($('.chkCasegoods:checked').length > 0 || $('.chkConferencing:checked').length > 0) {
+				$('.cgcsOnly').show();
+			} else {
+				$('.cgcsOnly').hide();
+			}
+		}
+		
 		function showHideFabric() {
 			if ($('.chkSeating:checked').length > 0) {
 				$('.forFabric').show();
@@ -380,9 +394,9 @@
 		 }</td>
 				</tr>
 			</table>
-			<hr />
+			<hr class="cgcsOnly" />
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
-				<tr>
+				<tr class="cgcsOnly">
 					<td>@Html.CheckBoxFor( m => m.Grommets ) @Html.MJLabelFor( m => m.Grommets, false )</td>
 					<td class="grommetDetails" style="display:none">@Html.MJLabelFor( m => m.GrommetDetails, false )<span class="littleHelp">Please indicate number, location or other specifications.</span></td><td class="grommetDetails" style="display:none">@Html.TextAreaFor( m => m.GrommetDetails )</td>
 				</tr>
@@ -395,8 +409,8 @@
 					</td>
 				</tr>
 			</table>
-			<hr />
-			<table cellpadding="0" cellspacing="0" class="dataLayout">
+			<hr class="cgcsOnly" />
+			<table cellpadding="0" cellspacing="0" class="dataLayout cgcsOnly">
 				<tr>
 					<td>@Html.MJLabelFor( m => m.Finishes, false )<br />
 					@for( int i = 0; i < ViewBag.BlankInformation.Finishes.Count; i++ )
