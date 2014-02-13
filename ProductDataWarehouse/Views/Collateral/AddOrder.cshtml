@@ -26,7 +26,7 @@
 
     		$('.quantityInput').last().rules("add", { atLeastOneItem: true, messages: { number: 'Please add at least one item to your order.'} });
 
-    		$('#nextBtn').click(function (e) {
+    		$('.nextBtn').click(function (e) {
     			e.preventDefault();
     			$('.validation-summary-errors ul').empty();
     			if ($('#theForm').valid()) {
@@ -38,7 +38,7 @@
     			}
     		});
 
-    		$('#previousBtn').click(function (e) {
+    		$('.previousBtn').click(function (e) {
     			e.preventDefault();
     			setPanel(-1);
     		});
@@ -197,22 +197,22 @@
     			$('.activeSection').removeClass('activeSection').addClass('futureSection');
     			$('#theForm div.requestPanel:eq(' + (curIdx + offset) + ')').removeClass('futureSection').addClass('activeSection');
     			if (curIdx + offset > 0) {
-    				$('#previousBtn').show();
+    				$('.previousBtn').show();
     			} else {
-    				$('#previousBtn').hide();
+    				$('.previousBtn').hide();
     			}
-    			$('#nextBtn').show();
-    			$('#submitBtn').hide();
+    			$('.nextBtn').show();
+    			$('.submitBtn').hide();
     		} else if (offset == 1 && curIdx < (divCount - 1)) {
     			$('.activeSection').removeClass('activeSection').addClass('futureSection');
     			$('#theForm div.requestPanel:eq(' + (curIdx + offset) + ')').removeClass('futureSection').addClass('activeSection');
     			if (curIdx + offset < (divCount - 1)) {
-    				$('#nextBtn').show();
+    				$('.nextBtn').show();
     			} else {
-    				$('#nextBtn').hide();
-    				$('#submitBtn').show();
+    				$('.nextBtn').hide();
+    				$('.submitBtn').show();
     			}
-    			$('#previousBtn').show();
+    			$('.previousBtn').show();
     		}
     	}
 
@@ -293,11 +293,11 @@
 		@Html.Hidden( "Status", PDWModels.Collateral.NewOrderInformation.SPending )
 		<div>
 		<div class="left">
-        <input type="button" class="btn_type1" value="Previous" id="previousBtn" style="display:none;" />
+        <input type="button" class="btn_type1 previousBtn" value="Previous" id="" style="display:none;" />
 		</div>
 		<div class="right">
-        <input type="button" class="btn_type1" value="Next" id="nextBtn" />
-        <input type="submit" class="btn_type1" value="Submit Order" id="submitBtn" style="display:none;" />
+        <input type="button" class="btn_type1 nextBtn" value="Next" id="" />
+        <input type="submit" class="btn_type1 submitBtn" value="Submit Order" id="" style="display:none;" />
 		</div>
 		<div class="clear"></div>
 @Html.ValidationSummary()
@@ -403,5 +403,16 @@
 					<td>@Html.LabelFor( m => m.ShippingEmailAddress )</td><td>@Html.TextBoxFor( m => m.ShippingEmailAddress )</td>
 				</tr>
 			</table>
+		</div>
+		<hr />
+		<div>
+			<div class="left">
+				<input type="button" class="btn_type1 previousBtn" value="Previous" id="" style="display:none;" />
+			</div>
+			<div class="right">
+				<input type="button" class="btn_type1 nextBtn" value="Next" id="" />
+				<input type="submit" class="btn_type1 submitBtn" value="Submit Order" id="" style="display:none;" />
+			</div>
+			<div class="clear"></div>
 		</div>
 	}
