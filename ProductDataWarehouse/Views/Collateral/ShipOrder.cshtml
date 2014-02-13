@@ -244,45 +244,40 @@
 			<h3>Shipping Information</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
-				<td>@Html.LabelFor( m => m.ShippingType )</td><td>@Html.DisplayFor( m => m.ShippingType )</td>
+				<td>@Html.LabelFor( m => m.ShippingType )</td><td style="padding-right:30px;">@Html.DisplayFor( m => m.ShippingType )</td><td>@Html.DisplayFor( m => m.ShippingAttn )</td>
 				</tr>
 				<tr>
 				@switch( Model.ShippingTypeID )
 	{
 		case PDWModels.Collateral.NewOrderInformation.STGround:
-			break;
+			<td></td><td></td><td>@Html.DisplayFor( m => m.ShippingCompanyName )</td>
+					break;
 		case PDWModels.Collateral.NewOrderInformation.ST2DayFedex:
 		case PDWModels.Collateral.NewOrderInformation.STOvernightFedex:
-				<td>@Html.LabelFor( m => m.ShippingFedexAccount )</td><td>@Html.DisplayFor( m => m.ShippingFedexAccount )</td>
-														 break;
+				<td>@Html.LabelFor( m => m.ShippingFedexAccount )</td><td>@Html.DisplayFor( m => m.ShippingFedexAccount )</td><td>@Html.DisplayFor( m => m.ShippingCompanyName )</td>
+																												 break;
 	}
 				</tr>
 				<tr>
-				<td>@Html.LabelFor( m => m.ShippingAttn )</td><td>@Html.DisplayFor( m => m.ShippingAttn )</td>
+				<td></td><td></td><td>@Html.DisplayFor( m => m.ShippingAddress1 )</td>
 				</tr>
 				<tr>
-				<td>@Html.LabelFor( m => m.ShippingCompanyName )</td><td>@Html.DisplayFor( m => m.ShippingCompanyName )</td>
+				<td></td><td></td><td>@Html.DisplayFor( m => m.ShippingAddress2 )</td>
 				</tr>
 				<tr>
-				<td>@Html.LabelFor( m => m.ShippingAddress1 )</td><td>@Html.DisplayFor( m => m.ShippingAddress1 )</td>
+				<td></td><td></td><td>@Html.DisplayFor( m => m.ShippingCity )</td>
 				</tr>
 				<tr>
-				<td>@Html.LabelFor( m => m.ShippingAddress2 )</td><td>@Html.DisplayFor( m => m.ShippingAddress2 )</td>
+				<td></td><td></td><td>@Html.DisplayFor( m => m.ShippingState )</td>
 				</tr>
 				<tr>
-				<td>@Html.LabelFor( m => m.ShippingCity )</td><td>@Html.DisplayFor( m => m.ShippingCity )</td>
+				<td></td><td></td><td>@Html.DisplayFor( m => m.ShippingZip )</td>
 				</tr>
 				<tr>
-				<td>@Html.LabelFor( m => m.ShippingState )</td><td>@Html.DisplayFor( m => m.ShippingState )</td>
+				<td></td><td></td><td>@Html.DisplayFor( m => m.ShippingPhoneNumber )</td>
 				</tr>
 				<tr>
-				<td>@Html.LabelFor( m => m.ShippingZip )</td><td>@Html.DisplayFor( m => m.ShippingZip )</td>
-				</tr>
-				<tr>
-				<td>@Html.LabelFor( m => m.ShippingPhoneNumber )</td><td>@Html.DisplayFor( m => m.ShippingPhoneNumber )</td>
-				</tr>
-				<tr>
-				<td>@Html.LabelFor( m => m.ShippingEmailAddress )</td><td>@Html.DisplayFor( m => m.ShippingEmailAddress )</td>
+				<td></td><td></td><td>@Html.DisplayFor( m => m.ShippingEmailAddress )</td>
 				</tr>
 			</table>
 			</div>
@@ -295,10 +290,11 @@
 			<table cellpadding="0" cellspacing="0" class="dataLayout rowHeight30" id="remainingItemTable">
 				<thead>
 					<tr class="fwb">
-						<td>Item</td><td class="tac">@if(Model.CanceledByUserName != null) {<text>Unshipped</text>}
+						<td>Item</td><td class="tac">@if( Model.CanceledByUserName != null )
+								   {<text>Unshipped</text>}
 								   else
 								   {<text>Remaining</text>} Quantity</td>@if( Model.CanceledByUserName == null )
-																																			 { <td class="tac">Quantity for this Shipment</td> }
+												 { <td class="tac">Quantity for this Shipment</td> }
 					</tr>
 				</thead>
 				<tbody>
@@ -479,7 +475,7 @@
 		case PDWModels.Collateral.NewOrderInformation.ST2DayFedex:
 		case PDWModels.Collateral.NewOrderInformation.STOvernightFedex:
 				<td class="padb5">@Html.LabelFor( m => m.ShippingFedexAccount )</td><td>@Html.DisplayFor( m => m.ShippingFedexAccount )</td>
-														 break;
+																	   break;
 	}
 				</tr>
 				<tr>
