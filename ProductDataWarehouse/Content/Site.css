@@ -59,6 +59,8 @@ section {
 .fsi{font-style:italic;}
 .fwb{font-weight:bold;}
 
+table.rowHeight30 tr { height: 30px; }
+
 .bglg { background-color: #eee }
 
 .ffareg{font-family:adelle_sansregular}
