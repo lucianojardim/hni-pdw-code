@@ -41,7 +41,7 @@
     		$('.quantityInput').rules("add", { atLeastShippedQuantity: true, messages: { number: 'Please select a value greater than the shipped amount.'} });
 
     		$('.cancelBtn').click(function (e) {
-    			window.location.href = '@Url.Action( "Manage" )';
+    			window.location.href = '@Url.Action( "Orders" )';
     		});
 
     		setRPDetails(true);
