@@ -107,6 +107,8 @@
 					<td class="dataLabel">@Html.MJLabelFor( m => m.Seating, true )</td><td>@Html.DisplayFor( m => m.Seating, templateName: "StringList" )</td>
 				</tr>
 			</table>
+			@if( Model.Casegoods.Any() || Model.Conferencing.Any() )
+   {
 			<hr />
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
@@ -116,20 +118,38 @@
 					<td>@Html.DisplayFor( m => m.GrommetDetails )</td>
 	 }
 				</tr>
-				@if( Model.Casegoods.Any() )
+			</table>
+				if( Model.Casegoods.Any() )
 	{
+			<hr />
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
 					<td class="dataLabel">@Html.MJLabelFor( m => m.DrawerOption, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.DrawerOption )</td>
 				</tr>
-	}
 			</table>
+	}
 			<hr />
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
 					<td class="dataLabel">@Html.MJLabelFor( m => m.Finishes, true )</td><td>@Html.DisplayFor( m => m.Finishes, templateName: "StringList" )</td>
+				</tr>
+				@if( (Model.Finishes != null ? Model.Finishes.Contains( "Laminate" ) : false) && (Model.LaminatePreference != null) )
+	{
+				<tr>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.LaminatePreference, true )</td><td>@switch( Model.LaminatePreference )
+																					   {
+																						   case "LPL": <text>LPL - Low Pressure Laminate</text> break;
+																						   case "HPL": <text>HPL - High Pressure Laminate</text> break;
+																					   }
+																						   </td>
+				</tr>
+	}
+				<tr>
+					<td></td>
 					<td>@Html.DisplayFor( m => m.OtherFinishDetails )</td>
 				</tr>
 			</table>
+   }
 @if( Model.Seating.Any() )
 {
 			<hr />

@@ -573,12 +573,7 @@ div.box div.loginRow input
 	width: 350px;
 }
 
-div.futureSection table.dataLayout,
-div.futureSection hr
-{
-	display: none;
-}
-div.futureSection h3
+div.futureSection
 {
 	display: none;
 }

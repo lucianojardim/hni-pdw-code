@@ -10107,6 +10107,30 @@ namespace PDWDBContext
         private Nullable<global::System.Int32> _CreatedByUserId;
         partial void OnCreatedByUserIdChanging(Nullable<global::System.Int32> value);
         partial void OnCreatedByUserIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String LaminatePreference
+        {
+            get
+            {
+                return _LaminatePreference;
+            }
+            set
+            {
+                OnLaminatePreferenceChanging(value);
+                ReportPropertyChanging("LaminatePreference");
+                _LaminatePreference = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("LaminatePreference");
+                OnLaminatePreferenceChanged();
+            }
+        }
+        private global::System.String _LaminatePreference;
+        partial void OnLaminatePreferenceChanging(global::System.String value);
+        partial void OnLaminatePreferenceChanged();
 
         #endregion
 

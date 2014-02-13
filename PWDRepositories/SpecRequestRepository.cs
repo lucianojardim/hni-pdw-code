@@ -346,6 +346,7 @@ namespace PWDRepositories
 				Conferencing = (sInfo.Conferencing ?? "").Split( ',' ).ToList(),
 				Seating = (sInfo.Seating ?? "").Split( ',' ).ToList(),
 				Finishes = ( sInfo.Finishes ?? "" ).Split( ',' ).ToList(),
+				LaminatePreference = sInfo.LaminatePreference,
 				OtherFinishDetails = sInfo.OtherFinishDetails,
 				Grommets = sInfo.Grommets,
 				GrommetDetails = sInfo.Grommets ? sInfo.GrommetDetails : null,
@@ -387,6 +388,7 @@ namespace PWDRepositories
 			newSpec.Conferencing = sInfo.Conferencing != null ? string.Join( ",", sInfo.Conferencing ) : "";
 			newSpec.Seating = sInfo.Seating != null ? string.Join( ",", sInfo.Seating ) : "";
 			newSpec.Finishes = sInfo.Finishes != null ? string.Join( ",", sInfo.Finishes ) : "";
+			newSpec.LaminatePreference = ( sInfo.Finishes != null ? sInfo.Finishes.Contains( "Laminate" ) : false ) ? sInfo.LaminatePreference : null;
 			newSpec.OtherFinishDetails = sInfo.OtherFinishDetails;
 			newSpec.Grommets = sInfo.Grommets;
 			newSpec.GrommetDetails = sInfo.Grommets ? sInfo.GrommetDetails : null;
@@ -458,6 +460,7 @@ namespace PWDRepositories
 			specInfo.Conferencing = sInfo.Conferencing != null ? string.Join( ",", sInfo.Conferencing ) : "";
 			specInfo.Seating = sInfo.Seating != null ? string.Join( ",", sInfo.Seating ) : "";
 			specInfo.Finishes = sInfo.Finishes != null ? string.Join( ",", sInfo.Finishes ) : "";
+			specInfo.LaminatePreference = ( sInfo.Finishes != null ? sInfo.Finishes.Contains( "Laminate" ) : false ) ? sInfo.LaminatePreference : null;
 			specInfo.OtherFinishDetails = sInfo.OtherFinishDetails;
 			specInfo.Grommets = sInfo.Grommets;
 			specInfo.GrommetDetails = sInfo.Grommets ? sInfo.GrommetDetails : null;

@@ -89,7 +89,20 @@
 			$('.chkConferencing').change(function (e) {
 				showHideCGCSOptions();
 			});
+
+			showHideLaminatePreference();
+			$('.chkFinish').change(function (e) {
+				showHideLaminatePreference();
+			});
     	});
+
+		function showHideLaminatePreference() {
+			if ($('.chkFinish:checked[value="Laminate"]').length > 0) {
+				$('.laminatePreference').show();
+			} else {
+				$('.laminatePreference').hide();
+			}			
+		}
 
 		function showHideCGCSOptions() {
 			if ($('.chkCasegoods:checked').length > 0 || $('.chkConferencing:checked').length > 0) {
@@ -424,6 +437,10 @@
 					</td>
 					<td colspan="2" class="double">
 					<br />
+					@Html.MJLabelFor( m => m.LaminatePreference, true, new { @class = "laminatePreference" }) @Html.DropDownListFor( m => m.LaminatePreference, new List<SelectListItem>() { 
+	new SelectListItem(),
+	new SelectListItem() { Value = "LPL", Text = "LPL - Low Pressure Laminate" },
+	new SelectListItem() { Value = "HPL", Text = "HPL - High Pressure Laminate" } }, new { @class = "laminatePreference" } )<br class="laminatePreference" />
 		 @Html.TextBoxFor( m => m.OtherFinishDetails )
 	<span class="littleHelp">Please specify if you there is a combination of finishes required by top vs. base, etc. Please include all appropriate detail of the user preference.</span>
 					</td>

@@ -82,6 +82,8 @@ namespace PDWModels.SpecRequests
 		public List<string> Conferencing { get; set; }
 		[DisplayName( "Finishes" )]
 		public List<string> Finishes { get; set; }
+		[DisplayName( "Laminate Preference" )]
+		public string LaminatePreference { get; set; }
 		public string OtherFinishDetails { get; set; }
 		[DisplayName( "Include Grommets" )]
 		public bool Grommets { get; set; }
