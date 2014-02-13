@@ -358,7 +358,7 @@
 		</div>
 		<div class="padt20">
 		<div class="left">
-        <input type="button" class="btn_type1" value="Previous" id="btnPackingListStop" />
+        <input type="button" class="btn_type1" value="Back" id="btnPackingListStop" />
 		</div>
 		<div class="right">
         <input type="button" class="btn_type1" value="Next" id="btnPackingListOK" /><a href="#shipmentConfirmation" id="btnPackingListOKLink" style="display:none">Next</a>
@@ -451,7 +451,7 @@
 			<h3>Shipping Information</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
-				<td>@Html.LabelFor( m => m.ShippingType )</td><td>@Html.DisplayFor( m => m.ShippingType )</td>
+				<td class="padb5">@Html.LabelFor( m => m.ShippingType )</td><td>@Html.DisplayFor( m => m.ShippingType )</td>
 				</tr>
 				<tr>
 				@switch( Model.ShippingTypeID )
@@ -460,54 +460,54 @@
 			break;
 		case PDWModels.Collateral.NewOrderInformation.ST2DayFedex:
 		case PDWModels.Collateral.NewOrderInformation.STOvernightFedex:
-				<td>@Html.LabelFor( m => m.ShippingFedexAccount )</td><td>@Html.DisplayFor( m => m.ShippingFedexAccount )</td>
+				<td class="padb5">@Html.LabelFor( m => m.ShippingFedexAccount )</td><td>@Html.DisplayFor( m => m.ShippingFedexAccount )</td>
 														 break;
 	}
 				</tr>
 				<tr>
-				<td>@Html.LabelFor( m => m.ShippingAttn )</td><td>@Html.DisplayFor( m => m.ShippingAttn )</td>
+				<td class="padb5">@Html.LabelFor( m => m.ShippingAttn )</td><td>@Html.DisplayFor( m => m.ShippingAttn )</td>
 				</tr>
 				<tr>
-				<td>@Html.LabelFor( m => m.ShippingCompanyName )</td><td>@Html.DisplayFor( m => m.ShippingCompanyName )</td>
+				<td class="padb5">@Html.LabelFor( m => m.ShippingCompanyName )</td><td>@Html.DisplayFor( m => m.ShippingCompanyName )</td>
 				</tr>
 				<tr>
-				<td>@Html.LabelFor( m => m.ShippingAddress1 )</td><td>@Html.DisplayFor( m => m.ShippingAddress1 )</td>
+				<td class="padb5">@Html.LabelFor( m => m.ShippingAddress1 )</td><td>@Html.DisplayFor( m => m.ShippingAddress1 )</td>
 				</tr>
 				<tr>
-				<td>@Html.LabelFor( m => m.ShippingAddress2 )</td><td>@Html.DisplayFor( m => m.ShippingAddress2 )</td>
+				<td class="padb5">@Html.LabelFor( m => m.ShippingAddress2 )</td><td>@Html.DisplayFor( m => m.ShippingAddress2 )</td>
 				</tr>
 				<tr>
-				<td>@Html.LabelFor( m => m.ShippingCity )</td><td>@Html.DisplayFor( m => m.ShippingCity )</td>
+				<td class="padb5">@Html.LabelFor( m => m.ShippingCity )</td><td>@Html.DisplayFor( m => m.ShippingCity )</td>
 				</tr>
 				<tr>
-				<td>@Html.LabelFor( m => m.ShippingState )</td><td>@Html.DisplayFor( m => m.ShippingState )</td>
+				<td class="padb5">@Html.LabelFor( m => m.ShippingState )</td><td>@Html.DisplayFor( m => m.ShippingState )</td>
 				</tr>
 				<tr>
-				<td>@Html.LabelFor( m => m.ShippingZip )</td><td>@Html.DisplayFor( m => m.ShippingZip )</td>
+				<td class="padb5">@Html.LabelFor( m => m.ShippingZip )</td><td>@Html.DisplayFor( m => m.ShippingZip )</td>
 				</tr>
 				<tr>
-				<td>@Html.LabelFor( m => m.ShippingPhoneNumber )</td><td>@Html.DisplayFor( m => m.ShippingPhoneNumber )</td>
+				<td class="padb5">@Html.LabelFor( m => m.ShippingPhoneNumber )</td><td>@Html.DisplayFor( m => m.ShippingPhoneNumber )</td>
 				</tr>
 				<tr>
-				<td>@Html.LabelFor( m => m.ShippingEmailAddress )</td><td>@Html.DisplayFor( m => m.ShippingEmailAddress )</td>
+				<td class="padb5">@Html.LabelFor( m => m.ShippingEmailAddress )</td><td>@Html.DisplayFor( m => m.ShippingEmailAddress )</td>
 				</tr>
 				<tr>
 				<td>&nbsp;</td><td></td>
 				</tr>
 				<tr>
-				<td>Vendor</td><td><input type="text" id="Vendor" name="Vendor" /></td>
+				<td class="padb5">Vendor</td><td><input type="text" id="Vendor" name="Vendor" /></td>
 				</tr>
 				<tr>
-				<td>Tracking Number</td><td><input type="text" id="TrackingNumber" name="TrackingNumber" /></td>
+				<td class="padb5">Tracking Number</td><td><input type="text" id="TrackingNumber" name="TrackingNumber" /></td>
 				</tr>
 				<tr>
-				<td>GL Code</td><td><input type="text" id="GLCode" name="GLCode" /></td>
+				<td class="padb5">GL Code</td><td><input type="text" id="GLCode" name="GLCode" /></td>
 				</tr>
 			</table>
 		</div>
 		<div id="newShipmentDetailItems"></div>
 		<div>
-			<input type="submit" class="btn_type1" value="Save Shipment" id="submitBtn" />
+			<input type="submit" class="btn_type1" value="Confirm Shipment" id="submitBtn" />
 		</div>
 }
 	</div>

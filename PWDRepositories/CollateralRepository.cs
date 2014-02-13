@@ -703,6 +703,8 @@ namespace PWDRepositories
 				database.DeleteObject( dbDetail );
 			}
 
+			UpdateOrderStatus( eOrder );
+
 			return database.SaveChanges() > 0;
 		}
 
@@ -865,6 +867,13 @@ namespace PWDRepositories
 
 			dbOrder.CollateralOrderShipments.Add( dbShipment );
 
+			UpdateOrderStatus( dbOrder );
+
+			return database.SaveChanges() > 0;
+		}
+
+		private void UpdateOrderStatus( CollateralOrder dbOrder )
+		{
 			dbOrder.Status = NewOrderInformation.SFulfilled;
 			foreach( var detail in dbOrder.CollateralOrderDetails )
 			{
@@ -874,8 +883,6 @@ namespace PWDRepositories
 					break;
 				}
 			}
-
-			return database.SaveChanges() > 0;
 		}
 
 		public bool CancelOrder( int orderID )
