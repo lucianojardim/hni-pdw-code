@@ -25,6 +25,18 @@
 		</div>
 		<div class="right">
 		@Html.MJLabelFor( m => m.CreatedDate, true ) <span id="createdDate"></span>
+		@if( Model.CreatedByUser != null )
+  {
+		<br />@Html.MJLabelFor( m => m.CreatedByUser, true ) <span>@Html.DisplayFor( m => m.CreatedByUser )</span>
+	  if( Model.CreatedByUserPhone != null )
+   {
+	   <br /><span class="littleHelp">@Html.DisplayFor( m => m.CreatedByUserPhone )</span>
+   }
+	  if( Model.CreatedByUserEmail != null )
+   {
+	   <br /><span class="littleHelp">@Html.DisplayFor( m => m.CreatedByUserEmail )</span>
+   }
+  }
 		</div>
 		<div class="clear"></div>
 		</div>
