@@ -109,9 +109,9 @@
 
 		function showHideDrawerOptions() {
 			if( $('.chkCasegoods:checked').length > 0 ) {
-				$('#drawerOptions').show();
+				$('.drawerOptions').show();
 			} else {
-				$('#drawerOptions').hide();
+				$('.drawerOptions').hide();
 			}
 		}
 
@@ -395,12 +395,15 @@
 				</tr>
 			</table>
 			<hr class="cgcsOnly" />
-			<table cellpadding="0" cellspacing="0" class="dataLayout">
-				<tr class="cgcsOnly">
+			<table cellpadding="0" cellspacing="0" class="dataLayout cgcsOnly">
+				<tr>
 					<td>@Html.CheckBoxFor( m => m.Grommets ) @Html.MJLabelFor( m => m.Grommets, false )</td>
 					<td class="grommetDetails" style="display:none">@Html.MJLabelFor( m => m.GrommetDetails, false )<span class="littleHelp">Please indicate number, location or other specifications.</span></td><td class="grommetDetails" style="display:none">@Html.TextAreaFor( m => m.GrommetDetails )</td>
 				</tr>
-				<tr id="drawerOptions">
+			</table>
+			<hr class="drawerOptions" />
+			<table cellpadding="0" cellspacing="0" class="dataLayout drawerOptions">
+				<tr>
 					<td>
 			@Html.MJLabelFor( m => m.DrawerOption, false )</td><td>
 			@Html.DropDownListFor( m => m.DrawerOption, new List<SelectListItem>() { 
