@@ -498,6 +498,8 @@ namespace PWDRepositories
 				Directory.CreateDirectory( fileLocation );
 			}
 
+			fileName = fileName.Replace( "&", "and" );
+
 			fileLocation = Path.Combine( fileLocation, fileName );
 
 			using( var fileStream = File.Create( fileLocation ) )
@@ -681,6 +683,8 @@ namespace PWDRepositories
 			{
 				Directory.CreateDirectory( rootLocation );
 			}
+
+			fileName = fileName.Replace( "&", "and" );
 
 			var fileLocation = Path.Combine( rootLocation, fileName );
 
