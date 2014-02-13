@@ -18,6 +18,10 @@
 			</text>
    }
 
+    		$('.cancelBtn').click(function (e) {
+    			window.location.href = '@Url.Action( "Manage" )';
+    		});
+
     		$('#DealerID').change(function () {
     			reloadDealerSalesRepList();
     		});
@@ -447,6 +451,7 @@
 		<div>
 		<div class="left">
         <input type="submit" class="btn_type1" value="Update" id="submitBtn" />
+		<input type="button" class="btn_type1 cancelBtn" value="Cancel Changes" />
 		</div>
 		<div class="clear"></div>
 		</div>

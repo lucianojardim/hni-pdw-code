@@ -78,6 +78,10 @@
 
 			showHideCreateShipment();
 
+    		$('.cancelBtn').click(function (e) {
+    			window.location.href = '@Url.Action( "Manage" )';
+    		});
+
 			$('#btnNewShipment').click(function() {
 				$('#btnNewShipmentLink').trigger('click');
 			});
@@ -306,7 +310,7 @@
 				</tbody>
 				<tfoot>
 				<tr>
-					<td></td>
+					<td><input type="button" class="btn_type1 cancelBtn" value="Back" /></td>
 					<td class="tac">@if( Model.CanceledByUserName == null )
 					 { <input type="button" class="btn_type1" id="btnShipAll" value="Ship All" /> }</td>
 					<td class="tac">@if( Model.CanceledByUserName == null )

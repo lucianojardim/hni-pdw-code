@@ -43,6 +43,10 @@
     			setPanel(-1);
     		});
 
+    		$('.cancelBtn').click(function (e) {
+    			window.location.href = '@Url.Action( "Manage" )';
+    		});
+
     		setRPDetails();
     		$('#RequestingParty').change(function (e) {
     			setRPDetails();
@@ -296,6 +300,7 @@
         <input type="button" class="btn_type1 previousBtn" value="Previous" id="" style="display:none;" />
 		</div>
 		<div class="right">
+				<input type="button" class="btn_type1 cancelBtn" value="Cancel" />
         <input type="button" class="btn_type1 nextBtn" value="Next" id="" />
         <input type="submit" class="btn_type1 submitBtn" value="Submit Order" id="" style="display:none;" />
 		</div>
@@ -410,6 +415,7 @@
 				<input type="button" class="btn_type1 previousBtn" value="Previous" id="" style="display:none;" />
 			</div>
 			<div class="right">
+				<input type="button" class="btn_type1 cancelBtn" value="Cancel" />
 				<input type="button" class="btn_type1 nextBtn" value="Next" id="" />
 				<input type="submit" class="btn_type1 submitBtn" value="Submit Order" id="" style="display:none;" />
 			</div>

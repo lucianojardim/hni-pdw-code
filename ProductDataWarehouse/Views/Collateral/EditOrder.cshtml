@@ -40,6 +40,10 @@
     		$('.quantityInput').last().rules("add", { atLeastOneItem: true, messages: { number: 'Please add at least one item to your order.'} });
     		$('.quantityInput').rules("add", { atLeastShippedQuantity: true, messages: { number: 'Please select a value greater than the shipped amount.'} });
 
+    		$('.cancelBtn').click(function (e) {
+    			window.location.href = '@Url.Action( "Manage" )';
+    		});
+
     		setRPDetails(true);
     		$('#RequestingParty').change(function (e) {
     			setRPDetails(false);
@@ -452,5 +456,6 @@
 @Html.ValidationSummary()
 		<div>
         <input type="submit" class="btn_type1" value="Save Order" id="submitBtn" />
+		<input type="button" class="btn_type1 cancelBtn" value="Cancel Changes" />
 		</div>
 	}
