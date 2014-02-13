@@ -393,6 +393,7 @@ namespace PWDRepositories
 			newOrder.ShippingEmailAddress = orderInfo.ShippingEmailAddress;
 			newOrder.OrderDate = DateTime.UtcNow;
 			newOrder.Status = NewOrderInformation.SPending;
+			newOrder.CreatedByUserID = PaoliWebUser.CurrentUser.UserId;
 
 			foreach( var detail in orderInfo.OrderDetails.Where( o => o.Quantity > 0 ) )
 			{
