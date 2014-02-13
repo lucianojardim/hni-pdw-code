@@ -123,29 +123,31 @@
     				}
     				//break;
     		}
-    		$.ajax({
-    			dataType: 'json',
-    			type: 'GET',
-    			url: '/Company/GetShippingAddress',
-    			data: { companyId: officialCompanyID, userId: officialUserID },
-    			success: function (data, textStatus, jqXHR) {
-					$('#ShippingCompanyName').attr('readonly', 'readonly').val(data.Name);
-					$('#ShippingAttn').attr('readonly', 'readonly').val(data.ContactAttn);
-					$('#ShippingAddress1').attr('readonly', 'readonly').val(data.Address1);
-					$('#ShippingAddress2').attr('readonly', 'readonly').val(data.Address2);
-					$('#ShippingCity').attr('readonly', 'readonly').val(data.City);
-					$('#ShippingState').val(data.State);
-					$('#ShippingState option:not(:selected)').attr('disabled', true);
-					$('#ShippingZip').attr('readonly', 'readonly').val(data.Zip);
-					$('#ShippingPhoneNumber').attr('readonly', 'readonly').val(data.Phone);
-					$('#ShippingEmailAddress').attr('readonly', 'readonly').val(data.ContactEmail);
-					
-    			},
-    			error: function (jqXHR, textStatus, errorThrown) {
-    				alert('Error getting Company Address:' + errorThrown)
-    			}
-    		});
 
+    		if (officialCompanyID != null || officialUserID != null) {
+    			$.ajax({
+    				dataType: 'json',
+    				type: 'GET',
+    				url: '/Company/GetShippingAddress',
+    				data: { companyId: officialCompanyID, userId: officialUserID },
+    				success: function (data, textStatus, jqXHR) {
+    					$('#ShippingCompanyName').attr('readonly', 'readonly').val(data.Name);
+    					$('#ShippingAttn').attr('readonly', 'readonly').val(data.ContactAttn);
+    					$('#ShippingAddress1').attr('readonly', 'readonly').val(data.Address1);
+    					$('#ShippingAddress2').attr('readonly', 'readonly').val(data.Address2);
+    					$('#ShippingCity').attr('readonly', 'readonly').val(data.City);
+    					$('#ShippingState').val(data.State);
+    					$('#ShippingState option:not(:selected)').attr('disabled', true);
+    					$('#ShippingZip').attr('readonly', 'readonly').val(data.Zip);
+    					$('#ShippingPhoneNumber').attr('readonly', 'readonly').val(data.Phone);
+    					$('#ShippingEmailAddress').attr('readonly', 'readonly').val(data.ContactEmail);
+
+    				},
+    				error: function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Company Address:' + errorThrown)
+    				}
+    			});
+    		}
     	}
 
     	function setRPDetails() {
