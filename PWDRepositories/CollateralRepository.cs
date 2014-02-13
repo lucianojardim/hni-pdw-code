@@ -805,6 +805,7 @@ namespace PWDRepositories
 					ShippingZip = shipment.ShippingZip,
 					ShippingPhoneNumber = shipment.ShippingPhoneNumber,
 					ShippingEmailAddress = shipment.ShippingEmailAddress,
+					ShippingDate = shipment.ShipmentDate
 				};
 
 				sInfo.Details = new List<PendingOrderInformation.ShipmentDetailSummary>();
@@ -848,6 +849,7 @@ namespace PWDRepositories
 			dbShipment.ShippingZip = dbOrder.ShippingZip;
 			dbShipment.ShippingPhoneNumber = dbOrder.ShippingPhoneNumber;
 			dbShipment.ShippingEmailAddress = dbOrder.ShippingEmailAddress;
+			dbShipment.ShipmentDate = DateTime.UtcNow;
 
 			foreach( var detail in shipmentInfo.Details )
 			{

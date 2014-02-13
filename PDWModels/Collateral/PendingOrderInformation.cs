@@ -33,6 +33,7 @@ namespace PDWModels.Collateral
 			public string ShippingZip { get; set; }
 			public string ShippingPhoneNumber { get; set; }
 			public string ShippingEmailAddress { get; set; }
+			public DateTime ShippingDate { get; set; }
 
 			public List<ShipmentDetailSummary> Details { get; set; }
 		}

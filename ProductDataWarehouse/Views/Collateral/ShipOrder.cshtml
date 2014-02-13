@@ -21,6 +21,12 @@
                 $('#canceledDate').text(getLocalDate('@Model.CanceledOnDateTime.Value.ToString()'));
 			</text>
 			}
+			@foreach( var shipmentInfo in Model.Shipments )
+			{
+			<text>
+                $('#shippingDate@(shipmentInfo.ShipmentID)').text(getLocalDate('@shipmentInfo.ShippingDate.ToString()'));
+			</text>
+			}
 
     		switch ($('#RequestingPartyID').val()) {
     			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliMember':
@@ -327,16 +333,16 @@
 			<table cellpadding="0" cellspacing="0" class="dataLayout" id="">
 				<thead>
 					<tr class="fwb">
-						<td>Vendor</td><td>Tracking Number</td><td>GL Code</td><td></td>
+						<td>Shipping Date</td><td>Vendor</td><td>Tracking Number</td><td></td>
 					</tr>
 				</thead>
 				<tbody>
 				@foreach( var shipmentInfo in Model.Shipments )
 	{
 		<tr>
+			<td id="shippingDate@(shipmentInfo.ShipmentID)"></td>
 			<td>@shipmentInfo.Vendor</td>
 			<td>@shipmentInfo.TrackingNumber</td>
-			<td>@shipmentInfo.GLCode</td>
 			<td><a href="#shipmentDetails@(shipmentInfo.ShipmentID)" class="shipmentDetailsLink">Details</a></td>
 		</tr>
 	}

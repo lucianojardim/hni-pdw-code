@@ -3619,11 +3619,13 @@ namespace PDWDBContext
         /// </summary>
         /// <param name="shipmentID">Initial value of the ShipmentID property.</param>
         /// <param name="orderID">Initial value of the OrderID property.</param>
-        public static CollateralOrderShipment CreateCollateralOrderShipment(global::System.Int32 shipmentID, global::System.Int32 orderID)
+        /// <param name="shipmentDate">Initial value of the ShipmentDate property.</param>
+        public static CollateralOrderShipment CreateCollateralOrderShipment(global::System.Int32 shipmentID, global::System.Int32 orderID, global::System.DateTime shipmentDate)
         {
             CollateralOrderShipment collateralOrderShipment = new CollateralOrderShipment();
             collateralOrderShipment.ShipmentID = shipmentID;
             collateralOrderShipment.OrderID = orderID;
+            collateralOrderShipment.ShipmentDate = shipmentDate;
             return collateralOrderShipment;
         }
 
@@ -4017,6 +4019,30 @@ namespace PDWDBContext
         private global::System.String _ShippingEmailAddress;
         partial void OnShippingEmailAddressChanging(global::System.String value);
         partial void OnShippingEmailAddressChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime ShipmentDate
+        {
+            get
+            {
+                return _ShipmentDate;
+            }
+            set
+            {
+                OnShipmentDateChanging(value);
+                ReportPropertyChanging("ShipmentDate");
+                _ShipmentDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ShipmentDate");
+                OnShipmentDateChanged();
+            }
+        }
+        private global::System.DateTime _ShipmentDate;
+        partial void OnShipmentDateChanging(global::System.DateTime value);
+        partial void OnShipmentDateChanged();
 
         #endregion
 

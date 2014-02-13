@@ -427,6 +427,7 @@
           <Property Name="ShippingZip" Type="nvarchar" MaxLength="15" />
           <Property Name="ShippingPhoneNumber" Type="nvarchar" MaxLength="20" />
           <Property Name="ShippingEmailAddress" Type="nvarchar" MaxLength="100" />
+          <Property Name="ShipmentDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="CollateralTypes">
           <Key>
@@ -3180,6 +3181,7 @@
           <Property Type="String" Name="ShippingEmailAddress" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="CollateralOrder" Relationship="PaoliPDWModel.fkShipment_COrder" FromRole="CollateralOrderShipment" ToRole="CollateralOrder" />
           <NavigationProperty Name="CollateralOrderShipmentDetails" Relationship="PaoliPDWModel.fkShipmentDetail_Shipment" FromRole="CollateralOrderShipment" ToRole="CollateralOrderShipmentDetail" />
+          <Property Type="DateTime" Name="ShipmentDate" Nullable="false" />
         </EntityType>
         <Association Name="fkShipmentDetail_CODetail">
           <End Type="PaoliPDWModel.CollateralOrderDetail" Role="CollateralOrderDetail" Multiplicity="1" />
@@ -3765,6 +3767,7 @@
           <EntitySetMapping Name="CollateralOrderShipments">
             <EntityTypeMapping TypeName="PaoliPDWModel.CollateralOrderShipment">
               <MappingFragment StoreEntitySet="CollateralOrderShipments">
+                <ScalarProperty Name="ShipmentDate" ColumnName="ShipmentDate" />
                 <ScalarProperty Name="ShippingEmailAddress" ColumnName="ShippingEmailAddress" />
                 <ScalarProperty Name="ShippingPhoneNumber" ColumnName="ShippingPhoneNumber" />
                 <ScalarProperty Name="ShippingZip" ColumnName="ShippingZip" />
