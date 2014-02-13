@@ -286,16 +286,16 @@
 				<td>@Html.MJLabelFor( m => m.SPLQuote, true )</td><td>@Html.TextBoxFor( m => m.SPLQuote )</td>
 				</tr>
 				<tr>
+				<td>@Html.MJLabelFor( m => m.Footprint, true )</td><td>@Html.TextBoxFor( m => m.Footprint )</td>
+				<td>@Html.MJLabelFor( m => m.SavedLocation, true )</td><td>@Html.TextBoxFor( m => m.SavedLocation )</td>
+				</tr>
+				<tr>
 				<td>@Html.MJLabelFor( m => m.Received, true )</td><td>@Html.CheckBoxFor( m => m.Received )</td>
 				<td>@Html.MJLabelFor( m => m.IsCompleted, true )</td><td>@Html.CheckBoxFor( m => m.IsCompleted )</td>
 				</tr>
 				<tr>
 				<td></td><td></td>
 				<td>@Html.MJLabelFor( m => m.IsGoodForWeb, true, new { @style = "display:none;", @class = "isGoodForWeb" } )</td><td>@Html.CheckBoxFor( m => m.IsGoodForWeb, new { @style = "display:none;", @class = "isGoodForWeb" } )</td>
-				</tr>
-				<tr>
-				<td>@Html.MJLabelFor( m => m.Footprint, true )</td><td>@Html.TextBoxFor( m => m.Footprint )</td>
-				<td>@Html.MJLabelFor( m => m.SavedLocation, true )</td><td>@Html.TextBoxFor( m => m.SavedLocation )</td>
 				</tr>
 			</table>
 		</div>
