@@ -356,7 +356,7 @@
 			{
 				<text>@Html.Raw( startTR )</text>
 			}
-					<td>@Model.OrderDetails[i].Name<br /><span class="littleHelp fsi">@Model.OrderDetails[i].Description</span></td><td class="dataInfoThin">@Html.TextBoxFor( m => m.OrderDetails[i].Quantity, new { @class = "quantityInput" } )<span class="littleHelp">@Model.OrderDetails[i].Status</span></td>
+					<td class="orderItem">@Model.OrderDetails[i].Name<br /><span class="littleHelp fsi">@Model.OrderDetails[i].Description</span></td><td class="dataInfoThin">@Html.TextBoxFor( m => m.OrderDetails[i].Quantity, new { @class = "quantityInput" } )<span class="littleHelp">@Model.OrderDetails[i].Status</span></td>
 			@Html.HiddenFor( m => m.OrderDetails[i].CollateralID )
 			if( itemNum % 3 == 2 )
 			{

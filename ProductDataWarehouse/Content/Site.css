@@ -599,6 +599,14 @@ td.triple span.littleHelp
 {
 	width: 700px;
 }
+td.orderItem span.littleHelp
+{
+	font-size: 10px;
+	color: #999999;
+	width: 210px;
+	margin-bottom: 15px;
+	display: block;
+}
 
 td.dataInfoThin span.littleHelp
 {
