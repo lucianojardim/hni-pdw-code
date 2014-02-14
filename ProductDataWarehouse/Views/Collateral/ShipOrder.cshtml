@@ -28,33 +28,6 @@
 			</text>
 			}
 
-    		switch ($('#RequestingPartyID').val()) {
-    			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliMember':
-    				$('.RPMember').show();
-    				$('.RPRepGroup').show();
-    				$('.RPDealer').show();
-    				$('.RPEndUser').hide();
-    				break;
-    			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative':
-    				$('.RPMember').hide();
-    				$('.RPRepGroup').show();
-    				$('.RPDealer').show();
-    				$('.RPEndUser').hide();
-    				break;
-    			case '@PDWModels.Collateral.NewOrderInformation.RPDealer':
-    				$('.RPMember').hide();
-    				$('.RPRepGroup').hide();
-    				$('.RPDealer').show();
-    				$('.RPEndUser').hide();
-    				break;
-    			case '@PDWModels.Collateral.NewOrderInformation.RPEndUser':
-    				$('.RPMember').hide();
-    				$('.RPRepGroup').hide();
-    				$('.RPDealer').hide();
-    				$('.RPEndUser').show();
-    				break;
-    		}
-
 			$('#btnShipAll').click(function(e) {
 				e.preventDefault();
 				$('.colQuantity').each(function() {
@@ -224,20 +197,59 @@
 		@Html.HiddenFor( m => m.RequestingPartyID )
 		<div class="activeSection requestPanel">
 			<div class="left marr50">
-			<h3>Who's Requesting</h3>
+			<h3>Requested By</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
+			@if( Model.RPCompany != null )
+   {
 				<tr>
-					<td>@Model.CreatedByUserName</td>
+					<td>@Model.RPCompany</td>
 				</tr>
+   }
+   @if( Model.RPUserName != null )
+   {
 				<tr>
-					<td>@Model.CreatedByCompany</td>
+					<td>@Model.RPUserName</td>
 				</tr>
+   }
+   @if( Model.RPEmailAddress != null )
+   {
 				<tr>
-					<td>@Model.CreatedByEmailAddress</td>
+					<td>@Model.RPEmailAddress</td>
 				</tr>
+   }
+   @if( Model.RPPhoneNumber != null )
+   {
 				<tr>
-					<td>@Model.CreatedByPhoneNumber</td>
+					<td>@Model.RPPhoneNumber</td>
 				</tr>
+   }
+			</table>
+			<h3>Requested For</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+   @if( Model.SPCompany != null )
+   {
+				<tr>
+					<td>@Model.SPCompany</td>
+				</tr>
+   }
+   @if( Model.SPUserName != null )
+   {
+				<tr>
+					<td>@Model.SPUserName</td>
+				</tr>
+   }
+   @if( Model.SPEmailAddress != null )
+   {
+				<tr>
+					<td>@Model.SPEmailAddress</td>
+				</tr>
+   }
+   @if( Model.SPPhoneNumber != null )
+   {
+				<tr>
+					<td>@Model.SPPhoneNumber</td>
+				</tr>
+   }
 			</table>
 			</div>
 			<div class="left">

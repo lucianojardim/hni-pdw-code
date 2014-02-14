@@ -76,7 +76,7 @@ namespace PDWModels.Collateral
 		}
 
 		public int OrderID { get; set; }
-		[DisplayName( "Who is making this request?" )]
+		[DisplayName( "Who is making this order?" )]
 		public int RequestingParty { get; set; }
 		[DisplayName( "Paoli Member" )]
 		public int? PaoliMemberID { get; set; }
@@ -96,6 +96,31 @@ namespace PDWModels.Collateral
 		public string EndUserPhoneNumber { get; set; }
 		[DisplayName( "End User POC Email Address" )]
 		public string EndUserEMailAddress { get; set; }
+		[DisplayName( "Requested By" )]
+		public string RequestingPartyName { get; set; }
+
+		[DisplayName( "Who is receiving this order?" )]
+		public int ShippingParty { get; set; }
+		[DisplayName( "Paoli Member" )]
+		public int? SPPaoliMemberID { get; set; }
+		[DisplayName( "Paoli Rep Group" )]
+		public int? SPPaoliRepGroupID { get; set; }
+		[DisplayName( "Paoli Rep" )]
+		public int? SPPaoliRepGroupMemberID { get; set; }
+		[DisplayName( "Dealership Name" )]
+		public int? SPDealerID { get; set; }
+		[DisplayName( "Dealership Point of Contact" )]
+		public int? SPDealerMemberID { get; set; }
+		[DisplayName( "First Name" )]
+		public string SPEndUserFirstName { get; set; }
+		[DisplayName( "Last Name" )]
+		public string SPEndUserLastName { get; set; }
+		[DisplayName( "End User POC Direct Phone Number" )]
+		public string SPEndUserPhoneNumber { get; set; }
+		[DisplayName( "End User POC Email Address" )]
+		public string SPEndUserEMailAddress { get; set; }
+		[DisplayName( "Requested For" )]
+		public string ShippingPartyName { get; set; }
 
 		public List<OrderDetail> OrderDetails { get; set; }
 

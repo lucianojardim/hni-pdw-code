@@ -27,7 +27,7 @@ namespace PDWDBContext
 		{
 			get
 			{
-				return FullName + " (" + Company.Name + ")";
+				return Company.Name + " - " + FullName;
 			}
 		}
 	}

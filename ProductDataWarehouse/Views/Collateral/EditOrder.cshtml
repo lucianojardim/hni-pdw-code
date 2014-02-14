@@ -44,11 +44,6 @@
     			window.location.href = '@Url.Action( "Orders" )';
     		});
 
-    		setRPDetails(true);
-    		$('#RequestingParty').change(function (e) {
-    			setRPDetails(false);
-    		});
-
     		changeShippingType();
     		$('#ShippingType').change(function (e) {
     			changeShippingType();
@@ -57,7 +52,7 @@
     		$('#ShippingAddressType').change(function (e) {
     			switch ($(this).val()) {
     				case '0':
-    					setCompanyDetails();
+    					setCompanyDetails(false);
     					break;
     				case '1':
     					$('#ShippingCompanyName').removeAttr('readonly').val(null);
@@ -74,41 +69,7 @@
     			}
     		});
 
-    		reloadDealerSalesRepList(@(Model.DealerMemberID.HasValue ? Model.DealerMemberID.Value.ToString() : "null"), true);
-    		$('#DealerID').change(function () {
-    			reloadDealerSalesRepList(null, false);
-    		});
-
-    		$('#PaoliRepGroupID').change(function () {
-    			reloadPaoliSalesRepList(null, false);
-    		});
-
-    		$('#PaoliRepGroupMemberID').change(function () {
-    			setCompanyDetails();
-    		});
-
-    		$('#DealerMemberID').change(function () {
-    			setCompanyDetails();
-    		});
- 
-    		$('#PaoliMemberID').change(function () {
-    			setCompanyDetails();
-    		});
-
-			@if( Model.ShippingAddressType == 0 )
-			{
-			<text>
-    			$('#ShippingCompanyName').attr('readonly', 'readonly');
-    			$('#ShippingAttn').attr('readonly', 'readonly');
-    			$('#ShippingAddress1').attr('readonly', 'readonly');
-    			$('#ShippingAddress2').attr('readonly', 'readonly');
-    			$('#ShippingCity').attr('readonly', 'readonly');
-    			$('#ShippingState option:not(:selected)').attr('disabled', true);
-    			$('#ShippingZip').attr('readonly', 'readonly');
-    			$('#ShippingPhoneNumber').attr('readonly', 'readonly');
-    			$('#ShippingEmailAddress').attr('readonly', 'readonly');
-			</text>
-			}
+			setCompanyDetails(true);
     	});
 
     	function changeShippingType() {
@@ -126,214 +87,70 @@
     		}
     	}
 
-    	function setCompanyDetails() {
-			if ($('#ShippingAddressType').val() != '0') {
-				return;
-			}
-    		var officialUserID = null, officialCompanyID = null;
+    	function setCompanyDetails(bInit) {
+			if ($('#ShippingAddressType').val() == '0') {
+    			var officialUserID = null, officialCompanyID = null;
 
-    		switch ($('#RequestingParty').val()) {
-    			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliMember':
-    				officialUserID = $('#PaoliMemberID').val();
-    				//break;
-    			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative':
-    				if ($('#PaoliRepGroupMemberID').val() != null && $('#PaoliRepGroupMemberID').val() != '0') {
-    					officialUserID = $('#PaoliRepGroupMemberID').val();
-    					officialCompanyID = $('#PaoliRepGroupID').val();
-    				} else if ($('#PaoliRepGroupID').val() != null && $('#PaoliRepGroupID').val() != '0') {
-						officialUserID = null;
-    					officialCompanyID = $('#PaoliRepGroupID').val();
-    				}
-    				//break;
-    			case '@PDWModels.Collateral.NewOrderInformation.RPDealer':
-    				if ($('#DealerMemberID').val() != null && $('#DealerMemberID').val() != '0') {
-    					officialUserID = $('#DealerMemberID').val();
-    					officialCompanyID = $('#DealerID').val();
-    				} else if ($('#DealerID').val() != null && $('#DealerID').val() != '0') {
-						officialUserID = null;
-    					officialCompanyID = $('#DealerID').val();
-    				}
-					//break;
-    		}
-    		$.ajax({
-    			dataType: 'json',
-    			type: 'GET',
-    			url: '/Company/GetShippingAddress',
-    			data: { companyId: officialCompanyID, userId: officialUserID },
-    			success: function (data, textStatus, jqXHR) {
-    				$('#ShippingCompanyName').attr('readonly', 'readonly').val(data.Name);
-    				$('#ShippingAttn').attr('readonly', 'readonly').val(data.ContactAttn);
-    				$('#ShippingAddress1').attr('readonly', 'readonly').val(data.Address1);
-    				$('#ShippingAddress2').attr('readonly', 'readonly').val(data.Address2);
-    				$('#ShippingCity').attr('readonly', 'readonly').val(data.City);
-    				$('#ShippingState').val(data.State);
-    				$('#ShippingState option:not(:selected)').attr('disabled', true);
-    				$('#ShippingZip').attr('readonly', 'readonly').val(data.Zip);
-    				$('#ShippingPhoneNumber').attr('readonly', 'readonly').val(data.Phone);
-    				$('#ShippingEmailAddress').attr('readonly', 'readonly').val(data.ContactEmail);
-
-    			},
-    			error: function (jqXHR, textStatus, errorThrown) {
-    				alert('Error getting Company Address:' + errorThrown)
+    			switch ('@Model.ShippingParty') {
+    				case '@PDWModels.Collateral.NewOrderInformation.RPPaoliMember':
+    					officialUserID = @(Model.SPPaoliMemberID.HasValue ? Model.SPPaoliMemberID.ToString() : "null");
+    					break;
+    				case '@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative':
+    					officialUserID = @(Model.SPPaoliRepGroupMemberID.HasValue ? Model.SPPaoliRepGroupMemberID.ToString() : "null");
+    					officialCompanyID = @(Model.SPPaoliRepGroupID.HasValue ? Model.SPPaoliRepGroupID.ToString() : "null");
+    					break;
+    				case '@PDWModels.Collateral.NewOrderInformation.RPDealer':
+    					officialUserID = @(Model.SPDealerMemberID.HasValue ? Model.SPDealerMemberID.ToString() : "null");
+    					officialCompanyID = @(Model.SPDealerID.HasValue ? Model.SPDealerID.ToString() : "null");
+						break;
     			}
-    		});
+   				if (officialCompanyID != null || officialUserID != null) {
+    				$.ajax({
+    					dataType: 'json',
+    					type: 'GET',
+    					url: '/Company/GetShippingAddress',
+    					data: { companyId: officialCompanyID, userId: officialUserID },
+    					success: function (data, textStatus, jqXHR) {
+    						$('#ShippingCompanyName').attr('readonly', 'readonly').val(data.Name);
+    						$('#ShippingAttn').attr('readonly', 'readonly').val(data.ContactAttn);
+    						$('#ShippingAddress1').attr('readonly', 'readonly').val(data.Address1);
+    						$('#ShippingAddress2').attr('readonly', 'readonly').val(data.Address2);
+    						$('#ShippingCity').attr('readonly', 'readonly').val(data.City);
+    						$('#ShippingState').val(data.State);
+    						$('#ShippingState option:not(:selected)').attr('disabled', true);
+    						$('#ShippingZip').attr('readonly', 'readonly').val(data.Zip);
+    						$('#ShippingPhoneNumber').attr('readonly', 'readonly').val(data.Phone);
+    						$('#ShippingEmailAddress').attr('readonly', 'readonly').val(data.ContactEmail);
 
-    	}
-
-    	function setRPDetails(bInit) {
-    		switch ($('#RequestingParty').val()) {
-    			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliMember':
-    				$('.RPMember').show();
-    				$('.RPRepGroup').show();
-    				$('.RPDealer').show();
-    				$('.RPEndUser').hide();
-    				if (!bInit) {
-    					$('#ShippingAddressType option[value="0"]').removeAttr('disabled');
-						loadPaoliRepGroupList(true);
-   						//setCompanyDetails();
-    				} else {
-			    		reloadPaoliSalesRepList(@(Model.PaoliRepGroupMemberID.HasValue ? Model.PaoliRepGroupMemberID.Value.ToString() : "null"), true);
-						loadDealerList(true, @(Model.DealerID.HasValue ? Model.DealerID.Value.ToString() : "null"), 
-							@(Model.DealerMemberID.HasValue ? Model.DealerMemberID.Value.ToString() : "null"));
-					}
-    				break;
-    			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative':
-    				$('.RPMember').hide();
-    				$('.RPRepGroup').show();
-    				$('.RPDealer').show();
-    				$('.RPEndUser').hide();
-    				if (!bInit) {
-    					$('#ShippingAddressType option[value="0"]').removeAttr('disabled');
-						loadPaoliRepGroupList(false);
-    				} else {
-			    		reloadPaoliSalesRepList(@(Model.PaoliRepGroupMemberID.HasValue ? Model.PaoliRepGroupMemberID.Value.ToString() : "null"), true);
-						loadDealerList(true, @(Model.DealerID.HasValue ? Model.DealerID.Value.ToString() : "null"), 
-							@(Model.DealerMemberID.HasValue ? Model.DealerMemberID.Value.ToString() : "null"));
-					}
-    				break;
-    			case '@PDWModels.Collateral.NewOrderInformation.RPDealer':
-    				$('.RPMember').hide();
-    				$('.RPRepGroup').hide();
-    				$('.RPDealer').show();
-    				$('.RPEndUser').hide();
-    				if (!bInit) {
-    					$('#ShippingAddressType option[value="0"]').removeAttr('disabled');
-						loadDealerList(false, null, null);
-    				} else {
-						loadDealerList(true, @(Model.DealerID.HasValue ? Model.DealerID.Value.ToString() : "null"), 
-							@(Model.DealerMemberID.HasValue ? Model.DealerMemberID.Value.ToString() : "null"));
-					}
-    				break;
-    			case '@PDWModels.Collateral.NewOrderInformation.RPEndUser':
-    				$('.RPMember').hide();
-    				$('.RPRepGroup').hide();
-    				$('.RPDealer').hide();
-    				$('.RPEndUser').show();
-    				if (!bInit) {
-    					$('#ShippingAddressType option[value="0"]').attr('disabled', true);
-    					$('#ShippingAddressType').val('1');
-    				}
-    				break;
-    		}
-    	}
-
-    	function reloadDealerSalesRepList(dsrMemberID, bInit) {
-			if( $('#DealerID').val() != '0' && $('#DealerID').val() != null ) {
-    			$.ajax({
-    				dataType: 'json',
-    				type: 'GET',
-    				url: '/User/GetDealerSalesRepListForCompany',
-    				data: { companyId: $('#DealerID').val() },
-    				success: function (data, textStatus, jqXHR) {
-    					$('#DealerMemberID').empty();
-    					$.each(data.theList, function (idx, item) {
-    						$('#DealerMemberID').append('<option value="' + item.UserID + '" ' + ((dsrMemberID == item.UserID) ? 'selected' : '') + '>' + item.FullName + '</option>');
-    					});
-    					if (dsrMemberID == null && !bInit) {
-    						setCompanyDetails();
+    					},
+    					error: function (jqXHR, textStatus, errorThrown) {
+    						alert('Error getting Company Address:' + errorThrown)
     					}
-    				},
-    				error: function (jqXHR, textStatus, errorThrown) {
-    					alert('Error getting Dealer Sales Rep list:' + errorThrown)
-    				}
-    			});
-			} else {
-    			$('#DealerMemberID').empty();
-				setCompanyDetails();
-			}
-    	}
-
-    	function reloadPaoliSalesRepList(psrMemberID, bInit) {
-    		$.ajax({
-    			dataType: 'json',
-    			type: 'GET',
-    			url: '/User/GetPaoliSalesRepListForCompany',
-    			data: { companyId: $('#PaoliRepGroupID').val() },
-    			success: function (data, textStatus, jqXHR) {
-    				$('#PaoliRepGroupMemberID').empty();
-    				$.each(data.theList, function (idx, item) {
-    					$('#PaoliRepGroupMemberID').append('<option value="' + item.UserID + '" ' + ((psrMemberID == item.UserID) ? 'selected' : '') + '>' + item.FullName + '</option>');
     				});
-    				if (psrMemberID == null && !bInit) {
-    					setCompanyDetails();
-    				}
-    			},
-    			error: function (jqXHR, textStatus, errorThrown) {
-    				alert('Error getting Paoli Sales Rep list:' + errorThrown)
-    			}
-    		});
+
+					return;
+				}
+
+    			$('#ShippingAddressType option[value="0"]').attr('disabled', true);
+    			$('#ShippingAddressType').val('1');
+			}
+
+    		$('#ShippingCompanyName').removeAttr('readonly');
+    		$('#ShippingAttn').removeAttr('readonly');
+    		$('#ShippingAddress1').removeAttr('readonly');
+    		$('#ShippingAddress2').removeAttr('readonly');
+    		$('#ShippingCity').removeAttr('readonly');
+    		$('#ShippingState');
+    		$('#ShippingState option:not(:selected)').removeAttr('disabled');
+    		$('#ShippingZip').removeAttr('readonly');
+    		$('#ShippingPhoneNumber').removeAttr('readonly');
+    		$('#ShippingEmailAddress').removeAttr('readonly');
+
 			if( !bInit ) {
-	    		loadDealerList(bInit, null, null);
+				$('.theseAreTheShippingFields input[type="text"]').val(null);
+				$('.theseAreTheShippingFields select').val(null);
 			}
     	}
-
-		function loadDealerList(bInit, dealerId, dsrMemberId) {
-			var theUrl = '/Company/GetDealerList';
-			var dataSet = { includeBlank: 'false' };
-			if( $('.RPRepGroup:hidden').length == 0 ) {
-				// rep group is showing - only load dealers for the group
-				theUrl = '/Company/GetDealerListForSalesRep';
-				dataSet = { salesRepCompanyId: $('#PaoliRepGroupID').val(), includeBlank: 'true' };
-			}
-			$.ajax({
-				dataType: 'json',
-				type: 'GET',
-				url: theUrl,
-				data: dataSet,
-				success: function (data, textStatus, jqXHR) {
-					$('#DealerID').empty();
-					$.each(data, function (idx, item) {
-						$('#DealerID').append('<option value="' + item.ID + '" ' + ((dealerId == item.ID) ? 'selected' : '') + '>' + item.Text + '</option>');
-					});
-					reloadDealerSalesRepList(dsrMemberId, false);
-				},
-				error: function (jqXHR, textStatus, errorThrown) {
-					alert('Error getting Dealer list:' + errorThrown)
-				}
-			});
-		}
-
-		function loadPaoliRepGroupList(bBlank) {
-			var theUrl = '/Company/GetPaoliRepGroupList';
-			var dataSet = { includeBlank: bBlank ? 'true' : 'false' };
-			$.ajax({
-				dataType: 'json',
-				type: 'GET',
-				url: theUrl,
-				data: dataSet,
-				success: function (data, textStatus, jqXHR) {
-					$('#PaoliRepGroupID').empty();
-					$.each(data, function (idx, item) {
-						$('#PaoliRepGroupID').append('<option value="' + item.ID + '" >' + item.Text + '</option>');
-					});
-					reloadPaoliSalesRepList(null, false);
-					loadDealerList(false, null, null);
-				},
-				error: function (jqXHR, textStatus, errorThrown) {
-					alert('Error getting Rep Group list:' + errorThrown)
-				}
-			});
-		}
 
 	</script>
 
@@ -353,27 +170,19 @@
 			<h3>Who's Requesting</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
-					<td>@Html.MJLabelFor( m => m.RequestingParty, false )</td><td>@Html.DropDownListFor( m => m.RequestingParty, PDWModels.Collateral.NewOrderInformation.RequestingParties.Select( rp => new SelectListItem() { Text = rp.Value, Value = rp.Key.ToString() } ) )</td>
+					<td>@Html.MJLabelFor( m => m.RequestingParty, false )</td><td>@PDWModels.Collateral.NewOrderInformation.RequestingParties[Model.RequestingParty]</td>
 				</tr>
-				<tr class="RPMember">
-					<td>@Html.MJLabelFor( m => m.PaoliMemberID, true )</td><td>@Html.DropDownListFor( m => m.PaoliMemberID, UserController.GetPaoliMemberDDList() )</td>
-					<td></td><td></td>
+				<tr>
+					<td>@Html.MJLabelFor( m => m.RequestingPartyName, true )</td><td>@Html.DisplayFor( m => m.RequestingPartyName )</td>
 				</tr>
-				<tr class="RPRepGroup">
-					<td>@Html.MJLabelFor( m => m.PaoliRepGroupID, false )</td><td>@Html.DropDownListFor( m => m.PaoliRepGroupID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, false ) )</td>
-					<td>@Html.MJLabelFor( m => m.PaoliRepGroupMemberID, false )</td><td>@Html.DropDownListFor( m => m.PaoliRepGroupMemberID, new List<SelectListItem>() )</td>
+				<tr>
+				<td>&nbsp;</td>
 				</tr>
-				<tr class="RPDealer">
-					<td>@Html.MJLabelFor( m => m.DealerID, false )</td><td>@Html.DropDownListFor( m => m.DealerID, new List<SelectListItem>() )</td>
-					<td>@Html.MJLabelFor( m => m.DealerMemberID, false )</td><td>@Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>() )</td>
+				<tr>
+					<td>@Html.MJLabelFor( m => m.ShippingParty, false )</td><td>@PDWModels.Collateral.NewOrderInformation.RequestingParties[Model.ShippingParty]</td>
 				</tr>
-				<tr class="RPEndUser">
-					<td>@Html.MJLabelFor( m => m.EndUserFirstName, true )</td><td>@Html.TextBoxFor( m => m.EndUserFirstName )</td>
-					<td>@Html.MJLabelFor( m => m.EndUserLastName, true )</td><td>@Html.TextBoxFor( m => m.EndUserLastName )</td>
-				</tr>
-				<tr class="RPEndUser">
-					<td>@Html.MJLabelFor( m => m.EndUserPhoneNumber, true )</td><td>@Html.TextBoxFor( m => m.EndUserPhoneNumber )</td>
-					<td>@Html.MJLabelFor( m => m.EndUserEMailAddress, true )</td><td>@Html.TextBoxFor( m => m.EndUserEMailAddress )</td>
+				<tr>
+					<td>@Html.MJLabelFor( m => m.ShippingPartyName, true )</td><td>@Html.DisplayFor( m => m.ShippingPartyName )</td>
 				</tr>
 			</table>
 		</div>
@@ -426,9 +235,7 @@
 														 } )</td>
 				</tr>
 			</table>
-			<input type="hidden" id="officialCompanyID" value="0" />
-			<input type="hidden" id="officialUserID" value="0" />
-			<table cellpadding="0" cellspacing="0" class="dataLayout">
+			<table cellpadding="0" cellspacing="0" class="dataLayout theseAreTheShippingFields">
 				<tr>
 					<td>@Html.LabelFor( m => m.ShippingAttn )</td><td>@Html.TextBoxFor( m => m.ShippingAttn )</td>
 				</tr>

@@ -314,11 +314,18 @@ namespace ProductDataWarehouse.Controllers
 				.Select( u => new SelectListItem() { Value = u.UserID.ToString(), Text = u.FullName } ).ToList();
 		}
 
-		public static IEnumerable<SelectListItem> GetPaoliMemberDDList()
+		public static IEnumerable<SelectListItem> GetPaoliMemberDDList( bool includeBlank )
 		{
-			return GetJustUserDDList( new List<int>() { PaoliWebUser.PaoliWebRole.PaoliMemberAdmin, 
+			var theList = GetJustUserDDList( new List<int>() { PaoliWebUser.PaoliWebRole.PaoliMemberAdmin, 
 				PaoliWebUser.PaoliWebRole.PaoliMemberMarketing, PaoliWebUser.PaoliWebRole.PaoliMemberSpecTeam, 
 				PaoliWebUser.PaoliWebRole.PaoliMemberCustomerService, PaoliWebUser.PaoliWebRole.PaoliMemberSales } );
+
+			if( includeBlank )
+			{
+				theList.Insert( 0, new SelectListItem() );
+			}
+
+			return theList;
 		}
 
 		public static IEnumerable<SelectListItem> GetUserDDList( int accountType )

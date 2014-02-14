@@ -110,6 +110,15 @@ namespace PDWModels.Collateral
 		public string CreatedByEmailAddress { get; set; }
 		public string CreatedByPhoneNumber { get; set; }
 
+		public string RPUserName { get; set; }
+		public string RPCompany { get; set; }
+		public string RPEmailAddress { get; set; }
+		public string RPPhoneNumber { get; set; }
+		public string SPUserName { get; set; }
+		public string SPCompany { get; set; }
+		public string SPEmailAddress { get; set; }
+		public string SPPhoneNumber { get; set; }
+
 		public string CanceledByUserName { get; set; }
 		public DateTime? CanceledOnDateTime { get; set; }
 

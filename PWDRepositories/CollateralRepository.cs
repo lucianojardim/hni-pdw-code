@@ -330,6 +330,17 @@ namespace PWDRepositories
 		{
 			var orderInfo = new NewOrderInformation();
 
+			orderInfo.PaoliMemberID = null;
+			orderInfo.DealerID = null;
+			orderInfo.DealerMemberID = null;
+			orderInfo.PaoliRepGroupID = null;
+			orderInfo.PaoliRepGroupMemberID = null;
+			orderInfo.SPPaoliMemberID = null;
+			orderInfo.SPDealerID = null;
+			orderInfo.SPDealerMemberID = null;
+			orderInfo.SPPaoliRepGroupID = null;
+			orderInfo.SPPaoliRepGroupMemberID = null;
+
 			orderInfo.OrderDetails =
 				database.CollateralItems
 					.OrderBy( c => c.Name )
@@ -357,16 +368,10 @@ namespace PWDRepositories
 			{
 				case NewOrderInformation.RPPaoliMember:
 					newOrder.PaoliMemberID = orderInfo.PaoliMemberID == 0 ? null : orderInfo.PaoliMemberID;
-					newOrder.PaoliRepGroupID = orderInfo.PaoliRepGroupID == 0 ? null : orderInfo.PaoliRepGroupID;
-					newOrder.PaoliRepGroupMemberID = orderInfo.PaoliRepGroupMemberID == 0 ? null : orderInfo.PaoliRepGroupMemberID;
-					newOrder.DealerID = orderInfo.DealerID == 0 ? null : orderInfo.DealerID;
-					newOrder.DealerMemberID = orderInfo.DealerMemberID == 0 ? null : orderInfo.DealerMemberID;
 					break;
 				case NewOrderInformation.RPPaoliRepresentative:
 					newOrder.PaoliRepGroupID = orderInfo.PaoliRepGroupID == 0 ? null : orderInfo.PaoliRepGroupID;
 					newOrder.PaoliRepGroupMemberID = orderInfo.PaoliRepGroupMemberID == 0 ? null : orderInfo.PaoliRepGroupMemberID;
-					newOrder.DealerID = orderInfo.DealerID == 0 ? null : orderInfo.DealerID;
-					newOrder.DealerMemberID = orderInfo.DealerMemberID == 0 ? null : orderInfo.DealerMemberID;
 					break;
 				case NewOrderInformation.RPDealer:
 					newOrder.DealerID = orderInfo.DealerID == 0 ? null : orderInfo.DealerID;
@@ -377,6 +382,27 @@ namespace PWDRepositories
 					newOrder.EndUserLastName = orderInfo.EndUserLastName;
 					newOrder.EndUserPhoneNumber = orderInfo.EndUserPhoneNumber;
 					newOrder.EndUserEMailAddress = orderInfo.EndUserEMailAddress;
+					break;
+			}
+			newOrder.ShippingParty = orderInfo.ShippingParty;
+			switch( newOrder.ShippingParty )
+			{
+				case NewOrderInformation.RPPaoliMember:
+					newOrder.SPPaoliMemberID = orderInfo.SPPaoliMemberID == 0 ? null : orderInfo.SPPaoliMemberID;
+					break;
+				case NewOrderInformation.RPPaoliRepresentative:
+					newOrder.SPPaoliRepGroupID = orderInfo.SPPaoliRepGroupID == 0 ? null : orderInfo.SPPaoliRepGroupID;
+					newOrder.SPPaoliRepGroupMemberID = orderInfo.SPPaoliRepGroupMemberID == 0 ? null : orderInfo.SPPaoliRepGroupMemberID;
+					break;
+				case NewOrderInformation.RPDealer:
+					newOrder.SPDealerID = orderInfo.SPDealerID == 0 ? null : orderInfo.SPDealerID;
+					newOrder.SPDealerMemberID = orderInfo.SPDealerMemberID == 0 ? null : orderInfo.SPDealerMemberID;
+					break;
+				case NewOrderInformation.RPEndUser:
+					newOrder.SPEndUserFirstName = orderInfo.SPEndUserFirstName;
+					newOrder.SPEndUserLastName = orderInfo.SPEndUserLastName;
+					newOrder.SPEndUserPhoneNumber = orderInfo.SPEndUserPhoneNumber;
+					newOrder.SPEndUserEMailAddress = orderInfo.SPEndUserEMailAddress;
 					break;
 			}
 			newOrder.ShippingType = orderInfo.ShippingType;
@@ -438,6 +464,14 @@ namespace PWDRepositories
 
 			if( !string.IsNullOrEmpty( param.sSearch ) )
 			{
+				int tryOrderNum = 0;
+				if( int.TryParse( param.sSearch, out tryOrderNum ) )
+				{
+					collateralList = collateralList
+						.Where( cOrder => ( cOrder.OrderID == tryOrderNum || tryOrderNum == 0 ) ||
+							cOrder.RequestingPartyName.Contains(param.sSearch) || 
+							cOrder.ShippingPartyName.Contains(param.sSearch));
+				}
 			}
 
 			displayedRecords = collateralList.Count();
@@ -461,11 +495,21 @@ namespace PWDRepositories
 				case "requestingparty":
 					if( param.sSortDir_0.ToLower() == "asc" )
 					{
-						collateralList = collateralList.OrderBy( v => v.OrderID );
+						collateralList = collateralList.OrderBy( v => v.RequestingPartyName );
 					}
 					else
 					{
-						collateralList = collateralList.OrderByDescending( v => v.OrderID );
+						collateralList = collateralList.OrderByDescending( v => v.RequestingPartyName );
+					}
+					break;
+				case "shippingparty":
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						collateralList = collateralList.OrderBy( v => v.ShippingPartyName );
+					}
+					else
+					{
+						collateralList = collateralList.OrderByDescending( v => v.ShippingPartyName );
 					}
 					break;
 				case "orderdate":
@@ -505,14 +549,9 @@ namespace PWDRepositories
 				OrderID = c.OrderID,
 				OrderDate = c.OrderDate,
 				Status = NewOrderInformation.StatusValues[c.Status],
-				RequestingParty = ( c.RequestingParty == NewOrderInformation.RPPaoliMember ) ?
-					( ( c.PaoliMemberID.HasValue ) ? (c.PaoliMember.FullName) : "" ) : 
-					((c.RequestingParty == NewOrderInformation.RPPaoliRepresentative) ? 
-						(c.PaoliSalesRep.Name + ((c.PaoliRepGroupMemberID.HasValue) ? (" (" + c.PaoliSalesRepMember.FullName + ")") : "")) : 
-						((c.RequestingParty == NewOrderInformation.RPDealer) ?
-							( c.Dealer.Name + ( ( c.DealerMemberID.HasValue ) ? ( " (" + c.DealerMember.FullName + ")" ) : "" ) ) : 
-							(c.EndUserFirstName + " " + c.EndUserLastName))),
-				CanEdit = ((c.Status != NewOrderInformation.SFulfilled) && (c.Status != NewOrderInformation.SCanceled))
+				RequestingParty = c.RequestingPartyName,
+				ShippingParty = c.ShippingPartyName,
+				CanEdit = ( ( c.Status != NewOrderInformation.SFulfilled ) && ( c.Status != NewOrderInformation.SCanceled ) )
 			};
 		}
 
@@ -531,16 +570,10 @@ namespace PWDRepositories
 			{
 				case NewOrderInformation.RPPaoliMember:
 					orderInfo.PaoliMemberID = eOrder.PaoliMemberID;
-					orderInfo.PaoliRepGroupID = eOrder.PaoliRepGroupID;
-					orderInfo.PaoliRepGroupMemberID = eOrder.PaoliRepGroupMemberID;
-					orderInfo.DealerID = eOrder.DealerID;
-					orderInfo.DealerMemberID = eOrder.DealerMemberID;
 					break;
 				case NewOrderInformation.RPPaoliRepresentative:
 					orderInfo.PaoliRepGroupID = eOrder.PaoliRepGroupID;
 					orderInfo.PaoliRepGroupMemberID = eOrder.PaoliRepGroupMemberID;
-					orderInfo.DealerID = eOrder.DealerID;
-					orderInfo.DealerMemberID = eOrder.DealerMemberID;
 					break;
 				case NewOrderInformation.RPDealer:
 					orderInfo.DealerID = eOrder.DealerID;
@@ -553,6 +586,31 @@ namespace PWDRepositories
 					orderInfo.EndUserEMailAddress = eOrder.EndUserEMailAddress;
 					break;
 			}
+			orderInfo.RequestingPartyName = eOrder.RequestingPartyName;
+
+			orderInfo.ShippingParty = eOrder.ShippingParty;
+			switch( orderInfo.ShippingParty )
+			{
+				case NewOrderInformation.RPPaoliMember:
+					orderInfo.SPPaoliMemberID = eOrder.SPPaoliMemberID;
+					break;
+				case NewOrderInformation.RPPaoliRepresentative:
+					orderInfo.SPPaoliRepGroupID = eOrder.SPPaoliRepGroupID;
+					orderInfo.SPPaoliRepGroupMemberID = eOrder.SPPaoliRepGroupMemberID;
+					break;
+				case NewOrderInformation.RPDealer:
+					orderInfo.SPDealerID = eOrder.SPDealerID;
+					orderInfo.SPDealerMemberID = eOrder.SPDealerMemberID;
+					break;
+				case NewOrderInformation.RPEndUser:
+					orderInfo.SPEndUserFirstName = eOrder.SPEndUserFirstName;
+					orderInfo.SPEndUserLastName = eOrder.SPEndUserLastName;
+					orderInfo.SPEndUserPhoneNumber = eOrder.SPEndUserPhoneNumber;
+					orderInfo.SPEndUserEMailAddress = eOrder.SPEndUserEMailAddress;
+					break;
+			}
+			orderInfo.ShippingPartyName = eOrder.ShippingPartyName;
+
 			orderInfo.ShippingType = eOrder.ShippingType;
 			orderInfo.ShippingAddressType = eOrder.ShippingAddressType;
 			orderInfo.ShippingFedexAccount = eOrder.ShippingFedexAccount;
@@ -598,33 +656,6 @@ namespace PWDRepositories
 				throw new Exception( "Unable to find Collateral Order" );
 			}
 
-			eOrder.RequestingParty = orderInfo.RequestingParty;
-			switch( eOrder.RequestingParty )
-			{
-				case NewOrderInformation.RPPaoliMember:
-					eOrder.PaoliMemberID = orderInfo.PaoliMemberID == 0 ? null : orderInfo.PaoliMemberID;
-					eOrder.PaoliRepGroupID = orderInfo.PaoliRepGroupID == 0 ? null : orderInfo.PaoliRepGroupID;
-					eOrder.PaoliRepGroupMemberID = orderInfo.PaoliRepGroupMemberID == 0 ? null : orderInfo.PaoliRepGroupMemberID;
-					eOrder.DealerID = orderInfo.DealerID == 0 ? null : orderInfo.DealerID;
-					eOrder.DealerMemberID = orderInfo.DealerMemberID == 0 ? null : orderInfo.DealerMemberID;
-					break;
-				case NewOrderInformation.RPPaoliRepresentative:
-					eOrder.PaoliRepGroupID = orderInfo.PaoliRepGroupID == 0 ? null : orderInfo.PaoliRepGroupID;
-					eOrder.PaoliRepGroupMemberID = orderInfo.PaoliRepGroupMemberID == 0 ? null : orderInfo.PaoliRepGroupMemberID;
-					eOrder.DealerID = orderInfo.DealerID == 0 ? null : orderInfo.DealerID;
-					eOrder.DealerMemberID = orderInfo.DealerMemberID == 0 ? null : orderInfo.DealerMemberID;
-					break;
-				case NewOrderInformation.RPDealer:
-					eOrder.DealerID = orderInfo.DealerID == 0 ? null : orderInfo.DealerID;
-					eOrder.DealerMemberID = orderInfo.DealerMemberID == 0 ? null : orderInfo.DealerMemberID;
-					break;
-				case NewOrderInformation.RPEndUser:
-					eOrder.EndUserFirstName = orderInfo.EndUserFirstName;
-					eOrder.EndUserLastName = orderInfo.EndUserLastName;
-					eOrder.EndUserPhoneNumber = orderInfo.EndUserPhoneNumber;
-					eOrder.EndUserEMailAddress = orderInfo.EndUserEMailAddress;
-					break;
-			}
 			eOrder.ShippingType = orderInfo.ShippingType;
 			eOrder.ShippingAddressType = orderInfo.ShippingAddressType;
 			eOrder.ShippingFedexAccount = orderInfo.ShippingFedexAccount;
@@ -756,6 +787,102 @@ namespace PWDRepositories
 				CanceledOnDateTime = dbOrder.CanceledOnDateTime
 			};
 
+			switch( dbOrder.RequestingParty )
+			{
+				case NewOrderInformation.RPPaoliMember:
+					if( dbOrder.PaoliMemberID.HasValue )
+					{
+						retOrder.RPUserName = dbOrder.PaoliMember.FullName;
+						retOrder.RPCompany = dbOrder.PaoliMember.Company.Name;
+						retOrder.RPEmailAddress = dbOrder.PaoliMember.Email;
+						retOrder.RPPhoneNumber = dbOrder.PaoliMember.BusinessPhone;
+					}
+					break;
+				case NewOrderInformation.RPPaoliRepresentative:
+					if( dbOrder.PaoliRepGroupMemberID.HasValue )
+					{
+						retOrder.RPUserName = dbOrder.PaoliSalesRepMember.FullName;
+						retOrder.RPCompany = dbOrder.PaoliSalesRepMember.Company.Name;
+						retOrder.RPEmailAddress = dbOrder.PaoliSalesRepMember.Email;
+						retOrder.RPPhoneNumber = dbOrder.PaoliSalesRepMember.BusinessPhone;
+					}
+					else if( dbOrder.PaoliRepGroupID.HasValue )
+					{
+						retOrder.RPCompany = dbOrder.PaoliSalesRep.Name;
+						retOrder.RPEmailAddress = dbOrder.PaoliSalesRep.ContactEmail;
+						retOrder.RPPhoneNumber = dbOrder.PaoliSalesRep.Phone;
+					}
+					break;
+				case NewOrderInformation.RPDealer:
+					if( dbOrder.DealerMemberID.HasValue )
+					{
+						retOrder.RPUserName = dbOrder.DealerMember.FullName;
+						retOrder.RPCompany = dbOrder.DealerMember.Company.Name;
+						retOrder.RPEmailAddress = dbOrder.DealerMember.Email;
+						retOrder.RPPhoneNumber = dbOrder.DealerMember.BusinessPhone;
+					}
+					else if( dbOrder.DealerID.HasValue )
+					{
+						retOrder.RPCompany = dbOrder.Dealer.Name;
+						retOrder.RPEmailAddress = dbOrder.Dealer.ContactEmail;
+						retOrder.RPPhoneNumber = dbOrder.Dealer.Phone;
+					}
+					break;
+				case NewOrderInformation.RPEndUser:
+					retOrder.RPUserName = dbOrder.EndUserFirstName + " " + dbOrder.EndUserLastName;
+					retOrder.RPEmailAddress = dbOrder.EndUserEMailAddress;
+					retOrder.RPPhoneNumber = dbOrder.EndUserPhoneNumber;
+					break;
+			}
+
+			switch( dbOrder.ShippingParty )
+			{
+				case NewOrderInformation.RPPaoliMember:
+					if( dbOrder.SPPaoliMemberID.HasValue )
+					{
+						retOrder.SPUserName = dbOrder.SPPaoliMember.FullName;
+						retOrder.SPCompany = dbOrder.SPPaoliMember.Company.Name;
+						retOrder.SPEmailAddress = dbOrder.SPPaoliMember.Email;
+						retOrder.SPPhoneNumber = dbOrder.SPPaoliMember.BusinessPhone;
+					}
+					break;
+				case NewOrderInformation.RPPaoliRepresentative:
+					if( dbOrder.SPPaoliRepGroupMemberID.HasValue )
+					{
+						retOrder.SPUserName = dbOrder.SPPaoliSalesRepMember.FullName;
+						retOrder.SPCompany = dbOrder.SPPaoliSalesRepMember.Company.Name;
+						retOrder.SPEmailAddress = dbOrder.SPPaoliSalesRepMember.Email;
+						retOrder.SPPhoneNumber = dbOrder.SPPaoliSalesRepMember.BusinessPhone;
+					}
+					else if( dbOrder.SPPaoliRepGroupID.HasValue )
+					{
+						retOrder.SPCompany = dbOrder.SPPaoliSalesRep.Name;
+						retOrder.SPEmailAddress = dbOrder.SPPaoliSalesRep.ContactEmail;
+						retOrder.SPPhoneNumber = dbOrder.SPPaoliSalesRep.Phone;
+					}
+					break;
+				case NewOrderInformation.RPDealer:
+					if( dbOrder.SPDealerMemberID.HasValue )
+					{
+						retOrder.SPUserName = dbOrder.SPDealerMember.FullName;
+						retOrder.SPCompany = dbOrder.SPDealerMember.Company.Name;
+						retOrder.SPEmailAddress = dbOrder.SPDealerMember.Email;
+						retOrder.SPPhoneNumber = dbOrder.SPDealerMember.BusinessPhone;
+					}
+					else if( dbOrder.SPDealerID.HasValue )
+					{
+						retOrder.SPCompany = dbOrder.SPDealer.Name;
+						retOrder.SPEmailAddress = dbOrder.SPDealer.ContactEmail;
+						retOrder.SPPhoneNumber = dbOrder.SPDealer.Phone;
+					}
+					break;
+				case NewOrderInformation.RPEndUser:
+					retOrder.SPUserName = dbOrder.SPEndUserFirstName + " " + dbOrder.SPEndUserLastName;
+					retOrder.SPEmailAddress = dbOrder.SPEndUserEMailAddress;
+					retOrder.SPPhoneNumber = dbOrder.SPEndUserPhoneNumber;
+					break;
+			}
+
 			retOrder.OrderDetails = new List<PendingOrderInformation.PendingOrderDetail>();
 
 			foreach( var oDetail in dbOrder.CollateralOrderDetails )
@@ -876,14 +1003,23 @@ namespace PWDRepositories
 
 		private void UpdateOrderStatus( CollateralOrder dbOrder )
 		{
-			dbOrder.Status = NewOrderInformation.SFulfilled;
+			bool bHasFulfilled = false, bHasUnfulfilled = false;
+
 			foreach( var detail in dbOrder.CollateralOrderDetails )
 			{
-				if( detail.Quantity > detail.CollateralOrderShipmentDetails.Sum( d => d.Quantity ) )
-				{
-					dbOrder.Status = NewOrderInformation.SPartial;
-					break;
-				}
+				var shippedQuantity = detail.CollateralOrderShipmentDetails.Sum( d => d.Quantity );
+				bHasFulfilled |= (detail.Quantity == shippedQuantity);
+				bHasUnfulfilled |= (0 == shippedQuantity);
+			}
+
+			dbOrder.Status = NewOrderInformation.SPartial;
+			if( !bHasFulfilled )
+			{
+				dbOrder.Status = NewOrderInformation.SPending;
+			}
+			else if( !bHasUnfulfilled )
+			{
+				dbOrder.Status = NewOrderInformation.SFulfilled;
 			}
 		}
 
