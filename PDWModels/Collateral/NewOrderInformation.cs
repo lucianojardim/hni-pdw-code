@@ -76,7 +76,7 @@ namespace PDWModels.Collateral
 		}
 
 		public int OrderID { get; set; }
-		[DisplayName( "Who is making this order?" )]
+		[DisplayName( "Who is placing this order?" )]
 		public int RequestingParty { get; set; }
 		[DisplayName( "Paoli Member" )]
 		public int? PaoliMemberID { get; set; }
