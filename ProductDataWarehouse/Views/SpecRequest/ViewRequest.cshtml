@@ -46,13 +46,24 @@
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
 					<td class="dataLabel">@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.SalesRepGroupName )</td>
-					<td class="dataLabel">@Html.MJLabelFor( m => m.PaoliSalesRepMemberID, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.SalesRepMemberName )@if( Model.SalesRepMemberContact.Any() ) 
-																																						{ <br /><span class="littleHelp">@Html.DisplayFor( m => m.SalesRepMemberContact )</span> }</td>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.PaoliSalesRepMemberID, true )</td><td class="dataInfo">
+																											   @Html.DisplayFor( m => m.SalesRepMemberName )
+																											   @if( Model.SalesRepMemberContact.Any() )
+																												{ <br /><span class="littleHelp">@Html.DisplayFor( m => m.SalesRepMemberContact )</span> }
+																										   </td>
 				</tr>
 				<tr>
 					<td class="dataLabel">@Html.MJLabelFor( m => m.DealerID, false )</td><td class="dataInfo">@Html.DisplayFor( m => m.DealerName )</td>
-					<td class="dataLabel">@Html.MJLabelFor( m => m.DealerMemberID, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.DealerSalesRepName )@if( Model.DealerSalesRepContact.Any() )
-																																				 { <br /><span class="littleHelp">@Html.DisplayFor( m => m.DealerSalesRepContact )</span> }</td>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.DealerMemberID, true )</td><td class="dataInfo">@if( ( Model.DealerPointOfContact ?? "" ).Any() )
+																									{ 
+																											   @Html.DisplayFor( m => m.DealerPointOfContact )
+																									}
+																									else
+																									{
+																										@Html.DisplayFor( m => m.DealerSalesRepName )
+																										if( Model.DealerSalesRepContact.Any() )
+																										{ <br /><span class="littleHelp">@Html.DisplayFor( m => m.DealerSalesRepContact )</span> }
+																									}</td>
 				</tr>
 			</table>
 		</div>

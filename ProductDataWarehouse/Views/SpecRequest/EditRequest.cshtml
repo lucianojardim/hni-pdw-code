@@ -181,14 +181,20 @@
     				data: { companyId: $('#DealerID').val() },
     				success: function (data, textStatus, jqXHR) {
     					$('#DealerMemberID').empty();
-    					$('.DSRCell').hide();
     					$.each(data.theList, function (idx, item) {
     						$('#DealerMemberID').append('<option value="' + item.UserID + '" ' + (item.UserID == dsrMemberID ? 'selected ' : ' ') + 
 								(item.PhoneNumber != null ? 'data-phone="' + item.PhoneNumber + '" ' : ' ') +
 								(item.EmailAddress != null ? 'data-email="' + item.EmailAddress + '" ' : ' ') +
 								'>' + item.FullName + '</option>');
-    						$('.DSRCell').show();
     					});
+    					if ($('#DealerMemberID option').length == 0) {
+    						$('#DealerMemberID').hide();
+    						$('#DealerPointOfContact').show();
+    					} else {
+    						$('#DealerPointOfContact').hide();
+    						$('#DealerMemberID').show();
+    					}
+    					$('.DSRCell').show();
 						showDSRContactInfo();
     				},
     				error: function (jqXHR, textStatus, errorThrown) {
@@ -197,6 +203,7 @@
     			});
     		} else {
     			$('#DealerMemberID').empty();
+    			$('#DealerPointOfContact').val('');
     			$('.DSRCell').hide();
     		}
     	}
@@ -313,7 +320,7 @@
 				</tr>
 				<tr class="DealerRow">
 					<td>@Html.MJLabelFor( m => m.DealerID, false )</td><td>@Html.DropDownListFor( m => m.DealerID, new List<SelectListItem>() )</td>
-					<td class="DSRCell">@Html.MJLabelFor( m => m.DealerMemberID, true )</td><td class="DSRCell">@Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>() )<span class="littleHelp" id="dsrContactInfo"></span></td>
+					<td class="DSRCell">@Html.MJLabelFor( m => m.DealerMemberID, true )</td><td class="DSRCell">@Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>() )@Html.TextBoxFor( m => m.DealerPointOfContact )<span class="littleHelp" id="dsrContactInfo"></span></td>
 				</tr>
 			</table>
 		</div>

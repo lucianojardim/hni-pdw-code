@@ -8,3 +8,6 @@ go
 alter table [SpecRequestFiles] add [IsSpecTeam] [bit] not null constraint [defIsSpecTeam] default(0)
 alter table [SpecRequestFiles] drop constraint [defIsSpecTeam]
 go
+
+alter table [SpecRequests] add [DealerPOCText] [nvarchar](max) null
+go

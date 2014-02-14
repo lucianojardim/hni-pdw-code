@@ -316,6 +316,7 @@ namespace PWDRepositories
 				PaoliSalesRepMemberID = sInfo.PaoliSalesRepMemberID,
 				DealerID = sInfo.PrimaryCompanyID,
 				DealerMemberID = sInfo.DealerSalesRepID,
+				DealerPointOfContact = sInfo.DealerPOCText,
 				IsGSA = sInfo.IsGSA ?? false,
 				SavedLocation = sInfo.SavedLocation,
 				ListPrice = sInfo.ListPrice,
@@ -374,6 +375,7 @@ namespace PWDRepositories
 			newSpec.PaoliSalesRepMemberID = ( sInfo.PaoliSalesRepMemberID ?? 0 ) > 0 ? sInfo.PaoliSalesRepMemberID : null;
 			newSpec.PrimaryCompanyID = ( sInfo.DealerID ?? 0 ) > 0 ? sInfo.DealerID : null;
 			newSpec.DealerSalesRepID = ( sInfo.DealerMemberID ?? 0 ) > 0 ? sInfo.DealerMemberID : null;
+			newSpec.DealerPOCText = !newSpec.DealerSalesRepID.HasValue ? sInfo.DealerPointOfContact : null;
 			newSpec.RequestDate = DateTime.UtcNow;
 			newSpec.IsGSA = sInfo.IsGSA;
 			newSpec.AvailableForIn2 = sInfo.AvailableForIn2;
@@ -446,6 +448,7 @@ namespace PWDRepositories
 			specInfo.PaoliSalesRepMemberID = ( sInfo.PaoliSalesRepMemberID ?? 0 ) > 0 ? sInfo.PaoliSalesRepMemberID : null;
 			specInfo.PrimaryCompanyID = ( sInfo.DealerID ?? 0 ) > 0 ? sInfo.DealerID : null;
 			specInfo.DealerSalesRepID = ( sInfo.DealerMemberID ?? 0 ) > 0 ? sInfo.DealerMemberID : null;
+			specInfo.DealerPOCText = !specInfo.DealerSalesRepID.HasValue ? sInfo.DealerPointOfContact : null;
 			specInfo.RequestDate = DateTime.UtcNow;
 			specInfo.IsGSA = sInfo.IsGSA;
 			specInfo.AvailableForIn2 = sInfo.AvailableForIn2;

@@ -720,6 +720,7 @@
           <Property Name="SpecialRequests" Type="ntext" />
           <Property Name="CreatedByUserId" Type="int" />
           <Property Name="LaminatePreference" Type="nvarchar" MaxLength="10" />
+          <Property Name="DealerPOCText" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="TAttributeOptions">
           <Key>
@@ -2696,6 +2697,7 @@
           <Property Type="Int32" Name="CreatedByUserId" />
           <NavigationProperty Name="CreatedByUser" Relationship="PaoliPDWModel.fkSRequest_CreatedBy" FromRole="SpecRequest" ToRole="User" />
           <Property Type="String" Name="LaminatePreference" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DealerPOCText" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="fkSpec_Company">
           <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="0..1" />
@@ -3569,6 +3571,7 @@
           <EntitySetMapping Name="SpecRequests">
             <EntityTypeMapping TypeName="PaoliPDWModel.SpecRequest">
               <MappingFragment StoreEntitySet="SpecRequests">
+                <ScalarProperty Name="DealerPOCText" ColumnName="DealerPOCText" />
                 <ScalarProperty Name="LaminatePreference" ColumnName="LaminatePreference" />
                 <ScalarProperty Name="CreatedByUserId" ColumnName="CreatedByUserId" />
                 <ScalarProperty Name="OtherFinishDetails" ColumnName="OtherFinishDetails" />

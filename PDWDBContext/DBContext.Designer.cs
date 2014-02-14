@@ -10157,6 +10157,30 @@ namespace PDWDBContext
         private global::System.String _LaminatePreference;
         partial void OnLaminatePreferenceChanging(global::System.String value);
         partial void OnLaminatePreferenceChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String DealerPOCText
+        {
+            get
+            {
+                return _DealerPOCText;
+            }
+            set
+            {
+                OnDealerPOCTextChanging(value);
+                ReportPropertyChanging("DealerPOCText");
+                _DealerPOCText = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("DealerPOCText");
+                OnDealerPOCTextChanged();
+            }
+        }
+        private global::System.String _DealerPOCText;
+        partial void OnDealerPOCTextChanging(global::System.String value);
+        partial void OnDealerPOCTextChanged();
 
         #endregion
 
