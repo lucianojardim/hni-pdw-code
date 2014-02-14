@@ -215,6 +215,7 @@
     			} else {
     				$('.nextBtn').hide();
     				$('.submitBtn').show();
+    				fillConfirmForm();
     			}
     			$('.previousBtn').show();
     		}
@@ -284,12 +285,59 @@
 			});
 		}
 
+		function fillConfirmForm() {
+			var t = $('#confirmTable tbody');
+			t.empty();
+
+			addConfirmHeaderRow(t, 'Who\'s Requesting');
+			addConfirmRow(t, 'TBD', 'TBD');
+
+			addConfirmHeaderRow(t, 'Order Details');
+			$.each($('.quantityInput'), function () {
+				if (parseInt($(this).val()) > 0) {
+					var itemRow = $(this).closest('td');
+					var itemName = itemRow.prev().find('.justItemName').text();
+					addConfirmRow(t, itemName, $(this).val());
+				}
+			});
+
+			addConfirmHeaderRow(t, 'Shipping Information');
+			addConfirmRow(t, '@Html.MJLabelFor( m => m.ShippingType, false )', $('#ShippingType option:selected').text());
+			switch ($('#ShippingType').val()) {
+				case '@PDWModels.Collateral.NewOrderInformation.STGround':
+					break;
+				case '@PDWModels.Collateral.NewOrderInformation.ST2DayFedex':
+				case '@PDWModels.Collateral.NewOrderInformation.STOvernightFedex':
+					addConfirmRow(t, '@Html.MJLabelFor( m => m.ShippingFedexAccount, false )', $('#ShippingFedexAccount').val());
+					break;
+			}
+			addConfirmRow(t, '&nbsp;', '&nbsp;');
+			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingAttn )', $('#ShippingAttn').val());
+			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingCompanyName )', $('#ShippingCompanyName').val());
+			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingAddress1 )', $('#ShippingAddress1').val());
+			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingAddress2 )', $('#ShippingAddress2').val());
+			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingCity )', $('#ShippingCity').val());
+			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingState )', $('#ShippingState option:selected').text());
+			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingZip )', $('#ShippingZip').val());
+			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingPhoneNumber )', $('#ShippingPhoneNumber').val());
+			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingEmailAddress )', $('#ShippingEmailAddress').val());
+		}
+
+		function addConfirmHeaderRow(table, label) {
+			table.append('<tr><td colspan="2"><hr/><h4>' + label + '</h4></td></tr>');
+		}
+
+		function addConfirmRow(table, label, text) {
+			table.append('<tr><td>' + label + '</td><td>' + text + '</td></tr>');
+		}
+
+
 	</script>
 
 <h2>Create A New Collateral Order</h2>
 @{
 	var collTypeList = CollateralController.GetCollateralTypeFilterList().Where( c => Model.OrderDetails.Any( od => od.CollateralTypeID.ToString() == c.Value ) ).OrderBy( c => int.Parse( c.Value ) );
-	var stepCount = collTypeList.Where( i => i.Value != "0" ).Count() + 2;
+	var stepCount = collTypeList.Where( i => i.Value != "0" ).Count() + 3;
 	var stepNum = 1;
 }
     @using( Html.BeginForm( "AddOrder", "Collateral", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
@@ -356,7 +404,7 @@
 			{
 				<text>@Html.Raw( startTR )</text>
 			}
-					<td class="orderItem">@Model.OrderDetails[i].Name<br /><span class="littleHelp fsi">@Model.OrderDetails[i].Description</span></td><td class="dataInfoThin">@Html.TextBoxFor( m => m.OrderDetails[i].Quantity, new { @class = "quantityInput" } )<span class="littleHelp">@Model.OrderDetails[i].Status</span></td>
+					<td class="orderItem"><span class="justItemName">@Model.OrderDetails[i].Name</span><br /><span class="littleHelp fsi">@Model.OrderDetails[i].Description</span></td><td class="dataInfoThin">@Html.TextBoxFor( m => m.OrderDetails[i].Quantity, new { @class = "quantityInput" } )<span class="littleHelp">@Model.OrderDetails[i].Status</span></td>
 			@Html.HiddenFor( m => m.OrderDetails[i].CollateralID )
 			if( itemNum % 3 == 2 )
 			{
@@ -413,6 +461,18 @@
 				<tr>
 					<td>@Html.LabelFor( m => m.ShippingEmailAddress )</td><td>@Html.TextBoxFor( m => m.ShippingEmailAddress )</td>
 				</tr>
+			</table>
+		</div>
+		<div class="futureSection requestPanel">
+			<h3>Step @(stepNum++) of @stepCount: Confirm</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout" id="confirmTable">
+			<thead>
+			<tr>
+			<td width="300px"></td><td></td>
+			</tr>
+			</thead>
+			<tbody>
+			</tbody>
 			</table>
 		</div>
 		<hr />
