@@ -10458,7 +10458,8 @@ namespace PDWDBContext
         /// <param name="name">Initial value of the Name property.</param>
         /// <param name="versionNumber">Initial value of the VersionNumber property.</param>
         /// <param name="uploadDate">Initial value of the UploadDate property.</param>
-        public static SpecRequestFile CreateSpecRequestFile(global::System.Int32 fileID, global::System.Int32 requestID, global::System.String extension, global::System.String name, global::System.Int32 versionNumber, global::System.DateTime uploadDate)
+        /// <param name="isSpecTeam">Initial value of the IsSpecTeam property.</param>
+        public static SpecRequestFile CreateSpecRequestFile(global::System.Int32 fileID, global::System.Int32 requestID, global::System.String extension, global::System.String name, global::System.Int32 versionNumber, global::System.DateTime uploadDate, global::System.Boolean isSpecTeam)
         {
             SpecRequestFile specRequestFile = new SpecRequestFile();
             specRequestFile.FileID = fileID;
@@ -10467,6 +10468,7 @@ namespace PDWDBContext
             specRequestFile.Name = name;
             specRequestFile.VersionNumber = versionNumber;
             specRequestFile.UploadDate = uploadDate;
+            specRequestFile.IsSpecTeam = isSpecTeam;
             return specRequestFile;
         }
 
@@ -10620,6 +10622,30 @@ namespace PDWDBContext
         private global::System.DateTime _UploadDate;
         partial void OnUploadDateChanging(global::System.DateTime value);
         partial void OnUploadDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsSpecTeam
+        {
+            get
+            {
+                return _IsSpecTeam;
+            }
+            set
+            {
+                OnIsSpecTeamChanging(value);
+                ReportPropertyChanging("IsSpecTeam");
+                _IsSpecTeam = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsSpecTeam");
+                OnIsSpecTeamChanged();
+            }
+        }
+        private global::System.Boolean _IsSpecTeam;
+        partial void OnIsSpecTeamChanging(global::System.Boolean value);
+        partial void OnIsSpecTeamChanged();
 
         #endregion
 

@@ -118,6 +118,8 @@ namespace PDWModels.SpecRequests
 		[DisplayName( "Footprint" )]
 		[StringLength( 100 )]
 		public string Footprint { get; set; }
+		[DisplayName( "Resulting Files" )]
+		public List<HttpPostedFileBase> specTeamFiles { get; set; }
 
 		/* obselete
 		[DisplayName( "Featured Series" )]
@@ -134,6 +136,7 @@ namespace PDWModels.SpecRequests
 		*/
 
 		public FileListing addlFileList { get; set; }
+		public FileListing specTeamFileList { get; set; }
 
 		[DisplayName( "Created Date" )]
 		public DateTime? CreatedDate { get; set; }

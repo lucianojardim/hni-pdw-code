@@ -157,6 +157,20 @@
     			fileCount++;
     		}
     	}
+    	function stFileChanged() {
+    		var doInsert = true;
+    		$('#stFileContainer input[type="file"]').each(function (i, fc) {
+    			if (fc.value == null || fc.value == '') {
+    				doInsert = false;
+    				return false;
+    			}
+    		});
+    		if (doInsert) {
+    			$('#stFileContainer').append('<br/><input type="file" name="specTeamFiles[' + fileCount + ']" class="specTeamFiles" onchange="stFileChanged()" />' +
+				'<input type="hidden" name="specTeamFiles.Index" value="' + fileCount + '" />');
+    			fileCount++;
+    		}
+    	}
 
     	function reloadDealerSalesRepList( dsrMemberID ) {
     		if ($('#DealerID').val() != null && $('#DealerID').val() != '' && $('#DealerID').val() != '0') {
@@ -307,21 +321,28 @@
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
 					<td>@Html.MJLabelFor( m => m.PaoliSpecTeamMember, true )</td><td>@Html.DropDownListFor( m => m.PaoliSpecTeamMember, UserController.GetUserDDList( PDWInfrastructure.PaoliWebUser.PaoliWebRole.PaoliMemberSpecTeam ) )</td>
+					<td rowspan="8" id="stFileContainer">@Html.MJLabelFor( m => m.specTeamFiles, true ) @Html.DisplayFor( m => m.specTeamFileList, templateName: "FullFileListing" )<span class="littleHelp">Attach final files for this request.</span><input type="file" name="specTeamFiles[0]" class="specTeamFiles" onchange="stFileChanged()" /><input type="hidden" name="specTeamFiles.Index" value="0" /></td>
+
 				</tr>
 				<tr>
 				<td>@Html.MJLabelFor( m => m.ListPrice, true )</td><td>@Html.TextBoxFor( m => m.ListPrice )</td>
+				</tr>
+				<tr>
 				<td>@Html.MJLabelFor( m => m.SPLQuote, true )</td><td>@Html.TextBoxFor( m => m.SPLQuote )</td>
 				</tr>
 				<tr>
 				<td>@Html.MJLabelFor( m => m.Footprint, true )</td><td>@Html.TextBoxFor( m => m.Footprint )</td>
+				</tr>
+				<tr>
 				<td>@Html.MJLabelFor( m => m.SavedLocation, true )</td><td>@Html.TextBoxFor( m => m.SavedLocation )</td>
 				</tr>
 				<tr>
 				<td>@Html.MJLabelFor( m => m.Received, true )</td><td>@Html.CheckBoxFor( m => m.Received )</td>
+				</tr>
+				<tr>
 				<td>@Html.MJLabelFor( m => m.IsCompleted, true )</td><td>@Html.CheckBoxFor( m => m.IsCompleted )</td>
 				</tr>
 				<tr>
-				<td></td><td></td>
 				<td>@Html.MJLabelFor( m => m.IsGoodForWeb, true, new { @style = "display:none;", @class = "isGoodForWeb" } )</td><td>@Html.CheckBoxFor( m => m.IsGoodForWeb, new { @style = "display:none;", @class = "isGoodForWeb" } )</td>
 				</tr>
 			</table>

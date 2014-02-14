@@ -669,6 +669,7 @@
           <Property Name="VersionNumber" Type="int" Nullable="false" />
           <Property Name="UploadDate" Type="datetime" Nullable="false" />
           <Property Name="RequestID" Type="int" Nullable="false" />
+          <Property Name="IsSpecTeam" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="SpecRequests">
           <Key>
@@ -2636,6 +2637,7 @@
           <Property Type="Int32" Name="VersionNumber" Nullable="false" />
           <Property Type="DateTime" Name="UploadDate" Nullable="false" />
           <NavigationProperty Name="SpecRequest" Relationship="PaoliPDWModel.fkSpecFile_Request" FromRole="SpecRequestFile" ToRole="SpecRequest" />
+          <Property Type="Boolean" Name="IsSpecTeam" Nullable="false" />
         </EntityType>
         <EntityType Name="SpecRequest">
           <Key>
@@ -3554,6 +3556,7 @@
           <EntitySetMapping Name="SpecRequestFiles">
             <EntityTypeMapping TypeName="PaoliPDWModel.SpecRequestFile">
               <MappingFragment StoreEntitySet="SpecRequestFiles">
+                <ScalarProperty Name="IsSpecTeam" ColumnName="IsSpecTeam" />
                 <ScalarProperty Name="UploadDate" ColumnName="UploadDate" />
                 <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
                 <ScalarProperty Name="Name" ColumnName="Name" />

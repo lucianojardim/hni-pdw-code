@@ -327,7 +327,8 @@ namespace PWDRepositories
 				IsCompleted = sInfo.IsCompleted,
 				Footprint = sInfo.Footprint,
 				Notes = sInfo.Notes,
-				addlFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles ),
+				addlFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles.Where( f => !f.IsSpecTeam ) ),
+				specTeamFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles.Where( f => f.IsSpecTeam ) ),
 				CreatedDate = sInfo.RequestDate.Value,
 				DealerName = sInfo.PrimaryCompanyID.HasValue ? sInfo.PrimaryCompany.Name : "None",
 				SalesRepGroupName = sInfo.PaoliSalesRepGroupID.HasValue ? sInfo.PaoliSalesRepGroup.Name : "None",
@@ -419,7 +420,7 @@ namespace PWDRepositories
 				{
 					if( fileStream != null )
 					{
-						SaveNewFileVersion( newSpec, rootLocation, Path.GetExtension( fileStream.FileName ).Trim( '.' ), fileStream.InputStream, fileStream.FileName );
+						SaveNewFileVersion( newSpec, rootLocation, Path.GetExtension( fileStream.FileName ).Trim( '.' ), fileStream.InputStream, fileStream.FileName, false );
 					}
 				}
 
@@ -482,14 +483,22 @@ namespace PWDRepositories
 			{
 				if( fileStream != null )
 				{
-					SaveNewFileVersion( specInfo, rootLocation, Path.GetExtension( fileStream.FileName ).Trim( '.' ), fileStream.InputStream, fileStream.FileName );
+					SaveNewFileVersion( specInfo, rootLocation, Path.GetExtension( fileStream.FileName ).Trim( '.' ), fileStream.InputStream, fileStream.FileName, false );
+				}
+			}
+
+			foreach( var fileStream in sInfo.specTeamFiles )
+			{
+				if( fileStream != null )
+				{
+					SaveNewFileVersion( specInfo, rootLocation, Path.GetExtension( fileStream.FileName ).Trim( '.' ), fileStream.InputStream, fileStream.FileName, true );
 				}
 			}
 
 			return database.SaveChanges() > 0;
 		}
 
-		private bool SaveNewFileVersion( SpecRequest sRequest, string rootLocation, string fileType, Stream inputStream, string fileName )
+		private bool SaveNewFileVersion( SpecRequest sRequest, string rootLocation, string fileType, Stream inputStream, string fileName, bool isSpecTeam )
 		{
 			var existingCount = sRequest.SpecRequestFiles.Count( f => f.Extension == fileType );
 			existingCount++;
@@ -516,6 +525,7 @@ namespace PWDRepositories
 			newFile.Name = fileName;
 			newFile.VersionNumber = existingCount;
 			newFile.UploadDate = DateTime.UtcNow;
+			newFile.IsSpecTeam = isSpecTeam;
 
 			sRequest.SpecRequestFiles.Add( newFile );
 
