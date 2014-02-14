@@ -177,23 +177,29 @@
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
 					<td class="dataLabel">@Html.MJLabelFor( m => m.PaoliSpecTeamMember, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.SpecTeamMemberName )</td>
+					<td rowspan="8" id="fileContainer" class="dataInfo">@Html.MJLabelFor( m => m.specTeamFiles, true )<br />@Html.DisplayFor( m => m.specTeamFileList, templateName: "FullFileListing" )</td>
 				</tr>
 				<tr>
 					<td class="dataLabel">@Html.MJLabelFor( m => m.ListPrice, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.ListPrice, templateName: "Currency" )</td>
+				</tr>
+				<tr>
 					<td class="dataLabel">@Html.MJLabelFor( m => m.SPLQuote, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.SPLQuote )</td>
 				</tr>
 				<tr>
 					<td class="dataLabel">@Html.MJLabelFor( m => m.Footprint, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.Footprint )</td>
+				</tr>
+				<tr>
 					<td class="dataLabel">@Html.MJLabelFor( m => m.SavedLocation, true )</td><td class="dataInfo">@Html.DisplayFor( m => m.SavedLocation )</td>
 				</tr>
 				<tr>
 					<td class="dataLabel">@Html.MJLabelFor( m => m.Received, false )</td><td class="dataInfo">@Html.DisplayFor( m => m.Received, templateName: "YesNo" )</td>
+				</tr>
+				<tr>
 					<td class="dataLabel">@Html.MJLabelFor( m => m.IsCompleted, false )</td><td class="dataInfo">@Html.DisplayFor( m => m.IsCompleted, templateName: "YesNo" )</td>
 				</tr>
 				@if( Model.IsCompleted )
 	{
 				<tr>
-					<td></td><td></td>
 					<td class="dataLabel">@Html.MJLabelFor( m => m.IsGoodForWeb, false )</td><td class="dataInfo">@Html.DisplayFor( m => m.IsGoodForWeb, templateName: "YesNo" )</td>
 				</tr>
 	}

@@ -118,7 +118,7 @@ namespace PDWModels.SpecRequests
 		[DisplayName( "Footprint" )]
 		[StringLength( 100 )]
 		public string Footprint { get; set; }
-		[DisplayName( "Resulting Files" )]
+		[DisplayName( "Final Client Files" )]
 		public List<HttpPostedFileBase> specTeamFiles { get; set; }
 
 		/* obselete

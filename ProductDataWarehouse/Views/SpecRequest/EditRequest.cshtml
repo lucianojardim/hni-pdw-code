@@ -322,7 +322,7 @@
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
 					<td>@Html.MJLabelFor( m => m.PaoliSpecTeamMember, true )</td><td>@Html.DropDownListFor( m => m.PaoliSpecTeamMember, UserController.GetUserDDList( PDWInfrastructure.PaoliWebUser.PaoliWebRole.PaoliMemberSpecTeam ) )</td>
-					<td rowspan="8" id="stFileContainer">@Html.MJLabelFor( m => m.specTeamFiles, true ) @Html.DisplayFor( m => m.specTeamFileList, templateName: "FullFileListing" )<span class="littleHelp">Attach final files for this request.</span><input type="file" name="specTeamFiles[0]" class="specTeamFiles" onchange="stFileChanged()" /><input type="hidden" name="specTeamFiles.Index" value="0" /></td>
+					<td rowspan="8" id="stFileContainer">@Html.MJLabelFor( m => m.specTeamFiles, true ) @Html.DisplayFor( m => m.specTeamFileList, templateName: "FullFileListing" )<span class="littleHelp">Any file uploaded here will be available to the DSR and Sales Rep for downloading. Be sure to name your files clearly.</span><input type="file" name="specTeamFiles[0]" class="specTeamFiles" onchange="stFileChanged()" /><input type="hidden" name="specTeamFiles.Index" value="0" /></td>
 
 				</tr>
 				<tr>
