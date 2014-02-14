@@ -25,6 +25,12 @@
 				);
 
     		$('.quantityInput').last().rules("add", { atLeastOneItem: true, messages: { number: 'Please add at least one item to your order.'} });
+    		$('#PaoliMemberID').rules("add", { required: true, messages: { required: "Paoli Member is required."} });
+    		$('#PaoliRepGroupID').rules("add", { required: true, messages: { required: "Paoli Rep Group is required."} });
+    		$('#DealerID').rules("add", { required: true, messages: { required: "Dealership Name is required."} });
+    		$('#SPPaoliMemberID').rules("add", { required: true, messages: { required: "Paoli Member is required."} });
+    		$('#SPPaoliRepGroupID').rules("add", { required: true, messages: { required: "Paoli Rep Group is required."} });
+    		$('#SPDealerID').rules("add", { required: true, messages: { required: "Dealership Name is required."} });
 
     		$('.nextBtn').click(function (e) {
     			e.preventDefault();
@@ -58,21 +64,23 @@
     		$('#ShippingParty').change(function (e) {
     			setSPDetails();
     		});
-    		
+
     		changeShippingType();
     		$('#ShippingType').change(function (e) {
     			changeShippingType();
     		});
 
     		$('#ShippingAddressType').change(function (e) {
-				setCompanyDetails();
+    			setCompanyDetails();
     		});
 
     		$('#DealerID').change(function () {
+    			loadSPDealerList();
     			reloadDealerSalesRepList();
     		});
 
     		$('#PaoliRepGroupID').change(function () {
+    			loadSPDealerList();
     			reloadPaoliSalesRepList();
     		});
 
@@ -196,7 +204,7 @@
     				$('.RPDealer').show();
     				$('.RPEndUser').hide();
     				$('#ShippingParty option[value=@PDWModels.Collateral.NewOrderInformation.RPPaoliMember]').attr('disabled', 'disabled');
-    				$('#ShippingParty option[value=@PDWModels.Collateral.NewOrderInformation.RPDealer]').attr('disabled', 'disabled');
+    				$('#ShippingParty option[value=@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative]').attr('disabled', 'disabled');
     				break;
     			case '@PDWModels.Collateral.NewOrderInformation.RPEndUser':
     				$('.RPMember').hide();
@@ -205,7 +213,7 @@
     				$('.RPEndUser').show();
     				$('#ShippingParty option[value=@PDWModels.Collateral.NewOrderInformation.RPPaoliMember]').attr('disabled', 'disabled');
     				$('#ShippingParty option[value=@PDWModels.Collateral.NewOrderInformation.RPDealer]').attr('disabled', 'disabled');
-    				$('#ShippingParty option[value=@PDWModels.Collateral.NewOrderInformation.RPEndUser]').attr('disabled', 'disabled');
+    				$('#ShippingParty option[value=@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative]').attr('disabled', 'disabled');
     				break;
     		}
     		$('#ShippingParty').val(Math.max($('#ShippingParty').val(), $('#RequestingParty').val()));
@@ -231,6 +239,7 @@
     				$('.SPRepGroup').hide();
     				$('.SPDealer').show();
     				$('.SPEndUser').hide();
+    				loadSPDealerList();
     				break;
     			case '@PDWModels.Collateral.NewOrderInformation.RPEndUser':
     				$('.SPMember').hide();
@@ -269,22 +278,63 @@
     		}
     	}
 
-    	function reloadDealerSalesRepList() {
-    		$.ajax({
-    			dataType: 'json',
-    			type: 'GET',
-    			url: '/User/GetDealerSalesRepListForCompany',
-    			data: { companyId: $('#DealerID').val() },
-    			success: function (data, textStatus, jqXHR) {
-    				$('#DealerMemberID').empty();
-    				$.each(data.theList, function (idx, item) {
-    					$('#DealerMemberID').append('<option value="' + item.UserID + '" >' + item.FullName + '</option>');
-    				});
-    			},
-    			error: function (jqXHR, textStatus, errorThrown) {
-    				alert('Error getting Dealer Sales Rep list:' + errorThrown)
-    			}
-    		});
+		function loadSPDealerList() {
+			var theUrl = '/Company/GetDealerList';
+			var dataSet = { includeBlank: 'true' };
+			if ($('.RPRepGroup:hidden').length == 0) {
+				// rep group is showing - only load dealers for the group
+				theUrl = '/Company/GetDealerListForSalesRep';
+				dataSet = { salesRepCompanyId: $('#PaoliRepGroupID').val(), includeBlank: 'true' };
+				if ($('#PaoliRepGroupID option:selected').text() == '') {
+					$('#SPDealerID').empty();
+					reloadSPDealerSalesRepList();
+					return;
+				}
+			} else if ($('.RPDealer:hidden').length == 0) {
+				$('#SPDealerID').empty();
+				$('#SPDealerID').append('<option value="' + $('#DealerID').val() + '">' + $('#DealerID option:selected').text() + '</option>');
+				reloadSPDealerSalesRepList();
+				return;
+			}
+
+			$.ajax({
+				dataType: 'json',
+				type: 'GET',
+				url: theUrl,
+				data: dataSet,
+				success: function (data, textStatus, jqXHR) {
+					$('#SPDealerID').empty();
+					$.each(data, function (idx, item) {
+						$('#SPDealerID').append('<option value="' + item.ID + '">' + item.Text + '</option>');
+					});
+					reloadSPDealerSalesRepList();
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					alert('Error getting Dealer list:' + errorThrown)
+				}
+			});
+		}
+
+		function reloadDealerSalesRepList() {
+			if ($('#DealerID option:selected').text() != '') {
+				$.ajax({
+					dataType: 'json',
+					type: 'GET',
+					url: '/User/GetDealerSalesRepListForCompany',
+					data: { companyId: $('#DealerID').val() },
+					success: function (data, textStatus, jqXHR) {
+						$('#DealerMemberID').empty();
+						$.each(data.theList, function (idx, item) {
+							$('#DealerMemberID').append('<option value="' + item.UserID + '" >' + item.FullName + '</option>');
+						});
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+						alert('Error getting Dealer Sales Rep list:' + errorThrown)
+					}
+				});
+			} else {
+				$('#DealerMemberID').empty();
+			}
     	}
 
     	function reloadPaoliSalesRepList() {
@@ -306,21 +356,25 @@
     	}
 
     	function reloadSPDealerSalesRepList() {
-    		$.ajax({
-    			dataType: 'json',
-    			type: 'GET',
-    			url: '/User/GetDealerSalesRepListForCompany',
-    			data: { companyId: $('#SPDealerID').val() },
-    			success: function (data, textStatus, jqXHR) {
-    				$('#SPDealerMemberID').empty();
-    				$.each(data.theList, function (idx, item) {
-    					$('#SPDealerMemberID').append('<option value="' + item.UserID + '" >' + item.FullName + '</option>');
-    				});
-    			},
-    			error: function (jqXHR, textStatus, errorThrown) {
-    				alert('Error getting SP Dealer Sales Rep list:' + errorThrown)
-    			}
-    		});
+    		if ($('#SPDealerID option:selected').text() != '') {
+    			$.ajax({
+    				dataType: 'json',
+    				type: 'GET',
+    				url: '/User/GetDealerSalesRepListForCompany',
+    				data: { companyId: $('#SPDealerID').val() },
+    				success: function (data, textStatus, jqXHR) {
+    					$('#SPDealerMemberID').empty();
+    					$.each(data.theList, function (idx, item) {
+    						$('#SPDealerMemberID').append('<option value="' + item.UserID + '" >' + item.FullName + '</option>');
+    					});
+    				},
+    				error: function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting SP Dealer Sales Rep list:' + errorThrown)
+    				}
+    			});
+    		} else {
+    			$('#SPDealerMemberID').empty();
+    		}
     	}
 
     	function reloadSPPaoliSalesRepList() {

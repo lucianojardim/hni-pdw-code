@@ -23,7 +23,7 @@ namespace PDWModels.Collateral
 					{ RPPaoliMember, "Paoli Member" },				
 					{ RPPaoliRepresentative, "Paoli Sales Rep" },				
 					{ RPDealer, "Dealer" },				
-					{ RPEndUser, "End User / Customer" },				
+					{ RPEndUser, "End User / Customer / Other" },				
                 };
 			}
 		}
