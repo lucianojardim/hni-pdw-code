@@ -148,8 +148,10 @@ namespace PDWModels.SpecRequests
 
 		public string DealerName { get; set; }
 		public string DealerSalesRepName { get; set; }
+		public string DealerSalesRepContact { get; set; }
 		public string SalesRepGroupName { get; set; }
 		public string SalesRepMemberName { get; set; }
+		public string SalesRepMemberContact { get; set; }
 		public string SpecTeamMemberName { get; set; }
 	}
 }

@@ -15,6 +15,14 @@ namespace PDWDBContext
 			}
 		}
 
+		public string ContactInfo
+		{
+			get
+			{
+				return (BusinessPhone ?? "") + ((BusinessPhone != null || Email != null) ? " | " : "") + (Email ?? "");
+			}
+		}
+
 		public string FullNameWithCompany
 		{
 			get
