@@ -138,10 +138,11 @@ namespace PDWModels.SpecRequests
 		public FileListing addlFileList { get; set; }
 		public FileListing specTeamFileList { get; set; }
 
-		[DisplayName( "Created Date" )]
+		[DisplayName( "This quote request was submitted" )]
 		public DateTime? CreatedDate { get; set; }
-		[DisplayName( "Created By" )]
+		[DisplayName( "by" )]
 		public string CreatedByUser { get; set; }
+		public string CreatedByUserCompany { get; set; }
 		public string CreatedByUserPhone { get; set; }
 		public string CreatedByUserEmail { get; set; }
 

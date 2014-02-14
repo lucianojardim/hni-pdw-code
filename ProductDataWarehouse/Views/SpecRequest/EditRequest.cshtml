@@ -14,7 +14,7 @@
 			@if( Model.CreatedDate.HasValue )
    {
 			<text>
-                $('#createdDate').text(getLocalDate('@Model.CreatedDate.Value.ToString()'));
+                $('#createdDate').text(getLocalDateTime('@Model.CreatedDate.Value.ToString()'));
 			</text>
    }
 
@@ -290,15 +290,16 @@
 		@Html.MJLabelFor( m => m.CreatedDate, true ) <span id="createdDate"></span>
 		@if( Model.CreatedByUser != null )
   {
-		<br />@Html.MJLabelFor( m => m.CreatedByUser, true ) <span>@Html.DisplayFor( m => m.CreatedByUser )</span>
+		@Html.MJLabelFor( m => m.CreatedByUser, true )<br /> <span>@Html.DisplayFor( m => m.CreatedByUser )</span>
+	   <br /><span>@Html.DisplayFor( m => m.CreatedByUserCompany )</span>
 	  if( Model.CreatedByUserPhone != null )
-   {
-	   <br /><span class="littleHelp">@Html.DisplayFor( m => m.CreatedByUserPhone )</span>
-   }
+	  {
+	   <br /><span>@Html.DisplayFor( m => m.CreatedByUserPhone )</span>
+	  }
 	  if( Model.CreatedByUserEmail != null )
-   {
-	   <br /><span class="littleHelp">@Html.DisplayFor( m => m.CreatedByUserEmail )</span>
-   }
+	  {
+	   <br /><span>@Html.DisplayFor( m => m.CreatedByUserEmail )</span>
+	  }
   }
 		</div>
 		<div class="clear"></div>
@@ -458,7 +459,7 @@
 					</td>
 					<td colspan="2" class="double">
 					<br />
-					@Html.MJLabelFor( m => m.LaminatePreference, true, new { @class = "laminatePreference" }) @Html.DropDownListFor( m => m.LaminatePreference, new List<SelectListItem>() { 
+					@Html.MJLabelFor( m => m.LaminatePreference, true, new { @class = "laminatePreference" } ) @Html.DropDownListFor( m => m.LaminatePreference, new List<SelectListItem>() { 
 	new SelectListItem(),
 	new SelectListItem() { Value = "LPL", Text = "LPL - Low Pressure Laminate" },
 	new SelectListItem() { Value = "HPL", Text = "HPL - High Pressure Laminate" } }, new { @class = "laminatePreference" } )<br class="laminatePreference" />

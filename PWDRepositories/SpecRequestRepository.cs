@@ -355,7 +355,8 @@ namespace PWDRepositories
 				FabricGrade = sInfo.FabricGrade,
 				Fabric = sInfo.FabricDetails,
 				SpecialRequests = sInfo.SpecialRequests,
-				CreatedByUser = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.FullNameWithCompany : null,
+				CreatedByUser = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.FullName : null,
+				CreatedByUserCompany = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.Company.Name : null,
 				CreatedByUserPhone = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.BusinessPhone : null,
 				CreatedByUserEmail = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.Email : null,
 					
