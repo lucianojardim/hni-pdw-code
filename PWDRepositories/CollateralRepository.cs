@@ -706,7 +706,7 @@ namespace PWDRepositories
 				}
 				else
 				{
-					// find and update the single item
+					// find and add/update the single item
 					var dbDetail = eOrder.CollateralOrderDetails.FirstOrDefault( c => c.CollateralID == eCollateral.CollateralID && !c.GroupID.HasValue );
 					if( dbDetail != null )
 					{
@@ -1039,6 +1039,13 @@ namespace PWDRepositories
 			else
 			{
 				dbOrder.Status = NewOrderInformation.SCanceled;
+			}
+
+			foreach( var dbDetail in dbOrder.CollateralOrderDetails )
+			{
+				// delete db item
+				var eCollateral = database.CollateralItems.FirstOrDefault( c => c.CollateralID == dbDetail.CollateralID );
+				eCollateral.Quantity += ( dbDetail.Quantity - dbDetail.CollateralOrderShipmentDetails.Sum( s => s.Quantity ) );
 			}
 
 			dbOrder.CanceledByUserID = PaoliWebUser.CurrentUser.UserId;
