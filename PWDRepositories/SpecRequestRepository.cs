@@ -453,7 +453,6 @@ namespace PWDRepositories
 			specInfo.PrimaryCompanyID = ( sInfo.DealerID ?? 0 ) > 0 ? sInfo.DealerID : null;
 			specInfo.DealerSalesRepID = ( sInfo.DealerMemberID ?? 0 ) > 0 ? sInfo.DealerMemberID : null;
 			specInfo.DealerPOCText = !specInfo.DealerSalesRepID.HasValue ? sInfo.DealerPointOfContact : null;
-			specInfo.RequestDate = DateTime.UtcNow;
 			specInfo.IsGSA = sInfo.IsGSA;
 			specInfo.AvailableForIn2 = sInfo.AvailableForIn2;
 			specInfo.PaoliSpecTeamMemberID = ( sInfo.PaoliSpecTeamMember ?? 0 ) > 0 ? sInfo.PaoliSpecTeamMember : null;
