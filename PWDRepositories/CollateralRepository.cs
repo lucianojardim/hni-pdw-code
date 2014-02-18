@@ -1003,21 +1003,22 @@ namespace PWDRepositories
 
 		private void UpdateOrderStatus( CollateralOrder dbOrder )
 		{
-			bool bHasFulfilled = false, bHasUnfulfilled = false;
+			bool bHasFulfilled = false, bHasUnfulfilled = false, bHasPartial = false;
 
 			foreach( var detail in dbOrder.CollateralOrderDetails )
 			{
 				var shippedQuantity = detail.CollateralOrderShipmentDetails.Sum( d => d.Quantity );
 				bHasFulfilled |= (detail.Quantity == shippedQuantity);
 				bHasUnfulfilled |= (0 == shippedQuantity);
+				bHasPartial |= ( shippedQuantity > 0 );
 			}
 
 			dbOrder.Status = NewOrderInformation.SPartial;
-			if( !bHasFulfilled )
+			if( !bHasFulfilled && !bHasPartial )
 			{
 				dbOrder.Status = NewOrderInformation.SPending;
 			}
-			else if( !bHasUnfulfilled )
+			else if( !bHasUnfulfilled && !bHasPartial )
 			{
 				dbOrder.Status = NewOrderInformation.SFulfilled;
 			}
