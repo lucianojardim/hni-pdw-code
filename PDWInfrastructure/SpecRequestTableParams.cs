@@ -9,5 +9,6 @@ namespace PDWInfrastructure
 	{
 		public bool pendingOnly { get; set; }
 		public bool recommendedOnly { get; set; }
+		public bool notYetAssigned { get; set; }
 	}
 }

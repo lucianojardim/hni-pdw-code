@@ -10,6 +10,7 @@
 <a href="@Url.Action( "AddRequest", "SpecRequest" )" id="addNewRequest">Add New</a><br />
 @Html.CheckBox( "PendingOnly" )Show Only Pending Spec Requests<br />
 @Html.CheckBox( "RecommendedOnly" )Show Only Recommended Spec Requests<br />
+@Html.CheckBox( "NotYetAssigned" )Not Yet Assigned<br />
 <div>
     <table id="specRequestList">
     <thead></thead>
@@ -21,6 +22,7 @@
 	$(document).ready(function () {
 		$('#PendingOnly').click(loadSpecRequests);
 		$('#RecommendedOnly').click(loadSpecRequests);
+		$('#NotYetAssigned').click(loadSpecRequests);
 
 		loadSpecRequests();
 	});
@@ -43,6 +45,7 @@
 			"fnServerParams": function (aoData) {
 				aoData.push({ "name": "pendingOnly", "value": $('#PendingOnly:checked').length > 0 });
 				aoData.push({ "name": "recommendedOnly", "value": $('#RecommendedOnly:checked').length > 0 });
+				aoData.push({ "name": "notYetAssigned", "value": $('#NotYetAssigned:checked').length > 0 });
 			},
 			"iDisplayLength": 100,
 			"oLanguage": {

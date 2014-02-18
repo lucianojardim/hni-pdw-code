@@ -188,6 +188,10 @@ namespace PWDRepositories
 			{
 				requestList = requestList.Where( i => i.IsCompleted && (i.IsGoodForWeb ?? false) && !i.Typicals.Any() );
 			}
+			if( paramDetails.notYetAssigned )
+			{
+				requestList = requestList.Where( i => !i.IsCompleted && !i.PaoliSpecTeamMemberID.HasValue );
+			}
 
 			displayedRecords = requestList.Count();
 
