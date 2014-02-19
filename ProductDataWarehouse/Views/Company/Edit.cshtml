@@ -111,6 +111,9 @@
 		<td  colspan="4"><h3>Official Company Information</h3></td>
 		</tr>
         <tr>
+		<td style="padding-bottom:13px;">@Html.MJLabelFor( m => m.CompanyID, true )</td><td>@Html.DisplayFor( m => m.CompanyID )</td>
+		</tr>
+        <tr>
 		<td>@Html.MJLabelFor( m => m.Name, true )</td><td>@Html.TextBoxFor( m => m.Name, new { tabindex = 1 } )</td>
 		</tr>
 		<tr>

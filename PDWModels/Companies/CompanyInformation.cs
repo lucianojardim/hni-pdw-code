@@ -10,6 +10,7 @@ namespace PDWModels.Companies
 {
 	public class CompanyInformation
 	{
+		[DisplayName( "Unique ID" )]
 		public int CompanyID { get; set; }
 		[DisplayName("Name")]
 		[Required]
