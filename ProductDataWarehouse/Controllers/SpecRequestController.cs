@@ -114,7 +114,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageTypicals" )]
 		[HttpPost]
-		public ActionResult AddTypical( TypicalMgmtInfo tInfo )
+		public ActionResult AddTypical( TypicalMgmtInfo tInfo, string typeOfSubmit )
 		{
 			if( ModelState.IsValid )
 			{
@@ -122,7 +122,7 @@ namespace ProductDataWarehouse.Controllers
 				{
 					SpecRequestRepository sRepository = new SpecRequestRepository();
 
-					sRepository.AddTypical( tInfo );
+					sRepository.AddTypical( tInfo, typeOfSubmit == "Publish" );
 
 					ViewBag.CloseFancyBox = true;
 
@@ -241,7 +241,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageTypicals" )]
 		[HttpPost]
-		public ActionResult EditTypical( TypicalMgmtInfo tInfo )
+		public ActionResult EditTypical( TypicalMgmtInfo tInfo, string typeOfSubmit )
 		{
 			if( ModelState.IsValid )
 			{
@@ -249,7 +249,7 @@ namespace ProductDataWarehouse.Controllers
 				{
 					SpecRequestRepository sRepository = new SpecRequestRepository();
 
-					sRepository.UpdateTypical( tInfo );
+					sRepository.UpdateTypical( tInfo, typeOfSubmit != "Update" );
 
 					ViewBag.CloseFancyBox = true;
 

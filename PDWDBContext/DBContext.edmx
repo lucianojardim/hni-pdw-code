@@ -818,6 +818,7 @@
           <Property Name="SeriesList" Type="ntext" />
           <Property Name="AvailableForIn2" Type="bit" />
           <Property Name="SpecRequestID" Type="int" />
+          <Property Name="IsPublished" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="TypicalTextAttributes">
           <Key>
@@ -2366,6 +2367,7 @@
           <Property Type="Boolean" Name="AvailableForIn2" />
           <NavigationProperty Name="SpecRequest" Relationship="PaoliPDWModel.fkTypical_Spec" FromRole="Typical" ToRole="SpecRequest" />
           <Property Type="String" Name="Notes" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsPublished" Nullable="false" />
         </EntityType>
         <EntityType Name="TypicalTextAttribute">
           <Key>
@@ -3575,6 +3577,7 @@
           <EntitySetMapping Name="Typicals">
             <EntityTypeMapping TypeName="PaoliPDWModel.Typical">
               <MappingFragment StoreEntitySet="Typicals">
+                <ScalarProperty Name="IsPublished" ColumnName="IsPublished" />
                 <ScalarProperty Name="Notes" ColumnName="Notes" />
                 <ScalarProperty Name="AvailableForIn2" ColumnName="AvailableForIn2" />
                 <ScalarProperty Name="SeriesList" ColumnName="SeriesList" />

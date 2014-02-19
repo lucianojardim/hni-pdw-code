@@ -188,6 +188,7 @@ else
 		@Html.HiddenFor( m => m.TypicalID )
 		@Html.HiddenFor( m => m.RequestID )
 		@Html.HiddenFor( m => m.Name )
+		@Html.HiddenFor( m => m.IsPublished )
         <tr><td>@Html.MJLabelFor( m => m.FeaturedSeries, true )</td><td>@Html.DropDownListFor( m => m.FeaturedSeries, ImportController.GetSeriesDDList( true ) )</td><td>
 			@Html.MJLabelFor( m => m.SeriesList, true )</td><td>@Html.TextBoxFor( m => m.SeriesList, new { style = "display:none" } )</td></tr>
         <tr><td>@Html.MJLabelFor( m => m.ListPrice, true )</td><td>@Html.TextBoxFor( m => m.ListPrice )</td><td>
@@ -206,5 +207,13 @@ else
 		<tr><td>@Html.MJLabelFor( m => m.dwgFile, true )</td><td><input type="file" id="dwgFile" name="dwgFile" accept=".dwg" /></td><td colspan="2"><label>@Html.DisplayFor( m => m.dwgFileName )</label></td></tr>
 		</table>
 @Html.ValidationSummary()
-        <input type="submit" class="btn_type1" value="Update" id="submitBtn" />
+        <input type="submit" class="btn_type1" value="Update" id="submitBtn" name="typeOfSubmit" />
+		if( !Model.IsPublished )
+  {
+        <input type="submit" class="btn_type1" value="Publish" id="publishBtn" name="typeOfSubmit" />
+  }
+  else
+  {
+        <input type="submit" class="btn_type1" value="Unpublish" id="unpublishBtn" name="typeOfSubmit" />
+  }
 	}

@@ -11792,12 +11792,14 @@ namespace PDWDBContext
         /// <param name="typicalID">Initial value of the TypicalID property.</param>
         /// <param name="name">Initial value of the Name property.</param>
         /// <param name="createdDate">Initial value of the CreatedDate property.</param>
-        public static Typical CreateTypical(global::System.Int32 typicalID, global::System.String name, global::System.DateTime createdDate)
+        /// <param name="isPublished">Initial value of the IsPublished property.</param>
+        public static Typical CreateTypical(global::System.Int32 typicalID, global::System.String name, global::System.DateTime createdDate, global::System.Boolean isPublished)
         {
             Typical typical = new Typical();
             typical.TypicalID = typicalID;
             typical.Name = name;
             typical.CreatedDate = createdDate;
+            typical.IsPublished = isPublished;
             return typical;
         }
 
@@ -12023,6 +12025,30 @@ namespace PDWDBContext
         private global::System.String _Notes;
         partial void OnNotesChanging(global::System.String value);
         partial void OnNotesChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsPublished
+        {
+            get
+            {
+                return _IsPublished;
+            }
+            set
+            {
+                OnIsPublishedChanging(value);
+                ReportPropertyChanging("IsPublished");
+                _IsPublished = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsPublished");
+                OnIsPublishedChanged();
+            }
+        }
+        private global::System.Boolean _IsPublished;
+        partial void OnIsPublishedChanging(global::System.Boolean value);
+        partial void OnIsPublishedChanged();
 
         #endregion
 

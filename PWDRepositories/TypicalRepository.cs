@@ -23,7 +23,9 @@ namespace PWDRepositories
 		{
 			TypicalDetailListGallery gallery = new TypicalDetailListGallery();
 
-			var theList = database.Typicals.AsQueryable();
+			var theList = database.Typicals
+				.Where( t => t.IsPublished )
+				.AsQueryable();
 			gallery.TotalListCount = theList.Count();
 
 			if( (keywords ?? "").Any() )
@@ -148,6 +150,7 @@ namespace PWDRepositories
 			foreach( var term in termList )
 			{
 				var searchList = database.Typicals
+					.Where( t => t.IsPublished )
 					.Where( s => s.DBKeywords.Contains( term.searchText ) )
 					.Select( i => i.TypicalID )
 					.ToList();
@@ -197,7 +200,9 @@ namespace PWDRepositories
 		{
 			TypicalListGallery gallery = new TypicalListGallery();
 
-			var theList = database.Typicals.AsQueryable();
+			var theList = database.Typicals
+				.Where( t => t.IsPublished )
+				.AsQueryable();
 			gallery.TotalListCount = theList.Count();
 
 			if( (keywords ?? "").Any() )
@@ -331,7 +336,9 @@ namespace PWDRepositories
 
 			TypicalListGallery gallery = new TypicalListGallery();
 
-			var theList = database.Typicals.AsQueryable();
+			var theList = database.Typicals
+				.Where( t => t.IsPublished )
+				.AsQueryable();
 			gallery.TotalListCount = theList.Count();
 
 			if( (keywords ?? "").Any() )

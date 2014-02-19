@@ -86,12 +86,12 @@ namespace PWDRepositories
 						Name = s.Series.Name,
 						TypicalList = s.Series
 							.SeriesTypicals
-								.Where( t => t.Typical.TypicalImageFiles.Any( tif => tif.ImageID == s.ImageID ) )
+								.Where( t => t.Typical.IsPublished && t.Typical.TypicalImageFiles.Any( tif => tif.ImageID == s.ImageID ) )
 								.Select( st1 => st1.Typical.Name )
 					} ).ToList();
 
 			// add orphaned typicals
-			foreach( var typicalImage in img.TypicalImageFiles )
+			foreach( var typicalImage in img.TypicalImageFiles.Where( tif => tif.Typical.IsPublished ) )
 			{
 				foreach( var typicalSeries in typicalImage.Typical.SeriesTypicals.Select( st => st.Series ) )
 				{

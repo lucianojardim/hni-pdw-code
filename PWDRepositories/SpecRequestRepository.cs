@@ -31,7 +31,8 @@ namespace PWDRepositories
 				SpecTeamMember = sRequest.PaoliSpecTeamMemberID.HasValue ? sRequest.SpecTeamMember.LastName : "",
 				SalesRepGroup = sRequest.PaoliSalesRepGroupID.HasValue ? sRequest.PaoliSalesRepGroup.FullName : "",
 				IsRecommended = sRequest.IsGoodForWeb ?? false,
-				IsPublished = sRequest.Typicals.Any(),
+				IsPublished = sRequest.Typicals.Any( t => t.IsPublished ),
+				HasTypical = sRequest.Typicals.Any(),
 				IsCompleted = sRequest.IsCompleted,
 				CreatedDate = sRequest.RequestDate
 			};
@@ -190,7 +191,7 @@ namespace PWDRepositories
 			}
 			if( paramDetails.recommendedOnly )
 			{
-				requestList = requestList.Where( i => i.IsCompleted && (i.IsGoodForWeb ?? false) && !i.Typicals.Any() );
+				requestList = requestList.Where( i => i.IsCompleted && (i.IsGoodForWeb ?? false) && !i.Typicals.Any( t => t.IsPublished ) );
 			}
 			if( paramDetails.notYetAssigned )
 			{
@@ -338,7 +339,7 @@ namespace PWDRepositories
 				Notes = sInfo.Notes,
 				addlFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles.Where( f => !f.IsSpecTeam ) ),
 				specTeamFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles.Where( f => f.IsSpecTeam ) ),
-				CreatedDate = sInfo.RequestDate.Value,
+				CreatedDate = sInfo.RequestDate,
 				DealerName = sInfo.PrimaryCompanyID.HasValue ? sInfo.PrimaryCompany.FullName : "None",
 				SalesRepGroupName = sInfo.PaoliSalesRepGroupID.HasValue ? sInfo.PaoliSalesRepGroup.FullName : "None",
 				SalesRepMemberName = sInfo.PaoliSalesRepMemberID.HasValue ? sInfo.PaoliSalesRepMember.FullName : "None",
@@ -565,10 +566,11 @@ namespace PWDRepositories
 				Material = sInfo.Material,
 				Finish = sInfo.Finish,
 				Notes = sInfo.Notes,
+				IsPublished = false
 			};
 		}
 
-		public bool AddTypical( TypicalMgmtInfo tInfo )
+		public bool AddTypical( TypicalMgmtInfo tInfo, bool publish )
 		{
 			var specRequest = database.SpecRequests.FirstOrDefault( r => r.RequestID == tInfo.RequestID );
 			if( specRequest == null )
@@ -580,6 +582,7 @@ namespace PWDRepositories
 			tData.CreatedDate = DateTime.Now;
 
 			tData.Name = specRequest.Name;
+			tData.IsPublished = publish;
 
 			List<string> arrKeywordList = new List<string>();
 			var rSeries = database.Serieses.FirstOrDefault( s => s.Name == tInfo.FeaturedSeries );
@@ -776,7 +779,9 @@ namespace PWDRepositories
 				sifFileName = "",
 				sp4FileName = "",
 				pdfFileName = "",
-				dwgFileName = ""
+				dwgFileName = "",
+
+				IsPublished = tInfo.IsPublished
 			};
 
 			var xlsFiles = tInfo.TextAttribute( "Spec & Price XLS" );
@@ -812,12 +817,17 @@ namespace PWDRepositories
 			return typData;
 		}
 
-		public bool UpdateTypical( TypicalMgmtInfo tInfo )
+		public bool UpdateTypical( TypicalMgmtInfo tInfo, bool togglePublish )
 		{
 			var tData = database.Typicals.FirstOrDefault( t => t.TypicalID == tInfo.TypicalID );
 			if( tData == null )
 			{
 				throw new Exception( "Unable to find Typical for Spec Request" );
+			}
+
+			if( togglePublish )
+			{
+				tData.IsPublished = !tData.IsPublished;
 			}
 
 			tData.SeriesTypicals.ToList().ForEach( st => database.DeleteObject( st ) );

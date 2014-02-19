@@ -53,5 +53,6 @@ namespace PDWModels.SpecRequests
 		public string sp4FileName { get; set; }
 		public string pdfFileName { get; set; }
 		public string dwgFileName { get; set; }
+		public bool IsPublished { get; set; }
 	}
 }

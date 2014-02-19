@@ -323,6 +323,7 @@ namespace PWDRepositories
 					} );
 
 				sInfo.Typicals = theData.SeriesTypicals
+					.Where( t => t.Typical.IsPublished )
 					.OrderByDescending( st => st.IsPrimary )
 					.Select( t => new SeriesInformation.TypicalInfoForSeries()
 					{

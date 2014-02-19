@@ -205,5 +205,6 @@ else
 		<tr><td>@Html.MJLabelFor( m => m.dwgFile, true )</td><td><input type="file" id="dwgFile" name="dwgFile" accept=".dwg" /></td></tr>
 		</table>
 @Html.ValidationSummary()
-        <input type="submit" class="btn_type1" value="Add" id="submitBtn" />
+        <input type="submit" class="btn_type1" value="Add" id="submitBtn" name="typeOfSubmit" />
+        <input type="submit" class="btn_type1" value="Publish" id="publishBtn" name="typeOfSubmit" />
 	}

@@ -118,7 +118,9 @@
                     		if (oObj.aData["IsPublished"]) {
                     			return '<a href=\"@Url.Action( "EditTypical", "SpecRequest" )/' + oObj.aData["RequestID"] + '/?iframe\" class="fbImageBtn">Published</a>';
                     		} else if (oObj.aData["IsCompleted"]) {
-                    			if (oObj.aData["IsRecommended"]) {
+                    			if (oObj.aData["HasTypical"]) {
+                    				return '<a href=\"@Url.Action( "EditTypical", "SpecRequest" )/' + oObj.aData["RequestID"] + '/?iframe\" class="fbImageBtn">Recommended</a>';
+                    			} else if (oObj.aData["IsRecommended"]) {
                     				return '<a href=\"@Url.Action( "AddTypical", "SpecRequest" )/' + oObj.aData["RequestID"] + '/?iframe\" class="fbImageBtn">Recommended</a>';
                     			} else {
                     				return 'Not recommended';
