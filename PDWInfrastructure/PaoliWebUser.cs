@@ -215,9 +215,8 @@ namespace PDWInfrastructure
 
 		public bool CanManageOrders { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin,
 					PaoliWebRole.PaoliMemberCustomerService, PaoliWebRole.PaoliMemberSales,
-					PaoliWebRole.PaoliMemberMarketing, PaoliWebRole.PaoliSalesRep );
-		}
-		}
+					PaoliWebRole.PaoliMemberMarketing, PaoliWebRole.PaoliMemberSpecTeam,
+					PaoliWebRole.PaoliSalesRep ); } }
 
 		public string ProductsHomePage
 		{
