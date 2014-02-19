@@ -498,6 +498,7 @@
           <Property Name="PublicContactEmail" Type="nvarchar" MaxLength="50" />
           <Property Name="PublicWebSite" Type="nvarchar" MaxLength="100" />
           <Property Name="PublicDisplayName" Type="nvarchar" MaxLength="100" />
+          <Property Name="BusinessUnitName" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="DealerFeaturedProducts">
           <Key>
@@ -2743,6 +2744,7 @@
           <NavigationProperty Name="CollateralOrders1" Relationship="PaoliPDWModel.fkCOrder_SalesRep" FromRole="Company" ToRole="CollateralOrder" />
           <NavigationProperty Name="CollateralOrders2" Relationship="PaoliPDWModel.fkCOrder_SPDealer" FromRole="Company" ToRole="CollateralOrder" />
           <NavigationProperty Name="CollateralOrders3" Relationship="PaoliPDWModel.fkCOrder_SPSalesRep" FromRole="Company" ToRole="CollateralOrder" />
+          <Property Type="String" Name="BusinessUnitName" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SpecRequestFile">
           <Key>
@@ -3720,6 +3722,7 @@
           <EntitySetMapping Name="Companies">
             <EntityTypeMapping TypeName="PaoliPDWModel.Company">
               <MappingFragment StoreEntitySet="Companies">
+                <ScalarProperty Name="BusinessUnitName" ColumnName="BusinessUnitName" />
                 <ScalarProperty Name="PublicDisplayName" ColumnName="PublicDisplayName" />
                 <ScalarProperty Name="PublicWebSite" ColumnName="PublicWebSite" />
                 <ScalarProperty Name="PublicContactEmail" ColumnName="PublicContactEmail" />

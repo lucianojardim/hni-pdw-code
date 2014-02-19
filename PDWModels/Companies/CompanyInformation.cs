@@ -82,6 +82,9 @@ namespace PDWModels.Companies
 		public int CompanyType { get; set; }
 		[DisplayName( "Territory ID" )]
 		public int? TerritoryID { get; set; }
+		[DisplayName( "Business Unit Name" )]
+		[StringLength( 200 )]
+		public string BusinessUnitName { get; set; }
 
 		public bool LockCompanyType { get; set; }
 

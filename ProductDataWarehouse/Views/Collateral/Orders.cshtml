@@ -64,7 +64,7 @@
                     { "sName": "EditButtons",
                     	"aTargets": [0],
                     	"sTitle": "Order Number",
-                    	"mDataProp": "EditButtons", "sWidth": "13%",
+                    	"mDataProp": "EditButtons", "sWidth": "8%",
                     	"fnRender": function (oObj) {
                     		var s = '';
                     		if (oObj.aData["CanEdit"]) {
@@ -75,14 +75,14 @@
                     		return s;
                     	}
                     },
-                    { "sName": "RequestingParty", "sTitle": "Requested By", "aTargets": [1], "mDataProp": "RequestingParty", "sWidth": "30%" },
-                    { "sName": "ShippingParty", "sTitle": "Requested For", "aTargets": [2], "mDataProp": "ShippingParty", "sWidth": "30%" },
+                    { "sName": "RequestingParty", "sTitle": "Requested By", "aTargets": [1], "mDataProp": "RequestingParty", "sWidth": "36%" },
+                    { "sName": "ShippingParty", "sTitle": "Requested For", "aTargets": [2], "mDataProp": "ShippingParty", "sWidth": "36%" },
                     { "sName": "OrderDate", "sTitle": "Order Date", "aTargets": [3], "mDataProp": "OrderDate",
                     	"fnRender": function (oObj) {
                     		return getLocalDate(oObj.aData["OrderDateMilliseconds"]);
-                    	}, "sWidth": "12%"
+                    	}, "sWidth": "10%"
                     },
-                    { "sName": "Status", "sTitle": "Status", "aTargets": [4], "mDataProp": "Status", "sWidth": "15%",
+                    { "sName": "Status", "sTitle": "Status", "aTargets": [4], "mDataProp": "Status", "sWidth": "10%",
                     	"fnRender": function (oObj) {
                     		return '<a href=\"@Url.Action( "ShipOrder", "Collateral" )/' + oObj.aData["OrderID"] + '">' + oObj.aData["Status"] + '</a>';
                     	}

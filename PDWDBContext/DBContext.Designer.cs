@@ -5579,6 +5579,30 @@ namespace PDWDBContext
         private global::System.String _PublicDisplayName;
         partial void OnPublicDisplayNameChanging(global::System.String value);
         partial void OnPublicDisplayNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String BusinessUnitName
+        {
+            get
+            {
+                return _BusinessUnitName;
+            }
+            set
+            {
+                OnBusinessUnitNameChanging(value);
+                ReportPropertyChanging("BusinessUnitName");
+                _BusinessUnitName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("BusinessUnitName");
+                OnBusinessUnitNameChanged();
+            }
+        }
+        private global::System.String _BusinessUnitName;
+        partial void OnBusinessUnitNameChanging(global::System.String value);
+        partial void OnBusinessUnitNameChanged();
 
         #endregion
 

@@ -26,7 +26,7 @@ namespace PWDRepositories
 				UserID = u.UserID,
 				FirstName = u.FirstName,
 				LastName = u.LastName,
-				CompanyName = u.Company.Name,
+				CompanyName = u.Company.FullName,
 				EmailAddress = u.Email,
 				PhoneNumber = u.BusinessPhone,
 				Enabled = u.Enabled,
@@ -174,7 +174,7 @@ namespace PWDRepositories
 				FirstName = eUser.FirstName,
 				LastName = eUser.LastName,
 				CompanyID = eUser.CompanyID,
-				CompanyName = eUser.Company.Name,
+				CompanyName = eUser.Company.FullName,
 				Address1 = eUser.Address1,
 				Address2 = eUser.Address2,
 				City = eUser.City,
@@ -339,7 +339,8 @@ namespace PWDRepositories
 					i.FirstName.Contains( param.sSearch ) ||
 					i.LastName.Contains( param.sSearch ) ||
 					i.Email.Contains( param.sSearch ) ||
-					i.Company.Name.Contains( param.sSearch ) );
+					i.Company.Name.Contains( param.sSearch ) ||
+					i.Company.BusinessUnitName.Contains( param.sSearch ) );
 			}
 			if( param.accountType != 0 )
 			{

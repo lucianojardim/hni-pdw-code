@@ -26,10 +26,10 @@ namespace PWDRepositories
 			{
 				RequestID = sRequest.RequestID,
 				Name = sRequest.Name,
-				Dealer = sRequest.PrimaryCompanyID.HasValue ? sRequest.PrimaryCompany.Name : "",
+				Dealer = sRequest.PrimaryCompanyID.HasValue ? sRequest.PrimaryCompany.FullName : "",
 				ProjectName = sRequest.ProjectName,
 				SpecTeamMember = sRequest.PaoliSpecTeamMemberID.HasValue ? sRequest.SpecTeamMember.LastName : "",
-				SalesRepGroup = sRequest.PaoliSalesRepGroupID.HasValue ? sRequest.PaoliSalesRepGroup.Name : "",
+				SalesRepGroup = sRequest.PaoliSalesRepGroupID.HasValue ? sRequest.PaoliSalesRepGroup.FullName : "",
 				IsRecommended = sRequest.IsGoodForWeb ?? false,
 				IsPublished = sRequest.Typicals.Any(),
 				IsCompleted = sRequest.IsCompleted,
@@ -69,7 +69,9 @@ namespace PWDRepositories
 				requestList = requestList.Where( i =>
 					i.Name.Contains( paramDetails.sSearch ) ||
 					i.PrimaryCompany.Name.Contains( paramDetails.sSearch ) ||
+					i.PrimaryCompany.BusinessUnitName.Contains( paramDetails.sSearch ) ||
 					i.PaoliSalesRepGroup.Name.Contains( paramDetails.sSearch ) ||
+					i.PaoliSalesRepGroup.BusinessUnitName.Contains( paramDetails.sSearch ) ||
 					i.ProjectName.Contains( paramDetails.sSearch ) ||
 					i.SpecTeamMember.FirstName.Contains( paramDetails.sSearch ) ||
 					i.SpecTeamMember.LastName.Contains( paramDetails.sSearch ) );
@@ -174,7 +176,9 @@ namespace PWDRepositories
 				requestList = requestList.Where( i =>
 					i.Name.Contains( paramDetails.sSearch ) ||
 					i.PrimaryCompany.Name.Contains( paramDetails.sSearch ) ||
+					i.PrimaryCompany.BusinessUnitName.Contains( paramDetails.sSearch ) ||
 					i.PaoliSalesRepGroup.Name.Contains( paramDetails.sSearch ) ||
+					i.PaoliSalesRepGroup.BusinessUnitName.Contains( paramDetails.sSearch ) ||
 					i.ProjectName.Contains( paramDetails.sSearch ) ||
 					i.SpecTeamMember.FirstName.Contains( paramDetails.sSearch ) ||
 					i.SpecTeamMember.LastName.Contains( paramDetails.sSearch ) );
@@ -335,8 +339,8 @@ namespace PWDRepositories
 				addlFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles.Where( f => !f.IsSpecTeam ) ),
 				specTeamFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles.Where( f => f.IsSpecTeam ) ),
 				CreatedDate = sInfo.RequestDate.Value,
-				DealerName = sInfo.PrimaryCompanyID.HasValue ? sInfo.PrimaryCompany.Name : "None",
-				SalesRepGroupName = sInfo.PaoliSalesRepGroupID.HasValue ? sInfo.PaoliSalesRepGroup.Name : "None",
+				DealerName = sInfo.PrimaryCompanyID.HasValue ? sInfo.PrimaryCompany.FullName : "None",
+				SalesRepGroupName = sInfo.PaoliSalesRepGroupID.HasValue ? sInfo.PaoliSalesRepGroup.FullName : "None",
 				SalesRepMemberName = sInfo.PaoliSalesRepMemberID.HasValue ? sInfo.PaoliSalesRepMember.FullName : "None",
 				SalesRepMemberContact = sInfo.PaoliSalesRepMemberID.HasValue ? sInfo.PaoliSalesRepMember.ContactInfo : "",
 				DealerSalesRepName = sInfo.DealerSalesRepID.HasValue ? sInfo.DealerSalesRep.FullName : "None",
@@ -363,7 +367,7 @@ namespace PWDRepositories
 				Fabric = sInfo.FabricDetails,
 				SpecialRequests = sInfo.SpecialRequests,
 				CreatedByUser = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.FullName : null,
-				CreatedByUserCompany = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.Company.Name : null,
+				CreatedByUserCompany = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.Company.FullName : null,
 				CreatedByUserPhone = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.BusinessPhone : null,
 				CreatedByUserEmail = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.Email : null,
 					

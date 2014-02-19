@@ -19,7 +19,7 @@ namespace PDWDBContext
 		{
 			get
 			{
-				return (BusinessPhone ?? "") + ((BusinessPhone != null || Email != null) ? " | " : "") + (Email ?? "");
+				return (BusinessPhone ?? "") + ((BusinessPhone != null && Email != null) ? " | " : "") + (Email ?? "");
 			}
 		}
 

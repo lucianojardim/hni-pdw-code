@@ -57,7 +57,7 @@ namespace PDWModels.Collateral
 				return new Dictionary<int, string>()
 				{
 					{ SPending, "Pending" },
-					{ SPartial, "Partially Fulfilled" },
+					{ SPartial, "Partial" },
 					{ SFulfilled, "Fulfilled" },
 					{ SCanceled, "Canceled" }
 				};
