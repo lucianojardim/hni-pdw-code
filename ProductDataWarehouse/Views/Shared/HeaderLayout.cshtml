@@ -54,6 +54,8 @@
 <div id="page_navigation">
 	<div class="wrapper">
 		<a href="/Home" id="logo"><img src="@Url.Content( "~/Content/images/paoli_logo.png" )"></a>
+		@if( !(ViewBag.EmptyHeader ?? false) )
+  {
         <ul id="nav">
 			@if( HttpContext.Current.User.Identity.IsAuthenticated )
    {
@@ -78,6 +80,7 @@
             <li><a href="@Url.Action( "Logout", "Import" )">Log out</a></li>
    }
         </ul>
+	  }
 	</div>
 	@{var bNeedExtraSpace = false;}
 	@if( ViewBag.CurrentPage == "Users" )

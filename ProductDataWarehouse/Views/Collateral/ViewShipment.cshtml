@@ -1,0 +1,83 @@
+﻿@model PDWModels.Collateral.PendingOrderInformation.ShipmentSummary
+@{
+    ViewBag.Title = "Shipment Details";
+	ViewBag.EmptyHeader = true;
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+
+<h2>Shipment Details</h2>
+
+
+		<div>
+			<h3>Packing List</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<thead>
+				<tr class="fwb">
+				<td>Item</td>
+				<td>Packed Quantity</td>
+				</tr>
+				</thead>
+				<tbody>
+				@foreach( var detailInfo in Model.Details )
+	{
+		<tr>
+			<td>@detailInfo.Name</td><td class="tac">@detailInfo.Quantity</td>
+		</tr>
+	}
+				</tbody>
+			</table>
+			<h3>Shipping Information</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingType )</td><td>@Model.ShippingType</td>
+				</tr>
+				@switch( Model.ShippingTypeID )
+	{
+		case PDWModels.Collateral.NewOrderInformation.STGround:
+			break;
+		case PDWModels.Collateral.NewOrderInformation.ST2DayFedex:
+		case PDWModels.Collateral.NewOrderInformation.STOvernightFedex:
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingFedexAccount )</td><td>@Model.ShippingFedexAccount</td>
+				</tr>
+														 break;
+	}
+				<tr>
+				<td>@Html.LabelFor( m => m.Vendor )</td><td>@Model.Vendor</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.TrackingNumber )</td><td>@Model.TrackingNumber</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.GLCode )</td><td>@Model.GLCode</td>
+				</tr>
+				<tr><td>&nbsp;</td><td></td></tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingAttn )</td><td>@Model.ShippingAttn</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingCompanyName )</td><td>@Model.ShippingCompanyName</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingAddress1 )</td><td>@Model.ShippingAddress1</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingAddress2 )</td><td>@Model.ShippingAddress2</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingCity )</td><td>@Model.ShippingCity</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingState )</td><td>@Model.ShippingState</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingZip )</td><td>@Model.ShippingZip</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingPhoneNumber )</td><td>@Model.ShippingPhoneNumber</td>
+				</tr>
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingEmailAddress )</td><td>@Model.ShippingEmailAddress</td>
+				</tr>
+			</table>
+		</div>

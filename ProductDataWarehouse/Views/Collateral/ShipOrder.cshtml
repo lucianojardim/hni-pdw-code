@@ -360,6 +360,7 @@
 			<td>@shipmentInfo.Vendor</td>
 			<td>@shipmentInfo.TrackingNumber</td>
 			<td><a href="#shipmentDetails@(shipmentInfo.ShipmentID)" class="shipmentDetailsLink">Details</a></td>
+			<td><a target="_blank" href="@Url.Action( "ViewShipment", new { id = shipmentInfo.ShipmentID } )">Print</a></td>
 		</tr>
 	}
 				</tbody>
@@ -430,13 +431,13 @@
 														 break;
 	}
 				<tr>
-				<td>Vendor</td><td>@shipmentInfo.Vendor</td>
+				<td>@Html.LabelFor( m => m.Shipments[0].Vendor )</td><td>@shipmentInfo.Vendor</td>
 				</tr>
 				<tr>
-				<td>Tracking Number</td><td>@shipmentInfo.TrackingNumber</td>
+				<td>@Html.LabelFor( m => m.Shipments[0].TrackingNumber )</td><td>@shipmentInfo.TrackingNumber</td>
 				</tr>
 				<tr>
-				<td>GL Code</td><td>@shipmentInfo.GLCode</td>
+				<td>@Html.LabelFor( m => m.Shipments[0].GLCode )</td><td>@shipmentInfo.GLCode</td>
 				</tr>
 				<tr><td>&nbsp;</td><td></td></tr>
 				<tr>

@@ -333,7 +333,7 @@ namespace ProductDataWarehouse.Controllers
 
 					cRepository.AddOrderShipment( id, summary );
 
-					return RedirectToAction( "Orders" );
+					return RedirectToAction( "ShipOrder", new { id = id } );
 				}
 				catch( Exception )
 				{
@@ -344,6 +344,14 @@ namespace ProductDataWarehouse.Controllers
 			return View( ( new CollateralRepository() ).GetPendingOrder( id ) );
 		}
 
+		[PaoliAuthorize( "CanManageOrders" )]
+		public ActionResult ViewShipment( int id )
+		{
+
+			return View( ( new CollateralRepository() ).GetOrderShipment( id ) );
+		}
+
+		[PaoliAuthorize( "CanManageOrders" )]
 		public JsonResult CancelOrder( int id )
 		{
 			CollateralRepository cRepository = new CollateralRepository();

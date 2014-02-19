@@ -931,7 +931,8 @@ namespace PWDRepositories
 					ShippingZip = shipment.ShippingZip,
 					ShippingPhoneNumber = shipment.ShippingPhoneNumber,
 					ShippingEmailAddress = shipment.ShippingEmailAddress,
-					ShippingDate = shipment.ShipmentDate
+					ShippingDate = shipment.ShipmentDate,
+					ShippingTypeID = dbOrder.ShippingType
 				};
 
 				sInfo.Details = new List<PendingOrderInformation.ShipmentDetailSummary>();
@@ -1051,6 +1052,50 @@ namespace PWDRepositories
 			dbOrder.CanceledOnDateTime = DateTime.UtcNow;
 
 			return database.SaveChanges() > 0;			
+		}
+
+		public PendingOrderInformation.ShipmentSummary GetOrderShipment( int id )
+		{
+			var shipment = database.CollateralOrderShipments.FirstOrDefault( s => s.ShipmentID == id );
+			if( shipment == null )
+			{
+				throw new Exception( "Unable to find Shipment information" );
+			}
+
+			var sInfo = new PendingOrderInformation.ShipmentSummary()
+			{
+				ShipmentID = shipment.ShipmentID,
+				Vendor = shipment.Vendor,
+				TrackingNumber = shipment.TrackingNumber,
+				GLCode = shipment.GLCode,
+				ShippingType = shipment.ShippingType,
+				ShippingFedexAccount = shipment.ShippingFedexAccount,
+				ShippingAttn = shipment.ShippingAttn,
+				ShippingCompanyName = shipment.ShippingCompanyName,
+				ShippingAddress1 = shipment.ShippingAddress1,
+				ShippingAddress2 = shipment.ShippingAddress2,
+				ShippingCity = shipment.ShippingCity,
+				ShippingState = shipment.ShippingState,
+				ShippingZip = shipment.ShippingZip,
+				ShippingPhoneNumber = shipment.ShippingPhoneNumber,
+				ShippingEmailAddress = shipment.ShippingEmailAddress,
+				ShippingDate = shipment.ShipmentDate,
+				ShippingTypeID = shipment.CollateralOrder.ShippingType
+			};
+
+			sInfo.Details = new List<PendingOrderInformation.ShipmentDetailSummary>();
+
+			foreach( var sDetail in shipment.CollateralOrderShipmentDetails )
+			{
+				sInfo.Details.Add( new PendingOrderInformation.ShipmentDetailSummary()
+				{
+					OrderDetailID = sDetail.OrderDetailID,
+					Name = sDetail.CollateralOrderDetail.CollateralItem.Name,
+					Quantity = sDetail.Quantity
+				} );
+			}
+
+			return sInfo;
 		}
 
 		#endregion
