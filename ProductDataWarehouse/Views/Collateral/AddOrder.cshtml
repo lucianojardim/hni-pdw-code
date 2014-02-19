@@ -23,6 +23,14 @@
 					},
 					"Please add at least one item to your order."
 				);
+    		$.validator.addMethod(
+					"regex",
+					function (value, element, regexp) {
+						var re = new RegExp(regexp);
+						return this.optional(element) || re.test(value);
+					},
+					"Please check your input."
+				);
 
     		$('.quantityInput').last().rules("add", { atLeastOneItem: true, messages: { number: 'Please add at least one item to your order.'} });
     		$('#PaoliMemberID').rules("add", { required: true, messages: { required: "Paoli Member is required."} });
@@ -31,6 +39,9 @@
     		$('#SPPaoliMemberID').rules("add", { required: true, messages: { required: "Paoli Member is required."} });
     		$('#SPPaoliRepGroupID').rules("add", { required: true, messages: { required: "Paoli Rep Group is required."} });
     		$('#SPDealerID').rules("add", { required: true, messages: { required: "Dealership Name is required."} });
+    		$("#ShippingZip").rules("add", { regex: "^\\d{5}(-\\d{4})?$", messages: { regex: "Zip Code must be in the format ##### or #####-####."} });
+    		$("#ShippingPhoneNumber").rules("add", { regex: "^[2-9]\\d{2}-\\d{3}-\\d{4}$", messages: { regex: "Phone Number must be in the format ###-###-####."} });
+    		$("#ShippingEmailAddress").rules("add", { regex: "^[A-Za-z0-9](([_\\.\\-\\+]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$", messages: { regex: "Email must be a valid Email Address."} });
 
     		$('.nextBtn').click(function (e) {
     			e.preventDefault();
