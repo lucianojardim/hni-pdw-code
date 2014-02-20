@@ -338,6 +338,20 @@
     				}
     			});
 
+				@if( PaoliWebUser.CurrentUser.IsDealerUser )
+				{
+				var thisCompany = CompanyController.GetThisCompanyAsDDItem();
+				var thisItem = "<option value=\"" + thisCompany.First().Value + "\">" + thisCompany.First().Text.Replace( "'", "''" ) + "</option>";
+				<text>
+    				$('#DealerID').empty();
+    				$('#DealerID').append('@Html.Raw(thisItem)');
+
+    				reloadDealerSalesRepList();
+				</text>
+				}
+				else
+				{
+				<text>
     			$.ajax({
     				dataType: 'json',
     				type: 'GET',
@@ -356,6 +370,8 @@
     					alert('Error getting Dealer list:' + errorThrown)
     				}
     			});
+				</text>
+				}
 
     		} else {
     			$('#PaoliSalesRepMemberID').empty();
@@ -373,7 +389,11 @@
 	if( PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
 	{
 		GetSalesRepList = CompanyController.GetThisCompanyAsDDItem;
-	}	
+	}
+	else if( PaoliWebUser.CurrentUser.IsDealerUser )
+	{
+		GetSalesRepList = CompanyController.GetSalesRepForDealerDDItem;
+	}
 }
 
     @using( Html.BeginForm( "AddRequest", "SpecRequest", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )

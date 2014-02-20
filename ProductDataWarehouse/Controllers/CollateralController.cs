@@ -249,7 +249,12 @@ namespace ProductDataWarehouse.Controllers
 
 					cRepository.AddCollateralOrder( orderInfo );
 
-					return RedirectToAction( "Orders" );
+					if( PaoliWebUser.CurrentUser.CanManageOrders )
+					{
+						return RedirectToAction( "Orders" );
+					}
+
+					return RedirectToAction( "ViewOrders" );
 				}
 				catch( Exception )
 				{
@@ -287,6 +292,12 @@ namespace ProductDataWarehouse.Controllers
 			}
 
 			return View( orderInfo );
+		}
+
+		[PaoliAuthorize( "CanAddOrders" )]
+		public ActionResult ViewOrder( int id )
+		{
+			return View( ( new CollateralRepository() ).GetPendingOrder( id, true ) );
 		}
 
 		[PaoliAuthorize( "CanManageOrders" )]
@@ -344,7 +355,7 @@ namespace ProductDataWarehouse.Controllers
 		[PaoliAuthorize( "CanManageOrders" )]
 		public ActionResult ShipOrder( int id )
 		{
-			return View( (new CollateralRepository()).GetPendingOrder( id ) );
+			return View( (new CollateralRepository()).GetPendingOrder( id, false ) );
 		}
 
 		[PaoliAuthorize( "CanManageOrders" )]
@@ -367,7 +378,7 @@ namespace ProductDataWarehouse.Controllers
 				}
 			}
 
-			return View( ( new CollateralRepository() ).GetPendingOrder( id ) );
+			return View( ( new CollateralRepository() ).GetPendingOrder( id, false ) );
 		}
 
 		[PaoliAuthorize( "CanManageOrders" )]

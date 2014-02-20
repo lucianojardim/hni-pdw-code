@@ -406,6 +406,24 @@ namespace PWDRepositories
 			};
 		}
 
+		public IDToTextItem GetMySalesRepInfo()
+		{
+			var user = database.Users.FirstOrDefault( u => u.UserID == PaoliWebUser.CurrentUser.UserId );
+			if( user != null )
+			{
+				var salesRep = database.Companies.FirstOrDefault( c => c.TerritoryID == user.Company.TerritoryID && 
+					c.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup );
+				if( salesRep != null )
+				{
+					return new IDToTextItem() { ID = salesRep.CompanyID, Text = salesRep.FullName };
+				}
+
+				throw new Exception( "Unable to find sales rep" );
+			}
+
+			throw new Exception( "Unable to find current user" );
+		}
+
 		public IEnumerable<IDToTextItem> GetMyDealerList()
 		{
 			var user = database.Users.FirstOrDefault( u => u.UserID == PaoliWebUser.CurrentUser.UserId );

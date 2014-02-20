@@ -52,7 +52,7 @@
 
     				if ($('#ShippingType').closest('.requestPanel').hasClass('activeSection')) {
     					$('#ShippingAddressType option[value="0"]').removeAttr('disabled');
-    					$('#ShippingAddressType').val('0');
+    					$('#ShippingAddressType').val('1');
 
     					setCompanyDetails();
     				}
@@ -109,6 +109,12 @@
 			<text>
 			reloadPaoliSalesRepList();
 			reloadSPPaoliSalesRepList();
+			</text>
+			}
+			else if( PaoliWebUser.CurrentUser.IsDealerUser )
+			{
+			<text>
+			reloadDealerSalesRepList();
 			</text>
 			}
     	});
@@ -515,7 +521,11 @@
 	{
 		GetSalesRepList = CompanyController.GetThisCompanyAsDDItem;
 		GetDealerList = CompanyController.GetDealerForSalesRepDDList;
-	}	
+	}
+	else if( PaoliWebUser.CurrentUser.IsDealerUser )
+	{
+		GetDealerList = CompanyController.GetThisCompanyAsDDItem;
+	}
 }
     @using( Html.BeginForm( "AddOrder", "Collateral", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
 	{
@@ -633,7 +643,7 @@
 				<tr>
 					<td>@Html.LabelFor( m => m.ShippingAddressType )</td><td>@Html.DropDownListFor( m => m.ShippingAddressType, new List<SelectListItem>() { 
 															 new SelectListItem() { Text = "Current Address on File", Value = "0" },
-															 new SelectListItem() { Text = "Other", Value = "1" }
+															 new SelectListItem() { Text = "New Address", Value = "1" }
 														 } )</td>
 				</tr>
 			</table>

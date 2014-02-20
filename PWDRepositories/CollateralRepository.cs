@@ -478,6 +478,9 @@ namespace PWDRepositories
 			}
 			else if( PaoliWebUser.CurrentUser.IsDealerUser )
 			{
+				collateralList = collateralList.Where( c =>
+					( ( c.RequestingParty == NewOrderInformation.RPDealer ) && ( c.Dealer.CompanyID == user.CompanyID ) ) ||
+					( ( c.ShippingParty == NewOrderInformation.RPDealer ) && ( c.SPDealer.CompanyID == user.CompanyID ) ) );
 			}
 
 			totalRecords = collateralList.Count();
@@ -846,7 +849,7 @@ namespace PWDRepositories
 			return database.SaveChanges() > 0;
 		}
 
-		public PendingOrderInformation GetPendingOrder( int id )
+		public PendingOrderInformation GetPendingOrder( int id, bool showShippedDetails )
 		{
 			var dbOrder = database.CollateralOrders.FirstOrDefault( o => o.OrderID == id );
 			if( dbOrder == null )
@@ -1008,8 +1011,11 @@ namespace PWDRepositories
 				} );
 			}
 
-			retOrder.OrderDetails.Where( a => a.RemainingQuantity <= 0 ).ToList()
-				.ForEach( a => retOrder.OrderDetails.Remove( a ) );
+			if( !showShippedDetails )
+			{
+				retOrder.OrderDetails.Where( a => a.RemainingQuantity <= 0 ).ToList()
+					.ForEach( a => retOrder.OrderDetails.Remove( a ) );
+			}
 
 			retOrder.OrderDetails = retOrder.OrderDetails
 				.OrderByDescending( o => o.GroupID.HasValue )

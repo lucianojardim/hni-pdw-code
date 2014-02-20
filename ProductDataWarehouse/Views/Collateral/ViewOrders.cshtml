@@ -59,7 +59,10 @@
                     	"sTitle": "Order Number",
                     	"mDataProp": "EditButtons", "sWidth": "8%",
                     	"fnRender": function (oObj) {
-                    		return oObj.aData["OrderID"];
+                    		var s = '<a href=\"@Url.Action( "ViewOrder", "Collateral" )/' + oObj.aData["OrderID"] + '\" class="fbImageBtn">';
+                    		s += oObj.aData["OrderID"];
+                    		s += '</a>';
+                    		return s;
                     	}
                     },
                     { "sName": "RequestingParty", "sTitle": "Requested By", "aTargets": [1], "mDataProp": "RequestingParty", "sWidth": "36%" },

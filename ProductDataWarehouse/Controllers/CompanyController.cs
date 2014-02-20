@@ -209,6 +209,13 @@ namespace ProductDataWarehouse.Controllers
 			return theList.Select( cInfo => new SelectListItem() { Value = cInfo.ID.ToString(), Text = cInfo.Text } );
 		}
 
+		public static IEnumerable<SelectListItem> GetSalesRepForDealerDDItem( int? companyType = null, bool includeBlank = true )
+		{
+			var cInfo = ( new CompanyRepository() ).GetMySalesRepInfo();
+
+			return new List<SelectListItem>() { new SelectListItem() { Value = cInfo.ID.ToString(), Text = cInfo.Text } };
+		}
+
 		public static IEnumerable<SelectListItem> GetCompanyDDList( int? companyType = null, bool includeBlank = true )
 		{
 			var theList = ( new CompanyRepository() ).GetFullCompanyList( companyType ).Select( c => new SelectListItem() { Value = c.ID.ToString(), Text = c.Text } ).ToList();
