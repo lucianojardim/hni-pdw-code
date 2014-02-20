@@ -453,6 +453,114 @@ namespace PWDRepositories
 			return database.SaveChanges() > 0;
 		}
 
+		public IEnumerable<CollateralOrderSummary> GetFullCollateralOrderListForUser( CollateralOrderTableParams param, out int totalRecords, out int displayedRecords )
+		{
+			totalRecords = 0;
+			displayedRecords = 0;
+
+			var collateralList = database.CollateralOrders
+				.AsQueryable();
+
+			var user = database.Users.FirstOrDefault( u => u.UserID == PaoliWebUser.CurrentUser.UserId );
+			if( user == null )
+			{
+				throw new Exception( "Unable to find current user" );
+			}
+
+			if( PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
+			{
+				// all orders with PaoliRepGroupID, SPPaoliRepGroupID
+				collateralList = collateralList.Where( c =>
+					( ( c.RequestingParty == NewOrderInformation.RPPaoliRepresentative ) && ( c.PaoliRepGroupID == user.CompanyID ) ) ||
+					( ( c.ShippingParty == NewOrderInformation.RPPaoliRepresentative ) && ( c.SPPaoliRepGroupID == user.CompanyID ) ) ||
+					( ( c.RequestingParty == NewOrderInformation.RPDealer ) && ( c.Dealer.TerritoryID == user.Company.TerritoryID ) ) ||
+					( ( c.ShippingParty == NewOrderInformation.RPDealer ) && ( c.SPDealer.TerritoryID == user.Company.TerritoryID ) ) );
+			}
+			else if( PaoliWebUser.CurrentUser.IsDealerUser )
+			{
+			}
+
+			totalRecords = collateralList.Count();
+
+			if( !string.IsNullOrEmpty( param.sSearch ) )
+			{
+				int tryOrderNum = 0;
+				int.TryParse( param.sSearch, out tryOrderNum );
+
+				collateralList = collateralList
+					.Where( cOrder => ( cOrder.OrderID == tryOrderNum || tryOrderNum == 0 ) && 
+						(cOrder.RequestingPartyName.Contains(param.sSearch) || 
+						 cOrder.ShippingPartyName.Contains(param.sSearch)));
+			}
+
+			displayedRecords = collateralList.Count();
+
+			string sortCol = param.sColumns.Split( ',' )[param.iSortCol_0];
+
+			switch( sortCol.ToLower() )
+			{
+				case "editbuttons":
+				case "orderid":
+				default:
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						collateralList = collateralList.OrderBy( v => v.OrderID );
+					}
+					else
+					{
+						collateralList = collateralList.OrderByDescending( v => v.OrderID );
+					}
+					break;
+				case "requestingparty":
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						collateralList = collateralList.OrderBy( v => v.RequestingPartyName );
+					}
+					else
+					{
+						collateralList = collateralList.OrderByDescending( v => v.RequestingPartyName );
+					}
+					break;
+				case "shippingparty":
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						collateralList = collateralList.OrderBy( v => v.ShippingPartyName );
+					}
+					else
+					{
+						collateralList = collateralList.OrderByDescending( v => v.ShippingPartyName );
+					}
+					break;
+				case "orderdate":
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						collateralList = collateralList.OrderBy( v => v.OrderDate );
+					}
+					else
+					{
+						collateralList = collateralList.OrderByDescending( v => v.OrderDate );
+					}
+					break;
+				case "status":
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						collateralList = collateralList.OrderBy( v => v.Status );
+					}
+					else
+					{
+						collateralList = collateralList.OrderByDescending( v => v.Status );
+					}
+					break;
+			}
+
+			if( ( displayedRecords > param.iDisplayLength ) && ( param.iDisplayLength > 0 ) )
+			{
+				collateralList = collateralList.Skip( param.iDisplayStart ).Take( param.iDisplayLength );
+			}
+
+			return collateralList.ToList().Select( c => ToCollateralOrderSummary( c ) );
+		}
+		
 		public IEnumerable<CollateralOrderSummary> GetFullCollateralOrderList( CollateralOrderTableParams param, out int totalRecords, out int displayedRecords )
 		{
 			totalRecords = 0;

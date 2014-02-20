@@ -121,7 +121,7 @@
 					<td class="dataLabel">@Html.MJLabelFor( m => m.Seating, true )</td><td>@Html.DisplayFor( m => m.Seating, templateName: "StringList" )</td>
 				</tr>
 			</table>
-			@if( Model.Casegoods.Any() || Model.Conferencing.Any() )
+			@if( Model.Casegoods.Any( c => c.Any() ) || Model.Conferencing.Any( c => c.Any() ) )
    {
 			<hr />
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
@@ -133,7 +133,7 @@
 	 }
 				</tr>
 			</table>
-	 if( Model.Casegoods.Any() )
+	   if( Model.Casegoods.Any( c => c.Any() ) )
 	 {
 			<hr />
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
@@ -164,7 +164,7 @@
 				</tr>
 			</table>
    }
-@if( Model.Seating.Any() )
+@if( Model.Seating.Any( c => c.Any() ) )
 {
 			<hr />
 			<table cellpadding="0" cellspacing="0" class="dataLayout">

@@ -406,6 +406,17 @@ namespace PWDRepositories
 			};
 		}
 
+		public IEnumerable<IDToTextItem> GetMyDealerList()
+		{
+			var user = database.Users.FirstOrDefault( u => u.UserID == PaoliWebUser.CurrentUser.UserId );
+			if( user != null )
+			{
+				return GetDealerList( user.CompanyID );
+			}
+
+			throw new Exception( "Unable to find current user" );
+		}
+
 		public IEnumerable<IDToTextItem> GetDealerList( int salesRepCompanyId )
 		{
 			var salesRep = database.Companies.FirstOrDefault( c => c.CompanyID == salesRepCompanyId );

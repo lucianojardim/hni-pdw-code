@@ -188,6 +188,27 @@ namespace ProductDataWarehouse.Controllers
 			return Json( theList, JsonRequestBehavior.AllowGet );
 		}
 
+		public delegate IEnumerable<SelectListItem> GetCompanyListFunction( int? companyType = null, bool includeBlank = true );
+
+		public static IEnumerable<SelectListItem> GetThisCompanyAsDDItem( int? companyType = null, bool includeBlank = true )
+		{
+			var cInfo = ( new UserRepository() ).GetCurrentCompanyInfo();
+
+			return new List<SelectListItem>() { new SelectListItem() { Value = cInfo.ID.ToString(), Text = cInfo.Text } };
+		}
+
+		public static IEnumerable<SelectListItem> GetDealerForSalesRepDDList( int? companyType = null, bool includeBlank = true )
+		{
+			var theList = ( new CompanyRepository() ).GetMyDealerList().ToList();
+
+			if( includeBlank )
+			{
+				theList.Insert( 0, new PDWModels.IDToTextItem() { ID = 0, Text = "" } );
+			}
+
+			return theList.Select( cInfo => new SelectListItem() { Value = cInfo.ID.ToString(), Text = cInfo.Text } );
+		}
+
 		public static IEnumerable<SelectListItem> GetCompanyDDList( int? companyType = null, bool includeBlank = true )
 		{
 			var theList = ( new CompanyRepository() ).GetFullCompanyList( companyType ).Select( c => new SelectListItem() { Value = c.ID.ToString(), Text = c.Text } ).ToList();

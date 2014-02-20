@@ -7,6 +7,7 @@
 }
 @using ProductDataWarehouse.Models
 @using ProductDataWarehouse.Controllers
+@using PDWInfrastructure
 
     <script type="text/javascript">
     	var fileCount = 1;
@@ -102,6 +103,14 @@
     		$('#SPPaoliRepGroupID').change(function () {
     			reloadSPPaoliSalesRepList();
     		});
+
+			@if( PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
+			{
+			<text>
+			reloadPaoliSalesRepList();
+			reloadSPPaoliSalesRepList();
+			</text>
+			}
     	});
 
     	function changeShippingType() {
@@ -500,6 +509,13 @@
 	var collTypeList = CollateralController.GetCollateralTypeFilterList().Where( c => Model.OrderDetails.Any( od => od.CollateralTypeID.ToString() == c.Value ) ).OrderBy( c => int.Parse( c.Value ) );
 	var stepCount = collTypeList.Where( i => i.Value != "0" ).Count() + 3;
 	var stepNum = 1;
+	CompanyController.GetCompanyListFunction GetSalesRepList = CompanyController.GetCompanyDDList;
+	CompanyController.GetCompanyListFunction GetDealerList = CompanyController.GetCompanyDDList;
+	if( PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
+	{
+		GetSalesRepList = CompanyController.GetThisCompanyAsDDItem;
+		GetDealerList = CompanyController.GetDealerForSalesRepDDList;
+	}	
 }
     @using( Html.BeginForm( "AddOrder", "Collateral", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
 	{
@@ -521,18 +537,18 @@
 			<h3>Step @(stepNum++) of @stepCount: Who's Requesting</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
-					<td>@Html.MJLabelFor( m => m.RequestingParty, false )</td><td>@Html.DropDownListFor( m => m.RequestingParty, PDWModels.Collateral.NewOrderInformation.RequestingParties.Select( rp => new SelectListItem() { Text = rp.Value, Value = rp.Key.ToString(), Selected = false } ) )</td>
+					<td>@Html.MJLabelFor( m => m.RequestingParty, false )</td><td>@Html.DropDownListFor( m => m.RequestingParty, CollateralController.GetPartyListForUser() )</td>
 				</tr>
 				<tr class="RPMember">
 					<td>@Html.MJLabelFor( m => m.PaoliMemberID, true )</td><td>@Html.DropDownListFor( m => m.PaoliMemberID, UserController.GetPaoliMemberDDList( true ) )</td>
 					<td></td><td></td>
 				</tr>
 				<tr class="RPRepGroup">
-					<td>@Html.MJLabelFor( m => m.PaoliRepGroupID, true )</td><td>@Html.DropDownListFor( m => m.PaoliRepGroupID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, true ) )</td>
+					<td>@Html.MJLabelFor( m => m.PaoliRepGroupID, true )</td><td>@Html.DropDownListFor( m => m.PaoliRepGroupID, GetSalesRepList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, true ) )</td>
 					<td>@Html.MJLabelFor( m => m.PaoliRepGroupMemberID, true )</td><td>@Html.DropDownListFor( m => m.PaoliRepGroupMemberID, new List<SelectListItem>() )</td>
 				</tr>
 				<tr class="RPDealer">
-					<td>@Html.MJLabelFor( m => m.DealerID, true )</td><td>@Html.DropDownListFor( m => m.DealerID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer, true ) )</td>
+					<td>@Html.MJLabelFor( m => m.DealerID, true )</td><td>@Html.DropDownListFor( m => m.DealerID, GetDealerList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer, true ) )</td>
 					<td>@Html.MJLabelFor( m => m.DealerMemberID, true )</td><td>@Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>() )</td>
 				</tr>
 				<tr class="RPEndUser">
@@ -547,18 +563,18 @@
 				<td>&nbsp;</td>
 				</tr>
 				<tr>
-					<td>@Html.MJLabelFor( m => m.ShippingParty, false )</td><td>@Html.DropDownListFor( m => m.ShippingParty, PDWModels.Collateral.NewOrderInformation.RequestingParties.Select( rp => new SelectListItem() { Text = rp.Value, Value = rp.Key.ToString(), Selected = false } ) )</td>
+					<td>@Html.MJLabelFor( m => m.ShippingParty, false )</td><td>@Html.DropDownListFor( m => m.ShippingParty, CollateralController.GetPartyListForUser() )</td>
 				</tr>
 				<tr class="SPMember">
 					<td>@Html.MJLabelFor( m => m.SPPaoliMemberID, true )</td><td>@Html.DropDownListFor( m => m.SPPaoliMemberID, UserController.GetPaoliMemberDDList( true ) )</td>
 					<td></td><td></td>
 				</tr>
 				<tr class="SPRepGroup">
-					<td>@Html.MJLabelFor( m => m.SPPaoliRepGroupID, true )</td><td>@Html.DropDownListFor( m => m.SPPaoliRepGroupID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, true ) )</td>
+					<td>@Html.MJLabelFor( m => m.SPPaoliRepGroupID, true )</td><td>@Html.DropDownListFor( m => m.SPPaoliRepGroupID, GetSalesRepList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, true ) )</td>
 					<td>@Html.MJLabelFor( m => m.SPPaoliRepGroupMemberID, true )</td><td>@Html.DropDownListFor( m => m.SPPaoliRepGroupMemberID, new List<SelectListItem>() )</td>
 				</tr>
 				<tr class="SPDealer">
-					<td>@Html.MJLabelFor( m => m.SPDealerID, true )</td><td>@Html.DropDownListFor( m => m.SPDealerID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer, true ) )</td>
+					<td>@Html.MJLabelFor( m => m.SPDealerID, true )</td><td>@Html.DropDownListFor( m => m.SPDealerID, GetDealerList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer, true ) )</td>
 					<td>@Html.MJLabelFor( m => m.SPDealerMemberID, true )</td><td>@Html.DropDownListFor( m => m.SPDealerMemberID, new List<SelectListItem>() )</td>
 				</tr>
 				<tr class="SPEndUser">

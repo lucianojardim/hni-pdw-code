@@ -231,13 +231,13 @@ namespace ProductDataWarehouse.Controllers
 			return View( theList );
 		}
 
-		[PaoliAuthorize( "CanManageOrders" )]
+		[PaoliAuthorize( "CanAddOrders" )]
 		public ActionResult AddOrder()
 		{
 			return View( ( new CollateralRepository() ).BlankOrderInformation() );
 		}
 
-		[PaoliAuthorize( "CanManageOrders" )]
+		[PaoliAuthorize( "CanAddOrders" )]
 		[HttpPost]
 		public ActionResult AddOrder( NewOrderInformation orderInfo )
 		{
@@ -315,6 +315,32 @@ namespace ProductDataWarehouse.Controllers
 				JsonRequestBehavior.AllowGet );
 		}
 
+		[PaoliAuthorize( "CanAddOrders" )]
+		public ActionResult ViewOrders()
+		{
+			return View();
+		}
+
+		[PaoliAuthorize( "CanAddOrders" )]
+		public JsonResult FullCollateralOrderListForUser( CollateralOrderTableParams param )
+		{
+			int totalCount = 0, filteredCount = 0;
+
+			CollateralRepository cRepository = new CollateralRepository();
+
+			var results = cRepository.GetFullCollateralOrderListForUser(
+				param, out totalCount, out filteredCount );
+
+			return Json( new
+			{
+				sEcho = param.sEcho,
+				iTotalRecords = totalCount,
+				iTotalDisplayRecords = filteredCount,
+				aaData = results
+			},
+				JsonRequestBehavior.AllowGet );
+		}
+
 		[PaoliAuthorize( "CanManageOrders" )]
 		public ActionResult ShipOrder( int id )
 		{
@@ -357,6 +383,23 @@ namespace ProductDataWarehouse.Controllers
 			CollateralRepository cRepository = new CollateralRepository();
 
 			return Json( cRepository.CancelOrder( id ), JsonRequestBehavior.AllowGet );
+		}
+
+		public static IEnumerable<SelectListItem> GetPartyListForUser()
+		{
+			var rpList = NewOrderInformation.RequestingParties.ToList();
+
+			if( PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
+			{
+				rpList.RemoveAll( i => i.Key == NewOrderInformation.RPPaoliMember );
+			}
+			if( PaoliWebUser.CurrentUser.IsDealerUser )
+			{
+				rpList.RemoveAll( i => i.Key == NewOrderInformation.RPPaoliMember );
+				rpList.RemoveAll( i => i.Key == NewOrderInformation.RPPaoliRepresentative );
+			}
+
+			return rpList.Select( rp => new SelectListItem() { Text = rp.Value, Value = rp.Key.ToString() } );
 		}
 
 		public static IEnumerable<SelectListItem> GetCollateralTypeDDList()

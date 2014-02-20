@@ -130,13 +130,17 @@
 	{
 				<li class="@(ViewBag.CurrentSubPage == "Collateral" ? "on_focus" : "")"><a href="@Url.Action( "Orders", "Collateral" )">Collateral</a></li>
 	}
+	else if( CurrentUser.CanAddOrders )
+	{
+				<li class="@(ViewBag.CurrentSubPage == "Collateral" ? "on_focus" : "")"><a href="@Url.Action( "ViewOrders", "Collateral" )">Collateral</a></li>
+	}
 	   @if( CurrentUser.CanManageTypicals )
 	{
 				<li class="@(ViewBag.CurrentSubPage == "Typicals" ? "on_focus" : "")"><a href="@Url.Action( "Manage", "SpecRequest" )">Spec Requests</a></li>
 	}
 	else if( CurrentUser.CanViewSpecRequests )
 	{
-				<li class="@(ViewBag.CurrentSubPage == "ViewSpecRequests" ? "on_focus" : "")"><a href="@Url.Action( "ViewAll", "SpecRequest" )">Spec Requests</a></li>
+				<li class="@(ViewBag.CurrentSubPage == "Typicals" ? "on_focus" : "")"><a href="@Url.Action( "ViewAll", "SpecRequest" )">Spec Requests</a></li>
 	}
 	   @if( CurrentUser.CanManageSearchLog )
 	{

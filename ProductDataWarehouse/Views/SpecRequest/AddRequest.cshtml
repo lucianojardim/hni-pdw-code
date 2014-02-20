@@ -7,6 +7,7 @@
 }
 @using ProductDataWarehouse.Models
 @using ProductDataWarehouse.Controllers
+@using PDWInfrastructure
 
 <h2>Create A New Spec Quote Request</h2>
 
@@ -368,6 +369,11 @@
 @{
 	var stepCount = 6;
 	var stepNum = 1;
+	CompanyController.GetCompanyListFunction GetSalesRepList = CompanyController.GetCompanyDDList;
+	if( PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
+	{
+		GetSalesRepList = CompanyController.GetThisCompanyAsDDItem;
+	}	
 }
 
     @using( Html.BeginForm( "AddRequest", "SpecRequest", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
@@ -389,7 +395,7 @@
 			<h3>Step @(stepNum++) of @stepCount: This Request is for:</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
-					<td>@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )</td><td>@Html.DropDownListFor( m => m.PaoliSalesRepGroupID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup ) )</td>
+					<td>@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )</td><td>@Html.DropDownListFor( m => m.PaoliSalesRepGroupID, GetSalesRepList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup ) )</td>
 					<td class="PSRCell">@Html.MJLabelFor( m => m.PaoliSalesRepMemberID, true )</td><td class="PSRCell">@Html.DropDownListFor( m => m.PaoliSalesRepMemberID, new List<SelectListItem>() )</td>
 				</tr>
 				<tr class="DealerRow">

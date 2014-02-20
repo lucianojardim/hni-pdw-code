@@ -200,10 +200,9 @@ namespace PDWInfrastructure
 		public bool CanManagePrintMaterial { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
 		public bool CanManageTypicals { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin,
 					PaoliWebRole.PaoliMemberMarketing, PaoliWebRole.PaoliMemberSpecTeam, PaoliWebRole.PaoliMemberCustomerService, 
-					PaoliWebRole.PaoliMemberSales, PaoliWebRole.PaoliSalesRep ); } }
+					PaoliWebRole.PaoliMemberSales ); } }
 		public bool CanViewSpecRequests { get { return CanManageTypicals || IsDealerUser || OneOfRoles( PaoliWebRole.PaoliSalesRep ); } }
-		public bool CanManageCollateral { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin,
-					PaoliWebRole.PaoliMemberMarketing ); } }
+		public bool CanAddSpecRequests { get { return CanManageTypicals || IsDealerUser || OneOfRoles( PaoliWebRole.PaoliSalesRep ); } }
 
 		public bool CanManageSearchLog { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin, PaoliWebRole.PaoliMemberMarketing ); } }
 
@@ -213,10 +212,12 @@ namespace PDWInfrastructure
 		public bool CanSeeTheScoop { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ); } }
 		public bool HasContacts { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ) || IsDealerUser; } }
 
+		public bool CanManageCollateral { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin,
+					PaoliWebRole.PaoliMemberMarketing ); } }
 		public bool CanManageOrders { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin,
 					PaoliWebRole.PaoliMemberCustomerService, PaoliWebRole.PaoliMemberSales,
-					PaoliWebRole.PaoliMemberMarketing, PaoliWebRole.PaoliMemberSpecTeam,
-					PaoliWebRole.PaoliSalesRep ); } }
+					PaoliWebRole.PaoliMemberMarketing, PaoliWebRole.PaoliMemberSpecTeam ); } }
+		public bool CanAddOrders { get { return CanManageOrders || OneOfRoles( PaoliWebRole.PaoliSalesRep ) || IsDealerUser; } }
 
 		public string ProductsHomePage
 		{
@@ -232,21 +233,21 @@ namespace PDWInfrastructure
 					case PaoliWebRole.PaoliMemberMarketing:
 						return u.Action( "Images", "Import" );
 					case PaoliWebRole.PaoliMemberSpecTeam:
-						return u.Action( "Manage", "SpecRequest" );
+						return u.Action( "Orders", "Collateral" );
 					case PaoliWebRole.PaoliMemberCustomerService:
-						return u.Action( "Manage", "SpecRequest" );
+						return u.Action( "Orders", "Collateral" );
 					case PaoliWebRole.PaoliMemberSales:
-						return u.Action( "Manage", "SpecRequest" );
+						return u.Action( "Orders", "Collateral" );
 					case PaoliWebRole.PaoliSalesRep:
-						return u.Action( "Manage", "SpecRequest" );
+						return u.Action( "ViewOrders", "Collateral" );
 					case PaoliWebRole.DealerPrincipal:
-						return u.Action( "ViewAll", "SpecRequest" );
+						return u.Action( "ViewOrders", "Collateral" );
 					case PaoliWebRole.DealerSalesRep:
-						return u.Action( "ViewAll", "SpecRequest" );
+						return u.Action( "ViewOrders", "Collateral" );
 					case PaoliWebRole.DealerDesigner:
-						return u.Action( "ViewAll", "SpecRequest" );
+						return u.Action( "ViewOrders", "Collateral" );
 					case PaoliWebRole.DealerAdmin:
-						return u.Action( "ViewAll", "SpecRequest" );
+						return u.Action( "ViewOrders", "Collateral" );
 					case PaoliWebRole.EndUser:
 					case PaoliWebRole.AandDUser:
 						break;

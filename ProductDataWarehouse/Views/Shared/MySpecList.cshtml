@@ -1,6 +1,13 @@
 ﻿@using PDWInfrastructure
 <h2>Spec Request List</h2>
 @{ var bMinView = (ViewData["bMinView"] as bool?) ?? false; }
+@if( !bMinView )
+{
+	if( PaoliWebUser.CurrentUser.CanAddSpecRequests )
+	{
+<a href="@Url.Action( "AddRequest", "SpecRequest" )" id="addNewRequest">Add New</a><br />
+	}
+}
 <div>
     <table id="specRequestList">
     <thead></thead>
@@ -9,15 +16,15 @@
 	<div class="right">
 	@if( bMinView )
  {
-	if( PaoliWebUser.CurrentUser.CanManageTypicals ) 
- {
+	 if( PaoliWebUser.CurrentUser.CanManageTypicals )
+	 {
 	<a href="@Url.Action( "Manage", "SpecRequest" )">Manage</a>
 	 }
 	 else
 	 {
 	<a href="@Url.Action( "ViewAll", "SpecRequest" )">View All</a>
 	 }
-	 }
+ }
 	</div>
 </div>
 @{
@@ -38,11 +45,11 @@
 		oTable = $('#specRequestList').dataTable({
 			"bServerSide": true,
 			"bAutoWidth": false,
-			"bFilter": @((!bMinView).ToString().ToLower()),
+			"bFilter": @(( !bMinView ).ToString().ToLower()),
 			"bLengthChange": false, // don't show dropdown for #items per page
-			"bPaginate": @((!bMinView).ToString().ToLower()),
-			"bInfo": @((!bMinView).ToString().ToLower()),
-			"bSort": @((!bMinView).ToString().ToLower()),
+			"bPaginate": @(( !bMinView ).ToString().ToLower()),
+			"bInfo": @(( !bMinView ).ToString().ToLower()),
+			"bSort": @(( !bMinView ).ToString().ToLower()),
 			"sAjaxSource": '@Url.Action( "UserRequestList", "SpecRequest" )',
 			"fnServerParams": function (aoData) {
 				aoData.push({ "name": "bMinView", "value": "@(bMinView)" });
@@ -65,7 +72,15 @@
 			},
 			"bProcessing": false, // don't want to use the default progress indicator at this time
 			"aoColumnDefs": [
-                    { "sName": "Name", "sTitle": "Name", "aTargets": [@(colNum++)], "mDataProp": "Name", "sWidth": "9%" },
+                    { "sName": "Name", "sTitle": "Name", "aTargets": [@(colNum++)], "mDataProp": "Name", "sWidth": "9%",
+                    	"fnRender": function (oObj) {
+                    		var s = '<a href=\"@Url.Action( "ViewRequest", "SpecRequest" )/' + oObj.aData["RequestID"] + '\" class="fbImageBtn">';
+                   			s += oObj.aData["Name"];
+                    		s += '</a>';
+
+							return s;
+                    	}
+ },
 			@if( !PaoliWebUser.CurrentUser.IsDealerUser && !PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
    {
 	<text>
@@ -85,15 +100,10 @@
                     	"bSortable": true,
                     	"mDataProp": "Status", "sTitle": "Status", "sWidth": "10%",
                     	"fnRender": function (oObj) {
-                    		var s = '<a href=\"@Url.Action( "ViewRequest", "SpecRequest" )/' + oObj.aData["RequestID"] + '\" class="fbImageBtn">';
 							if (oObj.aData["IsCompleted"]) {
-                    			s += 'Completed';
-                    		} else {
-                    			s += 'Pending';
-							}
-                    		s += '</a>';
-
-							return s;
+                    			return 'Completed';
+                    		} 
+                    		return 'Pending';
                     	}
                     }
                 ],

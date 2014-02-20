@@ -8,6 +8,7 @@ using PDWModels.Users;
 using System.IO;
 using System.Drawing;
 using System.Configuration;
+using PDWModels;
 
 namespace PWDRepositories
 {
@@ -554,6 +555,17 @@ namespace PWDRepositories
 				Phone = eUser.BusinessPhone,
 				ContactEmail = eUser.Email
 			};
+		}
+
+		public IDToTextItem GetCurrentCompanyInfo()
+		{
+			var user = database.Users.FirstOrDefault( u => u.UserID == PaoliWebUser.CurrentUser.UserId );
+			if( user != null )
+			{
+				return new IDToTextItem() { ID = user.Company.CompanyID, Text = user.Company.FullName };
+			}
+
+			throw new Exception( "Unable to find current user" );
 		}
 	}
 }

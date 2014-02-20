@@ -66,7 +66,7 @@ namespace ProductDataWarehouse.Controllers
 				JsonRequestBehavior.AllowGet );
 		}
 
-		[PaoliAuthorize( "CanManageTypicals" )]
+		[PaoliAuthorize( "CanAddSpecRequests" )]
 		public ActionResult AddRequest()
 		{
 			ViewBag.BlankInformation = new SpecRequestRepository().NewSpecRequest();
@@ -74,7 +74,7 @@ namespace ProductDataWarehouse.Controllers
 			return View();
 		}
 
-		[PaoliAuthorize( "CanManageTypicals" )]
+		[PaoliAuthorize( "CanAddSpecRequests" )]
 		[HttpPost]
 		public ActionResult AddRequest( SpecRequestInformation sInfo )
 		{
@@ -86,7 +86,11 @@ namespace ProductDataWarehouse.Controllers
 
 					sRepository.AddSpecRequest( sInfo );
 
-					return RedirectToAction( "Manage" );
+					if( PaoliWebUser.CurrentUser.CanManageTypicals )
+					{
+						return RedirectToAction( "Manage" );
+					}
+					return RedirectToAction( "ViewAll" );
 				}
 				catch( Exception ex )
 				{
