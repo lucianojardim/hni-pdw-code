@@ -439,7 +439,7 @@ namespace PWDRepositories
 		}
 
 		public void RebuildDBKeywords()
-		{
+		{/*
 			List<string> arrSeriesAttributes = new List<string>() { 
 				"Style",
 				"Claire 5 Favorites",
@@ -489,7 +489,7 @@ namespace PWDRepositories
 
 				t.DBKeywords = SearchText.GetKeywordList( keywords );
 			}
-
+			*/
 			foreach( var i in database.ImageFiles )
 			{
 				List<string> keywords = new List<string>()

@@ -542,8 +542,8 @@ namespace ProductDataWarehouse.Controllers
 
 			return RedirectToAction( "Images" );
 		}
-
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+*/
+		[PaoliAuthorize( "IsSuperAdmin" )]
 		public ActionResult RebuildDBKeywords()
 		{
 			ImportRepository iRepo = new ImportRepository();
@@ -552,7 +552,7 @@ namespace ProductDataWarehouse.Controllers
 
 			return RedirectToAction( "Index" );
 		}
-		*/
+		
 		#endregion
 
 		[PaoliAuthorize( "CanManageSearchLog" )]

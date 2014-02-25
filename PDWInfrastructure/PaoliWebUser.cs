@@ -185,6 +185,7 @@ namespace PDWInfrastructure
 			}
 		}
 
+		public bool IsSuperAdmin { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
 		public bool IsDealerUser { get { return OneOfRoles( PaoliWebRole.DealerAdmin, PaoliWebRole.DealerDesigner, 
 			PaoliWebRole.DealerPrincipal, PaoliWebRole.DealerSalesRep ); } }
 
