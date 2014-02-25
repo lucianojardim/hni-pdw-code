@@ -124,6 +124,7 @@
 					break;
 		case PDWModels.Collateral.NewOrderInformation.ST2DayFedex:
 		case PDWModels.Collateral.NewOrderInformation.STOvernightFedex:
+		case PDWModels.Collateral.NewOrderInformation.STStdOvernightFedex:
 				<td>@Html.LabelFor( m => m.ShippingFedexAccount )</td><td>@Html.DisplayFor( m => m.ShippingFedexAccount )</td><td>@Html.DisplayFor( m => m.ShippingCompanyName )</td>
 																												 break;
 	}
@@ -245,6 +246,7 @@
 			break;
 		case PDWModels.Collateral.NewOrderInformation.ST2DayFedex:
 		case PDWModels.Collateral.NewOrderInformation.STOvernightFedex:
+		case PDWModels.Collateral.NewOrderInformation.STStdOvernightFedex:
 				<tr>
 				<td>@Html.LabelFor( m => m.ShippingFedexAccount )</td><td>@shipmentInfo.ShippingFedexAccount</td>
 				</tr>

@@ -130,6 +130,9 @@
     			case '@PDWModels.Collateral.NewOrderInformation.STOvernightFedex':
     				$('.fedexAccount').show();
     				break;
+    			case '@PDWModels.Collateral.NewOrderInformation.STStdOvernightFedex':
+    				$('.fedexAccount').show();
+    				break;
 
     		}
     	}
@@ -484,6 +487,7 @@
 					break;
 				case '@PDWModels.Collateral.NewOrderInformation.ST2DayFedex':
 				case '@PDWModels.Collateral.NewOrderInformation.STOvernightFedex':
+				case '@PDWModels.Collateral.NewOrderInformation.STStdOvernightFedex':
 					addConfirmRow(t, '@Html.MJLabelFor( m => m.ShippingFedexAccount, false )', $('#ShippingFedexAccount').val());
 					break;
 			}

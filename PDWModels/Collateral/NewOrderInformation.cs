@@ -31,6 +31,7 @@ namespace PDWModels.Collateral
 		public const int STGround = 0;
 		public const int ST2DayFedex = 1;
 		public const int STOvernightFedex = 2;
+		public const int STStdOvernightFedex = 3;
 
 		public static Dictionary<int, string> ShippingTypes
 		{
@@ -40,6 +41,7 @@ namespace PDWModels.Collateral
 				{
 					{ STGround, "Ground (5-7 Business Days) - Free" },
 					{ ST2DayFedex, "2-Day (Fedex Acct. Required)" },
+					{ STStdOvernightFedex, "Standard Overnight (Fedex Acct. Required)" },
 					{ STOvernightFedex, "Priority Overnight (Fedex Acct. Required)" }
 				};
 			}
