@@ -1168,7 +1168,7 @@ namespace PWDRepositories
 			return database.SaveChanges() > 0;			
 		}
 
-		public PendingOrderInformation.ShipmentSummary GetOrderShipment( int id )
+		public ShipmentInformation GetOrderShipment( int id )
 		{
 			var shipment = database.CollateralOrderShipments.FirstOrDefault( s => s.ShipmentID == id );
 			if( shipment == null )
@@ -1176,7 +1176,7 @@ namespace PWDRepositories
 				throw new Exception( "Unable to find Shipment information" );
 			}
 
-			var sInfo = new PendingOrderInformation.ShipmentSummary()
+			var sInfo = new ShipmentInformation()
 			{
 				ShipmentID = shipment.ShipmentID,
 				Vendor = shipment.Vendor,
@@ -1194,8 +1194,106 @@ namespace PWDRepositories
 				ShippingPhoneNumber = shipment.ShippingPhoneNumber,
 				ShippingEmailAddress = shipment.ShippingEmailAddress,
 				ShippingDate = shipment.ShipmentDate,
-				ShippingTypeID = shipment.CollateralOrder.ShippingType
+				ShippingTypeID = shipment.CollateralOrder.ShippingType,
+				OrderDate = shipment.CollateralOrder.OrderDate
+
 			};
+
+			switch( shipment.CollateralOrder.RequestingParty )
+			{
+				case NewOrderInformation.RPPaoliMember:
+					if( shipment.CollateralOrder.PaoliMemberID.HasValue )
+					{
+						sInfo.RPUserName = shipment.CollateralOrder.PaoliMember.FullName;
+						sInfo.RPCompany = shipment.CollateralOrder.PaoliMember.Company.FullName;
+						sInfo.RPEmailAddress = shipment.CollateralOrder.PaoliMember.Email;
+						sInfo.RPPhoneNumber = shipment.CollateralOrder.PaoliMember.BusinessPhone;
+					}
+					break;
+				case NewOrderInformation.RPPaoliRepresentative:
+					if( shipment.CollateralOrder.PaoliRepGroupMemberID.HasValue )
+					{
+						sInfo.RPUserName = shipment.CollateralOrder.PaoliSalesRepMember.FullName;
+						sInfo.RPCompany = shipment.CollateralOrder.PaoliSalesRepMember.Company.FullName;
+						sInfo.RPEmailAddress = shipment.CollateralOrder.PaoliSalesRepMember.Email;
+						sInfo.RPPhoneNumber = shipment.CollateralOrder.PaoliSalesRepMember.BusinessPhone;
+					}
+					else if( shipment.CollateralOrder.PaoliRepGroupID.HasValue )
+					{
+						sInfo.RPCompany = shipment.CollateralOrder.PaoliSalesRep.FullName;
+						sInfo.RPEmailAddress = shipment.CollateralOrder.PaoliSalesRep.ContactEmail;
+						sInfo.RPPhoneNumber = shipment.CollateralOrder.PaoliSalesRep.Phone;
+					}
+					break;
+				case NewOrderInformation.RPDealer:
+					if( shipment.CollateralOrder.DealerMemberID.HasValue )
+					{
+						sInfo.RPUserName = shipment.CollateralOrder.DealerMember.FullName;
+						sInfo.RPCompany = shipment.CollateralOrder.DealerMember.Company.FullName;
+						sInfo.RPEmailAddress = shipment.CollateralOrder.DealerMember.Email;
+						sInfo.RPPhoneNumber = shipment.CollateralOrder.DealerMember.BusinessPhone;
+					}
+					else if( shipment.CollateralOrder.DealerID.HasValue )
+					{
+						sInfo.RPCompany = shipment.CollateralOrder.Dealer.FullName;
+						sInfo.RPEmailAddress = shipment.CollateralOrder.Dealer.ContactEmail;
+						sInfo.RPPhoneNumber = shipment.CollateralOrder.Dealer.Phone;
+					}
+					break;
+				case NewOrderInformation.RPEndUser:
+					sInfo.RPUserName = shipment.CollateralOrder.EndUserFirstName + " " + shipment.CollateralOrder.EndUserLastName;
+					sInfo.RPEmailAddress = shipment.CollateralOrder.EndUserEMailAddress;
+					sInfo.RPPhoneNumber = shipment.CollateralOrder.EndUserPhoneNumber;
+					break;
+			}
+
+			switch( shipment.CollateralOrder.ShippingParty )
+			{
+				case NewOrderInformation.RPPaoliMember:
+					if( shipment.CollateralOrder.SPPaoliMemberID.HasValue )
+					{
+						sInfo.SPUserName = shipment.CollateralOrder.SPPaoliMember.FullName;
+						sInfo.SPCompany = shipment.CollateralOrder.SPPaoliMember.Company.FullName;
+						sInfo.SPEmailAddress = shipment.CollateralOrder.SPPaoliMember.Email;
+						sInfo.SPPhoneNumber = shipment.CollateralOrder.SPPaoliMember.BusinessPhone;
+					}
+					break;
+				case NewOrderInformation.RPPaoliRepresentative:
+					if( shipment.CollateralOrder.SPPaoliRepGroupMemberID.HasValue )
+					{
+						sInfo.SPUserName = shipment.CollateralOrder.SPPaoliSalesRepMember.FullName;
+						sInfo.SPCompany = shipment.CollateralOrder.SPPaoliSalesRepMember.Company.FullName;
+						sInfo.SPEmailAddress = shipment.CollateralOrder.SPPaoliSalesRepMember.Email;
+						sInfo.SPPhoneNumber = shipment.CollateralOrder.SPPaoliSalesRepMember.BusinessPhone;
+					}
+					else if( shipment.CollateralOrder.SPPaoliRepGroupID.HasValue )
+					{
+						sInfo.SPCompany = shipment.CollateralOrder.SPPaoliSalesRep.FullName;
+						sInfo.SPEmailAddress = shipment.CollateralOrder.SPPaoliSalesRep.ContactEmail;
+						sInfo.SPPhoneNumber = shipment.CollateralOrder.SPPaoliSalesRep.Phone;
+					}
+					break;
+				case NewOrderInformation.RPDealer:
+					if( shipment.CollateralOrder.SPDealerMemberID.HasValue )
+					{
+						sInfo.SPUserName = shipment.CollateralOrder.SPDealerMember.FullName;
+						sInfo.SPCompany = shipment.CollateralOrder.SPDealerMember.Company.FullName;
+						sInfo.SPEmailAddress = shipment.CollateralOrder.SPDealerMember.Email;
+						sInfo.SPPhoneNumber = shipment.CollateralOrder.SPDealerMember.BusinessPhone;
+					}
+					else if( shipment.CollateralOrder.SPDealerID.HasValue )
+					{
+						sInfo.SPCompany = shipment.CollateralOrder.SPDealer.FullName;
+						sInfo.SPEmailAddress = shipment.CollateralOrder.SPDealer.ContactEmail;
+						sInfo.SPPhoneNumber = shipment.CollateralOrder.SPDealer.Phone;
+					}
+					break;
+				case NewOrderInformation.RPEndUser:
+					sInfo.SPUserName = shipment.CollateralOrder.SPEndUserFirstName + " " + shipment.CollateralOrder.SPEndUserLastName;
+					sInfo.SPEmailAddress = shipment.CollateralOrder.SPEndUserEMailAddress;
+					sInfo.SPPhoneNumber = shipment.CollateralOrder.SPEndUserPhoneNumber;
+					break;
+			}
 
 			sInfo.Details = new List<PendingOrderInformation.ShipmentDetailSummary>();
 

@@ -1,14 +1,86 @@
-﻿@model PDWModels.Collateral.PendingOrderInformation.ShipmentSummary
+﻿@model PDWModels.Collateral.ShipmentInformation
 @{
     ViewBag.Title = "Shipment Details";
 	ViewBag.EmptyHeader = true;
 	Layout = "~/Views/Shared/HeaderLayout.cshtml";
 }
 
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('#shipmentDate').text(getLocalDate('@Model.ShippingDate.ToString()'));
+			@if( Model.OrderDate.HasValue ) {
+			<text>
+                $('#orderDate').text(getLocalDate('@Model.OrderDate.Value.ToString()'));
+			</text>
+			}
+	});
+</script>
+
 <h2>Shipment Details</h2>
 
 
 		<div>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+				<td>@Html.LabelFor( m => m.OrderDate )</td><td id="orderDate"></td>
+				</tr>
+			</table>
+
+			<h3>Requested By</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+			@if( Model.RPCompany != null )
+   {
+				<tr>
+					<td>@Model.RPCompany</td>
+				</tr>
+   }
+   @if( Model.RPUserName != null )
+   {
+				<tr>
+					<td>@Model.RPUserName</td>
+				</tr>
+   }
+   @if( Model.RPEmailAddress != null )
+   {
+				<tr>
+					<td>@Model.RPEmailAddress</td>
+				</tr>
+   }
+   @if( Model.RPPhoneNumber != null )
+   {
+				<tr>
+					<td>@Model.RPPhoneNumber</td>
+				</tr>
+   }
+			</table>
+			<h3>Requested For</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+   @if( Model.SPCompany != null )
+   {
+				<tr>
+					<td>@Model.SPCompany</td>
+				</tr>
+   }
+   @if( Model.SPUserName != null )
+   {
+				<tr>
+					<td>@Model.SPUserName</td>
+				</tr>
+   }
+   @if( Model.SPEmailAddress != null )
+   {
+				<tr>
+					<td>@Model.SPEmailAddress</td>
+				</tr>
+   }
+   @if( Model.SPPhoneNumber != null )
+   {
+				<tr>
+					<td>@Model.SPPhoneNumber</td>
+				</tr>
+   }
+			</table>
+
 			<h3>Packing List</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<thead>
@@ -28,6 +100,9 @@
 			</table>
 			<h3>Shipping Information</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+				<td>@Html.LabelFor( m => m.ShippingDate )</td><td id="shipmentDate"></td>
+				</tr>
 				<tr>
 				<td>@Html.LabelFor( m => m.ShippingType )</td><td>@Model.ShippingType</td>
 				</tr>
@@ -81,4 +156,5 @@
 				<td>@Html.LabelFor( m => m.ShippingEmailAddress )</td><td>@Model.ShippingEmailAddress</td>
 				</tr>
 			</table>
+			<div class="mart20">Questions about this order? Contact Paoli Customer Service at <a href="mailto:ask@paoli.com">ask@paoli.com</a> or 800-457-7415.</div>
 		</div>
