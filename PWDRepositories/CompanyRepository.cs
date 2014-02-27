@@ -25,7 +25,8 @@ namespace PWDRepositories
 				Name = c.FullName,
 				CompanyType = PaoliWebUser.PaoliCompanyType.CompanyTypeList[c.CompanyType],
 				MasterID = c.MasterID,
-				CanDelete = !c.Users.Any() && !c.SpecRequests.Any() && !c.SpecRequests1.Any() && !c.CollateralOrders.Any() && !c.CollateralOrders1.Any()
+				CanDelete = !c.Users.Any() && !c.SpecRequests.Any() && !c.SpecRequests1.Any() && !c.CollateralOrders.Any() && !c.CollateralOrders1.Any() &&
+					!c.CollateralOrders2.Any() && !c.CollateralOrders3.Any()
 			};
 		}
 
