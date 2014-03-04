@@ -43,7 +43,7 @@
     	return (cDate.getMonth() + 1) + '/' + cDate.getDate() + '/' + cDate.getFullYear() + ' at ' +
 			(((cDate.getHours() % 12) == 0) ? '12' : (cDate.getHours() % 12)) + ':' + 
 			((cDate.getMinutes() <= 9) ? '0' : '') + cDate.getMinutes() + 
-			((cDate.getHours() >= 12) ? 'p.m.' : 'a.m.');
+			((cDate.getHours() >= 12) ? ' p.m.' : ' a.m.');
     }
 
     $(document).ready(function () {
