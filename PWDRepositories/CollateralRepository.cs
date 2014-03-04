@@ -1124,7 +1124,7 @@ namespace PWDRepositories
 				var shippedQuantity = detail.CollateralOrderShipmentDetails.Sum( d => d.Quantity );
 				bHasFulfilled |= (detail.Quantity == shippedQuantity);
 				bHasUnfulfilled |= (0 == shippedQuantity);
-				bHasPartial |= ( shippedQuantity > 0 );
+				bHasPartial |= ( (shippedQuantity > 0) && (detail.Quantity > shippedQuantity) );
 			}
 
 			dbOrder.Status = NewOrderInformation.SPartial;
