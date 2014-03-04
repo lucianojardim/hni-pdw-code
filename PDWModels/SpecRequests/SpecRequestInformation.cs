@@ -12,6 +12,7 @@ namespace PDWModels.SpecRequests
 	{
 		public class FileInformation
 		{
+			public int FileID { get; set; }
 			public int VersionNumber { get; set; }
 			public string FileName { get; set; }
 			public string UploadDate { get; set; }
@@ -121,6 +122,7 @@ namespace PDWModels.SpecRequests
 		public string Footprint { get; set; }
 		[DisplayName( "Final Client Files" )]
 		public List<HttpPostedFileBase> specTeamFiles { get; set; }
+		public string deletespecTeamFileList { get; set; }
 
 		/* obselete
 		[DisplayName( "Featured Series" )]

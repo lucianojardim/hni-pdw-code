@@ -288,6 +288,7 @@ namespace PWDRepositories
 					.Select( i =>
 						new SpecRequestInformation.FileInformation()
 						{
+							FileID = i.FileID,
 							FileName = i.Name,
 							Extension = i.Extension,
 							UploadDate = i.UploadDate.ToString( "MM/dd/yyyy HH:mm" ),
@@ -509,7 +510,37 @@ namespace PWDRepositories
 				}
 			}
 
+			if( ( sInfo.deletespecTeamFileList ?? "" ).Any() )
+			{
+				foreach( var sFileId in sInfo.deletespecTeamFileList.Split( ',' ).Where( s => s.Any() ) )
+				{
+					var fileId = 0;
+					if( int.TryParse( sFileId, out fileId ) )
+					{
+						var deleteFile = specInfo.SpecRequestFiles.FirstOrDefault( f => f.FileID == fileId );
+						if( deleteFile != null )
+						{
+							DeleteRequestFile( deleteFile, rootLocation );
+
+							database.DeleteObject( deleteFile );
+						}
+					}
+				}
+			}
+
 			return database.SaveChanges() > 0;
+		}
+
+		private bool DeleteRequestFile( SpecRequestFile sFile, string rootLocation )
+		{
+			var fileLocation = Path.Combine( rootLocation, sFile.Extension, sFile.VersionNumber.ToString(), sFile.Name );
+
+			if( File.Exists( fileLocation ) )
+			{
+				File.Delete( fileLocation );
+			}
+
+			return true;
 		}
 
 		private bool SaveNewFileVersion( SpecRequest sRequest, string rootLocation, string fileType, Stream inputStream, string fileName, bool isSpecTeam )
