@@ -533,6 +533,7 @@
 }
     @using( Html.BeginForm( "AddOrder", "Collateral", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
 	{
+		@Html.AntiForgeryToken()
 		@Html.Hidden( "Status", PDWModels.Collateral.NewOrderInformation.SPending )
 		<div>
 		<div class="left">

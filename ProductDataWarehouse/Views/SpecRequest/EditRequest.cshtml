@@ -288,6 +288,7 @@
 
     @using( Html.BeginForm( "EditRequest", "SpecRequest", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
 	{
+		@Html.AntiForgeryToken()
 		@Html.HiddenFor( m => m.RequestID )
 		<div>
 		<div class="left">

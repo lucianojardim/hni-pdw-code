@@ -159,6 +159,7 @@
 
     @using( Html.BeginForm( "EditOrder", "Collateral", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
 	{
+		@Html.AntiForgeryToken()
 		<div>
 		<div class="left">
 			<h2>Edit A New Collateral Order - @Model.OrderID</h2>

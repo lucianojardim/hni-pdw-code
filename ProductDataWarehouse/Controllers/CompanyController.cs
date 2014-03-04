@@ -45,6 +45,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageCompanies" )]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult Add( CompanyInformation uInfo )
 		{
 			if( ModelState.IsValid )
@@ -83,6 +84,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageCompanies" )]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult Edit( CompanyInformation uInfo )
 		{
 			if( ModelState.IsValid )

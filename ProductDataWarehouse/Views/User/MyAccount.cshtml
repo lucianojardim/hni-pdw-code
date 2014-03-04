@@ -12,6 +12,7 @@
 
     @using( Html.BeginForm() )
 	{
+		@Html.AntiForgeryToken()
 		@Html.HiddenFor( m=> m.UserID )
         <span class="dataRow">@Html.MJLabelFor( m => m.EmailAddress, true )@Html.TextBoxFor( m => m.EmailAddress )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.FirstName, true )@Html.TextBoxFor( m => m.FirstName )<br/></span>

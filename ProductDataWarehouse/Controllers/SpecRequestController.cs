@@ -76,6 +76,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanAddSpecRequests" )]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult AddRequest( SpecRequestInformation sInfo )
 		{
 			if( ModelState.IsValid )
@@ -118,6 +119,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageTypicals" )]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult AddTypical( TypicalMgmtInfo tInfo, string typeOfSubmit )
 		{
 			if( ModelState.IsValid )
@@ -206,6 +208,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageTypicals" )]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult EditRequest( SpecRequestInformation sInfo )
 		{
 			if( ModelState.IsValid )
@@ -245,6 +248,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageTypicals" )]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult EditTypical( TypicalMgmtInfo tInfo, string typeOfSubmit )
 		{
 			if( ModelState.IsValid )

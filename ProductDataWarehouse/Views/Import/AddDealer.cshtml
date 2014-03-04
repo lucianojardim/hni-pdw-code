@@ -60,6 +60,7 @@ else
 
     @using( Html.BeginForm( "AddDealer", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
 	{
+		@Html.AntiForgeryToken()
         <span class="dataRow">@Html.MJLabelFor( m => m.Name, true )@Html.TextBoxFor( m => m.Name )<br /></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.URL, true )my.paoli.com/Dealer/@Html.TextBoxFor( m => m.URL )<br /></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.FeaturedVideo, true )@Html.DropDownListFor( m => m.FeaturedVideo, ImportController.GetVideoDDList() )<br /></span>
@@ -71,7 +72,7 @@ else
 		<div>
 			<label style="vertical-align:top">Product Listing:</label>
 			<div style="display:inline-block;overflow-y:scroll;width:75%;height:100px;">
-			@foreach( var seriesItem in ImportController.GetSeriesDDList(false) )
+			@foreach( var seriesItem in ImportController.GetSeriesDDList( false ) )
    {
 				<input type="checkbox" id="ProductList" name="ProductList" value="@seriesItem.Value"/><text>&nbsp;</text>@seriesItem.Text<br />
    }

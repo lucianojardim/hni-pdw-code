@@ -26,6 +26,7 @@ else
 
     @using( Html.BeginForm( "ImportDealers", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
 	{
+		@Html.AntiForgeryToken()
         <span class="dataRow">@Html.Label( "Dealer File Name: " )<input type="file" name="dealerFile" data-val-required="The Image File Name is a required field." data-val="true" /><br /></span>
 @Html.ValidationSummary()
         <input type="submit" class="btn_type1" value="Import" onclick="$('#inProgress').show();" />

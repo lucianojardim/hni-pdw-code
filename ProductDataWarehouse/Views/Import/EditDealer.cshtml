@@ -60,6 +60,7 @@ else
 
     @using( Html.BeginForm( "EditDealer", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
 	{
+		@Html.AntiForgeryToken()
 		@Html.HiddenFor( m => m.DealerID )
         <span class="dataRow">@Html.MJLabelFor( m => m.Name, true )@Html.TextBoxFor( m => m.Name )<br /></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.URL, true )my.paoli.com/Dealer/@Html.TextBoxFor( m => m.URL )<br /></span>

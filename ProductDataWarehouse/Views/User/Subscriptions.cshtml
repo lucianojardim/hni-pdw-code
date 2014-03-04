@@ -9,6 +9,7 @@
 
     @using( Html.BeginForm( "Subscriptions", "User", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
 	{
+		@Html.AntiForgeryToken()
 @Html.HiddenFor( m => m.UserID )
 
 	<h2>Email Newsletters</h2>

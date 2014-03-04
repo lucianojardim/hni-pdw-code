@@ -45,6 +45,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageUsers" )]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult Add( UserInformation uInfo, HttpPostedFileBase UserImage )
 		{
 			if( ModelState.IsValid )
@@ -83,6 +84,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageUsers" )]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult Edit( UserInformation uInfo, HttpPostedFileBase UserImage )
 		{
 			if( ModelState.IsValid )
@@ -147,6 +149,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[Authorize]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult MyAccount( MyAccountInfo uInfo )
 		{
 			if( ModelState.IsValid )
@@ -179,6 +182,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[Authorize]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult ChangePW( ChangePWDetail pwDetail )
 		{
 			if( ModelState.IsValid )
@@ -212,6 +216,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[Authorize]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult Subscriptions( UserSubscriptionSummary uSummary )
 		{
 			if( ModelState.IsValid )

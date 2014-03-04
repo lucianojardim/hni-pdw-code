@@ -23,6 +23,7 @@
 	<div class="box">
 @using( Html.BeginForm() )
 {
+	@Html.AntiForgeryToken()
             @Html.ValidationSummary( "", new { @class = "form_errors" } )
 			<div class="loginRow">
 			<div class="loginLabel">Email Address:</div>

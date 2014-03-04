@@ -29,6 +29,7 @@ else
 
     @using( Html.BeginForm( "EditDealerVideo", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
 	{
+		@Html.AntiForgeryToken()
 		@Html.HiddenFor( m => m.VideoID )
         <span class="dataRow">@Html.MJLabelFor( m => m.Name, true )@Html.TextBoxFor( m => m.Name )<br /></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.YouTubeID, true )@Html.TextBoxFor( m => m.YouTubeID )<br /></span>

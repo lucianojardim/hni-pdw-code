@@ -62,6 +62,7 @@
 
     @using( Html.BeginForm( "Edit", "User", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
 	{
+		@Html.AntiForgeryToken()
 		@Html.HiddenFor( m => m.UserID )
 		@Html.HiddenFor( m => m.LockAccountType )
 		if( Model.LockAccountType )
@@ -100,7 +101,8 @@
 		{
         <span class="dataRow">@Html.MJLabelFor( m => m.SendWelcomeEmail, true )@Html.CheckBoxFor( m => m.SendWelcomeEmail )<br/></span>
 		}
-		<span class="dataRow">@Html.MJLabelFor( m => m.UserImageFileName, true )@if( Model.UserImageFileName != null ) { @Html.HiddenFor( m => m.UserImageFileName ) <img class="img_size_thumb_wide" src="/Images/@Model.UserImageFileName" /> }<input type="file" id="UserImage" name="UserImage" accept=".jpg,.png,.gif,.bmp" /></span>
+		<span class="dataRow">@Html.MJLabelFor( m => m.UserImageFileName, true )@if( Model.UserImageFileName != null )
+																		  { @Html.HiddenFor( m => m.UserImageFileName ) <img class="img_size_thumb_wide" src="/Images/@Model.UserImageFileName" /> }<input type="file" id="UserImage" name="UserImage" accept=".jpg,.png,.gif,.bmp" /></span>
 @Html.ValidationSummary()
         <input type="submit" class="btn_type1" value="Update" id="submitBtn" />
 	}

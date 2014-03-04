@@ -33,6 +33,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult Logon( string userName, string password )
 		{
 			if( ModelState.IsValid )
@@ -57,6 +58,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult ForgotPassword( string fpEmailAddress )
 		{
 			try
@@ -78,6 +80,7 @@ namespace ProductDataWarehouse.Controllers
         }
 
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		[PaoliAuthorize( "CanManageImport" )]
 		public ActionResult Index( HttpPostedFileBase csvFile )
 		{
@@ -148,6 +151,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		[PaoliAuthorize( "CanManageImages" )]
 		[ValidateInput( false )]
 		public ActionResult AddImage( ImageInformation imgInfo, HttpPostedFileBase imageFile )
@@ -294,6 +298,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		[PaoliAuthorize( "CanManageImages" )]
 		[ValidateInput( false )]
 		public ActionResult EditImage( ImageInformation imgInfo )
@@ -440,6 +445,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		[PaoliAuthorize( "CanManageImages" )]
 		public ActionResult UploadImage( int ImageID, HttpPostedFileBase imageFile )
 		{
@@ -599,6 +605,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		[PaoliAuthorize( "CanManagePrintMaterial" )]
 		public ActionResult AddPrintMaterial( PublicationInformation pubInfo )
 		{
@@ -633,6 +640,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		[PaoliAuthorize( "CanManagePrintMaterial" )]
 		public ActionResult EditPrintMaterial( PublicationInformation pubInfo )
 		{
@@ -738,6 +746,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageCompanies" )]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult ImportDealers( HttpPostedFileBase dealerFile )
 		{
 			if( ModelState.IsValid )
@@ -827,6 +836,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageCompanies" )]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult AddDealer( DealerInformation dInfo )
 		{
 			if( ModelState.IsValid )
@@ -867,6 +877,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageCompanies" )]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult EditDealer( DealerInformation dInfo )
 		{
 			if( ModelState.IsValid )
@@ -946,6 +957,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageCompanies" )]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult AddDealerVideo( DealerVideoInformation dInfo )
 		{
 			if( ModelState.IsValid )
@@ -986,6 +998,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageCompanies" )]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult EditDealerVideo( DealerVideoInformation dInfo )
 		{
 			if( ModelState.IsValid )
@@ -1065,6 +1078,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageCompanies" )]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult AddDealerPage( DealerPageInformation dInfo )
 		{
 			if( ModelState.IsValid )
@@ -1105,6 +1119,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageCompanies" )]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult EditDealerPage( DealerPageInformation dInfo )
 		{
 			if( ModelState.IsValid )

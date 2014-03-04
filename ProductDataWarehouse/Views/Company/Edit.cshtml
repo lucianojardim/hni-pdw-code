@@ -97,6 +97,7 @@
 
     @using( Html.BeginForm( "Edit", "Company", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
 	{
+		@Html.AntiForgeryToken()
 		@Html.HiddenFor( m => m.CompanyID )
 		if( Model.LockCompanyType )
 		{

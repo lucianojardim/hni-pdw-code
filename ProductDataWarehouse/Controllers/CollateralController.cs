@@ -45,6 +45,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageCollateral" )]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult Add( CollateralInformation cInfo, HttpPostedFileBase CollateralImage )
 		{
 			if( ModelState.IsValid )
@@ -84,6 +85,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageCollateral" )]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult AddGroup( CollateralGroupInformation cInfo, HttpPostedFileBase CollateralImage )
 		{
 			if( ModelState.IsValid )
@@ -124,6 +126,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageCollateral" )]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult Edit( CollateralInformation cInfo, HttpPostedFileBase CollateralImage )
 		{
 			if( ModelState.IsValid )
@@ -164,6 +167,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageCollateral" )]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult EditGroup( CollateralGroupInformation cInfo, HttpPostedFileBase CollateralImage )
 		{
 			if( ModelState.IsValid )
@@ -214,6 +218,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageCollateral" )]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult AddShipment( List<CollateralShipmentDetail> theList )
 		{
 			try
@@ -239,6 +244,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanAddOrders" )]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult AddOrder( NewOrderInformation orderInfo )
 		{
 			if( ModelState.IsValid )
@@ -273,6 +279,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageOrders" )]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult EditOrder( NewOrderInformation orderInfo )
 		{
 			if( ModelState.IsValid )
@@ -360,6 +367,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageOrders" )]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult ShipOrder( int id, PendingOrderInformation.ShipmentSummary summary )
 		{
 			if( ModelState.IsValid )

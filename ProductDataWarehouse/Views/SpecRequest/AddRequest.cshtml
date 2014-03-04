@@ -398,6 +398,7 @@
 
     @using( Html.BeginForm( "AddRequest", "SpecRequest", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
 	{
+		@Html.AntiForgeryToken()
 		<div>
 		<div class="left">
         <input type="button" class="btn_type1 previousBtn" value="Previous" id="" style="display:none;" />
@@ -535,7 +536,7 @@
 					</td>
 					<td colspan="2" class="double">
 					<br />
-					@Html.MJLabelFor( m => m.LaminatePreference, true, new { @class = "laminatePreference" }) @Html.DropDownListFor( m => m.LaminatePreference, new List<SelectListItem>() { 
+					@Html.MJLabelFor( m => m.LaminatePreference, true, new { @class = "laminatePreference" } ) @Html.DropDownListFor( m => m.LaminatePreference, new List<SelectListItem>() { 
 	new SelectListItem(),
 	new SelectListItem() { Value = "LPL", Text = "LPL - Low Pressure Laminate" },
 	new SelectListItem() { Value = "HPL", Text = "HPL - High Pressure Laminate" } }, new { @class = "laminatePreference" } )<br class="laminatePreference" />

@@ -36,6 +36,7 @@ else
 
     @using( Html.BeginForm( "EditPrintMaterial", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm" } ) )
     {
+		@Html.AntiForgeryToken()
         @Html.HiddenFor( m => m.PublicationID )
         <span class="dataRow">@Html.MJLabelFor( m => m.Name, true )@Html.TextBoxFor( m => m.Name )<br /></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.PublicationDate, true )@Html.EditorFor( m => m.PublicationDate )<br /></span>

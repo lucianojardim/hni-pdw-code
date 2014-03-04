@@ -25,6 +25,7 @@
 
     @using( Html.BeginForm( "Add", "Collateral", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
 	{
+		@Html.AntiForgeryToken()
 		<table cellpadding="0" cellspacing="0" class="dataLayout">
         <tr>
 		<td>@Html.MJLabelFor( m => m.Name, true )</td><td>@Html.TextBoxFor( m => m.Name )</td>

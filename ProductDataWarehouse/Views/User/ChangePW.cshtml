@@ -12,6 +12,7 @@
 
     @using( Html.BeginForm() )
 	{
+		@Html.AntiForgeryToken()
 		<p class="ffait fs11 fflighter">Password must be at least 8 characters, and contain an upper-case letter, a lower-case letter, and a non-letter.</p>
         <span class="dataRow">@Html.MJLabelFor( m => m.OldPassword, true )@Html.PasswordFor( m => m.OldPassword )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.NewPassword, true )@Html.PasswordFor( m => m.NewPassword )<br/></span>

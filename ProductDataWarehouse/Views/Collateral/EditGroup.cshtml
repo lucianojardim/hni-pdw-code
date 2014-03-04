@@ -68,6 +68,7 @@
 
     @using( Html.BeginForm( "EditGroup", "Collateral", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
 	{
+		@Html.AntiForgeryToken()
 		@Html.HiddenFor( m => m.CollateralID )
 		@Html.HiddenFor( m => m.Quantity )
 		@Html.Hidden( "CollateralTypeID", 0 )

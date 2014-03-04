@@ -15,18 +15,19 @@
 
     @using( Html.BeginForm( "Index", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
     {
+		@Html.AntiForgeryToken()
         @Html.Label( "PDW File Name: " )<input type="file" name="csvFile" data-val-required="The File Name is a required field." data-val="true" /><br />
 @Html.ValidationSummary()
-        if( ViewBag.ImportSuccess ?? false )
-        {
+		if( ViewBag.ImportSuccess ?? false )
+		{
             <div style='color:#008000;font-weight:bold;'>
                 <ul>
                     <li>Congrats! You have successfully uploaded your files.</li>
                 </ul>
             </div>            
-        }
+		}
         <input type="submit" value="Import" class="btn_type1" style="margin-top:10px;" onclick="$('#inProgress').show();" />
-    }
+	}
     <div style="display:none;margin-top:25px;" id="inProgress">
         <img src="@Url.Content( "~/Content/Images/baprogress.gif" )" alt="" style="display:inline;"/>&nbsp;<span>Importing...</span>
     </div>
