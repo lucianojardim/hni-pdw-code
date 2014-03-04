@@ -351,6 +351,10 @@ namespace PWDRepositories
 			{
 				userList = userList.Where( i => i.AccountType != PaoliWebUser.PaoliWebRole.SuperAdmin );
 			}
+			if( param.territoryId.HasValue )
+			{
+				userList = userList.Where( c => c.Company.TerritoryID == param.territoryId.Value );
+			}
 
 			displayedRecords = userList.Count();
 

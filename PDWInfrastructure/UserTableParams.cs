@@ -8,5 +8,6 @@ namespace PDWInfrastructure
 	public class UserTableParams : DataTableParams
 	{
 		public int accountType { get; set; }
+		public int? territoryId { get; set; }
 	}
 }

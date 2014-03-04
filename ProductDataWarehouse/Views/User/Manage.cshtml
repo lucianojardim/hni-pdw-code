@@ -8,7 +8,8 @@
 <h2>Paoli User List</h2>
 
 <a href="@Url.Action( "Add", "User" )" id="addNewUser">Add New</a><br />
-Account Type: @Html.DropDownList( "AccountType", ProductDataWarehouse.Controllers.UserController.GetUserRoleFilterList() )
+Account Type: @Html.DropDownList( "AccountType", ProductDataWarehouse.Controllers.UserController.GetUserRoleFilterList() )<br />
+Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.CompanyController.GetTerritoryDDList() )
 <div>
     <table id="userList">
     <thead></thead>
@@ -19,6 +20,7 @@ Account Type: @Html.DropDownList( "AccountType", ProductDataWarehouse.Controller
 <script type="text/javascript">
 	$(document).ready(function () {
 		$('#AccountType').change(loadUsers);
+		$('#TerritoryID').change(loadUsers);
 
 		loadUsers();
 	});
@@ -76,6 +78,7 @@ Account Type: @Html.DropDownList( "AccountType", ProductDataWarehouse.Controller
 			"sAjaxSource": '@Url.Action( "FullUserList" )',
 			"fnServerParams": function (aoData) {
 				aoData.push({ "name": "accountType", "value": $('#AccountType').val() });
+				aoData.push({ "name": "territoryId", "value": $('#TerritoryID').val() });
 			},
 			"iDisplayLength": 100,
 			"fnServerData": function (sSource, aoData, fnCallback) {
