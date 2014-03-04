@@ -28,6 +28,27 @@
 			</text>
 			}
 
+    		$.validator.addMethod(
+					"atLeastOneTracking",
+					function (value, element, regexp) {
+						if( $('#TrackingNumber1').val().trim().length > 0 ) {
+							return true;
+						}
+						if( $('#TrackingNumber2').val().trim().length > 0 ) {
+							return true;
+						}
+						if( $('#TrackingNumber3').val().trim().length > 0 ) {
+							return true;
+						}
+						if( $('#TrackingNumber4').val().trim().length > 0 ) {
+							return true;
+						}
+						return false;
+					},
+					"Please include at least one tracking number in this shipment."
+				);
+    		$('#TrackingNumber1').rules("add", { atLeastOneTracking: true, messages: { required: "Please include at least one tracking number in this shipment."} });
+
 			$('#btnShipAll').click(function(e) {
 				e.preventDefault();
 				$('.colQuantity').each(function() {
@@ -350,7 +371,7 @@
 			<table cellpadding="0" cellspacing="0" class="dataLayout" id="">
 				<thead>
 					<tr class="fwb">
-						<td>Shipping Date</td><td>Vendor</td><td>Tracking Number</td><td></td>
+						<td>Shipping Date</td><td>Vendor</td><td>Tracking Numbers</td><td></td>
 					</tr>
 				</thead>
 				<tbody>
@@ -359,7 +380,7 @@
 		<tr>
 			<td id="shippingDate@(shipmentInfo.ShipmentID)"></td>
 			<td>@shipmentInfo.Vendor</td>
-			<td>@shipmentInfo.TrackingNumber</td>
+			<td>@shipmentInfo.TrackingNumbers</td>
 			<td><a href="#shipmentDetails@(shipmentInfo.ShipmentID)" class="shipmentDetailsLink">Details</a></td>
 			<td><a target="_blank" href="@Url.Action( "ViewShipment", new { id = shipmentInfo.ShipmentID } )">Print</a></td>
 		</tr>
@@ -436,7 +457,7 @@
 				<td>@Html.LabelFor( m => m.Shipments[0].Vendor )</td><td>@shipmentInfo.Vendor</td>
 				</tr>
 				<tr>
-				<td>@Html.LabelFor( m => m.Shipments[0].TrackingNumber )</td><td>@shipmentInfo.TrackingNumber</td>
+				<td>@Html.LabelFor( m => m.Shipments[0].TrackingNumbers )</td><td>@shipmentInfo.TrackingNumbers</td>
 				</tr>
 				<tr>
 				<td>@Html.LabelFor( m => m.Shipments[0].GLCode )</td><td>@shipmentInfo.GLCode</td>
@@ -529,7 +550,16 @@
 				<td class="padb5">Vendor</td><td><select id="Vendor" name="Vendor"><option>FedEx</option><option>UPS</option><option>US Postal Service</option></select></td>
 				</tr>
 				<tr>
-				<td class="padb5">Tracking Number</td><td><input type="text" id="TrackingNumber" name="TrackingNumber" data-val-required="Please enter the Tracking Number for this shipment." data-val="true" /></td>
+				<td class="padb5">Tracking Numbers</td><td><input type="text" id="TrackingNumber1" name="TrackingNumber1" /></td>
+				</tr>
+				<tr>
+				<td class="padb5"></td><td><input type="text" id="TrackingNumber2" name="TrackingNumber2" /></td>
+				</tr>
+				<tr>
+				<td class="padb5"></td><td><input type="text" id="TrackingNumber3" name="TrackingNumber3" /></td>
+				</tr>
+				<tr>
+				<td class="padb5"></td><td><input type="text" id="TrackingNumber4" name="TrackingNumber4" /></td>
 				</tr>
 				<tr>
 				<td class="padb5">GL Code</td><td><input type="text" id="GLCode" name="GLCode" /></td>

@@ -4198,30 +4198,6 @@ namespace PDWDBContext
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String TrackingNumber
-        {
-            get
-            {
-                return _TrackingNumber;
-            }
-            set
-            {
-                OnTrackingNumberChanging(value);
-                ReportPropertyChanging("TrackingNumber");
-                _TrackingNumber = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("TrackingNumber");
-                OnTrackingNumberChanged();
-            }
-        }
-        private global::System.String _TrackingNumber;
-        partial void OnTrackingNumberChanging(global::System.String value);
-        partial void OnTrackingNumberChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
         public global::System.String GLCode
         {
             get
@@ -4528,6 +4504,102 @@ namespace PDWDBContext
         private global::System.DateTime _ShipmentDate;
         partial void OnShipmentDateChanging(global::System.DateTime value);
         partial void OnShipmentDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String TrackingNumber1
+        {
+            get
+            {
+                return _TrackingNumber1;
+            }
+            set
+            {
+                OnTrackingNumber1Changing(value);
+                ReportPropertyChanging("TrackingNumber1");
+                _TrackingNumber1 = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("TrackingNumber1");
+                OnTrackingNumber1Changed();
+            }
+        }
+        private global::System.String _TrackingNumber1;
+        partial void OnTrackingNumber1Changing(global::System.String value);
+        partial void OnTrackingNumber1Changed();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String TrackingNumber2
+        {
+            get
+            {
+                return _TrackingNumber2;
+            }
+            set
+            {
+                OnTrackingNumber2Changing(value);
+                ReportPropertyChanging("TrackingNumber2");
+                _TrackingNumber2 = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("TrackingNumber2");
+                OnTrackingNumber2Changed();
+            }
+        }
+        private global::System.String _TrackingNumber2;
+        partial void OnTrackingNumber2Changing(global::System.String value);
+        partial void OnTrackingNumber2Changed();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String TrackingNumber3
+        {
+            get
+            {
+                return _TrackingNumber3;
+            }
+            set
+            {
+                OnTrackingNumber3Changing(value);
+                ReportPropertyChanging("TrackingNumber3");
+                _TrackingNumber3 = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("TrackingNumber3");
+                OnTrackingNumber3Changed();
+            }
+        }
+        private global::System.String _TrackingNumber3;
+        partial void OnTrackingNumber3Changing(global::System.String value);
+        partial void OnTrackingNumber3Changed();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String TrackingNumber4
+        {
+            get
+            {
+                return _TrackingNumber4;
+            }
+            set
+            {
+                OnTrackingNumber4Changing(value);
+                ReportPropertyChanging("TrackingNumber4");
+                _TrackingNumber4 = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("TrackingNumber4");
+                OnTrackingNumber4Changed();
+            }
+        }
+        private global::System.String _TrackingNumber4;
+        partial void OnTrackingNumber4Changing(global::System.String value);
+        partial void OnTrackingNumber4Changed();
 
         #endregion
 

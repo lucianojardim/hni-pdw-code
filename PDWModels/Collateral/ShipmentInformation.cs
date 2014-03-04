@@ -11,8 +11,8 @@ namespace PDWModels.Collateral
 		public int ShipmentID { get; set; }
 		[DisplayName( "Vendor" )]
 		public string Vendor { get; set; }
-		[DisplayName( "Tracking Number" )]
-		public string TrackingNumber { get; set; }
+		[DisplayName( "Tracking Numbers" )]
+		public string TrackingNumbers { get; set; }
 		[DisplayName( "GL Code" )]
 		public string GLCode { get; set; }
 		[DisplayName( "Shipping Priority" )]

@@ -21,8 +21,11 @@ namespace PDWModels.Collateral
 			public int ShipmentID { get; set; }
 			[DisplayName( "Vendor" )]
 			public string Vendor { get; set; }
-			[DisplayName( "Tracking Number" )]
-			public string TrackingNumber { get; set; }
+			[DisplayName( "Tracking Numbers" )]
+			public string TrackingNumber1 { get; set; }
+			public string TrackingNumber2 { get; set; }
+			public string TrackingNumber3 { get; set; }
+			public string TrackingNumber4 { get; set; }
 			[DisplayName( "GL Code" )]
 			public string GLCode { get; set; }
 			[DisplayName( "Shipping Priority" )]
@@ -52,6 +55,17 @@ namespace PDWModels.Collateral
 			public int ShippingTypeID { get; set; }
 
 			public List<ShipmentDetailSummary> Details { get; set; }
+
+			public string TrackingNumbers
+			{
+				get
+				{
+					return string.Join( ", ", new List<string>() { TrackingNumber1,
+						TrackingNumber2,
+						TrackingNumber3,
+						TrackingNumber4 }.Where( s => ( s ?? "" ).Any() ) );
+				}
+			}
 		}
 
 		public class PendingOrderDetail

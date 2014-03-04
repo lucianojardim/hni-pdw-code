@@ -1040,7 +1040,10 @@ namespace PWDRepositories
 				{
 					ShipmentID = shipment.ShipmentID,
 					Vendor = shipment.Vendor,
-					TrackingNumber = shipment.TrackingNumber,
+					TrackingNumber1 = shipment.TrackingNumber1,
+					TrackingNumber2 = shipment.TrackingNumber2,
+					TrackingNumber3 = shipment.TrackingNumber3,
+					TrackingNumber4 = shipment.TrackingNumber4,
 					GLCode = shipment.GLCode,
 					ShippingType = shipment.ShippingType,
 					ShippingFedexAccount = shipment.ShippingFedexAccount,
@@ -1085,7 +1088,10 @@ namespace PWDRepositories
 
 			var dbShipment = new CollateralOrderShipment();
 			dbShipment.Vendor = shipmentInfo.Vendor;
-			dbShipment.TrackingNumber = shipmentInfo.TrackingNumber;
+			dbShipment.TrackingNumber1 = shipmentInfo.TrackingNumber1;
+			dbShipment.TrackingNumber2 = shipmentInfo.TrackingNumber2;
+			dbShipment.TrackingNumber3 = shipmentInfo.TrackingNumber3;
+			dbShipment.TrackingNumber4 = shipmentInfo.TrackingNumber4;
 			dbShipment.GLCode = shipmentInfo.GLCode;
 			dbShipment.ShippingType = NewOrderInformation.ShippingTypes[dbOrder.ShippingType];
 			dbShipment.ShippingFedexAccount = dbOrder.ShippingFedexAccount;
@@ -1188,7 +1194,10 @@ namespace PWDRepositories
 			{
 				ShipmentID = shipment.ShipmentID,
 				Vendor = shipment.Vendor,
-				TrackingNumber = shipment.TrackingNumber,
+				TrackingNumbers = string.Join( ", ", new List<string>() { shipment.TrackingNumber1,
+					shipment.TrackingNumber2,
+					shipment.TrackingNumber3,
+					shipment.TrackingNumber4 }.Where( s => (s ?? "").Any() ) ),
 				GLCode = shipment.GLCode,
 				ShippingType = shipment.ShippingType,
 				ShippingFedexAccount = shipment.ShippingFedexAccount,

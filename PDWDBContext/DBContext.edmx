@@ -446,7 +446,6 @@
           <Property Name="ShipmentID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="OrderID" Type="int" Nullable="false" />
           <Property Name="Vendor" Type="nvarchar" MaxLength="100" />
-          <Property Name="TrackingNumber" Type="nvarchar" MaxLength="100" />
           <Property Name="GLCode" Type="nvarchar" MaxLength="100" />
           <Property Name="ShippingType" Type="nvarchar" MaxLength="100" />
           <Property Name="ShippingFedexAccount" Type="nvarchar" MaxLength="50" />
@@ -460,6 +459,10 @@
           <Property Name="ShippingPhoneNumber" Type="nvarchar" MaxLength="20" />
           <Property Name="ShippingEmailAddress" Type="nvarchar" MaxLength="100" />
           <Property Name="ShipmentDate" Type="datetime" Nullable="false" />
+          <Property Name="TrackingNumber1" Type="nvarchar" MaxLength="100" />
+          <Property Name="TrackingNumber2" Type="nvarchar" MaxLength="100" />
+          <Property Name="TrackingNumber3" Type="nvarchar" MaxLength="100" />
+          <Property Name="TrackingNumber4" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="CollateralTypes">
           <Key>
@@ -3308,7 +3311,6 @@
           <Property Type="Int32" Name="ShipmentID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="OrderID" Nullable="false" />
           <Property Type="String" Name="Vendor" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="TrackingNumber" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="GLCode" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ShippingType" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ShippingFedexAccount" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -3324,6 +3326,10 @@
           <NavigationProperty Name="CollateralOrder" Relationship="PaoliPDWModel.fkShipment_COrder" FromRole="CollateralOrderShipment" ToRole="CollateralOrder" />
           <NavigationProperty Name="CollateralOrderShipmentDetails" Relationship="PaoliPDWModel.fkShipmentDetail_Shipment" FromRole="CollateralOrderShipment" ToRole="CollateralOrderShipmentDetail" />
           <Property Type="DateTime" Name="ShipmentDate" Nullable="false" />
+          <Property Type="String" Name="TrackingNumber1" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TrackingNumber2" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TrackingNumber3" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TrackingNumber4" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="fkShipmentDetail_CODetail">
           <End Type="PaoliPDWModel.CollateralOrderDetail" Role="CollateralOrderDetail" Multiplicity="1" />
@@ -3985,6 +3991,10 @@
           <EntitySetMapping Name="CollateralOrderShipments">
             <EntityTypeMapping TypeName="PaoliPDWModel.CollateralOrderShipment">
               <MappingFragment StoreEntitySet="CollateralOrderShipments">
+                <ScalarProperty Name="TrackingNumber4" ColumnName="TrackingNumber4" />
+                <ScalarProperty Name="TrackingNumber3" ColumnName="TrackingNumber3" />
+                <ScalarProperty Name="TrackingNumber2" ColumnName="TrackingNumber2" />
+                <ScalarProperty Name="TrackingNumber1" ColumnName="TrackingNumber1" />
                 <ScalarProperty Name="ShipmentDate" ColumnName="ShipmentDate" />
                 <ScalarProperty Name="ShippingEmailAddress" ColumnName="ShippingEmailAddress" />
                 <ScalarProperty Name="ShippingPhoneNumber" ColumnName="ShippingPhoneNumber" />
@@ -3998,7 +4008,6 @@
                 <ScalarProperty Name="ShippingFedexAccount" ColumnName="ShippingFedexAccount" />
                 <ScalarProperty Name="ShippingType" ColumnName="ShippingType" />
                 <ScalarProperty Name="GLCode" ColumnName="GLCode" />
-                <ScalarProperty Name="TrackingNumber" ColumnName="TrackingNumber" />
                 <ScalarProperty Name="Vendor" ColumnName="Vendor" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="ShipmentID" ColumnName="ShipmentID" />
@@ -4406,12 +4415,12 @@
         <EntityTypeShape EntityType="PaoliPDWModel.CollateralOrder" Width="1.5" PointX="15.875" PointY="19.5" Height="6.0296842447916674" />
         <AssociationConnector Association="PaoliPDWModel.fkCODetail_Collateral" >
           <ConnectorPoint PointX="19.90625" PointY="19.728821614583335" />
-          <ConnectorPoint PointX="19.90625" PointY="20.458888833506713" />
-          <ConnectorPoint PointX="20.875" PointY="20.458888833506713" />
+          <ConnectorPoint PointX="19.90625" PointY="20.53125" />
+          <ConnectorPoint PointX="20.875" PointY="20.53125" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkCODetail_Order" >
-          <ConnectorPoint PointX="17.375" PointY="20.689069534678111" />
-          <ConnectorPoint PointX="20.875" PointY="20.689069534678111" />
+          <ConnectorPoint PointX="17.375" PointY="20.734375" />
+          <ConnectorPoint PointX="20.875" PointY="20.734375" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkCOrder_Dealer" >
           <ConnectorPoint PointX="15.108846153846155" PointY="7.6014208984375" />
@@ -4467,8 +4476,8 @@
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkCOD_Group" >
           <ConnectorPoint PointX="20.0468775" PointY="19.728821614583335" />
-          <ConnectorPoint PointX="20.0468775" PointY="20.323191916753363" />
-          <ConnectorPoint PointX="20.875" PointY="20.323191916753363" />
+          <ConnectorPoint PointX="20.0468775" PointY="20.359372500000006" />
+          <ConnectorPoint PointX="20.875" PointY="20.359372500000006" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkCO_CreatedUser" >
           <ConnectorPoint PointX="12.833461538461538" PointY="9.5690315755208335" />
@@ -4481,14 +4490,14 @@
           <ConnectorPoint PointX="15.875" PointY="23.335086663818863" />
         </AssociationConnector>
         <EntityTypeShape EntityType="PaoliPDWModel.CollateralOrderShipmentDetail" Width="1.5" PointX="23.125" PointY="21.5" Height="1.9210009765625102" />
-        <EntityTypeShape EntityType="PaoliPDWModel.CollateralOrderShipment" Width="1.5" PointX="18.125" PointY="20.875" Height="3.8931689453125102" />
+        <EntityTypeShape EntityType="PaoliPDWModel.CollateralOrderShipment" Width="1.5" PointX="18.125" PointY="20.875" Height="4.5505582682291674" />
         <AssociationConnector Association="PaoliPDWModel.fkShipmentDetail_CODetail" >
           <ConnectorPoint PointX="22.375" PointY="22.082021484375" />
           <ConnectorPoint PointX="23.125" PointY="22.082021484375" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkShipment_COrder" >
-          <ConnectorPoint PointX="17.375" PointY="22.903758138020834" />
-          <ConnectorPoint PointX="18.125" PointY="22.903758138020834" />
+          <ConnectorPoint PointX="17.375" PointY="23.150279134114584" />
+          <ConnectorPoint PointX="18.125" PointY="23.150279134114584" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkShipmentDetail_Shipment" >
           <ConnectorPoint PointX="19.625" PointY="23.073771972656257" />
