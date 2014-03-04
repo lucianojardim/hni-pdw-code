@@ -6,18 +6,21 @@ using System.Web.Mvc;
 using PDWInfrastructure;
 using PWDRepositories;
 using PDWModels.Users;
+using PDWInfrastructure.Attributes;
 
 namespace ProductDataWarehouse.Controllers
 {
     public class UserController : Controller
     {
 		[PaoliAuthorize( "CanManageUsers" )]
+		[TempPasswordCheck]
 		public ActionResult Manage()
 		{
 			return View();
 		}
 
 		[PaoliAuthorize( "CanManageUsers" )]
+		[TempPasswordCheck]
 		public JsonResult FullUserList( UserTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -38,12 +41,14 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageUsers" )]
+		[TempPasswordCheck]
 		public ActionResult Add()
 		{
 			return View( new UserInformation() { Enabled = true, SendWelcomeEmail = true } );
 		}
 
 		[PaoliAuthorize( "CanManageUsers" )]
+		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Add( UserInformation uInfo, HttpPostedFileBase UserImage )
@@ -73,6 +78,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageUsers" )]
+		[TempPasswordCheck]
 		public ActionResult Edit( int id )
 		{
 			UserRepository uRepository = new UserRepository();
@@ -83,6 +89,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageUsers" )]
+		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit( UserInformation uInfo, HttpPostedFileBase UserImage )
@@ -112,6 +119,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageUsers" )]
+		[TempPasswordCheck]
 		public JsonResult SendWelcomeEmail( int id )
 		{
 			bool bSuccess = ( new UserRepository() ).SendWelcomeEmail( id );
@@ -124,6 +132,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageUsers" )]
+		[TempPasswordCheck]
 		public JsonResult ResetPassword( int id )
 		{
 			UserRepository uRepository = new UserRepository();
@@ -137,7 +146,8 @@ namespace ProductDataWarehouse.Controllers
 				JsonRequestBehavior.AllowGet );
 		}
 
-		[Authorize]
+		[PaoliAuthorize( "CanBeLoggedIn" )]
+		[TempPasswordCheck]
 		public ActionResult MyAccount()
 		{
 			UserRepository uRepository = new UserRepository();
@@ -147,7 +157,8 @@ namespace ProductDataWarehouse.Controllers
 			return View( uInfo );
 		}
 
-		[Authorize]
+		[PaoliAuthorize( "CanBeLoggedIn" )]
+		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult MyAccount( MyAccountInfo uInfo )
@@ -174,13 +185,13 @@ namespace ProductDataWarehouse.Controllers
 			return View( uInfo );
 		}
 
-		[Authorize]
+		[PaoliAuthorize( "CanBeLoggedIn" )]
 		public ActionResult ChangePW()
 		{
 			return View();
 		}
 
-		[Authorize]
+		[PaoliAuthorize( "CanBeLoggedIn" )]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult ChangePW( ChangePWDetail pwDetail )
@@ -208,13 +219,15 @@ namespace ProductDataWarehouse.Controllers
 			return View();
 		}
 
-		[Authorize]
+		[PaoliAuthorize( "CanBeLoggedIn" )]
+		[TempPasswordCheck]
 		public ActionResult Subscriptions()
 		{
 			return View( new UserRepository().GetUserSubscriptionSummary( PaoliWebUser.CurrentUser.UserId ) );
 		}
 
-		[Authorize]
+		[PaoliAuthorize( "CanBeLoggedIn" )]
+		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Subscriptions( UserSubscriptionSummary uSummary )

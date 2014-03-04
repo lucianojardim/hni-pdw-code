@@ -5,7 +5,7 @@ using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
-namespace PDWInfrastructure
+namespace PDWInfrastructure.Attributes
 {
 	public class PaoliPasswordAttribute : RegularExpressionAttribute
 	{

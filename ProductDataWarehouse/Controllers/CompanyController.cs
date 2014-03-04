@@ -6,18 +6,21 @@ using System.Web.Mvc;
 using PDWInfrastructure;
 using PWDRepositories;
 using PDWModels.Companies;
+using PDWInfrastructure.Attributes;
 
 namespace ProductDataWarehouse.Controllers
 {
     public class CompanyController : Controller
 	{
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		public ActionResult Manage()
 		{
 			return View();
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		public JsonResult FullCompanyList( CompanyTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -38,12 +41,14 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		public ActionResult Add()
 		{
 			return View( new CompanyInformation() );
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Add( CompanyInformation uInfo )
@@ -73,6 +78,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		public ActionResult Edit( int id )
 		{
 			CompanyRepository cRepository = new CompanyRepository();
@@ -83,6 +89,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit( CompanyInformation uInfo )
@@ -112,6 +119,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		public JsonResult Delete( int id )
 		{
 			CompanyRepository cRepository = new CompanyRepository();

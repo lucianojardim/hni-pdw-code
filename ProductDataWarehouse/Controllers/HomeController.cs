@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using PDWInfrastructure;
 using PWDRepositories;
+using PDWInfrastructure.Attributes;
 
 namespace ProductDataWarehouse.Controllers
 {
@@ -14,6 +15,7 @@ namespace ProductDataWarehouse.Controllers
         // GET: /Home/
 
 		[PaoliAuthorize( "CanBeLoggedIn" )]
+		[TempPasswordCheck]
 		public ActionResult Index()
         {
 			ViewBag.RSSURL = FullSiteURLLocal() + "/";

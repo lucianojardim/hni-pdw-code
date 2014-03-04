@@ -13262,7 +13262,8 @@ namespace PDWDBContext
         /// <param name="accountType">Initial value of the AccountType property.</param>
         /// <param name="companyID">Initial value of the CompanyID property.</param>
         /// <param name="recWelcomeEmail">Initial value of the RecWelcomeEmail property.</param>
-        public static User CreateUser(global::System.Int32 userID, global::System.String firstName, global::System.String lastName, global::System.String email, global::System.String password, global::System.Boolean enabled, global::System.Int32 accountType, global::System.Int32 companyID, global::System.Boolean recWelcomeEmail)
+        /// <param name="isTempPassword">Initial value of the IsTempPassword property.</param>
+        public static User CreateUser(global::System.Int32 userID, global::System.String firstName, global::System.String lastName, global::System.String email, global::System.String password, global::System.Boolean enabled, global::System.Int32 accountType, global::System.Int32 companyID, global::System.Boolean recWelcomeEmail, global::System.Boolean isTempPassword)
         {
             User user = new User();
             user.UserID = userID;
@@ -13274,6 +13275,7 @@ namespace PDWDBContext
             user.AccountType = accountType;
             user.CompanyID = companyID;
             user.RecWelcomeEmail = recWelcomeEmail;
+            user.IsTempPassword = isTempPassword;
             return user;
         }
 
@@ -13715,6 +13717,30 @@ namespace PDWDBContext
         private global::System.String _ImageFileName;
         partial void OnImageFileNameChanging(global::System.String value);
         partial void OnImageFileNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsTempPassword
+        {
+            get
+            {
+                return _IsTempPassword;
+            }
+            set
+            {
+                OnIsTempPasswordChanging(value);
+                ReportPropertyChanging("IsTempPassword");
+                _IsTempPassword = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsTempPassword");
+                OnIsTempPasswordChanged();
+            }
+        }
+        private global::System.Boolean _IsTempPassword;
+        partial void OnIsTempPasswordChanging(global::System.Boolean value);
+        partial void OnIsTempPasswordChanged();
 
         #endregion
 

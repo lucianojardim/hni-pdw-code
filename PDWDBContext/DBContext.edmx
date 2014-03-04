@@ -859,6 +859,7 @@
           <Property Name="CompanyID" Type="int" Nullable="false" />
           <Property Name="RecWelcomeEmail" Type="bit" Nullable="false" />
           <Property Name="ImageFileName" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsTempPassword" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="UserSubscriptions">
           <Key>
@@ -2730,6 +2731,7 @@
           <NavigationProperty Name="CollateralOrders6" Relationship="PaoliPDWModel.fkCOrder_SPPaoliMember" FromRole="User" ToRole="CollateralOrder" />
           <NavigationProperty Name="CollateralOrders7" Relationship="PaoliPDWModel.fkCOrder_SPSalesRepMember" FromRole="User" ToRole="CollateralOrder" />
           <NavigationProperty Name="CompaniesAsPaoliMember" Relationship="PaoliPDWModel.fkCompany_PaoliMember" FromRole="User" ToRole="Company" />
+          <Property Type="Boolean" Name="IsTempPassword" Nullable="false" />
           </EntityType>
         <EntityType Name="Company">
           <Key>
@@ -3743,6 +3745,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="PaoliPDWModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="IsTempPassword" ColumnName="IsTempPassword" />
                 <ScalarProperty Name="ImageFileName" ColumnName="ImageFileName" />
                 <ScalarProperty Name="RecWelcomeEmail" ColumnName="RecWelcomeEmail" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />

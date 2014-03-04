@@ -10,6 +10,7 @@ using System.Threading;
 using System.Web.Security;
 using PDWModels.Publications;
 using PDWModels.Dealers;
+using PDWInfrastructure.Attributes;
 
 namespace ProductDataWarehouse.Controllers
 {
@@ -74,7 +75,8 @@ namespace ProductDataWarehouse.Controllers
 
 		#region Data File Import 
 		[PaoliAuthorize( "CanManageImport" )]
-        public ActionResult Index()
+		[TempPasswordCheck]
+		public ActionResult Index()
         {
             return View();
         }
@@ -82,6 +84,7 @@ namespace ProductDataWarehouse.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[PaoliAuthorize( "CanManageImport" )]
+		[TempPasswordCheck]
 		public ActionResult Index( HttpPostedFileBase csvFile )
 		{
 			if( ModelState.IsValid )
@@ -119,12 +122,14 @@ namespace ProductDataWarehouse.Controllers
 
 		#region Image Management
 		[PaoliAuthorize( "CanManageImages" )]
+		[TempPasswordCheck]
 		public ActionResult Images()
 		{
 			return View();
 		}
 
 		[PaoliAuthorize( "CanManageImages" )]
+		[TempPasswordCheck]
 		public JsonResult FullImageList( ImageTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -145,6 +150,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageImages" )]
+		[TempPasswordCheck]
 		public ActionResult AddImage()
 		{
 			return View( new ImageInformation() { ImageContent = 1 } );
@@ -153,6 +159,7 @@ namespace ProductDataWarehouse.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[PaoliAuthorize( "CanManageImages" )]
+		[TempPasswordCheck]
 		[ValidateInput( false )]
 		public ActionResult AddImage( ImageInformation imgInfo, HttpPostedFileBase imageFile )
 		{
@@ -290,6 +297,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageImages" )]
+		[TempPasswordCheck]
 		public ActionResult EditImage( int id )
 		{
 			ImageRepository iRepo = new ImageRepository();
@@ -300,6 +308,7 @@ namespace ProductDataWarehouse.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[PaoliAuthorize( "CanManageImages" )]
+		[TempPasswordCheck]
 		[ValidateInput( false )]
 		public ActionResult EditImage( ImageInformation imgInfo )
 		{
@@ -437,6 +446,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageImages" )]
+		[TempPasswordCheck]
 		public ActionResult UploadImage( int id )
 		{
 			ImageRepository iRepo = new ImageRepository();
@@ -447,6 +457,7 @@ namespace ProductDataWarehouse.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[PaoliAuthorize( "CanManageImages" )]
+		[TempPasswordCheck]
 		public ActionResult UploadImage( int ImageID, HttpPostedFileBase imageFile )
 		{
 			if( ModelState.IsValid )
@@ -474,6 +485,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageImages" )]
+		[TempPasswordCheck]
 		public ActionResult DeleteImage( int id )
 		{
 			ImageRepository iRepo = new ImageRepository();
@@ -539,7 +551,7 @@ namespace ProductDataWarehouse.Controllers
 			return theList;
 		}
 		/*
-		[Authorize( Roles = PaoliWebUser.PaoliWebRole.SuperAdminRole )]
+		[PaoliAuthorize( "IsSuperAdmin" )]
 		public ActionResult RebuildGallery()
 		{
 			ImageRepository iRepo = new ImageRepository();
@@ -550,6 +562,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 */
 		[PaoliAuthorize( "IsSuperAdmin" )]
+		[TempPasswordCheck]
 		public ActionResult RebuildDBKeywords()
 		{
 			ImportRepository iRepo = new ImportRepository();
@@ -562,6 +575,7 @@ namespace ProductDataWarehouse.Controllers
 		#endregion
 
 		[PaoliAuthorize( "CanManageSearchLog" )]
+		[TempPasswordCheck]
 		public ActionResult SearchLog()
 		{
 			ImportRepository iRepo = new ImportRepository();
@@ -573,12 +587,14 @@ namespace ProductDataWarehouse.Controllers
 
 		#region Print Material Management
 		[PaoliAuthorize( "CanManagePrintMaterial" )]
+		[TempPasswordCheck]
 		public ActionResult PrintMaterial()
 		{
 			return View();
 		}
 
 		[PaoliAuthorize( "CanManagePrintMaterial" )]
+		[TempPasswordCheck]
 		public JsonResult FullPrintMaterialList( DataTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -599,6 +615,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManagePrintMaterial" )]
+		[TempPasswordCheck]
 		public ActionResult AddPrintMaterial()
 		{
 			return View( new PublicationInformation() { PublicationDate = DateTime.Now } );
@@ -607,6 +624,7 @@ namespace ProductDataWarehouse.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[PaoliAuthorize( "CanManagePrintMaterial" )]
+		[TempPasswordCheck]
 		public ActionResult AddPrintMaterial( PublicationInformation pubInfo )
 		{
 			if( ModelState.IsValid )
@@ -634,6 +652,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManagePrintMaterial" )]
+		[TempPasswordCheck]
 		public ActionResult EditPrintMaterial( int id )
 		{
 			return View( new PublicationRepository().GetPublicationInformation( id ) );
@@ -642,6 +661,7 @@ namespace ProductDataWarehouse.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[PaoliAuthorize( "CanManagePrintMaterial" )]
+		[TempPasswordCheck]
 		public ActionResult EditPrintMaterial( PublicationInformation pubInfo )
 		{
 			if( ModelState.IsValid )
@@ -669,12 +689,14 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManagePrintMaterial" )]
+		[TempPasswordCheck]
 		public ActionResult PrintMaterialImages( int id )
 		{
 			return View( new PublicationRepository().GetPublicationInformation( id ) );
 		}
 
 		[PaoliAuthorize( "CanManagePrintMaterial" )]
+		[TempPasswordCheck]
 		public JsonResult NonPubImageList( PubImageTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -695,6 +717,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManagePrintMaterial" )]
+		[TempPasswordCheck]
 		public JsonResult PubImageList( PubImageTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -715,6 +738,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManagePrintMaterial" )]
+		[TempPasswordCheck]
 		public JsonResult AddPubImage( int pubId, int imageId, int? pageNumber )
 		{
 			new PublicationRepository().AddPubImage( pubId, imageId, pageNumber );
@@ -723,6 +747,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManagePrintMaterial" )]
+		[TempPasswordCheck]
 		public JsonResult RemovePubImage( int pubId, int imageId )
 		{
 			new PublicationRepository().RemovePubImage( pubId, imageId );
@@ -733,18 +758,21 @@ namespace ProductDataWarehouse.Controllers
 
 		#region Dealers
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		public ActionResult ManageDealers()
 		{
 			return View();
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		public ActionResult ImportDealers()
 		{
 			return View();
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult ImportDealers( HttpPostedFileBase dealerFile )
@@ -809,6 +837,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		public JsonResult FullDealerList( DealerTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -829,12 +858,14 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		public ActionResult AddDealer()
 		{
 			return View( new DealerInformation() );
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult AddDealer( DealerInformation dInfo )
@@ -866,6 +897,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		public ActionResult EditDealer( int id )
 		{
 			DealerRepository dRepository = new DealerRepository();
@@ -876,6 +908,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult EditDealer( DealerInformation dInfo )
@@ -907,6 +940,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		public JsonResult DeleteDealer( int id )
 		{
 			DealerRepository dRepository = new DealerRepository();
@@ -924,12 +958,14 @@ namespace ProductDataWarehouse.Controllers
 
 		#region Dealer Videos
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		public ActionResult ManageVideos()
 		{
 			return View();
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		public JsonResult FullVideoList( VideoTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -950,12 +986,14 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		public ActionResult AddDealerVideo()
 		{
 			return View();
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult AddDealerVideo( DealerVideoInformation dInfo )
@@ -987,6 +1025,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		public ActionResult EditDealerVideo( int id )
 		{
 			DealerRepository dRepository = new DealerRepository();
@@ -997,6 +1036,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult EditDealerVideo( DealerVideoInformation dInfo )
@@ -1028,6 +1068,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		public JsonResult DeleteDealerVideo( int id )
 		{
 			DealerRepository dRepository = new DealerRepository();
@@ -1045,12 +1086,14 @@ namespace ProductDataWarehouse.Controllers
 
 		#region Dealer Pages
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		public ActionResult ManagePages()
 		{
 			return View();
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		public JsonResult FullDealerPageList( DealerPageTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -1071,12 +1114,14 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		public ActionResult AddDealerPage()
 		{
 			return View();
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult AddDealerPage( DealerPageInformation dInfo )
@@ -1108,6 +1153,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		public ActionResult EditDealerPage( int id )
 		{
 			DealerRepository dRepository = new DealerRepository();
@@ -1118,6 +1164,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult EditDealerPage( DealerPageInformation dInfo )
@@ -1149,6 +1196,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
 		public JsonResult DeleteDealerPage( int id )
 		{
 			DealerRepository dRepository = new DealerRepository();

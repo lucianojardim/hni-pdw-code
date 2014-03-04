@@ -6,18 +6,21 @@ using System.Web.Mvc;
 using PDWInfrastructure;
 using PDWModels.Collateral;
 using PWDRepositories;
+using PDWInfrastructure.Attributes;
 
 namespace ProductDataWarehouse.Controllers
 {
     public class CollateralController : BaseController
     {
 		[PaoliAuthorize( "CanManageCollateral" )]
+		[TempPasswordCheck]
         public ActionResult Manage()
         {
             return View();
         }
 
 		[PaoliAuthorize( "CanManageCollateral" )]
+		[TempPasswordCheck]
 		public JsonResult FullCollateralList( CollateralTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -38,12 +41,14 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCollateral" )]
+		[TempPasswordCheck]
 		public ActionResult Add()
 		{
 			return View( new CollateralInformation() );
 		}
 
 		[PaoliAuthorize( "CanManageCollateral" )]
+		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Add( CollateralInformation cInfo, HttpPostedFileBase CollateralImage )
@@ -75,6 +80,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCollateral" )]
+		[TempPasswordCheck]
 		public ActionResult AddGroup()
 		{
 			var detail = new CollateralGroupInformation();
@@ -84,6 +90,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCollateral" )]
+		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult AddGroup( CollateralGroupInformation cInfo, HttpPostedFileBase CollateralImage )
@@ -115,6 +122,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCollateral" )]
+		[TempPasswordCheck]
 		public ActionResult Edit( int id )
 		{
 			CollateralRepository cRepository = new CollateralRepository();
@@ -125,6 +133,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCollateral" )]
+		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit( CollateralInformation cInfo, HttpPostedFileBase CollateralImage )
@@ -156,6 +165,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCollateral" )]
+		[TempPasswordCheck]
 		public ActionResult EditGroup( int id )
 		{
 			CollateralRepository cRepository = new CollateralRepository();
@@ -166,6 +176,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCollateral" )]
+		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult EditGroup( CollateralGroupInformation cInfo, HttpPostedFileBase CollateralImage )
@@ -197,6 +208,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCollateral" )]
+		[TempPasswordCheck]
 		public JsonResult Delete( int id )
 		{
 			CollateralRepository cRepository = new CollateralRepository();
@@ -211,12 +223,14 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCollateral" )]
+		[TempPasswordCheck]
 		public ActionResult AddShipment()
 		{
 			return View( new List<CollateralShipmentDetail>() { new CollateralShipmentDetail() } );
 		}
 
 		[PaoliAuthorize( "CanManageCollateral" )]
+		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult AddShipment( List<CollateralShipmentDetail> theList )
@@ -237,12 +251,14 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanAddOrders" )]
+		[TempPasswordCheck]
 		public ActionResult AddOrder()
 		{
 			return View( ( new CollateralRepository() ).BlankOrderInformation() );
 		}
 
 		[PaoliAuthorize( "CanAddOrders" )]
+		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult AddOrder( NewOrderInformation orderInfo )
@@ -272,12 +288,14 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageOrders" )]
+		[TempPasswordCheck]
 		public ActionResult EditOrder( int id )
 		{
 			return View( ( new CollateralRepository() ).GetOrderInformation( id ) );
 		}
 
 		[PaoliAuthorize( "CanManageOrders" )]
+		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult EditOrder( NewOrderInformation orderInfo )
@@ -302,18 +320,21 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanAddOrders" )]
+		[TempPasswordCheck]
 		public ActionResult ViewOrder( int id )
 		{
 			return View( ( new CollateralRepository() ).GetPendingOrder( id, true ) );
 		}
 
 		[PaoliAuthorize( "CanManageOrders" )]
+		[TempPasswordCheck]
 		public ActionResult Orders()
 		{
 			return View();
 		}
 
 		[PaoliAuthorize( "CanManageOrders" )]
+		[TempPasswordCheck]
 		public JsonResult FullCollateralOrderList( CollateralOrderTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -334,12 +355,14 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanAddOrders" )]
+		[TempPasswordCheck]
 		public ActionResult ViewOrders()
 		{
 			return View();
 		}
 
 		[PaoliAuthorize( "CanAddOrders" )]
+		[TempPasswordCheck]
 		public JsonResult FullCollateralOrderListForUser( CollateralOrderTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -360,12 +383,14 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageOrders" )]
+		[TempPasswordCheck]
 		public ActionResult ShipOrder( int id )
 		{
 			return View( (new CollateralRepository()).GetPendingOrder( id, false ) );
 		}
 
 		[PaoliAuthorize( "CanManageOrders" )]
+		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult ShipOrder( int id, PendingOrderInformation.ShipmentSummary summary )
@@ -390,6 +415,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageOrders" )]
+		[TempPasswordCheck]
 		public ActionResult ViewShipment( int id )
 		{
 
@@ -397,6 +423,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageOrders" )]
+		[TempPasswordCheck]
 		public JsonResult CancelOrder( int id )
 		{
 			CollateralRepository cRepository = new CollateralRepository();

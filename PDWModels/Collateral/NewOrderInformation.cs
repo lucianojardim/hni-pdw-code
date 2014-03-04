@@ -5,6 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using PDWInfrastructure;
+using PDWInfrastructure.Attributes;
 
 namespace PDWModels.Collateral
 {

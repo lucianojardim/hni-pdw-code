@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using PDWInfrastructure;
 using System.ComponentModel;
+using PDWInfrastructure.Attributes;
 
 namespace PDWModels.Users
 {

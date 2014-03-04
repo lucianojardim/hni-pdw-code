@@ -40,7 +40,7 @@ namespace PWDRepositories
 			User user = database.Users.FirstOrDefault( u => u.Email == email );
 			if( user != null )
 			{
-				return new PaoliWebUser( user.Email, authType, user.UserID, user.FullName, user.AccountType );
+				return new PaoliWebUser( user.Email, authType, user.UserID, user.FullName, user.AccountType, user.IsTempPassword );
 			}
 
 			return null;
@@ -135,6 +135,7 @@ namespace PWDRepositories
 			string password = GenerateNewPassword();
 			PaoliEncryption enc = new PaoliEncryption( PaoliEncryption.DataPassPhrase );
 			newUser.Password = enc.Encrypt( password );
+			newUser.IsTempPassword = true;
 
 			if( imgStream != null )
 			{
@@ -234,6 +235,7 @@ namespace PWDRepositories
 					bWelcomeEmail = true;
 					PaoliEncryption enc = new PaoliEncryption( PaoliEncryption.DataPassPhrase );
 					eUser.Password = enc.Encrypt( password );
+					eUser.IsTempPassword = true;
 				}
 
 				if( imgStream != null )
@@ -274,6 +276,7 @@ namespace PWDRepositories
 			string password = GenerateNewPassword();
 			PaoliEncryption enc = new PaoliEncryption( PaoliEncryption.DataPassPhrase );
 			eUser.Password = enc.Encrypt( password );
+			eUser.IsTempPassword = true;
 			eUser.RecWelcomeEmail = true;
 			eUser.Enabled = true;
 
@@ -314,6 +317,7 @@ namespace PWDRepositories
 			string password = GenerateNewPassword();
 			PaoliEncryption enc = new PaoliEncryption( PaoliEncryption.DataPassPhrase );
 			eUser.Password = enc.Encrypt( password );
+			eUser.IsTempPassword = true;
 
 			if( database.SaveChanges() > 0 )
 			{
@@ -426,6 +430,7 @@ namespace PWDRepositories
 			if( string.Compare( enc.Decrypt( eUser.Password ), pwDetail.OldPassword, false ) == 0 )
 			{
 				eUser.Password = enc.Encrypt( pwDetail.NewPassword );
+				eUser.IsTempPassword = false;
 
 				return database.SaveChanges() > 0;
 			}

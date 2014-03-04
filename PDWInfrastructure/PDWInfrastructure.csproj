@@ -48,26 +48,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\TempPasswordCheckAttribute.cs" />
     <Compile Include="CollateralOrderTableParams.cs" />
     <Compile Include="CollateralTableParams.cs" />
     <Compile Include="CompanyTableParams.cs" />
     <Compile Include="DataTableParams.cs" />
     <Compile Include="DealerPageTableParams.cs" />
     <Compile Include="DealerTableParams.cs" />
-    <Compile Include="EmailAttribute.cs" />
+    <Compile Include="Attributes\EmailAttribute.cs" />
     <Compile Include="EmailSender.cs" />
     <Compile Include="EncryptionConfiguration.cs" />
     <Compile Include="ExchangeMailConfiguration.cs" />
     <Compile Include="ImageCropConfiguration.cs" />
     <Compile Include="ImageTableParams.cs" />
-    <Compile Include="MatchAttribute.cs" />
+    <Compile Include="Attributes\MatchAttribute.cs" />
     <Compile Include="NewAccountEmailSender.cs" />
-    <Compile Include="PaoliAuthorizeAttribute.cs" />
+    <Compile Include="Attributes\PaoliAuthorizeAttribute.cs" />
     <Compile Include="PaoliEncryption.cs" />
-    <Compile Include="PaoliPasswordAttribute.cs" />
+    <Compile Include="Attributes\PaoliPasswordAttribute.cs" />
     <Compile Include="PaoliWebUser.cs" />
-    <Compile Include="PhoneNumberAttribute.cs" />
-    <Compile Include="PostalCodeAttribute.cs" />
+    <Compile Include="Attributes\PhoneNumberAttribute.cs" />
+    <Compile Include="Attributes\PostalCodeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PubImageTableParams.cs" />
     <Compile Include="ResetPasswordEmailSender.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="UserTableParams.cs" />
     <Compile Include="VideoTableParams.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

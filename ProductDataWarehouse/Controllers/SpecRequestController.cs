@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using PDWInfrastructure;
 using PWDRepositories;
 using PDWModels.SpecRequests;
+using PDWInfrastructure.Attributes;
 
 namespace ProductDataWarehouse.Controllers
 {
@@ -15,18 +16,21 @@ namespace ProductDataWarehouse.Controllers
         // GET: /SpecRequest/
 
 		[PaoliAuthorize( "CanManageTypicals" )]
+		[TempPasswordCheck]
 		public ActionResult Manage()
 		{
 			return View();
 		}
 
 		[PaoliAuthorize( "CanViewSpecRequests" )]
+		[TempPasswordCheck]
 		public ActionResult ViewAll()
 		{
 			return View();
 		}
 
 		[PaoliAuthorize( "CanViewSpecRequests" )]
+		[TempPasswordCheck]
 		public JsonResult UserRequestList( UserSpecRequestTableParams paramDetails )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -47,6 +51,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageTypicals" )]
+		[TempPasswordCheck]
 		public JsonResult FullRequestList( SpecRequestTableParams paramDetails )
 		{
 			int totalCount = 0, filteredCount = 0;
@@ -67,6 +72,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanAddSpecRequests" )]
+		[TempPasswordCheck]
 		public ActionResult AddRequest()
 		{
 			ViewBag.BlankInformation = new SpecRequestRepository().NewSpecRequest();
@@ -75,6 +81,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanAddSpecRequests" )]
+		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult AddRequest( SpecRequestInformation sInfo )
@@ -108,6 +115,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageTypicals" )]
+		[TempPasswordCheck]
 		public ActionResult AddTypical( int id )
 		{
 			SpecRequestRepository sRepository = new SpecRequestRepository();
@@ -118,6 +126,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageTypicals" )]
+		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult AddTypical( TypicalMgmtInfo tInfo, string typeOfSubmit )
@@ -189,6 +198,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanViewSpecRequests" )]
+		[TempPasswordCheck]
 		public ActionResult ViewRequest( int id )
 		{
 			SpecRequestRepository sRepository = new SpecRequestRepository();
@@ -197,6 +207,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageTypicals" )]
+		[TempPasswordCheck]
 		public ActionResult EditRequest( int id )
 		{
 			SpecRequestRepository sRepository = new SpecRequestRepository();
@@ -207,6 +218,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageTypicals" )]
+		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult EditRequest( SpecRequestInformation sInfo )
@@ -237,6 +249,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageTypicals" )]
+		[TempPasswordCheck]
 		public ActionResult EditTypical( int id )
 		{
 			SpecRequestRepository sRepository = new SpecRequestRepository();
@@ -247,6 +260,7 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageTypicals" )]
+		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult EditTypical( TypicalMgmtInfo tInfo, string typeOfSubmit )

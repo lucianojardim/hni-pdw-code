@@ -122,13 +122,14 @@ namespace PDWInfrastructure
 			#endregion
 		}
 
-        public PaoliWebUser(string email, string authType, int userId, string fullName, int role)
+		public PaoliWebUser( string email, string authType, int userId, string fullName, int role, bool hasTempPassword )
         {
 			_identity = new PaoliWebIdentity( email, authType );
             UserId = userId;
 			FullName = fullName;
 			UserRole = PaoliWebRole.RoleList[role];
 			AccountType = role;
+			_hasTempPassword = hasTempPassword;
         }
 
 		private PaoliWebIdentity _identity { get; set; }
@@ -136,6 +137,7 @@ namespace PDWInfrastructure
 		public string FullName { get; private set; }
 		private string UserRole { get; set; }
 		private int AccountType { get; set; }
+		private bool _hasTempPassword { get; set; }
 
 		#region IPrincipal Members
 
@@ -182,6 +184,14 @@ namespace PDWInfrastructure
 			get
 			{
 				return PaoliWebRole.RoleHomePage( AccountType );
+			}
+		}
+
+		public bool HasTempPassword
+		{
+			get
+			{
+				return _hasTempPassword;
 			}
 		}
 

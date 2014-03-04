@@ -5,7 +5,7 @@ using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace PDWInfrastructure
+namespace PDWInfrastructure.Attributes
 {
 	[AttributeUsage( AttributeTargets.Class, AllowMultiple = true )]	// [Match("Email", "EmailConfirmation", ErrorMessage = "Emails must match")]
 	public class MatchAttribute : ValidationAttribute

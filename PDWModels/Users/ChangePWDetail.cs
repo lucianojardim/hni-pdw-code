@@ -5,6 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using PDWInfrastructure;
 using System.ComponentModel.DataAnnotations;
+using PDWInfrastructure.Attributes;
 
 namespace PDWModels.Users
 {

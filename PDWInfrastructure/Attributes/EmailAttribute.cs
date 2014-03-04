@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 
-namespace PDWInfrastructure
+namespace PDWInfrastructure.Attributes
 {
 	public class EmailAttribute : RegularExpressionAttribute
 	{
