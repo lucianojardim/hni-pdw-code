@@ -9,6 +9,7 @@
 
 <a href="@Url.Action( "AddOrder", "Collateral" )">Add Collateral Order</a>
 <br />
+@Html.CheckBox( "HideFulfilled" )Hide Fulfilled<br />
 <div>
     <table id="orderList">
     <thead></thead>
@@ -18,6 +19,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function () {
+		$('#HideFulfilled').click(loadOrders);
 		loadOrders();
 	});
 
@@ -37,6 +39,7 @@
 			"bInfo": true,
 			"sAjaxSource": '@Url.Action( "FullCollateralOrderListForUser" )',
 			"fnServerParams": function (aoData) {
+				aoData.push({ "name": "hideFulfilled", "value": $('#HideFulfilled:checked').length > 0 });
 			},
 			"iDisplayLength": 100,
 			"fnServerData": function (sSource, aoData, fnCallback) {

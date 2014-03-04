@@ -495,6 +495,10 @@ namespace PWDRepositories
 						(cOrder.RequestingPartyName.Contains(param.sSearch) || 
 						 cOrder.ShippingPartyName.Contains(param.sSearch)));
 			}
+			if( param.hideFulfilled )
+			{
+				collateralList = collateralList.Where( c => c.Status == NewOrderInformation.SPartial || c.Status == NewOrderInformation.SPending );
+			}
 
 			displayedRecords = collateralList.Count();
 
@@ -582,6 +586,10 @@ namespace PWDRepositories
 					.Where( cOrder => ( cOrder.OrderID == tryOrderNum || tryOrderNum == 0 ) && 
 						(cOrder.RequestingPartyName.Contains(param.sSearch) || 
 						 cOrder.ShippingPartyName.Contains(param.sSearch)));
+			}
+			if( param.hideFulfilled )
+			{
+				collateralList = collateralList.Where( c => c.Status == NewOrderInformation.SPartial || c.Status == NewOrderInformation.SPending );
 			}
 
 			displayedRecords = collateralList.Count();
