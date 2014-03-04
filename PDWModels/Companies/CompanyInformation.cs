@@ -86,6 +86,8 @@ namespace PDWModels.Companies
 		[DisplayName( "Business Unit Name" )]
 		[StringLength( 200 )]
 		public string BusinessUnitName { get; set; }
+		[DisplayName( "Paoli Member" )]
+		public int? PaoliMemberID { get; set; }
 
 		public bool LockCompanyType { get; set; }
 

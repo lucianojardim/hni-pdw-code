@@ -15,6 +15,14 @@
 	 
 }
 <hr />
+@if( ViewBag.PaoliMemberContact != null )
+{
+<div class="padb10">
+<div>@ViewBag.PaoliMemberContact.FullName
+</div>
+<div class="fs11"><a href="mailto:@ViewBag.PaoliMemberContact.EmailAddress">@ViewBag.PaoliMemberContact.EmailAddress</a> | @ViewBag.PaoliMemberContact.PhoneNumber</div>
+</div>
+}
 <div class="padb10">
 <div>Spec & Renderings</div> <div class="fs11"><a href="mailto:specrequests@paoli.com">specrequests@paoli.com</a></div>
 </div>

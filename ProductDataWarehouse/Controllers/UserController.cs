@@ -333,6 +333,18 @@ namespace ProductDataWarehouse.Controllers
 			return theList;
 		}
 
+		public static IEnumerable<SelectListItem> GetPaoliMemberDDListForCompany( bool includeBlank )
+		{
+			var theList = GetJustUserDDList( new List<int>() { PaoliWebUser.PaoliWebRole.PaoliMemberCustomerService, PaoliWebUser.PaoliWebRole.PaoliMemberSales } );
+
+			if( includeBlank )
+			{
+				theList.Insert( 0, new SelectListItem() );
+			}
+
+			return theList;
+		}
+
 		public static IEnumerable<SelectListItem> GetUserDDList( int accountType )
 		{
 			var theList = GetJustUserDDList( new List<int>() { accountType } );

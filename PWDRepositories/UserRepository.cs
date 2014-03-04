@@ -538,6 +538,27 @@ namespace PWDRepositories
 			
 		}
 
+		public UserContactInfo GetPaoliMemberContact( int userId )
+		{
+			var eUser = database.Users.FirstOrDefault( u => u.UserID == userId );
+			if( eUser != null )
+			{
+				if( eUser.Company.PaoliMember != null )
+				{
+					return new UserContactInfo()
+					{
+						FullName = eUser.Company.PaoliMember.FullName,
+						EmailAddress = eUser.Company.PaoliMember.Email,
+						PhoneNumber = eUser.Company.PaoliMember.BusinessPhone,
+						CompanyName = eUser.Company.PaoliMember.Company.Name
+					};
+				}
+			}
+
+			return null;
+
+		}
+
 		public PDWModels.Companies.ShippingAddress GetUserAddress( int userId )
 		{
 			var eUser = database.Users.FirstOrDefault( u => u.UserID == userId );
