@@ -613,3 +613,21 @@ td.dataInfoThin span.littleHelp
 {
 	width: 80px;
 }
+
+.printOnly
+{
+	display: none !important;
+}
+
+@media print
+{    
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+    .printOnly
+    {
+    	display: inherit !important;
+    }
+}
+

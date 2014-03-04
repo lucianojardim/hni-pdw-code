@@ -53,7 +53,7 @@
 </script>
 <div id="page_navigation">
 	<div class="wrapper">
-		<a href="/Home" id="logo"><img src="@Url.Content( "~/Content/images/paoli_logo.png" )"></a>
+		<a href="/Home" id="logo"><img class="no-print" src="@Url.Content( "~/Content/images/paoli_logo.png" )"><img class="printOnly" src="@Url.Content( "~/Content/images/paoli_bluergb.jpg" )"></a>
 		@if( !(ViewBag.EmptyHeader ?? false) )
   {
         <ul id="nav">

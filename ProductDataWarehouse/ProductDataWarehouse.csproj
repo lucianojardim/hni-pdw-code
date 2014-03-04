@@ -130,6 +130,7 @@
     <Content Include="Content\images\forward_enabled_hover.png" />
     <Content Include="Content\images\input.png" />
     <Content Include="Content\images\nav_bar_bg.png" />
+    <Content Include="Content\images\Paoli_BlueRGB.jpg" />
     <Content Include="Content\images\paoli_logo.png" />
     <Content Include="Content\images\shadow_1.png" />
     <Content Include="Content\images\sort_asc.png" />
