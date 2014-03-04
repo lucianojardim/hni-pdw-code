@@ -8,5 +8,6 @@ namespace PDWInfrastructure
 	public class CompanyTableParams : DataTableParams
 	{
 		public int companyType { get; set; }
+		public int? territoryId { get; set; }
 	}
 }

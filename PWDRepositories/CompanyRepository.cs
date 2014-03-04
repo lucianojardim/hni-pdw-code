@@ -282,6 +282,10 @@ namespace PWDRepositories
 			{
 				companyList = companyList.Where( c => c.CompanyType == param.companyType );
 			}
+			if( param.territoryId.HasValue )
+			{
+				companyList = companyList.Where( c => c.TerritoryID == param.territoryId.Value );
+			}
 
 			displayedRecords = companyList.Count();
 

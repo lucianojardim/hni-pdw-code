@@ -8,7 +8,8 @@
 <h2>Company List</h2>
 
 <a href="@Url.Action( "Add", "Company" )" id="addNewCompany">Add New</a><br />
-Company Type: @Html.DropDownList( "CompanyType", ProductDataWarehouse.Controllers.CompanyController.GetCompanyTypeFilterList() )
+Company Type: @Html.DropDownList( "CompanyType", ProductDataWarehouse.Controllers.CompanyController.GetCompanyTypeFilterList() )<br />
+Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.CompanyController.GetTerritoryDDList() )
 <div>
     <table id="companyList">
     <thead></thead>
@@ -19,6 +20,7 @@ Company Type: @Html.DropDownList( "CompanyType", ProductDataWarehouse.Controller
 <script type="text/javascript">
 	$(document).ready(function () {
 		$('#CompanyType').change(loadCompanies);
+		$('#TerritoryID').change(loadCompanies);
 
 		loadCompanies();
 	});
@@ -57,6 +59,7 @@ Company Type: @Html.DropDownList( "CompanyType", ProductDataWarehouse.Controller
 			"sAjaxSource": '@Url.Action( "FullCompanyList" )',
 			"fnServerParams": function (aoData) {
 				aoData.push({ "name": "companyType", "value": $('#CompanyType').val() });
+				aoData.push({ "name": "territoryId", "value": $('#TerritoryID').val() });
 			},
 			"iDisplayLength": 100,
 			"fnServerData": function (sSource, aoData, fnCallback) {
