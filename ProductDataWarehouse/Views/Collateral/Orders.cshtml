@@ -87,7 +87,12 @@
                     },
                     { "sName": "Status", "sTitle": "Status", "aTargets": [4], "mDataProp": "Status", "sWidth": "10%",
                     	"fnRender": function (oObj) {
-                    		return '<a href=\"@Url.Action( "ShipOrder", "Collateral" )/' + oObj.aData["OrderID"] + '">' + oObj.aData["Status"] + '</a>';
+                    		var s = '';
+                    		if (oObj.aData["IsOvernight"]) {
+                    			s += '<img src="@Url.Content( "~/Content/images/SeriousWarning.png" )" />';
+                    		}
+                    		s += '<a href=\"@Url.Action( "ShipOrder", "Collateral" )/' + oObj.aData["OrderID"] + '">' + oObj.aData["Status"] + '</a>';
+                    		return s;
                     	}
                     }
                 ]

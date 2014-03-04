@@ -15,5 +15,6 @@ namespace PDWModels.Collateral
 		public string Status { get; set; }
 		public string EditButtons { get; set; }
 		public bool CanEdit { get; set; }
+		public bool IsOvernight { get; set; }
 	}
 }

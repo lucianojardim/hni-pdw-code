@@ -669,7 +669,9 @@ namespace PWDRepositories
 				Status = NewOrderInformation.StatusValues[c.Status],
 				RequestingParty = c.RequestingPartyName,
 				ShippingParty = c.ShippingPartyName,
-				CanEdit = ( ( c.Status != NewOrderInformation.SFulfilled ) && ( c.Status != NewOrderInformation.SCanceled ) )
+				CanEdit = ( ( c.Status != NewOrderInformation.SFulfilled ) && ( c.Status != NewOrderInformation.SCanceled ) ),
+				IsOvernight = ((c.ShippingType == NewOrderInformation.STOvernightFedex) || (c.ShippingType == NewOrderInformation.STStdOvernightFedex)) &&
+					((c.Status == NewOrderInformation.SPending) || (c.Status == NewOrderInformation.SPartial))
 			};
 		}
 
