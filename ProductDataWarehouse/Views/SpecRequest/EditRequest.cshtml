@@ -11,6 +11,10 @@
     <script type="text/javascript">
     	var fileCount = 1;
     	$(document).ready(function () {
+			$.data($('#theForm')[0], 'validator').settings.ignore = ':hidden';
+
+    		$('#LaminatePreference').rules("add", { required: true, messages: { required: "Laminate Preference is required."} });
+
 			@if( Model.CreatedDate.HasValue )
    {
 			<text>
