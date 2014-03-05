@@ -215,7 +215,7 @@ namespace PWDRepositories
 			{
 				throw new Exception( "Unable to find collateral." );
 			}
-			return new CollateralGroupInformation()
+			var retData = new CollateralGroupInformation()
 			{
 				CollateralID = cInfo.CollateralID,
 				Name = cInfo.Name,
@@ -237,6 +237,13 @@ namespace PWDRepositories
 						Quantity = cgi.Quantity
 					} ).ToList()
 			};
+
+			if( !retData.GroupItems.Any() )
+			{
+				retData.GroupItems.Add( new CollateralGroupInformation.GroupInfoDetail() );
+			}
+
+			return retData;
 		}
 
 		public bool UpdateCollateral( CollateralInformation cInfo, Stream collStream, string fileName )
