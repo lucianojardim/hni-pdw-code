@@ -44,7 +44,7 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult Add()
 		{
-			return View( new CollateralInformation() );
+			return View( new CollateralInformation() { IsActive = true } );
 		}
 
 		[PaoliAuthorize( "CanManageCollateral" )]
@@ -83,7 +83,7 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult AddGroup()
 		{
-			var detail = new CollateralGroupInformation();
+			var detail = new CollateralGroupInformation() { IsActive = true };
 			detail.GroupItems.Add( new CollateralGroupInformation.GroupInfoDetail() );
 
 			return View( detail );
@@ -206,7 +206,7 @@ namespace ProductDataWarehouse.Controllers
 
 			return View( cInfo );
 		}
-
+		/*
 		[PaoliAuthorize( "CanManageCollateral" )]
 		[TempPasswordCheck]
 		public JsonResult Delete( int id )
@@ -221,7 +221,7 @@ namespace ProductDataWarehouse.Controllers
 			},
 				JsonRequestBehavior.AllowGet );
 		}
-
+		*/
 		[PaoliAuthorize( "CanManageCollateral" )]
 		[TempPasswordCheck]
 		public ActionResult AddShipment()

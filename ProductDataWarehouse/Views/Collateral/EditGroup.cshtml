@@ -97,7 +97,10 @@
 		<tr>
 		<td>@Html.MJLabelFor( m => m.ImageFileName, true )</td><td><input type="file" id="CollateralImage" name="CollateralImage" accept=".jpg,.png,.gif,.bmp" /></td>
 		</tr>
-		
+        <tr>
+		<td>@Html.MJLabelFor( m => m.IsActive, false )</td><td>@Html.CheckBoxFor( m => m.IsActive )</td>
+		</tr>
+
 		</table>
 		<hr />
 		<h3>Manage Bundle Contents</h3>

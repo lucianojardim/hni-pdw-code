@@ -65,14 +65,6 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="CollateralOrders" EntitySet="CollateralOrders" />
           </AssociationSet>
-          <AssociationSet Name="fkCOD_Group" Association="PaoliPDWModel.Store.fkCOD_Group">
-            <End Role="CollateralItems" EntitySet="CollateralItems" />
-            <End Role="CollateralOrderDetails" EntitySet="CollateralOrderDetails" />
-          </AssociationSet>
-          <AssociationSet Name="fkCODetail_Collateral" Association="PaoliPDWModel.Store.fkCODetail_Collateral">
-            <End Role="CollateralItems" EntitySet="CollateralItems" />
-            <End Role="CollateralOrderDetails" EntitySet="CollateralOrderDetails" />
-          </AssociationSet>
           <AssociationSet Name="fkCODetail_Order" Association="PaoliPDWModel.Store.fkCODetail_Order">
             <End Role="CollateralOrders" EntitySet="CollateralOrders" />
             <End Role="CollateralOrderDetails" EntitySet="CollateralOrderDetails" />
@@ -378,6 +370,7 @@
           <Property Name="Shipping" Type="float" />
           <Property Name="Weight" Type="float" />
           <Property Name="IsGroup" Type="bit" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="CollateralOrderDetails">
           <Key>
@@ -385,9 +378,14 @@
           </Key>
           <Property Name="DetailID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="OrderID" Type="int" Nullable="false" />
-          <Property Name="CollateralID" Type="int" Nullable="false" />
           <Property Name="Quantity" Type="int" Nullable="false" />
-          <Property Name="GroupID" Type="int" />
+          <Property Name="ItemName" Type="nvarchar" MaxLength="100" />
+          <Property Name="GroupName" Type="nvarchar" MaxLength="100" />
+          <Property Name="GroupQuantity" Type="int" />
+          <Property Name="CollateralTypeNKID" Type="int" Nullable="false" />
+          <Property Name="CollateralTypeName" Type="nvarchar" MaxLength="100" />
+          <Property Name="CollateralNKID" Type="int" Nullable="false" />
+          <Property Name="GroupNKID" Type="int" />
         </EntityType>
         <EntityType Name="CollateralOrders">
           <Key>
@@ -937,30 +935,6 @@
             </Principal>
             <Dependent Role="CollateralOrders">
               <PropertyRef Name="CreatedByUserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fkCOD_Group">
-          <End Role="CollateralItems" Type="PaoliPDWModel.Store.CollateralItems" Multiplicity="0..1" />
-          <End Role="CollateralOrderDetails" Type="PaoliPDWModel.Store.CollateralOrderDetails" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CollateralItems">
-              <PropertyRef Name="CollateralID" />
-            </Principal>
-            <Dependent Role="CollateralOrderDetails">
-              <PropertyRef Name="GroupID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fkCODetail_Collateral">
-          <End Role="CollateralItems" Type="PaoliPDWModel.Store.CollateralItems" Multiplicity="1" />
-          <End Role="CollateralOrderDetails" Type="PaoliPDWModel.Store.CollateralOrderDetails" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CollateralItems">
-              <PropertyRef Name="CollateralID" />
-            </Principal>
-            <Dependent Role="CollateralOrderDetails">
-              <PropertyRef Name="CollateralID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1972,10 +1946,6 @@
           </AssociationSet>
           <EntitySet Name="CollateralOrderDetails" EntityType="PaoliPDWModel.CollateralOrderDetail" />
           <EntitySet Name="CollateralOrders" EntityType="PaoliPDWModel.CollateralOrder" />
-          <AssociationSet Name="fkCODetail_Collateral" Association="PaoliPDWModel.fkCODetail_Collateral">
-            <End Role="CollateralItem" EntitySet="CollateralItems" />
-            <End Role="CollateralOrderDetail" EntitySet="CollateralOrderDetails" />
-          </AssociationSet>
           <AssociationSet Name="fkCODetail_Order" Association="PaoliPDWModel.fkCODetail_Order">
             <End Role="CollateralOrder" EntitySet="CollateralOrders" />
             <End Role="CollateralOrderDetail" EntitySet="CollateralOrderDetails" />
@@ -2003,10 +1973,6 @@
           <AssociationSet Name="fkSRequest_CreatedBy" Association="PaoliPDWModel.fkSRequest_CreatedBy">
             <End Role="User" EntitySet="Users" />
             <End Role="SpecRequest" EntitySet="SpecRequests" />
-          </AssociationSet>
-          <AssociationSet Name="fkCOD_Group" Association="PaoliPDWModel.fkCOD_Group">
-            <End Role="CollateralItem" EntitySet="CollateralItems" />
-            <End Role="CollateralOrderDetail" EntitySet="CollateralOrderDetails" />
           </AssociationSet>
           <AssociationSet Name="fkCO_CreatedUser" Association="PaoliPDWModel.fkCO_CreatedUser">
             <End Role="User" EntitySet="Users" />
@@ -3056,8 +3022,7 @@
           <NavigationProperty Name="CollateralType" Relationship="PaoliPDWModel.fkCollateral_Type" FromRole="CollateralItem" ToRole="CollateralType" />
           <NavigationProperty Name="CollateralGroups" Relationship="PaoliPDWModel.fkCGI_Children" FromRole="CollateralItem" ToRole="CollateralGroupItem" />
           <NavigationProperty Name="CollateralGroupItems" Relationship="PaoliPDWModel.fkCGI_Parent" FromRole="CollateralItem" ToRole="CollateralGroupItem" />
-          <NavigationProperty Name="CollateralOrderDetails" Relationship="PaoliPDWModel.fkCODetail_Collateral" FromRole="CollateralItem" ToRole="CollateralOrderDetail" />
-          <NavigationProperty Name="CollateralOrderDetails_1" Relationship="PaoliPDWModel.fkCOD_Group" FromRole="CollateralItem" ToRole="CollateralOrderDetail" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
         </EntityType>
         <EntityType Name="CollateralType">
           <Key>
@@ -3132,13 +3097,16 @@
           </Key>
           <Property Type="Int32" Name="DetailID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="OrderID" Nullable="false" />
-          <Property Type="Int32" Name="CollateralID" Nullable="false" />
           <Property Type="Int32" Name="Quantity" Nullable="false" />
-          <NavigationProperty Name="CollateralItem" Relationship="PaoliPDWModel.fkCODetail_Collateral" FromRole="CollateralOrderDetail" ToRole="CollateralItem" />
           <NavigationProperty Name="CollateralOrder" Relationship="PaoliPDWModel.fkCODetail_Order" FromRole="CollateralOrderDetail" ToRole="CollateralOrder" />
-          <Property Type="Int32" Name="GroupID" />
-          <NavigationProperty Name="CollateralItemGroup" Relationship="PaoliPDWModel.fkCOD_Group" FromRole="CollateralOrderDetail" ToRole="CollateralItem" />
           <NavigationProperty Name="CollateralOrderShipmentDetails" Relationship="PaoliPDWModel.fkShipmentDetail_CODetail" FromRole="CollateralOrderDetail" ToRole="CollateralOrderShipmentDetail" />
+          <Property Type="String" Name="ItemName" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="GroupName" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="GroupQuantity" />
+          <Property Type="Int32" Name="CollateralTypeNKID" Nullable="false" />
+          <Property Type="String" Name="CollateralTypeName" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="CollateralNKID" Nullable="false" />
+          <Property Type="Int32" Name="GroupNKID" />
         </EntityType>
         <EntityType Name="CollateralOrder">
           <Key>
@@ -3199,18 +3167,6 @@
           <Property Type="String" Name="RequestingPartyName" MaxLength="300" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Type="String" Name="ShippingPartyName" MaxLength="300" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
-        <Association Name="fkCODetail_Collateral">
-          <End Type="PaoliPDWModel.CollateralItem" Role="CollateralItem" Multiplicity="1" />
-          <End Type="PaoliPDWModel.CollateralOrderDetail" Role="CollateralOrderDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CollateralItem">
-              <PropertyRef Name="CollateralID" />
-            </Principal>
-            <Dependent Role="CollateralOrderDetail">
-              <PropertyRef Name="CollateralID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fkCODetail_Order">
           <End Type="PaoliPDWModel.CollateralOrder" Role="CollateralOrder" Multiplicity="1" />
           <End Type="PaoliPDWModel.CollateralOrderDetail" Role="CollateralOrderDetail" Multiplicity="*" />
@@ -3292,18 +3248,6 @@
             </Principal>
             <Dependent Role="SpecRequest">
               <PropertyRef Name="CreatedByUserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fkCOD_Group">
-          <End Type="PaoliPDWModel.CollateralItem" Role="CollateralItem" Multiplicity="0..1" />
-          <End Type="PaoliPDWModel.CollateralOrderDetail" Role="CollateralOrderDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CollateralItem">
-              <PropertyRef Name="CollateralID" />
-            </Principal>
-            <Dependent Role="CollateralOrderDetail">
-              <PropertyRef Name="GroupID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3929,6 +3873,7 @@
           <EntitySetMapping Name="CollateralItems">
             <EntityTypeMapping TypeName="PaoliPDWModel.CollateralItem">
               <MappingFragment StoreEntitySet="CollateralItems">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="CollateralTypeID" ColumnName="CollateralTypeID" />
                 <ScalarProperty Name="IsGroup" ColumnName="IsGroup" />
                 <ScalarProperty Name="Weight" ColumnName="Weight" />
@@ -3964,9 +3909,14 @@
           <EntitySetMapping Name="CollateralOrderDetails">
             <EntityTypeMapping TypeName="PaoliPDWModel.CollateralOrderDetail">
               <MappingFragment StoreEntitySet="CollateralOrderDetails">
-                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="GroupNKID" ColumnName="GroupNKID" />
+                <ScalarProperty Name="CollateralNKID" ColumnName="CollateralNKID" />
+                <ScalarProperty Name="CollateralTypeName" ColumnName="CollateralTypeName" />
+                <ScalarProperty Name="CollateralTypeNKID" ColumnName="CollateralTypeNKID" />
+                <ScalarProperty Name="GroupQuantity" ColumnName="GroupQuantity" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="CollateralID" ColumnName="CollateralID" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="DetailID" ColumnName="DetailID" />
               </MappingFragment>
@@ -4447,16 +4397,11 @@
           <ConnectorPoint PointX="15.645833333333334" PointY="8.58404746506487" />
           <ConnectorPoint PointX="15.875" PointY="8.58404746506487" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="PaoliPDWModel.CollateralOrderDetail" Width="1.5" PointX="20.875" PointY="20.25" Height="1.9210009765625102" />
+        <EntityTypeShape EntityType="PaoliPDWModel.CollateralOrderDetail" Width="1.5" PointX="20.875" PointY="20.25" Height="2.9070849609374996" />
         <EntityTypeShape EntityType="PaoliPDWModel.CollateralOrder" Width="1.5" PointX="15.875" PointY="19.5" Height="6.0296842447916674" />
-        <AssociationConnector Association="PaoliPDWModel.fkCODetail_Collateral" >
-          <ConnectorPoint PointX="19.90625" PointY="19.728821614583335" />
-          <ConnectorPoint PointX="19.90625" PointY="20.53125" />
-          <ConnectorPoint PointX="20.875" PointY="20.53125" />
-        </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkCODetail_Order" >
-          <ConnectorPoint PointX="17.375" PointY="20.734375" />
-          <ConnectorPoint PointX="20.875" PointY="20.734375" />
+          <ConnectorPoint PointX="17.375" PointY="20.53125" />
+          <ConnectorPoint PointX="20.875" PointY="20.53125" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkCOrder_Dealer" >
           <ConnectorPoint PointX="15.125" PointY="8.0217695829326932" />
@@ -4504,11 +4449,6 @@
           <ConnectorPoint PointX="15.708333333333334" PointY="8.919251704946813" />
           <ConnectorPoint PointX="15.875" PointY="8.919251704946813" />
         </AssociationConnector>
-        <AssociationConnector Association="PaoliPDWModel.fkCOD_Group" >
-          <ConnectorPoint PointX="20.0468775" PointY="19.728821614583335" />
-          <ConnectorPoint PointX="20.0468775" PointY="20.359372500000006" />
-          <ConnectorPoint PointX="20.875" PointY="20.359372500000006" />
-        </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkCO_CreatedUser" >
           <ConnectorPoint PointX="12.875" PointY="9.726454829326924" />
           <ConnectorPoint PointX="13.222324434901122" PointY="10.073779264228044" />
@@ -4522,16 +4462,16 @@
         <EntityTypeShape EntityType="PaoliPDWModel.CollateralOrderShipmentDetail" Width="1.5" PointX="23.125" PointY="21.5" Height="1.9210009765625102" />
         <EntityTypeShape EntityType="PaoliPDWModel.CollateralOrderShipment" Width="1.5" PointX="18.125" PointY="20.875" Height="4.5505582682291674" />
         <AssociationConnector Association="PaoliPDWModel.fkShipmentDetail_CODetail" >
-          <ConnectorPoint PointX="22.375" PointY="22.082021484375" />
-          <ConnectorPoint PointX="23.125" PointY="22.082021484375" />
+          <ConnectorPoint PointX="22.375" PointY="22.328542480468748" />
+          <ConnectorPoint PointX="23.125" PointY="22.328542480468748" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkShipment_COrder" >
           <ConnectorPoint PointX="17.375" PointY="23.150279134114584" />
           <ConnectorPoint PointX="18.125" PointY="23.150279134114584" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkShipmentDetail_Shipment" >
-          <ConnectorPoint PointX="19.625" PointY="23.073771972656257" />
-          <ConnectorPoint PointX="23.125" PointY="23.073771972656257" />
+          <ConnectorPoint PointX="19.625" PointY="23.320292968750003" />
+          <ConnectorPoint PointX="23.125" PointY="23.320292968750003" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkCO_CanceledUser" >
           <ConnectorPoint PointX="12.865769230769232" PointY="9.73337890625" />

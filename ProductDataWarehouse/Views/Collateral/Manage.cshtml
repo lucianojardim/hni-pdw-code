@@ -11,7 +11,8 @@
 <a href="@Url.Action( "AddGroup", "Collateral" )">Add Bundle</a> |
 <a href="@Url.Action( "AddShipment", "Collateral" )">Add Shipment</a> |
 <a href="@Url.Action( "Orders", "Collateral" )">Collateral Orders</a><br />
-Collateral Type: @Html.DropDownList( "CollateralType", ProductDataWarehouse.Controllers.CollateralController.GetCollateralTypeFilterList() )
+Collateral Type: @Html.DropDownList( "CollateralType", ProductDataWarehouse.Controllers.CollateralController.GetCollateralTypeFilterList() )<br />
+@Html.CheckBox( "ShowInactive" )Show Inactive Collateral<br />
 <div>
     <table id="collateralList">
     <thead></thead>
@@ -22,6 +23,7 @@ Collateral Type: @Html.DropDownList( "CollateralType", ProductDataWarehouse.Cont
 <script type="text/javascript">
 	$(document).ready(function () {
 		$('#CollateralType').change(loadCollateral);
+		$('#ShowInactive').click(loadCollateral);
 
 		loadCollateral();
 	});
@@ -60,6 +62,7 @@ Collateral Type: @Html.DropDownList( "CollateralType", ProductDataWarehouse.Cont
 			"sAjaxSource": '@Url.Action( "FullCollateralList" )',
 			"fnServerParams": function (aoData) {
 				aoData.push({ "name": "collateralType", "value": $('#CollateralType').val() });
+				aoData.push({ "name": "showInactive", "value": $('#ShowInactive:checked').length > 0 });
 			},
 			"iDisplayLength": 100,
 			"fnServerData": function (sSource, aoData, fnCallback) {
@@ -77,7 +80,19 @@ Collateral Type: @Html.DropDownList( "CollateralType", ProductDataWarehouse.Cont
 			"bProcessing": false, // don't want to use the default progress indicator at this time
 			"aaSorting": [[0, "asc"]],
 			"aoColumnDefs": [
-                    { "sName": "Name", "sTitle": "Name", "aTargets": [0], "mDataProp": "Name", "sWidth": "25%" },
+                    { "sName": "Name", "sTitle": "Name", "aTargets": [0], "mDataProp": "Name", "sWidth": "25%",
+                    	"fnRender": function (oObj) {
+                    		var s = '';
+                    		if (!oObj.aData["IsActive"]) {
+                    			s += '<span style="text-decoration:line-through">';
+                    		}
+                    		s += oObj.aData["Name"];
+                    		if (!oObj.aData["IsActive"]) {
+                    			s += '</span>';
+                    		}
+                    		return s;
+                    	}
+                    },
                     { "sName": "CollateralType", "sTitle": "Type", "aTargets": [1], "mDataProp": "CollateralType", "sWidth": "25%" },
                     { "sName": "Status", "sTitle": "Status", "aTargets": [2], "mDataProp": "Status", "sWidth": "20%" },
                     { "sName": "Quantity", "sTitle": "Quantity", "aTargets": [3], "mDataProp": "Quantity", "sWidth": "15%" },

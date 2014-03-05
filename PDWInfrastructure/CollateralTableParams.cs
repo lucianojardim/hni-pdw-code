@@ -8,5 +8,6 @@ namespace PDWInfrastructure
 	public class CollateralTableParams : DataTableParams
 	{
 		public int collateralType { get; set; }
+		public bool showInactive { get; set; }
 	}
 }

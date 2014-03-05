@@ -65,7 +65,6 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCGI_Children", "CollateralItem", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.CollateralItem), "CollateralGroupItem", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralGroupItem), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCGI_Parent", "CollateralItem", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.CollateralItem), "CollateralGroupItem", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralGroupItem), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSpecRequest_PSRMember", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
-[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCODetail_Collateral", "CollateralItem", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.CollateralItem), "CollateralOrderDetail", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrderDetail), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCODetail_Order", "CollateralOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.CollateralOrder), "CollateralOrderDetail", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrderDetail), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCOrder_Dealer", "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.Company), "CollateralOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrder), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCOrder_SalesRep", "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.Company), "CollateralOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrder), true)]
@@ -73,7 +72,6 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCOrder_SalesRepMember", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "CollateralOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrder), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCOrder_PaoliMember", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "CollateralOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrder), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSRequest_CreatedBy", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
-[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCOD_Group", "CollateralItem", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.CollateralItem), "CollateralOrderDetail", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrderDetail), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCO_CreatedUser", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.User), "CollateralOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrder), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkShipmentDetail_CODetail", "CollateralOrderDetail", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.CollateralOrderDetail), "CollateralOrderShipmentDetail", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrderShipmentDetail), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkShipment_COrder", "CollateralOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.CollateralOrder), "CollateralOrderShipment", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrderShipment), true)]
@@ -1840,13 +1838,15 @@ namespace PDWDBContext
         /// <param name="name">Initial value of the Name property.</param>
         /// <param name="quantity">Initial value of the Quantity property.</param>
         /// <param name="isGroup">Initial value of the IsGroup property.</param>
-        public static CollateralItem CreateCollateralItem(global::System.Int32 collateralID, global::System.String name, global::System.Int32 quantity, global::System.Boolean isGroup)
+        /// <param name="isActive">Initial value of the IsActive property.</param>
+        public static CollateralItem CreateCollateralItem(global::System.Int32 collateralID, global::System.String name, global::System.Int32 quantity, global::System.Boolean isGroup, global::System.Boolean isActive)
         {
             CollateralItem collateralItem = new CollateralItem();
             collateralItem.CollateralID = collateralID;
             collateralItem.Name = name;
             collateralItem.Quantity = quantity;
             collateralItem.IsGroup = isGroup;
+            collateralItem.IsActive = isActive;
             return collateralItem;
         }
 
@@ -2144,6 +2144,30 @@ namespace PDWDBContext
         private Nullable<global::System.Int32> _CollateralTypeID;
         partial void OnCollateralTypeIDChanging(Nullable<global::System.Int32> value);
         partial void OnCollateralTypeIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsActive
+        {
+            get
+            {
+                return _IsActive;
+            }
+            set
+            {
+                OnIsActiveChanging(value);
+                ReportPropertyChanging("IsActive");
+                _IsActive = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsActive");
+                OnIsActiveChanged();
+            }
+        }
+        private global::System.Boolean _IsActive;
+        partial void OnIsActiveChanging(global::System.Boolean value);
+        partial void OnIsActiveChanged();
 
         #endregion
 
@@ -2228,50 +2252,6 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<CollateralGroupItem>("PaoliPDWModel.fkCGI_Parent", "CollateralGroupItem", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkCODetail_Collateral", "CollateralOrderDetail")]
-        public EntityCollection<CollateralOrderDetail> CollateralOrderDetails
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<CollateralOrderDetail>("PaoliPDWModel.fkCODetail_Collateral", "CollateralOrderDetail");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<CollateralOrderDetail>("PaoliPDWModel.fkCODetail_Collateral", "CollateralOrderDetail", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkCOD_Group", "CollateralOrderDetail")]
-        public EntityCollection<CollateralOrderDetail> CollateralOrderDetails_1
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<CollateralOrderDetail>("PaoliPDWModel.fkCOD_Group", "CollateralOrderDetail");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<CollateralOrderDetail>("PaoliPDWModel.fkCOD_Group", "CollateralOrderDetail", value);
                 }
             }
         }
@@ -3806,15 +3786,17 @@ namespace PDWDBContext
         /// </summary>
         /// <param name="detailID">Initial value of the DetailID property.</param>
         /// <param name="orderID">Initial value of the OrderID property.</param>
-        /// <param name="collateralID">Initial value of the CollateralID property.</param>
         /// <param name="quantity">Initial value of the Quantity property.</param>
-        public static CollateralOrderDetail CreateCollateralOrderDetail(global::System.Int32 detailID, global::System.Int32 orderID, global::System.Int32 collateralID, global::System.Int32 quantity)
+        /// <param name="collateralTypeNKID">Initial value of the CollateralTypeNKID property.</param>
+        /// <param name="collateralNKID">Initial value of the CollateralNKID property.</param>
+        public static CollateralOrderDetail CreateCollateralOrderDetail(global::System.Int32 detailID, global::System.Int32 orderID, global::System.Int32 quantity, global::System.Int32 collateralTypeNKID, global::System.Int32 collateralNKID)
         {
             CollateralOrderDetail collateralOrderDetail = new CollateralOrderDetail();
             collateralOrderDetail.DetailID = detailID;
             collateralOrderDetail.OrderID = orderID;
-            collateralOrderDetail.CollateralID = collateralID;
             collateralOrderDetail.Quantity = quantity;
+            collateralOrderDetail.CollateralTypeNKID = collateralTypeNKID;
+            collateralOrderDetail.CollateralNKID = collateralNKID;
             return collateralOrderDetail;
         }
 
@@ -3878,30 +3860,6 @@ namespace PDWDBContext
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 CollateralID
-        {
-            get
-            {
-                return _CollateralID;
-            }
-            set
-            {
-                OnCollateralIDChanging(value);
-                ReportPropertyChanging("CollateralID");
-                _CollateralID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("CollateralID");
-                OnCollateralIDChanged();
-            }
-        }
-        private global::System.Int32 _CollateralID;
-        partial void OnCollateralIDChanging(global::System.Int32 value);
-        partial void OnCollateralIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
         public global::System.Int32 Quantity
         {
             get
@@ -3926,67 +3884,173 @@ namespace PDWDBContext
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int32> GroupID
+        public global::System.String ItemName
         {
             get
             {
-                return _GroupID;
+                return _ItemName;
             }
             set
             {
-                OnGroupIDChanging(value);
-                ReportPropertyChanging("GroupID");
-                _GroupID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("GroupID");
-                OnGroupIDChanged();
+                OnItemNameChanging(value);
+                ReportPropertyChanging("ItemName");
+                _ItemName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ItemName");
+                OnItemNameChanged();
             }
         }
-        private Nullable<global::System.Int32> _GroupID;
-        partial void OnGroupIDChanging(Nullable<global::System.Int32> value);
-        partial void OnGroupIDChanged();
+        private global::System.String _ItemName;
+        partial void OnItemNameChanging(global::System.String value);
+        partial void OnItemNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String GroupName
+        {
+            get
+            {
+                return _GroupName;
+            }
+            set
+            {
+                OnGroupNameChanging(value);
+                ReportPropertyChanging("GroupName");
+                _GroupName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("GroupName");
+                OnGroupNameChanged();
+            }
+        }
+        private global::System.String _GroupName;
+        partial void OnGroupNameChanging(global::System.String value);
+        partial void OnGroupNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> GroupQuantity
+        {
+            get
+            {
+                return _GroupQuantity;
+            }
+            set
+            {
+                OnGroupQuantityChanging(value);
+                ReportPropertyChanging("GroupQuantity");
+                _GroupQuantity = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("GroupQuantity");
+                OnGroupQuantityChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _GroupQuantity;
+        partial void OnGroupQuantityChanging(Nullable<global::System.Int32> value);
+        partial void OnGroupQuantityChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 CollateralTypeNKID
+        {
+            get
+            {
+                return _CollateralTypeNKID;
+            }
+            set
+            {
+                OnCollateralTypeNKIDChanging(value);
+                ReportPropertyChanging("CollateralTypeNKID");
+                _CollateralTypeNKID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CollateralTypeNKID");
+                OnCollateralTypeNKIDChanged();
+            }
+        }
+        private global::System.Int32 _CollateralTypeNKID;
+        partial void OnCollateralTypeNKIDChanging(global::System.Int32 value);
+        partial void OnCollateralTypeNKIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String CollateralTypeName
+        {
+            get
+            {
+                return _CollateralTypeName;
+            }
+            set
+            {
+                OnCollateralTypeNameChanging(value);
+                ReportPropertyChanging("CollateralTypeName");
+                _CollateralTypeName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("CollateralTypeName");
+                OnCollateralTypeNameChanged();
+            }
+        }
+        private global::System.String _CollateralTypeName;
+        partial void OnCollateralTypeNameChanging(global::System.String value);
+        partial void OnCollateralTypeNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 CollateralNKID
+        {
+            get
+            {
+                return _CollateralNKID;
+            }
+            set
+            {
+                OnCollateralNKIDChanging(value);
+                ReportPropertyChanging("CollateralNKID");
+                _CollateralNKID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CollateralNKID");
+                OnCollateralNKIDChanged();
+            }
+        }
+        private global::System.Int32 _CollateralNKID;
+        partial void OnCollateralNKIDChanging(global::System.Int32 value);
+        partial void OnCollateralNKIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> GroupNKID
+        {
+            get
+            {
+                return _GroupNKID;
+            }
+            set
+            {
+                OnGroupNKIDChanging(value);
+                ReportPropertyChanging("GroupNKID");
+                _GroupNKID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("GroupNKID");
+                OnGroupNKIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _GroupNKID;
+        partial void OnGroupNKIDChanging(Nullable<global::System.Int32> value);
+        partial void OnGroupNKIDChanged();
 
         #endregion
 
     
         #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkCODetail_Collateral", "CollateralItem")]
-        public CollateralItem CollateralItem
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CollateralItem>("PaoliPDWModel.fkCODetail_Collateral", "CollateralItem").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CollateralItem>("PaoliPDWModel.fkCODetail_Collateral", "CollateralItem").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<CollateralItem> CollateralItemReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CollateralItem>("PaoliPDWModel.fkCODetail_Collateral", "CollateralItem");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<CollateralItem>("PaoliPDWModel.fkCODetail_Collateral", "CollateralItem", value);
-                }
-            }
-        }
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -4022,44 +4086,6 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<CollateralOrder>("PaoliPDWModel.fkCODetail_Order", "CollateralOrder", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkCOD_Group", "CollateralItem")]
-        public CollateralItem CollateralItemGroup
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CollateralItem>("PaoliPDWModel.fkCOD_Group", "CollateralItem").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CollateralItem>("PaoliPDWModel.fkCOD_Group", "CollateralItem").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<CollateralItem> CollateralItemGroupReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CollateralItem>("PaoliPDWModel.fkCOD_Group", "CollateralItem");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<CollateralItem>("PaoliPDWModel.fkCOD_Group", "CollateralItem", value);
                 }
             }
         }

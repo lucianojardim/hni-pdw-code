@@ -37,5 +37,7 @@ namespace PDWModels.Collateral
 		public double? Price { get; set; }
 		[DisplayName( "Shipping Fee" )]
 		public double? Shipping { get; set; }
+		[DisplayName( "Is Active?" )]
+		public bool IsActive { get; set; }
 	}
 }

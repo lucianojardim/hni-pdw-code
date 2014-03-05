@@ -62,6 +62,9 @@
 		<td>@Html.MJLabelFor( m => m.ImageFileName, true )</td><td>@if( Model.ImageFileName != null )
 															 { @Html.HiddenFor( m => m.ImageFileName ) <img class="img_size_thumb" src="/Images/@Model.ImageFileName" /> }<input type="file" id="CollateralImage" name="CollateralImage" accept=".jpg,.png,.gif,.bmp" /></td>
 		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.IsActive, false )</td><td>@Html.CheckBoxFor( m => m.IsActive )</td>
+		</tr>
 		
 		</table>
 @Html.ValidationSummary()

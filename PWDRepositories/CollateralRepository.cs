@@ -8,6 +8,11 @@ using PDWModels.Collateral;
 using System.IO;
 using System.Drawing;
 using System.Configuration;
+/*
+ * Change Edit order to look like Ship Order - don't need to show all collateral items, just those in the order
+ * Can lock down objects in bundle after creation if needed
+ * Do we need CollateralOrderDetails.GroupNKID ??
+ */
 
 namespace PWDRepositories
 {
@@ -28,7 +33,8 @@ namespace PWDRepositories
 				CollateralType = cItem.IsGroup ? "Bundle" : cItem.CollateralType.Name,
 				Status = cItem.StatusValue,
 				Quantity = cItem.ComputeQuantity,
-				IsGroup = cItem.IsGroup
+				IsGroup = cItem.IsGroup,
+				IsActive = cItem.IsActive
 			};
 		}
 
@@ -53,6 +59,10 @@ namespace PWDRepositories
 			else if( param.collateralType == -1 )
 			{
 				collateralList = collateralList.Where( c => c.IsGroup );
+			}
+			if( !param.showInactive )
+			{
+				collateralList = collateralList.Where( c => c.IsActive );
 			}
 
 			displayedRecords = collateralList.Count();
@@ -129,6 +139,7 @@ namespace PWDRepositories
 			newItem.Quantity = cInfo.Quantity;
 			newItem.Price = cInfo.Price;
 			newItem.Shipping = cInfo.Shipping;
+			newItem.IsActive = cInfo.IsActive;
 
 			if( collStream != null )
 			{
@@ -188,7 +199,8 @@ namespace PWDRepositories
 				Quantity = cInfo.Quantity,
 				ImageFileName = cInfo.ImageFileName,
 				Price = cInfo.Price,
-				Shipping = cInfo.Shipping
+				Shipping = cInfo.Shipping,
+				IsActive = cInfo.IsActive
 			};
 		}
 
@@ -216,7 +228,9 @@ namespace PWDRepositories
 				ImageFileName = cInfo.ImageFileName,
 				Price = cInfo.Price,
 				Shipping = cInfo.Shipping,
+				IsActive = cInfo.IsActive,
 				GroupItems = cInfo.CollateralGroupItems
+					.Where( cgi => cgi.ChildCollateralItem.IsActive )
 					.Select( cgi => new CollateralGroupInformation.GroupInfoDetail()
 					{
 						ItemID = cgi.ChildCollateralItem.CollateralID,
@@ -243,6 +257,7 @@ namespace PWDRepositories
 			cItem.Quantity = cInfo.Quantity;
 			cItem.Price = cInfo.Price;
 			cItem.Shipping = cInfo.Shipping;
+			cItem.IsActive = cInfo.IsActive;
 
 			if( collStream != null )
 			{
@@ -304,6 +319,7 @@ namespace PWDRepositories
 		public Dictionary<int, string> GetCollateralList( bool includeGroups )
 		{
 			return database.CollateralItems
+				.Where( c => c.IsActive )
 				.Where( c => !c.IsGroup || includeGroups )
 				.OrderBy( c => c.Name )
 				.ToDictionary( c => c.CollateralID, c => c.Name );
@@ -343,6 +359,7 @@ namespace PWDRepositories
 
 			orderInfo.OrderDetails =
 				database.CollateralItems
+					.Where( c => c.IsActive )
 					.OrderBy( c => c.Name )
 					.ToList()
 					.Select( ci => new NewOrderInformation.OrderDetail()
@@ -428,12 +445,17 @@ namespace PWDRepositories
 				{
 					if( newCollateral.IsGroup )
 					{
-						newCollateral.CollateralGroupItems.ToList().ForEach( c => c.ChildCollateralItem.Quantity -= (c.Quantity * detail.Quantity) );
-						newCollateral.CollateralGroupItems.ToList().ForEach( cgi => newOrder.CollateralOrderDetails.Add( new CollateralOrderDetail()
+						newCollateral.CollateralGroupItems.Where( cgi => cgi.ChildCollateralItem.IsActive ).ToList().ForEach( c => c.ChildCollateralItem.Quantity -= (c.Quantity * detail.Quantity) );
+						newCollateral.CollateralGroupItems.Where( cgi => cgi.ChildCollateralItem.IsActive ).ToList().ForEach( cgi => newOrder.CollateralOrderDetails.Add( new CollateralOrderDetail()
 						{
-							CollateralID = cgi.CollateralID,
+							CollateralNKID = cgi.CollateralID,
+							ItemName = cgi.ChildCollateralItem.Name,
 							Quantity = cgi.Quantity * detail.Quantity,
-							GroupID = detail.CollateralID
+							CollateralTypeNKID = cgi.ChildCollateralItem.CollateralTypeID.Value,
+							CollateralTypeName = cgi.ChildCollateralItem.CollateralType.Name,
+							GroupNKID = detail.CollateralID,
+							GroupName = newCollateral.Name,
+							GroupQuantity = cgi.Quantity,
 						} ) );
 					}
 					else
@@ -441,8 +463,11 @@ namespace PWDRepositories
 						newCollateral.Quantity -= detail.Quantity;
 						newOrder.CollateralOrderDetails.Add( new CollateralOrderDetail()
 						{
-							CollateralID = detail.CollateralID,
-							Quantity = detail.Quantity
+							CollateralNKID = newCollateral.CollateralID,
+							ItemName = newCollateral.Name,
+							Quantity = detail.Quantity,
+							CollateralTypeNKID = newCollateral.CollateralTypeID.Value,
+							CollateralTypeName = newCollateral.CollateralType.Name,
 						} );
 					}
 				}
@@ -745,25 +770,27 @@ namespace PWDRepositories
 			orderInfo.ShippingEmailAddress = eOrder.ShippingEmailAddress;
 			orderInfo.OrderDate = eOrder.OrderDate;
 
-			orderInfo.OrderDetails =
-				database.CollateralItems
-					.OrderBy( c => c.Name )
-					.ToList()
-					.Select( ci => new NewOrderInformation.OrderDetail()
+			orderInfo.OrderDetails = eOrder.CollateralOrderDetails
+				.Where( c => !c.GroupNKID.HasValue )
+				.Select( cod => new NewOrderInformation.OrderDetail()
 					{
-						CollateralID = ci.CollateralID,
-						CollateralTypeID = ci.CollateralTypeID.HasValue ? ci.CollateralTypeID.Value : -1,
-						Description = ci.Description,
-						Name = ci.Name,
-						Quantity = ci.IsGroup ? 
-							eOrder.CollateralOrderDetails.Where( cod => cod.GroupID == ci.CollateralID ).Select( d => d.Quantity / d.CollateralItem.CollateralGroups.FirstOrDefault( cg => cg.GroupID == ci.CollateralID ).Quantity ).FirstOrDefault()
-							: eOrder.CollateralOrderDetails.Where( cod => cod.CollateralID == ci.CollateralID && !cod.GroupID.HasValue ).Select( d => d.Quantity ).FirstOrDefault(),
-						ShippedQuantity = ci.IsGroup ?
-							eOrder.CollateralOrderDetails.Where( cod => cod.GroupID == ci.CollateralID ).Select( d => d.CollateralOrderShipmentDetails.Sum( s => s.Quantity ) / d.CollateralItem.CollateralGroups.FirstOrDefault( cg => cg.GroupID == ci.CollateralID ).Quantity ).DefaultIfEmpty().Max()
-							: eOrder.CollateralOrderDetails.Where( cod => cod.CollateralID == ci.CollateralID && !cod.GroupID.HasValue ).Select( d => d.CollateralOrderShipmentDetails.Sum( s => s.Quantity ) ).FirstOrDefault(),
-						Status = ci.StatusValue
+						CollateralID = cod.CollateralNKID,
+						CollateralTypeID = cod.CollateralTypeNKID,
+						Name = cod.ItemName,
+						Quantity = cod.Quantity,
+						ShippedQuantity = cod.CollateralOrderShipmentDetails.Sum( c => c.Quantity )
 					} )
-					.ToList();
+				.ToList();
+			orderInfo.OrderDetails.AddRange( eOrder.CollateralOrderDetails
+				.Where( c => c.GroupNKID.HasValue )
+				.GroupBy( c => c.GroupNKID )
+				.Select( cod => new NewOrderInformation.OrderDetail()
+				{
+					CollateralID = cod.FirstOrDefault().GroupNKID.Value,
+					Name = cod.FirstOrDefault().GroupName,
+					Quantity = cod.Select( d => d.Quantity / d.GroupQuantity.Value ).FirstOrDefault(),
+					ShippedQuantity = cod.Select( d => d.CollateralOrderShipmentDetails.Sum( s => s.Quantity ) / d.GroupQuantity.Value ).DefaultIfEmpty().Max()
+				} ) );
 
 			return orderInfo;
 		}
@@ -789,69 +816,51 @@ namespace PWDRepositories
 			eOrder.ShippingPhoneNumber = orderInfo.ShippingPhoneNumber;
 			eOrder.ShippingEmailAddress = orderInfo.ShippingEmailAddress;
 
-			List<int> confirmedDetails = eOrder.CollateralOrderDetails.Select( cod => cod.DetailID ).ToList();
-			foreach( var uiDetail in orderInfo.OrderDetails.Where( o => o.Quantity > 0 ) )
+			foreach( var uiDetail in orderInfo.OrderDetails )
 			{
-				var eCollateral = database.CollateralItems.FirstOrDefault( c => c.CollateralID == uiDetail.CollateralID );
-				// find and add/update db item
-				if( eCollateral.IsGroup )
+				// update the item(s)
+				if( eOrder.CollateralOrderDetails.Any( d => d.GroupNKID == uiDetail.CollateralID ) )
 				{
-					// need to find and add/update child items
-					if( eOrder.CollateralOrderDetails.Any( c => c.GroupID == eCollateral.CollateralID ) )
+					// is group; update all items based on new quantity
+					foreach( var bundlePart in eOrder.CollateralOrderDetails.Where( d => d.GroupNKID == uiDetail.CollateralID ).ToList() )
 					{
-						foreach( var dbDetail in eOrder.CollateralOrderDetails.Where( c => c.GroupID == eCollateral.CollateralID ) )
+						var dbItem = database.CollateralItems.FirstOrDefault( c => c.CollateralID == bundlePart.CollateralNKID );
+						if( dbItem != null )
 						{
-							var dbGroup = database.CollateralGroupItems.Where( cgi => cgi.CollateralID == dbDetail.CollateralID && cgi.GroupID == dbDetail.GroupID ).FirstOrDefault();
-							if( dbGroup != null )
-							{
-								dbDetail.CollateralItem.Quantity -= ( ( dbGroup.Quantity * uiDetail.Quantity ) - dbDetail.Quantity );
-							}
-							dbDetail.Quantity = dbGroup.Quantity * uiDetail.Quantity;
-							confirmedDetails.Remove( dbDetail.DetailID );
+							dbItem.Quantity -= ( ( bundlePart.GroupQuantity.Value * uiDetail.Quantity ) - bundlePart.Quantity );
 						}
-					}
-					else
-					{
-						foreach( var dbItem in database.CollateralGroupItems.Where( c => c.GroupID == eCollateral.CollateralID ) )
+
+						if( uiDetail.Quantity > 0 )
 						{
-							dbItem.ChildCollateralItem.Quantity -= ( dbItem.Quantity * uiDetail.Quantity );
-							eOrder.CollateralOrderDetails.Add( new CollateralOrderDetail()
-							{
-								CollateralID = dbItem.ChildCollateralItem.CollateralID,
-								Quantity = ( dbItem.Quantity * uiDetail.Quantity ),
-								GroupID = eCollateral.CollateralID
-							} );
+							bundlePart.Quantity = bundlePart.GroupQuantity.Value * uiDetail.Quantity;
+						}
+						else
+						{
+							database.DeleteObject( bundlePart );
 						}
 					}
 				}
 				else
 				{
-					// find and add/update the single item
-					var dbDetail = eOrder.CollateralOrderDetails.FirstOrDefault( c => c.CollateralID == eCollateral.CollateralID && !c.GroupID.HasValue );
+					// is single item; update item based on new quantity
+					var dbDetail = eOrder.CollateralOrderDetails.FirstOrDefault( d => d.CollateralNKID == uiDetail.CollateralID && !d.GroupNKID.HasValue );
 					if( dbDetail != null )
 					{
-						eCollateral.Quantity -= ( uiDetail.Quantity - dbDetail.Quantity );
-						dbDetail.Quantity = uiDetail.Quantity;
-						confirmedDetails.Remove( dbDetail.DetailID );
-					}
-					else
-					{
-						eCollateral.Quantity -= uiDetail.Quantity;
-						eOrder.CollateralOrderDetails.Add( new CollateralOrderDetail()
+						var dbItem = database.CollateralItems.FirstOrDefault( c => c.CollateralID == uiDetail.CollateralID );
+						if( dbItem != null )
 						{
-							CollateralID = uiDetail.CollateralID,
-							Quantity = uiDetail.Quantity
-						} );
+							dbItem.Quantity -= ( uiDetail.Quantity - dbDetail.Quantity );
+						}
+						if( uiDetail.Quantity > 0 )
+						{
+							dbDetail.Quantity = uiDetail.Quantity;
+						}
+						else
+						{
+							database.DeleteObject( dbDetail );
+						}
 					}
 				}
-			}
-
-			foreach( var dbDetail in eOrder.CollateralOrderDetails.Where( cod => confirmedDetails.Contains( cod.DetailID ) ).ToList() )
-			{
-				// delete db item
-				var eCollateral = database.CollateralItems.FirstOrDefault( c => c.CollateralID == dbDetail.CollateralID );
-				eCollateral.Quantity += dbDetail.Quantity;
-				database.DeleteObject( dbDetail );
 			}
 
 			UpdateOrderStatus( eOrder );
@@ -1010,14 +1019,14 @@ namespace PWDRepositories
 				retOrder.OrderDetails.Add( new PendingOrderInformation.PendingOrderDetail()
 				{
 					DetailID = oDetail.DetailID,
-					CollateralID = oDetail.CollateralID,
-					Name = oDetail.CollateralItem.Name,
+					CollateralID = oDetail.CollateralNKID,
+					Name = oDetail.ItemName,
 					Quantity = oDetail.Quantity,
 					RemainingQuantity = oDetail.Quantity - oDetail.CollateralOrderShipmentDetails.Sum( c => c.Quantity ),
-					GroupID = oDetail.GroupID,
-					GroupName = oDetail.GroupID.HasValue ? oDetail.CollateralItemGroup.Name : null,
-					CollateralTypeID = oDetail.GroupID.HasValue ? 0 : oDetail.CollateralItem.CollateralTypeID.Value,
-					CollateralType = oDetail.GroupID.HasValue ? null : oDetail.CollateralItem.CollateralType.Name
+					GroupID = oDetail.GroupNKID,
+					GroupName = oDetail.GroupNKID.HasValue ? oDetail.GroupName : null,
+					CollateralTypeID = oDetail.GroupNKID.HasValue ? 0 : oDetail.CollateralTypeNKID,
+					CollateralType = oDetail.GroupNKID.HasValue ? null : oDetail.CollateralTypeName
 				} );
 			}
 
@@ -1069,7 +1078,7 @@ namespace PWDRepositories
 					sInfo.Details.Add( new PendingOrderInformation.ShipmentDetailSummary()
 						{
 							OrderDetailID = sDetail.OrderDetailID,
-							Name = sDetail.CollateralOrderDetail.CollateralItem.Name,
+							Name = sDetail.CollateralOrderDetail.ItemName,
 							Quantity = sDetail.Quantity
 						} );
 				}
@@ -1174,8 +1183,11 @@ namespace PWDRepositories
 			foreach( var dbDetail in dbOrder.CollateralOrderDetails )
 			{
 				// delete db item
-				var eCollateral = database.CollateralItems.FirstOrDefault( c => c.CollateralID == dbDetail.CollateralID );
-				eCollateral.Quantity += ( dbDetail.Quantity - dbDetail.CollateralOrderShipmentDetails.Sum( s => s.Quantity ) );
+				var eCollateral = database.CollateralItems.FirstOrDefault( c => c.CollateralID == dbDetail.CollateralNKID );
+				if( eCollateral != null )
+				{
+					eCollateral.Quantity += ( dbDetail.Quantity - dbDetail.CollateralOrderShipmentDetails.Sum( s => s.Quantity ) );
+				}
 			}
 
 			dbOrder.CanceledByUserID = PaoliWebUser.CurrentUser.UserId;
@@ -1321,7 +1333,7 @@ namespace PWDRepositories
 				sInfo.Details.Add( new PendingOrderInformation.ShipmentDetailSummary()
 				{
 					OrderDetailID = sDetail.OrderDetailID,
-					Name = sDetail.CollateralOrderDetail.CollateralItem.Name,
+					Name = sDetail.CollateralOrderDetail.ItemName,
 					Quantity = sDetail.Quantity
 				} );
 			}
