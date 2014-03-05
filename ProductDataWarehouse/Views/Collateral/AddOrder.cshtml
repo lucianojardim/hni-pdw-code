@@ -93,6 +93,7 @@
 
     		$('#PaoliRepGroupID').change(function () {
     			loadSPDealerList();
+				loadSPRepGroupList();
     			reloadPaoliSalesRepList();
     		});
 
@@ -262,6 +263,7 @@
     				$('.SPRepGroup').show();
     				$('.SPDealer').hide();
     				$('.SPEndUser').hide();
+					loadSPRepGroupList();
     				break;
     			case '@PDWModels.Collateral.NewOrderInformation.RPDealer':
     				$('.SPMember').hide();
@@ -306,7 +308,7 @@
     			$('.previousBtn').show();
     		}
     	}
-
+		
 		function loadSPDealerList() {
 			var theUrl = '/Company/GetDealerList';
 			var dataSet = { includeBlank: 'true' };
@@ -340,6 +342,35 @@
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
 					alert('Error getting Dealer list:' + errorThrown)
+				}
+			});
+		}
+
+		function loadSPRepGroupList() {
+			var theUrl = '/Company/GetPaoliRepGroupList';
+			var dataSet = { includeBlank: 'true' };
+			if ($('.RPRepGroup:hidden').length == 0) {
+				// rep group is showing - only load that group
+				$('#SPPaoliRepGroupID').empty();
+				$('#SPPaoliRepGroupID').append('<option value="' + $('#PaoliRepGroupID').val() + '">' + $('#PaoliRepGroupID option:selected').text() + '</option>');
+				reloadSPPaoliSalesRepList();
+				return;
+			}
+
+			$.ajax({
+				dataType: 'json',
+				type: 'GET',
+				url: theUrl,
+				data: dataSet,
+				success: function (data, textStatus, jqXHR) {
+					$('#SPPaoliRepGroupID').empty();
+					$.each(data, function (idx, item) {
+						$('#SPPaoliRepGroupID').append('<option value="' + item.ID + '">' + item.Text + '</option>');
+					});
+					reloadSPPaoliSalesRepList();
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					alert('Error getting Rep Group list:' + errorThrown)
 				}
 			});
 		}
@@ -407,21 +438,25 @@
     	}
 
     	function reloadSPPaoliSalesRepList() {
-    		$.ajax({
-    			dataType: 'json',
-    			type: 'GET',
-    			url: '/User/GetPaoliSalesRepListForCompany',
-    			data: { companyId: $('#SPPaoliRepGroupID').val() },
-    			success: function (data, textStatus, jqXHR) {
-    				$('#SPPaoliRepGroupMemberID').empty();
-    				$.each(data.theList, function (idx, item) {
-    					$('#SPPaoliRepGroupMemberID').append('<option value="' + item.UserID + '" >' + item.FullName + '</option>');
-    				});
-    			},
-    			error: function (jqXHR, textStatus, errorThrown) {
-    				alert('Error getting SP Paoli Sales Rep list:' + errorThrown)
-    			}
-    		});
+    		if ($('#SPPaoliRepGroupID option:selected').text() != '') {
+    			$.ajax({
+    				dataType: 'json',
+    				type: 'GET',
+    				url: '/User/GetPaoliSalesRepListForCompany',
+    				data: { companyId: $('#SPPaoliRepGroupID').val() },
+    				success: function (data, textStatus, jqXHR) {
+    					$('#SPPaoliRepGroupMemberID').empty();
+    					$.each(data.theList, function (idx, item) {
+    						$('#SPPaoliRepGroupMemberID').append('<option value="' + item.UserID + '" >' + item.FullName + '</option>');
+    					});
+    				},
+    				error: function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting SP Paoli Sales Rep list:' + errorThrown)
+    				}
+    			});
+    		} else {
+    			$('#SPPaoliRepGroupMemberID').empty();
+    		}
     	}
 
 		function fillConfirmForm() {
