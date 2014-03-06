@@ -30,12 +30,12 @@ namespace ProductDataWarehouse.Controllers
 		{
 			FormsAuthentication.SignOut();
 			Session.Abandon();
-			return RedirectToAction( "Index" );
+			return RedirectToAction( "Index", "Home" );
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Logon( string userName, string password )
+		public ActionResult Logon( string userName, string password, string ReturnUrl )
 		{
 			if( ModelState.IsValid )
 			{
@@ -43,6 +43,11 @@ namespace ProductDataWarehouse.Controllers
 				if( ( new UserRepository().ValidateUserAccount( userName, password, out homePage ) ) )
 				{
 					FormsAuthentication.SetAuthCookie( userName, false );
+
+					if( ReturnUrl != null )
+					{
+						return Redirect( ReturnUrl );
+					}
 
 					return Redirect( homePage );
 				}
