@@ -41,8 +41,9 @@ go
 
 alter table [Companies] add [TerritoryID] [int] null CONSTRAINT [fkCompany_Territory] FOREIGN KEY REFERENCES [Territories] ([TerritoryID])
 go
-
+/*
 update [Companies] set [Companies].[TerritoryID] = [t].[TerritoryID]
 	from [Companies] [c]
 		left join [ImportCompanies] [ic] on [c].[Name] = [ic].[Company Name] 
 		left join [Territories] [t] on [ic].[Territory ID] = [t].[Name] 
+*/
