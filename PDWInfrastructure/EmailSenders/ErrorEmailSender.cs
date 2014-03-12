@@ -25,7 +25,7 @@ namespace PDWInfrastructure.EmailSenders
 					template.Replace( "[{ExceptionList}]", excList );
 					template.Replace( "[{StackTraceList}]", exp.StackTrace.Replace( "\n", "<br/>" ) );
 
-					return SubmitEmail( new List<string>() { "matt.james@wddsoftware.com" }, null, null, GetSubject( template ), template.ToString() );
+					return SubmitEmail( new List<string>() { "matt.james@wddsoftware.com" }, null, null, GetSubject( template ), template );
 				}
 			}
 			catch( Exception ex )

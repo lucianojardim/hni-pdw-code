@@ -50,7 +50,7 @@ namespace PDWInfrastructure.EmailSenders
 					template.Replace( "[{SeriesNames}]", string.Join( ", ", summary.seriesNames ) );
 					template.Replace( "[{ServicesReqd}]", string.Join( ", ", summary.servicesReqd ) );
 
-					return SubmitEmail( new List<string>() { emailAddress }, null, null, GetSubject( template ), template.ToString() );
+					return SubmitEmail( new List<string>() { emailAddress }, null, null, GetSubject( template ), template );
 				}
 			}
 			catch( Exception ex )

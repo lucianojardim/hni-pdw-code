@@ -37,6 +37,7 @@
     <add key="PrependImageName" value="Paoli"/>
     <add key="HomePageRedirect" value="http://www.paoli.com/"/>
     <add key="EmailTemplates" value="C:\Projects\Paoli\ProductDataWarehouse\ProductDataWarehouse\Content\Email Templates"/>
+    <add key="EmailRedirection" value="true"/>
   </appSettings>
 
 	<encSettings>

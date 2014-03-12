@@ -76,7 +76,7 @@ namespace PDWInfrastructure.EmailSenders
 
 					template.Replace( "[{TrackingPlural}]", summary.trackingNumbers.Where( t => ( t ?? "" ).Any() ).Count() > 1 ? "s are" : " is" );
 
-					return SubmitEmail( new List<string>() { emailAddress }, null, null, GetSubject( template ), template.ToString() );
+					return SubmitEmail( new List<string>() { emailAddress }, null, null, GetSubject( template ), template );
 				}
 			}
 			catch( Exception ex )

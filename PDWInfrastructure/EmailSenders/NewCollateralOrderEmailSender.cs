@@ -75,7 +75,7 @@ namespace PDWInfrastructure.EmailSenders
 					template.Replace( "[{PlacingNameAndCompany}]", summary.placingNameAndCompany );
 					template.Replace( "[{ReceivingNameAndCompany}]", summary.receivingNameAndCompany );
 
-					return SubmitEmail( new List<string>() { emailAddress }, null, null, GetSubject( template ), template.ToString() );
+					return SubmitEmail( new List<string>() { emailAddress }, null, null, GetSubject( template ), template );
 				}
 			}
 			catch( Exception ex )

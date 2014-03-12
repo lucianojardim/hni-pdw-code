@@ -24,11 +24,12 @@ namespace PDWInfrastructure.EmailSenders
 			IList<string> ccList,
 			IList<string> bccList,
 			string messageSubject,
-			string messageBody );
+			StringBuilder messageBodyTemplate );
 
 		protected SubmitEmailFunction SubmitEmail = null;
 		private ExchangeService service = null;
 		private bool UseExchange { get; set; }
+		private bool EmailOverride { get; set; }
 
 		protected EmailSender()
 		{
@@ -45,6 +46,16 @@ namespace PDWInfrastructure.EmailSenders
 			{
 				SubmitEmail = SubmitSMTPEmail;
 			}
+
+			bool e = false;
+			if( !bool.TryParse( ConfigurationManager.AppSettings["EmailRedirection"], out e ) )
+			{
+				EmailOverride = false;
+			}
+			else
+			{
+				EmailOverride = e;
+			}
 		}
 
 		private bool SubmitExchangeEmail(
@@ -52,11 +63,13 @@ namespace PDWInfrastructure.EmailSenders
 			IList<string> ccList,
 			IList<string> bccList,
 			string messageSubject,
-			string messageBody )
+			StringBuilder messageBodyTemplate )
 		{
+			PerformEmailOverride( messageBodyTemplate, toList );
+
 			EmailMessage message = new EmailMessage( service );
 			message.Subject = messageSubject;
-			message.Body = messageBody;
+			message.Body = messageBodyTemplate.ToString();
 			
 			if( ( toList != null ) && toList.Any() )
 				message.ToRecipients.AddRange( toList );
@@ -89,8 +102,10 @@ namespace PDWInfrastructure.EmailSenders
 			IList<string> ccList,
 			IList<string> bccList,
 			string messageSubject,
-			string messageBody )
+			StringBuilder messageBodyTemplate )
 		{
+			PerformEmailOverride( messageBodyTemplate, toList );
+
 			MailMessage msg = new MailMessage();
 
 			if( ( toList != null ) && toList.Any() )
@@ -104,7 +119,7 @@ namespace PDWInfrastructure.EmailSenders
 				msg.Bcc.Add( string.Join( ",", bccList ) );
 
 			msg.Subject = messageSubject;
-			msg.Body = messageBody;
+			msg.Body = messageBodyTemplate.ToString();
 			msg.From = new MailAddress( "helpdesk@paoli.com", "Paoli Helpdesk" );
 			msg.IsBodyHtml = true;
 
@@ -182,6 +197,22 @@ namespace PDWInfrastructure.EmailSenders
 				extraInfo = "<p>(from WDD Test Server)</p>";
 			
 			template.Replace( "[{MachineName}]", extraInfo );
+		}
+
+		private void PerformEmailOverride( StringBuilder template, IList<string> toList )
+		{
+			if( EmailOverride )
+			{
+				if( PaoliWebUser.CurrentUser != null && template.ToString().Contains( "[{EmailOverride}]" ) )
+				{					
+					template.Replace( "[{EmailOverride}]", "<br/>Really sent to: " + string.Join( ", ", toList ) );
+					toList.Clear();
+					toList.Add( PaoliWebUser.CurrentUser.EmailAddress );
+
+					return;
+				}
+			}
+			template.Replace( "[{EmailOverride}]", "" );
 		}
 	}
 }

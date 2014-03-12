@@ -42,7 +42,7 @@ namespace PDWInfrastructure.EmailSenders
 						.Select( f => string.Format( "<li><a href=\"http://my.paoli.com/Documents/Typicals/{1}/{0}\">{0}</a></li>",
 							f.fileName, f.filePath ) ) ) );
 
-					return SubmitEmail( new List<string>() { emailAddress }, null, null, GetSubject( template ), template.ToString() );
+					return SubmitEmail( new List<string>() { emailAddress }, null, null, GetSubject( template ), template );
 				}
 			}
 			catch( Exception ex )
