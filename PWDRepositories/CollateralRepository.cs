@@ -8,6 +8,7 @@ using PDWModels.Collateral;
 using System.IO;
 using System.Drawing;
 using System.Configuration;
+using PDWInfrastructure.EmailSenders;
 /*
  * Change Edit order to look like Ship Order - don't need to show all collateral items, just those in the order
  * Can lock down objects in bundle after creation if needed
@@ -482,7 +483,212 @@ namespace PWDRepositories
 
 			database.CollateralOrders.AddObject( newOrder );
 
-			return database.SaveChanges() > 0;
+			if( database.SaveChanges() > 0 )
+			{
+				database.Refresh( System.Data.Objects.RefreshMode.StoreWins, newOrder );
+
+				EmailSender.EmailTarget createdByEmail = null;
+				List<EmailSender.EmailTarget> salesRepEmails = new List<EmailSender.EmailTarget>(), requestedForEmails = new List<EmailSender.EmailTarget>();
+
+				GetEmailList( newOrder, out createdByEmail, salesRepEmails, requestedForEmails );
+
+				( new NewCollateralOrderEmailSender( "NewCollateralOrderCreatedBy" ) ).SubmitNewOrderEmail( createdByEmail.EmailAddress,
+					ToEmailOrderSummary( createdByEmail, newOrder ) );
+
+				foreach( var salesRep in salesRepEmails )
+				{
+					( new NewCollateralOrderEmailSender( "NewCollateralOrderSalesRep" ) ).SubmitNewOrderEmail( salesRep.EmailAddress,
+						ToEmailOrderSummary( salesRep, newOrder ) );
+				}
+
+				foreach( var reqParty in requestedForEmails )
+				{
+					( new NewCollateralOrderEmailSender( "NewCollateralOrderRequestedBy" ) ).SubmitNewOrderEmail( reqParty.EmailAddress,
+						ToEmailOrderSummary( reqParty, newOrder ) );
+				}
+
+				return true;
+			}
+
+			return false;
+		}
+
+		private NewCollateralOrderEmailSender.EmailOrderSummary ToEmailOrderSummary( EmailSender.EmailTarget emailInfo, CollateralOrder orderInfo )
+		{
+			var summary = new NewCollateralOrderEmailSender.EmailOrderSummary()
+					{
+						orderID = orderInfo.OrderID,
+						firstName = emailInfo.FirstName,
+						shippingAddress1 = orderInfo.ShippingAddress1,
+						shippingAddress2 = orderInfo.ShippingAddress2,
+						shippingCity = orderInfo.ShippingCity,
+						shippingCompany = orderInfo.ShippingCompanyName,
+						shippingName = orderInfo.ShippingAttn,
+						shippingState = orderInfo.ShippingState,
+						shippingSpeed = NewOrderInformation.ShippingTypes[orderInfo.ShippingType],
+						shippingZip = orderInfo.ShippingZip
+					};
+
+			summary.orderDetailList = orderInfo.CollateralOrderDetails
+				.Where( cod => !cod.GroupNKID.HasValue )
+				.Select( cod => string.Format( "{0}, Qty. {1}", cod.ItemName, cod.Quantity ) ).ToList();
+			summary.orderDetailList.AddRange( orderInfo.CollateralOrderDetails
+				.Where( cod => cod.GroupNKID.HasValue )
+				.GroupBy( cod => cod.GroupNKID )
+				.Select( codList => string.Format( "{0}, Qty. {1}", codList.First().ItemName, codList.Max( cod => cod.Quantity / cod.GroupQuantity ) ) ) );
+			summary.orderDetailList.Sort();
+
+			switch( orderInfo.RequestingParty )
+			{
+				case NewOrderInformation.RPPaoliMember:
+					if( orderInfo.PaoliMember != null )
+					{
+						summary.placingNameAndCompany = string.Format( "{0} at {1}", orderInfo.PaoliMember.FullName, orderInfo.PaoliMember.Company.Name );
+					}
+					break;
+				case NewOrderInformation.RPPaoliRepresentative:
+					if( orderInfo.PaoliSalesRepMember != null )
+					{
+						summary.placingNameAndCompany = string.Format( "{0} at {1}", orderInfo.PaoliSalesRepMember.FullName, orderInfo.PaoliSalesRepMember.Company.Name );
+					}
+					else if( orderInfo.PaoliSalesRep != null )
+					{
+						summary.placingNameAndCompany = string.Format( "{0}", orderInfo.PaoliSalesRep.Name );
+					}
+					break;
+				case NewOrderInformation.RPDealer:
+					if( orderInfo.DealerMember != null )
+					{
+						summary.placingNameAndCompany = string.Format( "{0} at {1}", orderInfo.DealerMember.FullName, orderInfo.DealerMember.Company.Name );
+					}
+					else if( orderInfo.Dealer != null )
+					{
+						summary.placingNameAndCompany = string.Format( "{0}", orderInfo.Dealer.Name );
+					}
+					break;
+				case NewOrderInformation.RPEndUser:
+					summary.placingNameAndCompany = string.Format( "{0} {1}", orderInfo.EndUserFirstName, orderInfo.EndUserLastName );
+					break;
+			}
+
+			switch( orderInfo.ShippingParty )
+			{
+				case NewOrderInformation.RPPaoliMember:
+					if( orderInfo.SPPaoliMember != null )
+					{
+						summary.receivingNameAndCompany = string.Format( "{0} at {1}", orderInfo.SPPaoliMember.FullName, orderInfo.SPPaoliMember.Company.Name );
+					}
+					break;
+				case NewOrderInformation.RPPaoliRepresentative:
+					if( orderInfo.SPPaoliSalesRepMember != null )
+					{
+						summary.receivingNameAndCompany = string.Format( "{0} at {1}", orderInfo.SPPaoliSalesRepMember.FullName, orderInfo.SPPaoliSalesRepMember.Company.Name );
+					}
+					else if( orderInfo.SPPaoliSalesRep != null )
+					{
+						summary.receivingNameAndCompany = string.Format( "{0}", orderInfo.SPPaoliSalesRep.Name );
+					}
+					break;
+				case NewOrderInformation.RPDealer:
+					if( orderInfo.SPDealerMember != null )
+					{
+						summary.receivingNameAndCompany = string.Format( "{0} at {1}", orderInfo.SPDealerMember.FullName, orderInfo.SPDealerMember.Company.Name );
+					}
+					else if( orderInfo.SPDealer != null )
+					{
+						summary.receivingNameAndCompany = string.Format( "{0}", orderInfo.SPDealer.Name );
+					}
+					break;
+				case NewOrderInformation.RPEndUser:
+					summary.receivingNameAndCompany = string.Format( "{0} {1}", orderInfo.SPEndUserFirstName, orderInfo.SPEndUserLastName );
+					break;
+			}
+
+			return summary;
+		}
+
+		private List<EmailSender.EmailTarget> GetEmailList( CollateralOrder orderInfo )
+		{
+			EmailSender.EmailTarget createdByEmail = null;
+			List<EmailSender.EmailTarget> salesRepEmails = new List<EmailSender.EmailTarget>(), requestedForEmails = new List<EmailSender.EmailTarget>();
+
+			GetEmailList( orderInfo, out createdByEmail, salesRepEmails, requestedForEmails );
+
+			return salesRepEmails.Union( requestedForEmails )
+				.Union( new List<EmailSender.EmailTarget>() { createdByEmail } )
+				.Distinct()
+				.ToList();
+		}
+
+		private void GetEmailList( CollateralOrder orderInfo, out EmailSender.EmailTarget createdByEmail, 
+			List<EmailSender.EmailTarget> extraSalesRepEmails, List<EmailSender.EmailTarget> requestedForEmails )
+		{
+			createdByEmail = new EmailSender.EmailTarget() { EmailAddress = orderInfo.CreatedByUser.Email, FirstName = orderInfo.CreatedByUser.FirstName };
+
+			switch( orderInfo.RequestingParty )
+			{
+				case NewOrderInformation.RPPaoliMember:
+					if( orderInfo.PaoliMember != null )
+					{
+						requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.PaoliMember.Email, FirstName = orderInfo.PaoliMember.FirstName } );
+					}
+					break;
+				case NewOrderInformation.RPPaoliRepresentative:
+					if( orderInfo.PaoliSalesRepMember != null )
+					{
+						requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.PaoliSalesRepMember.Email, FirstName = orderInfo.PaoliSalesRepMember.FirstName } );
+					}
+					break;
+				case NewOrderInformation.RPDealer:
+					if( orderInfo.DealerMember != null )
+					{
+						requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.DealerMember.Email, FirstName = orderInfo.DealerMember.FirstName } );
+					}
+					if( orderInfo.Dealer != null )
+					{
+						extraSalesRepEmails.AddRange( database.Companies.Where( c => c.TerritoryID == orderInfo.Dealer.TerritoryID && c.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup )
+							.SelectMany( srg => srg.Users )
+							.Select( srgm => new EmailSender.EmailTarget() { EmailAddress = srgm.Email, FirstName = srgm.FirstName } ) );
+					}
+					break;
+				case NewOrderInformation.RPEndUser:
+					requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.EndUserEMailAddress, FirstName = orderInfo.EndUserFirstName } );
+					break;
+			}
+
+			switch( orderInfo.ShippingParty )
+			{
+				case NewOrderInformation.RPPaoliMember:
+					if( orderInfo.SPPaoliMember != null )
+					{
+						requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.SPPaoliMember.Email, FirstName = orderInfo.SPPaoliMember.FirstName } );
+					}
+					break;
+				case NewOrderInformation.RPPaoliRepresentative:
+					if( orderInfo.SPPaoliSalesRepMember != null )
+					{
+						requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.SPPaoliSalesRepMember.Email, FirstName = orderInfo.SPPaoliSalesRepMember.FirstName } );
+					}
+					break;
+				case NewOrderInformation.RPDealer:
+					if( orderInfo.SPDealerMember != null )
+					{
+						requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.SPDealerMember.Email, FirstName = orderInfo.SPDealerMember.FirstName } );
+					}
+					if( orderInfo.SPDealer != null )
+					{
+						extraSalesRepEmails.AddRange( database.Companies.Where( c => c.TerritoryID == orderInfo.SPDealer.TerritoryID && c.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup )
+							.SelectMany( srg => srg.Users )
+							.Select( srgm => new EmailSender.EmailTarget() { EmailAddress = srgm.Email, FirstName = srgm.FirstName } ) );
+					}
+					break;
+				case NewOrderInformation.RPEndUser:
+					requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.SPEndUserEMailAddress, FirstName = orderInfo.SPEndUserFirstName } );
+					break;
+			}
+
+			extraSalesRepEmails.RemoveAll( e => requestedForEmails.Any( d => d.EmailAddress == e.EmailAddress ) || ( e.EmailAddress == orderInfo.CreatedByUser.Email ) );
+			requestedForEmails.RemoveAll( e => e.EmailAddress == orderInfo.CreatedByUser.Email );
 		}
 
 		public IEnumerable<CollateralOrderSummary> GetFullCollateralOrderListForUser( CollateralOrderTableParams param, out int totalRecords, out int displayedRecords )
@@ -1144,9 +1350,49 @@ namespace PWDRepositories
 
 			UpdateOrderStatus( dbOrder );
 
-			return database.SaveChanges() > 0;
+			if( database.SaveChanges() > 0 )
+			{
+				foreach( var emailTarget in GetEmailList( dbOrder ) )
+				{
+					var summary = ToEmailShipmentSummary( emailTarget, dbShipment );
+					if( dbOrder.Status == NewOrderInformation.SPartial )
+					{
+						( new NewCollateralOrderShipmentEmailSender( "NewCollateralOrderPartialShipment" ) ).SubmitNewShipmentEmail( emailTarget.EmailAddress, summary );
+					}
+					else if( dbOrder.Status == NewOrderInformation.SFulfilled )
+					{
+						( new NewCollateralOrderShipmentEmailSender( "NewCollateralOrderShipment" ) ).SubmitNewShipmentEmail( emailTarget.EmailAddress, summary );
+					}
+				}
+				return true;
+			}
+
+			return false;
 		}
 
+		private NewCollateralOrderShipmentEmailSender.EmailShipmentSummary ToEmailShipmentSummary( EmailSender.EmailTarget emailInfo, CollateralOrderShipment shipmentInfo )
+		{
+			var summary = new NewCollateralOrderShipmentEmailSender.EmailShipmentSummary()
+					{
+						orderID = shipmentInfo.OrderID,
+						firstName = emailInfo.FirstName,
+						shippingAddress1 = shipmentInfo.ShippingAddress1,
+						shippingAddress2 = shipmentInfo.ShippingAddress2,
+						shippingCity = shipmentInfo.ShippingCity,
+						shippingCompany = shipmentInfo.ShippingCompanyName,
+						shippingName = shipmentInfo.ShippingAttn,
+						shippingState = shipmentInfo.ShippingState,
+						shippingSpeed = shipmentInfo.ShippingType,
+						shippingZip = shipmentInfo.ShippingZip,
+						shippingCarrier = shipmentInfo.Vendor,
+						trackingNumbers = new List<string>() { shipmentInfo.TrackingNumber1, shipmentInfo.TrackingNumber2, shipmentInfo.TrackingNumber3, shipmentInfo.TrackingNumber4 },
+						shipmentDetailList = shipmentInfo.CollateralOrderShipmentDetails
+							.Select( cosd => string.Format( "{0}, Qty. {1}", cosd.CollateralOrderDetail.ItemName, cosd.Quantity ) )
+							.ToList()
+					};
+
+			return summary;
+		}
 		private void UpdateOrderStatus( CollateralOrder dbOrder )
 		{
 			bool bHasFulfilled = false, bHasUnfulfilled = false, bHasPartial = false;

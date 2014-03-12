@@ -79,7 +79,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Email Templates\CompletedSpecRequest.htm" />
+    <Content Include="Content\Email Templates\NewSpecRequestSalesRep.htm" />
+    <Content Include="Content\Email Templates\NewCollateralOrderPartialShipment.htm" />
+    <Content Include="Content\Email Templates\NewCollateralOrderRequestedBy.htm" />
+    <Content Include="Content\Email Templates\NewCollateralOrderSalesRep.htm" />
+    <Content Include="Content\Email Templates\ErrorEmail.htm" />
     <Content Include="Content\Email Templates\NewAccount.htm" />
+    <Content Include="Content\Email Templates\NewCollateralOrderCreatedBy.htm" />
+    <Content Include="Content\Email Templates\NewCollateralOrderShipment.htm" />
+    <Content Include="Content\Email Templates\NewSpecRequest.htm" />
+    <Content Include="Content\Email Templates\NewSpecRequestSpecTeam.htm" />
     <Content Include="Content\Email Templates\ResetPassword.htm" />
     <Content Include="Content\fancybox\blank.gif" />
     <Content Include="Content\fancybox\fancybox-x.png" />

@@ -107,6 +107,8 @@ namespace ProductDataWarehouse.Controllers
 					{
 						ModelState.AddModelError( "", ex.InnerException.Message );
 					}
+
+					( new PDWInfrastructure.EmailSenders.ErrorEmailSender() ).SubmitErrorEmail( ex );
 				}
 			}
 			ViewBag.BlankInformation = new SpecRequestRepository().NewSpecRequest();

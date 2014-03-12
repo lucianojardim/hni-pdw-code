@@ -4,18 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Net.Mail;
 
-namespace PDWInfrastructure
+namespace PDWInfrastructure.EmailSenders
 {
-	public class NewAccountEmailSender : EmailSender
+	public class ResetPasswordEmailSender : EmailSender
 	{
-		public bool SubmitNewAccountEmail(
+		public bool SubmitResetPasswordEmail(
 			string emailAddress,
 			string newPassword )
 		{
 			try
 			{
 				StringBuilder template;
-				if( ReadEmailTemplate( "NewAccount", out template ) )
+				if( ReadEmailTemplate( "ResetPassword", out template ) )
 				{
 					// perform substitutions
 					template.Replace( "[{Password}]", newPassword );

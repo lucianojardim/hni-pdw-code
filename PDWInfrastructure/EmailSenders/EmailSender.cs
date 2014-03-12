@@ -9,10 +9,16 @@ using Microsoft.Exchange.WebServices.Data;
 using System.Net.Mail;
 using System.Net;
 
-namespace PDWInfrastructure
+namespace PDWInfrastructure.EmailSenders
 {
 	public class EmailSender
 	{
+		public class EmailTarget
+		{
+			public string FirstName { get; set; }
+			public string EmailAddress { get; set; }
+		}
+
 		protected delegate bool SubmitEmailFunction(
 			IList<string> toList,
 			IList<string> ccList,
@@ -100,6 +106,7 @@ namespace PDWInfrastructure
 			msg.Subject = messageSubject;
 			msg.Body = messageBody;
 			msg.From = new MailAddress( "helpdesk@paoli.com", "Paoli Helpdesk" );
+			msg.IsBodyHtml = true;
 
 			try
 			{

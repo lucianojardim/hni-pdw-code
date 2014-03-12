@@ -9,6 +9,7 @@ using System.IO;
 using System.Configuration;
 using System.Data.Objects.DataClasses;
 using PDWModels;
+using PDWInfrastructure.EmailSenders;
 
 namespace PWDRepositories
 {
@@ -439,10 +440,113 @@ namespace PWDRepositories
 					}
 				}
 
-				return database.SaveChanges() > 0;
+				if( database.SaveChanges() > 0 )
+				{
+					( new NewSpecRequestEmailSender( "NewSpecRequestSpecTeam" ) ).SubmitNewRequestEmail( "PAOProjectSpecTeam@paoli.com", ToEmailSpecRequestSummary( newSpec, new EmailSender.EmailTarget() ) );
+
+					( new NewSpecRequestEmailSender( "NewSpecRequest" ) ).SubmitNewRequestEmail( newSpec.CreatedByUser.Email,
+						ToEmailSpecRequestSummary( newSpec, new EmailSender.EmailTarget() { EmailAddress = newSpec.CreatedByUser.Email, FirstName = newSpec.CreatedByUser.FirstName } ) );
+
+					if( newSpec.PaoliSalesRepMemberID.HasValue )
+					{
+						if( newSpec.PaoliSalesRepMemberID.Value != newSpec.CreatedByUserId.Value )
+						{
+							( new NewSpecRequestEmailSender( "NewSpecRequestSalesRep" ) ).SubmitNewRequestEmail( newSpec.PaoliSalesRepMember.Email,
+								ToEmailSpecRequestSummary( newSpec, new EmailSender.EmailTarget() { EmailAddress = newSpec.PaoliSalesRepMember.Email, FirstName = newSpec.PaoliSalesRepMember.FirstName } ) );
+						}
+					}
+					else if( newSpec.PaoliSalesRepGroupID.HasValue )
+					{
+						foreach( var salesRepUser in newSpec.PaoliSalesRepGroup.Users )
+						{
+							if( salesRepUser.UserID != newSpec.CreatedByUserId.Value )
+							{
+								( new NewSpecRequestEmailSender( "NewSpecRequestSalesRep" ) ).SubmitNewRequestEmail( salesRepUser.Email,
+									ToEmailSpecRequestSummary( newSpec, new EmailSender.EmailTarget() { EmailAddress = salesRepUser.Email, FirstName = salesRepUser.FirstName } ) );
+							}
+						}
+					}
+
+					return true;
+				}
 			}
 
 			throw new Exception( "Unable to save Spec Request" );
+		}
+
+		private NewSpecRequestEmailSender.EmailSpecRequestSummary ToEmailSpecRequestSummary( SpecRequest request, EmailSender.EmailTarget target )
+		{
+			var summary = new NewSpecRequestEmailSender.EmailSpecRequestSummary()
+			{
+				requestId = request.RequestID,
+				requestName = request.Name,
+				firstName = target.FirstName,
+				companyName = request.EndCustomer,
+				projectName = request.ProjectName,
+				scopeDescription = request.ProjectSize
+			};
+
+			if( request.DealerSalesRepID.HasValue )
+			{
+				summary.placingNameAndCompany = string.Format( "{0} at {1}", request.DealerSalesRep.FullName, request.DealerSalesRep.Company.Name );
+				summary.territoryID = request.DealerSalesRep.Company.TerritoryID ?? 0;
+			}
+			else if( (request.DealerPOCText ?? "").Any() )
+			{
+				summary.placingNameAndCompany = string.Format( "{0} at {1}", request.DealerPOCText, request.PrimaryCompany.Name );
+				summary.territoryID = request.PrimaryCompany.TerritoryID ?? 0;
+			}
+			else if( request.PrimaryCompanyID.HasValue )
+			{
+				summary.placingNameAndCompany = string.Format( "{0}", request.PrimaryCompany.Name );
+				summary.territoryID = request.PrimaryCompany.TerritoryID ?? 0;
+			}
+			else if( request.PaoliSalesRepMemberID.HasValue )
+			{
+				summary.placingNameAndCompany = string.Format( "{0} at {1}", request.PaoliSalesRepMember.FullName, request.PaoliSalesRepMember.Company.Name );
+				summary.territoryID = request.PaoliSalesRepMember.Company.TerritoryID ?? 0;
+			}
+			else if( request.PaoliSalesRepGroupID.HasValue )
+			{
+				summary.placingNameAndCompany = string.Format( "{0}", request.PaoliSalesRepGroup.Name );
+				summary.territoryID = request.PaoliSalesRepGroup.TerritoryID ?? 0;
+			}
+			
+			var fullSeriesList = string.Join( ",", request.Casegoods, request.Conferencing, request.Seating );
+			summary.seriesNames = new List<string>();
+			if( (fullSeriesList ?? "").Any() )
+			{
+				summary.seriesNames = fullSeriesList.Split( ',' ).Where( s => (s ?? "").Any() ).ToList();
+				summary.seriesNames.Sort();
+			}
+
+			summary.servicesReqd = new List<string>();
+			if( request.NeedFloorplanSpecs )
+			{
+				summary.servicesReqd.Add( "Floorplan Specifications" );
+			}
+			if( request.NeedPhotoRendering )
+			{
+				summary.servicesReqd.Add( "Photo Rendering" );
+			}
+			if( request.Need2DDrawing )
+			{
+				summary.servicesReqd.Add( "2D Drawing" );
+			}
+			if( request.Need3DDrawing )
+			{
+				summary.servicesReqd.Add( "3D Drawing" );
+			}
+			if( request.NeedValueEng )
+			{
+				summary.servicesReqd.Add( "Value Engineering" );
+			}
+			if( request.NeedAuditSpecs )
+			{
+				summary.servicesReqd.Add( "Audit Specs" );
+			}			
+
+			return summary;
 		}
 
 		public bool UpdateSpecRequest( SpecRequestInformation sInfo )
@@ -489,6 +593,7 @@ namespace PWDRepositories
 			specInfo.Received = sInfo.Received;
 			specInfo.SPLQuote = sInfo.SPLQuote;
 			specInfo.IsGoodForWeb = sInfo.IsCompleted && sInfo.IsGoodForWeb;
+			bool bDoCompleteEmail = sInfo.IsCompleted && !specInfo.IsCompleted;
 			specInfo.IsCompleted = sInfo.IsCompleted;
 			specInfo.Footprint = sInfo.Footprint;
 
@@ -528,9 +633,67 @@ namespace PWDRepositories
 				}
 			}
 
-			return database.SaveChanges() > 0;
+			if( database.SaveChanges() > 0 )
+			{
+				database.Refresh( System.Data.Objects.RefreshMode.StoreWins, specInfo );
+
+				List<EmailSender.EmailTarget> emailAddresses = new List<EmailSender.EmailTarget>();
+				if( specInfo.CreatedByUser != null )
+				{
+					emailAddresses.Add( new EmailSender.EmailTarget() { EmailAddress = specInfo.CreatedByUser.Email, FirstName = specInfo.CreatedByUser.FirstName } );
+				}
+				if( specInfo.DealerSalesRep != null )
+				{
+					if( specInfo.DealerSalesRepID != specInfo.CreatedByUserId )
+					{
+						emailAddresses.Add( new EmailSender.EmailTarget() { EmailAddress = specInfo.DealerSalesRep.Email, FirstName = specInfo.DealerSalesRep.FirstName } );
+					}
+				}
+				if( specInfo.PaoliSalesRepMember != null )
+				{
+					if( specInfo.PaoliSalesRepMemberID != specInfo.CreatedByUserId )
+					{
+						emailAddresses.Add( new EmailSender.EmailTarget() { EmailAddress = specInfo.PaoliSalesRepMember.Email, FirstName = specInfo.PaoliSalesRepMember.FirstName } );
+					}
+				}
+				else if( specInfo.PaoliSalesRepGroup != null )
+				{
+					emailAddresses.AddRange( specInfo.PaoliSalesRepGroup.Users
+						.Where( u => u.UserID != specInfo.CreatedByUserId )
+						.Select( u => new EmailSender.EmailTarget() { EmailAddress = u.Email, FirstName = u.FirstName } ) );
+				}
+
+				foreach( var emailTarget in emailAddresses )
+				{
+					( new CompletedSpecRequestEmailSender() ).SubmitCompletedRequestEmail( emailTarget.EmailAddress, ToEmailCompleteSpecRequestSummary( specInfo, emailTarget ) );
+				}
+
+				return true;
+			}
+			return false;
 		}
 
+		private CompletedSpecRequestEmailSender.EmailCompleteSpecRequestSummary ToEmailCompleteSpecRequestSummary( SpecRequest request, EmailSender.EmailTarget target )
+		{
+			var summary = new CompletedSpecRequestEmailSender.EmailCompleteSpecRequestSummary()
+			{
+				requestId = request.RequestID,
+				requestName = request.Name,
+				firstName = target.FirstName,
+				projectName = request.ProjectName,
+				specTeamMember = request.SpecTeamMember != null ? request.SpecTeamMember.FullName : "a member of our team"
+			};
+
+			summary.fullFileList = request.SpecRequestFiles
+				.Select( srf => new CompletedSpecRequestEmailSender.EmailCompleteSpecRequestSummary.FileDetail()
+				{
+					fileName = srf.Name,
+					filePath = request.Name + "/" + ( srf.Extension.Any() ? ( srf.Extension + "/" ) : "" ) + srf.VersionNumber.ToString()
+				} )
+				.ToList();
+
+			return summary;
+		}
 		private bool DeleteRequestFile( SpecRequestFile sFile, string rootLocation )
 		{
 			var fileLocation = Path.Combine( rootLocation, sFile.Extension, sFile.VersionNumber.ToString(), sFile.Name );

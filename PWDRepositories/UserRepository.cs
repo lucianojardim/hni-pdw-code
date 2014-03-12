@@ -9,6 +9,7 @@ using System.IO;
 using System.Drawing;
 using System.Configuration;
 using PDWModels;
+using PDWInfrastructure.EmailSenders;
 
 namespace PWDRepositories
 {
