@@ -688,6 +688,7 @@ namespace PWDRepositories
 			};
 
 			summary.fullFileList = request.SpecRequestFiles
+				.Where( f => f.IsSpecTeam )
 				.Select( srf => new CompletedSpecRequestEmailSender.EmailCompleteSpecRequestSummary.FileDetail()
 				{
 					fileName = srf.Name,
