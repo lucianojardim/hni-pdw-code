@@ -637,35 +637,38 @@ namespace PWDRepositories
 			{
 				database.Refresh( System.Data.Objects.RefreshMode.StoreWins, specInfo );
 
-				List<EmailSender.EmailTarget> emailAddresses = new List<EmailSender.EmailTarget>();
-				if( specInfo.CreatedByUser != null )
+				if( bDoCompleteEmail )
 				{
-					emailAddresses.Add( new EmailSender.EmailTarget() { EmailAddress = specInfo.CreatedByUser.Email, FirstName = specInfo.CreatedByUser.FirstName } );
-				}
-				if( specInfo.DealerSalesRep != null )
-				{
-					if( specInfo.DealerSalesRepID != specInfo.CreatedByUserId )
+					List<EmailSender.EmailTarget> emailAddresses = new List<EmailSender.EmailTarget>();
+					if( specInfo.CreatedByUser != null )
 					{
-						emailAddresses.Add( new EmailSender.EmailTarget() { EmailAddress = specInfo.DealerSalesRep.Email, FirstName = specInfo.DealerSalesRep.FirstName } );
+						emailAddresses.Add( new EmailSender.EmailTarget() { EmailAddress = specInfo.CreatedByUser.Email, FirstName = specInfo.CreatedByUser.FirstName } );
 					}
-				}
-				if( specInfo.PaoliSalesRepMember != null )
-				{
-					if( specInfo.PaoliSalesRepMemberID != specInfo.CreatedByUserId )
+					if( specInfo.DealerSalesRep != null )
 					{
-						emailAddresses.Add( new EmailSender.EmailTarget() { EmailAddress = specInfo.PaoliSalesRepMember.Email, FirstName = specInfo.PaoliSalesRepMember.FirstName } );
+						if( specInfo.DealerSalesRepID != specInfo.CreatedByUserId )
+						{
+							emailAddresses.Add( new EmailSender.EmailTarget() { EmailAddress = specInfo.DealerSalesRep.Email, FirstName = specInfo.DealerSalesRep.FirstName } );
+						}
 					}
-				}
-				else if( specInfo.PaoliSalesRepGroup != null )
-				{
-					emailAddresses.AddRange( specInfo.PaoliSalesRepGroup.Users
-						.Where( u => u.UserID != specInfo.CreatedByUserId )
-						.Select( u => new EmailSender.EmailTarget() { EmailAddress = u.Email, FirstName = u.FirstName } ) );
-				}
+					if( specInfo.PaoliSalesRepMember != null )
+					{
+						if( specInfo.PaoliSalesRepMemberID != specInfo.CreatedByUserId )
+						{
+							emailAddresses.Add( new EmailSender.EmailTarget() { EmailAddress = specInfo.PaoliSalesRepMember.Email, FirstName = specInfo.PaoliSalesRepMember.FirstName } );
+						}
+					}
+					else if( specInfo.PaoliSalesRepGroup != null )
+					{
+						emailAddresses.AddRange( specInfo.PaoliSalesRepGroup.Users
+							.Where( u => u.UserID != specInfo.CreatedByUserId )
+							.Select( u => new EmailSender.EmailTarget() { EmailAddress = u.Email, FirstName = u.FirstName } ) );
+					}
 
-				foreach( var emailTarget in emailAddresses )
-				{
-					( new CompletedSpecRequestEmailSender() ).SubmitCompletedRequestEmail( emailTarget.EmailAddress, ToEmailCompleteSpecRequestSummary( specInfo, emailTarget ) );
+					foreach( var emailTarget in emailAddresses )
+					{
+						( new CompletedSpecRequestEmailSender() ).SubmitCompletedRequestEmail( emailTarget.EmailAddress, ToEmailCompleteSpecRequestSummary( specInfo, emailTarget ) );
+					}
 				}
 
 				return true;
