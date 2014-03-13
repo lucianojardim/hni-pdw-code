@@ -55,6 +55,7 @@
     <Compile Include="ImageFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Series.cs" />
+    <Compile Include="Territory.cs" />
     <Compile Include="Typical.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>

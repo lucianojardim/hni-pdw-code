@@ -9,7 +9,7 @@
 
 <a href="@Url.Action( "Add", "User" )" id="addNewUser">Add New</a><br />
 Account Type: @Html.DropDownList( "AccountType", ProductDataWarehouse.Controllers.UserController.GetUserRoleFilterList() )<br />
-Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.CompanyController.GetTerritoryDDList() )
+Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.CompanyController.GetTerritoryDDList( true ) )
 <div>
     <table id="userList">
     <thead></thead>

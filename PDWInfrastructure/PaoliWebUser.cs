@@ -13,7 +13,7 @@ namespace PDWInfrastructure
 		public static class PaoliCompanyType
 		{
 			public const int Paoli = 1;
-			public const int PaoliRepGroup = 2;
+			public const int PaoliRepGroup = 2;	// this needs to change in Territory partial class as well - can't access this at that level
 			public const int Dealer = 3;
 			public const int EndUser = 4;
 			public const int AandDUser = 5;

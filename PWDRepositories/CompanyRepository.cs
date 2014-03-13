@@ -341,7 +341,7 @@ namespace PWDRepositories
 		{
 			return database.Territories
 				.ToList()
-				.Select( t => new TerritorySummary() { TerritoryID = t.TerritoryID, Name = t.Name } );
+				.Select( t => new TerritorySummary() { TerritoryID = t.TerritoryID, Name = t.Name, SalesRepCompany = t.SalesRepCompanyName } );
 		}
 
 		public ClosestRepInfo GetSalesRep( string zipCode )

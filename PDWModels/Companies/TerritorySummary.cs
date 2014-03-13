@@ -9,5 +9,6 @@ namespace PDWModels.Companies
 	{
 		public int TerritoryID { get; set; }
 		public string Name { get; set; }
+		public string SalesRepCompany { get; set; }
 	}
 }

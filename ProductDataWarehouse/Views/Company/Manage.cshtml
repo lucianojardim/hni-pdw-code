@@ -9,7 +9,7 @@
 
 <a href="@Url.Action( "Add", "Company" )" id="addNewCompany">Add New</a><br />
 Company Type: @Html.DropDownList( "CompanyType", ProductDataWarehouse.Controllers.CompanyController.GetCompanyTypeFilterList() )<br />
-Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.CompanyController.GetTerritoryDDList() )
+Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.CompanyController.GetTerritoryDDList( true ) )
 <div>
     <table id="companyList">
     <thead></thead>
