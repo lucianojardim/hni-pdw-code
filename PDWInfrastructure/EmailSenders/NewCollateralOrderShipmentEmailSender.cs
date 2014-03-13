@@ -43,6 +43,22 @@ namespace PDWInfrastructure.EmailSenders
 					return address;
 				}
 			}
+
+			public string TrackingNumberList
+			{
+				get
+				{
+					if( shippingCarrier.ToLower().Contains( "fedex" ) )
+					{
+						return "<a href=\"https://www.fedex.com/fedextrack/?tracknumbers=" + 
+							string.Join( ",", trackingNumbers.Where( t => ( t ?? "" ).Any() ) ) + "\">" +
+							string.Join( ", ", trackingNumbers.Where( t => ( t ?? "" ).Any() ) ) +
+							"</a>";
+					}
+
+					return string.Join( ", ", trackingNumbers.Where( t => ( t ?? "" ).Any() ) );
+				}
+			}
 		}
 
 		public NewCollateralOrderShipmentEmailSender( string template )
@@ -72,7 +88,7 @@ namespace PDWInfrastructure.EmailSenders
 
 					template.Replace( "[{ShippingSpeed}]", summary.shippingSpeed );
 					template.Replace( "[{ShippingCarrier}]", summary.shippingCarrier );
-					template.Replace( "[{TrackingNumber}]", string.Join( ", ", summary.trackingNumbers.Where( t => ( t ?? "" ).Any() ) ) );
+					template.Replace( "[{TrackingNumber}]", summary.TrackingNumberList );
 
 					template.Replace( "[{TrackingPlural}]", summary.trackingNumbers.Where( t => ( t ?? "" ).Any() ).Count() > 1 ? "s are" : " is" );
 
