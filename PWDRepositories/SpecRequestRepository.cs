@@ -486,32 +486,38 @@ namespace PWDRepositories
 				scopeDescription = request.ProjectSize
 			};
 
+			Territory dsrTerritory = null;
 			if( request.DealerSalesRepID.HasValue )
 			{
 				summary.placingNameAndCompany = string.Format( "{0} at {1}", request.DealerSalesRep.FullName, request.DealerSalesRep.Company.Name );
-				summary.territoryID = request.DealerSalesRep.Company.TerritoryID ?? 0;
+				dsrTerritory = request.DealerSalesRep.Company.Territory;
 			}
 			else if( (request.DealerPOCText ?? "").Any() )
 			{
 				summary.placingNameAndCompany = string.Format( "{0} at {1}", request.DealerPOCText, request.PrimaryCompany.Name );
-				summary.territoryID = request.PrimaryCompany.TerritoryID ?? 0;
+				dsrTerritory = request.PrimaryCompany.Territory;
 			}
 			else if( request.PrimaryCompanyID.HasValue )
 			{
 				summary.placingNameAndCompany = string.Format( "{0}", request.PrimaryCompany.Name );
-				summary.territoryID = request.PrimaryCompany.TerritoryID ?? 0;
+				dsrTerritory = request.PrimaryCompany.Territory;
 			}
 			else if( request.PaoliSalesRepMemberID.HasValue )
 			{
 				summary.placingNameAndCompany = string.Format( "{0} at {1}", request.PaoliSalesRepMember.FullName, request.PaoliSalesRepMember.Company.Name );
-				summary.territoryID = request.PaoliSalesRepMember.Company.TerritoryID ?? 0;
+				dsrTerritory = request.PaoliSalesRepMember.Company.Territory;
 			}
 			else if( request.PaoliSalesRepGroupID.HasValue )
 			{
 				summary.placingNameAndCompany = string.Format( "{0}", request.PaoliSalesRepGroup.Name );
-				summary.territoryID = request.PaoliSalesRepGroup.TerritoryID ?? 0;
+				dsrTerritory = request.PaoliSalesRepGroup.Territory;
 			}
-			
+
+			if( dsrTerritory != null )
+			{
+				summary.territoryName = dsrTerritory.TerritoryID.ToString() + " - " + dsrTerritory.SalesRepCompanyName;
+			}
+
 			var fullSeriesList = string.Join( ",", request.Casegoods, request.Conferencing, request.Seating );
 			summary.seriesNames = new List<string>();
 			if( (fullSeriesList ?? "").Any() )

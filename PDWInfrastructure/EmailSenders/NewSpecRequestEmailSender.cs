@@ -12,7 +12,7 @@ namespace PDWInfrastructure.EmailSenders
 			public int requestId { get; set; }
 			public string requestName { get; set; }
 			public string placingNameAndCompany { get; set; }
-			public int territoryID { get; set; }
+			public string territoryName { get; set; }
 			public string firstName { get; set; }
 			public string companyName { get; set; }
 			public string projectName { get; set; }
@@ -41,7 +41,7 @@ namespace PDWInfrastructure.EmailSenders
 					template.Replace( "[{RequestID}]", summary.requestId.ToString() );
 					template.Replace( "[{RequestTNum}]", summary.requestName );
 					template.Replace( "[{PlacingNameAndCompany}]", summary.placingNameAndCompany );
-					template.Replace( "[{TerritoryID}]", summary.territoryID.ToString() );
+					template.Replace( "[{TerritoryName}]", summary.territoryName );
 
 					template.Replace( "[{FirstName}]", summary.firstName );
 					template.Replace( "[{CompanyName}]", summary.companyName );
