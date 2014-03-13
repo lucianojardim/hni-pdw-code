@@ -88,10 +88,10 @@
                     { "sName": "Status", "sTitle": "Status", "aTargets": [4], "mDataProp": "Status", "sWidth": "10%",
                     	"fnRender": function (oObj) {
                     		var s = '';
-                    		if (oObj.aData["IsOvernight"]) {
-                    			s += '<img src="@Url.Content( "~/Content/images/SeriousWarning.png" )" />';
-                    		}
                     		s += '<a href=\"@Url.Action( "ShipOrder", "Collateral" )/' + oObj.aData["OrderID"] + '">' + oObj.aData["Status"] + '</a>';
+                    		if (oObj.aData["IsOvernight"]) {
+                    			s += ' <img src="@Url.Content( "~/Content/images/SeriousWarning.png" )" />';
+                    		}
                     		return s;
                     	}
                     }
