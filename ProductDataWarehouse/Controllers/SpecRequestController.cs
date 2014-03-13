@@ -273,7 +273,7 @@ namespace ProductDataWarehouse.Controllers
 				{
 					SpecRequestRepository sRepository = new SpecRequestRepository();
 
-					sRepository.UpdateTypical( tInfo, typeOfSubmit != "Update" );
+					sRepository.UpdateTypical( tInfo, typeOfSubmit != "Save Changes" );
 
 					ViewBag.CloseFancyBox = true;
 

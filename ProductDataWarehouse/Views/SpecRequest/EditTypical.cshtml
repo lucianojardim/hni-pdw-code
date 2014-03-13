@@ -208,7 +208,7 @@ else
 		<tr><td>@Html.MJLabelFor( m => m.dwgFile, true )</td><td><input type="file" id="dwgFile" name="dwgFile" accept=".dwg" /></td><td colspan="2"><label>@Html.DisplayFor( m => m.dwgFileName )</label></td></tr>
 		</table>
 @Html.ValidationSummary()
-        <input type="submit" class="btn_type1" value="Update" id="submitBtn" name="typeOfSubmit" />
+        <input type="submit" class="btn_type1" value="Save Changes" id="submitBtn" name="typeOfSubmit" />
 		if( !Model.IsPublished )
 		{
         <input type="submit" class="btn_type1" value="Publish" id="publishBtn" name="typeOfSubmit" />
