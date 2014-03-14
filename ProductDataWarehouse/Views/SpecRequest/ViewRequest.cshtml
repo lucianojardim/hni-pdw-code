@@ -88,14 +88,11 @@
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
 					<td class="dataLabel">@Html.MJLabelFor( m => m.NeedFloorplanSpecs, true )</td><td class="dataInfoThin">@Html.DisplayFor( m => m.NeedFloorplanSpecs, templateName: "YesNo" )</td>
-					<td rowspan="6" id="fileContainer" class="dataInfo">@Html.MJLabelFor( m => m.addlFiles, true )<br />@Html.DisplayFor( m => m.addlFileList, templateName: "FullFileListing" )</td>
-					<td rowspan="6" class="dataInfo">@Html.MJLabelFor( m => m.Notes, true ) <br/> @Html.DisplayFor( m => m.Notes )</td>
+					<td rowspan="5" id="fileContainer" class="dataInfo">@Html.MJLabelFor( m => m.addlFiles, true )<br />@Html.DisplayFor( m => m.addlFileList, templateName: "FullFileListing" )</td>
+					<td rowspan="5" class="dataInfo">@Html.MJLabelFor( m => m.Notes, true ) <br/> @Html.DisplayFor( m => m.Notes )</td>
 				</tr>
 				<tr>
 					<td class="dataLabel">@Html.MJLabelFor( m => m.NeedPhotoRendering, true )</td><td class="dataInfoThin">@Html.DisplayFor( m => m.NeedPhotoRendering, templateName: "YesNo" )</td>
-				</tr>
-				<tr>
-					<td class="dataLabel">@Html.MJLabelFor( m => m.Need3DDrawing, true )</td><td class="dataInfoThin">@Html.DisplayFor( m => m.Need3DDrawing, templateName: "YesNo" )</td>
 				</tr>
 				<tr>
 					<td class="dataLabel">@Html.MJLabelFor( m => m.Need2DDrawing, true )</td><td class="dataInfoThin">@Html.DisplayFor( m => m.Need2DDrawing, templateName: "YesNo" )</td>

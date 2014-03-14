@@ -63,8 +63,10 @@ namespace PDWModels.SpecRequests
 
 		[DisplayName( "Floorplan Specifications" )]
 		public bool NeedFloorplanSpecs { get; set; }
+		/* obselete
 		[DisplayName( "3D Drawing" )]
 		public bool Need3DDrawing { get; set; }
+		 */
 		[DisplayName( "Value Engineering" )]
 		public bool NeedValueEng { get; set; }
 		[DisplayName( "Photo Rendering" )]

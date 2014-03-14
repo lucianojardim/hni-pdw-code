@@ -352,7 +352,6 @@ namespace PWDRepositories
 				EndCustomer = sInfo.EndCustomer,
 				ProjectSize = sInfo.ProjectSize,
 				NeedFloorplanSpecs = sInfo.NeedFloorplanSpecs,
-				Need3DDrawing = sInfo.Need3DDrawing,
 				NeedValueEng = sInfo.NeedValueEng,
 				NeedPhotoRendering = sInfo.NeedPhotoRendering,
 				Need2DDrawing = sInfo.Need2DDrawing,
@@ -396,7 +395,6 @@ namespace PWDRepositories
 			newSpec.EndCustomer = sInfo.EndCustomer;
 			newSpec.ProjectSize = sInfo.ProjectSize;
 			newSpec.NeedFloorplanSpecs = sInfo.NeedFloorplanSpecs;
-			newSpec.Need3DDrawing = sInfo.Need3DDrawing;
 			newSpec.NeedValueEng = sInfo.NeedValueEng;
 			newSpec.NeedPhotoRendering = sInfo.NeedPhotoRendering;
 			newSpec.Need2DDrawing = sInfo.Need2DDrawing;
@@ -539,10 +537,6 @@ namespace PWDRepositories
 			{
 				summary.servicesReqd.Add( "2D Drawing" );
 			}
-			if( request.Need3DDrawing )
-			{
-				summary.servicesReqd.Add( "3D Drawing" );
-			}
 			if( request.NeedValueEng )
 			{
 				summary.servicesReqd.Add( "Value Engineering" );
@@ -577,7 +571,6 @@ namespace PWDRepositories
 			specInfo.EndCustomer = sInfo.EndCustomer;
 			specInfo.ProjectSize = sInfo.ProjectSize;
 			specInfo.NeedFloorplanSpecs = sInfo.NeedFloorplanSpecs;
-			specInfo.Need3DDrawing = sInfo.Need3DDrawing;
 			specInfo.NeedValueEng = sInfo.NeedValueEng;
 			specInfo.NeedPhotoRendering = sInfo.NeedPhotoRendering;
 			specInfo.Need2DDrawing = sInfo.Need2DDrawing;
