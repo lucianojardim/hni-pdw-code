@@ -38,6 +38,7 @@
     <add key="HomePageRedirect" value="http://www.paoli.com/"/>
     <add key="EmailTemplates" value="C:\Projects\Paoli\ProductDataWarehouse\ProductDataWarehouse\Content\Email Templates"/>
     <add key="EmailRedirection" value="true"/>
+    <add key="EmailDisabledUsers" value="true"/>
   </appSettings>
 
 	<encSettings>

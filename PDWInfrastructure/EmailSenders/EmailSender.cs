@@ -199,6 +199,19 @@ namespace PDWInfrastructure.EmailSenders
 			template.Replace( "[{MachineName}]", extraInfo );
 		}
 
+		public static bool EmailDisabledUsers
+		{
+			get
+			{
+				bool e = false;
+				if( !bool.TryParse( ConfigurationManager.AppSettings["EmailDisabledUsers"], out e ) )
+				{
+					return false;
+				}
+				return e;
+			}
+		}
+
 		private void PerformEmailOverride( StringBuilder template, IList<string> toList )
 		{
 			if( EmailOverride )

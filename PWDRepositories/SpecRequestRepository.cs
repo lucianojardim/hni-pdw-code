@@ -449,7 +449,7 @@ namespace PWDRepositories
 
 					if( newSpec.PaoliSalesRepMemberID.HasValue )
 					{
-						if( newSpec.PaoliSalesRepMemberID.Value != newSpec.CreatedByUserId.Value )
+						if( newSpec.PaoliSalesRepMemberID.Value != newSpec.CreatedByUserId.Value && (newSpec.PaoliSalesRepMember.Enabled || EmailSender.EmailDisabledUsers) )
 						{
 							( new NewSpecRequestEmailSender( "NewSpecRequestSalesRep" ) ).SubmitNewRequestEmail( newSpec.PaoliSalesRepMember.Email,
 								ToEmailSpecRequestSummary( newSpec, new EmailSender.EmailTarget() { EmailAddress = newSpec.PaoliSalesRepMember.Email, FirstName = newSpec.PaoliSalesRepMember.FirstName } ) );
@@ -459,7 +459,7 @@ namespace PWDRepositories
 					{
 						foreach( var salesRepUser in newSpec.PaoliSalesRepGroup.Users )
 						{
-							if( salesRepUser.UserID != newSpec.CreatedByUserId.Value )
+							if( salesRepUser.UserID != newSpec.CreatedByUserId.Value && (salesRepUser.Enabled || EmailSender.EmailDisabledUsers) )
 							{
 								( new NewSpecRequestEmailSender( "NewSpecRequestSalesRep" ) ).SubmitNewRequestEmail( salesRepUser.Email,
 									ToEmailSpecRequestSummary( newSpec, new EmailSender.EmailTarget() { EmailAddress = salesRepUser.Email, FirstName = salesRepUser.FirstName } ) );
@@ -652,14 +652,14 @@ namespace PWDRepositories
 					}
 					if( specInfo.DealerSalesRep != null )
 					{
-						if( specInfo.DealerSalesRepID != specInfo.CreatedByUserId )
+						if( specInfo.DealerSalesRepID != specInfo.CreatedByUserId && (specInfo.DealerSalesRep.Enabled || EmailSender.EmailDisabledUsers) )
 						{
 							emailAddresses.Add( new EmailSender.EmailTarget() { EmailAddress = specInfo.DealerSalesRep.Email, FirstName = specInfo.DealerSalesRep.FirstName } );
 						}
 					}
 					if( specInfo.PaoliSalesRepMember != null )
 					{
-						if( specInfo.PaoliSalesRepMemberID != specInfo.CreatedByUserId )
+						if( specInfo.PaoliSalesRepMemberID != specInfo.CreatedByUserId && (specInfo.PaoliSalesRepMember.Enabled || EmailSender.EmailDisabledUsers) )
 						{
 							emailAddresses.Add( new EmailSender.EmailTarget() { EmailAddress = specInfo.PaoliSalesRepMember.Email, FirstName = specInfo.PaoliSalesRepMember.FirstName } );
 						}
@@ -667,7 +667,7 @@ namespace PWDRepositories
 					else if( specInfo.PaoliSalesRepGroup != null )
 					{
 						emailAddresses.AddRange( specInfo.PaoliSalesRepGroup.Users
-							.Where( u => u.UserID != specInfo.CreatedByUserId )
+							.Where( u => u.UserID != specInfo.CreatedByUserId && (u.Enabled || EmailSender.EmailDisabledUsers) )
 							.Select( u => new EmailSender.EmailTarget() { EmailAddress = u.Email, FirstName = u.FirstName } ) );
 					}
 

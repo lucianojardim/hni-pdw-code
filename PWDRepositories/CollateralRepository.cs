@@ -630,29 +630,39 @@ namespace PWDRepositories
 				case NewOrderInformation.RPPaoliMember:
 					if( orderInfo.PaoliMember != null )
 					{
-						requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.PaoliMember.Email, FirstName = orderInfo.PaoliMember.FirstName } );
+						if( orderInfo.PaoliMember.Enabled || EmailSender.EmailDisabledUsers )
+						{
+							requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.PaoliMember.Email, FirstName = orderInfo.PaoliMember.FirstName } );
+						}
 					}
 					break;
 				case NewOrderInformation.RPPaoliRepresentative:
 					if( orderInfo.PaoliSalesRepMember != null )
 					{
-						requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.PaoliSalesRepMember.Email, FirstName = orderInfo.PaoliSalesRepMember.FirstName } );
+						if( orderInfo.PaoliSalesRepMember.Enabled || EmailSender.EmailDisabledUsers )
+						{
+							requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.PaoliSalesRepMember.Email, FirstName = orderInfo.PaoliSalesRepMember.FirstName } );
+						}
 					}
 					break;
 				case NewOrderInformation.RPDealer:
 					if( orderInfo.DealerMember != null )
 					{
-						requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.DealerMember.Email, FirstName = orderInfo.DealerMember.FirstName } );
+						if( orderInfo.DealerMember.Enabled || EmailSender.EmailDisabledUsers )
+						{
+							requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.DealerMember.Email, FirstName = orderInfo.DealerMember.FirstName } );
+						}
 					}
 					if( orderInfo.Dealer != null )
 					{
 						extraSalesRepEmails.AddRange( database.Companies.Where( c => c.TerritoryID == orderInfo.Dealer.TerritoryID && c.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup )
 							.SelectMany( srg => srg.Users )
+							.Where( u => u.Enabled || EmailSender.EmailDisabledUsers )
 							.Select( srgm => new EmailSender.EmailTarget() { EmailAddress = srgm.Email, FirstName = srgm.FirstName } ) );
 					}
 					break;
 				case NewOrderInformation.RPEndUser:
-					requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.EndUserEMailAddress, FirstName = orderInfo.EndUserFirstName } );
+//					requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.EndUserEMailAddress, FirstName = orderInfo.EndUserFirstName } );
 					break;
 			}
 
@@ -661,29 +671,39 @@ namespace PWDRepositories
 				case NewOrderInformation.RPPaoliMember:
 					if( orderInfo.SPPaoliMember != null )
 					{
-						requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.SPPaoliMember.Email, FirstName = orderInfo.SPPaoliMember.FirstName } );
+						if( orderInfo.SPPaoliMember.Enabled || EmailSender.EmailDisabledUsers )
+						{
+							requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.SPPaoliMember.Email, FirstName = orderInfo.SPPaoliMember.FirstName } );
+						}
 					}
 					break;
 				case NewOrderInformation.RPPaoliRepresentative:
 					if( orderInfo.SPPaoliSalesRepMember != null )
 					{
-						requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.SPPaoliSalesRepMember.Email, FirstName = orderInfo.SPPaoliSalesRepMember.FirstName } );
+						if( orderInfo.SPPaoliSalesRepMember.Enabled || EmailSender.EmailDisabledUsers )
+						{
+							requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.SPPaoliSalesRepMember.Email, FirstName = orderInfo.SPPaoliSalesRepMember.FirstName } );
+						}
 					}
 					break;
 				case NewOrderInformation.RPDealer:
 					if( orderInfo.SPDealerMember != null )
 					{
-						requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.SPDealerMember.Email, FirstName = orderInfo.SPDealerMember.FirstName } );
+						if( orderInfo.SPDealerMember.Enabled || EmailSender.EmailDisabledUsers )
+						{
+							requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.SPDealerMember.Email, FirstName = orderInfo.SPDealerMember.FirstName } );
+						}
 					}
 					if( orderInfo.SPDealer != null )
 					{
 						extraSalesRepEmails.AddRange( database.Companies.Where( c => c.TerritoryID == orderInfo.SPDealer.TerritoryID && c.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup )
 							.SelectMany( srg => srg.Users )
+							.Where( u => u.Enabled || EmailSender.EmailDisabledUsers )
 							.Select( srgm => new EmailSender.EmailTarget() { EmailAddress = srgm.Email, FirstName = srgm.FirstName } ) );
 					}
 					break;
 				case NewOrderInformation.RPEndUser:
-					requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.SPEndUserEMailAddress, FirstName = orderInfo.SPEndUserFirstName } );
+//					requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.SPEndUserEMailAddress, FirstName = orderInfo.SPEndUserFirstName } );
 					break;
 			}
 
