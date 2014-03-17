@@ -54,6 +54,7 @@ namespace PWDRepositories
 			newCompany.CompanyType = cInfo.CompanyType;
 			newCompany.TerritoryID = PaoliWebUser.PaoliCompanyType.HasTerritory.Contains( cInfo.CompanyType ) ? cInfo.TerritoryID : null;
 			newCompany.PaoliMemberID = PaoliWebUser.PaoliCompanyType.HasTerritory.Contains( cInfo.CompanyType ) ? cInfo.PaoliMemberID : null;
+			newCompany.PaoliSalesRepMemberID = cInfo.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ? cInfo.PaoliSalesRepMemberID : null;
 			newCompany.BusinessUnitName = cInfo.BusinessUnitName;
 			newCompany.PublicAddress1 = cInfo.PublicAddress1;
 			newCompany.PublicAddress2 = cInfo.PublicAddress2;
@@ -136,6 +137,7 @@ namespace PWDRepositories
 				CompanyType = eCompany.CompanyType,
 				TerritoryID = eCompany.TerritoryID,
 				PaoliMemberID = eCompany.PaoliMemberID,
+				PaoliSalesRepMemberID = eCompany.PaoliSalesRepMemberID,
 				BusinessUnitName = eCompany.BusinessUnitName,
 				LockCompanyType = eCompany.Users.Any() || eCompany.SpecRequests.Any() || eCompany.SpecRequests1.Any() || eCompany.CollateralOrders.Any() || eCompany.CollateralOrders1.Any(),
 				ContactEmail = eCompany.ContactEmail,
@@ -189,6 +191,7 @@ namespace PWDRepositories
 			eCompany.CompanyType = cInfo.CompanyType;
 			eCompany.TerritoryID = PaoliWebUser.PaoliCompanyType.HasTerritory.Contains( cInfo.CompanyType ) ? cInfo.TerritoryID : null;
 			eCompany.PaoliMemberID = PaoliWebUser.PaoliCompanyType.HasTerritory.Contains( cInfo.CompanyType ) ? cInfo.PaoliMemberID : null;
+			eCompany.PaoliSalesRepMemberID = cInfo.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ? cInfo.PaoliSalesRepMemberID : null;
 			eCompany.BusinessUnitName = cInfo.BusinessUnitName;
 			eCompany.PublicAddress1 = cInfo.PublicAddress1;
 			eCompany.PublicAddress2 = cInfo.PublicAddress2;

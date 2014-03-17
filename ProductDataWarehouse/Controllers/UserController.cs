@@ -372,6 +372,17 @@ namespace ProductDataWarehouse.Controllers
 			return theList;
 		}
 
+		public JsonResult GetPaoliSalesRepListForTerritory( int territoryId, bool enabledOnly )
+		{
+			var theList = ( new UserRepository() ).GetSalesRepListForTerritory( territoryId, enabledOnly );
+
+			return Json( new
+			{
+				theList = theList
+			},
+				JsonRequestBehavior.AllowGet );
+		}
+
 		public JsonResult GetPaoliSalesRepListForCompany( int companyId, bool enabledOnly )
 		{
 			var theList = ( new UserRepository() ).GetUserListForAccountType( companyId, PaoliWebUser.PaoliWebRole.PaoliSalesRep, enabledOnly );

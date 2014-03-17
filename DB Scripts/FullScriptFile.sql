@@ -1502,3 +1502,10 @@ go
 alter table [SpecRequests] add [GrommetPosition] [ntext] null
 go
 go
+/********************************************
+ * db0062_Companies_PaoliSalesRepMember.sql *
+ ********************************************/
+alter table [Companies] add [PaoliSalesRepMemberID] [int] null constraint [fkCompany_PaoliSalesRepMember] foreign key references [Users](UserID)
+go
+
+go

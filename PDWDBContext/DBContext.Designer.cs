@@ -83,6 +83,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCOrder_SPSalesRep", "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.Company), "CollateralOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrder), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCOrder_SPSalesRepMember", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "CollateralOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrder), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCompany_PaoliMember", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Company), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCompany_PaoliSalesRepMember", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Company), true)]
 
 #endregion
 
@@ -5726,6 +5727,30 @@ namespace PDWDBContext
         private Nullable<global::System.Int32> _PaoliMemberID;
         partial void OnPaoliMemberIDChanging(Nullable<global::System.Int32> value);
         partial void OnPaoliMemberIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> PaoliSalesRepMemberID
+        {
+            get
+            {
+                return _PaoliSalesRepMemberID;
+            }
+            set
+            {
+                OnPaoliSalesRepMemberIDChanging(value);
+                ReportPropertyChanging("PaoliSalesRepMemberID");
+                _PaoliSalesRepMemberID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("PaoliSalesRepMemberID");
+                OnPaoliSalesRepMemberIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _PaoliSalesRepMemberID;
+        partial void OnPaoliSalesRepMemberIDChanging(Nullable<global::System.Int32> value);
+        partial void OnPaoliSalesRepMemberIDChanged();
 
         #endregion
 
@@ -6018,6 +6043,44 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("PaoliPDWModel.fkCompany_PaoliMember", "User", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkCompany_PaoliSalesRepMember", "User")]
+        public User PaoliSalesRepMember
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkCompany_PaoliSalesRepMember", "User").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkCompany_PaoliSalesRepMember", "User").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<User> PaoliSalesRepMemberReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkCompany_PaoliSalesRepMember", "User");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("PaoliPDWModel.fkCompany_PaoliSalesRepMember", "User", value);
                 }
             }
         }
@@ -14285,6 +14348,28 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Company>("PaoliPDWModel.fkCompany_PaoliMember", "Company", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkCompany_PaoliSalesRepMember", "Company")]
+        public EntityCollection<Company> CompaniesAsPaoliSalesRep
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Company>("PaoliPDWModel.fkCompany_PaoliSalesRepMember", "Company");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Company>("PaoliPDWModel.fkCompany_PaoliSalesRepMember", "Company", value);
                 }
             }
         }

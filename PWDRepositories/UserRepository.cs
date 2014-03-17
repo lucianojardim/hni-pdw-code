@@ -189,7 +189,7 @@ namespace PWDRepositories
 				AccountType = eUser.AccountType,
 				Enabled = eUser.Enabled,
 				SendWelcomeEmail = eUser.RecWelcomeEmail,
-				LockAccountType = eUser.SpecRequests.Any() || eUser.SpecRequests1.Any(),
+				LockAccountType = eUser.SpecRequests.Any() || eUser.SpecRequests1.Any() || eUser.CompaniesAsPaoliMember.Any() || eUser.CompaniesAsPaoliSalesRep.Any(),
 				UserImageFileName = eUser.ImageFileName
 			};
 		}
@@ -443,6 +443,17 @@ namespace PWDRepositories
 		{
 			return database.Users
 				.Where( u => accountTypes.Contains( u.AccountType ) || !accountTypes.Any() || accountTypes.Contains( 0 ) )
+				.Where( u => u.Enabled || !enabledOnly )
+				.ToList()
+				.OrderBy( u => u.FullName )
+				.Select( v => ToUserSummary( v ) );
+		}
+
+		public IEnumerable<UserSummary> GetSalesRepListForTerritory( int territoryId, bool enabledOnly )
+		{
+			return database.Users
+				.Where( u => u.Company.TerritoryID == territoryId )
+				.Where( u => u.AccountType == PaoliWebUser.PaoliWebRole.PaoliSalesRep )
 				.Where( u => u.Enabled || !enabledOnly )
 				.ToList()
 				.OrderBy( u => u.FullName )

@@ -89,6 +89,8 @@ namespace PDWModels.Companies
 		public string BusinessUnitName { get; set; }
 		[DisplayName( "Paoli Member" )]
 		public int? PaoliMemberID { get; set; }
+		[DisplayName( "Primary Sales Rep" )]
+		public int? PaoliSalesRepMemberID { get; set; }
 
 		public bool LockCompanyType { get; set; }
 
