@@ -439,20 +439,22 @@ namespace PWDRepositories
 			throw new ApplicationException( "Current password does not match our records." );
 		}
 
-		public IEnumerable<UserSummary> GetUserListForAccountType( List<int> accountTypes )
+		public IEnumerable<UserSummary> GetUserListForAccountType( List<int> accountTypes, bool enabledOnly )
 		{
 			return database.Users
 				.Where( u => accountTypes.Contains( u.AccountType ) || !accountTypes.Any() || accountTypes.Contains( 0 ) )
+				.Where( u => u.Enabled || !enabledOnly )
 				.ToList()
 				.OrderBy( u => u.FullName )
 				.Select( v => ToUserSummary( v ) );
 		}
 
-		public IEnumerable<UserSummary> GetUserListForAccountType( int companyId, int accountType )
+		public IEnumerable<UserSummary> GetUserListForAccountType( int companyId, int accountType, bool enabledOnly )
 		{
 			return database.Users
 				.Where( u => u.CompanyID == companyId )
 				.Where( u => u.AccountType == accountType || accountType == 0 )
+				.Where( u => u.Enabled || !enabledOnly )
 				.ToList()
 				.OrderBy( u => u.FullName )
 				.Select( v => ToUserSummary( v ) );

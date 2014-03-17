@@ -326,9 +326,9 @@ namespace ProductDataWarehouse.Controllers
 			return new List<SelectListItem>() { new SelectListItem() { Text = "All", Value = "0", Selected = true } }.Union( GetUserRoleDDList() );
 		}
 
-		private static List<SelectListItem> GetJustUserDDList( List<int> accountTypes )
+		private static List<SelectListItem> GetJustUserDDList( List<int> accountTypes, bool enabledOnly )
 		{
-			return ( new UserRepository() ).GetUserListForAccountType( accountTypes )
+			return ( new UserRepository() ).GetUserListForAccountType( accountTypes, enabledOnly )
 				.Select( u => new SelectListItem() { Value = u.UserID.ToString(), Text = u.FullName } ).ToList();
 		}
 
@@ -336,7 +336,7 @@ namespace ProductDataWarehouse.Controllers
 		{
 			var theList = GetJustUserDDList( new List<int>() { PaoliWebUser.PaoliWebRole.PaoliMemberAdmin, 
 				PaoliWebUser.PaoliWebRole.PaoliMemberMarketing, PaoliWebUser.PaoliWebRole.PaoliMemberSpecTeam, 
-				PaoliWebUser.PaoliWebRole.PaoliMemberCustomerService, PaoliWebUser.PaoliWebRole.PaoliMemberSales } );
+				PaoliWebUser.PaoliWebRole.PaoliMemberCustomerService, PaoliWebUser.PaoliWebRole.PaoliMemberSales }, true );
 
 			if( includeBlank )
 			{
@@ -348,7 +348,7 @@ namespace ProductDataWarehouse.Controllers
 
 		public static IEnumerable<SelectListItem> GetPaoliMemberDDListForCompany( bool includeBlank )
 		{
-			var theList = GetJustUserDDList( new List<int>() { PaoliWebUser.PaoliWebRole.PaoliMemberCustomerService, PaoliWebUser.PaoliWebRole.PaoliMemberSales } );
+			var theList = GetJustUserDDList( new List<int>() { PaoliWebUser.PaoliWebRole.PaoliMemberCustomerService, PaoliWebUser.PaoliWebRole.PaoliMemberSales }, true );
 
 			if( includeBlank )
 			{
@@ -360,7 +360,7 @@ namespace ProductDataWarehouse.Controllers
 
 		public static IEnumerable<SelectListItem> GetUserDDList( int accountType )
 		{
-			var theList = GetJustUserDDList( new List<int>() { accountType } );
+			var theList = GetJustUserDDList( new List<int>() { accountType }, false );
 			if( accountType == PaoliWebUser.PaoliWebRole.PaoliMemberSpecTeam )
 			{
 				theList.Insert( 0, new SelectListItem() { Text = "Not Assigned", Value = "0" } );
@@ -372,9 +372,9 @@ namespace ProductDataWarehouse.Controllers
 			return theList;
 		}
 
-		public JsonResult GetPaoliSalesRepListForCompany( int companyId )
+		public JsonResult GetPaoliSalesRepListForCompany( int companyId, bool enabledOnly )
 		{
-			var theList = ( new UserRepository() ).GetUserListForAccountType( companyId, PaoliWebUser.PaoliWebRole.PaoliSalesRep );
+			var theList = ( new UserRepository() ).GetUserListForAccountType( companyId, PaoliWebUser.PaoliWebRole.PaoliSalesRep, enabledOnly );
 
 			return Json( new
 			{
@@ -383,22 +383,9 @@ namespace ProductDataWarehouse.Controllers
 				JsonRequestBehavior.AllowGet );
 		}
 
-		public JsonResult GetDealerSalesRepListForCompany( int companyId )
+		public JsonResult GetDealerSalesRepListForCompany( int companyId, bool enabledOnly )
 		{
-			var theList = ( new UserRepository() ).GetUserListForAccountType( companyId, PaoliWebUser.PaoliWebRole.DealerSalesRep );
-
-			return Json( new
-			{
-				theList = theList
-			},
-				JsonRequestBehavior.AllowGet );
-
-		}
-
-		public JsonResult GetSpecTeamListForCompany( int companyId )
-		{
-			var theList = ( new UserRepository() ).GetUserListForAccountType( companyId, PaoliWebUser.PaoliWebRole.PaoliMemberSpecTeam )
-				.Select( u => new SelectListItem() { Value = u.UserID.ToString(), Text = u.FullName } );
+			var theList = ( new UserRepository() ).GetUserListForAccountType( companyId, PaoliWebUser.PaoliWebRole.DealerSalesRep, enabledOnly );
 
 			return Json( new
 			{

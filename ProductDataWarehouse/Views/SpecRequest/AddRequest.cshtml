@@ -305,7 +305,7 @@
     				dataType: 'json',
     				type: 'GET',
     				url: '/User/GetDealerSalesRepListForCompany',
-    				data: { companyId: $('#DealerID').val() },
+    				data: { companyId: $('#DealerID').val(), enabledOnly: true },
     				success: function (data, textStatus, jqXHR) {
     					$('#DealerMemberID').empty();
     					$.each(data.theList, function (idx, item) {
@@ -337,7 +337,7 @@
     				dataType: 'json',
     				type: 'GET',
     				url: '/User/GetPaoliSalesRepListForCompany',
-    				data: { companyId: $('#PaoliSalesRepGroupID').val() },
+    				data: { companyId: $('#PaoliSalesRepGroupID').val(), enabledOnly: true },
     				success: function (data, textStatus, jqXHR) {
     					$('#PaoliSalesRepMemberID').empty();
     					$('.PSRCell').hide();

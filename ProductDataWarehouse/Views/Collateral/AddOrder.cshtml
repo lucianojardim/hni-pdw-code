@@ -389,7 +389,7 @@
 					dataType: 'json',
 					type: 'GET',
 					url: '/User/GetDealerSalesRepListForCompany',
-					data: { companyId: $('#DealerID').val() },
+					data: { companyId: $('#DealerID').val(), enabledOnly: true },
 					success: function (data, textStatus, jqXHR) {
 						$('#DealerMemberID').empty();
 						$.each(data.theList, function (idx, item) {
@@ -410,7 +410,7 @@
     			dataType: 'json',
     			type: 'GET',
     			url: '/User/GetPaoliSalesRepListForCompany',
-    			data: { companyId: $('#PaoliRepGroupID').val() },
+    			data: { companyId: $('#PaoliRepGroupID').val(), enabledOnly: true },
     			success: function (data, textStatus, jqXHR) {
     				$('#PaoliRepGroupMemberID').empty();
     				$.each(data.theList, function (idx, item) {
@@ -429,7 +429,7 @@
     				dataType: 'json',
     				type: 'GET',
     				url: '/User/GetDealerSalesRepListForCompany',
-    				data: { companyId: $('#SPDealerID').val() },
+    				data: { companyId: $('#SPDealerID').val(), enabledOnly: true },
     				success: function (data, textStatus, jqXHR) {
     					$('#SPDealerMemberID').empty();
     					$.each(data.theList, function (idx, item) {
@@ -451,7 +451,7 @@
     				dataType: 'json',
     				type: 'GET',
     				url: '/User/GetPaoliSalesRepListForCompany',
-    				data: { companyId: $('#SPPaoliRepGroupID').val() },
+    				data: { companyId: $('#SPPaoliRepGroupID').val(), enabledOnly: true },
     				success: function (data, textStatus, jqXHR) {
     					$('#SPPaoliRepGroupMemberID').empty();
     					$.each(data.theList, function (idx, item) {
