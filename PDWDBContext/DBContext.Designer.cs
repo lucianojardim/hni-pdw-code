@@ -9770,7 +9770,12 @@ namespace PDWDBContext
         /// <param name="need2DDrawing">Initial value of the Need2DDrawing property.</param>
         /// <param name="needAuditSpecs">Initial value of the NeedAuditSpecs property.</param>
         /// <param name="grommets">Initial value of the Grommets property.</param>
-        public static SpecRequest CreateSpecRequest(global::System.Int32 requestID, global::System.Boolean isCompleted, global::System.Boolean needFloorplanSpecs, global::System.Boolean need3DDrawing, global::System.Boolean needValueEng, global::System.Boolean needPhotoRendering, global::System.Boolean need2DDrawing, global::System.Boolean needAuditSpecs, global::System.Boolean grommets)
+        /// <param name="needDWGFiles">Initial value of the NeedDWGFiles property.</param>
+        /// <param name="needSP4Files">Initial value of the NeedSP4Files property.</param>
+        /// <param name="needSIFFiles">Initial value of the NeedSIFFiles property.</param>
+        /// <param name="needXLSFiles">Initial value of the NeedXLSFiles property.</param>
+        /// <param name="needPDFFiles">Initial value of the NeedPDFFiles property.</param>
+        public static SpecRequest CreateSpecRequest(global::System.Int32 requestID, global::System.Boolean isCompleted, global::System.Boolean needFloorplanSpecs, global::System.Boolean need3DDrawing, global::System.Boolean needValueEng, global::System.Boolean needPhotoRendering, global::System.Boolean need2DDrawing, global::System.Boolean needAuditSpecs, global::System.Boolean grommets, global::System.Boolean needDWGFiles, global::System.Boolean needSP4Files, global::System.Boolean needSIFFiles, global::System.Boolean needXLSFiles, global::System.Boolean needPDFFiles)
         {
             SpecRequest specRequest = new SpecRequest();
             specRequest.RequestID = requestID;
@@ -9782,6 +9787,11 @@ namespace PDWDBContext
             specRequest.Need2DDrawing = need2DDrawing;
             specRequest.NeedAuditSpecs = needAuditSpecs;
             specRequest.Grommets = grommets;
+            specRequest.NeedDWGFiles = needDWGFiles;
+            specRequest.NeedSP4Files = needSP4Files;
+            specRequest.NeedSIFFiles = needSIFFiles;
+            specRequest.NeedXLSFiles = needXLSFiles;
+            specRequest.NeedPDFFiles = needPDFFiles;
             return specRequest;
         }
 
@@ -10895,6 +10905,126 @@ namespace PDWDBContext
         private global::System.String _DealerPOCText;
         partial void OnDealerPOCTextChanging(global::System.String value);
         partial void OnDealerPOCTextChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean NeedDWGFiles
+        {
+            get
+            {
+                return _NeedDWGFiles;
+            }
+            set
+            {
+                OnNeedDWGFilesChanging(value);
+                ReportPropertyChanging("NeedDWGFiles");
+                _NeedDWGFiles = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("NeedDWGFiles");
+                OnNeedDWGFilesChanged();
+            }
+        }
+        private global::System.Boolean _NeedDWGFiles;
+        partial void OnNeedDWGFilesChanging(global::System.Boolean value);
+        partial void OnNeedDWGFilesChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean NeedSP4Files
+        {
+            get
+            {
+                return _NeedSP4Files;
+            }
+            set
+            {
+                OnNeedSP4FilesChanging(value);
+                ReportPropertyChanging("NeedSP4Files");
+                _NeedSP4Files = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("NeedSP4Files");
+                OnNeedSP4FilesChanged();
+            }
+        }
+        private global::System.Boolean _NeedSP4Files;
+        partial void OnNeedSP4FilesChanging(global::System.Boolean value);
+        partial void OnNeedSP4FilesChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean NeedSIFFiles
+        {
+            get
+            {
+                return _NeedSIFFiles;
+            }
+            set
+            {
+                OnNeedSIFFilesChanging(value);
+                ReportPropertyChanging("NeedSIFFiles");
+                _NeedSIFFiles = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("NeedSIFFiles");
+                OnNeedSIFFilesChanged();
+            }
+        }
+        private global::System.Boolean _NeedSIFFiles;
+        partial void OnNeedSIFFilesChanging(global::System.Boolean value);
+        partial void OnNeedSIFFilesChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean NeedXLSFiles
+        {
+            get
+            {
+                return _NeedXLSFiles;
+            }
+            set
+            {
+                OnNeedXLSFilesChanging(value);
+                ReportPropertyChanging("NeedXLSFiles");
+                _NeedXLSFiles = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("NeedXLSFiles");
+                OnNeedXLSFilesChanged();
+            }
+        }
+        private global::System.Boolean _NeedXLSFiles;
+        partial void OnNeedXLSFilesChanging(global::System.Boolean value);
+        partial void OnNeedXLSFilesChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean NeedPDFFiles
+        {
+            get
+            {
+                return _NeedPDFFiles;
+            }
+            set
+            {
+                OnNeedPDFFilesChanging(value);
+                ReportPropertyChanging("NeedPDFFiles");
+                _NeedPDFFiles = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("NeedPDFFiles");
+                OnNeedPDFFilesChanged();
+            }
+        }
+        private global::System.Boolean _NeedPDFFiles;
+        partial void OnNeedPDFFilesChanging(global::System.Boolean value);
+        partial void OnNeedPDFFilesChanged();
 
         #endregion
 

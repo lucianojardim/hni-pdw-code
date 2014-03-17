@@ -339,6 +339,11 @@ namespace PWDRepositories
 				IsCompleted = sInfo.IsCompleted,
 				Footprint = sInfo.Footprint,
 				Notes = sInfo.Notes,
+				NeedDWGFiles = sInfo.NeedDWGFiles,
+				NeedSP4Files = sInfo.NeedSP4Files,
+				NeedSIFFiles = sInfo.NeedSIFFiles,
+				NeedXLSFiles = sInfo.NeedXLSFiles,
+				NeedPDFFiles = sInfo.NeedPDFFiles,
 				addlFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles.Where( f => !f.IsSpecTeam ) ),
 				specTeamFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles.Where( f => f.IsSpecTeam ) ),
 				CreatedDate = sInfo.RequestDate,
@@ -392,6 +397,11 @@ namespace PWDRepositories
 			newSpec.PaoliSpecTeamMemberID = ( sInfo.PaoliSpecTeamMember ?? 0 ) > 0 ? sInfo.PaoliSpecTeamMember : null;
 			newSpec.LastModifiedDate = DateTime.UtcNow;
 			newSpec.Notes = sInfo.Notes;
+			newSpec.NeedDWGFiles = sInfo.NeedDWGFiles;
+			newSpec.NeedSP4Files = sInfo.NeedSP4Files;
+			newSpec.NeedSIFFiles = sInfo.NeedSIFFiles;
+			newSpec.NeedXLSFiles = sInfo.NeedXLSFiles;
+			newSpec.NeedPDFFiles = sInfo.NeedPDFFiles;
 			newSpec.EndCustomer = sInfo.EndCustomer;
 			newSpec.ProjectSize = sInfo.ProjectSize;
 			newSpec.NeedFloorplanSpecs = sInfo.NeedFloorplanSpecs;
@@ -568,6 +578,11 @@ namespace PWDRepositories
 			specInfo.PaoliSpecTeamMemberID = ( sInfo.PaoliSpecTeamMember ?? 0 ) > 0 ? sInfo.PaoliSpecTeamMember : null;
 			specInfo.LastModifiedDate = DateTime.UtcNow;
 			specInfo.Notes = sInfo.Notes;
+			specInfo.NeedDWGFiles = sInfo.NeedDWGFiles;
+			specInfo.NeedSP4Files = sInfo.NeedSP4Files;
+			specInfo.NeedSIFFiles = sInfo.NeedSIFFiles;
+			specInfo.NeedXLSFiles = sInfo.NeedXLSFiles;
+			specInfo.NeedPDFFiles = sInfo.NeedPDFFiles;
 			specInfo.EndCustomer = sInfo.EndCustomer;
 			specInfo.ProjectSize = sInfo.ProjectSize;
 			specInfo.NeedFloorplanSpecs = sInfo.NeedFloorplanSpecs;

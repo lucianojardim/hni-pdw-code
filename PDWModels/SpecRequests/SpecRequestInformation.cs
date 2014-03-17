@@ -77,8 +77,19 @@ namespace PDWModels.SpecRequests
 		public bool NeedAuditSpecs { get; set; }
 		[DisplayName( "Related Drawings or Notes" )]
 		public List<HttpPostedFileBase> addlFiles { get; set; }
+
 		[DisplayName( "Notes and Directions for Spec Team" )]
 		public string Notes { get; set; }
+		[DisplayName( "DWG" )]
+		public bool NeedDWGFiles { get; set; }
+		[DisplayName( "SP4" )]
+		public bool NeedSP4Files { get; set; }
+		[DisplayName( "SIF" )]
+		public bool NeedSIFFiles { get; set; }
+		[DisplayName( "XLS" )]
+		public bool NeedXLSFiles { get; set; }
+		[DisplayName( "PDF" )]
+		public bool NeedPDFFiles { get; set; }
 
 		[DisplayName( "Casegoods" )]
 		public List<string> Casegoods { get; set; }

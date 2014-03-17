@@ -390,8 +390,6 @@
 				<tr>
 					<td>@Html.CheckBoxFor( m => m.NeedFloorplanSpecs, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedFloorplanSpecs, false )<span class="littleHelp">Please attach a legible drawing/sketch of the furniture layout with sizes and details clearly noted.</span></td>
 					<td rowspan="5" id="fileContainer">@Html.MJLabelFor( m => m.addlFiles, true ) @Html.DisplayFor( m => m.addlFileList, templateName: "FullFileListing" )<span class="littleHelp">Attach PDFs or other applicable files to help the specificaton engineer complete this request.</span><input type="file" name="addlFiles[0]" class="addlFiles" onchange="fileChanged()" /><input type="hidden" name="addlFiles.Index" value="0" /></td>
-					<td rowspan="5">@Html.MJLabelFor( m => m.Notes, true ) <br/> @Html.TextAreaFor( m => m.Notes, new { @rows = "15" } )
-					<span class="littleHelp">Copy and paste any content from your email including Name and contact info for the requestor here.</span></td>
 				</tr>
 				<tr>
 					<td>@Html.CheckBoxFor( m => m.NeedPhotoRendering, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedPhotoRendering, false )<span class="littleHelp">Initial rendering is no charge, changes and additional renderings may incur fees. Check with Specification services. Extended lead times may apply.</span></td>
@@ -404,6 +402,31 @@
 				</tr>
 				<tr>
 					<td>@Html.CheckBoxFor( m => m.NeedAuditSpecs, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedAuditSpecs, false )<span class="littleHelp">Please include a parts list and a legible drawing/sketch of the furniture layout with sizes and details clearly noted.</span></td>
+				</tr>
+			</table>
+		</div>
+		<div class="requestPanel">
+			<h3>What format do you want?</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td style="height:10px">Our spec team will create files in the format(s)<br /> that helps you move quickly.<br />Select from the options below:</td>
+					<td rowspan="6">@Html.MJLabelFor( m => m.Notes, true ) <br/> @Html.TextAreaFor( m => m.Notes, new { @rows = "15" } )
+					<span class="littleHelp">Copy and paste any content from your email including Name and contact info for the requestor here.</span></td>
+				</tr>
+				<tr>
+					<td style="height:10px">@Html.CheckBoxFor( m => m.NeedDWGFiles, new { @class = "chkFilesNeeded" } ) @Html.MJLabelFor( m => m.NeedDWGFiles, false )</td>
+				</tr>
+				<tr>
+					<td style="height:10px">@Html.CheckBoxFor( m => m.NeedSP4Files, new { @class = "chkFilesNeeded" } ) @Html.MJLabelFor( m => m.NeedSP4Files, false )</td>
+				</tr>
+				<tr>
+					<td style="height:10px">@Html.CheckBoxFor( m => m.NeedSIFFiles, new { @class = "chkFilesNeeded" } ) @Html.MJLabelFor( m => m.NeedSIFFiles, false )</td>
+				</tr>
+				<tr>
+					<td style="height:10px">@Html.CheckBoxFor( m => m.NeedXLSFiles, new { @class = "chkFilesNeeded" } ) @Html.MJLabelFor( m => m.NeedXLSFiles, false )</td>
+				</tr>
+				<tr>
+					<td>@Html.CheckBoxFor( m => m.NeedPDFFiles, new { @class = "chkFilesNeeded" } ) @Html.MJLabelFor( m => m.NeedPDFFiles, false )</td>
 				</tr>
 			</table>
 		</div>

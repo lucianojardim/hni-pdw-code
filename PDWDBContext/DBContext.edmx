@@ -760,6 +760,11 @@
           <Property Name="CreatedByUserId" Type="int" />
           <Property Name="LaminatePreference" Type="nvarchar" MaxLength="10" />
           <Property Name="DealerPOCText" Type="nvarchar(max)" />
+          <Property Name="NeedDWGFiles" Type="bit" Nullable="false" />
+          <Property Name="NeedSP4Files" Type="bit" Nullable="false" />
+          <Property Name="NeedSIFFiles" Type="bit" Nullable="false" />
+          <Property Name="NeedXLSFiles" Type="bit" Nullable="false" />
+          <Property Name="NeedPDFFiles" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="TAttributeOptions">
           <Key>
@@ -2814,6 +2819,11 @@
           <NavigationProperty Name="CreatedByUser" Relationship="PaoliPDWModel.fkSRequest_CreatedBy" FromRole="SpecRequest" ToRole="User" />
           <Property Type="String" Name="LaminatePreference" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="DealerPOCText" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="NeedDWGFiles" Nullable="false" />
+          <Property Type="Boolean" Name="NeedSP4Files" Nullable="false" />
+          <Property Type="Boolean" Name="NeedSIFFiles" Nullable="false" />
+          <Property Type="Boolean" Name="NeedXLSFiles" Nullable="false" />
+          <Property Type="Boolean" Name="NeedPDFFiles" Nullable="false" />
         </EntityType>
         <Association Name="fkSpec_Company">
           <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="0..1" />
@@ -3761,6 +3771,11 @@
           <EntitySetMapping Name="SpecRequests">
             <EntityTypeMapping TypeName="PaoliPDWModel.SpecRequest">
               <MappingFragment StoreEntitySet="SpecRequests">
+                <ScalarProperty Name="NeedPDFFiles" ColumnName="NeedPDFFiles" />
+                <ScalarProperty Name="NeedXLSFiles" ColumnName="NeedXLSFiles" />
+                <ScalarProperty Name="NeedSIFFiles" ColumnName="NeedSIFFiles" />
+                <ScalarProperty Name="NeedSP4Files" ColumnName="NeedSP4Files" />
+                <ScalarProperty Name="NeedDWGFiles" ColumnName="NeedDWGFiles" />
                 <ScalarProperty Name="DealerPOCText" ColumnName="DealerPOCText" />
                 <ScalarProperty Name="LaminatePreference" ColumnName="LaminatePreference" />
                 <ScalarProperty Name="CreatedByUserId" ColumnName="CreatedByUserId" />

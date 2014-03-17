@@ -206,6 +206,15 @@
 			if (fileList.length != 0) {
 				addConfirmRow(t, '@Html.MJLabelFor( m => m.addlFiles, true )', fileList.join(', '));
 			}
+			var filesNeeded = new Array();
+    		$('.chkFilesNeeded').each(function () {
+    			if ($(this).attr('checked')) {
+					filesNeeded.push($(this).siblings('label').text());
+    			}
+    		});
+			if( filesNeeded.length != 0 ) {
+				addConfirmRow(t, 'Files Requested', filesNeeded.join( ', ' ));
+			}
 			if ($('#Notes').val() != null) {
 				addConfirmRow(t, '@Html.MJLabelFor( m => m.Notes, true )', $('#Notes').val());
 			}
@@ -341,18 +350,18 @@
     			});
 
 				@if( PaoliWebUser.CurrentUser.IsDealerUser )
-				{
-				var thisCompany = CompanyController.GetThisCompanyAsDDItem();
-				var thisItem = "<option value=\"" + thisCompany.First().Value + "\">" + thisCompany.First().Text.Replace( "'", "''" ) + "</option>";
+	{
+		var thisCompany = CompanyController.GetThisCompanyAsDDItem();
+		var thisItem = "<option value=\"" + thisCompany.First().Value + "\">" + thisCompany.First().Text.Replace( "'", "''" ) + "</option>";
 				<text>
     				$('#DealerID').empty();
-    				$('#DealerID').append('@Html.Raw(thisItem)');
+    				$('#DealerID').append('@Html.Raw( thisItem )');
 
     				reloadDealerSalesRepList();
 				</text>
-				}
-				else
-				{
+	}
+	else
+	{
 				<text>
     			$.ajax({
     				dataType: 'json',
@@ -373,7 +382,7 @@
     				}
     			});
 				</text>
-				}
+	}
 
     		} else {
     			$('#PaoliSalesRepMemberID').empty();
@@ -385,7 +394,7 @@
 	</script>
 
 @{
-	var stepCount = 6;
+	var stepCount = 7;
 	var stepNum = 1;
 	CompanyController.GetCompanyListFunction GetSalesRepList = CompanyController.GetCompanyDDList;
 	if( PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
@@ -457,8 +466,6 @@
 				<tr>
 					<td>@Html.CheckBoxFor( m => m.NeedFloorplanSpecs, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedFloorplanSpecs, false )<span class="littleHelp">Please attach a legible drawing/sketch of the furniture layout with sizes and details clearly noted.</span></td>
 					<td rowspan="5" id="fileContainer">@Html.MJLabelFor( m => m.addlFiles, true )<span class="littleHelp">Attach PDFs or other applicable files to help the specificaton engineer complete this request.</span><input type="file" name="addlFiles[0]" class="addlFiles" onchange="fileChanged()" /><input type="hidden" name="addlFiles.Index" value="0" /></td>
-					<td rowspan="5">@Html.MJLabelFor( m => m.Notes, true ) <br/> @Html.TextAreaFor( m => m.Notes, new { @rows = "15" } )
-					<span class="littleHelp">Copy and paste any content from your email including Name and contact info for the requestor here.</span></td>
 				</tr>
 				<tr>
 					<td>@Html.CheckBoxFor( m => m.NeedPhotoRendering, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedPhotoRendering, false )<span class="littleHelp">Initial rendering is no charge, changes and additional renderings may incur fees. Check with Specification services. Extended lead times may apply.</span></td>
@@ -471,6 +478,31 @@
 				</tr>
 				<tr>
 					<td>@Html.CheckBoxFor( m => m.NeedAuditSpecs, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedAuditSpecs, false )<span class="littleHelp">Please include a parts list and a legible drawing/sketch of the furniture layout with sizes and details clearly noted.</span></td>
+				</tr>
+			</table>
+		</div>
+		<div class="futureSection requestPanel">
+			<h3>Step @(stepNum++) of @stepCount: What format do you want?</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td style="height:10px">Our spec team will create files in the format(s)<br /> that helps you move quickly.<br />Select from the options below:</td>
+					<td rowspan="6">@Html.MJLabelFor( m => m.Notes, true ) <br/> @Html.TextAreaFor( m => m.Notes, new { @rows = "15" } )
+					<span class="littleHelp">Copy and paste any content from your email including Name and contact info for the requestor here.</span></td>
+				</tr>
+				<tr>
+					<td style="height:10px">@Html.CheckBoxFor( m => m.NeedDWGFiles, new { @class = "chkFilesNeeded" } ) @Html.MJLabelFor( m => m.NeedDWGFiles, false )</td>
+				</tr>
+				<tr>
+					<td style="height:10px">@Html.CheckBoxFor( m => m.NeedSP4Files, new { @class = "chkFilesNeeded" } ) @Html.MJLabelFor( m => m.NeedSP4Files, false )</td>
+				</tr>
+				<tr>
+					<td style="height:10px">@Html.CheckBoxFor( m => m.NeedSIFFiles, new { @class = "chkFilesNeeded" } ) @Html.MJLabelFor( m => m.NeedSIFFiles, false )</td>
+				</tr>
+				<tr>
+					<td style="height:10px">@Html.CheckBoxFor( m => m.NeedXLSFiles, new { @class = "chkFilesNeeded" } ) @Html.MJLabelFor( m => m.NeedXLSFiles, false )</td>
+				</tr>
+				<tr>
+					<td>@Html.CheckBoxFor( m => m.NeedPDFFiles, new { @class = "chkFilesNeeded" } ) @Html.MJLabelFor( m => m.NeedPDFFiles, false )</td>
 				</tr>
 			</table>
 		</div>
