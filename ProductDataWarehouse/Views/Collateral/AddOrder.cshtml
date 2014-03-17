@@ -52,8 +52,8 @@
     				setPanel(1);
 
     				if ($('#ShippingType').closest('.requestPanel').hasClass('activeSection')) {
-    					$('#ShippingAddressType option[value="0"]').removeAttr('disabled');
-    					$('#ShippingAddressType').val('1');
+    					$('#ShippingAddressType[value="0"]').removeAttr('disabled');
+    					$('#ShippingAddressType[value="1"]').attr('checked', 'checked');
 
     					setCompanyDetails();
     				}
@@ -83,7 +83,7 @@
     			changeShippingType();
     		});
 
-    		$('#ShippingAddressType').change(function (e) {
+    		$('input:radio[name=ShippingAddressType]').click(function (e) {
     			setCompanyDetails();
     		});
 
@@ -141,76 +141,83 @@
 
     	function setCompanyDetails() {
     		var officialUserID = null, officialCompanyID = null;
-
-    		switch ($('#ShippingAddressType').val()) {
-    			case '0':
-    				switch ($('#ShippingParty').val()) {
-    					case '@PDWModels.Collateral.NewOrderInformation.RPPaoliMember':
-    						if ($('#SPPaoliMemberID').val() != null && $('#SPPaoliMemberID').val() != '0' && $('#SPPaoliMemberID').val() != '') {
-    							officialUserID = $('#SPPaoliMemberID').val();
-    						}
-    						break;
-    					case '@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative':
-    						if ($('#SPPaoliRepGroupMemberID').val() != null && $('#SPPaoliRepGroupMemberID').val() != '0' && $('#SPPaoliRepGroupMemberID').val() != '') {
-    							officialUserID = $('#SPPaoliRepGroupMemberID').val();
-    							officialCompanyID = $('#SPPaoliRepGroupID').val();
-    						} else if ($('#SPPaoliRepGroupID').val() != null && $('#SPPaoliRepGroupID').val() != '0' && $('#SPPaoliRepGroupID').val() != '') {
-    							officialUserID = null;
-    							officialCompanyID = $('#SPPaoliRepGroupID').val();
-    						}
-    						break;
-    					case '@PDWModels.Collateral.NewOrderInformation.RPDealer':
-    						if ($('#SPDealerMemberID').val() != null && $('#SPDealerMemberID').val() != '0' && $('#SPDealerMemberID').val() != '') {
-    							officialUserID = $('#SPDealerMemberID').val();
-    							officialCompanyID = $('#SPDealerID').val();
-    						} else if ($('#SPDealerID').val() != null && $('#SPDealerID').val() != '0' && $('#SPDealerID').val() != '') {
-    							officialUserID = null;
-    							officialCompanyID = $('#SPDealerID').val();
-    						}
-    						break;
+    		switch ($('#ShippingParty').val()) {
+    			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliMember':
+    				if ($('#SPPaoliMemberID').val() != null && $('#SPPaoliMemberID').val() != '0' && $('#SPPaoliMemberID').val() != '') {
+    					officialUserID = $('#SPPaoliMemberID').val();
     				}
-
-    				if (officialCompanyID != null || officialUserID != null) {
-    					$.ajax({
-    						dataType: 'json',
-    						type: 'GET',
-    						url: '/Company/GetShippingAddress',
-    						data: { companyId: officialCompanyID, userId: officialUserID },
-    						success: function (data, textStatus, jqXHR) {
-    							$('#ShippingCompanyName').attr('readonly', 'readonly').val(data.Name);
-    							$('#ShippingAttn').attr('readonly', 'readonly').val(data.ContactAttn);
-    							$('#ShippingAddress1').attr('readonly', 'readonly').val(data.Address1);
-    							$('#ShippingAddress2').attr('readonly', 'readonly').val(data.Address2);
-    							$('#ShippingCity').attr('readonly', 'readonly').val(data.City);
-    							$('#ShippingState').val(data.State);
-    							$('#ShippingState option:not(:selected)').attr('disabled', true);
-    							$('#ShippingZip').attr('readonly', 'readonly').val(data.Zip);
-    							$('#ShippingPhoneNumber').attr('readonly', 'readonly').val(data.Phone);
-    							$('#ShippingEmailAddress').attr('readonly', 'readonly').val(data.ContactEmail);
-
-    						},
-    						error: function (jqXHR, textStatus, errorThrown) {
-    							alert('Error getting Company Address:' + errorThrown)
-    						}
-    					});
-
-    					return;
+    				break;
+    			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative':
+    				if ($('#SPPaoliRepGroupMemberID').val() != null && $('#SPPaoliRepGroupMemberID').val() != '0' && $('#SPPaoliRepGroupMemberID').val() != '') {
+    					officialUserID = $('#SPPaoliRepGroupMemberID').val();
+    					officialCompanyID = $('#SPPaoliRepGroupID').val();
+    				} else if ($('#SPPaoliRepGroupID').val() != null && $('#SPPaoliRepGroupID').val() != '0' && $('#SPPaoliRepGroupID').val() != '') {
+    					officialUserID = null;
+    					officialCompanyID = $('#SPPaoliRepGroupID').val();
     				}
+    				break;
+    			case '@PDWModels.Collateral.NewOrderInformation.RPDealer':
+    				if ($('#SPDealerMemberID').val() != null && $('#SPDealerMemberID').val() != '0' && $('#SPDealerMemberID').val() != '') {
+    					officialUserID = $('#SPDealerMemberID').val();
+    					officialCompanyID = $('#SPDealerID').val();
+    				} else if ($('#SPDealerID').val() != null && $('#SPDealerID').val() != '0' && $('#SPDealerID').val() != '') {
+    					officialUserID = null;
+    					officialCompanyID = $('#SPDealerID').val();
+    				}
+    				break;
+    		}
+    		if (officialCompanyID != null || officialUserID != null) {
+    			$.ajax({
+    				dataType: 'json',
+    				type: 'GET',
+    				url: '/Company/GetShippingAddress',
+    				data: { companyId: officialCompanyID, userId: officialUserID },
+    				success: function (data, textStatus, jqXHR) {
+    					$('#lblShippingCompanyName').html(data.Name);
+    					$('#lblShippingAttn').html(data.ContactAttn);
+    					$('#lblShippingAddress1').html(data.Address1);
+    					$('#lblShippingAddress2').html(data.Address2);
+    					$('#lblShippingCity').html(data.City);
+    					$('#lblShippingState').html(data.State);
+    					$('#lblShippingZip').html(data.Zip);
+    					$('#lblShippingPhoneNumber').html(data.Phone);
+    					$('#lblShippingEmailAddress').html(data.ContactEmail);
 
-    				$('#ShippingAddressType option[value="0"]').attr('disabled', true);
-    				$('#ShippingAddressType').val('1');
+    				},
+    				error: function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Company Address:' + errorThrown)
+    				}
+    			});
+    		}
+
+    		if ($('#ShippingAddressType:checked').val() == '0') {
+    			$('#ShippingCompanyName').hide().val($('#lblShippingCompanyName').html());
+    			$('#ShippingAttn').hide().val($('#lblShippingAttn').html());
+    			$('#ShippingAddress1').hide().val($('#lblShippingAddress1').html());
+    			$('#ShippingAddress2').hide().val($('#lblShippingAddress2').html());
+    			$('#ShippingCity').hide().val($('#lblShippingCity').html());
+    			$('#ShippingState').hide().val($('#lblShippingState').html());
+    			$('#ShippingZip').hide().val($('#lblShippingZip').html());
+    			$('#ShippingPhoneNumber').hide().val($('#lblShippingPhoneNumber').html());
+    			$('#ShippingEmailAddress').hide().val($('#lblShippingEmailAddress').html());
+				return;
 			}
 
-    		$('#ShippingCompanyName').removeAttr('readonly').val(null);
-    		$('#ShippingAttn').removeAttr('readonly').val(null);
-    		$('#ShippingAddress1').removeAttr('readonly').val(null);
-    		$('#ShippingAddress2').removeAttr('readonly').val(null);
-    		$('#ShippingCity').removeAttr('readonly').val(null);
-    		$('#ShippingState').val(null);
-    		$('#ShippingState option:not(:selected)').removeAttr('disabled');
-    		$('#ShippingZip').removeAttr('readonly').val(null);
-    		$('#ShippingPhoneNumber').removeAttr('readonly').val(null);
-    		$('#ShippingEmailAddress').removeAttr('readonly').val(null);
+    		$('#ShippingAddressType[value="1"]').attr('checked', 'checked');
+
+   			if (officialCompanyID == null && officialUserID == null) {
+    			$('#ShippingAddressType[value="0"]').attr('disabled', true);
+			}
+
+    		$('#ShippingCompanyName').show().val(null);
+    		$('#ShippingAttn').show().val(null);
+    		$('#ShippingAddress1').show().val(null);
+    		$('#ShippingAddress2').show().val(null);
+    		$('#ShippingCity').show().val(null);
+    		$('#ShippingState').show().val(null);
+    		$('#ShippingZip').show().val(null);
+    		$('#ShippingPhoneNumber').show().val(null);
+    		$('#ShippingEmailAddress').show().val(null);
     	}
 
     	function setRPDetails() {
@@ -681,40 +688,39 @@
 				<tr class="fedexAccount">
 					<td>@Html.LabelFor( m => m.ShippingFedexAccount )</td><td>@Html.TextBoxFor( m => m.ShippingFedexAccount )</td>
 				</tr>
-				<tr>
-					<td>@Html.LabelFor( m => m.ShippingAddressType )</td><td>@Html.DropDownListFor( m => m.ShippingAddressType, new List<SelectListItem>() { 
-															 new SelectListItem() { Text = "Current Address on File", Value = "0" },
-															 new SelectListItem() { Text = "New Address", Value = "1" }
-														 } )</td>
-				</tr>
 			</table>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingAttn )</td><td>@Html.TextBoxFor( m => m.ShippingAttn )</td>
+					<td>@Html.LabelFor( m => m.ShippingAddressType )</td>
+					<td>@Html.RadioButtonFor( m => m.ShippingAddressType, "0", new { @checked = "checked" } ) Current Address on File</td>
+					<td>@Html.RadioButtonFor( m => m.ShippingAddressType, "1" ) New Address</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingCompanyName )</td><td>@Html.TextBoxFor( m => m.ShippingCompanyName )</td>
+					<td>@Html.LabelFor( m => m.ShippingAttn )</td><td id="lblShippingAttn" class="inputHeightLabel"></td><td>@Html.TextBoxFor( m => m.ShippingAttn )</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingAddress1 )</td><td>@Html.TextBoxFor( m => m.ShippingAddress1 )</td>
+					<td>@Html.LabelFor( m => m.ShippingCompanyName )</td><td id="lblShippingCompanyName" class="inputHeightLabel"></td><td>@Html.TextBoxFor( m => m.ShippingCompanyName )</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingAddress2 )</td><td>@Html.TextBoxFor( m => m.ShippingAddress2 )</td>
+					<td>@Html.LabelFor( m => m.ShippingAddress1 )</td><td id="lblShippingAddress1" class="inputHeightLabel"></td><td>@Html.TextBoxFor( m => m.ShippingAddress1 )</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingCity )</td><td>@Html.TextBoxFor( m => m.ShippingCity )</td>
+					<td>@Html.LabelFor( m => m.ShippingAddress2 )</td><td id="lblShippingAddress2" class="inputHeightLabel"></td><td>@Html.TextBoxFor( m => m.ShippingAddress2 )</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingState )</td><td>@Html.DropDownListFor( m => m.ShippingState, UserController.GetStateDDList() )</td>
+					<td>@Html.LabelFor( m => m.ShippingCity )</td><td id="lblShippingCity" class="inputHeightLabel"></td><td>@Html.TextBoxFor( m => m.ShippingCity )</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingZip )</td><td>@Html.TextBoxFor( m => m.ShippingZip )</td>
+					<td>@Html.LabelFor( m => m.ShippingState )</td><td id="lblShippingState" class="inputHeightLabel"></td><td>@Html.DropDownListFor( m => m.ShippingState, UserController.GetStateDDList() )</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingPhoneNumber )</td><td>@Html.TextBoxFor( m => m.ShippingPhoneNumber )</td>
+					<td>@Html.LabelFor( m => m.ShippingZip )</td><td id="lblShippingZip" class="inputHeightLabel"></td><td>@Html.TextBoxFor( m => m.ShippingZip )</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingEmailAddress )</td><td>@Html.TextBoxFor( m => m.ShippingEmailAddress )</td>
+					<td>@Html.LabelFor( m => m.ShippingPhoneNumber )</td><td id="lblShippingPhoneNumber" class="inputHeightLabel"></td><td>@Html.TextBoxFor( m => m.ShippingPhoneNumber )</td>
+				</tr>
+				<tr>
+					<td>@Html.LabelFor( m => m.ShippingEmailAddress )</td><td id="lblShippingEmailAddress" class="inputHeightLabel"></td><td>@Html.TextBoxFor( m => m.ShippingEmailAddress )</td>
 				</tr>
 			</table>
 		</div>

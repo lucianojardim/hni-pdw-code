@@ -608,6 +608,10 @@ td.orderItem span.littleHelp
 	margin-bottom: 15px;
 	display: block;
 }
+.inputHeightLabel
+{
+	height: 33px;
+}
 
 td.dataInfoThin span.littleHelp
 {
