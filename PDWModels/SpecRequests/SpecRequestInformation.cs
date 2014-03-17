@@ -104,6 +104,8 @@ namespace PDWModels.SpecRequests
 		public bool Grommets { get; set; }
 		[DisplayName( "Grommet Specifications" )]
 		public string GrommetDetails { get; set; }
+		[DisplayName( "Position of Grommets" )]
+		public string GrommetPosition { get; set; }
 		[DisplayName( "Drawer Option" )]
 		public string DrawerOption { get; set; }
 		[DisplayName( "Seating" )]

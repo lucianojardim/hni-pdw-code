@@ -369,6 +369,7 @@ namespace PWDRepositories
 				OtherFinishDetails = sInfo.OtherFinishDetails,
 				Grommets = sInfo.Grommets,
 				GrommetDetails = sInfo.Grommets ? sInfo.GrommetDetails : null,
+				GrommetPosition = sInfo.Grommets ? sInfo.GrommetPosition : null,
 				DrawerOption = sInfo.DrawerOption,
 				FabricGrade = sInfo.FabricGrade,
 				Fabric = sInfo.FabricDetails,
@@ -417,6 +418,7 @@ namespace PWDRepositories
 			newSpec.OtherFinishDetails = sInfo.OtherFinishDetails;
 			newSpec.Grommets = sInfo.Grommets;
 			newSpec.GrommetDetails = sInfo.Grommets ? sInfo.GrommetDetails : null;
+			newSpec.GrommetPosition = sInfo.Grommets ? sInfo.GrommetPosition : null;
 			newSpec.DrawerOption = sInfo.Casegoods != null && sInfo.Casegoods.Any() ? sInfo.DrawerOption : null;
 			newSpec.FabricGrade = sInfo.Seating != null && sInfo.Seating.Any() ? sInfo.FabricGrade : null;
 			newSpec.FabricDetails = sInfo.Seating != null && sInfo.Seating.Any() ? sInfo.Fabric : null;
@@ -598,6 +600,7 @@ namespace PWDRepositories
 			specInfo.OtherFinishDetails = sInfo.OtherFinishDetails;
 			specInfo.Grommets = sInfo.Grommets;
 			specInfo.GrommetDetails = sInfo.Grommets ? sInfo.GrommetDetails : null;
+			specInfo.GrommetPosition = sInfo.Grommets ? sInfo.GrommetPosition : null;
 			specInfo.DrawerOption = sInfo.Casegoods != null && sInfo.Casegoods.Any() ? sInfo.DrawerOption : null;
 			specInfo.FabricGrade = sInfo.Seating != null && sInfo.Seating.Any() ? sInfo.FabricGrade : null;
 			specInfo.FabricDetails = sInfo.Seating != null && sInfo.Seating.Any() ? sInfo.Fabric : null;

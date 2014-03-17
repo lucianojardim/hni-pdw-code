@@ -11025,6 +11025,30 @@ namespace PDWDBContext
         private global::System.Boolean _NeedPDFFiles;
         partial void OnNeedPDFFilesChanging(global::System.Boolean value);
         partial void OnNeedPDFFilesChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String GrommetPosition
+        {
+            get
+            {
+                return _GrommetPosition;
+            }
+            set
+            {
+                OnGrommetPositionChanging(value);
+                ReportPropertyChanging("GrommetPosition");
+                _GrommetPosition = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("GrommetPosition");
+                OnGrommetPositionChanged();
+            }
+        }
+        private global::System.String _GrommetPosition;
+        partial void OnGrommetPositionChanging(global::System.String value);
+        partial void OnGrommetPositionChanged();
 
         #endregion
 

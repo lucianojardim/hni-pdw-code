@@ -1496,3 +1496,9 @@ alter table [SpecRequests] drop constraint [defSRXLS]
 alter table [SpecRequests] drop constraint [defSRPDF]
 go
 go
+/*******************************************
+ * db0061_SpecRequests_GrommetPosition.sql *
+ *******************************************/
+alter table [SpecRequests] add [GrommetPosition] [ntext] null
+go
+go

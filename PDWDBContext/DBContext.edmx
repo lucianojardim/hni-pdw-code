@@ -765,6 +765,7 @@
           <Property Name="NeedSIFFiles" Type="bit" Nullable="false" />
           <Property Name="NeedXLSFiles" Type="bit" Nullable="false" />
           <Property Name="NeedPDFFiles" Type="bit" Nullable="false" />
+          <Property Name="GrommetPosition" Type="ntext" />
         </EntityType>
         <EntityType Name="TAttributeOptions">
           <Key>
@@ -2824,6 +2825,7 @@
           <Property Type="Boolean" Name="NeedSIFFiles" Nullable="false" />
           <Property Type="Boolean" Name="NeedXLSFiles" Nullable="false" />
           <Property Type="Boolean" Name="NeedPDFFiles" Nullable="false" />
+          <Property Type="String" Name="GrommetPosition" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="fkSpec_Company">
           <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="0..1" />
@@ -3771,6 +3773,7 @@
           <EntitySetMapping Name="SpecRequests">
             <EntityTypeMapping TypeName="PaoliPDWModel.SpecRequest">
               <MappingFragment StoreEntitySet="SpecRequests">
+                <ScalarProperty Name="GrommetPosition" ColumnName="GrommetPosition" />
                 <ScalarProperty Name="NeedPDFFiles" ColumnName="NeedPDFFiles" />
                 <ScalarProperty Name="NeedXLSFiles" ColumnName="NeedXLSFiles" />
                 <ScalarProperty Name="NeedSIFFiles" ColumnName="NeedSIFFiles" />

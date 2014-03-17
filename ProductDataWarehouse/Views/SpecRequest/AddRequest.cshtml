@@ -260,11 +260,13 @@
 			}
 			if (casegoodsList.length != 0 || conferencingList.length != 0) {
 				if ($('#Grommets').is(':checked')) {
-					var grommetsValue = 'Yes';
+					addConfirmRow(t, '@Html.MJLabelFor( m => m.Grommets, false )', 'Yes');
 					if ($('#GrommetDetails').val() != null) {
-						grommetsValue += ('; ' + $('#GrommetDetails').val());
+						addConfirmRow(t, '@Html.MJLabelFor( m => m.GrommetDetails, false )', $('#GrommetDetails').val());
 					}
-					addConfirmRow(t, '@Html.MJLabelFor( m => m.Grommets, false )', grommetsValue);
+					if ($('#GrommetPosition').val() != null) {
+						addConfirmRow(t, '@Html.MJLabelFor( m => m.GrommetPosition, false )', $('#GrommetPosition').val());
+					}
 				}
 
 				var finishList = new Array();
@@ -542,6 +544,10 @@
 				<tr>
 					<td>@Html.CheckBoxFor( m => m.Grommets ) @Html.MJLabelFor( m => m.Grommets, false )</td>
 					<td class="grommetDetails" style="display:none">@Html.MJLabelFor( m => m.GrommetDetails, false )<span class="littleHelp">Please indicate number, location or other specifications.</span></td><td class="grommetDetails" style="display:none">@Html.TextAreaFor( m => m.GrommetDetails )</td>
+				</tr>
+				<tr class="grommetDetails" style="display:none">
+					<td></td>
+					<td>@Html.MJLabelFor( m => m.GrommetPosition, false )</td><td>@Html.TextAreaFor( m => m.GrommetPosition )</td>
 				</tr>
 			</table>
 			<hr class="drawerOptions" />

@@ -467,6 +467,10 @@
 					<td>@Html.CheckBoxFor( m => m.Grommets ) @Html.MJLabelFor( m => m.Grommets, false )</td>
 					<td class="grommetDetails" style="display:none">@Html.MJLabelFor( m => m.GrommetDetails, false )<span class="littleHelp">Please indicate number, location or other specifications.</span></td><td class="grommetDetails" style="display:none">@Html.TextAreaFor( m => m.GrommetDetails )</td>
 				</tr>
+				<tr class="grommetDetails" style="display:none">
+					<td></td>
+					<td>@Html.MJLabelFor( m => m.GrommetPosition, false )</td><td>@Html.TextAreaFor( m => m.GrommetPosition )</td>
+				</tr>
 			</table>
 			<hr class="drawerOptions" />
 			<table cellpadding="0" cellspacing="0" class="dataLayout drawerOptions">
