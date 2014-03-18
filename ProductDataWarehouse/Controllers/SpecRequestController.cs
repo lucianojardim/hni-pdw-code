@@ -141,9 +141,7 @@ namespace ProductDataWarehouse.Controllers
 
 					sRepository.AddTypical( tInfo, typeOfSubmit == "Publish" );
 
-					ViewBag.CloseFancyBox = true;
-
-					return View( tInfo );
+					return RedirectToAction( "Manage" );
 				}
 				catch( Exception ex )
 				{
@@ -275,9 +273,7 @@ namespace ProductDataWarehouse.Controllers
 
 					sRepository.UpdateTypical( tInfo, typeOfSubmit != "Save Changes" );
 
-					ViewBag.CloseFancyBox = true;
-
-					return View( tInfo );
+					return RedirectToAction( "Manage" );
 				}
 				catch( Exception ex )
 				{

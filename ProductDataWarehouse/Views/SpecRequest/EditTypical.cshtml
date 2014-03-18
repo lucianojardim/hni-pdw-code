@@ -1,7 +1,9 @@
 ﻿@model PDWModels.SpecRequests.TypicalMgmtInfo
 @{
 	ViewBag.Title = "Edit Typical";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.CurrentPage = "Database";
+	ViewBag.CurrentSubPage = "Typicals";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
 }
 @using ProductDataWarehouse.Models
 @using ProductDataWarehouse.Controllers
@@ -9,19 +11,6 @@
 <link href="@Url.Content( "~/Content/jquery.tagit.css" )" rel="stylesheet" type="text/css" />
 <script src="@Url.Content( "~/Scripts/tag-it.js" )" type="text/javascript"></script>
 
-@if( ViewBag.CloseFancyBox ?? false )
-{
-    <script type="text/javascript">
-    	$(document).ready(function () {
-    		parent.$.fancybox.close();
-    		if (parent.loadSpecRequests) {
-    			parent.loadSpecRequests();
-    		}
-    	});
-    </script>
-}
-else
-{
     <script type="text/javascript">
 		var seriesList = [@Html.Raw( SpecRequestController.GetJustSeriesNameList() )];
 
@@ -179,7 +168,7 @@ else
     	});
 
     </script>    
-}
+
     <h2>Edit Typical Finder - @Model.Name</h2>
 
     @using( Html.BeginForm( "EditTypical", "SpecRequest", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
