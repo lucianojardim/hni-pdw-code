@@ -59,6 +59,23 @@ namespace PDWInfrastructure.EmailSenders
 					return string.Join( ", ", trackingNumbers.Where( t => ( t ?? "" ).Any() ) );
 				}
 			}
+
+			public IEnumerable<string> TopTenShippingDetails
+			{
+				get
+				{
+					if( shipmentDetailList.Count > 10 )
+					{
+						return shipmentDetailList.Take( 10 )
+							.Union( new List<string>() { 
+								string.Format( "...and {0} additional items.  Please view <a href=\"http://my.paoli.com/Collateral/ViewOrder/{1}\">Order {1}</a> at my.paoli.com for more information.", 
+								shipmentDetailList.Count - 10, orderID ) 
+							} );
+					}
+
+					return shipmentDetailList;
+				}
+			}
 		}
 
 		public NewCollateralOrderShipmentEmailSender( string template )
@@ -82,7 +99,7 @@ namespace PDWInfrastructure.EmailSenders
 
 					template.Replace( "[{FirstName}]", summary.firstName );
 
-					template.Replace( "[{ShipmentDetailList}]", string.Join( "<br/>", summary.shipmentDetailList ) );
+					template.Replace( "[{ShipmentDetailList}]", string.Join( "<br/>", summary.TopTenShippingDetails ) );
 
 					template.Replace( "[{FullShippingNameAddress}]", summary.fullShippingAddress );
 
