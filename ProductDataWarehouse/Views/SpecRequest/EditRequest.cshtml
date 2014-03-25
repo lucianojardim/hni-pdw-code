@@ -26,6 +26,24 @@
     			window.location.href = '@Url.Action( "Manage" )';
     		});
 
+			$('.cancelReqBtn').click(function(e) {
+				if( confirm('Are you sure?') ) {
+					$.ajax({
+						dataType: 'json',
+						type: 'GET',
+						url: '/SpecRequest/CancelRequest',
+						data: { id: '@Model.RequestID' },
+						success: function (data, textStatus, jqXHR) {
+			    			window.location.href = '@Url.Action( "Manage" )';
+						},
+						error: function (jqXHR, textStatus, errorThrown) {
+							alert('Error canceling Request:' + errorThrown)
+						}
+					});
+					
+				}
+			});
+
     		$('#DealerID').change(function () {
     			reloadDealerSalesRepList();
     		});
@@ -565,6 +583,10 @@
 		<div>
 		<div class="left">
         <input type="submit" class="btn_type1" value="Save Changes" id="submitBtn" />
+		@if( !Model.IsCanceled )
+  {
+		<input type="button" class="btn_type1 cancelReqBtn" value="Cancel Request" />
+  }
 		<input type="button" class="btn_type1 cancelBtn" value="Cancel Changes" />
 		</div>
 		<div class="clear"></div>

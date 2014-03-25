@@ -35,6 +35,7 @@ namespace PWDRepositories
 				IsPublished = sRequest.Typicals.Any( t => t.IsPublished ),
 				HasTypical = sRequest.Typicals.Any(),
 				IsCompleted = sRequest.IsCompleted,
+				IsCanceled = sRequest.IsCanceled,
 				CreatedDate = sRequest.RequestDate,
 				IsAuditSpecOnly = sRequest.NeedAuditSpecs && !sRequest.NeedFloorplanSpecs &&
 					!sRequest.NeedPhotoRendering && !sRequest.Need2DDrawing && !sRequest.NeedValueEng
@@ -346,6 +347,7 @@ namespace PWDRepositories
 				IsGoodForWeb = ( sInfo.IsGoodForWeb ?? false ) && sInfo.IsCompleted,
 				AvailableForIn2 = sInfo.AvailableForIn2 ?? false,
 				IsCompleted = sInfo.IsCompleted,
+				IsCanceled = sInfo.IsCanceled,
 				Footprint = sInfo.Footprint,
 				Notes = sInfo.Notes,
 				NeedDWGFiles = sInfo.NeedDWGFiles,
@@ -440,6 +442,7 @@ namespace PWDRepositories
 			newSpec.SPLQuote = null;
 			newSpec.IsGoodForWeb = false;
 			newSpec.IsCompleted = false;
+			newSpec.IsCanceled = false;
 			newSpec.Footprint = null;
 			newSpec.CreatedByUserId = PaoliWebUser.CurrentUser.UserId;
 			newSpec.SpecTeamNotes = null;
@@ -627,7 +630,18 @@ namespace PWDRepositories
 			specInfo.SPLQuote = sInfo.SPLQuote;
 			specInfo.IsGoodForWeb = sInfo.IsCompleted && sInfo.IsGoodForWeb;
 			bool bDoCompleteEmail = sInfo.IsCompleted && !specInfo.IsCompleted;
+			if( sInfo.IsCompleted && !specInfo.IsCompleted )
+			{
+				specInfo.CompletedByUserID = PaoliWebUser.CurrentUser.UserId;
+				specInfo.CompletedDateTime = DateTime.UtcNow;
+			}
+			else if( !sInfo.IsCompleted )
+			{
+				specInfo.CompletedByUserID = null;
+				specInfo.CompletedDateTime = null;
+			}
 			specInfo.IsCompleted = sInfo.IsCompleted;
+			specInfo.IsCanceled = false;
 			specInfo.Footprint = sInfo.Footprint;
 			specInfo.SpecTeamNotes = sInfo.SpecTeamNotes;
 
@@ -1259,6 +1273,24 @@ namespace PWDRepositories
 		{
 			return database.GSAContracts
 				.Select( g => new IDToTextItem() { ID = g.ContractID, Text = g.Name } );
+		}
+
+		public bool CancelRequest( int requestId )
+		{
+			var specInfo = database.SpecRequests.FirstOrDefault( s => s.RequestID == requestId );
+			if( specInfo == null )
+			{
+				throw new Exception( "Unable to find Spec Request" );
+			}
+
+			specInfo.IsCanceled = true;
+			specInfo.IsCompleted = true;
+			specInfo.CanceledByUserID = PaoliWebUser.CurrentUser.UserId;
+			specInfo.CanceledDateTime = DateTime.UtcNow;
+			specInfo.CompletedByUserID = null;
+			specInfo.CompletedDateTime = null;
+
+			return database.SaveChanges() > 0;
 		}
 	}
 }

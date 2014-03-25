@@ -85,6 +85,8 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCompany_PaoliMember", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Company), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCompany_PaoliSalesRepMember", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Company), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSpecRequest_GSAContract", "GSAContract", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.GSAContract), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSpecRequest_CanceledUser", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSpecRequest_CompletedUser", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
 
 #endregion
 
@@ -9972,7 +9974,8 @@ namespace PDWDBContext
         /// <param name="needSIFFiles">Initial value of the NeedSIFFiles property.</param>
         /// <param name="needXLSFiles">Initial value of the NeedXLSFiles property.</param>
         /// <param name="needPDFFiles">Initial value of the NeedPDFFiles property.</param>
-        public static SpecRequest CreateSpecRequest(global::System.Int32 requestID, global::System.Boolean isCompleted, global::System.Boolean needFloorplanSpecs, global::System.Boolean need3DDrawing, global::System.Boolean needValueEng, global::System.Boolean needPhotoRendering, global::System.Boolean need2DDrawing, global::System.Boolean needAuditSpecs, global::System.Boolean grommets, global::System.Boolean needDWGFiles, global::System.Boolean needSP4Files, global::System.Boolean needSIFFiles, global::System.Boolean needXLSFiles, global::System.Boolean needPDFFiles)
+        /// <param name="isCanceled">Initial value of the IsCanceled property.</param>
+        public static SpecRequest CreateSpecRequest(global::System.Int32 requestID, global::System.Boolean isCompleted, global::System.Boolean needFloorplanSpecs, global::System.Boolean need3DDrawing, global::System.Boolean needValueEng, global::System.Boolean needPhotoRendering, global::System.Boolean need2DDrawing, global::System.Boolean needAuditSpecs, global::System.Boolean grommets, global::System.Boolean needDWGFiles, global::System.Boolean needSP4Files, global::System.Boolean needSIFFiles, global::System.Boolean needXLSFiles, global::System.Boolean needPDFFiles, global::System.Boolean isCanceled)
         {
             SpecRequest specRequest = new SpecRequest();
             specRequest.RequestID = requestID;
@@ -9989,6 +9992,7 @@ namespace PDWDBContext
             specRequest.NeedSIFFiles = needSIFFiles;
             specRequest.NeedXLSFiles = needXLSFiles;
             specRequest.NeedPDFFiles = needPDFFiles;
+            specRequest.IsCanceled = isCanceled;
             return specRequest;
         }
 
@@ -11294,6 +11298,126 @@ namespace PDWDBContext
         private Nullable<global::System.Int32> _ContractID;
         partial void OnContractIDChanging(Nullable<global::System.Int32> value);
         partial void OnContractIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> CompletedByUserID
+        {
+            get
+            {
+                return _CompletedByUserID;
+            }
+            set
+            {
+                OnCompletedByUserIDChanging(value);
+                ReportPropertyChanging("CompletedByUserID");
+                _CompletedByUserID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CompletedByUserID");
+                OnCompletedByUserIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _CompletedByUserID;
+        partial void OnCompletedByUserIDChanging(Nullable<global::System.Int32> value);
+        partial void OnCompletedByUserIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> CompletedDateTime
+        {
+            get
+            {
+                return _CompletedDateTime;
+            }
+            set
+            {
+                OnCompletedDateTimeChanging(value);
+                ReportPropertyChanging("CompletedDateTime");
+                _CompletedDateTime = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CompletedDateTime");
+                OnCompletedDateTimeChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _CompletedDateTime;
+        partial void OnCompletedDateTimeChanging(Nullable<global::System.DateTime> value);
+        partial void OnCompletedDateTimeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsCanceled
+        {
+            get
+            {
+                return _IsCanceled;
+            }
+            set
+            {
+                OnIsCanceledChanging(value);
+                ReportPropertyChanging("IsCanceled");
+                _IsCanceled = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsCanceled");
+                OnIsCanceledChanged();
+            }
+        }
+        private global::System.Boolean _IsCanceled;
+        partial void OnIsCanceledChanging(global::System.Boolean value);
+        partial void OnIsCanceledChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> CanceledByUserID
+        {
+            get
+            {
+                return _CanceledByUserID;
+            }
+            set
+            {
+                OnCanceledByUserIDChanging(value);
+                ReportPropertyChanging("CanceledByUserID");
+                _CanceledByUserID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CanceledByUserID");
+                OnCanceledByUserIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _CanceledByUserID;
+        partial void OnCanceledByUserIDChanging(Nullable<global::System.Int32> value);
+        partial void OnCanceledByUserIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> CanceledDateTime
+        {
+            get
+            {
+                return _CanceledDateTime;
+            }
+            set
+            {
+                OnCanceledDateTimeChanging(value);
+                ReportPropertyChanging("CanceledDateTime");
+                _CanceledDateTime = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CanceledDateTime");
+                OnCanceledDateTimeChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _CanceledDateTime;
+        partial void OnCanceledDateTimeChanging(Nullable<global::System.DateTime> value);
+        partial void OnCanceledDateTimeChanged();
 
         #endregion
 
@@ -11606,6 +11730,82 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<GSAContract>("PaoliPDWModel.fkSpecRequest_GSAContract", "GSAContract", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSpecRequest_CanceledUser", "User")]
+        public User User2
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkSpecRequest_CanceledUser", "User").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkSpecRequest_CanceledUser", "User").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<User> User2Reference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkSpecRequest_CanceledUser", "User");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("PaoliPDWModel.fkSpecRequest_CanceledUser", "User", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSpecRequest_CompletedUser", "User")]
+        public User User3
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkSpecRequest_CompletedUser", "User").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkSpecRequest_CompletedUser", "User").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<User> User3Reference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkSpecRequest_CompletedUser", "User");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("PaoliPDWModel.fkSpecRequest_CompletedUser", "User", value);
                 }
             }
         }
@@ -14590,6 +14790,50 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Company>("PaoliPDWModel.fkCompany_PaoliSalesRepMember", "Company", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSpecRequest_CanceledUser", "SpecRequest")]
+        public EntityCollection<SpecRequest> SpecRequests2_1
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<SpecRequest>("PaoliPDWModel.fkSpecRequest_CanceledUser", "SpecRequest");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SpecRequest>("PaoliPDWModel.fkSpecRequest_CanceledUser", "SpecRequest", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSpecRequest_CompletedUser", "SpecRequest")]
+        public EntityCollection<SpecRequest> SpecRequests3_1
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<SpecRequest>("PaoliPDWModel.fkSpecRequest_CompletedUser", "SpecRequest");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SpecRequest>("PaoliPDWModel.fkSpecRequest_CompletedUser", "SpecRequest", value);
                 }
             }
         }

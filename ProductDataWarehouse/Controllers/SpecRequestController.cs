@@ -262,6 +262,18 @@ namespace ProductDataWarehouse.Controllers
 			return View( sInfo );
 		}
 
+		[PaoliAuthorize( "CanViewSpecRequests" )]
+		public JsonResult CancelRequest( int id )
+		{
+			bool bSuccess = ( new SpecRequestRepository() ).CancelRequest( id );
+
+			return Json( new
+			{
+				success = bSuccess
+			},
+				JsonRequestBehavior.AllowGet );
+		}
+
 		[PaoliAuthorize( "CanManageTypicals" )]
 		[TempPasswordCheck]
 		public ActionResult EditTypical( int id )

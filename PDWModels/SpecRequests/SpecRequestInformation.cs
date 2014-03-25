@@ -131,6 +131,7 @@ namespace PDWModels.SpecRequests
 		public bool Received { get; set; }
 		[DisplayName( "Completed?" )]
 		public bool IsCompleted { get; set; }
+		public bool IsCanceled { get; set; }
 		[DisplayName( "SPL Quote" )]
 		public string SPLQuote { get; set; }
 		[DisplayName( "Recommended for Web?" )]

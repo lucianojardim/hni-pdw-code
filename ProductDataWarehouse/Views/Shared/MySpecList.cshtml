@@ -100,7 +100,9 @@
                     	"bSortable": true,
                     	"mDataProp": "Status", "sTitle": "Status", "sWidth": "10%",
                     	"fnRender": function (oObj) {
-							if (oObj.aData["IsCompleted"]) {
+							if (oObj.aData["IsCanceled"]) {
+                    			return 'Canceled';
+                    		} else if (oObj.aData["IsCompleted"]) {
                     			return 'Completed';
                     		} 
                     		return 'Pending';
