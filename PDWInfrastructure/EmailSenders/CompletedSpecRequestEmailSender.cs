@@ -20,6 +20,7 @@ namespace PDWInfrastructure.EmailSenders
 			public string specTeamMember { get; set; }
 			public string firstName { get; set; }
 			public string projectName { get; set; }
+			public string specTeamNotes { get; set; }
 			public List<FileDetail> fullFileList { get; set; }
 		}
 
@@ -38,6 +39,7 @@ namespace PDWInfrastructure.EmailSenders
 					template.Replace( "[{SpecTeamMember}]", summary.specTeamMember );
 					template.Replace( "[{FirstName}]", summary.firstName );
 					template.Replace( "[{ProjectName}]", summary.projectName );
+					template.Replace( "[{SpecTeamNotes}]", summary.specTeamNotes );
 					template.Replace( "[{FullFinalFileList}]", string.Join( "", summary.fullFileList
 						.Select( f => string.Format( "<li><a href=\"http://my.paoli.com/Documents/Typicals/{1}/{0}\">{0}</a></li>",
 							f.fileName, f.filePath ) ) ) );

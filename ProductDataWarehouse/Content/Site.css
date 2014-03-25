@@ -408,6 +408,11 @@ table.dataLayout td.dataInfo
 	width: 250px;
 }
 
+table.dataLayout td.double textarea
+{
+	width: 475px;
+}
+
 table.dataLayout td.double input[type="text"]
 {
 	width: 490px;

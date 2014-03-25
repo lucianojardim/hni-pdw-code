@@ -138,6 +138,8 @@ namespace PDWModels.SpecRequests
 		[DisplayName( "Final Client Files" )]
 		public List<HttpPostedFileBase> specTeamFiles { get; set; }
 		public string deletespecTeamFileList { get; set; }
+		[DisplayName( "Spec Team Notes" )]
+		public string SpecTeamNotes { get; set; }
 
 		/* obselete
 		[DisplayName( "Featured Series" )]

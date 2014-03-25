@@ -11112,6 +11112,30 @@ namespace PDWDBContext
         private global::System.String _GrommetPosition;
         partial void OnGrommetPositionChanging(global::System.String value);
         partial void OnGrommetPositionChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String SpecTeamNotes
+        {
+            get
+            {
+                return _SpecTeamNotes;
+            }
+            set
+            {
+                OnSpecTeamNotesChanging(value);
+                ReportPropertyChanging("SpecTeamNotes");
+                _SpecTeamNotes = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("SpecTeamNotes");
+                OnSpecTeamNotesChanged();
+            }
+        }
+        private global::System.String _SpecTeamNotes;
+        partial void OnSpecTeamNotesChanging(global::System.String value);
+        partial void OnSpecTeamNotesChanged();
 
         #endregion
 

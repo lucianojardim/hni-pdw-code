@@ -1509,3 +1509,9 @@ alter table [Companies] add [PaoliSalesRepMemberID] [int] null constraint [fkCom
 go
 
 go
+/****************************************
+ * db0063_SpecRequest_SpecTeamNotes.sql *
+ ****************************************/
+alter table [SpecRequests] add [SpecTeamNotes] [ntext] null
+go
+go

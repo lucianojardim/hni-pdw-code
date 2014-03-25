@@ -385,6 +385,7 @@ namespace PWDRepositories
 				CreatedByUserCompany = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.Company.FullName : null,
 				CreatedByUserPhone = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.BusinessPhone : null,
 				CreatedByUserEmail = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.Email : null,
+				SpecTeamNotes = sInfo.SpecTeamNotes
 					
 			};
 		}
@@ -438,6 +439,7 @@ namespace PWDRepositories
 			newSpec.IsCompleted = false;
 			newSpec.Footprint = null;
 			newSpec.CreatedByUserId = PaoliWebUser.CurrentUser.UserId;
+			newSpec.SpecTeamNotes = null;
 
 			database.SpecRequests.AddObject( newSpec );
 
@@ -449,11 +451,14 @@ namespace PWDRepositories
 
 				var rootLocation = Path.Combine( ConfigurationManager.AppSettings["SpecRequestDocumentLocation"], newSpec.Name );
 
-				foreach( var fileStream in sInfo.addlFiles )
+				if( sInfo.addlFiles != null )
 				{
-					if( fileStream != null )
+					foreach( var fileStream in sInfo.addlFiles )
 					{
-						SaveNewFileVersion( newSpec, rootLocation, Path.GetExtension( fileStream.FileName ).Trim( '.' ), fileStream.InputStream, fileStream.FileName, false );
+						if( fileStream != null )
+						{
+							SaveNewFileVersion( newSpec, rootLocation, Path.GetExtension( fileStream.FileName ).Trim( '.' ), fileStream.InputStream, fileStream.FileName, false );
+						}
 					}
 				}
 
@@ -620,6 +625,7 @@ namespace PWDRepositories
 			bool bDoCompleteEmail = sInfo.IsCompleted && !specInfo.IsCompleted;
 			specInfo.IsCompleted = sInfo.IsCompleted;
 			specInfo.Footprint = sInfo.Footprint;
+			specInfo.SpecTeamNotes = sInfo.SpecTeamNotes;
 
 			var rootLocation = Path.Combine( ConfigurationManager.AppSettings["SpecRequestDocumentLocation"], specInfo.Name );
 
@@ -708,7 +714,8 @@ namespace PWDRepositories
 				requestName = request.Name,
 				firstName = target.FirstName,
 				projectName = request.ProjectName,
-				specTeamMember = request.SpecTeamMember != null ? request.SpecTeamMember.FullName : "a member of our team"
+				specTeamMember = request.SpecTeamMember != null ? request.SpecTeamMember.FullName : "a member of our team",
+				specTeamNotes = request.SpecTeamNotes
 			};
 
 			summary.fullFileList = request.SpecRequestFiles
@@ -722,6 +729,7 @@ namespace PWDRepositories
 
 			return summary;
 		}
+
 		private bool DeleteRequestFile( SpecRequestFile sFile, string rootLocation )
 		{
 			var fileLocation = Path.Combine( rootLocation, sFile.Extension, sFile.VersionNumber.ToString(), sFile.Name );
