@@ -336,6 +336,8 @@ namespace PWDRepositories
 				DealerMemberID = sInfo.DealerSalesRepID,
 				DealerPointOfContact = sInfo.DealerPOCText,
 				IsGSA = sInfo.IsGSA ?? false,
+				ContractID = sInfo.ContractID,
+				ContractName = sInfo.ContractID.HasValue ? sInfo.GSAContract.Name : "",
 				SavedLocation = sInfo.SavedLocation,
 				ListPrice = sInfo.ListPrice,
 				Received = sInfo.Received ?? false,
@@ -402,6 +404,7 @@ namespace PWDRepositories
 			newSpec.DealerPOCText = !newSpec.DealerSalesRepID.HasValue ? sInfo.DealerPointOfContact : null;
 			newSpec.RequestDate = DateTime.UtcNow;
 			newSpec.IsGSA = sInfo.IsGSA;
+			newSpec.ContractID = sInfo.ContractID;
 			newSpec.AvailableForIn2 = sInfo.AvailableForIn2;
 			newSpec.PaoliSpecTeamMemberID = ( sInfo.PaoliSpecTeamMember ?? 0 ) > 0 ? sInfo.PaoliSpecTeamMember : null;
 			newSpec.LastModifiedDate = DateTime.UtcNow;
@@ -588,6 +591,7 @@ namespace PWDRepositories
 			specInfo.DealerSalesRepID = ( sInfo.DealerMemberID ?? 0 ) > 0 ? sInfo.DealerMemberID : null;
 			specInfo.DealerPOCText = !specInfo.DealerSalesRepID.HasValue ? sInfo.DealerPointOfContact : null;
 			specInfo.IsGSA = sInfo.IsGSA;
+			specInfo.ContractID = sInfo.ContractID;
 			specInfo.AvailableForIn2 = sInfo.AvailableForIn2;
 			specInfo.PaoliSpecTeamMemberID = ( sInfo.PaoliSpecTeamMember ?? 0 ) > 0 ? sInfo.PaoliSpecTeamMember : null;
 			specInfo.LastModifiedDate = DateTime.UtcNow;
@@ -1249,6 +1253,12 @@ namespace PWDRepositories
 				.Select( ao => ao.Footprint )
 				.Distinct()
 				.OrderBy( s => s );
+		}
+
+		public IEnumerable<IDToTextItem> GetGSAContractList()
+		{
+			return database.GSAContracts
+				.Select( g => new IDToTextItem() { ID = g.ContractID, Text = g.Name } );
 		}
 	}
 }

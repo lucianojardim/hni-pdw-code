@@ -58,6 +58,9 @@ namespace PDWModels.SpecRequests
 		public string ProjectSize { get; set; }
 		[DisplayName( "Is GSA?" )]
 		public bool IsGSA { get; set; }
+		[DisplayName( "Which contract does this relate to?" )]
+		public int? ContractID { get; set; }
+		public string ContractName { get; set; }
 		[DisplayName( "Is in2?" )]
 		public bool AvailableForIn2 { get; set; }
 

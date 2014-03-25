@@ -55,6 +55,11 @@
 				}
 			});
 
+			showHideContractInfo();
+			$('#IsGSA').change(function(e) {
+				showHideContractInfo();
+			});
+
 			showHideDrawerOptions();
 			showHideCGCSOptions();
 			showHideFabric();
@@ -76,6 +81,15 @@
 				showHideLaminatePreference();
 			});
 		});
+
+		function showHideContractInfo() {
+			if ($('#IsGSA:checked').length > 0) {
+				$('.gsaOnly').show();
+			} else {
+				$('.gsaOnly').hide();
+			}			
+			
+		}
 
 		function showHideLaminatePreference() {
 			if ($('.chkFinish:checked[value="Laminate"]').length > 0) {
@@ -186,6 +200,13 @@
     		if ($('#ProjectSize').val() != null) {
     			addConfirmRow(t, '@Html.MJLabelFor( m => m.ProjectSize, false )', $('#ProjectSize').val());
     		}
+			if ($('#IsGSA').is(':checked')) {
+				addConfirmRow(t, '@Html.MJLabelFor( m => m.IsGSA, false )', 'Yes');
+				addConfirmRow(t, '@Html.MJLabelFor( m => m.ContractID, false )', $('#ContractID option:selected').text());
+			}
+			if ($('#AvailableForIn2').is(':checked')) {
+				addConfirmRow(t, '@Html.MJLabelFor( m => m.AvailableForIn2, false )', 'Yes');
+			}
 
 			addConfirmHeaderRow(t, 'Services Rendered / Project Requirements');
     		$('.chkServices').each(function () {
@@ -459,6 +480,9 @@
 				<tr>
 					<td colspan="2">@Html.CheckBoxFor( m => m.IsGSA ) @Html.MJLabelFor( m => m.IsGSA, false )</td>
 					<td colspan="2">@Html.CheckBoxFor( m => m.AvailableForIn2 ) @Html.MJLabelFor( m => m.AvailableForIn2, false )</td>
+				</tr>
+				<tr>
+					<td class="gsaOnly">@Html.MJLabelFor( m => m.ContractID, false )</td><td class="gsaOnly">@Html.DropDownListFor( m => m.ContractID, SpecRequestController.GSAContractList( true ) )</td>
 				</tr>
 			</table>
 		</div>

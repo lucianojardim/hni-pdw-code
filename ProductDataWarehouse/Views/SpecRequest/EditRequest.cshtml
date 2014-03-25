@@ -98,7 +98,21 @@
 			$('.chkFinish').change(function (e) {
 				showHideLaminatePreference();
 			});
+
+			showHideContractInfo();
+			$('#IsGSA').change(function(e) {
+				showHideContractInfo();
+			});
     	});
+
+		function showHideContractInfo() {
+			if ($('#IsGSA:checked').length > 0) {
+				$('.gsaOnly').show();
+			} else {
+				$('.gsaOnly').hide();
+			}			
+			
+		}
 
 		function showHideLaminatePreference() {
 			if ($('.chkFinish:checked[value="Laminate"]').length > 0) {
@@ -382,6 +396,9 @@
 				<tr>
 					<td colspan="2">@Html.CheckBoxFor( m => m.IsGSA ) @Html.MJLabelFor( m => m.IsGSA, false )</td>
 					<td colspan="2">@Html.CheckBoxFor( m => m.AvailableForIn2 ) @Html.MJLabelFor( m => m.AvailableForIn2, false )</td>
+				</tr>
+				<tr>
+					<td class="gsaOnly">@Html.MJLabelFor( m => m.ContractID, false )</td><td class="gsaOnly">@Html.DropDownListFor( m => m.ContractID, SpecRequestController.GSAContractList( true ) )</td>
 				</tr>
 			</table>
 		</div>

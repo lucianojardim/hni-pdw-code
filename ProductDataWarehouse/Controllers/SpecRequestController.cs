@@ -164,6 +164,20 @@ namespace ProductDataWarehouse.Controllers
 			return "'" + string.Join( "','", list ) + "'";
 		}
 
+		public static IEnumerable<SelectListItem> GSAContractList( bool includeBlank )
+		{
+			var theList = ( new SpecRequestRepository() ).GetGSAContractList()
+				.Select( g => new SelectListItem() { Value = g.ID.ToString(), Text = g.Text } )
+				.ToList();
+				
+			if( includeBlank )
+			{
+				theList.Insert( 0, new SelectListItem() );
+			}
+
+			return theList;
+		}
+
 		public static IEnumerable<SelectListItem> GetFootprintDDList()
 		{
 			var footprints = ( new AttributeRepository() ).GetTypicalOptionList( "Footprint" ).Select( s => s.Name ).ToList();

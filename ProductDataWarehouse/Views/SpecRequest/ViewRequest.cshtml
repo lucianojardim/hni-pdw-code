@@ -81,6 +81,12 @@
 					<td class="dataLabel">@Html.MJLabelFor( m => m.IsGSA, false )</td><td class="dataInfo">@Html.DisplayFor( m => m.IsGSA, templateName: "YesNo" )</td>
 					<td class="dataLabel">@Html.MJLabelFor( m => m.AvailableForIn2, false )</td><td class="dataInfo">@Html.DisplayFor( m => m.AvailableForIn2, templateName: "YesNo" )</td>
 				</tr>
+				<tr>
+				@if( Model.IsGSA )
+	{
+					<td class="dataLabel">@Html.MJLabelFor( m => m.ContractID, false )</td><td class="dataInfo" colspan="3">@Html.DisplayFor( m => m.ContractName )</td>
+	}
+				</tr>
 			</table>
 		</div>
 		<div class="requestPanel">

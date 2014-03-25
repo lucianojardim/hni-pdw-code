@@ -84,6 +84,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCOrder_SPSalesRepMember", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "CollateralOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrder), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCompany_PaoliMember", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Company), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCompany_PaoliSalesRepMember", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Company), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSpecRequest_GSAContract", "GSAContract", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.GSAContract), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
 
 #endregion
 
@@ -758,6 +759,22 @@ namespace PDWDBContext
             }
         }
         private ObjectSet<CollateralOrderShipment> _CollateralOrderShipments;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<GSAContract> GSAContracts
+        {
+            get
+            {
+                if ((_GSAContracts == null))
+                {
+                    _GSAContracts = base.CreateObjectSet<GSAContract>("GSAContracts");
+                }
+                return _GSAContracts;
+            }
+        }
+        private ObjectSet<GSAContract> _GSAContracts;
 
         #endregion
 
@@ -1073,6 +1090,14 @@ namespace PDWDBContext
         public void AddToCollateralOrderShipments(CollateralOrderShipment collateralOrderShipment)
         {
             base.AddObject("CollateralOrderShipments", collateralOrderShipment);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the GSAContracts EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToGSAContracts(GSAContract gSAContract)
+        {
+            base.AddObject("GSAContracts", gSAContract);
         }
 
         #endregion
@@ -6561,6 +6586,115 @@ namespace PDWDBContext
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="GSAContract")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class GSAContract : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new GSAContract object.
+        /// </summary>
+        /// <param name="contractID">Initial value of the ContractID property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        public static GSAContract CreateGSAContract(global::System.Int32 contractID, global::System.String name)
+        {
+            GSAContract gSAContract = new GSAContract();
+            gSAContract.ContractID = contractID;
+            gSAContract.Name = name;
+            return gSAContract;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ContractID
+        {
+            get
+            {
+                return _ContractID;
+            }
+            set
+            {
+                if (_ContractID != value)
+                {
+                    OnContractIDChanging(value);
+                    ReportPropertyChanging("ContractID");
+                    _ContractID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ContractID");
+                    OnContractIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ContractID;
+        partial void OnContractIDChanging(global::System.Int32 value);
+        partial void OnContractIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSpecRequest_GSAContract", "SpecRequest")]
+        public EntityCollection<SpecRequest> SpecRequests
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<SpecRequest>("PaoliPDWModel.fkSpecRequest_GSAContract", "SpecRequest");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SpecRequest>("PaoliPDWModel.fkSpecRequest_GSAContract", "SpecRequest", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="ImageFile")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -11136,6 +11270,30 @@ namespace PDWDBContext
         private global::System.String _SpecTeamNotes;
         partial void OnSpecTeamNotesChanging(global::System.String value);
         partial void OnSpecTeamNotesChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> ContractID
+        {
+            get
+            {
+                return _ContractID;
+            }
+            set
+            {
+                OnContractIDChanging(value);
+                ReportPropertyChanging("ContractID");
+                _ContractID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ContractID");
+                OnContractIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _ContractID;
+        partial void OnContractIDChanging(Nullable<global::System.Int32> value);
+        partial void OnContractIDChanged();
 
         #endregion
 
@@ -11410,6 +11568,44 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("PaoliPDWModel.fkSRequest_CreatedBy", "User", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSpecRequest_GSAContract", "GSAContract")]
+        public GSAContract GSAContract
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<GSAContract>("PaoliPDWModel.fkSpecRequest_GSAContract", "GSAContract").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<GSAContract>("PaoliPDWModel.fkSpecRequest_GSAContract", "GSAContract").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<GSAContract> GSAContractReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<GSAContract>("PaoliPDWModel.fkSpecRequest_GSAContract", "GSAContract");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<GSAContract>("PaoliPDWModel.fkSpecRequest_GSAContract", "GSAContract", value);
                 }
             }
         }
