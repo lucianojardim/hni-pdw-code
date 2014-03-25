@@ -73,7 +73,7 @@ namespace PDWModels.SpecRequests
 		public bool NeedPhotoRendering { get; set; }
 		[DisplayName( "2D Drawing" )]
 		public bool Need2DDrawing { get; set; }
-		[DisplayName( "Audit Specs" )]
+		[DisplayName( "Spec Check Audit" )]
 		public bool NeedAuditSpecs { get; set; }
 		[DisplayName( "Related Drawings or Notes" )]
 		public List<HttpPostedFileBase> addlFiles { get; set; }

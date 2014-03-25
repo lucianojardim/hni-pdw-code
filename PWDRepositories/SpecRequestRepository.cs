@@ -35,7 +35,9 @@ namespace PWDRepositories
 				IsPublished = sRequest.Typicals.Any( t => t.IsPublished ),
 				HasTypical = sRequest.Typicals.Any(),
 				IsCompleted = sRequest.IsCompleted,
-				CreatedDate = sRequest.RequestDate
+				CreatedDate = sRequest.RequestDate,
+				IsAuditSpecOnly = sRequest.NeedAuditSpecs && !sRequest.NeedFloorplanSpecs &&
+					!sRequest.NeedPhotoRendering && !sRequest.Need2DDrawing && !sRequest.NeedValueEng
 			};
 		}
 
@@ -197,6 +199,11 @@ namespace PWDRepositories
 			if( paramDetails.notYetAssigned )
 			{
 				requestList = requestList.Where( i => !i.IsCompleted && !i.PaoliSpecTeamMemberID.HasValue );
+			}
+			if( paramDetails.auditSpecOnly )
+			{
+				requestList = requestList.Where( i => i.NeedAuditSpecs && !i.NeedFloorplanSpecs &&
+					!i.NeedPhotoRendering && !i.Need2DDrawing && !i.NeedValueEng );
 			}
 
 			displayedRecords = requestList.Count();
@@ -537,6 +544,10 @@ namespace PWDRepositories
 			}
 
 			summary.servicesReqd = new List<string>();
+			if( request.NeedAuditSpecs )
+			{
+				summary.servicesReqd.Add( "Spec Check Audit" );
+			}			
 			if( request.NeedFloorplanSpecs )
 			{
 				summary.servicesReqd.Add( "Floorplan Specifications" );
@@ -553,10 +564,6 @@ namespace PWDRepositories
 			{
 				summary.servicesReqd.Add( "Value Engineering" );
 			}
-			if( request.NeedAuditSpecs )
-			{
-				summary.servicesReqd.Add( "Audit Specs" );
-			}			
 
 			return summary;
 		}

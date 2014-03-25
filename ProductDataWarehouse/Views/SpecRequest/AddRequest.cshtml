@@ -466,8 +466,11 @@
 			<h3>Step @(stepNum++) of @stepCount: Services Requested</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
-					<td>@Html.CheckBoxFor( m => m.NeedFloorplanSpecs, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedFloorplanSpecs, false )<span class="littleHelp">Please attach a legible drawing/sketch of the furniture layout with sizes and details clearly noted.</span></td>
+					<td>@Html.CheckBoxFor( m => m.NeedAuditSpecs, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedAuditSpecs, false )<span class="littleHelp">Our team can quickly review and check a specification you have completed. Please include a parts list and a legible drawing/sketch of the furniture layout with sizes and details clearly noted.</span></td>
 					<td rowspan="5" id="fileContainer">@Html.MJLabelFor( m => m.addlFiles, true )<span class="littleHelp">Attach PDFs or other applicable files to help the specificaton engineer complete this request.</span><input type="file" name="addlFiles[0]" class="addlFiles" onchange="fileChanged()" /><input type="hidden" name="addlFiles.Index" value="0" /></td>
+				</tr>
+				<tr>
+					<td>@Html.CheckBoxFor( m => m.NeedFloorplanSpecs, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedFloorplanSpecs, false )<span class="littleHelp">Please attach a legible drawing/sketch of the furniture layout with sizes and details clearly noted.</span></td>
 				</tr>
 				<tr>
 					<td>@Html.CheckBoxFor( m => m.NeedPhotoRendering, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedPhotoRendering, false )<span class="littleHelp">Initial rendering is no charge, changes and additional renderings may incur fees. Check with Specification services. Extended lead times may apply.</span></td>
@@ -477,9 +480,6 @@
 				</tr>
 				<tr>
 					<td>@Html.CheckBoxFor( m => m.NeedValueEng, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedValueEng, false )<span class="littleHelp">Please include a parts list and a legible drawing/sketch of the furniture layout with sizes and details clearly noted.</span></td>
-				</tr>
-				<tr>
-					<td>@Html.CheckBoxFor( m => m.NeedAuditSpecs, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedAuditSpecs, false )<span class="littleHelp">Please include a parts list and a legible drawing/sketch of the furniture layout with sizes and details clearly noted.</span></td>
 				</tr>
 			</table>
 		</div>

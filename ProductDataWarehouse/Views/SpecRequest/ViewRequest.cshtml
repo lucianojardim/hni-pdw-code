@@ -87,9 +87,12 @@
 			<h3>Services Requested</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
-					<td class="dataLabel">@Html.MJLabelFor( m => m.NeedFloorplanSpecs, true )</td><td class="dataInfoThin">@Html.DisplayFor( m => m.NeedFloorplanSpecs, templateName: "YesNo" )</td>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.NeedAuditSpecs, true )</td><td class="dataInfoThin">@Html.DisplayFor( m => m.NeedAuditSpecs, templateName: "YesNo" )</td>
 					<td rowspan="5" id="fileContainer" class="dataInfo">@Html.MJLabelFor( m => m.addlFiles, true )<br />@Html.DisplayFor( m => m.addlFileList, templateName: "FullFileListing" )</td>
 					<td rowspan="5" class="dataInfo">@Html.MJLabelFor( m => m.Notes, true ) <br/> @Html.DisplayFor( m => m.Notes )</td>
+				</tr>
+				<tr>
+					<td class="dataLabel">@Html.MJLabelFor( m => m.NeedFloorplanSpecs, true )</td><td class="dataInfoThin">@Html.DisplayFor( m => m.NeedFloorplanSpecs, templateName: "YesNo" )</td>
 				</tr>
 				<tr>
 					<td class="dataLabel">@Html.MJLabelFor( m => m.NeedPhotoRendering, true )</td><td class="dataInfoThin">@Html.DisplayFor( m => m.NeedPhotoRendering, templateName: "YesNo" )</td>
@@ -99,9 +102,6 @@
 				</tr>
 				<tr>
 					<td class="dataLabel">@Html.MJLabelFor( m => m.NeedValueEng, true )</td><td class="dataInfoThin">@Html.DisplayFor( m => m.NeedValueEng, templateName: "YesNo" )</td>
-				</tr>
-				<tr>
-					<td class="dataLabel">@Html.MJLabelFor( m => m.NeedAuditSpecs, true )</td><td class="dataInfoThin">@Html.DisplayFor( m => m.NeedAuditSpecs, templateName: "YesNo" )</td>
 				</tr>
 			</table>
 		</div>
