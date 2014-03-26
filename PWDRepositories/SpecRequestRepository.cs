@@ -389,6 +389,8 @@ namespace PWDRepositories
 				CreatedByUserCompany = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.Company.FullName : null,
 				CreatedByUserPhone = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.BusinessPhone : null,
 				CreatedByUserEmail = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.Email : null,
+				CanceledDate = sInfo.IsCanceled ? sInfo.CanceledDateTime : null,
+				CanceledByUser = sInfo.IsCanceled && sInfo.CanceledByUserID.HasValue ? sInfo.CanceledByUser.FullName : null,
 				SpecTeamNotes = sInfo.SpecTeamNotes
 					
 			};

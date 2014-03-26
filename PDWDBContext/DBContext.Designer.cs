@@ -11741,7 +11741,7 @@ namespace PDWDBContext
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSpecRequest_CanceledUser", "User")]
-        public User User2
+        public User CanceledByUser
         {
             get
             {
@@ -11757,7 +11757,7 @@ namespace PDWDBContext
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<User> User2Reference
+        public EntityReference<User> CanceledByUserReference
         {
             get
             {
@@ -11779,7 +11779,7 @@ namespace PDWDBContext
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSpecRequest_CompletedUser", "User")]
-        public User User3
+        public User CompletedByUser
         {
             get
             {
@@ -11795,7 +11795,7 @@ namespace PDWDBContext
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<User> User3Reference
+        public EntityReference<User> CompletedByUserReference
         {
             get
             {

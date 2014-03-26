@@ -170,6 +170,11 @@ namespace PDWModels.SpecRequests
 		public string CreatedByUserPhone { get; set; }
 		public string CreatedByUserEmail { get; set; }
 
+		[DisplayName( "This quote request was canceled" )]
+		public DateTime? CanceledDate { get; set; }
+		[DisplayName( "by" )]
+		public string CanceledByUser { get; set; }
+
 		public string DealerName { get; set; }
 		public string DealerSalesRepName { get; set; }
 		public string DealerSalesRepContact { get; set; }

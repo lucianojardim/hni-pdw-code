@@ -2936,8 +2936,8 @@
           <Property Type="Boolean" Name="IsCanceled" Nullable="false" />
           <Property Type="Int32" Name="CanceledByUserID" />
           <Property Type="DateTime" Name="CanceledDateTime" />
-          <NavigationProperty Name="User2" Relationship="PaoliPDWModel.fkSpecRequest_CanceledUser" FromRole="SpecRequest" ToRole="User" />
-          <NavigationProperty Name="User3" Relationship="PaoliPDWModel.fkSpecRequest_CompletedUser" FromRole="SpecRequest" ToRole="User" />
+          <NavigationProperty Name="CanceledByUser" Relationship="PaoliPDWModel.fkSpecRequest_CanceledUser" FromRole="SpecRequest" ToRole="User" />
+          <NavigationProperty Name="CompletedByUser" Relationship="PaoliPDWModel.fkSpecRequest_CompletedUser" FromRole="SpecRequest" ToRole="User" />
         </EntityType>
         <Association Name="fkSpec_Company">
           <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="0..1" />
@@ -4587,10 +4587,10 @@
           <ConnectorPoint PointX="6.6953105" PointY="6.5" />
         </AssociationConnector>
         <EntityTypeShape EntityType="PaoliPDWModel.CollateralItem" Width="1.5" PointX="18.625" PointY="16" Height="3.4001269531250031" />
-        <EntityTypeShape EntityType="PaoliPDWModel.CollateralType" Width="1.5" PointX="16.375" PointY="16.5" Height="1.427958984374996" />
+        <EntityTypeShape EntityType="PaoliPDWModel.CollateralType" Width="1.5" PointX="18.375" PointY="14" Height="1.427958984374996" />
         <AssociationConnector Association="PaoliPDWModel.fkCollateral_Type" >
-          <ConnectorPoint PointX="17.875" PointY="17.213979492187498" />
-          <ConnectorPoint PointX="18.625" PointY="17.213979492187498" />
+          <ConnectorPoint PointX="19.25" PointY="15.427958984374996" />
+          <ConnectorPoint PointX="19.25" PointY="16" />
         </AssociationConnector>
         <EntityTypeShape EntityType="PaoliPDWModel.CollateralGroupItem" Width="1.5" PointX="20.875" PointY="16.875" Height="1.7566536458333388" />
         <AssociationConnector Association="PaoliPDWModel.fkCGI_Children" >

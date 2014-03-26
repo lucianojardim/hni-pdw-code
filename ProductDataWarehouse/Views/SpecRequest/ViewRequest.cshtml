@@ -15,6 +15,11 @@
                 $('#createdDate').text(getLocalDateTime('@Model.CreatedDate.Value.ToString()'));
 			</text>
 			}
+			@if( Model.CanceledDate.HasValue ) {
+			<text>
+				$('#canceledDate').text(getLocalDateTime('@Model.CanceledDate.Value.ToString()'));
+			</text>
+			}
     	});
 
 		$('.cancelReqBtn').click(function(e) {
@@ -59,6 +64,13 @@
   @if( !Model.IsCanceled )
   {
 		<br /><input type="button" class="btn_type1 cancelReqBtn" value="Cancel Request" />
+  }
+  else
+  {
+	  <br />
+		@Html.MJLabelFor( m => m.CanceledDate, true ) <span id="canceledDate"></span>
+		@Html.MJLabelFor( m => m.CanceledByUser, true ) <br /><span>@Html.DisplayFor( m => m.CanceledByUser )</span>
+	  
   }
 		</div>
 		<div class="clear"></div>
