@@ -186,7 +186,7 @@
         
 		<tr>
 		<td>@Html.MJLabelFor( m => m.CompanyType, true )</td><td>@Html.DropDownListFor( m => m.CompanyType, CompanyController.GetCompanyTypeDDList(), new { tabindex = 11 } )</td>
-		<td class="territoryRow">@Html.MJLabelFor( m => m.TerritoryID, true )</td><td class="territoryRow">@Html.DropDownListFor( m => m.TerritoryID, CompanyController.GetTerritoryDDList(), new { tabindex = 16 } )</td>
+		<td class="territoryRow">@Html.MJLabelFor( m => m.TerritoryID, true )</td><td class="territoryRow">@Html.DropDownListFor( m => m.TerritoryID, CompanyController.GetTerritoryDDList( true ), new { tabindex = 16 } )</td>
 		</tr>
         <tr>
 		<td>@Html.MJLabelFor( m => m.MasterID, true )</td><td>@Html.TextBoxFor( m => m.MasterID, new { tabindex = 12 } )</td>
