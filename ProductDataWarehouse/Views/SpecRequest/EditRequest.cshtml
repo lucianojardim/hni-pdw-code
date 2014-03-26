@@ -356,7 +356,7 @@
   }
   else
   {
-	  <br />
+	  <br /><br />
 		@Html.MJLabelFor( m => m.CanceledDate, true ) <span id="canceledDate"></span>
 		@Html.MJLabelFor( m => m.CanceledByUser, true ) <br /><span>@Html.DisplayFor( m => m.CanceledByUser )</span>
 	  
@@ -599,7 +599,10 @@
 @Html.ValidationSummary()
 		<div>
 		<div class="left">
+		@if( !Model.IsCanceled )
+  {
         <input type="submit" class="btn_type1" value="Save Changes" id="submitBtn" />
+  }
 		<input type="button" class="btn_type1 cancelBtn" value="Cancel Changes" />
 		</div>
 		<div class="clear"></div>

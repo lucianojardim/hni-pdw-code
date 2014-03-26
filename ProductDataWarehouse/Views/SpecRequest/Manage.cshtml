@@ -74,6 +74,9 @@
 						"aTargets": [0],
 						"mDataProp": "EditButtons", "sWidth": "8%",
 						"fnRender": function (oObj) {
+							if (oObj.aData["IsCanceled"]) {
+								return '<a href=\"@Url.Action( "ViewRequest", "SpecRequest" )/' + oObj.aData["RequestID"] + '\">' + oObj.aData["Name"] + '</a>';
+							}
 							return '<a href=\"@Url.Action( "EditRequest", "SpecRequest" )/' + oObj.aData["RequestID"] + '\">' + oObj.aData["Name"] + '</a>';
 						}
 					},
