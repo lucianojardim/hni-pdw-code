@@ -734,7 +734,9 @@ namespace PWDRepositories
 				requestName = request.Name,
 				firstName = target.FirstName,
 				projectName = request.ProjectName,
-				specTeamMember = request.SpecTeamMember != null ? request.SpecTeamMember.FullName : "a member of our team",
+				specTeamMember = 
+					(request.CompletedByUser != null) ? request.CompletedByUser.FullName :
+						((request.SpecTeamMember != null) ? request.SpecTeamMember.FullName : "a member of our team"),
 				specTeamNotes = request.SpecTeamNotes
 			};
 
