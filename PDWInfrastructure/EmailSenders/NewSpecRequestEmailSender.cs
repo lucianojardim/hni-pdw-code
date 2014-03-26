@@ -49,6 +49,7 @@ namespace PDWInfrastructure.EmailSenders
 					template.Replace( "[{ScopeDescription}]", summary.scopeDescription );
 					template.Replace( "[{SeriesNames}]", string.Join( ", ", summary.seriesNames ) );
 					template.Replace( "[{ServicesReqd}]", string.Join( ", ", summary.servicesReqd ) );
+					template.Replace( "[{ServicesReqdList}]", string.Join( "", summary.servicesReqd.Select( s => "<li>" + s + "</li>" ) ) );
 
 					return SubmitEmail( new List<string>() { emailAddress }, null, null, GetSubject( template ), template );
 				}
