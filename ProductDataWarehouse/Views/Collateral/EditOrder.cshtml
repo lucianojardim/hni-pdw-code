@@ -48,9 +48,12 @@
 
     		$('.quantityInput').last().rules("add", { atLeastOneItem: true, messages: { number: 'Please add at least one item to your order.'} });
     		$('.quantityInput').rules("add", { atLeastShippedQuantity: true, messages: { number: 'Please select a value greater than the shipped amount.'} });
-    		$("#ShippingZip").rules("add", { regex: "^\\d{5}(-\\d{4})?$", messages: { regex: "Zip Code must be in the format ##### or #####-####."} });
-    		$("#ShippingPhoneNumber").rules("add", { regex: "^[2-9]\\d{2}-\\d{3}-\\d{4}$", messages: { regex: "Phone Number must be in the format ###-###-####."} });
-    		$("#ShippingEmailAddress").rules("add", { regex: "^[A-Za-z0-9](([_\\.\\-\\+]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$", messages: { regex: "Email must be a valid Email Address."} });
+    		$("#tb1ShippingZip").rules("add", { regex: "^\\d{5}(-\\d{4})?$", messages: { regex: "Zip Code must be in the format ##### or #####-####."} });
+    		$("#tb1ShippingPhoneNumber").rules("add", { regex: "^[2-9]\\d{2}-\\d{3}-\\d{4}$", messages: { regex: "Phone Number must be in the format ###-###-####."} });
+    		$("#tb1ShippingEmailAddress").rules("add", { regex: "^[A-Za-z0-9](([_\\.\\-\\+]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$", messages: { regex: "Email must be a valid Email Address."} });
+    		$("#tb2ShippingZip").rules("add", { regex: "^\\d{5}(-\\d{4})?$", messages: { regex: "Zip Code must be in the format ##### or #####-####."} });
+    		$("#tb2ShippingPhoneNumber").rules("add", { regex: "^[2-9]\\d{2}-\\d{3}-\\d{4}$", messages: { regex: "Phone Number must be in the format ###-###-####."} });
+    		$("#tb2ShippingEmailAddress").rules("add", { regex: "^[A-Za-z0-9](([_\\.\\-\\+]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$", messages: { regex: "Email must be a valid Email Address."} });
     		$('#ShippingFedexAccount').rules("add", { required: true, messages: { required: "Fedex Account Number is required."} });
 
     		$('.cancelBtn').click(function (e) {
@@ -63,22 +66,7 @@
     		});
 
     		$('input:radio[name=ShippingAddressType]').click(function (e) {
-    			switch ($(this).val()) {
-    				case '0':
-    					setCompanyDetails(false);
-    					break;
-    				case '1':
-    					$('#ShippingCompanyName').show().val(null);
-    					$('#ShippingAttn').show().val(null);
-    					$('#ShippingAddress1').show().val(null);
-    					$('#ShippingAddress2').show().val(null);
-    					$('#ShippingCity').show().val(null);
-    					$('#ShippingState').show().val(null);
-    					$('#ShippingZip').show().val(null);
-    					$('#ShippingPhoneNumber').show().val(null);
-    					$('#ShippingEmailAddress').show().val(null);
-    					break;
-    			}
+				setCompanyDetails(false);
     		});
 
 			setCompanyDetails(true);
@@ -119,63 +107,44 @@
 					break;
     		}
 
-			if ($('#ShippingAddressType:checked').val() == '0') {
-   				if (officialCompanyID != null || officialUserID != null) {
-    				$.ajax({
-    					dataType: 'json',
-    					type: 'GET',
-    					url: '/Company/GetShippingAddress',
-    					data: { companyId: officialCompanyID, userId: officialUserID },
-    					success: function (data, textStatus, jqXHR) {
-    						$('#ShippingCompanyName').hide().val(data.Name);
-    						$('#ShippingAttn').hide().val(data.ContactAttn);
-    						$('#ShippingAddress1').hide().val(data.Address1);
-    						$('#ShippingAddress2').hide().val(data.Address2);
-    						$('#ShippingCity').hide().val(data.City);
-    						$('#ShippingState').hide().val(data.State);
-    						$('#ShippingZip').hide().val(data.Zip);
-    						$('#ShippingPhoneNumber').hide().val(data.Phone);
-    						$('#ShippingEmailAddress').hide().val(data.ContactEmail);
-
-    						$('#lblShippingCompanyName').html(data.Name);
-    						$('#lblShippingAttn').html(data.ContactAttn);
-    						$('#lblShippingAddress1').html(data.Address1);
-    						$('#lblShippingAddress2').html(data.Address2);
-    						$('#lblShippingCity').html(data.City);
-    						$('#lblShippingState').html(data.State);
-    						$('#lblShippingZip').html(data.Zip);
-    						$('#lblShippingPhoneNumber').html(data.Phone);
-    						$('#lblShippingEmailAddress').html(data.ContactEmail);
-
-    					},
-    					error: function (jqXHR, textStatus, errorThrown) {
-    						alert('Error getting Company Address:' + errorThrown)
-    					}
-    				});
-
-					return;
-				}
-
-    			$('#ShippingAddressType[value="1"]').attr('checked', 'checked');
-			}
-
    			if (officialCompanyID == null && officialUserID == null) {
     			$('#ShippingAddressType[value="0"]').attr('disabled', true);
 			}
 
-			if( !bInit ) {
-    			$('#ShippingCompanyName').show().val(null);
-    			$('#ShippingAttn').show().val(null);
-    			$('#ShippingAddress1').show().val(null);
-    			$('#ShippingAddress2').show().val(null);
-    			$('#ShippingCity').show().val(null);
-    			$('#ShippingState').show().val(null);
-    			$('#ShippingZip').show().val(null);
-    			$('#ShippingPhoneNumber').show().val(null);
-    			$('#ShippingEmailAddress').show().val(null);
+			if ($('#ShippingAddressType:checked').val() == '1') {
+				$('.currentAddress').attr('disabled', 'disabled');
+				$('.newAddress').removeAttr('disabled');
+				if( bInit ) {
+   					if (officialCompanyID != null || officialUserID != null) {
+    					$.ajax({
+    						dataType: 'json',
+    						type: 'GET',
+    						url: '/Company/GetShippingAddress',
+    						data: { companyId: officialCompanyID, userId: officialUserID },
+    						success: function (data, textStatus, jqXHR) {
+    							$('#tb1ShippingCompanyName').val(data.Name);
+    							$('#tb1ShippingAttn').val(data.ContactAttn);
+    							$('#tb1ShippingAddress1').val(data.Address1);
+    							$('#tb1ShippingAddress2').val(data.Address2);
+    							$('#tb1ShippingCity').val(data.City);
+    							$('#tb1ShippingState').val(data.State);
+    							$('#tb1ShippingZip').val(data.Zip);
+    							$('#tb1ShippingPhoneNumber').val(data.Phone);
+    							$('#tb1ShippingEmailAddress').val(data.ContactEmail);
 
-				$('.theseAreTheShippingFields input[type="text"]').val(null);
-				$('.theseAreTheShippingFields select').val(null);
+    						},
+    						error: function (jqXHR, textStatus, errorThrown) {
+    							alert('Error getting Company Address:' + errorThrown)
+    						}
+    					});
+					}
+				}
+			} else {
+				$('.newAddress').attr('disabled', 'disabled');
+				$('.currentAddress').removeAttr('disabled');
+				if( bInit ) {
+					$('.newAddress').val(null);
+				}
 			}
     	}
 
@@ -248,36 +217,39 @@
 			</table>
 			<table cellpadding="0" cellspacing="0" class="dataLayout theseAreTheShippingFields">
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingAddressType )</td>
-					<td>@Html.RadioButtonFor( m => m.ShippingAddressType, "0", new { @checked = "checked" } ) Current Address on File</td>
-					<td>@Html.RadioButtonFor( m => m.ShippingAddressType, "1" ) New Address</td>
+					<td colspan="3">@Html.LabelFor( m => m.ShippingAddressType )</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingAttn )</td><td id="lblShippingAttn" class="inputHeightLabel"></td><td>@Html.TextBoxFor( m => m.ShippingAttn )</td>
+					<td></td>
+					<td class="padt15 padb15">@Html.RadioButtonFor( m => m.ShippingAddressType, "0", new { @checked = "checked" } ) Current Address on File</td>
+					<td class="padt15 padb15">@Html.RadioButtonFor( m => m.ShippingAddressType, "1" ) Alternative Address</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingCompanyName )</td><td id="lblShippingCompanyName" class="inputHeightLabel"></td><td>@Html.TextBoxFor( m => m.ShippingCompanyName )</td>
+					<td>@Html.LabelFor( m => m.ShippingAttn )</td><td>@Html.TextBoxFor( m => m.ShippingAttn, new { @class = "currentAddress", @id = "tb1ShippingAttn" } )</td><td>@Html.TextBoxFor( m => m.ShippingAttn, new { @class = "newAddress", @id = "tb2ShippingAttn" } )</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingAddress1 )</td><td id="lblShippingAddress1" class="inputHeightLabel"></td><td>@Html.TextBoxFor( m => m.ShippingAddress1 )</td>
+					<td>@Html.LabelFor( m => m.ShippingCompanyName )</td><td>@Html.TextBoxFor( m => m.ShippingCompanyName, new { @class = "currentAddress", @id = "tb1ShippingCompanyName" } )</td><td>@Html.TextBoxFor( m => m.ShippingCompanyName, new { @class = "newAddress", @id = "tb2ShippingCompanyName" } )</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingAddress2 )</td><td id="lblShippingAddress2" class="inputHeightLabel"></td><td>@Html.TextBoxFor( m => m.ShippingAddress2 )</td>
+					<td>@Html.LabelFor( m => m.ShippingAddress1 )</td><td>@Html.TextBoxFor( m => m.ShippingAddress1, new { @class = "currentAddress", @id = "tb1ShippingAddress1" } )</td><td>@Html.TextBoxFor( m => m.ShippingAddress1, new { @class = "newAddress", @id = "tb2ShippingAddress1" } )</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingCity )</td><td id="lblShippingCity" class="inputHeightLabel"></td><td>@Html.TextBoxFor( m => m.ShippingCity )</td>
+					<td>@Html.LabelFor( m => m.ShippingAddress2 )</td><td>@Html.TextBoxFor( m => m.ShippingAddress2, new { @class = "currentAddress", @id = "tb1ShippingAddress2" } )</td><td>@Html.TextBoxFor( m => m.ShippingAddress2, new { @class = "newAddress", @id = "tb2ShippingAddress2" } )</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingState )</td><td id="lblShippingState" class="inputHeightLabel"></td><td>@Html.DropDownListFor( m => m.ShippingState, UserController.GetStateDDList() )</td>
+					<td>@Html.LabelFor( m => m.ShippingCity )</td><td>@Html.TextBoxFor( m => m.ShippingCity, new { @class = "currentAddress", @id = "tb1ShippingCity" } )</td><td>@Html.TextBoxFor( m => m.ShippingCity, new { @class = "newAddress", @id = "tb2ShippingCity" } )</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingZip )</td><td id="lblShippingZip" class="inputHeightLabel"></td><td>@Html.TextBoxFor( m => m.ShippingZip )</td>
+					<td>@Html.LabelFor( m => m.ShippingState )</td><td>@Html.DropDownListFor( m => m.ShippingState, UserController.GetStateDDList(), new { @class = "currentAddress", @id = "tb1ShippingState" } )</td><td>@Html.DropDownListFor( m => m.ShippingState, UserController.GetStateDDList(), new { @class = "newAddress", @id = "tb2ShippingState" } )</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingPhoneNumber )</td><td id="lblShippingPhoneNumber" class="inputHeightLabel"></td><td>@Html.TextBoxFor( m => m.ShippingPhoneNumber )</td>
+					<td>@Html.LabelFor( m => m.ShippingZip )</td><td>@Html.TextBoxFor( m => m.ShippingZip, new { @class = "currentAddress", @id = "tb1ShippingZip" } )</td><td>@Html.TextBoxFor( m => m.ShippingZip, new { @class = "newAddress", @id = "tb2ShippingZip" } )</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingEmailAddress )</td><td id="lblShippingEmailAddress" class="inputHeightLabel"></td><td>@Html.TextBoxFor( m => m.ShippingEmailAddress )</td>
+					<td>@Html.LabelFor( m => m.ShippingPhoneNumber )</td><td>@Html.TextBoxFor( m => m.ShippingPhoneNumber, new { @class = "currentAddress", @id = "tb1ShippingPhoneNumber" } )</td><td>@Html.TextBoxFor( m => m.ShippingPhoneNumber, new { @class = "newAddress", @id = "tb2ShippingPhoneNumber" } )</td>
+				</tr>
+				<tr>
+					<td>@Html.LabelFor( m => m.ShippingEmailAddress )</td><td>@Html.TextBoxFor( m => m.ShippingEmailAddress, new { @class = "currentAddress", @id = "tb1ShippingEmailAddress" } )</td><td>@Html.TextBoxFor( m => m.ShippingEmailAddress, new { @class = "newAddress", @id = "tb2ShippingEmailAddress" } )</td>
 				</tr>
 			</table>
 		</div>
