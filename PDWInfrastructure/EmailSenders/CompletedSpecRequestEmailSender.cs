@@ -48,7 +48,7 @@ namespace PDWInfrastructure.EmailSenders
 						string fullSpecTeamNotes = string.Empty;
 						if( matching.Success && ( summary.specTeamNotes ?? "" ).Any() )
 						{
-							fullSpecTeamNotes = matching.Groups[1].ToString().Replace( "[{SpecTeamNotes}]", summary.specTeamNotes );
+							fullSpecTeamNotes = matching.Groups[1].ToString().Replace( "[{SpecTeamNotes}]", summary.specTeamNotes.Replace( "\n", "<br/>" ) );
 						}
 						template.Replace( "[{SpecTeamNotesArea}]", fullSpecTeamNotes );
 					}
