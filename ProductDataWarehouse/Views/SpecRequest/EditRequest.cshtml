@@ -345,6 +345,10 @@
 	   <br /><span>@Html.DisplayFor( m => m.CreatedByUserEmail )</span>
 	  }
   }
+		@if( !Model.IsCanceled )
+  {
+		<br /><input type="button" class="btn_type1 cancelReqBtn" value="Cancel Request" />
+  }
 		</div>
 		<div class="clear"></div>
 		</div>
@@ -583,10 +587,6 @@
 		<div>
 		<div class="left">
         <input type="submit" class="btn_type1" value="Save Changes" id="submitBtn" />
-		@if( !Model.IsCanceled )
-  {
-		<input type="button" class="btn_type1 cancelReqBtn" value="Cancel Request" />
-  }
 		<input type="button" class="btn_type1 cancelBtn" value="Cancel Changes" />
 		</div>
 		<div class="clear"></div>
