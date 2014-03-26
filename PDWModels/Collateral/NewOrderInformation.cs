@@ -134,22 +134,28 @@ namespace PDWModels.Collateral
 		[DisplayName( "Fedex Account Number" )]
 		public string ShippingFedexAccount { get; set; }
 		[DisplayName( "Attn To" )]
+		[Required]
 		public string ShippingAttn { get; set; }
 		[DisplayName( "Company" )]
+		[Required]
 		public string ShippingCompanyName { get; set; }
 		[DisplayName( "Address 1" )]
 		[StringLength( 100 )]
+		[Required]
 		public string ShippingAddress1 { get; set; }
 		[DisplayName( "Address 2" )]
 		[StringLength( 100 )]
 		public string ShippingAddress2 { get; set; }
 		[DisplayName( "City" )]
 		[StringLength( 50 )]
+		[Required]
 		public string ShippingCity { get; set; }
 		[DisplayName( "State" )]
+		[Required]
 		public string ShippingState { get; set; }
 		[DisplayName( "Zip Code" )]
 		[PostalCode]
+		[Required]
 		public string ShippingZip { get; set; }
 		[DisplayName( "Phone Number" )]
 		[PhoneNumber]

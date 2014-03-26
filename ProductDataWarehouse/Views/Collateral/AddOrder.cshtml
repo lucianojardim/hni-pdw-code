@@ -52,23 +52,6 @@
     			e.preventDefault();
     			$('.validation-summary-errors ul').empty();
     			if ($('#theForm').valid()) {
-    				if ($('#ShippingType').closest('.requestPanel').hasClass('activeSection')) {
-						var shippingType = 'tb1';
-			    		if ($('#ShippingAddressType:checked').val() == '1') {
-							shippingType = 'tb2';
-						}
-							
-    					$('#ShippingCompanyName').val($('#' + shippingType + 'ShippingCompanyName').val());
-    					$('#ShippingAttn').val($('#' + shippingType + 'ShippingAttn').val());
-    					$('#ShippingAddress1').val($('#' + shippingType + 'ShippingAddress1').val());
-    					$('#ShippingAddress2').val($('#' + shippingType + 'ShippingAddress2').val());
-    					$('#ShippingCity').val($('#' + shippingType + 'ShippingCity').val());
-    					$('#ShippingState').val($('#' + shippingType + 'ShippingState').val());
-    					$('#ShippingZip').val($('#' + shippingType + 'ShippingZip').val());
-    					$('#ShippingPhoneNumber').val($('#' + shippingType + 'ShippingPhoneNumber').val());
-    					$('#ShippingEmailAddress').val($('#' + shippingType + 'ShippingEmailAddress').val());
-					}
-
     				setPanel(1);
 
     				if ($('#ShippingType').closest('.requestPanel').hasClass('activeSection')) {
@@ -538,15 +521,20 @@
 					break;
 			}
 			addConfirmRow(t, '&nbsp;', '&nbsp;');
-			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingAttn )', $('#ShippingAttn').val());
-			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingCompanyName )', $('#ShippingCompanyName').val());
-			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingAddress1 )', $('#ShippingAddress1').val());
-			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingAddress2 )', $('#ShippingAddress2').val());
-			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingCity )', $('#ShippingCity').val());
-			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingState )', $('#ShippingState').val());
-			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingZip )', $('#ShippingZip').val());
-			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingPhoneNumber )', $('#ShippingPhoneNumber').val());
-			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingEmailAddress )', $('#ShippingEmailAddress').val());
+			var shippingType = 'tb1';
+			if ($('#ShippingAddressType:checked').val() == '1') {
+				shippingType = 'tb2';
+			}
+
+			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingAttn )', $('#' + shippingType + 'ShippingAttn').val());
+			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingCompanyName )', $('#' + shippingType + 'ShippingCompanyName').val());
+			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingAddress1 )', $('#' + shippingType + 'ShippingAddress1').val());
+			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingAddress2 )', $('#' + shippingType + 'ShippingAddress2').val());
+			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingCity )', $('#' + shippingType + 'ShippingCity').val());
+			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingState )', $('#' + shippingType + 'ShippingState').val());
+			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingZip )', $('#' + shippingType + 'ShippingZip').val());
+			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingPhoneNumber )', $('#' + shippingType + 'ShippingPhoneNumber').val());
+			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingEmailAddress )', $('#' + shippingType + 'ShippingEmailAddress').val());
 		}
 
 		function addConfirmHeaderRow(table, label) {
@@ -702,42 +690,33 @@
 					<td class="padt15 padb15">@Html.RadioButtonFor( m => m.ShippingAddressType, "1" ) Alternative Address</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingAttn )</td><td>@Html.TextBox( "tb1ShippingAttn", null, new { @class = "currentAddress" } )</td><td>@Html.TextBox( "tb2ShippingAttn", null, new { @class = "newAddress" } )</td>
+					<td>@Html.LabelFor( m => m.ShippingAttn )</td><td>@Html.TextBoxFor( m => m.ShippingAttn, new { @class = "currentAddress", @id = "tb1ShippingAttn" } )</td><td>@Html.TextBoxFor( m => m.ShippingAttn, new { @class = "newAddress", @id = "tb2ShippingAttn" } )</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingCompanyName )</td><td>@Html.TextBox( "tb1ShippingCompanyName", null, new { @class = "currentAddress" } )</td><td>@Html.TextBox( "tb2ShippingCompanyName", null, new { @class = "newAddress" } )</td>
+					<td>@Html.LabelFor( m => m.ShippingCompanyName )</td><td>@Html.TextBoxFor( m => m.ShippingCompanyName, new { @class = "currentAddress", @id = "tb1ShippingCompanyName" } )</td><td>@Html.TextBoxFor( m => m.ShippingCompanyName, new { @class = "newAddress", @id = "tb2ShippingCompanyName" } )</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingAddress1 )</td><td>@Html.TextBox( "tb1ShippingAddress1", null, new { @class = "currentAddress" } )</td><td>@Html.TextBox( "tb2ShippingAddress1", null, new { @class = "newAddress" } )</td>
+					<td>@Html.LabelFor( m => m.ShippingAddress1 )</td><td>@Html.TextBoxFor( m => m.ShippingAddress1, new { @class = "currentAddress", @id = "tb1ShippingAddress1" } )</td><td>@Html.TextBoxFor( m => m.ShippingAddress1, new { @class = "newAddress", @id = "tb2ShippingAddress1" } )</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingAddress2 )</td><td>@Html.TextBox( "tb1ShippingAddress2", null, new { @class = "currentAddress" } )</td><td>@Html.TextBox( "tb2ShippingAddress2", null, new { @class = "newAddress" } )</td>
+					<td>@Html.LabelFor( m => m.ShippingAddress2 )</td><td>@Html.TextBoxFor( m => m.ShippingAddress2, new { @class = "currentAddress", @id = "tb1ShippingAddress2" } )</td><td>@Html.TextBoxFor( m => m.ShippingAddress2, new { @class = "newAddress", @id = "tb2ShippingAddress2" } )</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingCity )</td><td>@Html.TextBox( "tb1ShippingCity", null, new { @class = "currentAddress" } )</td><td>@Html.TextBox( "tb2ShippingCity", null, new { @class = "newAddress" } )</td>
+					<td>@Html.LabelFor( m => m.ShippingCity )</td><td>@Html.TextBoxFor( m => m.ShippingCity, new { @class = "currentAddress", @id = "tb1ShippingCity" } )</td><td>@Html.TextBoxFor( m => m.ShippingCity, new { @class = "newAddress", @id = "tb2ShippingCity" } )</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingState )</td><td>@Html.DropDownList( "tb1ShippingState", UserController.GetStateDDList(), new { @class = "currentAddress" } )</td><td>@Html.DropDownList( "tb2ShippingState", UserController.GetStateDDList(), new { @class = "newAddress" } )</td>
+					<td>@Html.LabelFor( m => m.ShippingState )</td><td>@Html.DropDownListFor( m => m.ShippingState, UserController.GetStateDDList(), new { @class = "currentAddress", @id = "tb1ShippingState" } )</td><td>@Html.DropDownListFor( m => m.ShippingState, UserController.GetStateDDList(), new { @class = "newAddress", @id = "tb2ShippingState" } )</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingZip )</td><td>@Html.TextBox( "tb1ShippingZip", null, new { @class = "currentAddress" } )</td><td>@Html.TextBox( "tb2ShippingZip", null, new { @class = "newAddress" } )</td>
+					<td>@Html.LabelFor( m => m.ShippingZip )</td><td>@Html.TextBoxFor( m => m.ShippingZip, new { @class = "currentAddress", @id = "tb1ShippingZip" } )</td><td>@Html.TextBoxFor( m => m.ShippingZip, new { @class = "newAddress", @id = "tb2ShippingZip" } )</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingPhoneNumber )</td><td>@Html.TextBox( "tb1ShippingPhoneNumber", null, new { @class = "currentAddress" } )</td><td>@Html.TextBox( "tb2ShippingPhoneNumber", null, new { @class = "newAddress" } )</td>
+					<td>@Html.LabelFor( m => m.ShippingPhoneNumber )</td><td>@Html.TextBoxFor( m => m.ShippingPhoneNumber, new { @class = "currentAddress", @id = "tb1ShippingPhoneNumber" } )</td><td>@Html.TextBoxFor( m => m.ShippingPhoneNumber, new { @class = "newAddress", @id = "tb2ShippingPhoneNumber" } )</td>
 				</tr>
 				<tr>
-					<td>@Html.LabelFor( m => m.ShippingEmailAddress )</td><td>@Html.TextBox( "tb1ShippingEmailAddress", null, new { @class = "currentAddress" } )</td><td>@Html.TextBox( "tb2ShippingEmailAddress", null, new { @class = "newAddress" } )</td>
+					<td>@Html.LabelFor( m => m.ShippingEmailAddress )</td><td>@Html.TextBoxFor( m => m.ShippingEmailAddress, new { @class = "currentAddress", @id = "tb1ShippingEmailAddress" } )</td><td>@Html.TextBoxFor( m => m.ShippingEmailAddress, new { @class = "newAddress", @id = "tb2ShippingEmailAddress" } )</td>
 				</tr>
 			</table>
-			@Html.HiddenFor( m => m.ShippingAttn )
-			@Html.HiddenFor( m => m.ShippingCompanyName )
-			@Html.HiddenFor( m => m.ShippingAddress1 )
-			@Html.HiddenFor( m => m.ShippingAddress2 )
-			@Html.HiddenFor( m => m.ShippingCity )
-			@Html.HiddenFor( m => m.ShippingState )
-			@Html.HiddenFor( m => m.ShippingZip )
-			@Html.HiddenFor( m => m.ShippingPhoneNumber )
-			@Html.HiddenFor( m => m.ShippingEmailAddress )
 		</div>
 		<div class="futureSection requestPanel">
 			<h3>Step @(stepNum++) of @stepCount: Confirm</h3>
