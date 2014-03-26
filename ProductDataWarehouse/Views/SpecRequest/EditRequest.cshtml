@@ -381,32 +381,33 @@
 			<h3>Spec Team Only</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
-					<td>@Html.MJLabelFor( m => m.PaoliSpecTeamMember, true )</td><td>@Html.DropDownListFor( m => m.PaoliSpecTeamMember, UserController.GetUserDDList( PDWInfrastructure.PaoliWebUser.PaoliWebRole.PaoliMemberSpecTeam ) )</td>
-					<td rowspan="8" id="stFileContainer" class="double">@Html.MJLabelFor( m => m.SpecTeamNotes, true )<br />@Html.TextAreaFor( m => m.SpecTeamNotes, new { cols = 30 } )<br />
+					<td style="height:31px">@Html.MJLabelFor( m => m.PaoliSpecTeamMember, true )</td><td style="height:31px">@Html.DropDownListFor( m => m.PaoliSpecTeamMember, UserController.GetUserDDList( PDWInfrastructure.PaoliWebUser.PaoliWebRole.PaoliMemberSpecTeam ) )</td>
+					<td rowspan="9" id="stFileContainer" class="double">@Html.MJLabelFor( m => m.SpecTeamNotes, true )<br />@Html.TextAreaFor( m => m.SpecTeamNotes, new { cols = 30, rows = 10 } )<br />
 					@Html.MJLabelFor( m => m.specTeamFiles, true ) @Html.DisplayFor( m => m.specTeamFileList, templateName: "FullFileListWithDelete" )<span class="littleHelp">Any file uploaded here will be available to the DSR and Sales Rep for downloading. Be sure to name your files clearly.</span><input type="file" name="specTeamFiles[0]" class="specTeamFiles" onchange="stFileChanged()" /><input type="hidden" name="specTeamFiles.Index" value="0" /></td>
 
 				</tr>
 				<tr>
-				<td>@Html.MJLabelFor( m => m.ListPrice, true )</td><td>@Html.TextBoxFor( m => m.ListPrice )</td>
+				<td style="height:31px">@Html.MJLabelFor( m => m.ListPrice, true )</td><td style="height:31px">@Html.TextBoxFor( m => m.ListPrice )</td>
 				</tr>
 				<tr>
-				<td>@Html.MJLabelFor( m => m.SPLQuote, true )</td><td>@Html.TextBoxFor( m => m.SPLQuote )</td>
+				<td style="height:31px">@Html.MJLabelFor( m => m.SPLQuote, true )</td><td style="height:31px">@Html.TextBoxFor( m => m.SPLQuote )</td>
 				</tr>
 				<tr>
-				<td>@Html.MJLabelFor( m => m.Footprint, true )</td><td>@Html.TextBoxFor( m => m.Footprint )</td>
+				<td style="height:31px">@Html.MJLabelFor( m => m.Footprint, true )</td><td style="height:31px">@Html.TextBoxFor( m => m.Footprint )</td>
 				</tr>
 				<tr>
-				<td>@Html.MJLabelFor( m => m.SavedLocation, true )</td><td>@Html.TextBoxFor( m => m.SavedLocation )</td>
+				<td style="height:31px">@Html.MJLabelFor( m => m.SavedLocation, true )</td><td style="height:31px">@Html.TextBoxFor( m => m.SavedLocation )</td>
 				</tr>
 				<tr>
-				<td>@Html.MJLabelFor( m => m.Received, true )</td><td>@Html.CheckBoxFor( m => m.Received )</td>
+				<td style="height:31px">@Html.MJLabelFor( m => m.Received, true )</td><td style="height:31px">@Html.CheckBoxFor( m => m.Received )</td>
 				</tr>
 				<tr>
-				<td>@Html.MJLabelFor( m => m.IsCompleted, true )</td><td>@Html.CheckBoxFor( m => m.IsCompleted )</td>
+				<td style="height:31px">@Html.MJLabelFor( m => m.IsCompleted, true )</td><td style="height:31px">@Html.CheckBoxFor( m => m.IsCompleted )</td>
 				</tr>
 				<tr>
-				<td>@Html.MJLabelFor( m => m.IsGoodForWeb, true, new { @style = "display:none;", @class = "isGoodForWeb" } )</td><td>@Html.CheckBoxFor( m => m.IsGoodForWeb, new { @style = "display:none;", @class = "isGoodForWeb" } )</td>
+				<td style="height:31px">@Html.MJLabelFor( m => m.IsGoodForWeb, true, new { @style = "display:none;", @class = "isGoodForWeb" } )</td><td style="height:31px">@Html.CheckBoxFor( m => m.IsGoodForWeb, new { @style = "display:none;", @class = "isGoodForWeb" } )</td>
 				</tr>
+				<tr><td>&nbsp;</td><td></td></tr>
 			</table>
 		</div>
 		<div class="requestPanel">
