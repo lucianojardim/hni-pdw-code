@@ -550,7 +550,6 @@ namespace PWDRepositories
 				else if( eUser.AccountType == PaoliWebUser.PaoliWebRole.PaoliSalesRep )
 				{
 					theList = new List<UserContactInfo>() { 
-						new UserContactInfo() { FullName = "Kevin Street", EmailAddress = "kevin-street@paoli.com", PhoneNumber = "812-865-7135", CompanyName = null },
 						new UserContactInfo() { FullName = "Steve Smith", EmailAddress = "steve-smith@paoli.com", PhoneNumber = "812-865-7014", CompanyName = null }
 					};
 				}
