@@ -13926,7 +13926,8 @@ namespace PDWDBContext
         /// <param name="companyID">Initial value of the CompanyID property.</param>
         /// <param name="recWelcomeEmail">Initial value of the RecWelcomeEmail property.</param>
         /// <param name="isTempPassword">Initial value of the IsTempPassword property.</param>
-        public static User CreateUser(global::System.Int32 userID, global::System.String firstName, global::System.String lastName, global::System.String email, global::System.String password, global::System.Boolean enabled, global::System.Int32 accountType, global::System.Int32 companyID, global::System.Boolean recWelcomeEmail, global::System.Boolean isTempPassword)
+        /// <param name="isActive">Initial value of the IsActive property.</param>
+        public static User CreateUser(global::System.Int32 userID, global::System.String firstName, global::System.String lastName, global::System.String email, global::System.String password, global::System.Boolean enabled, global::System.Int32 accountType, global::System.Int32 companyID, global::System.Boolean recWelcomeEmail, global::System.Boolean isTempPassword, global::System.Boolean isActive)
         {
             User user = new User();
             user.UserID = userID;
@@ -13939,6 +13940,7 @@ namespace PDWDBContext
             user.CompanyID = companyID;
             user.RecWelcomeEmail = recWelcomeEmail;
             user.IsTempPassword = isTempPassword;
+            user.IsActive = isActive;
             return user;
         }
 
@@ -14404,6 +14406,30 @@ namespace PDWDBContext
         private global::System.Boolean _IsTempPassword;
         partial void OnIsTempPasswordChanging(global::System.Boolean value);
         partial void OnIsTempPasswordChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsActive
+        {
+            get
+            {
+                return _IsActive;
+            }
+            set
+            {
+                OnIsActiveChanging(value);
+                ReportPropertyChanging("IsActive");
+                _IsActive = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsActive");
+                OnIsActiveChanged();
+            }
+        }
+        private global::System.Boolean _IsActive;
+        partial void OnIsActiveChanging(global::System.Boolean value);
+        partial void OnIsActiveChanged();
 
         #endregion
 

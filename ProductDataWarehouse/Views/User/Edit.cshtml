@@ -93,6 +93,7 @@
 		{
 			@Html.HiddenFor( m => m.Enabled )
 		}
+        <span class="dataRow">@Html.MJLabelFor( m => m.IsActive, true )@Html.CheckBoxFor( m => m.IsActive )<br/></span>
 		if( Model.SendWelcomeEmail )
 		{
 			@Html.HiddenFor( m => m.SendWelcomeEmail )

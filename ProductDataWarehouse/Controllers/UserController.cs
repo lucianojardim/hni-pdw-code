@@ -44,7 +44,7 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult Add()
 		{
-			return View( new UserInformation() { Enabled = true, SendWelcomeEmail = true } );
+			return View( new UserInformation() { Enabled = true, SendWelcomeEmail = true, IsActive = true } );
 		}
 
 		[PaoliAuthorize( "CanManageUsers" )]

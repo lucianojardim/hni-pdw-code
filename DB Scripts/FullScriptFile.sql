@@ -1509,12 +1509,6 @@ alter table [Companies] add [PaoliSalesRepMemberID] [int] null constraint [fkCom
 go
 
 go
-/****************************************
- * db0063_SpecRequest_SpecTeamNotes.sql *
- ****************************************/
-alter table [SpecRequests] add [SpecTeamNotes] [ntext] null
-go
-go
 /***********************************
  * db0063_SpecRequest_Canceled.sql *
  ***********************************/
@@ -1529,8 +1523,14 @@ go
 alter table [SpecRequests] drop constraint [defIsC]
 go
 go
+/****************************************
+ * db0064_SpecRequest_SpecTeamNotes.sql *
+ ****************************************/
+alter table [SpecRequests] add [SpecTeamNotes] [ntext] null
+go
+go
 /***************************
- * db0064_GSAContracts.sql *
+ * db0065_GSAContracts.sql *
  ***************************/
 create table [GSAContracts] (
 	[ContractID] [int] not null identity(1,1),
@@ -1564,5 +1564,13 @@ insert into [GSAContracts] ([Name]) values
 go
 
 alter table [SpecRequests] add [ContractID] [int] null CONSTRAINT fkSpecRequest_GSAContract FOREIGN KEY REFERENCES [GSAContracts]([ContractID])
+go
+go
+/*****************************
+ * db0066_Users_IsActive.sql *
+ *****************************/
+alter table [users] add [IsActive] [bit] not null constraint [defUIA] default(1)
+go
+alter table [Users] drop constraint [defUIA]
 go
 go

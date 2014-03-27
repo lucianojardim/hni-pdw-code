@@ -132,6 +132,7 @@ namespace PWDRepositories
 			newUser.AccountType = uInfo.AccountType;
 			newUser.Enabled = uInfo.Enabled && uInfo.SendWelcomeEmail;
 			newUser.RecWelcomeEmail = uInfo.SendWelcomeEmail;
+			newUser.IsActive = uInfo.IsActive;
 
 			string password = GenerateNewPassword();
 			PaoliEncryption enc = new PaoliEncryption( PaoliEncryption.DataPassPhrase );
@@ -188,6 +189,7 @@ namespace PWDRepositories
 				Title = eUser.Title,
 				AccountType = eUser.AccountType,
 				Enabled = eUser.Enabled,
+				IsActive = eUser.IsActive,
 				SendWelcomeEmail = eUser.RecWelcomeEmail,
 				LockAccountType = eUser.SpecRequests.Any() || eUser.SpecRequests1.Any() || eUser.CompaniesAsPaoliMember.Any() || eUser.CompaniesAsPaoliSalesRep.Any(),
 				UserImageFileName = eUser.ImageFileName
@@ -230,6 +232,7 @@ namespace PWDRepositories
 			{
 				eUser.AccountType = ( uInfo as UserInformation ).AccountType;
 				eUser.Enabled = ( uInfo as UserInformation ).Enabled;
+				eUser.IsActive = ( uInfo as UserInformation ).IsActive;
 				eUser.CompanyID = ( uInfo as UserInformation ).CompanyID;
 				if( !eUser.RecWelcomeEmail && ( uInfo as UserInformation ).SendWelcomeEmail )
 				{
@@ -443,7 +446,7 @@ namespace PWDRepositories
 		{
 			return database.Users
 				.Where( u => accountTypes.Contains( u.AccountType ) || !accountTypes.Any() || accountTypes.Contains( 0 ) )
-				.Where( u => u.Enabled || !enabledOnly )
+				.Where( u => u.IsActive || !enabledOnly )
 				.ToList()
 				.OrderBy( u => u.FullName )
 				.Select( v => ToUserSummary( v ) );
@@ -454,7 +457,7 @@ namespace PWDRepositories
 			return database.Users
 				.Where( u => u.Company.TerritoryID == territoryId )
 				.Where( u => u.AccountType == PaoliWebUser.PaoliWebRole.PaoliSalesRep )
-				.Where( u => u.Enabled || !enabledOnly )
+				.Where( u => u.IsActive || !enabledOnly )
 				.ToList()
 				.OrderBy( u => u.FullName )
 				.Select( v => ToUserSummary( v ) );
@@ -465,7 +468,7 @@ namespace PWDRepositories
 			return database.Users
 				.Where( u => u.CompanyID == companyId )
 				.Where( u => u.AccountType == accountType || accountType == 0 )
-				.Where( u => u.Enabled || !enabledOnly )
+				.Where( u => u.IsActive || !enabledOnly )
 				.ToList()
 				.OrderBy( u => u.FullName )
 				.Select( v => ToUserSummary( v ) );

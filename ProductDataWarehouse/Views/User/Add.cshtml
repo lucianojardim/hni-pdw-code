@@ -68,6 +68,7 @@
 		<div class="padr30 padl30"><hr /></div>
         <span class="dataRow">@Html.MJLabelFor( m => m.AccountType, true )@Html.DropDownListFor( m => m.AccountType, UserController.GetUserRoleDDList() )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.Enabled, true )@Html.CheckBoxFor( m => m.Enabled )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.IsActive, true )@Html.CheckBoxFor( m => m.IsActive )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.SendWelcomeEmail, true )@Html.CheckBoxFor( m => m.SendWelcomeEmail )<br/></span>
 		<span class="dataRow">@Html.MJLabelFor( m => m.UserImageFileName, true )<input type="file" id="UserImage" name="UserImage" accept=".jpg,.png,.gif,.bmp" /></span>
 @Html.ValidationSummary()

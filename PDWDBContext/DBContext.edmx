@@ -896,6 +896,7 @@
           <Property Name="RecWelcomeEmail" Type="bit" Nullable="false" />
           <Property Name="ImageFileName" Type="nvarchar" MaxLength="50" />
           <Property Name="IsTempPassword" Type="bit" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="UserSubscriptions">
           <Key>
@@ -2804,6 +2805,7 @@
           <NavigationProperty Name="CompaniesAsPaoliSalesRep" Relationship="PaoliPDWModel.fkCompany_PaoliSalesRepMember" FromRole="User" ToRole="Company" />
           <NavigationProperty Name="SpecRequests2_1" Relationship="PaoliPDWModel.fkSpecRequest_CanceledUser" FromRole="User" ToRole="SpecRequest" />
           <NavigationProperty Name="SpecRequests3_1" Relationship="PaoliPDWModel.fkSpecRequest_CompletedUser" FromRole="User" ToRole="SpecRequest" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
           </EntityType>
         <EntityType Name="Company">
           <Key>
@@ -3869,6 +3871,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="PaoliPDWModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="IsTempPassword" ColumnName="IsTempPassword" />
                 <ScalarProperty Name="ImageFileName" ColumnName="ImageFileName" />
                 <ScalarProperty Name="RecWelcomeEmail" ColumnName="RecWelcomeEmail" />
