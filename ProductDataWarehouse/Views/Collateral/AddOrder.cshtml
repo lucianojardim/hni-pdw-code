@@ -192,12 +192,10 @@
     				}
     			});
     		}
-
    			if (officialCompanyID == null && officialUserID == null) {
     			$('#ShippingAddressType[value="0"]').attr('disabled', true);
 			}
-
-			if ($('#ShippingAddressType:checked').val() == '1') {
+			if ($('input:radio[name=ShippingAddressType]:checked').val() == '1') {
 				$('.currentAddress').attr('disabled', 'disabled');
 				$('.newAddress').removeAttr('disabled');
 			} else {
@@ -522,7 +520,7 @@
 			}
 			addConfirmRow(t, '&nbsp;', '&nbsp;');
 			var shippingType = 'tb1';
-			if ($('#ShippingAddressType:checked').val() == '1') {
+			if ($('input:radio[name=ShippingAddressType]:checked').val() == '1') {
 				shippingType = 'tb2';
 			}
 
