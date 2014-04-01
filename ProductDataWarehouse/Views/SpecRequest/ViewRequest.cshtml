@@ -63,7 +63,10 @@
   }
   @if( !Model.IsCanceled )
   {
+	  if( !Model.IsCompleted )
+   {
 		<br /><input type="button" class="btn_type1 cancelReqBtn" value="Cancel Request" />
+   }
   }
   else
   {
