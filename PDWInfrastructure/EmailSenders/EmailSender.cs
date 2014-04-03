@@ -82,6 +82,7 @@ namespace PDWInfrastructure.EmailSenders
 				message.BccRecipients.AddRange( bccList );
 
 			message.From = new EmailAddress( "Paoli Helpdesk", "helpdesk@paoli.com" );
+			message.ReplyTo.Add( message.From );
 
 			try
 			{
@@ -121,6 +122,7 @@ namespace PDWInfrastructure.EmailSenders
 			msg.Subject = messageSubject;
 			msg.Body = messageBodyTemplate.ToString();
 			msg.From = new MailAddress( "helpdesk@paoli.com", "Paoli Helpdesk" );
+			msg.ReplyToList.Add( msg.From );
 			msg.IsBodyHtml = true;
 
 			try
