@@ -122,19 +122,22 @@ namespace PDWInfrastructure
 			#endregion
 		}
 
-		public PaoliWebUser( string email, string authType, int userId, string fullName, int role, bool hasTempPassword )
+		public PaoliWebUser( string email, string authType, int userId, string firstName, string lastName, int role, bool hasTempPassword )
         {
 			_identity = new PaoliWebIdentity( email, authType );
             UserId = userId;
-			FullName = fullName;
 			UserRole = PaoliWebRole.RoleList[role];
 			AccountType = role;
+			FirstName = firstName;
+			LastName = lastName;
 			_hasTempPassword = hasTempPassword;
         }
 
 		private PaoliWebIdentity _identity { get; set; }
 		public int UserId { get; private set; }
-		public string FullName { get; private set; }
+		public string FullName { get { return FirstName + ' ' + LastName; } }
+		public string FirstName { get; private set; }
+		public string LastName { get; private set; }
 		private string UserRole { get; set; }
 		private int AccountType { get; set; }
 		private bool _hasTempPassword { get; set; }
@@ -194,6 +197,8 @@ namespace PDWInfrastructure
 				return _hasTempPassword;
 			}
 		}
+
+		public bool IsNewLayout { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ); } }
 
 		public bool IsSuperAdmin { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
 		public bool IsDealerUser { get { return OneOfRoles( PaoliWebRole.DealerAdmin, PaoliWebRole.DealerDesigner, 

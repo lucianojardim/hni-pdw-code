@@ -1,0 +1,180 @@
+﻿@{
+    ViewBag.Title = "NewIndex";
+    Layout = "~/Views/Shared/NewLayout.cshtml";
+}
+@using PDWInfrastructure
+@{var CurrentUser = PaoliWebUser.CurrentUser;}
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$.ajax({
+			url: '@Url.Action( "UserHomePageList", "SpecRequest" )',
+			type: 'GET',
+			data: { itemCount: 3 },
+			contentType: 'application/json',
+			dataType: 'json',
+			success: function (data) {
+				$(data).each(function (i, item) {
+					var s = '<p class="sideListItem" data-id="' + item.RequestID + '"><span>';
+					if (item.IsCanceled) {
+						s += 'Canceled';
+					} else if (item.IsCompleted) {
+						s += 'Completed';
+					} else {
+						s += 'Pending';
+					}
+					s += ': </span> ';
+					s += item.Name;
+					s += ' requested by ';
+					if (item.DealerMember) {
+						s += item.DealerMember;
+						s += ' at ';
+					}
+					s += item.SalesRepGroup;
+					s += ' for ';
+					s += item.ProjectName;
+					s += ' on ';
+					s += getLocalDate(item.CreatedDateMilliseconds);
+					s += '</p>';
+
+					if (i == 0) {
+						$('#specRequestList').prepend(s);
+					} else {
+						$('#specRequestList .sideListItem').last().after(s);
+					}
+
+				});
+
+				$('#specRequestList .sideListItem').css('cursor', 'pointer').on('click', function () {
+				@if( CurrentUser.CanManageTypicals ) {
+					<text>
+					window.location = '@Url.Action( "EditRequest", "SpecRequest" )/' + $(this).data('id');
+					</text>
+					}
+					else{
+					<text>
+						window.location = '@Url.Action( "ViewRequest", "SpecRequest" )/' + $(this).data('id');
+					</text>
+					}
+				});
+			}
+		});
+
+		$.ajax({
+			url: '@Url.Action( "UserHomePageList", "Collateral" )',
+			type: 'GET',
+			data: { itemCount: 3 },
+			contentType: 'application/json',
+			dataType: 'json',
+			success: function (data) {
+				$(data).each(function (i, item) {
+					var s = '<p class="sideListItem" data-id="' + item.OrderID + '" data-canEdit="' + item.CanEdit + '"><span>';
+					s += item.Status;
+					s += ': </span> ';
+					s += item.OrderID;
+					s += ' requested by ';
+					if (item.RPName != null) {
+						s += item.RPName;
+					}
+					s += ' at ';
+					s += item.RPCompany;
+					s += ' for ';
+					s += item.SPCompany;
+					s += ' on ';
+					s += getLocalDate(item.OrderDateMilliseconds);
+					s += '</p>';
+
+					if (i == 0) {
+						$('#collateralOrderList').prepend(s);
+					} else {
+						$('#collateralOrderList .sideListItem').last().after(s);
+					}
+
+				});
+
+				$('#collateralOrderList .sideListItem').css('cursor', 'pointer').on('click', function () {
+				@if( CurrentUser.CanManageOrders ) {
+		<text>
+					if ($(this).data('CanEdit')) {
+						window.location = '@Url.Action( "EditOrder", "Collateral" )/' + $(this).data('id');
+					} else {
+						window.location = '@Url.Action( "ViewOrder", "Collateral" )/' + $(this).data('id');
+					}
+					</text>
+					}
+					else{
+					<text>
+						window.location = '@Url.Action( "ViewOrder", "Collateral" )/' + $(this).data('id');
+					</text>
+					}
+				});
+			}
+		});
+	});
+
+</script>
+			   
+                          <div class="main_lt">
+                              <a href="#"><img src="/newcontent/images/banner.jpg" width="600" height="338" alt="img"/></a>
+                               <h3><a href="#">Headline lorem ipsum dolor sit amet consectetuer elit</a></h3>
+                               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque turpis nisl, congue nec nunc vitae, tempus tristique metus. Ut ut nibh dolor. Vestibulum eu                                hendrerit neque.</p>
+                               <div class="main_lt_btm">
+                                    <div class="main_lt_btm_lt">
+                                        <a href="#"><img src="/newcontent/images/headline_img.jpg" width="291" height="163" alt="img"/></a>
+                                        <h3><a href="#">Headline lorem ipsum dolor sit</a></h3>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris facilisis elementum justo a semper. </p>
+                                        <a href="http://www.paoli.com/thescoop/">view all</a>
+                                    </div>
+                                    <div class="main_lt_btm_lt last">
+                                        <a href="#"><img src="/newcontent/images/headline_img01.jpg" width="292" height="163" alt="img"/></a>
+                                        <h3><a href="#">Headline lorem ipsum dolor sit</a></h3>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris facilisis elementum justo a semper. </p>
+                                    </div>
+                                   <i class="clear_0"></i>
+                               </div>
+                          </div>
+                          <div class="main_rt">
+                               <div class="main_rt_box">
+                                    <div class="main_rt_box_top">
+                                        <h3><cite><a href="#"><img src="/newcontent/images/collateral_img.jpg" width="22" height="24" alt="img"/></a></cite>Collateral Store <span>@if( CurrentUser.CanAddOrders )
+																																												   { <a href="@Url.Action( "AddOrder", "Collateral" )"><img src="/newcontent/images/plus.jpg" width="15" height="15" alt="img"/></a> } </span></h3>
+                                    </div>
+                                 <div class="main_rt_box_btm" id="collateralOrderList">
+                                        
+	   @if( CurrentUser.CanManageOrders )
+	{
+				<a href="@Url.Action( "Orders", "Collateral" )">view all</a>
+	}
+	else if( CurrentUser.CanAddOrders )
+	{
+				<a href="@Url.Action( "ViewOrders", "Collateral" )">view all</a>
+	}
+
+                                        <i class="clear_0"></i>
+                                    </div>
+                               
+                            </div>
+                               <div class="main_rt_box">
+                                    <div class="main_rt_box_top">
+                                        <h3><cite><a href="#"><img src="/newcontent/images/quotes.jpg" width="22" height="22" alt="img"/></a></cite>Quotes &amp; Spec Requests <span>@if( CurrentUser.CanAddSpecRequests )
+																																													 { <a href="@Url.Action( "AddRequest", "SpecRequest" )"><img src="/newcontent/images/plus.jpg" width="15" height="15" alt="img"/></a> } </span></h3>
+                                    </div>
+                                    <div class="main_rt_box_btm" id="specRequestList">
+                                        
+                                        
+	   @if( CurrentUser.CanManageTypicals )
+	{
+				<a href="@Url.Action( "Manage", "SpecRequest" )">view all</a>
+	}
+	else if( CurrentUser.CanViewSpecRequests )
+	{
+				<a href="@Url.Action( "ViewAll", "SpecRequest" )">view all</a>
+	}
+                                        <i class="clear_0"></i>
+                                    </div>
+                               
+                               </div>
+                               <a href="#"><img src="/newcontent/images/aprill.jpg" width="309" height="267" alt="img"/></a>
+                               
+                          </div>
+                          <i class="clear_0"></i>

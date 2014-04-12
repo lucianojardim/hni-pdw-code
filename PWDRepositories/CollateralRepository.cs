@@ -711,6 +711,40 @@ namespace PWDRepositories
 			requestedForEmails.RemoveAll( e => e.EmailAddress == orderInfo.CreatedByUser.Email );
 		}
 
+		public IEnumerable<CollateralOrderHPSummary> GetHomePageOrderList( int itemCount )
+		{
+			var collateralList = database.CollateralOrders
+				.AsQueryable();
+
+			var user = database.Users.FirstOrDefault( u => u.UserID == PaoliWebUser.CurrentUser.UserId );
+			if( user == null )
+			{
+				throw new Exception( "Unable to find current user" );
+			}
+
+			if( PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
+			{
+				// all orders with PaoliRepGroupID, SPPaoliRepGroupID
+				collateralList = collateralList.Where( c =>
+					( ( c.RequestingParty == NewOrderInformation.RPPaoliRepresentative ) && ( c.PaoliRepGroupID == user.CompanyID ) ) ||
+					( ( c.ShippingParty == NewOrderInformation.RPPaoliRepresentative ) && ( c.SPPaoliRepGroupID == user.CompanyID ) ) ||
+					( ( c.RequestingParty == NewOrderInformation.RPDealer ) && ( c.Dealer.TerritoryID == user.Company.TerritoryID ) ) ||
+					( ( c.ShippingParty == NewOrderInformation.RPDealer ) && ( c.SPDealer.TerritoryID == user.Company.TerritoryID ) ) );
+			}
+			else if( PaoliWebUser.CurrentUser.IsDealerUser )
+			{
+				collateralList = collateralList.Where( c =>
+					( ( c.RequestingParty == NewOrderInformation.RPDealer ) && ( c.Dealer.CompanyID == user.CompanyID ) ) ||
+					( ( c.ShippingParty == NewOrderInformation.RPDealer ) && ( c.SPDealer.CompanyID == user.CompanyID ) ) );
+			}
+
+			collateralList = collateralList
+				.OrderByDescending( c => c.OrderID )
+				.Take( itemCount );
+
+			return collateralList.ToList().Select( c => ToCollateralOrderHPSummary( c ) );
+		}
+
 		public IEnumerable<CollateralOrderSummary> GetFullCollateralOrderListForUser( CollateralOrderTableParams param, out int totalRecords, out int displayedRecords )
 		{
 			totalRecords = 0;
@@ -916,6 +950,95 @@ namespace PWDRepositories
 			}
 
 			return collateralList.ToList().Select( c => ToCollateralOrderSummary( c ) );
+		}
+
+		private CollateralOrderHPSummary ToCollateralOrderHPSummary( CollateralOrder dbOrder )
+		{
+			var summary = new CollateralOrderHPSummary()
+			{
+				OrderID = dbOrder.OrderID,
+				OrderDate = dbOrder.OrderDate,
+				Status = NewOrderInformation.StatusValues[dbOrder.Status],
+				RequestingParty = dbOrder.RequestingPartyName,
+				ShippingParty = dbOrder.ShippingPartyName,
+				CanEdit = ( ( dbOrder.Status != NewOrderInformation.SFulfilled ) && ( dbOrder.Status != NewOrderInformation.SCanceled ) ),
+				IsOvernight = ( ( dbOrder.ShippingType == NewOrderInformation.STOvernightFedex ) || ( dbOrder.ShippingType == NewOrderInformation.STStdOvernightFedex ) ) &&
+					( ( dbOrder.Status == NewOrderInformation.SPending ) || ( dbOrder.Status == NewOrderInformation.SPartial ) )
+			};
+
+			switch( dbOrder.RequestingParty )
+			{
+				case NewOrderInformation.RPPaoliMember:
+					if( dbOrder.PaoliMemberID.HasValue )
+					{
+						summary.RPName = dbOrder.PaoliMember.FullName;
+						summary.RPCompany = dbOrder.PaoliMember.Company.FullName;
+					}
+					break;
+				case NewOrderInformation.RPPaoliRepresentative:
+					if( dbOrder.PaoliRepGroupMemberID.HasValue )
+					{
+						summary.RPName = dbOrder.PaoliSalesRepMember.FullName;
+						summary.RPCompany = dbOrder.PaoliSalesRepMember.Company.FullName;
+					}
+					else if( dbOrder.PaoliRepGroupID.HasValue )
+					{
+						summary.RPCompany = dbOrder.PaoliSalesRep.FullName;
+					}
+					break;
+				case NewOrderInformation.RPDealer:
+					if( dbOrder.DealerMemberID.HasValue )
+					{
+						summary.RPName = dbOrder.DealerMember.FullName;
+						summary.RPCompany = dbOrder.DealerMember.Company.FullName;
+					}
+					else if( dbOrder.DealerID.HasValue )
+					{
+						summary.RPCompany = dbOrder.Dealer.FullName;
+					}
+					break;
+				case NewOrderInformation.RPEndUser:
+					summary.RPName = dbOrder.EndUserFirstName + " " + dbOrder.EndUserLastName;
+					break;
+			}
+
+			switch( dbOrder.ShippingParty )
+			{
+				case NewOrderInformation.RPPaoliMember:
+					if( dbOrder.SPPaoliMemberID.HasValue )
+					{
+						summary.SPName = dbOrder.SPPaoliMember.FullName;
+						summary.SPCompany = dbOrder.SPPaoliMember.Company.FullName;
+					}
+					break;
+				case NewOrderInformation.RPPaoliRepresentative:
+					if( dbOrder.SPPaoliRepGroupMemberID.HasValue )
+					{
+						summary.SPName = dbOrder.SPPaoliSalesRepMember.FullName;
+						summary.SPCompany = dbOrder.SPPaoliSalesRepMember.Company.FullName;
+					}
+					else if( dbOrder.SPPaoliRepGroupID.HasValue )
+					{
+						summary.SPCompany = dbOrder.SPPaoliSalesRep.FullName;
+					}
+					break;
+				case NewOrderInformation.RPDealer:
+					if( dbOrder.SPDealerMemberID.HasValue )
+					{
+						summary.SPName = dbOrder.SPDealerMember.FullName;
+						summary.SPCompany = dbOrder.SPDealerMember.Company.FullName;
+					}
+					else if( dbOrder.SPDealerID.HasValue )
+					{
+						summary.SPCompany = dbOrder.SPDealer.FullName;
+					}
+					break;
+				case NewOrderInformation.RPEndUser:
+					summary.SPName = dbOrder.SPEndUserFirstName + " " + dbOrder.SPEndUserLastName;
+					break;
+			}
+
+			return summary;
 		}
 
 		private CollateralOrderSummary ToCollateralOrderSummary( CollateralOrder c )

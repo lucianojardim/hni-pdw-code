@@ -358,7 +358,23 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult ViewOrders()
 		{
+			if( PaoliWebUser.CurrentUser.IsNewLayout )
+			{
+				return View( viewName: "NewOrderList" );
+			}
+
 			return View();
+		}
+
+		[PaoliAuthorize( "CanAddOrders" )]
+		[TempPasswordCheck]
+		public JsonResult UserHomePageList( int itemCount )
+		{
+			CollateralRepository cRepository = new CollateralRepository();
+
+			var results = cRepository.GetHomePageOrderList( itemCount );
+
+			return Json( results, JsonRequestBehavior.AllowGet );
 		}
 
 		[PaoliAuthorize( "CanAddOrders" )]

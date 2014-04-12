@@ -1,0 +1,122 @@
+﻿@{
+    ViewBag.Title = "NewOrderList";
+    Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.HeaderArea = "<h2><img src=\"/newcontent/images/store_img.png\" alt=\"img\" height=\"55\" width=\"46\"> Collateral Store</h2>";
+}
+<div class="main_inner1_content ">
+	<div class="main_inner1_content_lt">
+		<div class="main_inner1_content_lt_top">
+			<h3>
+				<span>&nbsp;</span>Filter Results</h3>
+			<div class="main_inner1_content_lt_top_box">
+				<label>
+					Keyword</label>
+				<input type="text" id="keywordText"/>
+			</div>
+			<div class="main_inner1_content_lt_top_box">
+				<label>Hide Fulfilled</label>
+				<select  name="websites1" id="hideFulfilled">
+					<option value="false" selected="selected">No</option>
+					<option value="true">Yes</option>
+				</select>
+			</div>
+		</div>
+		<div class="main_inner1_content_lt_btm">
+			<h3>
+				Need marketing materials?</h3>
+			<h4>
+				<a href="@Url.Action( "AddOrder", "Collateral" )">Order Collateral</a></h4>
+		</div>
+	</div>
+	<div class="main_inner1_content_rt">
+		<div id="demo">
+			<table id="orderList" class="display">
+				<thead>
+				</thead>
+				<tfoot>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+	<i class="clear_0"></i>
+</div>
+<script type="text/javascript">
+	$(document).ready(function () {
+		$("#hideFulfilled").msDropdown({ on: { change: loadOrders} });
+
+		//	$('#HideFulfilled').click(loadOrders);
+		$('#keywordText').on('keyup', loadOrders);
+		loadOrders();
+	});
+
+	var oTable = null;
+	function loadOrders() {
+		if (oTable != null) {
+			oTable.fnDraw();
+			return;
+		}
+
+		oTable = $('#orderList').dataTable({
+			"bServerSide": true,
+			"bAutoWidth": false,
+			"bFilter": true,
+			"bLengthChange": false, // don't show dropdown for #items per page
+			"bPaginate": false,
+			"bInfo": true,
+			"sAjaxSource": '@Url.Action( "FullCollateralOrderListForUser" )',
+			"fnServerParams": function (aoData) {
+				aoData.push({ "name": "hideFulfilled", "value": $("#hideFulfilled").msDropdown().data("dd").get('value') });
+				aoData.push({ "name": "sLocalSearch", "value": $('#keywordText').val() });
+			},
+			"iDisplayLength": 100,
+			"fnServerData": function (sSource, aoData, fnCallback) {
+				$.ajax({
+					dataType: 'json',
+					type: "POST",
+					url: sSource,
+					data: aoData,
+					success: function (data, textStatus, jqXHR) {
+						fnCallback(data, textStatus, jqXHR);
+					},
+					error: function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Orders:' + errorThrown) }
+				});
+			},
+			"fnHeaderCallback": function (nHead, aData, iStart, iEnd, aiDisplay) {
+				$(nHead).addClass('bg');
+				$(nHead).find('th').append('');
+			},
+			"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+				$(nRow).addClass('gradeX');
+				$(nRow).css('cursor', 'pointer');
+				$(nRow).off('click').on('click', function () {
+					window.location = '@Url.Action("ViewOrder", "Collateral")/' + aData["OrderID"];
+				});
+			},
+			"bProcessing": false, // don't want to use the default progress indicator at this time
+			"aaSorting": [[0, "desc"]],
+			"aoColumnDefs": [
+                    { "sName": "EditButtons",
+                    	"aTargets": [0],
+                    	"sTitle": "Order No.<span></span>",
+                    	"mDataProp": "EditButtons", "sWidth": "8%",
+                    	"fnRender": function (oObj) {
+                    		return oObj.aData["OrderID"];
+                    	}
+                    },
+                    { "sName": "RequestingParty", "sTitle": "Requested By<span></span>", "aTargets": [1], "mDataProp": "RequestingParty", "sWidth": "36%" },
+                    { "sName": "ShippingParty", "sTitle": "Recipient<span></span>", "aTargets": [2], "mDataProp": "ShippingParty", "sWidth": "36%" },
+                    { "sName": "OrderDate", "sTitle": "Date<span></span>", "aTargets": [3], "mDataProp": "OrderDate",
+                    	"fnRender": function (oObj) {
+                    		return getLocalDate(oObj.aData["OrderDateMilliseconds"]);
+                    	}, "sWidth": "10%"
+                    },
+                    { "sName": "Status", "sTitle": "Status<span></span>", "aTargets": [4], "mDataProp": "Status", "sWidth": "10%",
+                    	"fnRender": function (oObj) {
+                    		return oObj.aData["Status"];
+                    	}
+                    }
+                ]
+		});
+	}
+
+</script>

@@ -1,0 +1,293 @@
+﻿@using PDWInfrastructure
+@{var CurrentUser = PaoliWebUser.CurrentUser;}
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>my.Paoli.com</title>
+<!-- SET: FAVICON -->
+<link rel="shortcut icon" type="image/x-icon" href="/newcontent/images/favicon.ico"/>
+<!-- END: FAVICON -->
+<!-- SET: STYLESHEET -->
+<link href="/newcontent/css/style.css" rel="stylesheet" type="text/css" media="all"/>
+<link href="/NewContent/fancybox/jquery.fancybox-1.3.4.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="/newcontent/css/demo_table.css" rel="stylesheet" type="text/css" media="all">
+<link href="/newcontent/css/demo_page.css" rel="stylesheet" type="text/css" media="all">
+<link href="/newcontent/css/dd.css" type="text/css" rel="stylesheet">
+<!-- END: STYLESHEET -->
+
+<script type="text/javascript" src="/newcontent/js/jquery.1.8.3.min.js"></script>
+<script type="text/javascript" src="/newcontent/js/jquery.hoverIntent.minified.js"></script>
+<script type="text/javascript" src="/newcontent/js/jquery.dcjqaccordion.2.7.min.js"></script>
+<script type="text/javascript" src="/scripts/jquery.dataTables.js"></script>
+<script type="text/javascript" src="/newcontent/js/jquery.dd.js"></script>		<!-- http://www.marghoobsuleman.com/mywork/jcomponents/image-dropdown/samples/examples/help.html --><script src="/NewContent/fancybox/jquery.fancybox-1.3.4.pack.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$(document).ready(function () {
+
+		$('#accordion').dcAccordion({
+			eventType: 'click',
+			autoClose: true,
+			saveState: false,
+			disableLink: false,
+			showCount: false,
+			speed: 'slow'
+		});
+
+		$('.left-menu-block').height($(document).height());
+		$('.right-menu-block').height($(document).height());
+
+		$('#nav-bar').toggle(function (e) {
+			$('.left-menu-block').animate({ left: 0 });
+			$('.wrapper').animate({ left: 480 });
+			$('.header').animate({ left: 480 });
+			$('.footer-area2').animate({ left: 480 });
+		}, function () {
+			$('.left-menu-block').animate({ left: -480 });
+			$('.wrapper').animate({ left: 0 });
+			$('.header').animate({ left: 0 });
+			$('.footer-area2').animate({ left: 0 });
+		});
+
+		$('#right-nav').toggle(function (e) {
+			$('.right-menu-block').animate({ right: 0 });
+			$('.wrapper').animate({ left: -337 });
+			$('.header').animate({ left: -337 });
+			$('.footer-area2').animate({ left: -337 });
+		}, function () {
+			$('.right-menu-block').animate({ right: -337 });
+			$('.wrapper').animate({ left: 0 });
+			$('.header').animate({ left: 0 });
+			$('.footer-area2').animate({ left: 0 });
+		});
+
+		$('form').bind('submit', function (e) {
+			if ($(this).data('submitted') === true) {
+				// Previously submitted - don't submit again
+				e.preventDefault();
+			} else if ($(this).valid()) {
+				// Mark it so that the next submit can be ignored
+				$(this).data('submitted', true);
+				//$('#inProgress').show();
+				$('#btnFormSubmissionInProgress').click();
+			}
+		});
+
+		$("#btnFormSubmissionInProgress").fancybox({
+			/*				'autoDimensions': false,
+			'width': 450,
+			'height': 600,*/
+			'padding': 20,
+			'margin': 0,
+			'scrolling': 'auto',
+			'titleShow': false,
+			'hideOnOverlayClick': false,
+			'hideOnContentClick': false,
+			'showCloseButton': false,
+			'onStart': function () {
+
+			}
+		});
+
+		var cDate = new Date();
+		if (cDate.getHours() < 12) {
+			$('#welcomeHeading').prepend('Good morning,');
+		} else if (cDate.getHours() < 17) {
+			$('#welcomeHeading').prepend('Good afternoon,');
+		} else {
+			$('#welcomeHeading').prepend('Good evening,');
+		}
+
+	});
+
+	function getLocalDate(datetime) {
+		var cDate = new Date(datetime);
+		var offset = new Date().getTimezoneOffset();
+		cDate.setMinutes(cDate.getMinutes() - offset);
+		return (cDate.getMonth() + 1) + '/' + cDate.getDate() + '/' + cDate.getFullYear();
+	}
+
+	function getLocalDateTime(datetime) {
+		var cDate = new Date(datetime);
+		var offset = new Date().getTimezoneOffset();
+		cDate.setMinutes(cDate.getMinutes() - offset);
+		// 1/2/14 at 8:35 a.m.
+		return (cDate.getMonth() + 1) + '/' + cDate.getDate() + '/' + cDate.getFullYear() + ' at ' +
+			(((cDate.getHours() % 12) == 0) ? '12' : (cDate.getHours() % 12)) + ':' +
+			((cDate.getMinutes() <= 9) ? '0' : '') + cDate.getMinutes() +
+			((cDate.getHours() >= 12) ? ' p.m.' : ' a.m.');
+	}
+</script>
+
+</head>
+<body>
+
+  <div class="right-menu-block"><!--Start Right Menu-->
+           
+                <div class="right-menu">
+                   <ul id="accordion">
+                    <li><a href="#"  class="first"><img src="/newcontent/images/menu_poly.jpg" width="107" height="38" alt="img"/></a></li>
+                    <li><a href="#"> <img src="/newcontent/images/account.jpg" width="36" height="31" alt="img"/>My Account</a>
+                        <ul>
+                            <li><a href="@Url.Action( "ChangePW", "User" )">Password</a></li>
+			@if( !CurrentUser.HasTempPassword )
+   {
+                            <li><a href="@Url.Action( "Subscriptions", "User" )">Subscriptions</a></li>
+   }
+				            <li><a href="@Url.Action( "Logout", "Import" )">Log out</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#"><img src="/newcontent/images/tools.jpg" width="35" height="35" alt="img"/>Tools</a>
+                        <ul>
+	   @if( CurrentUser.CanManageOrders )
+	{
+                            <li><a href="@Url.Action( "Orders", "Collateral" )">Collateral</a></li>
+	}
+	else if( CurrentUser.CanAddOrders )
+	{
+                            <li><a href="@Url.Action( "ViewOrders", "Collateral" )">Collateral</a></li>
+	}
+	   @if( CurrentUser.CanManageTypicals )
+	{
+                            <li><a href="@Url.Action( "Manage", "SpecRequest" )">Quotes & Specifications</a></li>
+	}
+	else if( CurrentUser.CanViewSpecRequests )
+	{
+                            <li><a href="@Url.Action( "ViewAll", "SpecRequest" )">Quotes & Specifications</a></li>
+	}
+                        </ul>
+                    </li>
+                    <li><a href="#"><img src="/newcontent/images/admin.jpg" width="35" height="35" alt="img"/>Admin</a>
+                        <ul>
+	   @if( CurrentUser.CanManageUsers )
+	{
+                            <li><a href="@Url.Action( "Manage", "User" )">Users</a></li>
+	}
+		@if( CurrentUser.CanManageCompanies )
+  {
+                            <li><a href="@Url.Action( "Manage", "Company" )">Companies</a></li>
+  }
+	   @if( CurrentUser.CanManageImages )
+	{
+                            <li><a href="@Url.Action( "Images", "Import" )">Image Engine</a></li>
+	}
+	   @if( CurrentUser.CanManageImport )
+	{
+                            <li><a href="@Url.Action( "Index", "Import" )">PDW</a></li>
+	}
+	   @if( CurrentUser.CanManageSearchLog )
+	{
+                            <li><a href="@Url.Action( "SearchLog", "Import" )">Search Log</a></li>
+	}
+                        </ul>
+                    </li>
+                </ul>  
+          </div>
+           
+            <div class="right-menu-shadow"></div>
+        </div>
+
+<!-- SET: WRAPPER -->
+<div class="wrapper">
+            <!-- SET: HEADER -->
+            	<header>
+                    <div class="header_top blue">
+                       <div class="container">
+                          <div class="logo"><a href="/"><img src="/newcontent/images/logo.png" width="127" height="47" alt="img"/></a></div>
+                          <!--    <div class="header_right">
+                                  <input type="text" value="Type here to search" onFocus="this.value=''" onBlur="this.value=!this.value?'Type here to search':this.value;"/> <span><a href="#"><img src="/newcontent/images/search.jpg" width="17" height="17" alt="img"></a></span>
+                              </div>-->
+                              <div class="setting-icon"><a id="right-nav" href="#"><img src="/newcontent/images/narrow-nav-icon.jpg" alt=""/></a></div>
+                          </div>  
+                    </div>
+                    <div class="header_btm">
+                         <div class="container">
+                              <div class="poly_top_lt">
+							  @if( ViewBag.HeaderArea == null )
+		 {
+                                   <h3 id="welcomeHeading"><span>@CurrentUser.FirstName!</span></h3>
+                                   <h4><!--You last visited<span>2 hours ago</span>-->&nbsp;</h4>
+		 }
+		 else
+		 {
+			 @Html.Raw( ViewBag.HeaderArea )
+		 }
+                              </div>
+                              <div class="poly_top_rt">
+                                 <h3>How Can We <span>Help?</span></h3>
+                                 <ul>
+								 @foreach( var contact in ProductDataWarehouse.Controllers.HomeController.GetHomeContacts() )
+		 {
+                                    <li>
+                                        <div class="box">
+										@if( contact.ImageFileName != null )
+		  {
+											<img src="/images/@contact.ImageFileName" width="45" alt="img"/>
+		  }
+                                            <div class="box_cont">
+                                                <h3>@contact.FullName</h3>
+                                                <span><a href="mailto:@contact.EmailAddress">@contact.EmailAddress</a></span>
+                                                <cite>@contact.PhoneNumber</cite>
+                                            </div>
+                                      </div>
+                                    </li>
+		 }
+                                 </ul>
+                              
+                              </div>
+                         <i class="clear_0"></i>
+                         
+                         </div>
+                    
+                    </div>
+                </header>
+            <!-- END: HEADER -->
+           <!-- SET: main -->
+               <section class="main">
+                     <div class="container">
+			   @RenderBody()
+                     </div>  
+              </section>
+           <!-- END: main --> 
+</div>            
+
+<div style="display:none">
+	<a href="#inProgressSection" id="btnFormSubmissionInProgress" style="display:none">In Progress</a>
+    <div style="vertical-align:middle;" id="inProgressSection">
+        <img src="@Url.Content( "~/Content/Images/baprogress.gif" )" alt="" style="display:inline;"/>&nbsp;<span>Working...</span>
+    </div>
+</div>
+
+<!-- SET: FOOTER -->
+                <footer>
+                    <div class="footer_top">
+                         <div class="container">
+                              <span>800-457-7415</span>
+                                <div class="footer_top_rt">
+                                  <h3>Paoli</h3>
+                                  <p>201 E Martin St</p>
+                                  <p>Orleans IN  47452</p>
+                                </div>
+                              <i class="clear_0"></i>
+                         </div>
+                    </div>
+                    <div class="footer_copy">
+                        <div class="container">
+                            <span><a href="http://www.paoli.com">Visit Paoli.com</a></span>
+                            <p>Copyright 2014. All Rights Reserved.   <cite>Paoli is an HNI company.</cite></p>
+                           <i class="clear_0"></i>
+                        </div>
+                    
+                    </div>
+                
+                </footer>	
+            <!-- END: FOOTER -->
+            
+ 
+    
+
+
+
+<!-- END: WRAPPER -->
+</body>
+</html>

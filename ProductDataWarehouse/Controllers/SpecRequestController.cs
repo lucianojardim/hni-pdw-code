@@ -31,6 +31,17 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanViewSpecRequests" )]
 		[TempPasswordCheck]
+		public JsonResult UserHomePageList( int itemCount )
+		{
+			SpecRequestRepository sRepository = new SpecRequestRepository();
+
+			var results = sRepository.GetHomePageRequestList( itemCount );
+
+			return Json( results, JsonRequestBehavior.AllowGet );
+		}
+
+		[PaoliAuthorize( "CanViewSpecRequests" )]
+		[TempPasswordCheck]
 		public JsonResult UserRequestList( UserSpecRequestTableParams paramDetails )
 		{
 			int totalCount = 0, filteredCount = 0;

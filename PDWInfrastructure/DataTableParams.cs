@@ -16,7 +16,10 @@ namespace PDWInfrastructure
 		/// <summary>
 		/// Text used for filtering
 		/// </summary>
-		public string sSearch { get; set; }
+		public string sSearch { get { if( !string.IsNullOrEmpty( sLocalSearch ) ) { return sLocalSearch; } return _sSearch; } set { _sSearch = value; } }
+		private string _sSearch { get; set; }
+
+		public string sLocalSearch { get; set; }
 
 		/// <summary>
 		/// Number of records that should be shown in table

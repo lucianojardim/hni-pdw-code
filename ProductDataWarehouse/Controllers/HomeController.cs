@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using PDWInfrastructure;
 using PWDRepositories;
 using PDWInfrastructure.Attributes;
+using PDWModels.Users;
 
 namespace ProductDataWarehouse.Controllers
 {
@@ -18,6 +19,11 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult Index()
         {
+			if( PaoliWebUser.CurrentUser.IsNewLayout )
+			{
+				return View( viewName: "NewIndex" );
+			}
+
 			ViewBag.RSSURL = FullSiteURLLocal() + "/";
 			ViewBag.SiteURL = FullSiteURL() + "/";
 			ViewBag.PaoliRepContacts = ( new UserRepository() ).GetPaoliRepContacts( PaoliWebUser.CurrentUser.UserId );
@@ -25,5 +31,10 @@ namespace ProductDataWarehouse.Controllers
 
 			return View();
         }
+
+		public static IEnumerable<UserContactInfo> GetHomeContacts()
+		{
+			return ( new UserRepository() ).GetHeaderContacts( PaoliWebUser.CurrentUser.UserId );
+		}
     }
 }

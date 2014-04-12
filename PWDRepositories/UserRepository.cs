@@ -41,7 +41,9 @@ namespace PWDRepositories
 			User user = database.Users.FirstOrDefault( u => u.Email == email );
 			if( user != null )
 			{
-				return new PaoliWebUser( user.Email, authType, user.UserID, user.FullName, user.AccountType, user.IsTempPassword );
+				return new PaoliWebUser( user.Email, authType, user.UserID, 
+					user.FirstName, user.LastName, 
+					user.AccountType, user.IsTempPassword );
 			}
 
 			return null;
@@ -524,6 +526,33 @@ namespace PWDRepositories
 			eUser.SMSPhoneNumber = uSummary.SMSAlerts ? uSummary.SMSPhoneNumber : null;
 
 			database.SaveChanges();
+		}
+
+		public IEnumerable<UserContactInfo> GetHeaderContacts( int userId )
+		{
+			var theList = new List<UserContactInfo>();
+
+			var eUser = database.Users.FirstOrDefault( u => u.UserID == userId );
+			if( eUser != null )
+			{
+				if( eUser.AccountType == PaoliWebUser.PaoliWebRole.PaoliSalesRep )
+				{
+					if( eUser.Company.PaoliMemberID.HasValue )
+					{
+						theList.Add( new UserContactInfo()
+						{
+							FullName = eUser.Company.PaoliMember.FullName,
+							EmailAddress = eUser.Company.PaoliMember.Email,
+							PhoneNumber = eUser.Company.PaoliMember.BusinessPhone,
+							ImageFileName = eUser.Company.PaoliMember.ImageFileName
+						} );
+					}
+				}
+			}
+
+			theList.Add( new UserContactInfo() { FullName = "Customer Service", EmailAddress = "helpdesk@paoli.com", PhoneNumber = "812-555-1234" } );
+
+			return theList;
 		}
 
 		public IEnumerable<UserContactInfo> GetPaoliRepContacts( int userId )

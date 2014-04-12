@@ -28,6 +28,7 @@ namespace PWDRepositories
 				RequestID = sRequest.RequestID,
 				Name = sRequest.Name,
 				Dealer = sRequest.PrimaryCompanyID.HasValue ? sRequest.PrimaryCompany.FullName : "",
+				DealerMember = sRequest.DealerSalesRepID.HasValue ? sRequest.DealerSalesRep.FullName : sRequest.DealerPOCText,
 				ProjectName = sRequest.ProjectName,
 				SpecTeamMember = sRequest.PaoliSpecTeamMemberID.HasValue ? sRequest.SpecTeamMember.LastName : "",
 				SalesRepGroup = sRequest.PaoliSalesRepGroupID.HasValue ? sRequest.PaoliSalesRepGroup.FullName : "",
@@ -40,6 +41,26 @@ namespace PWDRepositories
 				IsAuditSpecOnly = sRequest.NeedAuditSpecs && !sRequest.NeedFloorplanSpecs &&
 					!sRequest.NeedPhotoRendering && !sRequest.Need2DDrawing && !sRequest.NeedValueEng
 			};
+		}
+
+		public IEnumerable<SpecRequestSummary> GetHomePageRequestList( int itemCount )
+		{
+			var requestList = database.SpecRequests.AsQueryable();
+
+			if( PaoliWebUser.CurrentUser.IsDealerUser )
+			{
+				requestList = requestList.Where( s => s.PrimaryCompanyID == database.Users.FirstOrDefault( u => u.UserID == PaoliWebUser.CurrentUser.UserId ).CompanyID );
+			}
+			else if( PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
+			{
+				requestList = requestList.Where( s => s.PaoliSalesRepGroupID == database.Users.FirstOrDefault( u => u.UserID == PaoliWebUser.CurrentUser.UserId ).CompanyID );
+			}
+
+			requestList = requestList
+				.OrderByDescending( s => s.LastModifiedDate )
+				.Take( itemCount );
+
+			return requestList.ToList().Select( v => ToSpecRequestSummary( v ) );
 		}
 
 		public IEnumerable<SpecRequestSummary> GetUserRequestList( UserSpecRequestTableParams paramDetails, out int totalRecords, out int displayedRecords )

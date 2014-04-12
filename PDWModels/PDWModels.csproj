@@ -49,6 +49,7 @@
     <Compile Include="Attributes\FinishInformation.cs" />
     <Compile Include="Collateral\CollateralGroupInformation.cs" />
     <Compile Include="Collateral\CollateralInformation.cs" />
+    <Compile Include="Collateral\CollateralOrderHPSummary.cs" />
     <Compile Include="Collateral\CollateralOrderSummary.cs" />
     <Compile Include="Collateral\CollateralShipmentDetail.cs" />
     <Compile Include="Collateral\CollateralSummary.cs" />
