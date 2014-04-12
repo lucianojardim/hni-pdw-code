@@ -658,6 +658,7 @@
     <Content Include="NewContent\css\fonts\Helvetica-Light.woff" />
     <Content Include="Views\Home\NewIndex.cshtml" />
     <Content Include="Views\Collateral\NewOrderList.cshtml" />
+    <Content Include="Views\Collateral\NewAddOrder.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

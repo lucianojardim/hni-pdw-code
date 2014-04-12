@@ -254,6 +254,11 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult AddOrder()
 		{
+			if( PaoliWebUser.CurrentUser.IsNewLayout )
+			{
+				return View( viewName: "NewAddOrder", model: ( new CollateralRepository() ).BlankOrderInformation() );
+			}
+
 			return View( ( new CollateralRepository() ).BlankOrderInformation() );
 		}
 

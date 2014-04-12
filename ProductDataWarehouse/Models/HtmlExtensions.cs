@@ -36,5 +36,32 @@ namespace ProductDataWarehouse.Models
 			tag.SetInnerText( labelText + (bAddColon ? ":" : "") );
 			return MvcHtmlString.Create( tag.ToString( TagRenderMode.Normal ) );
 		}
+
+		public static MvcHtmlString MJCiteFor<TModel, TValue>( this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, bool bAddColon )
+		{
+			return MJCiteFor( html, expression, bAddColon, null );
+		}
+
+		public static MvcHtmlString MJCiteFor<TModel, TValue>( this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, bool bAddColon, object htmlAttributes )
+		{
+			return MJCiteFor( html, expression, bAddColon, new RouteValueDictionary( htmlAttributes ) );
+		}
+
+		public static MvcHtmlString MJCiteFor<TModel, TValue>( this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, bool bAddColon, IDictionary<string, object> htmlAttributes )
+		{
+			ModelMetadata metadata = ModelMetadata.FromLambdaExpression( expression, html.ViewData );
+			string htmlFieldName = ExpressionHelper.GetExpressionText( expression );
+			string labelText = metadata.DisplayName ?? metadata.PropertyName ?? htmlFieldName.Split( '.' ).Last();
+			if( String.IsNullOrEmpty( labelText ) )
+			{
+				return MvcHtmlString.Empty;
+			}
+
+			TagBuilder tag = new TagBuilder( "cite" );
+			tag.MergeAttributes( htmlAttributes );
+			tag.SetInnerText( labelText + ( bAddColon ? ":" : "" ) );
+			return MvcHtmlString.Create( tag.ToString( TagRenderMode.Normal ) );
+		}
+
 	}
 }
