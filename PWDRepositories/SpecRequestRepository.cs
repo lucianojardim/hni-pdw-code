@@ -798,6 +798,7 @@ namespace PWDRepositories
 			}
 
 			fileName = fileName.Replace( "&", "and" );
+			fileName = Path.GetFileName( fileName );
 
 			fileLocation = Path.Combine( fileLocation, fileName );
 
