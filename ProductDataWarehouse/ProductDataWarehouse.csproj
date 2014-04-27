@@ -442,6 +442,7 @@
     <Content Include="NewContent\css\dd.css" />
     <Content Include="NewContent\css\demo_page.css" />
     <Content Include="NewContent\css\demo_table.css" />
+    <Content Include="NewContent\css\jquery-filestyle.css" />
     <Content Include="NewContent\css\shCore.css" />
     <Content Include="NewContent\css\style.css" />
     <Content Include="NewContent\fancybox\blank.gif" />
@@ -472,8 +473,11 @@
     <Content Include="NewContent\images\account.jpg" />
     <Content Include="NewContent\images\admin.jpg" />
     <Content Include="NewContent\images\aprill.jpg" />
+    <Content Include="NewContent\images\arrow_next.jpg" />
     <Content Include="NewContent\images\banner.jpg" />
     <Content Include="NewContent\images\blue_bg.jpg" />
+    <Content Include="NewContent\images\checkbox.png" />
+    <Content Include="NewContent\images\chopse.jpg" />
     <Content Include="NewContent\images\collateral_img.jpg" />
     <Content Include="NewContent\images\favicon.ico" />
     <Content Include="NewContent\images\filter.jpg" />
@@ -486,12 +490,17 @@
     <Content Include="NewContent\images\narrow-nav-icon.jpg" />
     <Content Include="NewContent\images\order_arrow.jpg" />
     <Content Include="NewContent\images\plus.jpg" />
+    <Content Include="NewContent\images\prev_arrow.jpg" />
+    <Content Include="NewContent\images\productNoImage.png" />
     <Content Include="NewContent\images\quotes.jpg" />
+    <Content Include="NewContent\images\radio_new.jpg" />
+    <Content Include="NewContent\images\request.png" />
     <Content Include="NewContent\images\search.jpg" />
     <Content Include="NewContent\images\select_arrow.jpg" />
     <Content Include="NewContent\images\select_arrowup.jpg" />
     <Content Include="NewContent\images\store_img.png" />
     <Content Include="NewContent\images\tools.jpg" />
+    <Content Include="NewContent\js\jquery-filestyle.js" />
     <Content Include="NewContent\js\jquery.1.8.3.min.js" />
     <Content Include="NewContent\js\jquery.custom.input.js" />
     <Content Include="NewContent\js\jquery.dataTables.js" />
@@ -659,6 +668,13 @@
     <Content Include="Views\Home\NewIndex.cshtml" />
     <Content Include="Views\Collateral\NewOrderList.cshtml" />
     <Content Include="Views\Collateral\NewAddOrder.cshtml" />
+    <Content Include="Views\Collateral\NewViewOrder.cshtml" />
+    <Content Include="Views\SpecRequest\NewViewAll.cshtml" />
+    <Content Include="Views\SpecRequest\NewAddRequest.cshtml" />
+    <None Include="NewContent\css\fonts\Helvetica.ttf" />
+    <None Include="NewContent\css\fonts\Helvetica.woff" />
+    <Content Include="Views\SpecRequest\NewViewRequest.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\NewFullFileListing.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

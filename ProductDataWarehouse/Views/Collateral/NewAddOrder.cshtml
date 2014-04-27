@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "NewAddOrder";
     Layout = "~/Views/Shared/NewLayout.cshtml";
-	ViewBag.HeaderArea = "<h2><img src=\"/newcontent/images/store_img.png\" alt=\"img\" height=\"55\" width=\"46\"> Collateral Store</h2>";
+	ViewBag.HeaderArea = "<h2><img src=\"/newcontent/images/store_img.png\" alt=\"img\" height=\"55\" width=\"46\"/> Collateral Store</h2>";
 }
 @using ProductDataWarehouse.Models
 @using ProductDataWarehouse.Controllers
@@ -10,7 +10,7 @@
 
     <script type="text/javascript">
     	$(document).ready(function () {
-    		$.data($('#theForm')[0], 'validator').settings.ignore = ':hidden';
+    		$.data($('#theForm')[0], 'validator').settings.ignore = '.noValidate';
     		$.validator.addMethod(
 					"atLeastOneItem",
 					function (value, element, regexp) {
@@ -30,30 +30,50 @@
 					},
 					"Please check your input."
 				);
+			$.each($('.tab_container1'), function() {
+				$(this).find('.quantityInput').last().rules("add", { atLeastOneItem: true, messages: { number: 'Please add at least one item to your order.'} });
+			});
 
-//    		$('.quantityInput').last().rules("add", { atLeastOneItem: true, messages: { number: 'Please add at least one item to your order.'} });
+//    		$('.quantityInput').rules("add", { atLeastOneItem: true, messages: { number: 'Please add at least one item to your order.'} });
     		$('#PaoliMemberID').rules("add", { required: true, messages: { required: "Paoli Member is required."} });
     		$('#PaoliRepGroupID').rules("add", { required: true, messages: { required: "Paoli Rep Group is required."} });
     		$('#DealerID').rules("add", { required: true, messages: { required: "Dealership Name is required."} });
     		$('#SPPaoliMemberID').rules("add", { required: true, messages: { required: "Paoli Member is required."} });
     		$('#SPPaoliRepGroupID').rules("add", { required: true, messages: { required: "Paoli Rep Group is required."} });
     		$('#SPDealerID').rules("add", { required: true, messages: { required: "Dealership Name is required."} });
-//    		$("#tb1ShippingZip").rules("add", { regex: "^\\d{5}(-\\d{4})?$", messages: { regex: "Zip Code must be in the format ##### or #####-####."} });
-//    		$("#tb1ShippingPhoneNumber").rules("add", { regex: "^[2-9]\\d{2}-\\d{3}-\\d{4}$", messages: { regex: "Phone Number must be in the format ###-###-####."} });
-//    		$("#tb1ShippingEmailAddress").rules("add", { regex: "^[A-Za-z0-9](([_\\.\\-\\+]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$", messages: { regex: "Email must be a valid Email Address."} });
-//    		$("#tb2ShippingZip").rules("add", { regex: "^\\d{5}(-\\d{4})?$", messages: { regex: "Zip Code must be in the format ##### or #####-####."} });
-//    		$("#tb2ShippingPhoneNumber").rules("add", { regex: "^[2-9]\\d{2}-\\d{3}-\\d{4}$", messages: { regex: "Phone Number must be in the format ###-###-####."} });
-//    		$("#tb2ShippingEmailAddress").rules("add", { regex: "^[A-Za-z0-9](([_\\.\\-\\+]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$", messages: { regex: "Email must be a valid Email Address."} });
-//    		$('#ShippingFedexAccount').rules("add", { required: true, messages: { required: "Fedex Account Number is required."} });
+    		$("#tb1ShippingZip").rules("add", { regex: "^\\d{5}(-\\d{4})?$", messages: { regex: "Zip Code must be in the format ##### or #####-####."} });
+    		$("#tb1ShippingPhoneNumber").rules("add", { regex: "^[2-9]\\d{2}-\\d{3}-\\d{4}$", messages: { regex: "Phone Number must be in the format ###-###-####."} });
+    		$("#tb1ShippingEmailAddress").rules("add", { regex: "^[A-Za-z0-9](([_\\.\\-\\+]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$", messages: { regex: "Email must be a valid Email Address."} });
+    		$("#tb2ShippingZip").rules("add", { regex: "^\\d{5}(-\\d{4})?$", messages: { regex: "Zip Code must be in the format ##### or #####-####."} });
+    		$("#tb2ShippingPhoneNumber").rules("add", { regex: "^[2-9]\\d{2}-\\d{3}-\\d{4}$", messages: { regex: "Phone Number must be in the format ###-###-####."} });
+    		$("#tb2ShippingEmailAddress").rules("add", { regex: "^[A-Za-z0-9](([_\\.\\-\\+]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$", messages: { regex: "Email must be a valid Email Address."} });
+    		$('#ShippingFedexAccount').rules("add", { required: true, messages: { required: "Fedex Account Number is required."} });
 			
-			$('#RequestingParty').msDropdown({ on: { change: setRPDetails} });			$('#PaoliMemberID').msDropdown();			$('#PaoliRepGroupID').msDropdown({ visibleRows: 15, on: { change: function () {
+			$('#RequestingParty').msDropdown({ on: { change: setRPDetails} });
+			$('#PaoliMemberID').msDropdown();
+			$('#PaoliRepGroupID').msDropdown({ visibleRows: 15, on: { change: function () {
     			loadSPDealerList();
 				loadSPRepGroupList();
     			reloadPaoliSalesRepList();
-    		}} });			$('#PaoliRepGroupMemberID').msDropdown({ visibleRows: 15 });			$('#DealerID').msDropdown({ visibleRows: 15, on: { change: function () {
+    		}} });
+			$('#PaoliRepGroupMemberID').msDropdown({ visibleRows: 15 });
+			$('#DealerID').msDropdown({ visibleRows: 15, on: { change: function () {
     			loadSPDealerList();
     			reloadDealerSalesRepList();
-    		}} });			$('#DealerMemberID').msDropdown({ visibleRows: 15 });			$('#ShippingParty').msDropdown({ visibleRows: 15, on: { change: setSPDetails} });			$('#SPPaoliMemberID').msDropdown({ visibleRows: 15 });			$('#SPPaoliRepGroupID').msDropdown({ visibleRows: 15, on: { change: reloadSPPaoliSalesRepList} });			$('#SPPaoliRepGroupMemberID').msDropdown({ visibleRows: 15 });			$('#SPDealerID').msDropdown({ visibleRows: 15, on: { change: reloadSPDealerSalesRepList} });			$('#SPDealerMemberID').msDropdown({ visibleRows: 15 });
+    		}} });
+			$('#DealerMemberID').msDropdown({ visibleRows: 15 });
+
+			$('#ShippingParty').msDropdown({ visibleRows: 15, on: { change: setSPDetails} });
+			$('#SPPaoliMemberID').msDropdown({ visibleRows: 15 });
+			$('#SPPaoliRepGroupID').msDropdown({ visibleRows: 15, on: { change: reloadSPPaoliSalesRepList} });
+			$('#SPPaoliRepGroupMemberID').msDropdown({ visibleRows: 15 });
+			$('#SPDealerID').msDropdown({ visibleRows: 15, on: { change: reloadSPDealerSalesRepList} });
+			$('#SPDealerMemberID').msDropdown({ visibleRows: 15 });
+
+			$('#tb1ShippingState').msDropdown({ visibleRows: 15 });
+			$('#tb2ShippingState').msDropdown({ visibleRows: 15 });
+			$('#ShippingType').msDropdown({ visibleRows: 15 });
+
     		$('.nextBtn').click(function (e) {
     			e.preventDefault();
     			$('.validation-summary-errors ul').empty();
@@ -62,9 +82,9 @@
 
     				if ($('#ShippingType').closest('.requestPanel').hasClass('activeSection')) {
     					$('#ShippingAddressType[value="0"]').removeAttr('disabled');
-    					$('#ShippingAddressType[value="1"]').attr('checked', 'checked');
-
+    					$('#ShippingAddressType[value="1"]').trigger('mouseup');
     					setCompanyDetails();
+						changeShippingType();
     				}
     			}
     		});
@@ -75,8 +95,25 @@
     		});
 
     		$('.cancelBtn').click(function (e) {
+			@if( PaoliWebUser.CurrentUser.CanManageOrders ) {
+				<text>
     			window.location.href = '@Url.Action( "Orders" )';
+				</text>
+				} else {
+				<text>
+    			window.location.href = '@Url.Action( "ViewOrders" )';
+				</text>
+				}
     		});
+
+			$('.submitBtn').click(function(e) {
+				$('#theForm').submit();
+			});
+
+			$('input').addClass('noValidate');
+			$('select').addClass('noValidate');
+			$('.activeSection input').removeClass('noValidate');
+			$('.activeSection select').removeClass('noValidate');
 
     		setRPDetails();
     		setSPDetails();
@@ -86,7 +123,7 @@
     			changeShippingType();
     		});
 
-    		$('input:radio[name=ShippingAddressType]').click(function (e) {
+    		$('.fakeShippingAddressType').click(function (e) {
     			setCompanyDetails();
     		});
 
@@ -103,21 +140,42 @@
 			reloadDealerSalesRepList();
 			</text>
 			}
+
+			//Default Action
+			$(".tab_content1").hide(); //Hide all content
+			$("ul.tabs1 li:first").addClass("active").show(); //Activate first tab
+			$(".tab_content1:first").show(); //Show first tab content
+	
+			//On Click Event
+			$("ul.tabs1 li").click(function() {
+				$("ul.tabs1 li").removeClass("active"); //Remove any "active" class
+				$(this).addClass("active"); //Add "active" class to selected tab
+				$(".tab_content1").hide(); //Hide all tab content
+				var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
+				$(activeTab).fadeIn(); //Fade in the active content
+				return false;
+			});
+			$(".radio").dgStyle();
+
     	});
 
     	function changeShippingType() {
+			$('.fedexAccount input').addClass('noValidate');
     		switch ($('#ShippingType').val()) {
     			case '@PDWModels.Collateral.NewOrderInformation.STGround':
     				$('.fedexAccount').hide();
     				break;
     			case '@PDWModels.Collateral.NewOrderInformation.ST2DayFedex':
     				$('.fedexAccount').show();
+					$('.fedexAccount input').removeClass('noValidate');
     				break;
     			case '@PDWModels.Collateral.NewOrderInformation.STOvernightFedex':
     				$('.fedexAccount').show();
+					$('.fedexAccount input').removeClass('noValidate');
     				break;
     			case '@PDWModels.Collateral.NewOrderInformation.STStdOvernightFedex':
     				$('.fedexAccount').show();
+					$('.fedexAccount input').removeClass('noValidate');
     				break;
 
     		}
@@ -162,7 +220,7 @@
     					$('#tb1ShippingAddress1').val(data.Address1);
     					$('#tb1ShippingAddress2').val(data.Address2);
     					$('#tb1ShippingCity').val(data.City);
-    					$('#tb1ShippingState').val(data.State);
+    					$('#tb1ShippingState').msDropdown().data("dd").set('value', data.State);
     					$('#tb1ShippingZip').val(data.Zip);
     					$('#tb1ShippingPhoneNumber').val(data.Phone);
     					$('#tb1ShippingEmailAddress').val(data.ContactEmail);
@@ -179,14 +237,20 @@
 			if ($('input:radio[name=ShippingAddressType]:checked').val() == '1') {
 				$('.currentAddress').attr('disabled', 'disabled');
 				$('.newAddress').removeAttr('disabled');
+    			$('#tb1ShippingState').msDropdown().data("dd").set('disabled', true);
+    			$('#tb2ShippingState').msDropdown().data("dd").set('disabled', false);
 			} else {
 				$('.newAddress').attr('disabled', 'disabled');
 				$('.currentAddress').removeAttr('disabled');
+    			$('#tb1ShippingState').msDropdown().data("dd").set('disabled', false);
+    			$('#tb2ShippingState').msDropdown().data("dd").set('disabled', true);
 			}
     	}
 
     	function setRPDetails() {
     		$('#ShippingParty option').removeAttr('disabled');
+			$('#RPControlSet input').addClass('noValidate');
+			$('#RPControlSet select').addClass('noValidate');
     		switch ($('#RequestingParty').msDropdown().data("dd").get('value')) {
     			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliMember':
     				$('.RPMember').show();
@@ -219,11 +283,20 @@
     				$('#ShippingParty option[value=@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative]').attr('disabled', 'disabled');
     				break;
     		}
+			$('.RPControlArea:not(:hidden) input').removeClass('noValidate');
+			$('.RPControlArea:not(:hidden) select').removeClass('noValidate');
     		$('#ShippingParty').msDropdown().data("dd").set('value', Math.max($('#ShippingParty').msDropdown().data("dd").get('value'), $('#RequestingParty').msDropdown().data("dd").get('value')));
+
     		setSPDetails();
     	}
 
     	function setSPDetails() {
+			if( $('#ShippingParty').msDropdown().data("dd").get('value') < $('#RequestingParty').msDropdown().data("dd").get('value') ) {
+				$('#ShippingParty').msDropdown().data("dd").set('value', $('#RequestingParty').msDropdown().data("dd").get('value'))
+			}
+
+			$('#SPControlSet input').addClass('noValidate');
+			$('#SPControlSet select').addClass('noValidate');
     		switch ($('#ShippingParty').msDropdown().data("dd").get('value')) {
     			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliMember':
     				$('.SPMember').show();
@@ -252,12 +325,16 @@
     				$('.SPEndUser').show();
     				break;
     		}
+			$('.SPControlArea:not(:hidden) input').removeClass('noValidate');
+			$('.SPControlArea:not(:hidden) select').removeClass('noValidate');
     	}
 
     	function setPanel(offset) {
     		var curIdx = $('#theForm div.activeSection').index('#theForm div.requestPanel');
     		var divCount = $('#theForm div.requestPanel').length;
     		//console.log('setPanel [' + offset + '][' + curIdx + '][' + divCount + ']');
+			$('input').addClass('noValidate');
+			$('select').addClass('noValidate');
     		if (offset == -1 && curIdx > 0) {
     			$('.activeSection').removeClass('activeSection').addClass('futureSection');
     			$('#theForm div.requestPanel:eq(' + (curIdx + offset) + ')').removeClass('futureSection').addClass('activeSection');
@@ -280,6 +357,8 @@
     			}
     			$('.previousBtn').show();
     		}
+			$('.activeSection input').removeClass('noValidate');
+			$('.activeSection select').removeClass('noValidate');
     	}
 		
 		function emptyDropDownList(ddList) {
@@ -299,7 +378,7 @@
 		function reloadDropDownCompanyList(ddListID, data) {
 			var ddList = $(ddListID).msDropdown().data("dd");
 			emptyDropDownList(ddList);
-    		$.each(data.theList, function (idx, item) {
+    		$.each(data, function (idx, item) {
 				ddList.add({text:item.Text, value:item.ID});
     		});
 		}
@@ -442,104 +521,136 @@
     		}
     	}
 
-		function fillConfirmForm() {
-			var t = $('#confirmTable tbody');
-			t.empty();
+		function addConfirmItem(ulClass, liClass, liText) {
+			if( liText == '' || liText == null )
+			{
+				liText = '&nbsp;';
+			}
+			$('.' + ulClass).append('<li class="' + liClass + '">' + liText + '</li>');
+		}
 
-			addConfirmHeaderRow(t, 'Who\'s Requesting');
-			addConfirmRow(t, '@Html.MJLabelFor( m => m.RequestingParty, false )', $('#RequestingParty option:selected').text());
+		function fillConfirmForm() {
+			$('.rpLabel').remove();
+			$('.rpValue').remove();
+
+			addConfirmItem('rpValues', 'rpValue', $('#RequestingParty option:selected').text());
 			switch ($('#RequestingParty').val()) {
 				case '@PDWModels.Collateral.NewOrderInformation.RPPaoliMember':
-					addConfirmRow(t, '@Html.MJLabelFor(m => m.PaoliMemberID, true)', $('#PaoliMemberID option:selected').text());
+					addConfirmItem('rpLabels', 'rpLabel', '@Html.MJLabelFor(m => m.PaoliMemberID, true)');
+					addConfirmItem('rpValues', 'rpValue', $('#PaoliMemberID option:selected').text());
 					break;
 				case '@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative':
-					addConfirmRow(t, '@Html.MJLabelFor(m => m.PaoliRepGroupID, true)', $('#PaoliRepGroupID option:selected').text());
-					addConfirmRow(t, '@Html.MJLabelFor(m => m.PaoliRepGroupMemberID, true)', $('#PaoliRepGroupMemberID option:selected').text());
+					addConfirmItem('rpLabels', 'rpLabel', '@Html.MJLabelFor(m => m.PaoliRepGroupID, true)');
+					addConfirmItem('rpValues', 'rpValue', $('#PaoliRepGroupID option:selected').text());
+					addConfirmItem('rpLabels', 'rpLabel', '@Html.MJLabelFor(m => m.PaoliRepGroupMemberID, true)');
+					addConfirmItem('rpValues', 'rpValue', $('#PaoliRepGroupMemberID option:selected').text());
 					break;
 				case '@PDWModels.Collateral.NewOrderInformation.RPDealer':
-					addConfirmRow(t, '@Html.MJLabelFor(m => m.DealerID, true)', $('#DealerID option:selected').text());
-					addConfirmRow(t, '@Html.MJLabelFor(m => m.DealerMemberID, true)', $('#DealerMemberID option:selected').text());
+					addConfirmItem('rpLabels', 'rpLabel', '@Html.MJLabelFor(m => m.DealerID, true)');
+					addConfirmItem('rpValues', 'rpValue', $('#DealerID option:selected').text());
+					addConfirmItem('rpLabels', 'rpLabel', '@Html.MJLabelFor(m => m.DealerMemberID, true)');
+					addConfirmItem('rpValues', 'rpValue', $('#DealerMemberID option:selected').text());
 					break;
 				case '@PDWModels.Collateral.NewOrderInformation.RPEndUser':
-					addConfirmRow(t, '@Html.MJLabelFor(m => m.EndUserFirstName, true)', $('#EndUserFirstName').val());
-					addConfirmRow(t, '@Html.MJLabelFor(m => m.EndUserLastName, true)', $('#EndUserLastName').val());
-					addConfirmRow(t, '@Html.MJLabelFor(m => m.EndUserPhoneNumber, true)', $('#EndUserPhoneNumber').val());
-					addConfirmRow(t, '@Html.MJLabelFor(m => m.EndUserEMailAddress, true)', $('#EndUserEMailAddress').val());
-					break;
-			}
-			addConfirmRow(t, '&nbsp;', '&nbsp;');
-			addConfirmRow(t, '@Html.MJLabelFor( m => m.ShippingParty, false )', $('#ShippingParty option:selected').text());
-			switch ($('#ShippingParty').val()) {
-				case '@PDWModels.Collateral.NewOrderInformation.RPPaoliMember':
-					addConfirmRow(t, '@Html.MJLabelFor(m => m.SPPaoliMemberID, true)', $('#SPPaoliMemberID option:selected').text());
-					break;
-				case '@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative':
-					addConfirmRow(t, '@Html.MJLabelFor(m => m.SPPaoliRepGroupID, true)', $('#SPPaoliRepGroupID option:selected').text());
-					addConfirmRow(t, '@Html.MJLabelFor(m => m.SPPaoliRepGroupMemberID, true)', $('#SPPaoliRepGroupMemberID option:selected').text());
-					break;
-				case '@PDWModels.Collateral.NewOrderInformation.RPDealer':
-					addConfirmRow(t, '@Html.MJLabelFor(m => m.SPDealerID, true)', $('#SPDealerID option:selected').text());
-					addConfirmRow(t, '@Html.MJLabelFor(m => m.SPDealerMemberID, true)', $('#SPDealerMemberID option:selected').text());
-					break;
-				case '@PDWModels.Collateral.NewOrderInformation.RPEndUser':
-					addConfirmRow(t, '@Html.MJLabelFor(m => m.SPEndUserFirstName, true)', $('#SPEndUserFirstName').val());
-					addConfirmRow(t, '@Html.MJLabelFor(m => m.SPEndUserLastName, true)', $('#SPEndUserLastName').val());
-					addConfirmRow(t, '@Html.MJLabelFor(m => m.SPEndUserPhoneNumber, true)', $('#SPEndUserPhoneNumber').val());
-					addConfirmRow(t, '@Html.MJLabelFor(m => m.SPEndUserEMailAddress, true)', $('#SPEndUserEMailAddress').val());
+					addConfirmItem('rpLabels', 'rpLabel', '@Html.MJLabelFor(m => m.EndUserFirstName, true)');
+					addConfirmItem('rpValues', 'rpValue', $('#EndUserFirstName').text());
+					addConfirmItem('rpLabels', 'rpLabel', '@Html.MJLabelFor(m => m.EndUserLastName, true)');
+					addConfirmItem('rpValues', 'rpValue', $('#EndUserLastName').text());
+					addConfirmItem('rpLabels', 'rpLabel', '@Html.MJLabelFor(m => m.EndUserPhoneNumber, true)');
+					addConfirmItem('rpValues', 'rpValue', $('#EndUserPhoneNumber').text());
+					addConfirmItem('rpLabels', 'rpLabel', '@Html.MJLabelFor(m => m.EndUserEMailAddress, true)');
+					addConfirmItem('rpValues', 'rpValue', $('#EndUserEMailAddress').text());
 					break;
 			}
 
-			addConfirmHeaderRow(t, 'Order Details');
+			$('.spLabel').remove();
+			$('.spValue').remove();
+
+			addConfirmItem('spValues', 'spValue', $('#ShippingParty option:selected').text());
+			switch ($('#ShippingParty').val()) {
+				case '@PDWModels.Collateral.NewOrderInformation.RPPaoliMember':
+					addConfirmItem('spLabels', 'spLabel', '@Html.MJLabelFor(m => m.SPPaoliMemberID, true)');
+					addConfirmItem('spValues', 'spValue', $('#SPPaoliMemberID option:selected').text());
+					break;
+				case '@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative':
+					addConfirmItem('spLabels', 'spLabel', '@Html.MJLabelFor(m => m.SPPaoliRepGroupID, true)');
+					addConfirmItem('spValues', 'spValue', $('#SPPaoliRepGroupID option:selected').text());
+					addConfirmItem('spLabels', 'spLabel', '@Html.MJLabelFor(m => m.SPPaoliRepGroupMemberID, true)');
+					addConfirmItem('spValues', 'spValue', $('#SPPaoliRepGroupMemberID option:selected').text());
+					break;
+				case '@PDWModels.Collateral.NewOrderInformation.RPDealer':
+					addConfirmItem('spLabels', 'spLabel', '@Html.MJLabelFor(m => m.SPDealerID, true)');
+					addConfirmItem('spValues', 'spValue', $('#SPDealerID option:selected').text());
+					addConfirmItem('spLabels', 'spLabel', '@Html.MJLabelFor(m => m.SPDealerMemberID, true)');
+					addConfirmItem('spValues', 'spValue', $('#SPDealerMemberID option:selected').text());
+					break;
+				case '@PDWModels.Collateral.NewOrderInformation.RPEndUser':
+					addConfirmItem('spLabels', 'spLabel', '@Html.MJLabelFor(m => m.SPEndUserFirstName, true)');
+					addConfirmItem('spValues', 'spValue', $('#SPEndUserFirstName').text());
+					addConfirmItem('spLabels', 'spLabel', '@Html.MJLabelFor(m => m.SPEndUserLastName, true)');
+					addConfirmItem('spValues', 'spValue', $('#SPEndUserLastName').text());
+					addConfirmItem('spLabels', 'spLabel', '@Html.MJLabelFor(m => m.SPEndUserPhoneNumber, true)');
+					addConfirmItem('spValues', 'spValue', $('#SPEndUserPhoneNumber').text());
+					addConfirmItem('spLabels', 'spLabel', '@Html.MJLabelFor( m => m.SPEndUserEMailAddress, true )');
+					addConfirmItem('spValues', 'spValue', $('#SPEndUserEMailAddress').text());
+					break;
+			}
+
+			var itemCount = 0;
+			$('#confirmItems').html('');
 			$.each($('.quantityInput'), function () {
 				if (parseInt($(this).val()) > 0) {
-					var itemRow = $(this).closest('td');
-					var itemName = itemRow.prev().find('.justItemName').text();
-					addConfirmRow(t, itemName, $(this).val());
+					var itemRow = $(this).closest('div');
+					var itemName = itemRow.prev().find('h4').text();
+					var img = itemRow.prev().prev().find('img');
+
+					if( itemCount % 2 == 0 ) {
+						$('#confirmItems').append('<li></li>');
+					}
+					var liItem = $('#confirmItems li').last();
+
+					liItem.append('<div class="colmn1">' + $('<div>').append(img.clone()).html() + '</div>');
+					liItem.append('<div class="colmn2">' + itemName + '</div>');
+					liItem.append('<div class="colmn' + (itemCount % 2 == 0 ? 3 : 4) + '">' + $(this).val() + '</div>');
+
+					itemCount++;
 				}
 			});
 
-			addConfirmHeaderRow(t, 'Shipping Information');
-			addConfirmRow(t, '@Html.MJLabelFor( m => m.ShippingType, false )', $('#ShippingType option:selected').text());
+			$('.shippingTypeLabel').remove();
+			$('.shippingTypeValue').remove();
+			$('.shippingValue').html($('#ShippingType option:selected').text());
 			switch ($('#ShippingType').val()) {
 				case '@PDWModels.Collateral.NewOrderInformation.STGround':
 					break;
 				case '@PDWModels.Collateral.NewOrderInformation.ST2DayFedex':
 				case '@PDWModels.Collateral.NewOrderInformation.STOvernightFedex':
 				case '@PDWModels.Collateral.NewOrderInformation.STStdOvernightFedex':
-					addConfirmRow(t, '@Html.MJLabelFor( m => m.ShippingFedexAccount, false )', $('#ShippingFedexAccount').val());
+					addConfirmItem('shippingTypeLabels', 'shippingTypeLabel', 'Tracking Number');
+					addConfirmItem('shippingTypeValues', 'shippingTypeValue', $('#ShippingFedexAccount').val());
 					break;
 			}
-			addConfirmRow(t, '&nbsp;', '&nbsp;');
+
 			var shippingType = 'tb1';
 			if ($('input:radio[name=ShippingAddressType]:checked').val() == '1') {
 				shippingType = 'tb2';
 			}
 
-			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingAttn )', $('#' + shippingType + 'ShippingAttn').val());
-			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingCompanyName )', $('#' + shippingType + 'ShippingCompanyName').val());
-			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingAddress1 )', $('#' + shippingType + 'ShippingAddress1').val());
-			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingAddress2 )', $('#' + shippingType + 'ShippingAddress2').val());
-			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingCity )', $('#' + shippingType + 'ShippingCity').val());
-			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingState )', $('#' + shippingType + 'ShippingState').val());
-			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingZip )', $('#' + shippingType + 'ShippingZip').val());
-			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingPhoneNumber )', $('#' + shippingType + 'ShippingPhoneNumber').val());
-			addConfirmRow(t, '@Html.LabelFor( m => m.ShippingEmailAddress )', $('#' + shippingType + 'ShippingEmailAddress').val());
+			$('.addressValue').remove();
+			addConfirmItem('addressValues', 'addressValue', $('#' + shippingType + 'ShippingAttn').val());
+			addConfirmItem('addressValues', 'addressValue', $('#' + shippingType + 'ShippingCompanyName').val());
+			addConfirmItem('addressValues', 'addressValue', $('#' + shippingType + 'ShippingAddress1').val());
+			addConfirmItem('addressValues', 'addressValue', $('#' + shippingType + 'ShippingAddress2').val());
+			addConfirmItem('addressValues', 'addressValue', $('#' + shippingType + 'ShippingCity').val());
+			addConfirmItem('addressValues', 'addressValue', $('#' + shippingType + 'ShippingState').val());
+			addConfirmItem('addressValues', 'addressValue', $('#' + shippingType + 'ShippingZip').val());
+			addConfirmItem('addressValues', 'addressValue', $('#' + shippingType + 'ShippingPhoneNumber').val());
+			addConfirmItem('addressValues', 'addressValue', $('#' + shippingType + 'ShippingEmailAddress').val());
 		}
-
-		function addConfirmHeaderRow(table, label) {
-			table.append('<tr><td colspan="2"><hr/><h4>' + label + '</h4></td></tr>');
-		}
-
-		function addConfirmRow(table, label, text) {
-			table.append('<tr><td>' + label + '</td><td>' + text + '</td></tr>');
-		}
-
 
 	</script>
 @{
 	var collTypeList = CollateralController.GetCollateralTypeFilterList().Where( c => Model.OrderDetails.Any( od => od.CollateralTypeID.ToString() == c.Value ) ).OrderBy( c => int.Parse( c.Value ) );
-	var stepCount = collTypeList.Where( i => i.Value != "0" ).Count() + 3;
-	var stepNum = 1;
 	CompanyController.GetCompanyListFunction GetSalesRepList = CompanyController.GetCompanyDDList;
 	CompanyController.GetCompanyListFunction GetDealerList = CompanyController.GetCompanyDDList;
 	if( PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
@@ -563,7 +674,7 @@
 	<div class="main_inner1_btm">
 		<h4>
 			Requestor Information</h4>
-		<ul>
+		<ul id="RPControlSet">
 			<li>
 				<div class="box1">
 					@Html.MJLabelFor( m => m.RequestingParty, false )
@@ -571,29 +682,32 @@
 				</div>
 			</li>
 			<li>
-				<div class="box1 RPMember">
+				<div class="box1 RPMember RPControlArea">
 					@Html.MJLabelFor( m => m.PaoliMemberID, false )
 					@Html.DropDownListFor( m => m.PaoliMemberID, UserController.GetPaoliMemberDDList( true ) )
+					@Html.ValidationMessageFor( m => m.PaoliMemberID )
 				</div>
-				<div class="box1 RPRepGroup">
+				<div class="box1 RPRepGroup RPControlArea">
 					@Html.MJLabelFor( m => m.PaoliRepGroupID, false )
 					@Html.DropDownListFor( m => m.PaoliRepGroupID, GetSalesRepList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, true ) )
 					@Html.MJCiteFor( m => m.PaoliRepGroupMemberID, false )
 					@Html.DropDownListFor( m => m.PaoliRepGroupMemberID, new List<SelectListItem>() )
+					@Html.ValidationMessageFor( m => m.PaoliRepGroupID )
 				</div>
-				<div class="box1 RPDealer">
+				<div class="box1 RPDealer RPControlArea">
 					@Html.MJLabelFor( m => m.DealerID, false )
 					@Html.DropDownListFor( m => m.DealerID, GetDealerList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer, true ) )
 					@Html.MJCiteFor( m => m.DealerMemberID, false )
 					@Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>() )
+					@Html.ValidationMessageFor( m => m.DealerID )
 				</div>
-				<div class="box1 RPEndUser">
+				<div class="box1 RPEndUser RPControlArea">
 					@Html.MJLabelFor( m => m.EndUserFirstName, false )
 					@Html.TextBoxFor( m => m.EndUserFirstName )
 					@Html.MJCiteFor( m => m.EndUserLastName, false )
 					@Html.TextBoxFor( m => m.EndUserLastName )
 				</div>
-				<div class="box1 RPEndUser">
+				<div class="box1 RPEndUser RPControlArea">
 					@Html.MJLabelFor( m => m.EndUserPhoneNumber, false )
 					@Html.TextBoxFor( m => m.EndUserPhoneNumber )
 					@Html.MJCiteFor( m => m.EndUserEMailAddress, false )
@@ -606,7 +720,7 @@
 	<div class="main_inner1_btm last">
 		<h5>
 			Recipient Information</h5>
-		<ul>
+		<ul id="SPControlSet">
 			<li>
 				<div class="box1">
 					@Html.MJLabelFor( m => m.ShippingParty, false )
@@ -614,29 +728,32 @@
 				</div>
 			</li>
 			<li>
-				<div class="box1 SPMember">
+				<div class="box1 SPMember SPControlArea">
 					@Html.MJLabelFor( m => m.SPPaoliMemberID, false )
 					@Html.DropDownListFor( m => m.SPPaoliMemberID, UserController.GetPaoliMemberDDList( true ) )
+					@Html.ValidationMessageFor( m => m.SPPaoliMemberID )
 				</div>
-				<div class="box1 SPRepGroup">
+				<div class="box1 SPRepGroup SPControlArea">
 					@Html.MJLabelFor( m => m.SPPaoliRepGroupID, false )
 					@Html.DropDownListFor( m => m.SPPaoliRepGroupID, GetSalesRepList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, true ) )
 					@Html.MJCiteFor( m => m.SPPaoliRepGroupMemberID, false )
 					@Html.DropDownListFor( m => m.SPPaoliRepGroupMemberID, new List<SelectListItem>() )
+					@Html.ValidationMessageFor( m => m.SPPaoliRepGroupID )
 				</div>
-				<div class="box1 SPDealer">
+				<div class="box1 SPDealer SPControlArea">
 					@Html.MJLabelFor( m => m.SPDealerID, false )
 					@Html.DropDownListFor( m => m.SPDealerID, GetDealerList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer, true ) )
 					@Html.MJCiteFor( m => m.SPDealerMemberID, false )
 					@Html.DropDownListFor( m => m.SPDealerMemberID, new List<SelectListItem>() )
+					@Html.ValidationMessageFor( m => m.SPDealerID )
 				</div>
-				<div class="box1 SPEndUser">
+				<div class="box1 SPEndUser SPControlArea">
 					@Html.MJLabelFor( m => m.SPEndUserFirstName, false )
 					@Html.TextBoxFor( m => m.SPEndUserFirstName )
 					@Html.MJCiteFor( m => m.SPEndUserLastName, false )
 					@Html.TextBoxFor( m => m.SPEndUserLastName )
 				</div>
-				<div class="box1 RPEndUser">
+				<div class="box1 SPEndUser SPControlArea">
 					@Html.MJLabelFor( m => m.SPEndUserPhoneNumber, false )
 					@Html.TextBoxFor( m => m.SPEndUserPhoneNumber )
 					@Html.MJCiteFor( m => m.SPEndUserEMailAddress, false )
@@ -647,8 +764,294 @@
 		<i class="clear_0"></i>
 	</div>
 </div>
+		
+		
+		<div class="main_inner1 requestPanel futureSection">
+			<h3>
+				Step 2: What Would You Like to Order?</h3>
+			<div class="main_inner3_btm">
+				<div class="main_inner3_btm_top">
+					<ul class="tabs1">
+		@foreach( var collateralType in collTypeList )
+  {
+	  if( collateralType.Value != "0" )
+	  {
+						<li class="box1"><a href="#tab@(collateralType.Value)">@collateralType.Text</a></li>
+	  }
+  }
+					</ul>
+					<i class="clear_0"></i>
+				</div>
+				@{
+				var itemNum = 0;
+				var startTR = "<li>";
+				var endTR = "</li>";
+	  }
+		@foreach( var collateralType in collTypeList )
+  {
+	  if( collateralType.Value != "0" )
+	  {
+				<div class="tab_container1">
+					<div style="display: block;" id="tab@(collateralType.Value)" class="tab_content1">
+						<ul>
+				@{
+				itemNum = 0;
+				}
+				@for( int i = 0; i < Model.OrderDetails.Count; i++ )
+	{
+		if( Model.OrderDetails[i].CollateralTypeID.ToString() == collateralType.Value )
+		{
+			if( itemNum % 2 == 0 )
+			{
+				<text>@Html.Raw( startTR )</text>
+			}
+			
+								<div class="colmn1">
+									<img src="/newcontent/images/productNoImage.png" alt="img"/>
+								</div>
+								<div class="colmn2">
+									<h4>
+										@Model.OrderDetails[i].Name
+									</h4>
+									<p>
+										@Model.OrderDetails[i].Description
+									</p>
+									@Html.ValidationMessageFor( m => m.OrderDetails[i].Quantity )
+
+								</div>
+								<div class="colmn@(itemNum % 2 == 1 ? "4" : "3")">
+									@Html.TextBoxFor( m => m.OrderDetails[i].Quantity, new { @class = "quantityInput" } )
+									<span>@Model.OrderDetails[i].Status</span>
+								</div>			
+			
+			@Html.HiddenFor( m => m.OrderDetails[i].CollateralID )
+			if( itemNum % 2 == 1 )
+			{
+				<text>@Html.Raw( endTR )</text>
+			}
+			itemNum++;
+		}
+	}
+
+						</ul>
+						<i class="clear_0"></i>
+					</div>
+				</div>
+	  }
+  }
+			</div>
+			
+		</div>  
+
+		<div class="main_inner1 requestPanel futureSection">
+			<h3>
+				Step 3: Where Should We Send Your Order?</h3>
+			<div class="main_inner2_btm">
+				<div class="main_inner2_btm_top">
+					<label>
+						Shipping Priority</label>
+					@Html.DropDownListFor( m => m.ShippingType, PDWModels.Collateral.NewOrderInformation.ShippingTypes.Select( st => new SelectListItem() { Text = st.Value, Value = st.Key.ToString() } ) )
+				</div>
+				<div class="main_inner2_btm_mid fedexAccount">
+					<ul>
+						<li>
+							<div class="colmn1">
+								@Html.LabelFor( m => m.ShippingFedexAccount )</div>
+							<div class="colmn2">
+								@Html.TextBoxFor( m => m.ShippingFedexAccount )</div>
+						</li>
+					</ul>
+					<i class="clear_0"></i>
+				</div>
+				<div class="main_inner2_btm_mid">
+					<h4>
+						Which address do you want to ship to?</h4>
+					<div class="main_inner2_btm_mid_lt">
+						<div class="radio fakeShippingAddressType" id="box-single15">
+							@Html.RadioButtonFor( m => m.ShippingAddressType, "0", new { @checked = "checked", @class = "radio" } )
+						</div>
+						<span>Current Address On File</span>
+					</div>
+					<div class="main_inner2_btm_mid_rt">
+						<div class="radio fakeShippingAddressType" id="box-single17">
+							@Html.RadioButtonFor( m => m.ShippingAddressType, "1", new { @class = "radio" } )
+						</div>
+						<span>Alternate Address</span>
+					</div>
+					<i class="clear_0"></i>
+					<ul>
+						<li>
+							<div class="colmn1">
+								Attention To @Html.ValidationMessageFor( m => m.ShippingAttn )</div>
+							<div class="colmn2">
+								@Html.TextBoxFor( m => m.ShippingAttn, new { @class = "currentAddress", @id = "tb1ShippingAttn" } )</div>
+							<div class="colmn3">
+								@Html.TextBoxFor( m => m.ShippingAttn, new { @class = "newAddress", @id = "tb2ShippingAttn" } )</div>
+						</li>
+						<li>
+							<div class="colmn1">
+								Company @Html.ValidationMessageFor( m => m.ShippingCompanyName )</div>
+							<div class="colmn2">
+								@Html.TextBoxFor( m => m.ShippingCompanyName, new { @class = "currentAddress", @id = "tb1ShippingCompanyName" } )</div>
+							<div class="colmn3">
+								@Html.TextBoxFor( m => m.ShippingCompanyName, new { @class = "newAddress", @id = "tb2ShippingCompanyName" } )</div>
+						</li>
+						<li>
+							<div class="colmn1">
+								Address 1 @Html.ValidationMessageFor( m => m.ShippingAddress1 )</div>
+							<div class="colmn2">
+								@Html.TextBoxFor( m => m.ShippingAddress1, new { @class = "currentAddress", @id = "tb1ShippingAddress1" } )</div>
+							<div class="colmn3">
+								@Html.TextBoxFor( m => m.ShippingAddress1, new { @class = "newAddress", @id = "tb2ShippingAddress1" } )</div>
+						</li>
+						<li>
+							<div class="colmn1">
+								Address 2 @Html.ValidationMessageFor( m => m.ShippingAddress2 )</div>
+							<div class="colmn2">
+								@Html.TextBoxFor( m => m.ShippingAddress2, new { @class = "currentAddress", @id = "tb1ShippingAddress2" } )</div>
+							<div class="colmn3">
+								@Html.TextBoxFor( m => m.ShippingAddress2, new { @class = "newAddress", @id = "tb2ShippingAddress2" } )</div>
+						</li>
+						<li>
+							<div class="colmn1">
+								City @Html.ValidationMessageFor( m => m.ShippingCity )</div>
+							<div class="colmn2">
+								@Html.TextBoxFor( m => m.ShippingCity, new { @class = "currentAddress", @id = "tb1ShippingCity" } )</div>
+							<div class="colmn3">
+								@Html.TextBoxFor( m => m.ShippingCity, new { @class = "newAddress", @id = "tb2ShippingCity" } )</div>
+						</li>
+						<li>
+							<div class="colmn1">
+								State @Html.ValidationMessageFor( m => m.ShippingState )</div>
+							<div class="colmn2">
+								@Html.DropDownListFor( m => m.ShippingState, UserController.GetStateDDList(), new { @class = "currentAddress", @id = "tb1ShippingState" } )</div>
+							<div class="colmn3">
+								@Html.DropDownListFor( m => m.ShippingState, UserController.GetStateDDList(), new { @class = "newAddress", @id = "tb2ShippingState" } )</div>
+						</li>
+						<li>
+							<div class="colmn1">
+								ZIP Code @Html.ValidationMessageFor( m => m.ShippingZip )</div>
+							<div class="colmn2">
+								@Html.TextBoxFor( m => m.ShippingZip, new { @class = "currentAddress", @id = "tb1ShippingZip" } )</div>
+							<div class="colmn3">
+								@Html.TextBoxFor( m => m.ShippingZip, new { @class = "newAddress", @id = "tb2ShippingZip" } )</div>
+						</li>
+						<li>
+							<div class="colmn1">
+								Phone Number @Html.ValidationMessageFor( m => m.ShippingPhoneNumber )</div>
+							<div class="colmn2">
+								@Html.TextBoxFor( m => m.ShippingPhoneNumber, new { @class = "currentAddress", @id = "tb1ShippingPhoneNumber" } )</div>
+							<div class="colmn3">
+								@Html.TextBoxFor( m => m.ShippingPhoneNumber, new { @class = "newAddress", @id = "tb2ShippingPhoneNumber" } )</div>
+						</li>
+						<li>
+							<div class="colmn1">
+								Email @Html.ValidationMessageFor( m => m.ShippingEmailAddress )</div>
+							<div class="colmn2">
+								@Html.TextBoxFor( m => m.ShippingEmailAddress, new { @class = "currentAddress", @id = "tb1ShippingEmailAddress" } )</div>
+							<div class="colmn3">
+								@Html.TextBoxFor( m => m.ShippingEmailAddress, new { @class = "newAddress", @id = "tb2ShippingEmailAddress" } )</div>
+						</li>
+					</ul>
+					<i class="clear_0"></i>
+				</div>
+			</div>
+		</div>    
+		
+    
+		
+		<div class="main_inner1 requestPanel futureSection">
+			<h3>
+				Step 4: Confirm</h3>
+			<div class="main_inner4_btm">
+				<div class="main_inner4_btm_top">
+					<h4>
+						Requestor Details</h4>
+					<div class="content1">
+						<ul class="rpLabels">
+							<li>Who is placing this order:</li>
+							<li class="rpLabel">Paoli Rep Group:</li>
+							<li class="rpLabel">Paoli Rep:</li>
+						</ul>
+					</div>
+					<div class="content2">
+						<ul class="rpValues">
+							<li class="rpValue">Paoli Sales Rep</li>
+							<li class="rpValue">Paoli-Marketing Group</li>
+							<li class="rpValue">John Doe</li>
+						</ul>
+					</div>
+					<div class="content1">
+						<ul class="spLabels">
+							<li>Who is receiving this order:</li>
+							<li class="spLabel">Paoli Rep Group:</li>
+							<li class="spLabel">Paoli Rep:</li>
+						</ul>
+					</div>
+					<div class="content4">
+						<ul class="spValues">
+							<li class="spValue">Paoli Sales Rep</li>
+							<li class="spValue">Paoli-Marketing Group</li>
+							<li class="spValue">PJohn Smith</li>
+						</ul>
+					</div>
+					<i class="clear_0"></i>
+				</div>
+				<div class="main_inner4_btm_mid">
+					<h4>
+						Order Details</h4>
+					<ul id="confirmItems">
+					</ul>
+					<i class="clear_0"></i>
+				</div>
+			</div>
+			<div class="main_inner4_btm_bottm">
+				<h4>
+					Shipping Details</h4>
+				<div class="content1">
+					<ul>
+						<li>Attention To</li>
+						<li>Company</li>
+						<li>Address 1</li>
+						<li>Address 2</li>
+						<li>City</li>
+						<li>State</li>
+						<li>ZIP Code</li>
+						<li>Phone NumberS</li>
+						<li>Email</li>
+					</ul>
+				</div>
+				<div class="content2">
+					<ul class="addressValues">
+						<li class="addressValue">John Smith</li>
+						<li class="addressValue">Some Company Name</li>
+						<li class="addressValue">1234 Main St</li>
+						<li class="addressValue">Suite 3A</li>
+						<li class="addressValue">Anytown</li>
+						<li class="addressValue">US</li>
+						<li class="addressValue">10001</li>
+						<li class="addressValue">(310) 555-5555</li>
+						<li class="addressValue">john.smith@someemail.com</li>
+					</ul>
+				</div>
+				<div class="content1">
+					<ul class="shippingTypeLabels">
+						<li>Shipping Priority</li>
+						<li class="shippingTypeLabel">Tracking Number</li>
+					</ul>
+				</div>
+				<div class="content3">
+					<ul class="shippingTypeValues">
+						<li class="shippingValue">Ground</li>
+						<li class="shippingTypeValue">1Z1234567890ABCD</li>
+					</ul>
+				</div>
+				<i class="clear_0"></i>
+			</div>
+		</div>		
 <span class="btn7 cancelBtn">CANCEL</span>
-<span class="btn8 submitBtn" style="display:none;">SUBMIT</span>
+<span class="btn11 submitBtn" style="display:none;">SUBMIT</span>
 <span class="btn8 nextBtn">NEXT</span>
 <span class="btn9 previousBtn" style="display:none;">PREV</span>
+	<!--	@Html.ValidationSummary() -->
 	}

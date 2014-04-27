@@ -242,6 +242,7 @@ namespace PWDRepositories
 					PaoliEncryption enc = new PaoliEncryption( PaoliEncryption.DataPassPhrase );
 					eUser.Password = enc.Encrypt( password );
 					eUser.IsTempPassword = true;
+					eUser.RecWelcomeEmail = true;
 				}
 
 				if( imgStream != null )
@@ -545,6 +546,29 @@ namespace PWDRepositories
 							EmailAddress = eUser.Company.PaoliMember.Email,
 							PhoneNumber = eUser.Company.PaoliMember.BusinessPhone,
 							ImageFileName = eUser.Company.PaoliMember.ImageFileName
+						} );
+					}
+				}
+				else if( eUser.Company.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer )
+				{
+					if( eUser.Company.PaoliMemberID.HasValue )
+					{
+						theList.Add( new UserContactInfo()
+						{
+							FullName = eUser.Company.PaoliMember.FullName,
+							EmailAddress = eUser.Company.PaoliMember.Email,
+							PhoneNumber = eUser.Company.PaoliMember.BusinessPhone,
+							ImageFileName = eUser.Company.PaoliMember.ImageFileName
+						} );
+					}
+					if( eUser.Company.PaoliSalesRepMemberID.HasValue )
+					{
+						theList.Add( new UserContactInfo()
+						{
+							FullName = eUser.Company.PaoliSalesRepMember.FullName,
+							EmailAddress = eUser.Company.PaoliSalesRepMember.Email,
+							PhoneNumber = eUser.Company.PaoliSalesRepMember.BusinessPhone,
+							ImageFileName = eUser.Company.PaoliSalesRepMember.ImageFileName
 						} );
 					}
 				}

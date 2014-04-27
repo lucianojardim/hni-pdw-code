@@ -289,6 +289,11 @@ namespace ProductDataWarehouse.Controllers
 				}
 			}
 
+			if( PaoliWebUser.CurrentUser.IsNewLayout )
+			{
+				return View( viewName: "NewAddOrder", model: orderInfo );
+			}
+
 			return View( orderInfo );
 		}
 
@@ -328,6 +333,10 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult ViewOrder( int id )
 		{
+			if( PaoliWebUser.CurrentUser.IsNewLayout )
+			{
+				return View( viewName: "NewViewOrder", model: ( new CollateralRepository() ).GetPendingOrder( id, true ) );
+			}
 			return View( ( new CollateralRepository() ).GetPendingOrder( id, true ) );
 		}
 

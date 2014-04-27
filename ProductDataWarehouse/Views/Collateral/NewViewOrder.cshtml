@@ -1,0 +1,326 @@
+﻿@model PDWModels.Collateral.PendingOrderInformation
+@{
+	ViewBag.Title = "NewViewOrder";
+	Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.HeaderArea = "<h2><img src=\"/newcontent/images/store_img.png\" alt=\"img\" height=\"55\" width=\"46\"/> Collateral Store</h2>";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+
+<script type="text/javascript">
+
+    	$(document).ready(function () {
+			@if( Model.OrderDate.HasValue )
+   {
+			<text>
+                $('#orderDate').text(getLocalDate('@Model.OrderDate.Value.ToString()'));
+			</text>
+   }
+			@if( Model.CanceledOnDateTime.HasValue )
+   {
+			<text>
+                $('#canceledDate').text(getLocalDate('@Model.CanceledOnDateTime.Value.ToString()'));
+			</text>
+   }
+			@foreach( var shipmentInfo in Model.Shipments )
+   {
+			<text>
+                $('#shippingDate@(shipmentInfo.ShipmentID)').text(getLocalDate('@shipmentInfo.ShippingDate.ToString()'));
+			</text>
+   }
+
+			$('.shipmentDetailsLink').fancybox({
+				'autoDimensions': false,
+				'width': 600,
+				'height': 600,
+				'padding': 20,
+				'margin': 0,
+				'scrolling': 'auto',
+				'titleShow': false
+			});
+		});
+</script>
+
+		<div class="main_inner1">
+			<h3>
+				View Collateral Order - @Model.OrderID</h3>
+			<div class="main_inner4_btm">
+				<div class="main_inner4_btm_top">
+					<h4>
+						Requestor Details</h4>
+					<div class="content1">
+						<ul class="rpLabels">
+							<li>Who is placing this order:</li>
+			@if( Model.RPCompany != null )
+   {
+					<li>@Model.RPCompany</li>
+   }
+   @if( Model.RPUserName != null )
+   {
+					<li>@Model.RPUserName</li>
+   }
+   @if( Model.RPEmailAddress != null )
+   {
+					<li>@Model.RPEmailAddress</li>
+   }
+   @if( Model.RPPhoneNumber != null )
+   {
+					<li>@Model.RPPhoneNumber</li>
+   }
+						</ul>
+					</div>
+					<div class="content1">
+						<ul class="spLabels">
+							<li>Who is receiving this order:</li>
+			@if( Model.SPCompany != null )
+   {
+					<li>@Model.SPCompany</li>
+   }
+   @if( Model.SPUserName != null )
+   {
+					<li>@Model.SPUserName</li>
+   }
+   @if( Model.SPEmailAddress != null )
+   {
+					<li>@Model.SPEmailAddress</li>
+   }
+   @if( Model.SPPhoneNumber != null )
+   {
+					<li>@Model.SPPhoneNumber</li>
+   }
+						</ul>
+					</div>
+					<div class="content1">
+						<ul class="spLabels">
+							<li>@Html.MJLabelFor( m => m.OrderDate, true ) <span id="orderDate"></span></li>
+		@if( Model.CanceledByUserName != null )
+  {
+		<li>Canceled by: @Model.CanceledByUserName</li>
+		<li>Canceled on: <span id="canceledDate"></span></li>
+  }
+						</ul>
+					</div>
+					<i class="clear_0"></i>
+				</div>
+		@if( Model.OrderDetails.Any() )
+  {
+				<div class="main_inner4_btm_mid">
+					<h4>
+						Order Details</h4>
+					<ul id="confirmItems">
+				@for( int i = 0; i < Model.OrderDetails.Count; i++ )
+	{
+		if( i == 0 || Model.OrderDetails[i].CollateralTypeID != Model.OrderDetails[i - 1].CollateralTypeID || Model.OrderDetails[i].GroupID != Model.OrderDetails[i - 1].GroupID )
+		{
+			<li>
+                <div class="colmn1"></div>
+                <div class="colmn2">@( Model.OrderDetails[i].GroupName != null ? Model.OrderDetails[i].GroupName : Model.OrderDetails[i].CollateralType)</div>
+                <div class="colmn3"></div>
+            </li>
+		}
+					<li data-id="@Model.OrderDetails[i].DetailID">
+                        <div class="colmn1"><img src="/newcontent/images/productNoImage.png" alt="img"/></div>
+                        <div class="colmn2">@Html.DisplayFor( m => m.OrderDetails[i].Name )</div>
+                        <div class="colmn3">Ordered: @Html.DisplayFor( m => m.OrderDetails[i].Quantity )<br />
+						@if( Model.CanceledByUserName != null )
+	  {<text>Unshipped</text>}
+	  else
+	  {<text>Remaining</text>}: @Html.DisplayFor( m => m.OrderDetails[i].RemainingQuantity )</div>
+                    </li>
+	}
+
+					</ul>
+					<i class="clear_0"></i>
+				</div>
+  }
+			</div>
+			<div class="main_inner4_btm_bottm">
+				<h4>
+					Shipping Details</h4>
+				<div class="content1">
+					<ul>
+						<li>@Html.LabelFor( m => m.ShippingAttn )</li>
+						<li>@Html.LabelFor( m => m.ShippingCompanyName )</li>
+						<li>@Html.LabelFor( m => m.ShippingAddress1 )</li>
+						<li>@Html.LabelFor( m => m.ShippingAddress2 )</li>
+						<li>@Html.LabelFor( m => m.ShippingCity )</li>
+						<li>@Html.LabelFor( m => m.ShippingState )</li>
+						<li>@Html.LabelFor( m => m.ShippingZip )</li>
+						<li>@Html.LabelFor( m => m.ShippingPhoneNumber )</li>
+						<li>@Html.LabelFor( m => m.ShippingEmailAddress )</li>
+					</ul>
+				</div>
+				<div class="content2">
+					<ul class="addressValues">
+						<li>@Html.DisplayFor( m => m.ShippingAttn )</li>
+						<li>@Html.DisplayFor( m => m.ShippingCompanyName )</li>
+						<li>@Html.DisplayFor( m => m.ShippingAddress1 )</li>
+						<li>@Html.DisplayFor( m => m.ShippingAddress2 )</li>
+						<li>@Html.DisplayFor( m => m.ShippingCity )</li>
+						<li>@Html.DisplayFor( m => m.ShippingState )</li>
+						<li>@Html.DisplayFor( m => m.ShippingZip )</li>
+						<li>@Html.DisplayFor( m => m.ShippingPhoneNumber )</li>
+						<li>@Html.DisplayFor( m => m.ShippingEmailAddress )</li>
+					</ul>
+				</div>
+				<div class="content1">
+					<ul class="shippingTypeLabels">
+						<li>@Html.DisplayFor( m => m.ShippingType )</li>
+				@switch( Model.ShippingTypeID )
+	{
+		case PDWModels.Collateral.NewOrderInformation.STGround:
+			break;
+		case PDWModels.Collateral.NewOrderInformation.ST2DayFedex:
+		case PDWModels.Collateral.NewOrderInformation.STOvernightFedex:
+		case PDWModels.Collateral.NewOrderInformation.STStdOvernightFedex:
+						<li class="shippingTypeLabel">@Html.LabelFor( m => m.ShippingFedexAccount )</li>
+							   break;
+	}
+					</ul>
+				</div>
+				<div class="content3">
+					<ul class="shippingTypeValues">
+						<li class="shippingValue">@Html.DisplayFor( m => m.ShippingType )</li>
+				@switch( Model.ShippingTypeID )
+	{
+		case PDWModels.Collateral.NewOrderInformation.STGround:
+			break;
+		case PDWModels.Collateral.NewOrderInformation.ST2DayFedex:
+		case PDWModels.Collateral.NewOrderInformation.STOvernightFedex:
+		case PDWModels.Collateral.NewOrderInformation.STStdOvernightFedex:
+						<li class="shippingTypeValue">@Html.DisplayFor( m => m.ShippingFedexAccount )</li>
+							   break;
+	}
+					</ul>
+				</div>
+				<i class="clear_0"></i>
+			</div>
+		@if( Model.Shipments.Any() )
+  {
+			<div class="main_inner4_btm_bottm">
+				<h4>
+					Previous Shipments</h4>
+<table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
+	<thead>
+		<tr class="bg">
+			<th>Shipping Date</th>
+			<th>Vendor</th>
+			<th>Tracking Numbers</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+				@foreach( var shipmentInfo in Model.Shipments )
+	{
+		<tr class="gradeX">
+			<td id="shippingDate@(shipmentInfo.ShipmentID)"></td>
+			<td>@shipmentInfo.Vendor</td>
+			<td>@shipmentInfo.TrackingNumbers</td>
+			<td><a href="#shipmentDetails@(shipmentInfo.ShipmentID)" class="shipmentDetailsLink">Details</a></td>
+		</tr>
+	}
+	</tbody>
+</table>
+			
+			</div>
+  }
+		</div>		
+
+<div style="display:none;">
+	@foreach( var shipmentInfo in Model.Shipments )
+ {
+	 <div class="main_inner5_btm" id="shipmentDetails@(shipmentInfo.ShipmentID)">
+		<div class="main_inner5_btm_bottm" >
+			<h4>Shipment Details</h4>
+			<div class="content1">
+			<ul>
+				@foreach( var detailInfo in shipmentInfo.Details )
+	{
+			<li>@detailInfo.Name</li>
+	}
+	</ul>
+	</div>
+			<div class="content2">
+			<ul>
+				@foreach( var detailInfo in shipmentInfo.Details )
+	{
+			<li>@detailInfo.Quantity</li>
+	}
+	</ul>
+	</div>
+					<i class="clear_0"></i>
+	</div>
+	 <div class="main_inner5_btm_bottm">
+			<h4>Shipping Information</h4>
+			<div class="content1">
+			<ul>
+			<li>@Html.LabelFor( m => m.ShippingType )</li>
+				@switch( Model.ShippingTypeID )
+	{
+		case PDWModels.Collateral.NewOrderInformation.STGround:
+			break;
+		case PDWModels.Collateral.NewOrderInformation.ST2DayFedex:
+		case PDWModels.Collateral.NewOrderInformation.STOvernightFedex:
+		case PDWModels.Collateral.NewOrderInformation.STStdOvernightFedex:
+				<li>@Html.LabelFor( m => m.ShippingFedexAccount )</li>
+														 break;
+	}
+			<li>@Html.LabelFor( m => m.Shipments[0].Vendor )</li>
+			<li>@Html.LabelFor( m => m.Shipments[0].TrackingNumbers )</li>
+			<li>@Html.LabelFor( m => m.Shipments[0].GLCode )</li>
+			<li>&nbsp;</li>
+			<li>@Html.LabelFor( m => m.ShippingAttn )</li>
+			<li>@Html.LabelFor( m => m.ShippingCompanyName )</li>
+			<li>@Html.LabelFor( m => m.ShippingAddress1 )</li>
+			<li>@Html.LabelFor( m => m.ShippingAddress2 )</li>
+			<li>@Html.LabelFor( m => m.ShippingCity )</li>
+			<li>@Html.LabelFor( m => m.ShippingState )</li>
+			<li>@Html.LabelFor( m => m.ShippingZip )</li>
+			<li>@Html.LabelFor( m => m.ShippingPhoneNumber )</li>
+			<li>@Html.LabelFor( m => m.ShippingEmailAddress )</li>
+			</ul>
+			</div>
+			<div class="content1">
+			<ul>
+			<li>@shipmentInfo.ShippingType</li>
+				@switch( Model.ShippingTypeID )
+	{
+		case PDWModels.Collateral.NewOrderInformation.STGround:
+			break;
+		case PDWModels.Collateral.NewOrderInformation.ST2DayFedex:
+		case PDWModels.Collateral.NewOrderInformation.STOvernightFedex:
+		case PDWModels.Collateral.NewOrderInformation.STStdOvernightFedex:
+				<li>@shipmentInfo.ShippingFedexAccount</li>
+														 break;
+	}
+			<li>@if( ( shipmentInfo.Vendor ?? "" ).Any() )
+	   { <text> shipmentInfo.Vendor </text> } else { <text>&nbsp;</text> }</li>
+			<li>@if( ( shipmentInfo.TrackingNumbers ?? "" ).Any() )
+	   { <text> shipmentInfo.TrackingNumbers </text> } else { <text>&nbsp;</text> }</li>
+			<li>@if((shipmentInfo.GLCode ?? "").Any() ) { <text> shipmentInfo.GLCode </text> } else { <text>&nbsp;</text> }</li>
+			<li>&nbsp;</li>
+			<li>@if( ( shipmentInfo.ShippingAttn ?? "" ).Any() )
+	   { <text> shipmentInfo.ShippingAttn </text> } else { <text>&nbsp;</text> }</li>
+			<li>@if( ( shipmentInfo.ShippingCompanyName ?? "" ).Any() )
+	   { <text> shipmentInfo.ShippingCompanyName </text> } else { <text>&nbsp;</text> }</li>
+			<li>@if( ( shipmentInfo.ShippingAddress1 ?? "" ).Any() )
+	   { <text> shipmentInfo.ShippingAddress1 </text> } else { <text>&nbsp;</text> }</li>
+			<li>@if( ( shipmentInfo.ShippingAddress2 ?? "" ).Any() )
+	   { <text> shipmentInfo.ShippingAddress2 </text> } else { <text>&nbsp;</text> }</li>
+			<li>@if( ( shipmentInfo.ShippingCity ?? "" ).Any() )
+	   { <text> shipmentInfo.ShippingCity </text> } else { <text>&nbsp;</text> }</li>
+			<li>@if( ( shipmentInfo.ShippingState ?? "" ).Any() )
+	   { <text> shipmentInfo.ShippingState </text> } else { <text>&nbsp;</text> }</li>
+			<li>@if( ( shipmentInfo.ShippingZip ?? "" ).Any() )
+	   { <text> shipmentInfo.ShippingZip </text> } else { <text>&nbsp;</text> }</li>
+			<li>@if( ( shipmentInfo.ShippingPhoneNumber ?? "" ).Any() )
+	   { <text> shipmentInfo.ShippingPhoneNumber </text> } else { <text>&nbsp;</text> }</li>
+			<li>@if( ( shipmentInfo.ShippingEmailAddress ?? "" ).Any() )
+	   { <text> shipmentInfo.ShippingEmailAddress </text> } else { <text>&nbsp;</text> }</li>
+			</ul>
+			</div>
+					<i class="clear_0"></i>
+		</div>
+	 </div>
+ }
+</div>

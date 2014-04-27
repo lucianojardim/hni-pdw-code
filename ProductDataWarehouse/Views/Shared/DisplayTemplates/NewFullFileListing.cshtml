@@ -1,0 +1,7 @@
+﻿@using PDWModels.SpecRequests
+@model SpecRequestInformation.FileListing
+
+	  @foreach( var item in Model.FileList )
+   {
+	   <a href="/Documents/Typicals/@Model.SpecName/@item.Extension/@item.VersionNumber/@item.FileName" target="_blank">@item.FileName</a> 
+   }

@@ -198,7 +198,7 @@ namespace PDWInfrastructure
 			}
 		}
 
-		public bool IsNewLayout { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ); } }
+		public bool IsNewLayout { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ) || IsDealerUser; } }
 
 		public bool IsSuperAdmin { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
 		public bool IsDealerUser { get { return OneOfRoles( PaoliWebRole.DealerAdmin, PaoliWebRole.DealerDesigner, 

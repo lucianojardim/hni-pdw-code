@@ -346,5 +346,10 @@ namespace PWDRepositories
 
 			return new List<ImageComboItem>();
 		}
+
+		public IDictionary<string, string> GetFeatureImageList()
+		{
+			return database.Serieses.ToDictionary( s => s.Name, s => s.FeaturedImageForSize( "s16to9" ).FileName );
+		}
 	}
 }

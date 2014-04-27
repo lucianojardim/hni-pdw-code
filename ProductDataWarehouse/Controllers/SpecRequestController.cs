@@ -26,6 +26,11 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult ViewAll()
 		{
+			if( PaoliWebUser.CurrentUser.IsNewLayout )
+			{
+				return View( viewName: "NewViewAll" );
+			}
+
 			return View();
 		}
 
@@ -88,6 +93,11 @@ namespace ProductDataWarehouse.Controllers
 		{
 			ViewBag.BlankInformation = new SpecRequestRepository().NewSpecRequest();
 
+			if( PaoliWebUser.CurrentUser.IsNewLayout )
+			{
+				return View( viewName: "NewAddRequest" );
+			}
+
 			return View();
 		}
 
@@ -123,6 +133,11 @@ namespace ProductDataWarehouse.Controllers
 				}
 			}
 			ViewBag.BlankInformation = new SpecRequestRepository().NewSpecRequest();
+
+			if( PaoliWebUser.CurrentUser.IsNewLayout )
+			{
+				return View( viewName: "NewAddRequest", model: sInfo );
+			}
 
 			return View( sInfo );
 		}
@@ -228,6 +243,11 @@ namespace ProductDataWarehouse.Controllers
 		{
 			SpecRequestRepository sRepository = new SpecRequestRepository();
 
+			if( PaoliWebUser.CurrentUser.IsNewLayout )
+			{
+				return View( viewName: "NewViewRequest", model: sRepository.GetSpecRequest( id ) );
+			}
+
 			return View( sRepository.GetSpecRequest( id ) );
 		}
 
@@ -326,5 +346,9 @@ namespace ProductDataWarehouse.Controllers
 			return View( tInfo );
 		}
 
+		public static IDictionary<string, string> GetFeatureImageList()
+		{
+			return ( new SeriesRepository() ).GetFeatureImageList();
+		}
     }
 }

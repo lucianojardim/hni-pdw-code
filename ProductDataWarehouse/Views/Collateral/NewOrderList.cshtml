@@ -3,6 +3,8 @@
     Layout = "~/Views/Shared/NewLayout.cshtml";
 	ViewBag.HeaderArea = "<h2><img src=\"/newcontent/images/store_img.png\" alt=\"img\" height=\"55\" width=\"46\"> Collateral Store</h2>";
 }
+@using PDWInfrastructure
+
 <div class="main_inner1_content ">
 	<div class="main_inner1_content_lt">
 		<div class="main_inner1_content_lt_top">
@@ -21,12 +23,15 @@
 				</select>
 			</div>
 		</div>
+		@if( PaoliWebUser.CurrentUser.CanAddOrders )
+  {
 		<div class="main_inner1_content_lt_btm">
 			<h3>
 				Need marketing materials?</h3>
 			<h4>
 				<a href="@Url.Action( "AddOrder", "Collateral" )">Order Collateral</a></h4>
 		</div>
+  }
 	</div>
 	<div class="main_inner1_content_rt">
 		<div id="demo">
