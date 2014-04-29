@@ -1,0 +1,201 @@
+﻿@model PDWModels.Users.MyAccountInfo
+@{
+    ViewBag.Title = "NewMyAccount";
+	Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.HeaderArea = "<h2><img src=\"/newcontent/images/store_img.png\" alt=\"img\" height=\"55\" width=\"46\"/> My Account</h2>";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+
+<script type="text/javascript">
+
+	$(document).ready(function () {
+		$('.submitBtn').click(function (e) {
+			$('#theForm').submit();
+		});
+
+		$("#State").msDropdown({ visibleRows: 15 });
+
+        @if( ViewBag.AccountUpdateSuccess ?? false )
+        {
+			<text>alert('Your account has been updated.');</text>
+		}
+
+	});
+
+</script>
+
+<div class="main_inner1">
+	<h3>
+		Edit Your Account Settings: Profile</h3>
+	<div class="main_inner2_btm">
+		<div class="main_inner2_btm_mid_myacct">
+    @using( Html.BeginForm( "MyAccount", "User", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
+	{
+		@Html.AntiForgeryToken()
+		@Html.HiddenFor( m => m.UserID )
+			<i class="clear_0"></i>
+			<ul>
+				<li>
+					<div class="colmn1">
+						First Name@(Html.ValidationMessageFor( m => m.FirstName ))</div>
+					<div class="colmn3single">
+						@Html.TextBoxFor( m => m.FirstName )</div>
+				</li>
+				<li>
+					<div class="colmn1">
+						Last Name@(Html.ValidationMessageFor( m => m.LastName ))</div>
+					<div class="colmn3single">
+						@Html.TextBoxFor( m => m.LastName )</div>
+				</li>
+				<li>
+					<div class="colmn1">
+						Company</div>
+					<div class="colmn3single">
+						@Html.DisplayFor( m => m.CompanyName )</div>
+				</li>
+				<li>
+					<div class="colmn1">
+						Title@(Html.ValidationMessageFor( m => m.Title ))</div>
+					<div class="colmn3single">
+						@Html.TextBoxFor( m => m.Title )</div>
+				</li>
+				<hr/>
+				<!--Begin Address Entry-->
+				<li>
+					<div class="colmn1title">
+						My Business Address</div>
+				<!--	<div class="colmn2title">
+						My Home Address</div>-->
+				</li>
+				<li>
+					<div class="colmn1">
+						Primary Email</div>
+					<div class="colmn3single">
+						@Html.DisplayFor( m => m.EmailAddress )
+						@Html.HiddenFor( m => m.EmailAddress )</div>
+				<!--	<div class="colmn3-1">
+						Personal Email</div>
+					<div class="colmn3">
+						<input type="text"></div>-->
+				</li>
+				<li>
+					<div class="colmn1">
+						Address 1@(Html.ValidationMessageFor( m => m.Address1 ))</div>
+					<div class="colmn3single">
+						@Html.TextBoxFor( m => m.Address1 )</div>
+				<!--	<div class="colmn3-1">
+						Verify Email</div>
+					<div class="colmn3">
+						<input type="text"></div>-->
+				</li>
+				<li>
+					<div class="colmn1">
+						Address 2@(Html.ValidationMessageFor( m => m.Address2 ))</div>
+					<div class="colmn3single">
+						@Html.TextBoxFor( m => m.Address2 )</div>
+				<!--	<div class="colmn3-1">
+						Address 1</div>
+					<div class="colmn3">
+						<input type="text"></div>-->
+				</li>
+				<li>
+					<div class="colmn1">
+						City@(Html.ValidationMessageFor( m => m.City ))</div>
+					<div class="colmn3single">
+						@Html.TextBoxFor( m => m.City )</div>
+				<!--	<div class="colmn3-1">
+						Address 2</div>
+					<div class="colmn3">
+						<input type="text"></div>-->
+				</li>
+				<li>
+					<div class="colmn1">
+						State@(Html.ValidationMessageFor( m => m.State ))</div>
+					<div class="colmn3single">
+						@Html.DropDownListFor( m => m.State, UserController.GetStateDDList() )
+					</div>
+				<!--	<div class="colmn3-1">
+						City</div>
+					<div class="colmn3">
+						<input type="text"></div>-->
+				</li>
+				<li>
+					<div class="colmn1">
+						ZIP Code@(Html.ValidationMessageFor( m => m.Zip ))</div>
+					<div class="colmn4">
+						@Html.TextBoxFor( m => m.Zip )</div>
+				<!--	<div class="colmn3-1">
+						State</div>
+					<div class="colmn3">
+						<select name="MAstate2" id="tech3">
+							<option value="">1</option>
+							<option value="1">Option 1</option>
+							<option value="2">Option 2</option>
+							<option value="3">Option 3</option>
+						</select>
+					</div>-->
+				</li>
+				<li>
+					<div class="colmn1">
+						Business Phone@(Html.ValidationMessageFor( m => m.BusinessPhone ))</div>
+					<div class="colmn3single">
+						@Html.TextBoxFor( m => m.BusinessPhone )</div>
+				<!--	<div class="colmn3-1">
+						ZIP Code</div>
+					<div class="colmn4">
+						<input type="text"></div>-->
+				</li>
+				<!--<li>
+					<div class="colmn1">
+						Extension</div>
+					<div class="colmn4">
+						<input type="text"></div>
+					<div class="colmn3-1">
+						Home Phone</div>
+					<div class="colmn3">
+						<input type="text"></div>
+				</li>-->
+				<li>
+					<div class="colmn1">
+						Mobile Phone@(Html.ValidationMessageFor( m => m.CellPhone ))</div>
+					<div class="colmn3single">
+						@Html.TextBoxFor( m => m.CellPhone )</div>
+				<!--	<div class="colmn3-1">
+						Mobile Phone</div>
+					<div class="colmn3">
+						<input type="text"></div>-->
+				</li>
+				<!--<li>
+					<div class="colmn1">
+						Fax</div>
+					<div class="colmn3">
+						<input type="text"></div>
+				</li>-->
+			</ul>
+			<!--End Address Entry-->
+			<hr/>
+			<!--Begin Profile Pic Entry-->
+			<!--<ul>
+				<li>
+					<div class="colmn1title">
+						Update Profile Picture</div>
+				</li>
+				<li>
+					<div class="colmn1">
+						Current Profile Picture</div>
+					<div class="colmn2pic">
+						<img src="NewContent/images/profile_pic.png" width="45" height="45" alt="" /></div>
+					<div class="colmn3-1">
+						Change Profile Picture</div>
+					<div class="colmn3filebrowser">
+						<input type="file" name="img"></div>
+				</li>
+			</ul>-->
+			<!--End Profile Pic Entry-->
+			<i class="clear_0"></i><span class="btn7">CANCEL</span> <span class="btn8 submitBtn">SAVE</span>
+<!--		@Html.ValidationSummary()-->
+	}
+		</div>
+	</div>
+</div>

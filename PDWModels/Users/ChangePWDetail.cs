@@ -17,7 +17,7 @@ namespace PDWModels.Users
 		[Required]
 		public string OldPassword { get; set; }
 		[DisplayName( "New Password" )]
-		[PaoliPassword( ErrorMessage = "Password does not meet complexity requirements. Your password must be at least 8 characters, and contain an upper-case letter, a lower-case letter and a non-letter character." )]
+		[PaoliPassword( ErrorMessage = "Password does not meet complexity requirements." )]
 		[Required]
 		public string NewPassword { get; set; }
 		[DisplayName( "Re-type Password" )]

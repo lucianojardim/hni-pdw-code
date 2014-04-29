@@ -154,6 +154,11 @@ namespace ProductDataWarehouse.Controllers
 
 			var uInfo = uRepository.GetUser( PaoliWebUser.CurrentUser.UserId );
 
+			if( PaoliWebUser.CurrentUser.IsNewLayout )
+			{
+				return View( viewName: "NewMyAccount", model: uInfo );
+			}
+
 			return View( uInfo );
 		}
 
@@ -182,12 +187,22 @@ namespace ProductDataWarehouse.Controllers
 				}
 			}
 
+			if( PaoliWebUser.CurrentUser.IsNewLayout )
+			{
+				return View( viewName: "NewMyAccount", model: uInfo );
+			}
+
 			return View( uInfo );
 		}
 
 		[PaoliAuthorize( "CanBeLoggedIn" )]
 		public ActionResult ChangePW()
 		{
+			if( PaoliWebUser.CurrentUser.IsNewLayout )
+			{
+				return View( viewName: "NewChangePW" );
+			}
+
 			return View();
 		}
 
@@ -208,12 +223,17 @@ namespace ProductDataWarehouse.Controllers
 				}
 				catch( ApplicationException ex )
 				{
-					ModelState.AddModelError( "", ex.Message );
+					ModelState.AddModelError( "OldPassword", ex.Message );
 				}
 				catch( Exception )
 				{
 					ModelState.AddModelError( "", "Unable to change your password at this time." );
 				}
+			}
+
+			if( PaoliWebUser.CurrentUser.IsNewLayout )
+			{
+				return View( viewName: "NewChangePW" );
 			}
 
 			return View();

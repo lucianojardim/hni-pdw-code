@@ -152,24 +152,37 @@ span.btn1 cite    { padding-top:5px;}
 .main_inner2_btm_top label                 { width:144px; float:left; display:block; font-size:14px; color:#454545; font-family: 'Conv_Helvetica-Light'; padding-top:5px;}
 .main_inner2_btm_top input                 { width:178px; border:1px solid #eaeaea; padding:6px; vertical-align:middle; display:inline-block; height:12px;  font-size:14px; color:#454545; font-family: 'Conv_Helvetica-Light';}
 .main_inner2_btm_mid                       { padding-top:25px;}
-.main_inner2_btm_mid h4                    { font-size:14px; color:#454545; font-family: 'Conv_Helvetica-Light'; font-weight:normal; padding-bottom:18px;}
+
+/*ERIN MOD OF EXISTING STYLES*/
+.main_inner2_btm_mid h4, .main_inner2_btm_mid_myacct h4                    { font-size:14px; color:#454545; font-family: 'Conv_Helvetica-Light'; font-weight:normal; padding-bottom:18px;}
 .main_inner2_btm_mid_lt                    { width:336px; float:left; display:block; padding-left:144px;}
 .main_inner2_btm_mid_lt span               { display:inline-block; padding-left:5px; color:#454545; font-size:14px;}
 .main_inner2_btm_mid_lt cite               { float:left; display:block;}
 .main_inner2_btm_mid_rt                    { width:336px; float:left; display:block;}
 .main_inner2_btm_mid_rt span               { display:inline-block; padding-left:5px;; color:#454545; font-size:14px;}
 .main_inner2_btm_mid_rt cite               { float:left; display:block;}
-.main_inner2_btm_mid ul                    { margin:0; list-style:none; margin-top:15px;}
-.main_inner2_btm_mid ul li                 { padding-bottom:19px; float:left; display:block;}
-.main_inner2_btm_mid ul li .colmn1         { width:144px; float:left; display:block; font-size:14px; color:#454545; font-family: 'Conv_Helvetica-Light'; padding-top:5px;}
-.main_inner2_btm_mid ul li .colmn1 .field-validation-error { width:144px; float:left; display:block; font-size:12px; color:#cc0000; padding-top:10px; }
-.main_inner2_btm_mid ul li .colmn2         { width:343px; float:left; display:block;}
-.main_inner2_btm_mid ul li .colmn2 a       { text-decoration:none; color:#454545;}
-.main_inner2_btm_mid ul li .colmn2 input   { width:286px; border:1px solid #eaeaea; padding:6px; vertical-align:middle; display:inline-block; height:12px;  font-size:14px; color:#454545; font-family: 'Conv_Helvetica-Light';}
-.main_inner2_btm_mid ul li .colmn3         { width:304px; float:left; display:block;}                     
-.main_inner2_btm_mid ul li .colmn3 input   { width:286px; border:1px solid #eaeaea; padding:6px; vertical-align:middle; display:inline-block; height:12px;  font-size:14px; color:#454545; font-family: 'Conv_Helvetica-Light';}
-.main_inner2_btm_mid ul li .colmn4         { width:304px; float:left; display:block;}                     
-.main_inner2_btm_mid ul li .colmn4 input   { width:75px; border:1px solid #eaeaea; padding:6px; vertical-align:middle; display:inline-block; height:12px;  font-size:14px; color:#454545; font-family: 'Conv_Helvetica-Light';}
+/*ERIN MOD OF EXISTING STYLES*/
+.main_inner2_btm_mid ul, .main_inner2_btm_mid_myacct ul                    { margin:0; list-style:none; margin-top:15px;}
+/*ERIN MOD OF EXISTING STYLES*/
+.main_inner2_btm_mid ul li, .main_inner2_btm_mid_myacct ul li                 { padding-bottom:19px; float:left; display:block;}
+/*ERIN MOD OF EXISTING STYLES*/
+.main_inner2_btm_mid ul li .colmn1, .main_inner2_btm_mid_myacct ul li .colmn1         { width:144px; float:left; display:block; font-size:14px; color:#454545; font-family: 'Conv_Helvetica-Light'; padding-top:5px;}
+/*ERIN MOD OF EXISTING STYLES*/
+.main_inner2_btm_mid ul li .colmn1 .field-validation-error, .main_inner2_btm_mid_myacct ul li .colmn1 .field-validation-error { width:144px; float:left; display:block; font-size:12px; color:#cc0000; padding-top:10px; }
+/*ERIN MOD OF EXISTING STYLES*/
+.main_inner2_btm_mid ul li .colmn2,.main_inner2_btm_mid_myacct ul li .colmn2         { width:343px; float:left; display:block;}
+/*ERIN MOD OF EXISTING STYLES*/
+.main_inner2_btm_mid ul li .colmn2 a, .main_inner2_btm_mid_myacct ul li .colmn2 a       { text-decoration:none; color:#454545;}
+/*ERIN MOD OF EXISTING STYLES*/
+.main_inner2_btm_mid ul li .colmn2 input, .main_inner2_btm_mid_myacct ul li .colmn2 input   { width:286px; border:1px solid #eaeaea; padding:6px; vertical-align:middle; display:inline-block; height:12px;  font-size:14px; color:#454545; font-family: 'Conv_Helvetica-Light';}
+/*ERIN MOD OF EXISTING STYLES*/
+.main_inner2_btm_mid ul li .colmn3, .main_inner2_btm_mid_myacct ul li .colmn3         { width:304px; float:left; display:block;}                     
+/*ERIN MOD OF EXISTING STYLES*/
+.main_inner2_btm_mid ul li .colmn3 input, .main_inner2_btm_mid_myacct ul li .colmn3 input   { width:286px; border:1px solid #eaeaea; padding:6px; vertical-align:middle; display:inline-block; height:12px;  font-size:14px; color:#454545; font-family: 'Conv_Helvetica-Light';}
+/*ERIN MOD OF EXISTING STYLES*/
+.main_inner2_btm_mid ul li .colmn4, .main_inner2_btm_mid_myacct ul li .colmn4         { width:304px; float:left; display:block;}                     
+/*ERIN MOD OF EXISTING STYLES*/
+.main_inner2_btm_mid ul li .colmn4 input, .main_inner2_btm_mid_myacct ul li .colmn4 input   { width:75px; border:1px solid #eaeaea; padding:6px; vertical-align:middle; display:inline-block; height:12px;  font-size:14px; color:#454545; font-family: 'Conv_Helvetica-Light';}
 span.btn2                                  { padding:7px; color:#FFFFFF; cursor:pointer;  font-family: Helvetica, Arial, sans-serif; font-size:12px; color:#FFFFFF; background:#263f6a; -moz-box-shadow:0px 2px 4px 2px #d6d8d8; -webkit-box-shadow:0px 2px 4px 2px  #d6d8d8; box-shadow:00px 2px 4px 2px  #d6d8d8; position:relative; z-index:1; border:none; display:inline-block; margin-top:28px;} 
 span.btn3                                 { padding:7px 15px; color:#FFFFFF; cursor:pointer;  font-family: Helvetica, Arial, sans-serif; font-size:12px; color:#FFFFFF; background:#263f6a url(../images/arrow_next.jpg) no-repeat 49px 14px ; -moz-box-shadow:2px 2px 2px 0px #cbcdcd; -webkit-box-shadow:2px 2px 2px 0px #cbcdcd; box-shadow:2px 2px 2px 0px #cbcdcd; position:relative; z-index:1; border:none;  float:
 right; display:inline-block; margin-top:28px; margin-left:9px;}
@@ -636,3 +649,27 @@ table.display thead th:nth-child(2) { width:112px !important;}
 table.display thead th:nth-child(3) { width:160px !important;} 
 table.display thead th:nth-child(4) { width:80px !important;} 
 table.display thead th:nth-child(5) { width:120px !important;}  
+
+
+/************************BEGIN COMPLETELY NEW ERIN STYLES************************/
+/*column 3 with padding*/
+.main_inner2_btm_mid_myacct ul li .colmn3-1         { width:144px; float:left; display:block; font-size:14px; color:#454545; font-family: 'Conv_Helvetica-Light'; padding-top:5px; padding-left:20px;}
+/*column headers*/
+.main_inner2_btm_mid_myacct ul li .colmn1title         { width:468px; float:left; display:block; font-size:14px; font-weight:bold; color:#454545; font-family: 'Conv_Helvetica-Bold'; padding-top:5px;}
+.main_inner2_btm_mid_myacct ul li .colmn2title         { width:148px; float:left; display:block; font-size:14px; font-weight:bold; color:#454545; font-family: 'Conv_Helvetica-Bold'; padding-top:5px;}
+/*single column inputs*/
+.main_inner2_btm_mid_myacct ul li .colmn2pic			{width:50px; float:left; display:block; margin:-7px 0 0 10px;} 
+.main_inner2_btm_mid_myacct ul li .colmn3single         { width:700px; float:left; display:block; font-size:14px; color:#999; font-family: 'Conv_Helvetica-Light'; padding-top:5px;}
+.main_inner2_btm_mid_myacct ul li .colmn3filebrowser        { width:500px; float:left; display:block; font-size:14px; color:#454545; font-family: 'Conv_Helvetica-Light'; padding-top:5px; padding-left:20px;}
+/*******************BEGIN BUTTON PROPERTIES FOR JS*****************************
+.main_inner2_btm_mid_myacct ul li .colmn3filebrowser input {	background-color:#ededed; text-indent:0; border:1px solid #dcdcdc; display:inline-block; color:#777777; font-family:arial; font-size:13px; font-weight:normal; font-style:normal; height:33px; line-height:33px; width:100px; text-decoration:none; text-align:center; }
+.main_inner2_btm_mid_myacct ul li .colmn3filebrowser input:hover { background-color:#dfdfdf; }
+.main_inner2_btm_mid_myacct ul li .colmn3filebrowser input:active { position:relative; top:1px; }
+*******************END BUTTON PROPERTIES FOR JS*****************************/
+.main_inner2_btm_mid_myacct ul li .colmn3single input   { width:286px; border:1px solid #eaeaea; padding:6px; vertical-align:middle; display:inline-block; height:12px;  font-size:14px; color:#454545; font-family: 'Conv_Helvetica-Light';}
+.main_inner2_btm_mid_myacct ul li .colmn3 a			{ float:left; text-decoration:none;  color:#999; font-family: 'Conv_Helvetica-Light'; font-size:14px; display:block; padding-top:5px;}
+/*Top padding for my account pages only*/
+.main_inner2_btm_mid_myacct                       { padding-top:0px;}
+/* horizontal rule */
+hr { border:0; width:100%; background-color:#eaeaea; color:#eaeaea; height:1px; margin:65px 0 25px 0; }
+/************************END COMPLETELY NEW ERIN STYLES************************/

@@ -212,12 +212,7 @@ namespace PWDRepositories
 			}
 
 			bool bChangeEmail = false, bWelcomeEmail = false;
-			if( eUser.Email == PaoliWebUser.CurrentUser.EmailAddress )
-			{
-				bChangeEmail = (eUser.Email != uInfo.EmailAddress);
-			}
 
-			eUser.Email = uInfo.EmailAddress;
 			eUser.FirstName = uInfo.FirstName;
 			eUser.LastName = uInfo.LastName;
 			eUser.Address1 = uInfo.Address1;
@@ -232,6 +227,12 @@ namespace PWDRepositories
 			string password = GenerateNewPassword();
 			if( uInfo is UserInformation )
 			{
+				if( eUser.Email == PaoliWebUser.CurrentUser.EmailAddress )
+				{
+					bChangeEmail = ( eUser.Email != uInfo.EmailAddress );
+				}
+
+				eUser.Email = uInfo.EmailAddress;	// only update email address if updating the user - no updating the profile
 				eUser.AccountType = ( uInfo as UserInformation ).AccountType;
 				eUser.Enabled = ( uInfo as UserInformation ).Enabled;
 				eUser.IsActive = ( uInfo as UserInformation ).IsActive;

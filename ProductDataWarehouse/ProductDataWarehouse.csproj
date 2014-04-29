@@ -675,6 +675,8 @@
     <None Include="NewContent\css\fonts\Helvetica.woff" />
     <Content Include="Views\SpecRequest\NewViewRequest.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\NewFullFileListing.cshtml" />
+    <Content Include="Views\User\NewChangePW.cshtml" />
+    <Content Include="Views\User\NewMyAccount.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

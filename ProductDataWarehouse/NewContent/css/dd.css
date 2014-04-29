@@ -289,3 +289,47 @@ img.fnone{float:none !important}
 .main_inner6_btm ul li .box2 .dd .ddChild li.optgroup .optgroupTitle{padding:0 5px; font-weight:bold; font-style:italic}
 .main_inner6_btm ul li .box2 .dd .ddChild li.optgroup ul li{padding:5px 5px 5px 15px}
 .main_inner6_btm ul li .box2 .dd .ddChild li.selected{background-color:#919191f; color:#000;}
+
+.main_inner2_btm_mid_myacct ul li .colmn3 .ddcommon .ddTitle{padding:0; position:relative; display:inline-block; width:100% ; }
+.main_inner2_btm_mid_myacct ul li .colmn3 .ddcommon .ddTitle .ddTitleText{display:block;}
+.main_inner2_btm_mid_myacct ul li .colmn3 .dd{width:178px !important; background:#FFF url(../images/select_arrow.jpg) no-repeat 175px 11px; border:1px solid #eaeaea !important; height:25px !important; padding-left:5px; padding-right:8px; position:relative; top:0px;}
+.main_inner2_btm_mid_myacct ul li .colmn3 .dd .divider{border-left:0px solid #c3c3c3; border-right:0px solid #fff;right:24px;}
+.main_inner2_btm_mid_myacct ul li .colmn3 .dd .arrow{width:25px;height:16px; margin-top:-6px; background:none ;}
+.main_inner2_btm_mid_myacct ul li .colmn3 .dd .arrow:hover{ margin-top:-6px;}
+.main_inner2_btm_mid_myacct ul li .colmn3 .dd .ddTitle{color:#454545; font-size:14px; background:none; padding-top:3px;}
+.main_inner2_btm_mid_myacct ul li .colmn3 .dd .ddTitle .ddTitleText{padding:1px 20px 5px 7px;}
+.main_inner2_btm_mid_myacct ul li .colmn3 .dd .ddTitle .ddTitleText .ddTitleText{padding:0;}
+.main_inner2_btm_mid_myacct ul li .colmn3 .dd .ddTitle .description{font-size:17px; color:#999999}
+.main_inner2_btm_mid_myacct ul li .colmn3 .dd .ddTitle .ddTitleText img{padding-right:5px;}
+.main_inner2_btm_mid_myacct ul li .colmn3 .dd .ddChild{border:0px solid #c3c3c3; background-color:#FFFFFF !important; left:0px; top:27px !important; padding-left:10px; background:url(../images/scroll_arrow.jpg) no-repeat left top; width:182px !important;}
+.main_inner2_btm_mid_myacct ul li .colmn3 .dd .ddChild li{padding:5px; border-bottom:0px solid #c3c3c3;}
+.main_inner2_btm_mid_myacct ul li .colmn3 .dd .ddChild li .description{color:#666;}
+.main_inner2_btm_mid_myacct ul li .colmn3 .dd .ddChild li .ddlabel{color:#333;}
+		
+.main_inner2_btm_mid_myacct ul li .colmn3 .dd .ddChild li img{padding:0 6px 0 0;}
+.main_inner2_btm_mid_myacct ul li .colmn3 .dd .ddChild li.optgroup{padding:0;}
+.main_inner2_btm_mid_myacct ul li .colmn3 .dd .ddChild li.optgroup .optgroupTitle{padding:0 5px; font-weight:bold; font-style:italic}
+.main_inner2_btm_mid_myacct ul li .colmn3 .dd .ddChild li.optgroup ul li{padding:5px 5px 5px 15px}
+.main_inner2_btm_mid_myacct ul li .colmn3 .dd .ddChild li.selected{background-color:#919191f; color:#000;}
+ 
+.main_inner2_btm_mid_myacct ul li .colmn3single .ddcommon .ddTitle{padding:0; position:relative; display:inline-block; width:100% ; }
+.main_inner2_btm_mid_myacct ul li .colmn3single .ddcommon .ddTitle .ddTitleText{display:block;}
+.main_inner2_btm_mid_myacct ul li .colmn3single .dd{width:178px !important; background:#FFF url(../images/select_arrow.jpg) no-repeat 175px 11px; border:1px solid #eaeaea !important; height:25px !important; padding-left:5px; padding-right:8px; position:relative; top:0px;}
+.main_inner2_btm_mid_myacct ul li .colmn3single .dd .divider{border-left:0px solid #c3c3c3; border-right:0px solid #fff;right:24px;}
+.main_inner2_btm_mid_myacct ul li .colmn3single .dd .arrow{width:25px;height:16px; margin-top:-6px; background:none ;}
+.main_inner2_btm_mid_myacct ul li .colmn3single .dd .arrow:hover{ margin-top:-6px;}
+.main_inner2_btm_mid_myacct ul li .colmn3single .dd .ddTitle{color:#454545; font-size:14px; background:none; padding-top:3px;}
+.main_inner2_btm_mid_myacct ul li .colmn3single .dd .ddTitle .ddTitleText{padding:1px 20px 5px 7px;}
+.main_inner2_btm_mid_myacct ul li .colmn3single .dd .ddTitle .ddTitleText .ddTitleText{padding:0;}
+.main_inner2_btm_mid_myacct ul li .colmn3single .dd .ddTitle .description{font-size:17px; color:#999999}
+.main_inner2_btm_mid_myacct ul li .colmn3single .dd .ddTitle .ddTitleText img{padding-right:5px;}
+.main_inner2_btm_mid_myacct ul li .colmn3single .dd .ddChild{border:0px solid #c3c3c3; background-color:#FFFFFF !important; left:0px; top:27px !important; padding-left:10px; background:url(../images/scroll_arrow.jpg) no-repeat left top; width:182px !important;}
+.main_inner2_btm_mid_myacct ul li .colmn3single .dd .ddChild li{padding:5px; border-bottom:0px solid #c3c3c3;}
+.main_inner2_btm_mid_myacct ul li .colmn3single .dd .ddChild li .description{color:#666;}
+.main_inner2_btm_mid_myacct ul li .colmn3single .dd .ddChild li .ddlabel{color:#333;}
+		
+.main_inner2_btm_mid_myacct ul li .colmn3single .dd .ddChild li img{padding:0 6px 0 0;}
+.main_inner2_btm_mid_myacct ul li .colmn3single .dd .ddChild li.optgroup{padding:0;}
+.main_inner2_btm_mid_myacct ul li .colmn3single .dd .ddChild li.optgroup .optgroupTitle{padding:0 5px; font-weight:bold; font-style:italic}
+.main_inner2_btm_mid_myacct ul li .colmn3single .dd .ddChild li.optgroup ul li{padding:5px 5px 5px 15px}
+.main_inner2_btm_mid_myacct ul li .colmn3single .dd .ddChild li.selected{background-color:#919191f; color:#000;}
