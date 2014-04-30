@@ -188,8 +188,8 @@
     			}
     		});
     		if (doInsert) {
-    			$('#fileContainer').append('<br/><input type="file" name="addlFiles[' + fileCount + ']" class="jfilestyle addlFiles" onchange="fileChanged()" data-buttontext="Choose File"/><input type="hidden" name="addlFiles.Index" value="' + fileCount + '" />');
-				$(":file").jfilestyle({buttonText: "Choose a file"});
+    			$('#fileContainer').append('<div><input type="file" id="addlFiles' + fileCount + '" name="addlFiles[' + fileCount + ']" class="jfilestyle addlFiles" onchange="fileChanged()" data-buttontext="Choose File"/><input type="hidden" name="addlFiles.Index" value="' + fileCount + '" /></div>');
+				$('#addlFiles' + fileCount + '').jfilestyle({buttonText: "Choose a file"});
     			fileCount++;
     		}		
     	}
@@ -555,6 +555,7 @@
 	var imageList = SpecRequestController.GetFeatureImageList();
 }
 
+                     <div class="container2">
      @using( Html.BeginForm( "AddRequest", "SpecRequest", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
 	 {
 		 @Html.AntiForgeryToken()
@@ -716,7 +717,9 @@
 								 Attach PDFs of other applicable files to help the specification engineer complete
 								 this request.</p>
 							 <div class="box4" id="fileContainer">
-								 <input type="file" name="addlFiles[0]" class="jfilestyle addlFiles" onchange="fileChanged()" data-buttontext="Choose File"/><input type="hidden" name="addlFiles.Index" value="0" />
+							 <div>
+								 <input type="file" id="addlFiles0" name="addlFiles[0]" class="jfilestyle addlFiles" onchange="fileChanged()" data-buttontext="Choose File"/><input type="hidden" name="addlFiles.Index" value="0" />
+								</div>
 							 </div>
 						 </li>
 						 <li class="last">
@@ -1225,10 +1228,12 @@
 			 </div>
 			 <!-- END: main -->
 		 </div>  
-
+<div class="btnAlt">
 <span class="btn7 cancelBtn">CANCEL</span>
 <span class="btn11 submitBtn" style="display:none;">SUBMIT</span>
 <span class="btn8 nextBtn">NEXT</span>
 <span class="btn9 previousBtn" style="display:none;">PREV</span>
+</div>
 	<!--@Html.ValidationSummary()-->
 	 }
+	 </div>

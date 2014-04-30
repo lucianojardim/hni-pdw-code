@@ -669,6 +669,7 @@
 		@Html.AntiForgeryToken()
 		@Html.Hidden( "Status", PDWModels.Collateral.NewOrderInformation.SPending )
 
+                     <div class="container2">
 <div class="main_inner1 activeSection requestPanel">
 	<h3>
 		Step 1: Who’s Requesting?</h3>
@@ -1051,9 +1052,12 @@
 				<i class="clear_0"></i>
 			</div>
 		</div>		
+<div class="btnAlt">
 <span class="btn7 cancelBtn">CANCEL</span>
 <span class="btn11 submitBtn" style="display:none;">SUBMIT</span>
 <span class="btn8 nextBtn">NEXT</span>
 <span class="btn9 previousBtn" style="display:none;">PREV</span>
+</div>
 	<!--	@Html.ValidationSummary() -->
+	</div>
 	}

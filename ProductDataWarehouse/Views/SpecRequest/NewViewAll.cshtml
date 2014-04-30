@@ -5,6 +5,7 @@
 }
 @using PDWInfrastructure
 
+                     <div class="container">
 <div class="main_inner1_content ">
 	<div class="main_inner1_content_lt">
 		<div class="main_inner1_content_lt_top">
@@ -13,7 +14,7 @@
 			<div class="main_inner1_content_lt_top_box">
 				<label>
 					Keyword</label>
-				<input type="text" id="keywordText"/>
+				<input class="leftAlignInput" type="text" id="keywordText"/>
 			</div>
 		</div>
 	@if( PaoliWebUser.CurrentUser.CanAddSpecRequests )
@@ -37,6 +38,7 @@
 		</div>
 	</div>
 	<i class="clear_0"></i>
+</div>
 </div>
 @{
 	var colNum = 0;
