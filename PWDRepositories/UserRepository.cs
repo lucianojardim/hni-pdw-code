@@ -245,15 +245,15 @@ namespace PWDRepositories
 					eUser.IsTempPassword = true;
 					eUser.RecWelcomeEmail = true;
 				}
+			}
 
-				if( imgStream != null )
-				{
-					eUser.ImageFileName = Guid.NewGuid().ToString() + Path.GetExtension( fileName );
+			if( imgStream != null )
+			{
+				eUser.ImageFileName = Guid.NewGuid().ToString() + Path.GetExtension( fileName );
 
-					Image fullSizeImg = Image.FromStream( imgStream );
-					fullSizeImg.Save( Path.Combine( ConfigurationManager.AppSettings["ImageFileLocation"],
-						eUser.ImageFileName ) );
-				}
+				Image fullSizeImg = Image.FromStream( imgStream );
+				fullSizeImg.Save( Path.Combine( ConfigurationManager.AppSettings["ImageFileLocation"],
+					eUser.ImageFileName ) );
 			}
 
 			if( database.SaveChanges() > 0 )

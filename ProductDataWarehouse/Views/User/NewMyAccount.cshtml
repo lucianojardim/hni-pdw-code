@@ -65,8 +65,8 @@
 				<li>
 					<div class="colmn1title">
 						My Business Address</div>
-				<!--	<div class="colmn2title">
-						My Home Address</div>-->
+					<div class="colmn2title">&nbsp;
+						<!--My Home Address--></div>
 				</li>
 				<li>
 					<div class="colmn1">
@@ -176,22 +176,32 @@
 			<!--End Address Entry-->
 			<hr/>
 			<!--Begin Profile Pic Entry-->
-			<!--<ul>
+			<ul>
 				<li>
 					<div class="colmn1title">
 						Update Profile Picture</div>
+						<div class="colmn2title">&nbsp;</div>
 				</li>
 				<li>
 					<div class="colmn1">
 						Current Profile Picture</div>
 					<div class="colmn2pic">
-						<img src="NewContent/images/profile_pic.png" width="45" height="45" alt="" /></div>
+					@if( Model.UserImageFileName != null )
+	 { 
+						@Html.HiddenFor( m => m.UserImageFileName ) 
+						<img width="45" src="/Images/@Model.UserImageFileName" alt="" /> 
+	 }
+	 else
+	 {
+		 <text>None</text>
+	 }
+	 </div>
 					<div class="colmn3-1">
 						Change Profile Picture</div>
 					<div class="colmn3filebrowser">
-						<input type="file" name="img"></div>
+						<input type="file" id="UserImage" name="UserImage" accept=".jpg,.png,.gif,.bmp" /></div>
 				</li>
-			</ul>-->
+			</ul>
 			<!--End Profile Pic Entry-->
 			<i class="clear_0"></i><span class="btn7">CANCEL</span> <span class="btn8 submitBtn">SAVE</span>
 <!--		@Html.ValidationSummary()-->

@@ -166,7 +166,7 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult MyAccount( MyAccountInfo uInfo )
+		public ActionResult MyAccount( MyAccountInfo uInfo, HttpPostedFileBase UserImage )
 		{
 			if( ModelState.IsValid )
 			{
@@ -174,7 +174,7 @@ namespace ProductDataWarehouse.Controllers
 				{
 					UserRepository uRepository = new UserRepository();
 
-					uRepository.UpdateUser( uInfo );
+					uRepository.UpdateUser( uInfo, UserImage != null ? UserImage.InputStream : null, UserImage != null ? UserImage.FileName : null );
 
 					ViewBag.AccountUpdateSuccess = true;
 
