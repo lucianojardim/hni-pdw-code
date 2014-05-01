@@ -487,6 +487,7 @@
     <Content Include="NewContent\images\logo.png" />
     <Content Include="NewContent\images\main_bg.jpg" />
     <Content Include="NewContent\images\menu_poly.jpg" />
+    <Content Include="NewContent\images\my_account.png" />
     <Content Include="NewContent\images\narrow-nav-icon.jpg" />
     <Content Include="NewContent\images\order_arrow.jpg" />
     <Content Include="NewContent\images\plus.jpg" />
@@ -501,12 +502,16 @@
     <Content Include="NewContent\images\store_img.png" />
     <Content Include="NewContent\images\tools.jpg" />
     <Content Include="NewContent\js\jquery-filestyle.js" />
+    <Content Include="NewContent\js\jquery-ui-1.8.11.min.js" />
     <Content Include="NewContent\js\jquery.1.8.3.min.js" />
     <Content Include="NewContent\js\jquery.custom.input.js" />
     <Content Include="NewContent\js\jquery.dataTables.js" />
     <Content Include="NewContent\js\jquery.dcjqaccordion.2.7.min.js" />
     <Content Include="NewContent\js\jquery.dd.js" />
     <Content Include="NewContent\js\jquery.hoverIntent.minified.js" />
+    <Content Include="NewContent\js\jquery.validate.min.js" />
+    <Content Include="NewContent\js\jquery.validate.unobtrusive.min.js" />
+    <Content Include="NewContent\js\modernizr-1.7.min.js" />
     <Content Include="NewContent\js\shCore.js" />
     <Content Include="Scripts\dtExtensions.js" />
     <Content Include="Scripts\jquery-1.5.1-vsdoc.js" />

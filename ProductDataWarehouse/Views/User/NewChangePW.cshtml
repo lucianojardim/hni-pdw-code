@@ -2,7 +2,7 @@
 @{
 	ViewBag.Title = "NewChangePW";
 	Layout = "~/Views/Shared/NewLayout.cshtml";
-	ViewBag.HeaderArea = "<h2><img src=\"/newcontent/images/store_img.png\" alt=\"img\" height=\"55\" width=\"46\"/> My Account</h2>";
+	ViewBag.HeaderArea = "<h2><img src=\"/newcontent/images/my_account.png\" alt=\"img\" height=\"55\" width=\"46\"/> My Account</h2>";
 }
 @using ProductDataWarehouse.Models
 @using ProductDataWarehouse.Controllers
@@ -11,6 +11,10 @@
 	$(document).ready(function () {
 		$('.submitBtn').click(function (e) {
 			$('#theForm').submit();
+		});
+
+		$('.cancelBtn').click(function (e) {
+			window.location = window.location;
 		});
 	});
 
@@ -54,7 +58,7 @@
 					<i class="clear_0"></i>
 				</li>
 			</ul>
-			<i class="clear_0"></i><span class="btn7">CANCEL</span> <span class="btn8 submitBtn">SAVE</span>
+			<i class="clear_0"></i><span class="btn7 cancelBtn">CANCEL</span> <span class="btn8 submitBtn">SAVE</span>
 <!--		@Html.ValidationSummary()-->
 	}
 		</div>
