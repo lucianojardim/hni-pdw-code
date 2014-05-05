@@ -16,6 +16,11 @@
 		$('.cancelBtn').click(function (e) {
 			window.location = window.location;
 		});
+
+        @if( ViewBag.ChangePWSuccess ?? false )
+        {
+			<text>alert('Your password has been updated.');</text>
+		}
 	});
 
 </script>

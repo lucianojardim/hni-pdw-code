@@ -219,7 +219,9 @@ namespace ProductDataWarehouse.Controllers
 
 					uRepository.ChangePassword( pwDetail );
 
-					return Redirect( PaoliWebUser.CurrentUser.HomePage );
+					ViewBag.ChangePWSuccess = true;
+
+					return ChangePW();
 				}
 				catch( ApplicationException ex )
 				{
