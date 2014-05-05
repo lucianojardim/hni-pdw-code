@@ -134,7 +134,7 @@
            
                 <div class="right-menu">
                    <ul id="accordion">
-                    <li><a href="#"  class="first"><img src="/newcontent/images/menu_poly.jpg" width="107" height="38" alt="img"/></a></li>
+                    <li><a href="/"  class="first"><img src="/newcontent/images/menu_poly.jpg" width="107" height="38" alt="img"/></a></li>
                     <li><a href="#"> <img src="/newcontent/images/account.jpg" width="36" height="31" alt="img"/>My Account</a>
                         <ul>
 			@if( !CurrentUser.HasTempPassword )
@@ -169,6 +169,8 @@
 	}
                         </ul>
                     </li>
+					@if( CurrentUser.HasAdminLink )
+	 {
                     <li><a href="#"><img src="/newcontent/images/admin.jpg" width="35" height="35" alt="img"/>Admin</a>
                         <ul>
 	   @if( CurrentUser.CanManageUsers )
@@ -193,6 +195,7 @@
 	}
                         </ul>
                     </li>
+	 }
                 </ul>  
           </div>
            
