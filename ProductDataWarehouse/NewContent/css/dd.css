@@ -183,7 +183,8 @@ img.fnone{float:none !important}
 
 .main_inner2_btm_top .ddcommon .ddTitle{padding:0; position:relative; display:inline-block; width:100% ; }
 .main_inner2_btm_top .ddcommon .ddTitle .ddTitleText{display:block;}
-.main_inner2_btm_top .dd{width:178px !important; background:#FFF url(../images/select_arrow.jpg) no-repeat 175px 11px; border:1px solid #eaeaea !important; height:25px !important; padding-left:5px; padding-right:8px; position:relative; top:0px;}
+/*ERIN MOD TO EXISTING STYLES: width 178>300; placement of arrow bgd img 175>297*/
+.main_inner2_btm_top .dd{width:300px !important; background:#FFF url(../images/select_arrow.jpg) no-repeat 297px 11px; border:1px solid #eaeaea !important; height:25px !important; padding-left:5px; padding-right:8px; position:relative; top:0px;}
 .main_inner2_btm_top .dd .divider{border-left:0px solid #c3c3c3; border-right:0px solid #fff;right:24px;}
 .main_inner2_btm_top .dd .arrow{width:25px;height:16px; margin-top:-6px; background:none ;}
 .main_inner2_btm_top .dd .arrow:hover{ margin-top:-6px;}
@@ -192,7 +193,9 @@ img.fnone{float:none !important}
 .main_inner2_btm_top .dd .ddTitle .ddTitleText .ddTitleText{padding:0;}
 .main_inner2_btm_top .dd .ddTitle .description{font-size:17px; color:#999999}
 .main_inner2_btm_top .dd .ddTitle .ddTitleText img{padding-right:5px;}
-.main_inner2_btm_top .dd .ddChild{border:0px solid #c3c3c3; background-color:#FFFFFF !important; left:0px; top:27px !important; padding-left:10px; background:url(../images/scroll_arrow.jpg) no-repeat left top; width:182px !important;}
+
+/*ERIN MOD TO EXISTING STYLES: width 182>304*/
+.main_inner2_btm_top .dd .ddChild{border:0px solid #c3c3c3; background-color:#FFFFFF !important; left:0px; top:27px !important; padding-left:10px; background:url(../images/scroll_arrow.jpg) no-repeat left top; width:304px !important;}
 .main_inner2_btm_top .dd .ddChild li{padding:5px; border-bottom:0px solid #c3c3c3;}
 .main_inner2_btm_top .dd .ddChild li .description{color:#666;}
 .main_inner2_btm_top .dd .ddChild li .ddlabel{color:#333;}
