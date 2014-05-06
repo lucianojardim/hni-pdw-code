@@ -107,7 +107,7 @@
 
 			$(".radio").dgStyle();
 			$(".checkbox").dgStyle();
-			$(":file").jfilestyle({buttonText: "Choose a file"});
+//			$(":file").jfilestyle({buttonText: "Choose a file"});
 
 			//Default Action
 			$(".tab_content1").hide(); //Hide all content
@@ -189,7 +189,7 @@
     		});
     		if (doInsert) {
     			$('#fileContainer').append('<div><input type="file" id="addlFiles' + fileCount + '" name="addlFiles[' + fileCount + ']" class="jfilestyle addlFiles" onchange="fileChanged()" data-buttontext="Choose File"/><input type="hidden" name="addlFiles.Index" value="' + fileCount + '" /></div>');
-				$('#addlFiles' + fileCount + '').jfilestyle({buttonText: "Choose a file"});
+//				$('#addlFiles' + fileCount + '').jfilestyle({buttonText: "Choose a file"});
     			fileCount++;
     		}		
     	}

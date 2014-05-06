@@ -2,7 +2,7 @@
 .borderRadiusTp{-moz-border-radius:5px 5px 0 0; border-radius:5px 5px 0 0;}
 .borderRadiusBtm{-moz-border-radius:0 0 5px 5px ; border-radius:0 0 5px 5px;}
 
-.ddcommon {position:relative;display:-moz-inline-stack; zoom:1; display:inline-block; *display:inline; cursor:default;}
+.ddcommon {position:relative;display:-moz-inline-stack; zoom:1; display:inline-block; *display:inline; cursor:default; }
 .ddcommon ul{padding:0;margin:0;}
 .ddcommon ul li{list-style-type:none;}
 .borderRadiusTp ul li:last-child{-moz-border-radius:0 0 5px 5px ; border-radius:0 0 5px 5px;border-bottom:0 none #c3c3c3; }
@@ -28,7 +28,7 @@ img.fnone{float:none !important}
 .ddcommon .divider{width:0; height:100%; position:absolute;}
 .ddcommon .arrow{display:inline-block; position:absolute; top:50%; right:7px;}
 /*.ddcommon .arrow:hover{background-position:0 100%;}*/
-.ddcommon .ddTitle{padding:0; position:relative; display:inline-block; width:100%}
+.ddcommon .ddTitle{padding:0; position:relative; display:inline-block; width:100%; }
 .ddcommon .ddTitle .ddTitleText{display:block;}
 .ddcommon .ddTitle .ddTitleText .ddTitleText{padding:0;}
 .ddcommon .ddTitle .description{display:block;}
@@ -43,15 +43,15 @@ img.fnone{float:none !important}
 .ddcommon .noBorderTop{border-top:none 0  !important; padding:0; margin:0;}
 
 /*************** default theme **********************/
-.dd{border:0px solid #c3c3c3; width:126px !important; height:20px !important; border:1px solid #dadada}
+.dd{border:0px solid #c3c3c3; width:126px !important; height:20px !important; border:1px solid #dadada;}
 .dd .divider{border-left:0px solid #c3c3c3; border-right:0px solid #fff; right:24px;}
 .dd .arrow{width:16px;height:16px; margin-top:0px; background:url(../images/select_arrow.jpg) no-repeat right top;}
 /*.dd .arrow:hover{ margin-top:-10px;}*/
-.dd .ddTitle{color:#000000; font-size:11px;}
+.dd .ddTitle{color:#000000; font-size:11px; }
 .dd .ddTitle .ddTitleText{padding:3px 20px 3px 8px;}
 .dd .ddTitle .ddTitleText .ddTitleText{padding:0;}
 .dd .ddTitle .description{font-size:21px; color:#999999}
-.dd .ddTitle .ddTitleText img{padding-right:5px;}
+.dd .ddTitle .ddTitleText img{padding-right:5px; }
 .dd .ddChild{border:0px solid #c3c3c3; background-color:#fff; left:0px; top:21px !important;}
 .dd .ddChild li{padding:5px; background-color:#fff; border-bottom:0px solid #c3c3c3;}
 .dd .ddChild li .description{color:#666;}
@@ -90,11 +90,14 @@ img.fnone{float:none !important}
 
 .main_inner1_btm ul li .box1 .ddcommon .ddTitle{padding:0; position:relative; display:inline-block; width:100% ; }
 .main_inner1_btm ul li .box1 .ddcommon .ddTitle .ddTitleText{display:block;}
-.main_inner1_btm ul li .box1 .dd{width:178px !important; background:#FFF url(../images/select_arrow.jpg) no-repeat 175px 11px; border:1px solid #eaeaea !important; height:25px !important; padding-left:5px; padding-right:8px; position:relative; top:0px;}
+
+/*ERIN MOD TO EXISTING STYLES TO ACCOMMODATE LONGER DROP DOWN SELECTION - height from 25px to 35px, background position: 172px center*/
+.main_inner1_btm ul li .box1 .dd{width:178px !important; background:#FFF url(../images/select_arrow.jpg) no-repeat 175px 11px; background-position:172px center;border:1px solid #eaeaea !important; height:35px !important; padding-left:5px; padding-right:8px; position:relative; top:0px;}
 .main_inner1_btm ul li .box1 .dd .divider{border-left:0px solid #c3c3c3; border-right:0px solid #fff;right:24px;}
 .main_inner1_btm ul li .box1 .dd .arrow{width:25px;height:16px; margin-top:-6px; background:none ;}
 .main_inner1_btm ul li .box1 .dd .arrow:hover{ margin-top:-6px;}
-.main_inner1_btm ul li .box1 .dd .ddTitle{color:#454545; font-size:14px; background:none; padding-top:3px;}
+/*ERIN MOD TO EXISTING STYLES TO ACCOMMODATE LONGER DROP DOWN SELECTION - line height added as 14px*/
+.main_inner1_btm ul li .box1 .dd .ddTitle{color:#454545; font-size:14px; background:none; padding-top:3px; line-height:14px;}
 .main_inner1_btm ul li .box1 .dd .ddTitle .ddTitleText{padding:1px 20px 5px 7px;}
 .main_inner1_btm ul li .box1 .dd .ddTitle .ddTitleText .ddTitleText{padding:0;}
 .main_inner1_btm ul li .box1 .dd .ddTitle .description{font-size:17px; color:#999999}
@@ -273,11 +276,15 @@ img.fnone{float:none !important}
 
 .main_inner6_btm ul li .box2 .ddcommon .ddTitle{padding:0; position:relative; display:inline-block; width:100% ; }
 .main_inner6_btm ul li .box2 .ddcommon .ddTitle .ddTitleText{display:block;}
-.main_inner6_btm ul li .box2 .dd{width:178px !important; background:#FFF url(../images/select_arrow.jpg) no-repeat 175px 11px; border:1px solid #eaeaea !important; height:25px !important; padding-left:5px; padding-right:8px; position:relative; top:0px;}
+
+/*ERIN MOD TO EXISTING STYLES - DROP DOWN HEIGHT EXTENSION TO ACCOMMODATE LONGER TEXT ADD SPEC REQUEST - changed height from 25px to 35px and updated background position for arrow to be 172px center*/
+.main_inner6_btm ul li .box2 .dd{width:178px !important; background:#FFF url(../images/select_arrow.jpg) no-repeat 175px 11px; background-position:172px center; border:1px solid #eaeaea !important; height:35px !important; padding-left:5px; padding-right:8px; position:relative; top:0px; }
 .main_inner6_btm ul li .box2 .dd .divider{border-left:0px solid #c3c3c3; border-right:0px solid #fff;right:24px;}
 .main_inner6_btm ul li .box2 .dd .arrow{width:25px;height:16px; margin-top:-6px; background:none ;}
 .main_inner6_btm ul li .box2 .dd .arrow:hover{ margin-top:-6px;}
-.main_inner6_btm ul li .box2 .dd .ddTitle{color:#454545; font-size:14px; background:none; padding-top:3px;}
+
+/*ERIN MOD TO EXISTING STYLES - DROP DOWN HEIGHT EXTENSION TO ACCOMMODATE LONGER TEXT ADD SPEC REQUEST - added line height of 14 px*/
+.main_inner6_btm ul li .box2 .dd .ddTitle{color:#454545; font-size:14px; background:none; padding-top:3px; line-height:14px; }
 .main_inner6_btm ul li .box2 .dd .ddTitle .ddTitleText{padding:1px 20px 5px 7px;}
 .main_inner6_btm ul li .box2 .dd .ddTitle .ddTitleText .ddTitleText{padding:0;}
 .main_inner6_btm ul li .box2 .dd .ddTitle .description{font-size:17px; color:#999999}
@@ -291,7 +298,7 @@ img.fnone{float:none !important}
 .main_inner6_btm ul li .box2 .dd .ddChild li.optgroup{padding:0;}
 .main_inner6_btm ul li .box2 .dd .ddChild li.optgroup .optgroupTitle{padding:0 5px; font-weight:bold; font-style:italic}
 .main_inner6_btm ul li .box2 .dd .ddChild li.optgroup ul li{padding:5px 5px 5px 15px}
-.main_inner6_btm ul li .box2 .dd .ddChild li.selected{background-color:#919191f; color:#000;}
+.main_inner6_btm ul li .box2 .dd .ddChild li.selected{background-color:#919191f; color:#000; }
 
 .main_inner2_btm_mid_myacct ul li .colmn3 .ddcommon .ddTitle{padding:0; position:relative; display:inline-block; width:100% ; }
 .main_inner2_btm_mid_myacct ul li .colmn3 .ddcommon .ddTitle .ddTitleText{display:block;}
