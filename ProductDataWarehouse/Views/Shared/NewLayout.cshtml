@@ -35,10 +35,12 @@
 
 		$('#accordion').dcAccordion({
 			eventType: 'click',
-			autoClose: true,
+			autoClose: false,
 			saveState: false,
 			disableLink: false,
 			showCount: false,
+			autoExpand: true,
+			classExpand : 'dcjq-current-parent',
 			speed: 'slow'
 		});
 
@@ -135,7 +137,7 @@
                 <div class="right-menu">
                    <ul id="accordion">
                     <li><a href="/"  class="first"><img src="/newcontent/images/menu_poly.jpg" width="107" height="38" alt="img"/></a></li>
-                    <li><a href="#"> <img src="/newcontent/images/account.jpg" width="36" height="31" alt="img"/>My Account</a>
+                    <li class="dcjq-current-parent"><a href="#"> <img src="/newcontent/images/account.jpg" width="36" height="31" alt="img"/>My Account</a>
                         <ul>
 			@if( !CurrentUser.HasTempPassword )
    {
@@ -149,27 +151,30 @@
 				            <li><a href="@Url.Action( "Logout", "Import" )">Log out</a></li>
                         </ul>
                     </li>
-                    <li><a href="#"><img src="/newcontent/images/tools.jpg" width="35" height="35" alt="img"/>Tools</a>
+					@if( !CurrentUser.HasTempPassword )
+	 {
+                    <li class="dcjq-current-parent"><a href="#"><img src="/newcontent/images/tools.jpg" width="35" height="35" alt="img"/>Tools</a>
                         <ul>
 	   @if( CurrentUser.CanManageOrders )
 	{
-                            <li><a href="@Url.Action( "Orders", "Collateral" )">Collateral</a></li>
+                            <li><a href="@Url.Action( "Orders", "Collateral" )">Collateral Store</a></li>
 	}
 	else if( CurrentUser.CanAddOrders )
 	{
-                            <li><a href="@Url.Action( "ViewOrders", "Collateral" )">Collateral</a></li>
+                            <li><a href="@Url.Action( "ViewOrders", "Collateral" )">Collateral Store</a></li>
 	}
 	   @if( CurrentUser.CanManageTypicals )
 	{
-                            <li><a href="@Url.Action( "Manage", "SpecRequest" )">Quotes & Specifications</a></li>
+                            <li><a href="@Url.Action( "Manage", "SpecRequest" )">Quotes & Specs</a></li>
 	}
 	else if( CurrentUser.CanViewSpecRequests )
 	{
-                            <li><a href="@Url.Action( "ViewAll", "SpecRequest" )">Quotes & Specifications</a></li>
+                            <li><a href="@Url.Action( "ViewAll", "SpecRequest" )">Quotes & Specs</a></li>
 	}
                         </ul>
                     </li>
-					@if( CurrentUser.HasAdminLink )
+	 }
+					@if( CurrentUser.HasAdminLink && !CurrentUser.HasTempPassword )
 	 {
                     <li><a href="#"><img src="/newcontent/images/admin.jpg" width="35" height="35" alt="img"/>Admin</a>
                         <ul>
