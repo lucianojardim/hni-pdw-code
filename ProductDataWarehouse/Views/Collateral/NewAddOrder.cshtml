@@ -859,7 +859,7 @@
 					<ul>
 						<li>
 							<div class="colmn1">
-								@Html.LabelFor( m => m.ShippingFedexAccount )</div>
+								@Html.LabelFor( m => m.ShippingFedexAccount ) @Html.ValidationMessageFor( m => m.ShippingFedexAccount )</div>
 							<div class="colmn2">
 								@Html.TextBoxFor( m => m.ShippingFedexAccount )</div>
 						</li>
@@ -1058,6 +1058,6 @@
 <span class="btn8 nextBtn">NEXT</span>
 <span class="btn9 previousBtn" style="display:none;">PREV</span>
 </div>
-	<!--	@Html.ValidationSummary() -->
+<!--	@Html.ValidationSummary()-->
 	</div>
 	}
