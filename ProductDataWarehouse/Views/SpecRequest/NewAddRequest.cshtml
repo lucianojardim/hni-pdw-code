@@ -501,8 +501,8 @@
 	{
 		var thisCompany = CompanyController.GetThisCompanyAsDDItem();
 				<text>
-    				emptyDropDownList('#DealerID');
-    				$('#DealerID').msDropdown().data("dd").add({text='@(thisCompany.First().Text.Replace( "'", "''" ))', value='@(thisCompany.First().Value)'});
+    				emptyDropDownList($('#DealerID').msDropdown().data("dd"));
+    				$('#DealerID').msDropdown().data("dd").add({text:'@(thisCompany.First().Text.Replace( "'", "''" ))', value:'@(thisCompany.First().Value)'});
 
     				reloadDealerSalesRepList();
 				</text>
@@ -532,8 +532,8 @@
 	}
 
     		} else {
-    			emptyDropDownList('#PaoliSalesRepMemberID');
-    			emptyDropDownList('#DealerID');
+    			emptyDropDownList($('#PaoliSalesRepMemberID').msDropdown.data("dd"));
+    			emptyDropDownList($('#DealerID').msDropdown.data("dd"));
     			$('.PSRCell').hide();
 				$('#PaoliSalesRepMemberID_msdd').hide();
     			$('.DealerRow').hide();
@@ -581,7 +581,7 @@
 								 Dealership</label>
 							 @Html.DropDownListFor( m => m.DealerID, new List<SelectListItem>() )
 							 <cite class="DSRCell">Dealership Point of Contact</cite>
-							 @Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>(), new { @class = "DSRCell" } )@Html.TextBoxFor( m => m.DealerPointOfContact, new { @class = "DSRCell" } )
+							 @Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>() )@Html.TextBoxFor( m => m.DealerPointOfContact )
 						 </div>
 					 </li>
 				 </ul>
