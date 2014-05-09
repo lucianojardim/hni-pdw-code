@@ -417,6 +417,9 @@
 				data: dataSet,
 				success: function (data, textStatus, jqXHR) {
 					reloadDropDownCompanyList('#SPDealerID', data);
+					if( $('#SPDealerID option').length > 0 ) {
+						$('#SPDealerID').msDropdown().data("dd").set("selectedIndex", 0);
+					}
 					reloadSPDealerSalesRepList();
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
@@ -442,6 +445,10 @@
 				data: dataSet,
 				success: function (data, textStatus, jqXHR) {
 					reloadDropDownCompanyList('#SPPaoliRepGroupID', data);
+					if( $('#SPPaoliRepGroupID option').length > 0 ) {
+						$('#SPPaoliRepGroupID').msDropdown().data("dd").set("selectedIndex", 0);
+					}
+					reloadSPDealerSalesRepList();
 					reloadSPPaoliSalesRepList();
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
@@ -459,6 +466,9 @@
 					data: { companyId: $('#DealerID').msDropdown().data("dd").get('value'), enabledOnly: true },
 					success: function (data, textStatus, jqXHR) {
 						reloadDropDownUserList('#DealerMemberID', data);
+						if( $('#DealerMemberID option').length > 0 ) {
+							$('#DealerMemberID').msDropdown().data("dd").set("selectedIndex", 0);
+						}
 					},
 					error: function (jqXHR, textStatus, errorThrown) {
 						alert('Error getting Dealer Sales Rep list:' + errorThrown)
@@ -477,6 +487,9 @@
     			data: { companyId: $('#PaoliRepGroupID').msDropdown().data("dd").get('value'), enabledOnly: true },
     			success: function (data, textStatus, jqXHR) {
 					reloadDropDownUserList('#PaoliRepGroupMemberID', data);
+					if( $('#PaoliRepGroupMemberID option').length > 0 ) {
+						$('#PaoliRepGroupMemberID').msDropdown().data("dd").set("selectedIndex", 0);
+					}
     			},
     			error: function (jqXHR, textStatus, errorThrown) {
     				alert('Error getting Paoli Sales Rep list:' + errorThrown)
@@ -493,6 +506,9 @@
     				data: { companyId: $('#SPDealerID').msDropdown().data("dd").get('value'), enabledOnly: true },
     				success: function (data, textStatus, jqXHR) {
     					reloadDropDownUserList('#SPDealerMemberID', data);
+						if( $('#SPDealerMemberID option').length > 0 ) {
+							$('#SPDealerMemberID').msDropdown().data("dd").set("selectedIndex", 0);
+						}
     				},
     				error: function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting SP Dealer Sales Rep list:' + errorThrown)
@@ -512,6 +528,9 @@
     				data: { companyId: $('#SPPaoliRepGroupID').msDropdown().data("dd").get('value'), enabledOnly: true },
     				success: function (data, textStatus, jqXHR) {
     					reloadDropDownUserList('#SPPaoliRepGroupMemberID', data);
+						if( $('#SPPaoliRepGroupMemberID option').length > 0 ) {
+							$('#SPPaoliRepGroupMemberID').msDropdown().data("dd").set("selectedIndex", 0);
+						}
     				},
     				error: function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting SP Paoli Sales Rep list:' + errorThrown)

@@ -460,6 +460,7 @@
     					} else {
     						$('#DealerPointOfContact').hide();
     						$('#DealerMemberID_msdd').show();
+							$('#DealerMemberID').msDropdown().data("dd").set("selectedIndex", 0);
     					}
     					$('.DSRCell').show();
     				},
@@ -490,12 +491,14 @@
     					if( $('#PaoliSalesRepMemberID option').length > 0 ) {
     						$('.PSRCell').show();
 							$('#PaoliSalesRepMemberID_msdd').show();
+							$('#PaoliSalesRepMemberID').msDropdown().data("dd").set("selectedIndex", 0);
     					}
     				},
     				error: function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting Paoli Sales Rep list:' + errorThrown)
     				}
     			});
+				
 
 				@if( PaoliWebUser.CurrentUser.IsDealerUser )
 	{
@@ -503,6 +506,7 @@
 				<text>
     				emptyDropDownList($('#DealerID').msDropdown().data("dd"));
     				$('#DealerID').msDropdown().data("dd").add({text:'@(thisCompany.First().Text.Replace( "'", "''" ))', value:'@(thisCompany.First().Value)'});
+					$('#DealerID').msDropdown().data("dd").set("selectedIndex", 0);
 
     				reloadDealerSalesRepList();
 				</text>
@@ -519,6 +523,7 @@
     					$('.DealerRow').hide();
 						reloadDropDownCompanyList('#DealerID', data);
     					if( $('#DealerID option').length > 0 ) {
+							$('#DealerID').msDropdown().data("dd").set("selectedIndex", 0);
     						$('.DealerRow').show();
     					}
 
@@ -532,8 +537,8 @@
 	}
 
     		} else {
-    			emptyDropDownList($('#PaoliSalesRepMemberID').msDropdown.data("dd"));
-    			emptyDropDownList($('#DealerID').msDropdown.data("dd"));
+    			emptyDropDownList($('#PaoliSalesRepMemberID').msDropdown().data("dd"));
+    			emptyDropDownList($('#DealerID').msDropdown().data("dd"));
     			$('.PSRCell').hide();
 				$('#PaoliSalesRepMemberID_msdd').hide();
     			$('.DealerRow').hide();
