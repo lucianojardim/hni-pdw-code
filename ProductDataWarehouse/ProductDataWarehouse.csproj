@@ -487,6 +487,9 @@
     <Content Include="NewContent\images\logo.png" />
     <Content Include="NewContent\images\main_bg.jpg" />
     <Content Include="NewContent\images\menu_poly.jpg" />
+    <Content Include="NewContent\images\mypaoli_index_main_temp.jpg" />
+    <Content Include="NewContent\images\mypaoli_index_smallleft_temp.jpg" />
+    <Content Include="NewContent\images\mypaoli_index_smallright_temp.jpg" />
     <Content Include="NewContent\images\my_account.png" />
     <Content Include="NewContent\images\narrow-nav-icon.jpg" />
     <Content Include="NewContent\images\order_arrow.jpg" />
