@@ -396,7 +396,7 @@ namespace PWDRepositories
 				ShowroomHours = closestShowroom != null ? closestShowroom.Hours : null,
 
 				Contacts = closestCompany.Users
-					.Where( u => u.AccountType == PaoliWebUser.PaoliWebRole.PaoliSalesRep && u.Enabled )
+					.Where( u => u.AccountType == PaoliWebUser.PaoliWebRole.PaoliSalesRep && u.IsActive )
 					.ToList()
 					.Select( u => new ClosestRepInfo.RepInfo()
 					{
