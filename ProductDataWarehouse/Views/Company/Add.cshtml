@@ -114,7 +114,11 @@
     				success: function (data, textStatus, jqXHR) {
     					$('#PaoliSalesRepMemberID').empty();
     					$.each(data.theList, function (idx, item) {
-    						$('#PaoliSalesRepMemberID').append('<option value="' + item.UserID + '" >' + item.FullName + '</option>');
+							if( item != null ) {
+    							$('#PaoliSalesRepMemberID').append('<option value="' + item.UserID + '" >' + item.FullName + '</option>');
+							} else {
+    							$('#PaoliSalesRepMemberID').append('<option></option>');
+							}
     					});
     				},
     				error: function (jqXHR, textStatus, errorThrown) {

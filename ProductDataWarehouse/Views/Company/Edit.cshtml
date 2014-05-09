@@ -20,7 +20,7 @@
 			</text>
    }
 
-    		showHideTerritoryID();
+    		showHideTerritoryID( @(Model.PaoliSalesRepMemberID.HasValue ? Model.PaoliSalesRepMemberID.Value.ToString() : "null") );
 			showHidePaoliSalesRepList( @(Model.PaoliSalesRepMemberID.HasValue ? Model.PaoliSalesRepMemberID.Value.ToString() : "null") );
 
     		$('#CompanyType').change(function () {
@@ -80,14 +80,14 @@
     		});
     	});
 
-    	function showHideTerritoryID() {
+    	function showHideTerritoryID(psrMemberId) {
 			if( $.inArray($('#CompanyType').val(), ['@Html.Raw( string.Join( "','", PDWInfrastructure.PaoliWebUser.PaoliCompanyType.HasTerritory ) )'] ) != -1 ) {
 				$('#territoryRow').show();
 			} else {
 				$('#territoryRow').hide();
 			}
 
-			showHidePaoliSalesRepList();
+			showHidePaoliSalesRepList(psrMemberId);
     	}
 
 		function showHidePaoliSalesRepList(psrMemberId) {
@@ -121,7 +121,11 @@
     				success: function (data, textStatus, jqXHR) {
     					$('#PaoliSalesRepMemberID').empty();
     					$.each(data.theList, function (idx, item) {
-    						$('#PaoliSalesRepMemberID').append('<option value="' + item.UserID + '" ' + (item.UserID == psrMemberId ? 'selected ' : ' ') + '>' + item.FullName + '</option>');
+							if( item != null ) {
+	    						$('#PaoliSalesRepMemberID').append('<option value="' + item.UserID + '" ' + (item.UserID == psrMemberId ? 'selected ' : ' ') + '>' + item.FullName + '</option>');
+							} else {
+    							$('#PaoliSalesRepMemberID').append('<option ' + (null == psrMemberId ? 'selected ' : ' ') + '></option>');
+							}
     					});
     				},
     				error: function (jqXHR, textStatus, errorThrown) {

@@ -396,7 +396,9 @@ namespace ProductDataWarehouse.Controllers
 
 		public JsonResult GetPaoliSalesRepListForTerritory( int territoryId, bool enabledOnly )
 		{
-			var theList = ( new UserRepository() ).GetSalesRepListForTerritory( territoryId, enabledOnly );
+			var theList = ( new UserRepository() ).GetSalesRepListForTerritory( territoryId, enabledOnly ).ToList();
+
+			theList.Insert( 0, null );
 
 			return Json( new
 			{
