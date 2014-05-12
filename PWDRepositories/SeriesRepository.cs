@@ -349,7 +349,9 @@ namespace PWDRepositories
 
 		public IDictionary<string, string> GetFeatureImageList()
 		{
-			return database.Serieses.ToDictionary( s => s.Name, s => s.FeaturedImageForSize( "s16to9" ).FileName );
+			return database.Serieses
+				.Where( s => s.SeriesImageFiles.Any( sif => sif.IsFeatured ) )
+				.ToDictionary( s => s.Name, s => s.FeaturedImageForSize( "s16to9" ).FileName );
 		}
 	}
 }
