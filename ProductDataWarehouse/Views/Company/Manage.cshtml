@@ -77,19 +77,25 @@ Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.C
 			"bProcessing": false, // don't want to use the default progress indicator at this time
 			"aaSorting": [[0, "asc"]],
 			"aoColumnDefs": [
-                    { "sName": "Name", "sTitle": "Name", "aTargets": [0], "mDataProp": "Name", "sWidth": "30%" },
-                    { "sName": "MasterID", "sTitle": "Master Consolidated Number", "aTargets": [1], "mDataProp": "MasterID", "sWidth": "30%" },
-                    { "sName": "CompanyType", "sTitle": "Company Type", "aTargets": [2], "mDataProp": "CompanyType", "sWidth": "25%" },
-                    { "sName": "EditButtons",
-                    	"aTargets": [3],
-                    	"bSearchable": false,
-                    	"bSortable": false,
-                    	"mDataProp": "EditButtons", "sWidth": "15%",
+                    { "sName": "Name", "sTitle": "Name", "aTargets": [0], "mDataProp": "Name", "sWidth": "31%",
                     	"fnRender": function (oObj) {
                     		var s;
-                    		s = '<a href=\"@Url.Action( "Edit", "Company" )/' + oObj.aData["CompanyID"] + '">Edit</a>';
+                    		s = '<a href=\"@Url.Action( "Edit", "Company" )/' + oObj.aData["CompanyID"] + '">' + oObj.aData["Name"] + '</a>';
+                    		return s;
+                    	} 
+                    },
+                    { "sName": "MasterID", "sTitle": "Master Consolidated Number", "aTargets": [1], "mDataProp": "MasterID", "sWidth": "21%" },
+                    { "sName": "BaseNumber", "sTitle": "Base Number", "aTargets": [2], "mDataProp": "BaseNumber", "sWidth": "20%" },
+                    { "sName": "CompanyType", "sTitle": "Company Type", "aTargets": [3], "mDataProp": "CompanyType", "sWidth": "10%" },
+                    { "sName": "UserCount", "sTitle": "# of Users", "aTargets": [4], "mDataProp": "UserCount", "sWidth": "10%", "sType": "numeric" },
+                    { "sName": "EditButtons",
+                    	"aTargets": [5],
+                    	"bSearchable": false,
+                    	"bSortable": false,
+                    	"mDataProp": "EditButtons", "sWidth": "8%",
+                    	"fnRender": function (oObj) {
+                    		var s = '';
                     		if (oObj.aData["CanDelete"]) {
-                    			s += '&nbsp;|&nbsp;';
                     			s += '<a href=\"#\" onclick="deleteCompany(' + oObj.aData["CompanyID"] + ');">Delete</a>';
                     		}
                     		return s;

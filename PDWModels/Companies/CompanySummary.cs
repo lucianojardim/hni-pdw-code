@@ -11,6 +11,8 @@ namespace PDWModels.Companies
 		public string Name { get; set; }
 		public string CompanyType { get; set; }
 		public string MasterID { get; set; }
+		public string BaseNumber { get; set; }
+		public int UserCount { get; set; }
 		public string EditButtons { get; set; }
 		public bool CanDelete { get; set; }
 	}
