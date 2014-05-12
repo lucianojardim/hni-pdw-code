@@ -875,9 +875,9 @@ namespace PWDRepositories
 				int.TryParse( param.sSearch, out tryOrderNum );
 
 				collateralList = collateralList
-					.Where( cOrder => ( cOrder.OrderID == tryOrderNum || tryOrderNum == 0 ) && 
-						(cOrder.RequestingPartyName.Contains(param.sSearch) || 
-						 cOrder.ShippingPartyName.Contains(param.sSearch)));
+					.Where( cOrder => (cOrder.OrderID == tryOrderNum) ||
+						cOrder.RequestingPartyName.Contains( param.sSearch ) ||
+						cOrder.ShippingPartyName.Contains( param.sSearch ) );
 			}
 			if( param.hideFulfilled )
 			{
