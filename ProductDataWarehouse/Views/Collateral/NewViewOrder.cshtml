@@ -120,7 +120,16 @@
             </li>
 		}
 					<li data-id="@Model.OrderDetails[i].DetailID">
-                        <div class="colmn1"><img src="/newcontent/images/productNoImage.png" alt="img"/></div>
+                        <div class="colmn1">
+								@if( Model.OrderDetails[i].ImageName != null )
+		{
+									<img src="/images/@(Model.OrderDetails[i].ImageName)" alt="img"/>
+		}
+		else
+		{
+									<img src="/newcontent/images/productNoImage.png" alt="img"/>
+		}
+						</div>
                         <div class="colmn2">@Html.DisplayFor( m => m.OrderDetails[i].Name )</div>
                         <div class="colmn3">Ordered: @Html.DisplayFor( m => m.OrderDetails[i].Quantity )<br />
 						@if( Model.CanceledByUserName != null )
@@ -166,7 +175,7 @@
 				</div>
 				<div class="content1">
 					<ul class="shippingTypeLabels">
-						<li>@Html.DisplayFor( m => m.ShippingType )</li>
+						<li>@Html.LabelFor( m => m.ShippingType )</li>
 				@switch( Model.ShippingTypeID )
 	{
 		case PDWModels.Collateral.NewOrderInformation.STGround:

@@ -79,6 +79,7 @@ namespace PDWModels.Collateral
 			public string GroupName { get; set; }
 			public int CollateralTypeID { get; set; }
 			public string CollateralType { get; set; }
+			public string ImageName { get; set; }
 		}
 
 		public int OrderID { get; set; }

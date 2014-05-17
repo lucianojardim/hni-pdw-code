@@ -377,7 +377,8 @@ namespace PWDRepositories
 						Description = ci.Description,
 						Name = ci.Name,
 						Quantity = 0,
-						Status = ci.StatusValue
+						Status = ci.StatusValue,
+						ImageName = ci.ImageFileName
 					} )
 					.ToList();
 
@@ -1148,6 +1149,12 @@ namespace PWDRepositories
 					ShippedQuantity = cod.Select( d => d.CollateralOrderShipmentDetails.Sum( s => s.Quantity ) / d.GroupQuantity.Value ).DefaultIfEmpty().Max()
 				} ) );
 
+			orderInfo.OrderDetails.ForEach( cod =>
+				cod.ImageName = database.CollateralItems
+					.Where( ci => ci.CollateralID == cod.CollateralID )
+					.Select( ci => ci.ImageFileName )
+					.FirstOrDefault() );
+
 			return orderInfo;
 		}
 
@@ -1385,6 +1392,12 @@ namespace PWDRepositories
 					CollateralType = oDetail.GroupNKID.HasValue ? null : oDetail.CollateralTypeName
 				} );
 			}
+
+			retOrder.OrderDetails.ForEach( cod =>
+				cod.ImageName = database.CollateralItems
+					.Where( ci => ci.CollateralID == cod.CollateralID )
+					.Select( ci => ci.ImageFileName )
+					.FirstOrDefault() );
 
 			if( !showShippedDetails )
 			{

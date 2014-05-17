@@ -73,6 +73,7 @@ namespace PDWModels.Collateral
 			public string Name { get; set; }
 			public string Description { get; set; }
 			public string Status { get; set; }
+			public string ImageName { get; set; }
 			public int Quantity { get; set; }
 			public int ShippedQuantity { get; set; }
 			public int CollateralTypeID { get; set; }

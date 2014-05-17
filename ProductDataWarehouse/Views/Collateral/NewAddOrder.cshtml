@@ -828,7 +828,14 @@
 			}
 			
 								<div class="colmn1">
+								@if( Model.OrderDetails[i].ImageName != null )
+		{
+									<img src="/images/@(Model.OrderDetails[i].ImageName)" alt="img" style="max-width:125px; max-height:70px;"/>
+		}
+		else
+		{
 									<img src="/newcontent/images/productNoImage.png" alt="img"/>
+		}
 								</div>
 								<div class="colmn2">
 									<h4>
@@ -846,11 +853,11 @@
 								</div>			
 			
 			@Html.HiddenFor( m => m.OrderDetails[i].CollateralID )
-			if( itemNum % 2 == 1 )
-			{
+		if( itemNum % 2 == 1 )
+		{
 				<text>@Html.Raw( endTR )</text>
-			}
-			itemNum++;
+		}
+		itemNum++;
 		}
 	}
 
