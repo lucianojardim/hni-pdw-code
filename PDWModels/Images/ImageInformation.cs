@@ -25,15 +25,28 @@ namespace PDWModels.Images
 		public enum FinishTypes
 		{
 			Veneer = 1,
-			Laminate = 2
+			Laminate = 2,
+			Seating = 3
 		}
 
-		public enum FinishSubTypes
+		public enum VeneerSpecieses
 		{
-			CherryVeneer = 1,
-			MapleVeneer = 2,
-			WalnutVeneer = 3,
+			Cherry = 1,
+			Maple = 2,
+			Walnut = 3,
+			RiftedOak = 4,
+			EuropeanWalnut = 5,
+			GrayOak = 6
+		}
 
+		public enum VeneerGrades
+		{
+			Standard = 1,
+			Premium = 2
+		}
+
+		public enum LaminatePatterns
+		{
 			Solid = 4, 
 			WoodGrain = 5,
 			Pattern = 6
@@ -67,8 +80,16 @@ namespace PDWModels.Images
 		public string FeaturedFinish { get; set; }
 		[DisplayName( "Finish Type" )]
 		public int? FinishType { get; set; }
-		[DisplayName( "Finish Sub Type" )]
-		public int? FinishSubType { get; set; }
+		[DisplayName( "Laminate Pattern" )]
+		public int? LaminatePattern { get; set; }
+		[DisplayName( "Is LPL Available?" )]
+		public bool LaminateIsLPL { get; set; }
+		[DisplayName( "Is HPL Available?" )]
+		public bool LaminateIsHPL { get; set; }
+		[DisplayName( "Veneer Grade" )]
+		public int? VeneerGrade { get; set; }
+		[DisplayName( "Veneer Species" )]
+		public int? VeneerSpecies { get; set; }
 
 		[DisplayName( "Featured Table Shape" )]
 		public string FeaturedTableShape { get; set; }

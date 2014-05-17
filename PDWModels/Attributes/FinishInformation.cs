@@ -10,7 +10,12 @@ namespace PDWModels.Attributes
 	{
 		public string Name { get; set; }
 		public int FinishType { get; set; }
-		public int FinishSubType { get; set; }
+		public int LaminatePattern { get; set; }
+		public bool LaminateIsLPL { get; set; }
+		public bool LaminateIsHPL { get; set; }
+		public int VeneerGrade { get; set; }
+		public int VeneerSpecies { get; set; }
+		public int VeneerColorTone { get; set; }
 		public ImageComboItem FeaturedImage { get; set; }
 		public IEnumerable<string> Serieses { get; set; }
 		public string Caption { get; set; }

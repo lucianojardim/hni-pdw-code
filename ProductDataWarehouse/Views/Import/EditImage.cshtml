@@ -19,26 +19,28 @@
 else
 {
     <script type="text/javascript">
-        var finishSubTypes = [
-            @foreach( var subType in ImportController.GetFinishSubTypeList() )
-			{
-            <text>{ id: @subType.Value, name: "@subType.Text" },</text>
-			}
-        ];
         $(document).ready(function () {
             $('#ImageContent').change(doImageContentChange);
             $('#FinishType').change(doFinishTypeChange);
             doImageContentChange();
         });
 
-        function doFinishTypeChange() {
-            var typeText = $('#FinishType option:selected').text();
-            $('#FinishSubType').html('');
-            $.each(finishSubTypes, function (i, opt) {
-                if (opt.name.indexOf(typeText) >= 0) {
-                    $('#FinishSubType').append('<option value=' + opt.id + '>' + opt.name + '</option>');
-                }
-            });
+           function doFinishTypeChange() {
+           	switch ($('#FinishType').val()) {
+				case '@((int)PDWModels.Images.ImageInformation.FinishTypes.Laminate)':
+                    $('.laminateRange').show();
+                    $('.veneerRange').hide();
+				break;
+				case '@((int)PDWModels.Images.ImageInformation.FinishTypes.Veneer)':
+                    $('.laminateRange').hide();
+                    $('.veneerRange').show();
+				break;
+			case '@((int)PDWModels.Images.ImageInformation.FinishTypes.Seating)':
+				$('.laminateRange').hide();
+				$('.veneerRange').hide();
+				break;
+
+           	}
         }
 
         function doImageContentChange() {
@@ -49,6 +51,8 @@ else
                     $('.featuredEdgeRange').hide();
                     $('.featuredPullRange').hide();
                     $('.featuredFinishRange').hide();
+                    $('.laminateRange').hide();
+                    $('.veneerRange').hide();
                     $('.featuredTableShapeRange').hide();
                     $('.featuredTableBaseRange').hide();
 					$('.controlMechanismRange').hide();
@@ -60,6 +64,8 @@ else
                     $('.featuredEdgeRange').show();
                     $('.featuredPullRange').hide();
                     $('.featuredFinishRange').hide();
+                    $('.laminateRange').hide();
+                    $('.veneerRange').hide();
                     $('.featuredTableShapeRange').hide();
                     $('.featuredTableBaseRange').hide();
 					$('.controlMechanismRange').hide();
@@ -71,6 +77,8 @@ else
                     $('.featuredEdgeRange').hide();
                     $('.featuredPullRange').show();
                     $('.featuredFinishRange').hide();
+                    $('.laminateRange').hide();
+                    $('.veneerRange').hide();
                     $('.featuredTableShapeRange').hide();
                     $('.featuredTableBaseRange').hide();
 					$('.controlMechanismRange').hide();
@@ -82,6 +90,7 @@ else
                     $('.featuredEdgeRange').hide();
                     $('.featuredPullRange').hide();
                     $('.featuredFinishRange').show();
+                   	doFinishTypeChange();
                     $('.featuredTableShapeRange').hide();
                     $('.featuredTableBaseRange').hide();
 					$('.controlMechanismRange').hide();
@@ -93,6 +102,8 @@ else
                     $('.featuredEdgeRange').hide();
                     $('.featuredPullRange').hide();
                     $('.featuredFinishRange').hide();
+                    $('.laminateRange').hide();
+                    $('.veneerRange').hide();
                     $('.featuredTableShapeRange').show();
                     $('.featuredTableBaseRange').hide();
 					$('.controlMechanismRange').hide();
@@ -104,6 +115,8 @@ else
                     $('.featuredEdgeRange').hide();
                     $('.featuredPullRange').hide();
                     $('.featuredFinishRange').hide();
+                    $('.laminateRange').hide();
+                    $('.veneerRange').hide();
                     $('.featuredTableShapeRange').hide();
                     $('.featuredTableBaseRange').show();
 					$('.controlMechanismRange').hide();
@@ -115,6 +128,8 @@ else
                     $('.featuredEdgeRange').hide();
                     $('.featuredPullRange').hide();
                     $('.featuredFinishRange').hide();
+                    $('.laminateRange').hide();
+                    $('.veneerRange').hide();
                     $('.featuredTableShapeRange').hide();
                     $('.featuredTableBaseRange').hide();
 					$('.controlMechanismRange').show();
@@ -126,6 +141,8 @@ else
                     $('.featuredEdgeRange').hide();
                     $('.featuredPullRange').hide();
                     $('.featuredFinishRange').hide();
+                    $('.laminateRange').hide();
+                    $('.veneerRange').hide();
                     $('.featuredTableShapeRange').hide();
                     $('.featuredTableBaseRange').hide();
 					$('.controlMechanismRange').hide();
@@ -152,7 +169,11 @@ else
         <span class="featuredPullRange dataRow">@Html.MJLabelFor( m => m.FeaturedPull, true )@Html.TextBoxFor( m => m.FeaturedPull )<br /></span>
         <span class="featuredFinishRange dataRow">@Html.MJLabelFor( m => m.FeaturedFinish, true ) @Html.TextBoxFor( m => m.FeaturedFinish )<br /></span>
         <span class="featuredFinishRange dataRow">@Html.MJLabelFor( m => m.FinishType, true ) @Html.DropDownListFor( m => m.FinishType, ImportController.GetFinishTypeList() )<br /></span>
-        <span class="featuredFinishRange dataRow">@Html.MJLabelFor( m => m.FinishSubType, true ) @Html.DropDownListFor( m => m.FinishSubType, ImportController.GetFinishSubTypeList( Model.FinishType ) )<br /></span>
+        <span class="laminateRange dataRow">@Html.MJLabelFor( m => m.LaminatePattern, true ) @Html.DropDownListFor( m => m.LaminatePattern, ImportController.GetLaminatePatternList() )<br /></span>
+        <span class="laminateRange dataRow">@Html.MJLabelFor( m => m.LaminateIsLPL, true ) @Html.CheckBoxFor( m => m.LaminateIsLPL )<br /></span>
+        <span class="laminateRange dataRow">@Html.MJLabelFor( m => m.LaminateIsHPL, true ) @Html.CheckBoxFor( m => m.LaminateIsHPL )<br /></span>
+        <span class="veneerRange dataRow">@Html.MJLabelFor( m => m.VeneerGrade, true ) @Html.DropDownListFor( m => m.VeneerGrade, ImportController.GetVeneerGradeList() )<br /></span>
+        <span class="veneerRange dataRow">@Html.MJLabelFor( m => m.VeneerSpecies, true ) @Html.DropDownListFor( m => m.VeneerSpecies, ImportController.GetVeneerSpeciesList() )<br /></span>
         <span class="featuredTableShapeRange dataRow">@Html.MJLabelFor( m => m.FeaturedTableShape, true ) @Html.TextBoxFor( m => m.FeaturedTableShape )<br /></span>
         <span class="featuredTableBaseRange dataRow">@Html.MJLabelFor( m => m.FeaturedTableBase, true ) @Html.TextBoxFor( m => m.FeaturedTableBase )<br /></span>
 		<span class="controlMechanismRange dataRow">@Html.MJLabelFor( m => m.ControlMechanism, true ) @Html.TextBoxFor( m => m.ControlMechanism )<br /></span>

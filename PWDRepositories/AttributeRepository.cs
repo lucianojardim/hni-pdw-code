@@ -167,7 +167,11 @@ namespace PWDRepositories
 				{
 					aoi.Caption = img.Caption;
 					aoi.FinishType = img.FinishType ?? 0;
-					aoi.FinishSubType = img.FinishSubType ?? 0;
+					aoi.LaminatePattern = ( img.FinishType == (int)PDWModels.Images.ImageInformation.FinishTypes.Laminate ) ? ( img.LaminatePattern ?? 0 ) : 0;
+					aoi.LaminateIsHPL = ( img.FinishType == (int)PDWModels.Images.ImageInformation.FinishTypes.Laminate ) ? ( img.LaminateIsHPL ) : false;
+					aoi.LaminateIsLPL = ( img.FinishType == (int)PDWModels.Images.ImageInformation.FinishTypes.Laminate ) ? ( img.LaminateIsLPL ) : false;
+					aoi.VeneerGrade = ( img.FinishType == (int)PDWModels.Images.ImageInformation.FinishTypes.Veneer ) ? ( img.VeneerGrade ?? 0 ) : 0;
+					aoi.VeneerSpecies = ( img.FinishType == (int)PDWModels.Images.ImageInformation.FinishTypes.Veneer ) ? ( img.VeneerSpecies ?? 0 ) : 0;
 					aoi.FeaturedImage = img.ThumbnailImageData( "s16to9" );
 				}
 			} );

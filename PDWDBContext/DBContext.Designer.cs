@@ -6742,7 +6742,9 @@ namespace PDWDBContext
         /// <param name="createdDate">Initial value of the CreatedDate property.</param>
         /// <param name="mIMEType">Initial value of the MIMEType property.</param>
         /// <param name="imageContent">Initial value of the ImageContent property.</param>
-        public static ImageFile CreateImageFile(global::System.Int32 imageID, global::System.String name, global::System.String originalExtension, global::System.String caption, global::System.Boolean hasPeople, global::System.String imageType, global::System.String keyword, global::System.DateTime createdDate, global::System.String mIMEType, global::System.Int32 imageContent)
+        /// <param name="laminateIsHPL">Initial value of the LaminateIsHPL property.</param>
+        /// <param name="laminateIsLPL">Initial value of the LaminateIsLPL property.</param>
+        public static ImageFile CreateImageFile(global::System.Int32 imageID, global::System.String name, global::System.String originalExtension, global::System.String caption, global::System.Boolean hasPeople, global::System.String imageType, global::System.String keyword, global::System.DateTime createdDate, global::System.String mIMEType, global::System.Int32 imageContent, global::System.Boolean laminateIsHPL, global::System.Boolean laminateIsLPL)
         {
             ImageFile imageFile = new ImageFile();
             imageFile.ImageID = imageID;
@@ -6755,6 +6757,8 @@ namespace PDWDBContext
             imageFile.CreatedDate = createdDate;
             imageFile.MIMEType = mIMEType;
             imageFile.ImageContent = imageContent;
+            imageFile.LaminateIsHPL = laminateIsHPL;
+            imageFile.LaminateIsLPL = laminateIsLPL;
             return imageFile;
         }
 
@@ -7082,30 +7086,6 @@ namespace PDWDBContext
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int32> FinishSubType
-        {
-            get
-            {
-                return _FinishSubType;
-            }
-            set
-            {
-                OnFinishSubTypeChanging(value);
-                ReportPropertyChanging("FinishSubType");
-                _FinishSubType = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("FinishSubType");
-                OnFinishSubTypeChanged();
-            }
-        }
-        private Nullable<global::System.Int32> _FinishSubType;
-        partial void OnFinishSubTypeChanging(Nullable<global::System.Int32> value);
-        partial void OnFinishSubTypeChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
         public global::System.String FeaturedFinish
         {
             get
@@ -7292,6 +7272,126 @@ namespace PDWDBContext
         private Nullable<global::System.Int32> _Popularity;
         partial void OnPopularityChanging(Nullable<global::System.Int32> value);
         partial void OnPopularityChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> LaminatePattern
+        {
+            get
+            {
+                return _LaminatePattern;
+            }
+            set
+            {
+                OnLaminatePatternChanging(value);
+                ReportPropertyChanging("LaminatePattern");
+                _LaminatePattern = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("LaminatePattern");
+                OnLaminatePatternChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _LaminatePattern;
+        partial void OnLaminatePatternChanging(Nullable<global::System.Int32> value);
+        partial void OnLaminatePatternChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> VeneerGrade
+        {
+            get
+            {
+                return _VeneerGrade;
+            }
+            set
+            {
+                OnVeneerGradeChanging(value);
+                ReportPropertyChanging("VeneerGrade");
+                _VeneerGrade = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("VeneerGrade");
+                OnVeneerGradeChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _VeneerGrade;
+        partial void OnVeneerGradeChanging(Nullable<global::System.Int32> value);
+        partial void OnVeneerGradeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> VeneerSpecies
+        {
+            get
+            {
+                return _VeneerSpecies;
+            }
+            set
+            {
+                OnVeneerSpeciesChanging(value);
+                ReportPropertyChanging("VeneerSpecies");
+                _VeneerSpecies = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("VeneerSpecies");
+                OnVeneerSpeciesChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _VeneerSpecies;
+        partial void OnVeneerSpeciesChanging(Nullable<global::System.Int32> value);
+        partial void OnVeneerSpeciesChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean LaminateIsHPL
+        {
+            get
+            {
+                return _LaminateIsHPL;
+            }
+            set
+            {
+                OnLaminateIsHPLChanging(value);
+                ReportPropertyChanging("LaminateIsHPL");
+                _LaminateIsHPL = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("LaminateIsHPL");
+                OnLaminateIsHPLChanged();
+            }
+        }
+        private global::System.Boolean _LaminateIsHPL;
+        partial void OnLaminateIsHPLChanging(global::System.Boolean value);
+        partial void OnLaminateIsHPLChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean LaminateIsLPL
+        {
+            get
+            {
+                return _LaminateIsLPL;
+            }
+            set
+            {
+                OnLaminateIsLPLChanging(value);
+                ReportPropertyChanging("LaminateIsLPL");
+                _LaminateIsLPL = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("LaminateIsLPL");
+                OnLaminateIsLPLChanged();
+            }
+        }
+        private global::System.Boolean _LaminateIsLPL;
+        partial void OnLaminateIsLPLChanging(global::System.Boolean value);
+        partial void OnLaminateIsLPLChanged();
 
         #endregion
 

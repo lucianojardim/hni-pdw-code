@@ -178,6 +178,7 @@ namespace ProductDataWarehouse.Controllers
 					imgInfo.ControlDescription = null;
 					imgInfo.ControlMechanism = null;
 					imgInfo.GoToGuidePageNum = 0;
+					imgInfo.FeaturedFinish = null;
 					break;
 				case ImageInformation.ImageContents.Edge:
 					if( imgInfo.FeaturedEdge == null )
@@ -194,6 +195,7 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.ControlMechanism = null;
 						imgInfo.HasPeople = false;
 						imgInfo.GoToGuidePageNum = 0;
+						imgInfo.FeaturedFinish = null;
 					}
 					break;
 				case ImageInformation.ImageContents.Pull:
@@ -211,9 +213,26 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.ControlMechanism = null;
 						imgInfo.HasPeople = false;
 						imgInfo.GoToGuidePageNum = 0;
+						imgInfo.FeaturedFinish = null;
 					}
 					break;
 				case ImageInformation.ImageContents.Finish:
+					if( imgInfo.FeaturedFinish == null )
+					{
+						ModelState.AddModelError( "FPRequired", "Featured Finish is required." );
+					}
+					else
+					{
+						imgInfo.ImageType = "Det";
+						imgInfo.FeaturedPull = null;
+						imgInfo.FeaturedEdge = null;
+						imgInfo.FeaturedTableBase = null;
+						imgInfo.FeaturedTableShape = null;
+						imgInfo.ControlDescription = null;
+						imgInfo.ControlMechanism = null;
+						imgInfo.HasPeople = false;
+						imgInfo.GoToGuidePageNum = 0;
+					}
 					break;
 				case ImageInformation.ImageContents.TableShape:
 					if( imgInfo.FeaturedTableShape == null )
@@ -230,6 +249,7 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.ControlMechanism = null;
 						imgInfo.HasPeople = false;
 						imgInfo.GoToGuidePageNum = 0;
+						imgInfo.FeaturedFinish = null;
 					}
 					break;
 				case ImageInformation.ImageContents.TableBase:
@@ -247,6 +267,7 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.ControlMechanism = null;
 						imgInfo.HasPeople = false;
 						imgInfo.GoToGuidePageNum = 0;
+						imgInfo.FeaturedFinish = null;
 					}
 					break;
 				case ImageInformation.ImageContents.ControlMech:
@@ -263,6 +284,7 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.FeaturedTableShape = null;
 						imgInfo.HasPeople = false;
 						imgInfo.GoToGuidePageNum = 0;
+						imgInfo.FeaturedFinish = null;
 					}
 					break;
 				case ImageInformation.ImageContents.GoToGuide:
@@ -273,6 +295,7 @@ namespace ProductDataWarehouse.Controllers
 					imgInfo.FeaturedTableShape = null;
 					imgInfo.ControlMechanism = null;
 					imgInfo.HasPeople = false;
+					imgInfo.FeaturedFinish = null;
 					break;
 
 			}
@@ -327,6 +350,7 @@ namespace ProductDataWarehouse.Controllers
 					imgInfo.ControlDescription = null;
 					imgInfo.ControlMechanism = null;
 					imgInfo.GoToGuidePageNum = 0;
+					imgInfo.FeaturedFinish = null;
 					break;
 				case ImageInformation.ImageContents.Edge:
 					if( imgInfo.FeaturedEdge == null )
@@ -343,6 +367,7 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.ControlMechanism = null;
 						imgInfo.HasPeople = false;
 						imgInfo.GoToGuidePageNum = 0;
+						imgInfo.FeaturedFinish = null;
 					}
 					break;
 				case ImageInformation.ImageContents.Pull:
@@ -360,9 +385,26 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.ControlMechanism = null;
 						imgInfo.HasPeople = false;
 						imgInfo.GoToGuidePageNum = 0;
+						imgInfo.FeaturedFinish = null;
 					}
 					break;
 				case ImageInformation.ImageContents.Finish:
+					if( imgInfo.FeaturedFinish == null )
+					{
+						ModelState.AddModelError( "FPRequired", "Featured Finish is required." );
+					}
+					else
+					{
+						imgInfo.ImageType = "Det";
+						imgInfo.FeaturedPull = null;
+						imgInfo.FeaturedEdge = null;
+						imgInfo.FeaturedTableBase = null;
+						imgInfo.FeaturedTableShape = null;
+						imgInfo.ControlDescription = null;
+						imgInfo.ControlMechanism = null;
+						imgInfo.HasPeople = false;
+						imgInfo.GoToGuidePageNum = 0;
+					}
 					break;
 				case ImageInformation.ImageContents.TableShape:
 					if( imgInfo.FeaturedTableShape == null )
@@ -379,6 +421,7 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.ControlMechanism = null;
 						imgInfo.HasPeople = false;
 						imgInfo.GoToGuidePageNum = 0;
+						imgInfo.FeaturedFinish = null;
 					}
 					break;
 				case ImageInformation.ImageContents.TableBase:
@@ -396,6 +439,7 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.ControlMechanism = null;
 						imgInfo.HasPeople = false;
 						imgInfo.GoToGuidePageNum = 0;
+						imgInfo.FeaturedFinish = null;
 					}
 					break;
 				case ImageInformation.ImageContents.ControlMech:
@@ -412,6 +456,7 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.FeaturedTableShape = null;
 						imgInfo.HasPeople = false;
 						imgInfo.GoToGuidePageNum = 0;
+						imgInfo.FeaturedFinish = null;
 					}
 					break;
 				case ImageInformation.ImageContents.GoToGuide:
@@ -422,6 +467,7 @@ namespace ProductDataWarehouse.Controllers
 					imgInfo.FeaturedTableShape = null;
 					imgInfo.ControlMechanism = null;
 					imgInfo.HasPeople = false;
+					imgInfo.FeaturedFinish = null;
 					break;
 
 			}
@@ -532,29 +578,42 @@ namespace ProductDataWarehouse.Controllers
 			{
 				new SelectListItem() { Text = "Veneer", Value = ((int)ImageInformation.FinishTypes.Veneer).ToString() },
 				new SelectListItem() { Text = "Laminate", Value = ((int)ImageInformation.FinishTypes.Laminate).ToString() },
+				new SelectListItem() { Text = "Seating", Value = ((int)ImageInformation.FinishTypes.Seating).ToString() },
 			};
 		}
 
-		static public IEnumerable<SelectListItem> GetFinishSubTypeList( int? finishType = null )
+		static public IEnumerable<SelectListItem> GetLaminatePatternList()
 		{
-			var theList = new List<SelectListItem>();
-
-			if( finishType == (int)ImageInformation.FinishTypes.Veneer || !finishType.HasValue )
+			return new List<SelectListItem>()
 			{
-				theList.Add( new SelectListItem() { Text = "Cherry Veneer", Value = ((int)ImageInformation.FinishSubTypes.CherryVeneer).ToString() } );
-				theList.Add( new SelectListItem() { Text = "Maple Veneer", Value = ((int)ImageInformation.FinishSubTypes.MapleVeneer).ToString() } );
-				theList.Add( new SelectListItem() { Text = "Walnut Veneer", Value = ((int)ImageInformation.FinishSubTypes.WalnutVeneer).ToString() } );
-			}
-
-			if( finishType == (int)ImageInformation.FinishTypes.Laminate || !finishType.HasValue )
-			{
-				theList.Add( new SelectListItem() { Text = "Solid Laminate", Value = ((int)ImageInformation.FinishSubTypes.Solid).ToString() } );
-				theList.Add( new SelectListItem() { Text = "Wood Grain Laminate", Value = ((int)ImageInformation.FinishSubTypes.WoodGrain).ToString() } );
-				theList.Add( new SelectListItem() { Text = "Pattern Laminate", Value = ((int)ImageInformation.FinishSubTypes.Pattern).ToString() } );
-			}
-
-			return theList;
+				new SelectListItem() { Text = "Solid", Value = ((int)ImageInformation.LaminatePatterns.Solid).ToString() },
+				new SelectListItem() { Text = "Wood Grain", Value = ((int)ImageInformation.LaminatePatterns.WoodGrain).ToString() },
+				new SelectListItem() { Text = "Pattern", Value = ((int)ImageInformation.LaminatePatterns.Pattern).ToString() },
+			};
 		}
+
+		static public IEnumerable<SelectListItem> GetVeneerGradeList()
+		{
+			return new List<SelectListItem>()
+			{
+				new SelectListItem() { Text = "Standard", Value = ((int)ImageInformation.VeneerGrades.Standard).ToString() },
+				new SelectListItem() { Text = "Premium", Value = ((int)ImageInformation.VeneerGrades.Premium).ToString() },
+			};
+		}
+
+		static public IEnumerable<SelectListItem> GetVeneerSpeciesList()
+		{
+			return new List<SelectListItem>()
+			{
+				new SelectListItem() { Text = "Cherry", Value = ((int)ImageInformation.VeneerSpecieses.Cherry).ToString() },
+				new SelectListItem() { Text = "Maple", Value = ((int)ImageInformation.VeneerSpecieses.Maple).ToString() },
+				new SelectListItem() { Text = "Walnut", Value = ((int)ImageInformation.VeneerSpecieses.Walnut).ToString() },
+				new SelectListItem() { Text = "Rifted Oak", Value = ((int)ImageInformation.VeneerSpecieses.RiftedOak).ToString() },
+				new SelectListItem() { Text = "European Walnut", Value = ((int)ImageInformation.VeneerSpecieses.EuropeanWalnut).ToString() },
+				new SelectListItem() { Text = "Gray Oak", Value = ((int)ImageInformation.VeneerSpecieses.GrayOak).ToString() },
+			};
+		}
+
 		/*
 		[PaoliAuthorize( "IsSuperAdmin" )]
 		public ActionResult RebuildGallery()
