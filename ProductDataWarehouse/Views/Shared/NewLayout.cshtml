@@ -229,14 +229,39 @@
                     <div class="header_btm">
                          <div class="container">
                               <div class="poly_top_lt">
-							  @if( ViewBag.HeaderArea == null )
+							  @switch( ( (string)ViewBag.HeaderArea ?? "" ) )
 		 {
+			 case "SpecRequests":
+	   if( CurrentUser.CanManageTypicals )
+	{
+                            <h1><a href="@Url.Action( "Manage", "SpecRequest" )"><img src="/newcontent/images/request.png" alt="img">Quotes & Spec Requests</a></h1>
+	}
+	else if( CurrentUser.CanViewSpecRequests )
+	{
+                            <h1><a href="@Url.Action( "ViewAll", "SpecRequest" )"><img src="/newcontent/images/request.png" alt="img">Quotes & Spec Requests</a></h1>
+	}
+	break;
+			 case "Users":
+	<h2><img src="/newcontent/images/my_account.png" alt="img" height="50" width="57"/> My Account</h2>
+	break;
+			 case "CollateralOrders":
+	   if( CurrentUser.CanManageOrders )
+	{
+<h2><a href="@Url.Action( "Orders", "Collateral" )"><img src="/newcontent/images/store_img.png" alt="img" height="55" width="46"/> Collateral Store</a></h2>
+	}
+	else if( CurrentUser.CanAddOrders )
+	{
+<h2><a href="@Url.Action( "ViewOrders", "Collateral" )"><img src="/newcontent/images/store_img.png" alt="img" height="55" width="46"/> Collateral Store</a></h2>
+	}
+
+	break;
+			 default:
                                    <h3 id="welcomeHeading"><span>@CurrentUser.FirstName!</span></h3>
-                                   <h4>@if( CurrentUser.PreviousLogin.Any() ){ <text>You last visited<span>@CurrentUser.PreviousLogin ago</span></text>} else {<text>&nbsp;</text>}</h4>
-		 }
-		 else
-		 {
-			 @Html.Raw( ViewBag.HeaderArea )
+                                   <h4>@if( CurrentUser.PreviousLogin.Any() )
+									   { <text>You last visited<span>@CurrentUser.PreviousLogin ago</span></text>}
+									   else
+									   {<text>&nbsp;</text>}</h4>
+									   break;
 		 }
                               </div>
                               <div class="poly_top_rt">
@@ -246,8 +271,9 @@
 								 @for( int i = 0; i < contactList.Count(); i++ )
 		 {
                                     <li>
-                                        <div class="box @if( i == contactList.Count() - 1 ) { <text>last</text> }">
-										@if( contactList.ElementAt(i).ImageFileName != null )
+                                        <div class="box @if( i == contactList.Count() - 1 )
+														{ <text>last</text> }">
+										@if( contactList.ElementAt( i ).ImageFileName != null )
 		  {
 											<img src="/images/@contactList.ElementAt( i ).ImageFileName" width="45" alt="img"/>
 		  }
