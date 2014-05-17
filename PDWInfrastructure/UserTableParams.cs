@@ -9,5 +9,6 @@ namespace PDWInfrastructure
 	{
 		public int accountType { get; set; }
 		public int? territoryId { get; set; }
+		public int? companyId { get; set; }
 	}
 }

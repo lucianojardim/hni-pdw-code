@@ -8,5 +8,6 @@ namespace PDWInfrastructure
 	public class CollateralOrderTableParams : DataTableParams
 	{
 		public bool hideFulfilled { get; set; }
+		public int? companyId { get; set; }
 	}
 }

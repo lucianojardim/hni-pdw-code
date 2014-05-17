@@ -375,6 +375,11 @@ namespace PWDRepositories
 			{
 				userList = userList.Where( c => c.Company.TerritoryID == param.territoryId.Value );
 			}
+			if( param.companyId.HasValue )
+			{
+				userList = userList.Where( u => u.CompanyID == param.companyId.Value );
+				totalRecords = userList.Count();
+			}
 
 			displayedRecords = userList.Count();
 
