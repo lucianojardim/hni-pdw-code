@@ -160,9 +160,11 @@ namespace PDWModels.Collateral
 		public string ShippingZip { get; set; }
 		[DisplayName( "Phone Number" )]
 		[PhoneNumber]
+		[Required]
 		public string ShippingPhoneNumber { get; set; }
 		[DisplayName( "Email" )]
 		[Email]
+		[Required]
 		public string ShippingEmailAddress { get; set; }
 
 		[DisplayName( "Order Date" )]
