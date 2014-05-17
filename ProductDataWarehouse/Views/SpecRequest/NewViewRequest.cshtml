@@ -20,24 +20,6 @@
 			</text>
 			}
     	});
-
-		$('.cancelReqBtn').click(function(e) {
-			if( confirm('Are you sure?') ) {
-				$.ajax({
-					dataType: 'json',
-					type: 'GET',
-					url: '/SpecRequest/CancelRequest',
-					data: { id: '@Model.RequestID' },
-					success: function (data, textStatus, jqXHR) {
-			    		window.location.href = '@Url.Action( "Manage" )';
-					},
-					error: function (jqXHR, textStatus, errorThrown) {
-						alert('Error canceling Request:' + errorThrown)
-					}
-				});
-					
-			}
-		});
 	</script>
 
                      <div class="container">

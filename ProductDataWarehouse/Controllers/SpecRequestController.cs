@@ -306,6 +306,18 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageTypicals" )]
+		public JsonResult OpenRequest( int id )
+		{
+			bool bSuccess = ( new SpecRequestRepository() ).ReOpenRequest( id );
+
+			return Json( new
+			{
+				success = bSuccess
+			},
+				JsonRequestBehavior.AllowGet );
+		}
+
+		[PaoliAuthorize( "CanManageTypicals" )]
 		[TempPasswordCheck]
 		public ActionResult EditTypical( int id )
 		{

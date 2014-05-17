@@ -136,6 +136,8 @@ namespace PDWModels.SpecRequests
 		public string SPLQuote { get; set; }
 		[DisplayName( "Recommended for Web?" )]
 		public bool IsGoodForWeb { get; set; }
+		[DisplayName( "Send Email Update To Dealers and Sales Reps?" )]
+		public bool SendCompleteEmail { get; set; }
 		[DisplayName( "Footprint" )]
 		[StringLength( 100 )]
 		public string Footprint { get; set; }

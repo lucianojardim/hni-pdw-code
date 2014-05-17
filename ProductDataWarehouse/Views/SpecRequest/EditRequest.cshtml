@@ -77,6 +77,28 @@
     		$('#IsCompleted').click(showHideIsGoodForWeb);
     		showHideIsGoodForWeb();
 
+			$( "#submitBtn" ).click(function( event ) {
+				if( $('#IsCompleted:checked').length > 0 )
+				{
+					if( $('#SendCompleteEmail:checked').length > 0 )
+					{
+						if( confirm('Are you sure you want to send an email update to the Dealers and Reps? It will include any comments or notes shown.') ) {
+							$('#theForm').submit();
+						}
+					}
+					else
+					{
+						if( confirm('Click OK if you want to mark this request complete without notifying the DSR and/or Sales Rep via email that you have completed their request.') ) {
+							$('#theForm').submit();
+						}
+					}
+				}
+				else
+				{
+					$('#theForm').submit();
+				}
+			});
+
     		$('#Footprint').autocomplete({
     			source: function (request, response) {
     				$.ajax({
@@ -354,7 +376,7 @@
   {
 	  if( !Model.IsCompleted )
 	  {
-		<br /><input type="button" class="btn_type1 cancelReqBtn" value="Cancel Request" />
+		<br /><br /><input type="button" class="btn_type1 cancelReqBtn" value="Cancel Request" />
 	  }
   }
   else
@@ -409,6 +431,9 @@
 				</tr>
 				<tr>
 				<td style="height:31px">@Html.MJLabelFor( m => m.IsGoodForWeb, true, new { @style = "display:none;", @class = "isGoodForWeb" } )</td><td style="height:31px">@Html.CheckBoxFor( m => m.IsGoodForWeb, new { @style = "display:none;", @class = "isGoodForWeb" } )</td>
+				</tr>
+				<tr>
+				<td style="height:31px">@Html.MJLabelFor( m => m.SendCompleteEmail, true, new { @style = "display:none;", @class = "isGoodForWeb" } )</td><td style="height:31px">@Html.CheckBoxFor( m => m.SendCompleteEmail, new { @style = "display:none;", @class = "isGoodForWeb" } )</td>
 				</tr>
 				<tr><td>&nbsp;</td><td></td></tr>
 			</table>
@@ -607,7 +632,7 @@
 		<div class="left">
 		@if( !Model.IsCanceled )
   {
-        <input type="submit" class="btn_type1" value="Save Changes" id="submitBtn" />
+        <input type="button" class="btn_type1" value="Save Changes" id="submitBtn" />
   }
 		<input type="button" class="btn_type1 cancelBtn" value="Cancel Changes" />
 		</div>

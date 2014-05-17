@@ -20,25 +20,40 @@
 				$('#canceledDate').text(getLocalDateTime('@Model.CanceledDate.Value.ToString()'));
 			</text>
 			}
-    	});
 
-		$('.cancelReqBtn').click(function(e) {
-			if( confirm('Are you sure?') ) {
+			$('.cancelReqBtn').click(function(e) {
+				if( confirm('Are you sure?') ) {
+					$.ajax({
+						dataType: 'json',
+						type: 'GET',
+						url: '/SpecRequest/CancelRequest',
+						data: { id: '@Model.RequestID' },
+						success: function (data, textStatus, jqXHR) {
+			    			window.location.href = '@Url.Action( "Manage" )';
+						},
+						error: function (jqXHR, textStatus, errorThrown) {
+							alert('Error canceling Request:' + errorThrown)
+						}
+					});
+					
+				}
+			});
+
+			$('.openReqBtn').click(function(e) {
 				$.ajax({
 					dataType: 'json',
 					type: 'GET',
-					url: '/SpecRequest/CancelRequest',
+					url: '/SpecRequest/OpenRequest',
 					data: { id: '@Model.RequestID' },
 					success: function (data, textStatus, jqXHR) {
-			    		window.location.href = '@Url.Action( "Manage" )';
+			    		window.location.href = '@Url.Action( "EditRequest", "SpecRequest", new { id = Model.RequestID } )';
 					},
 					error: function (jqXHR, textStatus, errorThrown) {
-						alert('Error canceling Request:' + errorThrown)
+						alert('Error re-opening Request:' + errorThrown)
 					}
 				});
-					
-			}
-		});
+			});
+    	});
 	</script>
 
 		@Html.HiddenFor( m => m.RequestID )
@@ -65,7 +80,11 @@
   {
 	  if( !Model.IsCompleted )
    {
-		<br /><input type="button" class="btn_type1 cancelReqBtn" value="Cancel Request" />
+		<br /><br /><input type="button" class="btn_type1 cancelReqBtn" value="Cancel Request" />
+   }
+   else if( PDWInfrastructure.PaoliWebUser.CurrentUser.CanManageTypicals )
+   {
+		<br /><br /><input type="button" class="btn_type1 openReqBtn" value="Re-open Request" />
    }
   }
   else

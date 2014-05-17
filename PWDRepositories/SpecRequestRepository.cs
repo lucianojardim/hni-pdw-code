@@ -366,6 +366,7 @@ namespace PWDRepositories
 				SPLQuote = sInfo.SPLQuote,
 				PaoliSpecTeamMember = sInfo.PaoliSpecTeamMemberID ?? 0,
 				IsGoodForWeb = ( sInfo.IsGoodForWeb ?? false ) && sInfo.IsCompleted,
+				SendCompleteEmail = true,
 				AvailableForIn2 = sInfo.AvailableForIn2 ?? false,
 				IsCompleted = sInfo.IsCompleted,
 				IsCanceled = sInfo.IsCanceled,
@@ -652,7 +653,7 @@ namespace PWDRepositories
 			specInfo.Received = sInfo.Received;
 			specInfo.SPLQuote = sInfo.SPLQuote;
 			specInfo.IsGoodForWeb = sInfo.IsCompleted && sInfo.IsGoodForWeb;
-			bool bDoCompleteEmail = sInfo.IsCompleted && !specInfo.IsCompleted;
+			bool bDoCompleteEmail = sInfo.IsCompleted && !specInfo.IsCompleted && sInfo.SendCompleteEmail;
 			if( sInfo.IsCompleted && !specInfo.IsCompleted )
 			{
 				specInfo.CompletedByUserID = PaoliWebUser.CurrentUser.UserId;
@@ -1313,6 +1314,21 @@ namespace PWDRepositories
 			specInfo.IsCompleted = true;
 			specInfo.CanceledByUserID = PaoliWebUser.CurrentUser.UserId;
 			specInfo.CanceledDateTime = DateTime.UtcNow;
+			specInfo.CompletedByUserID = null;
+			specInfo.CompletedDateTime = null;
+
+			return database.SaveChanges() > 0;
+		}
+
+		public bool ReOpenRequest( int requestId )
+		{
+			var specInfo = database.SpecRequests.FirstOrDefault( s => s.RequestID == requestId );
+			if( specInfo == null )
+			{
+				throw new Exception( "Unable to find Spec Request" );
+			}
+
+			specInfo.IsCompleted = false;
 			specInfo.CompletedByUserID = null;
 			specInfo.CompletedDateTime = null;
 
