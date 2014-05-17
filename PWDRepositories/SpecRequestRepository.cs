@@ -385,7 +385,7 @@ namespace PWDRepositories
 				SalesRepMemberContact = sInfo.PaoliSalesRepMemberID.HasValue ? sInfo.PaoliSalesRepMember.ContactInfo : "",
 				DealerSalesRepName = sInfo.DealerSalesRepID.HasValue ? sInfo.DealerSalesRep.FullName : "None",
 				DealerSalesRepContact = sInfo.DealerSalesRepID.HasValue ? sInfo.DealerSalesRep.ContactInfo : "",
-				SpecTeamMemberName = sInfo.PaoliSpecTeamMemberID.HasValue ? sInfo.SpecTeamMember.FullName : "None",
+				SpecTeamMemberName = sInfo.PaoliSpecTeamMemberID.HasValue ? sInfo.SpecTeamMember.FullName : "Not Assigned",
 				EndCustomer = sInfo.EndCustomer,
 				ProjectSize = sInfo.ProjectSize,
 				NeedFloorplanSpecs = sInfo.NeedFloorplanSpecs,
