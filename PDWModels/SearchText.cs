@@ -32,7 +32,7 @@ namespace PDWModels
 			List<SearchNeedItem> searchList = new List<SearchNeedItem>();
 			searchText = Regex.Replace( searchText, @"[^A-Za-z0-9\- ]", "" );
 
-			var wordList = searchText.ToLower().Split( ' ' ).ToList();
+			var wordList = searchText.ToLower().Trim().Split( ' ' ).ToList();
 
 			wordList.RemoveAll( InStopList );
 
