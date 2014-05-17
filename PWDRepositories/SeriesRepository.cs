@@ -194,6 +194,8 @@ namespace PWDRepositories
 					{
 						sInfo.FinishImages = theData.SeriesOptionAttributes
 							.Where( soa => soa.AttributeID == attr.AttributeID )
+							.OrderBy( soa => soa.ValueID )
+							.Take( 5 )
 							.Select( soa => new { Name = soa.AttributeOption.Name, Img = database.ImageFiles.FirstOrDefault( i => i.FeaturedFinish == soa.AttributeOption.Name ) } )
 							.Select( soa => new ImageForObject()
 							{
