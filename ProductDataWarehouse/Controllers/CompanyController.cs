@@ -186,9 +186,9 @@ namespace ProductDataWarehouse.Controllers
 			return Json( theList, JsonRequestBehavior.AllowGet );
 		}
 
-		public JsonResult GetDealerListForSalesRep( int salesRepCompanyId, bool includeBlank = true )
+		public JsonResult GetDealerListForSalesRep( int salesRepCompanyId, bool includeBlank = true, bool includeTerritory = false )
 		{
-			var theList = ( new CompanyRepository() ).GetDealerList( salesRepCompanyId ).ToList();
+			var theList = ( new CompanyRepository() ).GetDealerList( salesRepCompanyId, includeTerritory ).ToList();
 
 			if( includeBlank )
 			{
@@ -198,16 +198,16 @@ namespace ProductDataWarehouse.Controllers
 			return Json( theList, JsonRequestBehavior.AllowGet );
 		}
 
-		public delegate IEnumerable<SelectListItem> GetCompanyListFunction( int? companyType = null, bool includeBlank = true );
+		public delegate IEnumerable<SelectListItem> GetCompanyListFunction( int? companyType = null, bool includeBlank = true, bool includeTerritory = false );
 
-		public static IEnumerable<SelectListItem> GetThisCompanyAsDDItem( int? companyType = null, bool includeBlank = true )
+		public static IEnumerable<SelectListItem> GetThisCompanyAsDDItem( int? companyType = null, bool includeBlank = true, bool includeTerritory = false )
 		{
-			var cInfo = ( new UserRepository() ).GetCurrentCompanyInfo();
+			var cInfo = ( new UserRepository() ).GetCurrentCompanyInfo( includeTerritory );
 
 			return new List<SelectListItem>() { new SelectListItem() { Value = cInfo.ID.ToString(), Text = cInfo.Text } };
 		}
 
-		public static IEnumerable<SelectListItem> GetDealerForSalesRepDDList( int? companyType = null, bool includeBlank = true )
+		public static IEnumerable<SelectListItem> GetDealerForSalesRepDDList( int? companyType = null, bool includeBlank = true, bool includeTerritory = false )
 		{
 			var theList = ( new CompanyRepository() ).GetMyDealerList().ToList();
 
@@ -219,16 +219,16 @@ namespace ProductDataWarehouse.Controllers
 			return theList.Select( cInfo => new SelectListItem() { Value = cInfo.ID.ToString(), Text = cInfo.Text } );
 		}
 
-		public static IEnumerable<SelectListItem> GetSalesRepForDealerDDItem( int? companyType = null, bool includeBlank = true )
+		public static IEnumerable<SelectListItem> GetSalesRepForDealerDDItem( int? companyType = null, bool includeBlank = true, bool includeTerritory = false )
 		{
-			var cInfo = ( new CompanyRepository() ).GetMySalesRepInfo();
+			var cInfo = ( new CompanyRepository() ).GetMySalesRepInfo( includeTerritory );
 
 			return new List<SelectListItem>() { new SelectListItem() { Value = cInfo.ID.ToString(), Text = cInfo.Text } };
 		}
 
-		public static IEnumerable<SelectListItem> GetCompanyDDList( int? companyType = null, bool includeBlank = true )
+		public static IEnumerable<SelectListItem> GetCompanyDDList( int? companyType = null, bool includeBlank = true, bool includeTerritory = false )
 		{
-			var theList = ( new CompanyRepository() ).GetFullCompanyList( companyType ).Select( c => new SelectListItem() { Value = c.ID.ToString(), Text = c.Text } ).ToList();
+			var theList = ( new CompanyRepository() ).GetFullCompanyList( companyType, includeTerritory ).Select( c => new SelectListItem() { Value = c.ID.ToString(), Text = c.Text } ).ToList();
 			if( includeBlank )
 			{
 				theList.Insert( 0, new SelectListItem() );

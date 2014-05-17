@@ -657,12 +657,12 @@ namespace PWDRepositories
 			};
 		}
 
-		public IDToTextItem GetCurrentCompanyInfo()
+		public IDToTextItem GetCurrentCompanyInfo( bool includeTerritory = false )
 		{
 			var user = database.Users.FirstOrDefault( u => u.UserID == PaoliWebUser.CurrentUser.UserId );
 			if( user != null )
 			{
-				return new IDToTextItem() { ID = user.Company.CompanyID, Text = user.Company.FullName };
+				return new IDToTextItem() { ID = user.Company.CompanyID, Text = includeTerritory ? user.Company.FullNameWithTerritory : user.Company.FullName };
 			}
 
 			throw new Exception( "Unable to find current user" );

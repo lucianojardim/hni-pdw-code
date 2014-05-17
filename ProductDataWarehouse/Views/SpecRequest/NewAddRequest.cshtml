@@ -502,7 +502,7 @@
 
 				@if( PaoliWebUser.CurrentUser.IsDealerUser )
 	{
-		var thisCompany = CompanyController.GetThisCompanyAsDDItem();
+		var thisCompany = CompanyController.GetThisCompanyAsDDItem( includeTerritory: true );
 				<text>
     				emptyDropDownList($('#DealerID').msDropdown().data("dd"));
     				$('#DealerID').msDropdown().data("dd").add({text:'@(thisCompany.First().Text.Replace( "'", "''" ))', value:'@(thisCompany.First().Value)'});
@@ -518,7 +518,7 @@
     				dataType: 'json',
     				type: 'GET',
     				url: '/Company/GetDealerListForSalesRep',
-    				data: { salesRepCompanyId: $('#PaoliSalesRepGroupID').val() },
+    				data: { salesRepCompanyId: $('#PaoliSalesRepGroupID').val(), includeTerritory: true },
     				success: function (data, textStatus, jqXHR) {
     					$('.DealerRow').hide();
 						reloadDropDownCompanyList('#DealerID', data);
@@ -575,7 +575,7 @@
 						 <div class="box2">
 							 <label>
 								 Sales Rep Territory</label>
-							 @Html.DropDownListFor( m => m.PaoliSalesRepGroupID, GetSalesRepList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup ) )
+							 @Html.DropDownListFor( m => m.PaoliSalesRepGroupID, GetSalesRepList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, includeTerritory: true ) )
 							 <cite class="PSRCell">Sales Rep Point of Contact</cite>
 							 @Html.DropDownListFor( m => m.PaoliSalesRepMemberID, new List<SelectListItem>(), new { @class = "PSRCell" } )
 						 </div>

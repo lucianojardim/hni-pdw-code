@@ -303,7 +303,7 @@
     				dataType: 'json',
     				type: 'GET',
     				url: '/Company/GetDealerListForSalesRep',
-    				data: { salesRepCompanyId: $('#PaoliSalesRepGroupID').val() },
+    				data: { salesRepCompanyId: $('#PaoliSalesRepGroupID').val(), includeTerritory: true },
     				success: function (data, textStatus, jqXHR) {
     					$('#DealerID').empty();
     					$('.DealerRow').hide();
@@ -371,7 +371,7 @@
 			<h3>This Request is for:</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
-					<td>@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )</td><td>@Html.DropDownListFor( m => m.PaoliSalesRepGroupID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup ) )</td>
+					<td>@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )</td><td>@Html.DropDownListFor( m => m.PaoliSalesRepGroupID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, includeTerritory: true ) )</td>
 					<td class="PSRCell">@Html.MJLabelFor( m => m.PaoliSalesRepMemberID, true )</td><td class="PSRCell">@Html.DropDownListFor( m => m.PaoliSalesRepMemberID, new List<SelectListItem>() )<span class="littleHelp" id="psrContactInfo"></span></td>
 				</tr>
 				<tr class="DealerRow">

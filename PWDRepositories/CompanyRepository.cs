@@ -333,13 +333,13 @@ namespace PWDRepositories
 			return filteredAndSorted.ToList().Select( v => ToCompanySummary( v ) );
 		}
 
-		public IEnumerable<IDToTextItem> GetFullCompanyList( int? companyType )
+		public IEnumerable<IDToTextItem> GetFullCompanyList( int? companyType, bool includeTerritory = false )
 		{
 			return database.Companies
 				.Where( c => !companyType.HasValue || ( companyType.HasValue && companyType.Value == c.CompanyType ) )
 				.OrderBy( c => c.Name )
 				.ToList()
-				.Select( c => new IDToTextItem() { ID = c.CompanyID, Text = c.FullName } );
+				.Select( c => new IDToTextItem() { ID = c.CompanyID, Text = includeTerritory ? c.FullNameWithTerritory : c.FullName } );
 		}
 
 		public IEnumerable<TerritorySummary> GetTerritoryList()
@@ -420,7 +420,7 @@ namespace PWDRepositories
 			};
 		}
 
-		public IDToTextItem GetMySalesRepInfo()
+		public IDToTextItem GetMySalesRepInfo( bool includeTerritory = false )
 		{
 			var user = database.Users.FirstOrDefault( u => u.UserID == PaoliWebUser.CurrentUser.UserId );
 			if( user != null )
@@ -429,7 +429,7 @@ namespace PWDRepositories
 					c.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup );
 				if( salesRep != null )
 				{
-					return new IDToTextItem() { ID = salesRep.CompanyID, Text = salesRep.FullName };
+					return new IDToTextItem() { ID = salesRep.CompanyID, Text = includeTerritory ? salesRep.FullNameWithTerritory : salesRep.FullName };
 				}
 
 				throw new Exception( "Unable to find sales rep" );
@@ -449,7 +449,7 @@ namespace PWDRepositories
 			throw new Exception( "Unable to find current user" );
 		}
 
-		public IEnumerable<IDToTextItem> GetDealerList( int salesRepCompanyId )
+		public IEnumerable<IDToTextItem> GetDealerList( int salesRepCompanyId, bool includeTerritory = false )
 		{
 			var salesRep = database.Companies.FirstOrDefault( c => c.CompanyID == salesRepCompanyId );
 			if( salesRep != null )
@@ -458,7 +458,7 @@ namespace PWDRepositories
 					.Where( c => c.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer && c.TerritoryID == salesRep.TerritoryID )
 					.OrderBy( c => c.Name )
 					.ToList()
-					.Select( c => new IDToTextItem() { ID = c.CompanyID, Text = c.FullName } );
+					.Select( c => new IDToTextItem() { ID = c.CompanyID, Text = includeTerritory ? c.FullNameWithTerritory : c.FullName } );
 			}
 
 			return new List<IDToTextItem>();

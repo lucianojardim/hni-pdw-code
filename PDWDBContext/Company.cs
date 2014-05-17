@@ -14,5 +14,13 @@ namespace PDWDBContext
 				return Name + ((BusinessUnitName ?? "").Any() ? (" - " + BusinessUnitName) : "" );
 			}
 		}
+
+		public string FullNameWithTerritory
+		{
+			get
+			{
+				return ( TerritoryID.HasValue ? (TerritoryID.ToString() + " - ") : "" ) + FullName;
+			}
+		}
 	}
 }
