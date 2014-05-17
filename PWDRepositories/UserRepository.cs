@@ -32,7 +32,8 @@ namespace PWDRepositories
 				EmailAddress = u.Email,
 				PhoneNumber = u.BusinessPhone,
 				Enabled = u.Enabled,
-				SentWelcomeEmail = u.RecWelcomeEmail
+				SentWelcomeEmail = u.RecWelcomeEmail,
+				LastLogin = u.LastLogin
 			};
 		}
 
@@ -43,7 +44,7 @@ namespace PWDRepositories
 			{
 				return new PaoliWebUser( user.Email, authType, user.UserID, 
 					user.FirstName, user.LastName, 
-					user.AccountType, user.IsTempPassword );
+					user.AccountType, user.IsTempPassword, user.PreviousLogin );
 			}
 
 			return null;
@@ -89,7 +90,14 @@ namespace PWDRepositories
 
 			homePage = PaoliWebUser.PaoliWebRole.RoleHomePage( user.AccountType );
 
-			return bValid;
+			if( bValid )
+			{
+				user.UserLogins.Add( new UserLogin() { LoginDate = DateTime.UtcNow } );
+
+				return database.SaveChanges() > 0;
+			}
+
+			return false;
 		}
 
 		private string GenerateNewPassword()
@@ -414,6 +422,16 @@ namespace PWDRepositories
 					else
 					{
 						filteredAndSorted = userList.OrderByDescending( v => v.Company.Name );
+					}
+					break;
+				case "lastlogin":
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = userList.OrderBy( v => v.UserLogins.Max( ul => ul.LoginDate ) );
+					}
+					else
+					{
+						filteredAndSorted = userList.OrderByDescending( v => v.UserLogins.Max( ul => ul.LoginDate ) );
 					}
 					break;
 			}

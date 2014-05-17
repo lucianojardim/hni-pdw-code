@@ -29,6 +29,9 @@
     }
 
     function getLocalDate(datetime) {
+    	if (datetime == 0) {
+    		return '';
+    	}
     	var cDate = new Date(datetime);
     	var offset = new Date().getTimezoneOffset();
     	cDate.setMinutes(cDate.getMinutes() - offset);
@@ -36,6 +39,9 @@
     }
 
     function getLocalDateTime(datetime) {
+    	if (datetime == 0) {
+    		return '';
+    	}
     	var cDate = new Date(datetime);
     	var offset = new Date().getTimezoneOffset();
     	cDate.setMinutes(cDate.getMinutes() - offset);
@@ -43,6 +49,19 @@
     	return (cDate.getMonth() + 1) + '/' + cDate.getDate() + '/' + cDate.getFullYear() + ' at ' +
 			(((cDate.getHours() % 12) == 0) ? '12' : (cDate.getHours() % 12)) + ':' + 
 			((cDate.getMinutes() <= 9) ? '0' : '') + cDate.getMinutes() + 
+			((cDate.getHours() >= 12) ? ' p.m.' : ' a.m.');
+    }
+
+	// this will auto convert the date/time to local - somehow...
+    function getDateTimeFromMilliseconds(datetime) {
+    	if (datetime == 0) {
+    		return '';
+    	}
+    	var cDate = new Date(datetime);
+    	// 1/2/14 at 8:35 a.m.
+    	return (cDate.getMonth() + 1) + '/' + cDate.getDate() + '/' + cDate.getFullYear() + ' ' +
+			(((cDate.getHours() % 12) == 0) ? '12' : (cDate.getHours() % 12)) + ':' +
+			((cDate.getMinutes() <= 9) ? '0' : '') + cDate.getMinutes() +
 			((cDate.getHours() >= 12) ? ' p.m.' : ' a.m.');
     }
 

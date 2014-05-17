@@ -122,10 +122,15 @@ Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.C
                     		return s;
                     	}
                     },
-                    { "sName": "EmailAddress", "sTitle": "Email Address", "aTargets": [2], "mDataProp": "EmailAddress", "sWidth": "25%" },
-                    { "sName": "CompanyName", "sTitle": "Company Name", "aTargets": [3], "mDataProp": "CompanyName", "sWidth": "25%" },
+                    { "sName": "EmailAddress", "sTitle": "Email Address", "aTargets": [2], "mDataProp": "EmailAddress", "sWidth": "20%" },
+                    { "sName": "CompanyName", "sTitle": "Company Name", "aTargets": [3], "mDataProp": "CompanyName", "sWidth": "20%" },
+                    { "sName": "LastLogin", "sTitle": "Last Login", "aTargets": [4], "mDataProp": "LastLogin",
+                    	"fnRender": function (oObj) {
+                    		return getDateTimeFromMilliseconds(oObj.aData["LastLoginMilliseconds"]);
+                    	}, "sWidth": "10%"
+                    },					
                     { "sName": "EditButtons",
-                    	"aTargets": [4],
+                    	"aTargets": [5],
                     	"bSearchable": false,
                     	"bSortable": false,
                     	"mDataProp": "EditButtons", "sWidth": "20%",

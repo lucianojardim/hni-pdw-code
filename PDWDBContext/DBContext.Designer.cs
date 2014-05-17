@@ -87,6 +87,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSpecRequest_GSAContract", "GSAContract", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.GSAContract), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSpecRequest_CanceledUser", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSpecRequest_CompletedUser", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkLogin_User", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.User), "UserLogin", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.UserLogin), true)]
 
 #endregion
 
@@ -777,6 +778,22 @@ namespace PDWDBContext
             }
         }
         private ObjectSet<GSAContract> _GSAContracts;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<UserLogin> UserLogins
+        {
+            get
+            {
+                if ((_UserLogins == null))
+                {
+                    _UserLogins = base.CreateObjectSet<UserLogin>("UserLogins");
+                }
+                return _UserLogins;
+            }
+        }
+        private ObjectSet<UserLogin> _UserLogins;
 
         #endregion
 
@@ -1100,6 +1117,14 @@ namespace PDWDBContext
         public void AddToGSAContracts(GSAContract gSAContract)
         {
             base.AddObject("GSAContracts", gSAContract);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the UserLogins EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToUserLogins(UserLogin userLogin)
+        {
+            base.AddObject("UserLogins", userLogin);
         }
 
         #endregion
@@ -14860,6 +14885,179 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SpecRequest>("PaoliPDWModel.fkSpecRequest_CompletedUser", "SpecRequest", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkLogin_User", "UserLogin")]
+        public EntityCollection<UserLogin> UserLogins
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<UserLogin>("PaoliPDWModel.fkLogin_User", "UserLogin");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<UserLogin>("PaoliPDWModel.fkLogin_User", "UserLogin", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="UserLogin")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class UserLogin : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new UserLogin object.
+        /// </summary>
+        /// <param name="loginRecID">Initial value of the LoginRecID property.</param>
+        /// <param name="userID">Initial value of the UserID property.</param>
+        /// <param name="loginDate">Initial value of the LoginDate property.</param>
+        public static UserLogin CreateUserLogin(global::System.Int32 loginRecID, global::System.Int32 userID, global::System.DateTime loginDate)
+        {
+            UserLogin userLogin = new UserLogin();
+            userLogin.LoginRecID = loginRecID;
+            userLogin.UserID = userID;
+            userLogin.LoginDate = loginDate;
+            return userLogin;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 LoginRecID
+        {
+            get
+            {
+                return _LoginRecID;
+            }
+            set
+            {
+                if (_LoginRecID != value)
+                {
+                    OnLoginRecIDChanging(value);
+                    ReportPropertyChanging("LoginRecID");
+                    _LoginRecID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("LoginRecID");
+                    OnLoginRecIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _LoginRecID;
+        partial void OnLoginRecIDChanging(global::System.Int32 value);
+        partial void OnLoginRecIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 UserID
+        {
+            get
+            {
+                return _UserID;
+            }
+            set
+            {
+                OnUserIDChanging(value);
+                ReportPropertyChanging("UserID");
+                _UserID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("UserID");
+                OnUserIDChanged();
+            }
+        }
+        private global::System.Int32 _UserID;
+        partial void OnUserIDChanging(global::System.Int32 value);
+        partial void OnUserIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime LoginDate
+        {
+            get
+            {
+                return _LoginDate;
+            }
+            set
+            {
+                OnLoginDateChanging(value);
+                ReportPropertyChanging("LoginDate");
+                _LoginDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("LoginDate");
+                OnLoginDateChanged();
+            }
+        }
+        private global::System.DateTime _LoginDate;
+        partial void OnLoginDateChanging(global::System.DateTime value);
+        partial void OnLoginDateChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkLogin_User", "User")]
+        public User User
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkLogin_User", "User").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkLogin_User", "User").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<User> UserReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkLogin_User", "User");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("PaoliPDWModel.fkLogin_User", "User", value);
                 }
             }
         }

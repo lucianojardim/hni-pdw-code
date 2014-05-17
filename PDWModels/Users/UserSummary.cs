@@ -16,6 +16,8 @@ namespace PDWModels.Users
 		public string EditButtons { get; set; }
 		public bool Enabled { get; set; }
 		public bool SentWelcomeEmail { get; set; }
+		public DateTime? LastLogin { get; set; }
+		public double LastLoginMilliseconds { get { return LastLogin.HasValue ? ( LastLogin.Value - ( new DateTime( 1970, 1, 1 ) ) ).TotalMilliseconds : 0; } }
 
 		public string FullName { get { return FirstName + " " + LastName; } }
 	}

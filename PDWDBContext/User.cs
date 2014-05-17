@@ -30,5 +30,21 @@ namespace PDWDBContext
 				return Company.Name + " - " + FullName;
 			}
 		}
+
+		public DateTime? PreviousLogin
+		{
+			get
+			{
+				return UserLogins.OrderByDescending( ul => ul.LoginDate ).Skip( 1 ).Select( ul => (DateTime?)ul.LoginDate ).DefaultIfEmpty( null ).FirstOrDefault();
+			}
+		}
+
+		public DateTime? LastLogin
+		{
+			get
+			{
+				return UserLogins.Any() ? UserLogins.Max( ul => (DateTime?)ul.LoginDate ) : null;
+			}
+		}
 	}
 }

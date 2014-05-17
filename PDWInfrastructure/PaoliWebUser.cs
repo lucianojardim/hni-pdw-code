@@ -122,7 +122,7 @@ namespace PDWInfrastructure
 			#endregion
 		}
 
-		public PaoliWebUser( string email, string authType, int userId, string firstName, string lastName, int role, bool hasTempPassword )
+		public PaoliWebUser( string email, string authType, int userId, string firstName, string lastName, int role, bool hasTempPassword, DateTime? previousLogin )
         {
 			_identity = new PaoliWebIdentity( email, authType );
             UserId = userId;
@@ -131,6 +131,7 @@ namespace PDWInfrastructure
 			FirstName = firstName;
 			LastName = lastName;
 			_hasTempPassword = hasTempPassword;
+			_previousLogin = previousLogin;
         }
 
 		private PaoliWebIdentity _identity { get; set; }
@@ -141,6 +142,31 @@ namespace PDWInfrastructure
 		private string UserRole { get; set; }
 		private int AccountType { get; set; }
 		private bool _hasTempPassword { get; set; }
+		public string PreviousLogin
+		{
+			get
+			{
+				if( !_previousLogin.HasValue )
+				{
+					return "";
+				}
+				var dts = DateTime.UtcNow - _previousLogin.Value;
+				if( dts.Days > 0 )
+				{
+					return string.Format( "{0} days", dts.Days );
+				}
+				if( dts.Hours > 0 )
+				{
+					return string.Format( "{0} hours", dts.Hours );
+				}
+				if( dts.Minutes > 0 )
+				{
+					return string.Format( "{0} minutes", dts.Minutes );
+				}
+				return string.Format( "moments" );
+			}
+		}
+		private DateTime? _previousLogin { get; set; }
 
 		#region IPrincipal Members
 
