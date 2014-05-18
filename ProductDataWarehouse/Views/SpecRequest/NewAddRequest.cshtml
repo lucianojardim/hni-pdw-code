@@ -124,6 +124,17 @@
 				return false;
 			});
 
+			var doesMultipleFiles = false;
+    		$('#fileContainer input[type="file"]').each(function (i, fc) {
+    			if (fc.files != null) {
+    				doesMultipleFiles = true;
+    			}
+    		});
+			if( doesMultipleFiles ) {
+				$('.addlFilesIndex').remove();
+				$('#fileContainer input[type="file"]').attr('name', 'addlFiles');
+			}
+
 		});
 
 		function showHideContractInfo() {
@@ -182,7 +193,7 @@
 		function fileChanged() {
     		var doInsert = true;
     		$('#fileContainer input[type="file"]').each(function (i, fc) {
-    			if (fc.value == null || fc.value == '') {
+    			if (fc.value == null || fc.value == '' || fc.files != null) {
     				doInsert = false;
     				return false;
     			}
@@ -290,9 +301,9 @@
 			var fileList = new Array();
 			$('#fileContainer input[type="file"]').each(function (i, fc) {
 				if (fc.files != null) {
-					if (fc.files.length != 0) {
-						fileList.push(fc.files[0].name);
-					}
+					$.each(fc.files, function(i, fileCtrl) {
+						fileList.push(fileCtrl.name);
+					});
 				} else if (fc.value != null) {
 					fileList.push(fc.value);
 				}
@@ -723,7 +734,7 @@
 								 this request.</p>
 							 <div class="box4" id="fileContainer">
 							 <div>
-								 <input type="file" id="addlFiles0" name="addlFiles[0]" class="jfilestyle addlFiles" onchange="fileChanged()" data-buttontext="Choose File"/><input type="hidden" name="addlFiles.Index" value="0" />
+								 <input type="file" id="addlFiles0" name="addlFiles[0]" class="jfilestyle addlFiles" onchange="fileChanged()" multiple data-buttontext="Choose File"/><input type="hidden" name="addlFiles.Index" value="0" class="addlFilesIndex" />
 								</div>
 							 </div>
 						 </li>

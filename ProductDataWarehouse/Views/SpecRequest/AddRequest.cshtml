@@ -80,6 +80,17 @@
 			$('.chkFinish').change(function (e) {
 				showHideLaminatePreference();
 			});
+
+			var doesMultipleFiles = false;
+    		$('#fileContainer input[type="file"]').each(function (i, fc) {
+    			if (fc.files != null) {
+    				doesMultipleFiles = true;
+    			}
+    		});
+			if( doesMultipleFiles ) {
+				$('.addlFilesIndex').remove();
+				$('#fileContainer input[type="file"]').attr('name', 'addlFiles');
+			}
 		});
 
 		function showHideContractInfo() {
@@ -126,7 +137,7 @@
 		function fileChanged() {
     		var doInsert = true;
     		$('#fileContainer input[type="file"]').each(function (i, fc) {
-    			if (fc.value == null || fc.value == '') {
+    			if (fc.value == null || fc.value == '' || fc.files != null) {
     				doInsert = false;
     				return false;
     			}
@@ -217,9 +228,9 @@
 			var fileList = new Array();
 			$('#fileContainer input[type="file"]').each(function (i, fc) {
 				if (fc.files != null) {
-					if (fc.files.length != 0) {
-						fileList.push(fc.files[0].name);
-					}
+					$.each(fc.files, function(i, fileCtrl) {
+						fileList.push(fileCtrl.name);
+					});
 				} else if (fc.value != null) {
 					fileList.push(fc.value);
 				}
@@ -491,7 +502,7 @@
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
 					<td>@Html.CheckBoxFor( m => m.NeedAuditSpecs, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedAuditSpecs, false )<span class="littleHelp">Our team can quickly review and check a specification you have completed. Please include a parts list and a legible drawing/sketch of the furniture layout with sizes and details clearly noted.</span></td>
-					<td rowspan="5" id="fileContainer">@Html.MJLabelFor( m => m.addlFiles, true )<span class="littleHelp">Attach PDFs or other applicable files to help the specificaton engineer complete this request.</span><input type="file" name="addlFiles[0]" class="addlFiles" onchange="fileChanged()" /><input type="hidden" name="addlFiles.Index" value="0" /></td>
+					<td rowspan="5" id="fileContainer">@Html.MJLabelFor( m => m.addlFiles, true )<span class="littleHelp">Attach PDFs or other applicable files to help the specificaton engineer complete this request.</span><input type="file" name="addlFiles[0]" class="addlFiles" onchange="fileChanged()" multiple /><input type="hidden" name="addlFiles.Index" value="0" class="addlFilesIndex" /></td>
 				</tr>
 				<tr>
 					<td>@Html.CheckBoxFor( m => m.NeedFloorplanSpecs, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedFloorplanSpecs, false )<span class="littleHelp">Please attach a legible drawing/sketch of the furniture layout with sizes and details clearly noted.</span></td>

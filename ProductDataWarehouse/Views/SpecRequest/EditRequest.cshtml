@@ -148,6 +148,19 @@
 			$('#IsGSA').change(function(e) {
 				showHideContractInfo();
 			});
+
+			var doesMultipleFiles = false;
+    		$('#stFileContainer input[type="file"]').each(function (i, fc) {
+    			if (fc.files != null) {
+    				doesMultipleFiles = true;
+    			}
+    		});
+			if( doesMultipleFiles ) {
+				$('.specTeamFilesIndex').remove();
+				$('#stFileContainer input[type="file"]').attr('name', 'specTeamFiles');
+				$('.addlFilesIndex').remove();
+				$('#fileContainer input[type="file"]').attr('name', 'addlFiles');
+			}
     	});
 
 		function showHideContractInfo() {
@@ -209,7 +222,7 @@
     	function fileChanged() {
     		var doInsert = true;
     		$('#fileContainer input[type="file"]').each(function (i, fc) {
-    			if (fc.value == null || fc.value == '') {
+    			if (fc.value == null || fc.value == '' || fc.files != null) {
     				doInsert = false;
     				return false;
     			}
@@ -223,7 +236,7 @@
     	function stFileChanged() {
     		var doInsert = true;
     		$('#stFileContainer input[type="file"]').each(function (i, fc) {
-    			if (fc.value == null || fc.value == '') {
+    			if (fc.value == null || fc.value == '' || fc.files != null) {
     				doInsert = false;
     				return false;
     			}
@@ -408,7 +421,7 @@
 				<tr>
 					<td style="height:31px">@Html.MJLabelFor( m => m.PaoliSpecTeamMember, true )</td><td style="height:31px">@Html.DropDownListFor( m => m.PaoliSpecTeamMember, UserController.GetUserDDList( PDWInfrastructure.PaoliWebUser.PaoliWebRole.PaoliMemberSpecTeam ) )</td>
 					<td rowspan="9" id="stFileContainer" class="double">@Html.MJLabelFor( m => m.SpecTeamNotes, true )<br />@Html.TextAreaFor( m => m.SpecTeamNotes, new { cols = 30, rows = 10 } )<br />
-					@Html.MJLabelFor( m => m.specTeamFiles, true ) @Html.DisplayFor( m => m.specTeamFileList, templateName: "FullFileListWithDelete" )<span class="littleHelp">Any file uploaded here will be available to the DSR and Sales Rep for downloading. Be sure to name your files clearly.</span><input type="file" name="specTeamFiles[0]" class="specTeamFiles" onchange="stFileChanged()" /><input type="hidden" name="specTeamFiles.Index" value="0" /></td>
+					@Html.MJLabelFor( m => m.specTeamFiles, true ) @Html.DisplayFor( m => m.specTeamFileList, templateName: "FullFileListWithDelete" )<span class="littleHelp">Any file uploaded here will be available to the DSR and Sales Rep for downloading. Be sure to name your files clearly.</span><input type="file" name="specTeamFiles[0]" class="specTeamFiles" onchange="stFileChanged()" multiple /><input type="hidden" name="specTeamFiles.Index" value="0" class="specTeamFilesIndex" /></td>
 
 				</tr>
 				<tr>
@@ -470,7 +483,7 @@
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
 					<td>@Html.CheckBoxFor( m => m.NeedAuditSpecs, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedAuditSpecs, false )<span class="littleHelp">Our team can quickly review and check a specification you have completed. Please include a parts list and a legible drawing/sketch of the furniture layout with sizes and details clearly noted.</span></td>
-					<td rowspan="5" id="fileContainer">@Html.MJLabelFor( m => m.addlFiles, true ) @Html.DisplayFor( m => m.addlFileList, templateName: "FullFileListing" )<span class="littleHelp">Attach PDFs or other applicable files to help the specificaton engineer complete this request.</span><input type="file" name="addlFiles[0]" class="addlFiles" onchange="fileChanged()" /><input type="hidden" name="addlFiles.Index" value="0" /></td>
+					<td rowspan="5" id="fileContainer">@Html.MJLabelFor( m => m.addlFiles, true ) @Html.DisplayFor( m => m.addlFileList, templateName: "FullFileListing" )<span class="littleHelp">Attach PDFs or other applicable files to help the specificaton engineer complete this request.</span><input type="file" name="addlFiles[0]" class="addlFiles" onchange="fileChanged()" multiple /><input type="hidden" name="addlFiles.Index" value="0" class="addlFilesIndex" /></td>
 				</tr>
 				<tr>
 					<td>@Html.CheckBoxFor( m => m.NeedFloorplanSpecs, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedFloorplanSpecs, false )<span class="littleHelp">Please attach a legible drawing/sketch of the furniture layout with sizes and details clearly noted.</span></td>
