@@ -43,6 +43,8 @@ namespace PDWModels.SpecRequests
 		[DisplayName( "Dealership Point of Contact" )]
 		public int? DealerMemberID { get; set; }
 		public string DealerPointOfContact { get; set; }
+		public string DealerPointOfContactEmail { get; set; }
+		public string DealerPointOfContactPhone { get; set; }
 		[DisplayName( "Paoli Spec Team Member" )]
 		public int? PaoliSpecTeamMember { get; set; }
 

@@ -11543,6 +11543,54 @@ namespace PDWDBContext
         private Nullable<global::System.DateTime> _CanceledDateTime;
         partial void OnCanceledDateTimeChanging(Nullable<global::System.DateTime> value);
         partial void OnCanceledDateTimeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String DealerPOCEmail
+        {
+            get
+            {
+                return _DealerPOCEmail;
+            }
+            set
+            {
+                OnDealerPOCEmailChanging(value);
+                ReportPropertyChanging("DealerPOCEmail");
+                _DealerPOCEmail = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("DealerPOCEmail");
+                OnDealerPOCEmailChanged();
+            }
+        }
+        private global::System.String _DealerPOCEmail;
+        partial void OnDealerPOCEmailChanging(global::System.String value);
+        partial void OnDealerPOCEmailChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String DealerPOCPhone
+        {
+            get
+            {
+                return _DealerPOCPhone;
+            }
+            set
+            {
+                OnDealerPOCPhoneChanging(value);
+                ReportPropertyChanging("DealerPOCPhone");
+                _DealerPOCPhone = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("DealerPOCPhone");
+                OnDealerPOCPhoneChanged();
+            }
+        }
+        private global::System.String _DealerPOCPhone;
+        partial void OnDealerPOCPhoneChanging(global::System.String value);
+        partial void OnDealerPOCPhoneChanged();
 
         #endregion
 

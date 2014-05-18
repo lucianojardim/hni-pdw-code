@@ -12,8 +12,19 @@
     	var fileCount = 1;
     	$(document).ready(function () {
 			$.data($('#theForm')[0], 'validator').settings.ignore = ':hidden';
+    		$.validator.addMethod(
+					"regex",
+					function (value, element, regexp) {
+						var re = new RegExp(regexp);
+						return this.optional(element) || re.test(value);
+					},
+					"Please check your input."
+				);
+
 
     		$('#LaminatePreference').rules("add", { required: true, messages: { required: "Laminate Preference is required."} });
+    		$("#DealerPointOfContactPhone").rules("add", { regex: "^[2-9]\\d{2}-\\d{3}-\\d{4}$", messages: { regex: "Phone Number must be in the format ###-###-####."} });
+    		$("#DealerPointOfContactEmail").rules("add", { regex: "^[A-Za-z0-9](([_\\.\\-\\+]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$", messages: { regex: "Email must be a valid Email Address."} });
 
 			@if( Model.CreatedDate.HasValue )
    {
@@ -67,6 +78,7 @@
 
 			$('#DealerMemberID').change(function() {
 				showPSRContactInfo();
+				showHideDealerPOC();
 			});
 
     		changeGrommets($('#Grommets'));
@@ -263,14 +275,9 @@
 								(item.EmailAddress != null ? 'data-email="' + item.EmailAddress + '" ' : ' ') +
 								'>' + item.FullName + '</option>');
     					});
-    					if ($('#DealerMemberID option').length == 0) {
-    						$('#DealerMemberID').hide();
-    						$('#DealerPointOfContact').show();
-    					} else {
-    						$('#DealerPointOfContact').hide();
-    						$('#DealerMemberID').show();
-    					}
+    					$('#DealerMemberID').append('<option value="0" ' + (null == dsrMemberID ? 'selected ' : ' ') + '>Other</option>');
     					$('.DSRCell').show();
+						showHideDealerPOC();
 						showDSRContactInfo();
     				},
     				error: function (jqXHR, textStatus, errorThrown) {
@@ -281,8 +288,17 @@
     			$('#DealerMemberID').empty();
     			$('#DealerPointOfContact').val('');
     			$('.DSRCell').hide();
+				$('.DSRPOCCell').hide();
     		}
     	}
+
+		function showHideDealerPOC() {
+    		if ($('#DealerMemberID').val() == '0') {
+    			$('.DSRPOCCell').show();
+    		} else {
+    			$('.DSRPOCCell').hide();
+    		}
+		}
 
 		function showPSRContactInfo() {
 			var selInfo = $('#PaoliSalesRepMemberID option:selected');
@@ -411,8 +427,20 @@
 				</tr>
 				<tr class="DealerRow">
 					<td>@Html.MJLabelFor( m => m.DealerID, false )</td><td>@Html.DropDownListFor( m => m.DealerID, new List<SelectListItem>() )</td>
-					<td class="DSRCell">@Html.MJLabelFor( m => m.DealerMemberID, true )</td><td class="DSRCell">@Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>() )@Html.TextBoxFor( m => m.DealerPointOfContact )<span class="littleHelp" id="dsrContactInfo"></span></td>
+					<td class="DSRCell">@Html.MJLabelFor( m => m.DealerMemberID, true )</td><td class="DSRCell">@Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>() )<span class="littleHelp" id="dsrContactInfo"></span></td>
 				</tr>
+				<tr class="DSRPOCCell">
+					<td></td><td></td>
+					<td>Name:</td><td>@Html.TextBoxFor( m => m.DealerPointOfContact )</td>
+				</tr>
+				<tr class="DSRPOCCell">
+					<td></td><td></td>
+					<td>Email:</td><td>@Html.TextBoxFor( m => m.DealerPointOfContactEmail )</td>
+				</tr>
+				<tr class="DSRPOCCell">
+					<td></td><td></td>
+					<td>Phone:</td><td>@Html.TextBoxFor( m => m.DealerPointOfContactPhone )</td>
+ 				</tr>
 			</table>
 		</div>
 		<div class="requestPanel bglg">

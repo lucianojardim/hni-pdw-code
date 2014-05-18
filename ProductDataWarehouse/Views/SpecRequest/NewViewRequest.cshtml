@@ -69,14 +69,16 @@
 								 <h5>
 									 @Html.DisplayFor( m => m.DealerName )</h5>
 								 <h5>
-									@if( ( Model.DealerPointOfContact ?? "" ).Any() )
+									@if( ( Model.DealerPointOfContact ?? "" ).Any() || ( Model.DealerPointOfContactEmail ?? "" ).Any() || ( Model.DealerPointOfContactPhone ?? "" ).Any() )
 									{ 
-											@Html.DisplayFor( m => m.DealerPointOfContact )
+										@Html.DisplayFor( m => m.DealerPointOfContact )<br />
+										@Html.DisplayFor( m => m.DealerPointOfContactEmail )<br />
+										@Html.DisplayFor( m => m.DealerPointOfContactPhone )
 									}
-									else
-									{
+		 else
+		 {
 									@Html.DisplayFor( m => m.DealerSalesRepName )
-									}</h5>
+		 }</h5>
 							 </div>
 							 <div class="coln3">
 								 <h5>
@@ -149,12 +151,12 @@
 							 <div class="coln2">
 								 <h5>@Html.DisplayFor( m => m.addlFileList, templateName: "NewFullFileListing" )</h5>
 								 <h5>@{
-			 var NeedFileList = new List<string>();
-			 if( Model.NeedDWGFiles ) { NeedFileList.Add( "DWG" ); }
-			 if( Model.NeedSP4Files ) { NeedFileList.Add( "SP4" ); }
-			 if( Model.NeedSIFFiles ) { NeedFileList.Add( "SIF" ); }
-			 if( Model.NeedXLSFiles ) { NeedFileList.Add( "XLS" ); }
-			 if( Model.NeedPDFFiles ) { NeedFileList.Add( "PDF" ); }
+									 var NeedFileList = new List<string>();
+									 if( Model.NeedDWGFiles ) { NeedFileList.Add( "DWG" ); }
+									 if( Model.NeedSP4Files ) { NeedFileList.Add( "SP4" ); }
+									 if( Model.NeedSIFFiles ) { NeedFileList.Add( "SIF" ); }
+									 if( Model.NeedXLSFiles ) { NeedFileList.Add( "XLS" ); }
+									 if( Model.NeedPDFFiles ) { NeedFileList.Add( "PDF" ); }
 			   }
 			   @(string.Join( ", ", NeedFileList ))</h5>
 								 <h5>@Html.DisplayFor( m => m.Notes )</h5>
@@ -173,7 +175,7 @@
 							 </div>
 							 <i class="clear_0"></i></li>
 	 @if( Model.Casegoods.Any( c => c.Any() ) )
-	 {
+  {
 						 <li id="confirmDrawers">
 							 <div class="coln1">
 								 <h5>What drawer construction do you require?</h5>
@@ -182,7 +184,7 @@
 								 <h5>@Html.DisplayFor( m => m.DrawerOption )</h5>
 							 </div>
 							 <i class="clear_0"></i></li>
-							 }
+  }
 @if( Model.Seating.Any( c => c.Any() ) )
 {
 						 <li id="confirmFabric">
@@ -232,10 +234,10 @@
 							 </div>
 							 <div class="coln2">
 								 <h5>@switch( Model.LaminatePreference )
-																					   {
-																						   case "LPL": <text>LPL - Low Pressure Laminate</text> break;
-																						   case "HPL": <text>HPL - High Pressure Laminate</text> break;
-																					   }</h5>
+			 {
+				 case "LPL": <text>LPL - Low Pressure Laminate</text> break;
+				 case "HPL": <text>HPL - High Pressure Laminate</text> break;
+			 }</h5>
 							 </div>
 							 <i class="clear_0"></i></li>
    }

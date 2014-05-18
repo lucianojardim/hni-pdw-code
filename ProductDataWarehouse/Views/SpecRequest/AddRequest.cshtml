@@ -16,7 +16,18 @@
 		$(document).ready(function () {
 			$.data($('#theForm')[0], 'validator').settings.ignore = ':hidden';
 
+    		$.validator.addMethod(
+					"regex",
+					function (value, element, regexp) {
+						var re = new RegExp(regexp);
+						return this.optional(element) || re.test(value);
+					},
+					"Please check your input."
+				);
+
     		$('#LaminatePreference').rules("add", { required: true, messages: { required: "Laminate Preference is required."} });
+    		$("#DealerPointOfContactPhone").rules("add", { regex: "^[2-9]\\d{2}-\\d{3}-\\d{4}$", messages: { regex: "Phone Number must be in the format ###-###-####."} });
+    		$("#DealerPointOfContactEmail").rules("add", { regex: "^[A-Za-z0-9](([_\\.\\-\\+]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$", messages: { regex: "Email must be a valid Email Address."} });
 
 			reloadDealerSalesRepList();
 
@@ -28,6 +39,10 @@
 
 			$('#PaoliSalesRepGroupID').change(function () {
 				reloadPaoliSalesRepList();
+			});
+
+			$('#DealerMemberID').change(function() {
+				showHideDealerPOC();
 			});
 
 			$('.nextBtn').click(function (e) {
@@ -189,13 +204,19 @@
     			}
     			if ($('#DealerID').val() != null && $('#DealerID').val() != '' && $('#DealerID').val() != '0') {
     				addConfirmRow(t, '@Html.MJLabelFor( m => m.DealerID, true )', $('#DealerID option:selected').text());
-    				if ($('#DealerMemberID option').length != 0) {
+    				if ($('#DealerMemberID').val() != '0') {
     					if ($('#DealerMemberID').val() != null && $('#DealerMemberID').val() != '' && $('#DealerMemberID').val() != '0') {
     						addConfirmRow(t, '@Html.MJLabelFor( m => m.DealerMemberID, true )', $('#DealerMemberID option:selected').text());
     					}
     				} else {
     					if ($('#DealerPointOfContact').val() != '') {
     						addConfirmRow(t, '@Html.MJLabelFor( m => m.DealerMemberID, true )', $('#DealerPointOfContact').val());
+    					}
+    					if ($('#DealerPointOfContactEmail').val() != '') {
+    						addConfirmRow(t, 'Email:', $('#DealerPointOfContactEmail').val());
+    					}
+    					if ($('#DealerPointOfContactPhone').val() != '') {
+    						addConfirmRow(t, 'Phone:', $('#DealerPointOfContactPhone').val());
     					}
     				}
     			}
@@ -343,14 +364,9 @@
     					$.each(data.theList, function (idx, item) {
     						$('#DealerMemberID').append('<option value="' + item.UserID + '">' + item.FullName + '</option>');
     					});
-    					if ($('#DealerMemberID option').length == 0) {
-    						$('#DealerMemberID').hide();
-    						$('#DealerPointOfContact').show();
-    					} else {
-    						$('#DealerPointOfContact').hide();
-    						$('#DealerMemberID').show();
-    					}
+    					$('#DealerMemberID').append('<option value="0">Other</option>');
     					$('.DSRCell').show();
+						showHideDealerPOC();
     				},
     				error: function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting Dealer Sales Rep list:' + errorThrown)
@@ -360,8 +376,17 @@
     			$('#DealerMemberID').empty();
     			$('#DealerPointOfContact').val('');
     			$('.DSRCell').hide();
+				$('.DSRPOCCell').hide();
     		}
     	}
+
+		function showHideDealerPOC() {
+    		if ($('#DealerMemberID').val() == '0') {
+    			$('.DSRPOCCell').show();
+    		} else {
+    			$('.DSRPOCCell').hide();
+    		}
+		}
 
     	function reloadPaoliSalesRepList() {
     		if ($('#PaoliSalesRepGroupID').val() != null && $('#PaoliSalesRepGroupID').val() != '' && $('#PaoliSalesRepGroupID').val() != '0') {
@@ -466,7 +491,19 @@
 				</tr>
 				<tr class="DealerRow">
 					<td>@Html.MJLabelFor( m => m.DealerID, false )</td><td>@Html.DropDownListFor( m => m.DealerID, new List<SelectListItem>() )</td>
-					<td class="DSRCell">@Html.MJLabelFor( m => m.DealerMemberID, true )</td><td class="DSRCell">@Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>() )@Html.TextBoxFor( m => m.DealerPointOfContact )</td>
+					<td class="DSRCell">@Html.MJLabelFor( m => m.DealerMemberID, true )</td><td class="DSRCell">@Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>() )</td>
+				</tr>
+				<tr class="DSRPOCCell">
+					<td></td><td></td>
+					<td>Name:</td><td>@Html.TextBoxFor( m => m.DealerPointOfContact )</td>
+				</tr>
+				<tr class="DSRPOCCell">
+					<td></td><td></td>
+					<td>Email:</td><td>@Html.TextBoxFor( m => m.DealerPointOfContactEmail )</td>
+				</tr>
+				<tr class="DSRPOCCell">
+					<td></td><td></td>
+					<td>Phone:</td><td>@Html.TextBoxFor( m => m.DealerPointOfContactPhone )</td>
 				</tr>
 			</table>
 		</div>
