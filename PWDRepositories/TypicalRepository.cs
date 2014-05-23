@@ -553,16 +553,5 @@ namespace PWDRepositories
 
 			return tInfo;
 		}
-
-		public IEnumerable<ImageComboItem> GetFullTypicalImageList( int id )
-		{
-			var theData = database.Typicals.FirstOrDefault( s => s.TypicalID == id );
-			if( theData != null )
-			{
-				return theData.ImageListForSize( "m16to9" ).Select( i => (ImageComboItem)i );
-			}
-
-			return new List<ImageComboItem>();
-		}
 	}
 }
