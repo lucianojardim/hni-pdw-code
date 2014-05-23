@@ -25,6 +25,7 @@
 					"Please check your input."
 				);
 
+    		$('#DealerPointOfContact').rules("add", { required: true, messages: { required: "Dealership Point of Contact Name is required."} });
     		$('#LaminatePreference').rules("add", { required: true, messages: { required: "Laminate Preference is required."} });
     		$("#DealerPointOfContactPhone").rules("add", { regex: "^[2-9]\\d{2}-\\d{3}-\\d{4}$", messages: { regex: "Phone Number must be in the format ###-###-####."} });
     		$("#DealerPointOfContactEmail").rules("add", { regex: "^[A-Za-z0-9](([_\\.\\-\\+]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$", messages: { regex: "Email must be a valid Email Address."} });

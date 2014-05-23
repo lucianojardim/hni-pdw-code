@@ -22,6 +22,7 @@
 					"Please check your input."
 				);
 
+    		$('#DealerPointOfContact').rules("add", { required: true, messages: { required: "Dealership Point of Contact Name is required."} });
     		$('#LaminatePreference').rules("add", { required: true, messages: { required: "Laminate Preference is required."} });
     		$("#DealerPointOfContactPhone").rules("add", { regex: "^[2-9]\\d{2}-\\d{3}-\\d{4}$", messages: { regex: "Phone Number must be in the format ###-###-####."} });
     		$("#DealerPointOfContactEmail").rules("add", { regex: "^[A-Za-z0-9](([_\\.\\-\\+]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$", messages: { regex: "Email must be a valid Email Address."} });
@@ -496,6 +497,7 @@
     		} else {
 				emptyDropDownList($("#DealerMemberID").msDropdown().data("dd"));
     			$('#DealerPointOfContact').val('');
+				$('#DealerPointOfContact').addClass('noValidate');
     			$('.DSRCell').hide();
     			$('#DealerMemberID_msdd').hide();
 				$('.DSRPOCCell').hide();
@@ -505,8 +507,10 @@
 		function showHideDealerPOC() {
     		if ($('#DealerMemberID').val() == '0') {
     			$('.DSRPOCCell').show();
+				$('#DealerPointOfContact').removeClass('noValidate');
     		} else {
     			$('.DSRPOCCell').hide();
+				$('#DealerPointOfContact').addClass('noValidate');
     		}
 		}
 
@@ -576,6 +580,7 @@
 				$('#PaoliSalesRepMemberID_msdd').hide();
     			$('.DealerRow').hide();
 				$('.DSRPOCCell').hide();
+				$('#DealerPointOfContact').addClass('noValidate');
     		}
     	}
 	</script>
@@ -626,7 +631,8 @@
 					 <li class="DSRPOCCell">
 						<div class="box2">
 						<div style="width:444px;float:left;">&nbsp;</div>
-							 <cite class="DSRCell">Name</cite>
+							 <cite class="DSRCell">Name
+							 @Html.ValidationMessageFor( m => m.DealerPointOfContact )</cite>
 							 @Html.TextBoxFor( m => m.DealerPointOfContact )
 						</div>
 					 </li>
