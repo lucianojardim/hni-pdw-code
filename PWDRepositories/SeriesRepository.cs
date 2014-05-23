@@ -202,7 +202,6 @@ namespace PWDRepositories
 								Name = soa.Name,
 								FeaturedImage = soa.Img != null ? soa.Img.ThumbnailImageData( "s16to9" ) : null
 							} )
-							.OrderBy( i => i.Name )
 							.ToList();
 					}
 					else if( string.Compare( attr.Name, "Control Mechanism", true ) == 0 )
