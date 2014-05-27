@@ -104,6 +104,8 @@
                     			return 'Canceled';
                     		} else if (oObj.aData["IsCompleted"]) {
                     			return 'Completed';
+                    		} else if (oObj.aData["SpecTeamMember"] == null || oObj.aData["SpecTeamMember"] == '') {
+                    			return 'Not Assigned';
                     		} 
                     		return 'Pending';
                     	}
