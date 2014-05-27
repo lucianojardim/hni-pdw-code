@@ -176,7 +176,8 @@ namespace PWDRepositories
 						case "brochure file name":
 						case "keywords":
 						case "in2 price list":
-							if( (val ?? "").Any() )
+						case "interactive price list":
+							if( ( val ?? "" ).Any() )
 							{
 								var attData = database.Attributes.FirstOrDefault( a => a.Name == header );
 								if( attData == null )
