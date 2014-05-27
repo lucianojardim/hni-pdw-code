@@ -450,7 +450,7 @@
 				<tr>
 					<td style="height:31px">@Html.MJLabelFor( m => m.PaoliSpecTeamMember, true )</td><td style="height:31px">@Html.DropDownListFor( m => m.PaoliSpecTeamMember, UserController.GetUserDDList( PDWInfrastructure.PaoliWebUser.PaoliWebRole.PaoliMemberSpecTeam ) )</td>
 					<td rowspan="9" id="stFileContainer" class="double">@Html.MJLabelFor( m => m.SpecTeamNotes, true )<br />@Html.TextAreaFor( m => m.SpecTeamNotes, new { cols = 30, rows = 10 } )<br />
-					@Html.MJLabelFor( m => m.specTeamFiles, true ) @Html.DisplayFor( m => m.specTeamFileList, templateName: "FullFileListWithDelete" )<span class="littleHelp">Any file uploaded here will be available to the DSR and Sales Rep for downloading. Be sure to name your files clearly.</span><input type="file" name="specTeamFiles[0]" class="specTeamFiles" onchange="stFileChanged()" multiple /><input type="hidden" name="specTeamFiles.Index" value="0" class="specTeamFilesIndex" /></td>
+					@Html.MJLabelFor( m => m.specTeamFiles, true ) @Html.DisplayFor( m => m.specTeamFileList, templateName: "FullFileListWithDelete" )<span class="littleHelp">Any file uploaded here will be available to the DSR and Sales Rep for downloading. Be sure to name your files clearly. Click Save below to attach these files to the request.</span><input type="file" name="specTeamFiles[0]" class="specTeamFiles" onchange="stFileChanged()" multiple /><input type="hidden" name="specTeamFiles.Index" value="0" class="specTeamFilesIndex" /></td>
 
 				</tr>
 				<tr>
