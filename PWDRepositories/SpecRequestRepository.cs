@@ -364,6 +364,8 @@ namespace PWDRepositories
 				DealerPointOfContact = sInfo.DealerPOCText,
 				DealerPointOfContactEmail = sInfo.DealerPOCEmail,
 				DealerPointOfContactPhone = sInfo.DealerPOCPhone,
+				DealerPointOfContactAcctType = sInfo.DealerPOCAcctType,
+				DealerPointOfContactAcctTypeName = sInfo.DealerPOCAcctType.HasValue ? PaoliWebUser.PaoliWebRole.RoleList[sInfo.DealerPOCAcctType.Value] : "",
 				IsGSA = sInfo.IsGSA ?? false,
 				ContractID = sInfo.ContractID,
 				ContractName = sInfo.ContractID.HasValue ? sInfo.GSAContract.Name : "",
@@ -437,6 +439,7 @@ namespace PWDRepositories
 			newSpec.DealerPOCText = !newSpec.DealerSalesRepID.HasValue ? sInfo.DealerPointOfContact : null;
 			newSpec.DealerPOCEmail = !newSpec.DealerSalesRepID.HasValue ? sInfo.DealerPointOfContactEmail : null;
 			newSpec.DealerPOCPhone = !newSpec.DealerSalesRepID.HasValue ? sInfo.DealerPointOfContactPhone : null;
+			newSpec.DealerPOCAcctType = !newSpec.DealerSalesRepID.HasValue ? sInfo.DealerPointOfContactAcctType : null;
 			newSpec.RequestDate = DateTime.UtcNow;
 			newSpec.IsGSA = sInfo.IsGSA;
 			newSpec.ContractID = sInfo.ContractID;
@@ -628,6 +631,7 @@ namespace PWDRepositories
 			specInfo.DealerPOCText = !specInfo.DealerSalesRepID.HasValue ? sInfo.DealerPointOfContact : null;
 			specInfo.DealerPOCEmail = !specInfo.DealerSalesRepID.HasValue ? sInfo.DealerPointOfContactEmail : null;
 			specInfo.DealerPOCPhone = !specInfo.DealerSalesRepID.HasValue ? sInfo.DealerPointOfContactPhone : null;
+			specInfo.DealerPOCAcctType = !specInfo.DealerSalesRepID.HasValue ? sInfo.DealerPointOfContactAcctType : null;
 			specInfo.IsGSA = sInfo.IsGSA;
 			specInfo.ContractID = sInfo.ContractID;
 			specInfo.AvailableForIn2 = sInfo.AvailableForIn2;

@@ -11591,6 +11591,30 @@ namespace PDWDBContext
         private global::System.String _DealerPOCPhone;
         partial void OnDealerPOCPhoneChanging(global::System.String value);
         partial void OnDealerPOCPhoneChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> DealerPOCAcctType
+        {
+            get
+            {
+                return _DealerPOCAcctType;
+            }
+            set
+            {
+                OnDealerPOCAcctTypeChanging(value);
+                ReportPropertyChanging("DealerPOCAcctType");
+                _DealerPOCAcctType = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("DealerPOCAcctType");
+                OnDealerPOCAcctTypeChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _DealerPOCAcctType;
+        partial void OnDealerPOCAcctTypeChanging(Nullable<global::System.Int32> value);
+        partial void OnDealerPOCAcctTypeChanged();
 
         #endregion
 

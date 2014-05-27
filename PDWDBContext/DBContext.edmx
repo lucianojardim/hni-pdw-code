@@ -809,6 +809,7 @@
           <Property Name="CanceledDateTime" Type="datetime" />
           <Property Name="DealerPOCEmail" Type="nvarchar" MaxLength="200" />
           <Property Name="DealerPOCPhone" Type="nvarchar" MaxLength="20" />
+          <Property Name="DealerPOCAcctType" Type="int" />
         </EntityType>
         <EntityType Name="TAttributeOptions">
           <Key>
@@ -2983,6 +2984,7 @@
           <NavigationProperty Name="CompletedByUser" Relationship="PaoliPDWModel.fkSpecRequest_CompletedUser" FromRole="SpecRequest" ToRole="User" />
           <Property Type="String" Name="DealerPOCEmail" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="DealerPOCPhone" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="DealerPOCAcctType" />
         </EntityType>
         <Association Name="fkSpec_Company">
           <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="0..1" />
@@ -4013,6 +4015,7 @@
           <EntitySetMapping Name="SpecRequests">
             <EntityTypeMapping TypeName="PaoliPDWModel.SpecRequest">
               <MappingFragment StoreEntitySet="SpecRequests">
+                <ScalarProperty Name="DealerPOCAcctType" ColumnName="DealerPOCAcctType" />
                 <ScalarProperty Name="DealerPOCPhone" ColumnName="DealerPOCPhone" />
                 <ScalarProperty Name="DealerPOCEmail" ColumnName="DealerPOCEmail" />
                 <ScalarProperty Name="CanceledDateTime" ColumnName="CanceledDateTime" />

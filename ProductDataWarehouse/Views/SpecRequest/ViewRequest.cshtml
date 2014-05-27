@@ -110,11 +110,12 @@
 				</tr>
 				<tr>
 					<td class="dataLabel">@Html.MJLabelFor( m => m.DealerID, false )</td><td class="dataInfo">@Html.DisplayFor( m => m.DealerName )</td>
-					<td class="dataLabel">@Html.MJLabelFor( m => m.DealerMemberID, true )</td><td class="dataInfo">@if( ( Model.DealerPointOfContact ?? "" ).Any() || (Model.DealerPointOfContactEmail ?? "").Any() || (Model.DealerPointOfContactPhone ?? "").Any() )
+					<td class="dataLabel">@Html.MJLabelFor( m => m.DealerMemberID, true )</td><td class="dataInfo">@if( ( Model.DealerPointOfContact ?? "" ).Any() || ( Model.DealerPointOfContactEmail ?? "" ).Any() || ( Model.DealerPointOfContactPhone ?? "" ).Any() || ( Model.DealerPointOfContactAcctTypeName ?? "" ).Any() )
 																									{ 
 																											   @Html.DisplayFor( m => m.DealerPointOfContact )<br />
 																											   @Html.DisplayFor( m => m.DealerPointOfContactEmail )<br />
-																											   @Html.DisplayFor( m => m.DealerPointOfContactPhone )
+																											   @Html.DisplayFor( m => m.DealerPointOfContactPhone )<br />
+		 @Html.DisplayFor( m => m.DealerPointOfContactAcctTypeName )
 																									}
 																									else
 																									{

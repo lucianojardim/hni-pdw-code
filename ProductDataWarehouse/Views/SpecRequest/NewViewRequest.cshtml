@@ -69,11 +69,12 @@
 								 <h5>
 									 @Html.DisplayFor( m => m.DealerName )</h5>
 								 <h5>
-									@if( ( Model.DealerPointOfContact ?? "" ).Any() || ( Model.DealerPointOfContactEmail ?? "" ).Any() || ( Model.DealerPointOfContactPhone ?? "" ).Any() )
+									@if( ( Model.DealerPointOfContact ?? "" ).Any() || ( Model.DealerPointOfContactEmail ?? "" ).Any() || ( Model.DealerPointOfContactPhone ?? "" ).Any() || ( Model.DealerPointOfContactAcctTypeName ?? "" ).Any() )
 									{ 
 										@Html.DisplayFor( m => m.DealerPointOfContact )<br />
 										@Html.DisplayFor( m => m.DealerPointOfContactEmail )<br />
-										@Html.DisplayFor( m => m.DealerPointOfContactPhone )
+										@Html.DisplayFor( m => m.DealerPointOfContactPhone )<br />
+			 @Html.DisplayFor( m => m.DealerPointOfContactAcctTypeName )
 									}
 		 else
 		 {

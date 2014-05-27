@@ -442,6 +442,10 @@
 					<td></td><td></td>
 					<td>Phone:</td><td>@Html.TextBoxFor( m => m.DealerPointOfContactPhone )</td>
  				</tr>
+				<tr class="DSRPOCCell">
+					<td></td><td></td>
+					<td>User Type:</td><td>@Html.DropDownListFor( m => m.DealerPointOfContactAcctType, UserController.GetDealerUserRoleDDList() )</td>
+ 				</tr>
 			</table>
 		</div>
 		<div class="requestPanel bglg">

@@ -35,6 +35,7 @@
 			$('#DrawerOption').msDropdown({ visibleRows: 15 });
 			$('#FabricGrade').msDropdown({ visibleRows: 15 });
 			$('#LaminatePreference').msDropdown({ visibleRows: 15 });
+			$('#DealerPointOfContactAcctType').msDropdown();
 
 			$('input').addClass('noValidate');
 			$('select').addClass('noValidate');
@@ -280,6 +281,10 @@
 							$('#requestorList2 .coln1').append('<h5>Phone</h5>');
 							$('#requestorList2 .coln2').append('<h5>' + $('#DealerPointOfContactPhone').val() + '</h5>');
     					}
+    					if ($('#DealerPointOfContactAcctType').val() != null && $('#DealerPointOfContactAcctType').val() != '' && $('#DealerPointOfContactAcctType').val() != '0') {
+							$('#requestorList2 .coln1').append('<h5>User Type</h5>');
+							$('#requestorList2 .coln2').append('<h5>' + $('#DealerPointOfContactAcctType option:selected').text() + '</h5>');
+						}
     				}
     			}
     		}
@@ -648,6 +653,13 @@
 						<div style="width:444px;float:left;">&nbsp;</div>
 							 <cite class="DSRCell">Phone</cite>
 							 @Html.TextBoxFor( m => m.DealerPointOfContactPhone )
+						</div>
+					 </li>
+					 <li class="DSRPOCCell">
+						<div class="box2">
+						<div style="width:444px;float:left;">&nbsp;</div>
+							 <cite class="DSRCell">User Type</cite>
+							 @Html.DropDownListFor( m => m.DealerPointOfContactAcctType, UserController.GetDealerUserRoleDDList() )
 						</div>
 					 </li>
 					 

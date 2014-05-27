@@ -348,6 +348,15 @@ namespace ProductDataWarehouse.Controllers
 			return new List<SelectListItem>() { new SelectListItem() { Text = "All", Value = "0", Selected = true } }.Union( GetUserRoleDDList() );
 		}
 
+		public static IEnumerable<SelectListItem> GetDealerUserRoleDDList()
+		{
+			var theList = PaoliWebUser.PaoliWebRole.RoleList
+				.Where( r => PaoliWebUser.PaoliWebRole.IsDealerAccountType( r.Key ) )
+				.Select( u => new SelectListItem() { Value = u.Key.ToString(), Text = u.Value } );
+
+			return theList;
+		}
+
 		private static List<SelectListItem> GetJustUserDDList( List<int> accountTypes, bool enabledOnly )
 		{
 			return ( new UserRepository() ).GetUserListForAccountType( accountTypes, enabledOnly )
