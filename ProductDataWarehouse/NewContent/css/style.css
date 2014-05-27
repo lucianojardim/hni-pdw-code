@@ -98,6 +98,7 @@ header .header_btm                        { width:100%; background:url(../images
 .poly_top_rt ul li .box_cont span         { font-size:14px; color:#367ca8; font-family: 'Conv_Helvetica-Light'; display:block; padding-top:2px;}
 .poly_top_rt ul li .box_cont span a       { text-decoration:none; color:#367ca8;}
 .poly_top_rt ul li .box_cont cite         { font-size:14px; color:#454545; font-family: 'Conv_Helvetica-Light'; padding-top:4px; display:block;}
+.poly_top_rt ul li .box_cont img          { float:left; display:block; padding-right:7px; padding-top:3px; }
 .poly_top_rt ul li .box.last              { width:136px;}
 
 /* ------------------------ MIAN CONTENT HERE --------------*/

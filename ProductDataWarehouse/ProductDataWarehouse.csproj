@@ -480,6 +480,7 @@
     <Content Include="NewContent\images\checkbox.png" />
     <Content Include="NewContent\images\chopse.jpg" />
     <Content Include="NewContent\images\collateral_img.jpg" />
+    <Content Include="NewContent\images\email-us.png" />
     <Content Include="NewContent\images\favicon.ico" />
     <Content Include="NewContent\images\filter.jpg" />
     <Content Include="NewContent\images\header_bg.jpg" />
