@@ -36,5 +36,16 @@ namespace ProductDataWarehouse.Controllers
 		{
 			return ( new UserRepository() ).GetHeaderContacts( PaoliWebUser.CurrentUser.UserId );
 		}
+
+		public static string GetHomePageContent()
+		{
+			var contentArea = ( new ImportRepository() ).GetHomePageContent();
+			if( contentArea != null )
+			{
+				return contentArea.ContentArea;
+			}
+
+			return "";
+		}
     }
 }

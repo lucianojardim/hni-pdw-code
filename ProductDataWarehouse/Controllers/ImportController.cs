@@ -11,6 +11,7 @@ using System.Web.Security;
 using PDWModels.Publications;
 using PDWModels.Dealers;
 using PDWInfrastructure.Attributes;
+using PDWModels;
 
 namespace ProductDataWarehouse.Controllers
 {
@@ -118,6 +119,45 @@ namespace ProductDataWarehouse.Controllers
 				else
 				{
 					ModelState.AddModelError( "", "PDW file is required to upload new data." );
+				}
+			}
+
+			return View();
+		}
+		#endregion
+
+		#region New Home Page Management
+		[PaoliAuthorize( "CanManageNewHomePage" )]
+		[TempPasswordCheck]
+		public ActionResult NewHomePage()
+		{
+			return View( (new ImportRepository()).GetHomePageContent() );
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		[PaoliAuthorize( "CanManageNewHomePage" )]
+		[TempPasswordCheck]
+		[ValidateInput( false )]
+		public ActionResult NewHomePage( HomePageContentInformation content )
+		{
+			if( ModelState.IsValid )
+			{
+				try
+				{
+					ImportRepository iRepo = new ImportRepository();
+
+					iRepo.UpsertHomePageContent( content );
+
+					return RedirectToAction( "Index", "Home" );
+				}
+				catch( Exception ex )
+				{
+					ModelState.AddModelError( "", ex.Message );
+					if( ex.InnerException != null )
+					{
+						ModelState.AddModelError( "", ex.InnerException.Message );
+					}
 				}
 			}
 

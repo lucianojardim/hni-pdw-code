@@ -114,42 +114,8 @@
 
 </script>
                      <div class="container">
-			   
-                          <div class="main_lt">
-                              <img src="/newcontent/images/mypaoli_index_main_temp.jpg" width="600" height="400" alt="img"/>
-                               <h3>My.Paoli Gets A New Look, Simpler Interface</h3>
-                               <p>We've updated the look and feel of My.Paoli to make it easier to use. Your feedback and ideas have helped us make this new web platform even easier to use!</p>
-                               <div class="main_lt_btm">
-<!-- ******************
-***********************
-JAMES BLOCK STARTS HERE
-SECOND STORY BEGINS
-***********************
-********************--> 
-                               
-                               
-                                    <div class="main_lt_btm_lt">
-                                        <a href="http://www.paoli.com/thescoop/"><img src="/newcontent/images/mypaoli_index_smallleft_temp.jpg" width="291" height="194" alt="img"/></a>
-                                        <h3><a href="http://www.paoli.com/thescoop/">What's New On The Scoop?</a></h3>
-                                        <p>Read the latest articles, updates and news exclusively written for you and our other sales reps.</p>
-                                        <a href="http://www.paoli.com/thescoop/">view all</a>
-                                    </div>
-                                    
-<!-- ******************
-***********************
-JAMES BLOCK STARTS HERE
-THIRD STORY BEGINS
-***********************
-********************--> 
-                                    
-                                    <div class="main_lt_btm_lt last">
-                                        <a href="https://www.dropbox.com/s/voiqsxcs5ul9980/YOUniversity%20Homework%20-%20Paoli%20New%20Product%20Launch.xlsx"><img src="/newcontent/images/mypaoli_index_smallright_temp.jpg" width="291" height="194" alt="img"/></a>
-                                        <h3><a href="https://www.dropbox.com/s/voiqsxcs5ul9980/YOUniversity%20Homework%20-%20Paoli%20New%20Product%20Launch.xlsx">Have You Started Your Homework?</a></h3>
-                                        <p>Now is the time to start scheduling Post-NeoCon product launch meetings with the strategic dealerships in your territory. </p>
-                                    </div>
-                                   <i class="clear_0"></i>
-                               </div>
-                          </div>
+
+						@Html.Raw( ProductDataWarehouse.Controllers.HomeController.GetHomePageContent() )
                           <div class="main_rt">
                                <div class="main_rt_box">
                                     <div class="main_rt_box_top">

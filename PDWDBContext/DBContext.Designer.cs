@@ -794,6 +794,22 @@ namespace PDWDBContext
             }
         }
         private ObjectSet<UserLogin> _UserLogins;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<HomePageContent> HomePageContents
+        {
+            get
+            {
+                if ((_HomePageContents == null))
+                {
+                    _HomePageContents = base.CreateObjectSet<HomePageContent>("HomePageContents");
+                }
+                return _HomePageContents;
+            }
+        }
+        private ObjectSet<HomePageContent> _HomePageContents;
 
         #endregion
 
@@ -1125,6 +1141,14 @@ namespace PDWDBContext
         public void AddToUserLogins(UserLogin userLogin)
         {
             base.AddObject("UserLogins", userLogin);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the HomePageContents EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToHomePageContents(HomePageContent homePageContent)
+        {
+            base.AddObject("HomePageContents", homePageContent);
         }
 
         #endregion
@@ -6717,6 +6741,87 @@ namespace PDWDBContext
 
         #endregion
 
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="HomePageContent")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class HomePageContent : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new HomePageContent object.
+        /// </summary>
+        /// <param name="pageID">Initial value of the PageID property.</param>
+        public static HomePageContent CreateHomePageContent(global::System.Int32 pageID)
+        {
+            HomePageContent homePageContent = new HomePageContent();
+            homePageContent.PageID = pageID;
+            return homePageContent;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 PageID
+        {
+            get
+            {
+                return _PageID;
+            }
+            set
+            {
+                if (_PageID != value)
+                {
+                    OnPageIDChanging(value);
+                    ReportPropertyChanging("PageID");
+                    _PageID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("PageID");
+                    OnPageIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _PageID;
+        partial void OnPageIDChanging(global::System.Int32 value);
+        partial void OnPageIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ContentData
+        {
+            get
+            {
+                return _ContentData;
+            }
+            set
+            {
+                OnContentDataChanging(value);
+                ReportPropertyChanging("ContentData");
+                _ContentData = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ContentData");
+                OnContentDataChanged();
+            }
+        }
+        private global::System.String _ContentData;
+        partial void OnContentDataChanging(global::System.String value);
+        partial void OnContentDataChanged();
+
+        #endregion
+
+    
     }
     
     /// <summary>

@@ -1679,3 +1679,19 @@ alter table [SpecRequests] add
 go
 
 go
+/*********************************************
+ * db0071_SpecRequests_DealerPOCAcctType.sql *
+ *********************************************/
+alter table [SpecRequests] add [DealerPOCAcctType] [int] null
+go
+go
+/******************************
+ * db0072_HomePageContent.sql *
+ ******************************/
+create table [HomePageContent] (
+	[PageID] [int] identity(1,1) not null,
+	[ContentData] [nvarchar](max) null,
+	CONSTRAINT [pkHomePageContent] PRIMARY KEY CLUSTERED ([PageID])	
+) on [PRIMARY]
+go
+go

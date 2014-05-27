@@ -194,6 +194,11 @@
 	{
 				<li class="@(ViewBag.CurrentSubPage == "SearchLog" ? "on_focus" : "")"><a href="@Url.Action( "SearchLog", "Import" )">Search Log</a></li>
 	}
+	
+	@if( CurrentUser.CanManageNewHomePage )
+ {
+				<li class="@(ViewBag.CurrentSubPage == "NewHomePage" ? "on_focus" : "")"><a href="@Url.Action( "NewHomePage", "Import" )">Home Page</a></li>
+ }
 			</ul>
 			<p class="clear"></p>
 		</div>

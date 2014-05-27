@@ -505,5 +505,31 @@ namespace PWDRepositories
 
 			database.SaveChanges();
 		}
+
+		public HomePageContentInformation GetHomePageContent()
+		{
+			var content = database.HomePageContents.FirstOrDefault();
+			if( content != null )
+			{
+				return new HomePageContentInformation() { ContentArea = content.ContentData };
+			}
+
+			return new HomePageContentInformation();
+		}
+
+		public bool UpsertHomePageContent( HomePageContentInformation content )
+		{
+			var dbContent = database.HomePageContents.FirstOrDefault();
+			if( dbContent != null )
+			{
+				dbContent.ContentData = content.ContentArea;
+			}
+			else
+			{
+				database.HomePageContents.AddObject( new HomePageContent() { ContentData = content.ContentArea } );
+			}
+
+			return database.SaveChanges() > 0;
+		}
 	}
 }
