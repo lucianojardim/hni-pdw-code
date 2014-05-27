@@ -167,6 +167,32 @@ namespace PWDRepositories
 					( new NewAccountEmailSender() ).SubmitNewAccountEmail( newUser.Email, password );
 				}
 
+				if( PaoliWebUser.PaoliWebRole.IsDealerAccountType( newUser.AccountType ) )
+				{
+					database.Refresh( System.Data.Objects.RefreshMode.StoreWins, newUser );
+
+					( new NewDealerUserEmailSender() ).SubmitNewUserEmail( new NewDealerUserEmailSender.EmailUserSummary()
+						{
+							UserID = newUser.UserID,
+							EmailAddress = newUser.Email,
+							FirstName = newUser.FirstName,
+							LastName = newUser.LastName,
+							CompanyName = newUser.Company.Name,
+							Address1 = newUser.Address1,
+							Address2 = newUser.Address2,
+							City = newUser.City,
+							State = newUser.State,
+							Zip = newUser.Zip,
+							BusinessPhone = newUser.BusinessPhone,
+							CellPhone = newUser.CellPhone,
+							Title = newUser.Title,
+							AccountType = PaoliWebUser.PaoliWebRole.RoleList[newUser.AccountType],
+							Enabled = newUser.Enabled.ToString(),
+							SendWelcomeEmail = newUser.RecWelcomeEmail.ToString(),
+							IsActive = newUser.IsActive.ToString()
+						} );
+				}
+
 				return true;
 			}
 

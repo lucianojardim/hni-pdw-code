@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Email Templates\CompletedSpecRequest.htm" />
+    <Content Include="Content\Email Templates\NewDealerUserAdded.htm" />
     <Content Include="Content\Email Templates\NewSpecRequestSalesRep.htm" />
     <Content Include="Content\Email Templates\NewCollateralOrderPartialShipment.htm" />
     <Content Include="Content\Email Templates\NewCollateralOrderRequestedBy.htm" />

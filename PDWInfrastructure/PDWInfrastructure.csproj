@@ -62,6 +62,7 @@
     <Compile Include="EmailSenders\NewAccountEmailSender.cs" />
     <Compile Include="EmailSenders\NewCollateralOrderEmailSender.cs" />
     <Compile Include="EmailSenders\NewCollateralOrderShipmentEmailSender.cs" />
+    <Compile Include="EmailSenders\NewDealerUserEmailSender.cs" />
     <Compile Include="EmailSenders\NewSpecRequestEmailSender.cs" />
     <Compile Include="EmailSenders\ResetPasswordEmailSender.cs" />
     <Compile Include="EncryptionConfiguration.cs" />

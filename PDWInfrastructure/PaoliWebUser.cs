@@ -103,6 +103,12 @@ namespace PDWInfrastructure
 
 				return u.Action( "Index", "Home" );
 			}
+
+			public static bool IsDealerAccountType( int role )
+			{
+				return new List<int>() { PaoliWebRole.DealerAdmin, PaoliWebRole.DealerDesigner, 
+					PaoliWebRole.DealerPrincipal, PaoliWebRole.DealerSalesRep }.Contains( role );
+			}
 		}
 
 		private class PaoliWebIdentity : IIdentity
