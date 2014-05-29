@@ -644,14 +644,16 @@
 					 <li class="DSRPOCCell">
 						<div class="box2">
 						<div style="width:444px;float:left;">&nbsp;</div>
-							 <cite class="DSRCell">Email</cite>
+							 <cite class="DSRCell">Email
+							 @Html.ValidationMessageFor( m => m.DealerPointOfContactEmail )</cite>
 							 @Html.TextBoxFor( m => m.DealerPointOfContactEmail )
 						</div>
 					 </li>
 					 <li class="DSRPOCCell">
 						<div class="box2">
 						<div style="width:444px;float:left;">&nbsp;</div>
-							 <cite class="DSRCell">Phone</cite>
+							 <cite class="DSRCell">Phone
+							 @Html.ValidationMessageFor( m => m.DealerPointOfContactPhone )</cite>
 							 @Html.TextBoxFor( m => m.DealerPointOfContactPhone )
 						</div>
 					 </li>
