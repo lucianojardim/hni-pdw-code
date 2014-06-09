@@ -103,10 +103,10 @@
                     			return 'Canceled';
                     		} else if (oObj.aData["IsCompleted"]) {
                     			return 'Completed';
-                    		} else if (oObj.aData["IsAuditSpecOnly"]) {
-                    			return 'Pending - Spec Audit Check';
                     		} else if (oObj.aData["SpecTeamMember"] == null || oObj.aData["SpecTeamMember"] == '') {
                     			return 'Not Assigned';
+                    		} else if (oObj.aData["IsAuditSpecOnly"]) {
+                    			return 'Pending - Spec Audit Check';
                     		}
                     		return 'Pending';
                     	}
