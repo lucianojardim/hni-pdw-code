@@ -291,7 +291,7 @@ namespace PWDRepositories
 									database.Attributes.AddObject( attData );
 								}
 								var values = val.Split( ',' );
-								foreach( var indVal in values.Select( s => s.Trim() ) )
+								foreach( var indVal in values.Select( s => s.Trim() ).Where( s => s.Any() ) )
 								{
 									var optVal = attData.AttributeOptions.FirstOrDefault( ao => ao.Name == indVal );
 									if( optVal == null )
