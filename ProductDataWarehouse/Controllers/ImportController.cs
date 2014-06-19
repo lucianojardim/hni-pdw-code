@@ -628,7 +628,6 @@ namespace ProductDataWarehouse.Controllers
 			{
 				new SelectListItem() { Text = "Solid", Value = ((int)ImageInformation.LaminatePatterns.Solid).ToString() },
 				new SelectListItem() { Text = "Wood Grain", Value = ((int)ImageInformation.LaminatePatterns.WoodGrain).ToString() },
-				new SelectListItem() { Text = "Pattern", Value = ((int)ImageInformation.LaminatePatterns.Pattern).ToString() },
 			};
 		}
 

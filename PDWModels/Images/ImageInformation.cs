@@ -48,8 +48,7 @@ namespace PDWModels.Images
 		public enum LaminatePatterns
 		{
 			Solid = 4, 
-			WoodGrain = 5,
-			Pattern = 6
+			WoodGrain = 5
 		}
 
 		public int ImageID { get; set; }
