@@ -177,6 +177,7 @@ namespace PWDRepositories
 						case "keywords":
 						case "in2 price list":
 						case "interactive price list":
+						case "government price list":
 							if( ( val ?? "" ).Any() )
 							{
 								var attData = database.Attributes.FirstOrDefault( a => a.Name == header );
