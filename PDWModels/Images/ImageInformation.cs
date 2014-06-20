@@ -79,6 +79,8 @@ namespace PDWModels.Images
 		public string FeaturedFinish { get; set; }
 		[DisplayName( "Finish Type" )]
 		public int? FinishType { get; set; }
+		[DisplayName( "Finish Code" )]
+		public string FinishCode { get; set; }
 		[DisplayName( "Laminate Pattern" )]
 		public int? LaminatePattern { get; set; }
 		[DisplayName( "Is LPL Available?" )]

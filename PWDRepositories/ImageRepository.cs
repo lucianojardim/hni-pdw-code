@@ -67,6 +67,7 @@ namespace PWDRepositories
 				FeaturedPull = img.FeaturedPull,
 				FeaturedFinish = img.FeaturedFinish,
 				FinishType = img.FinishType,
+				FinishCode = img.FinishCode,
 				LaminatePattern = img.LaminatePattern,
 				LaminateIsLPL = img.LaminateIsLPL,
 				LaminateIsHPL = img.LaminateIsHPL,
@@ -442,6 +443,11 @@ namespace PWDRepositories
 
 				if( aOption != null )
 				{
+					if( ( img.FinishCode ?? "" ).Any() )
+					{
+						aOption.Name += (" (" + img.FinishCode + ")");
+					}
+
 					return ToImageItemDetails( aOption, img );
 				}
 			}
@@ -712,6 +718,7 @@ namespace PWDRepositories
 			imgData.ImageContent = imgInfo.ImageContent;
 			imgData.FeaturedFinish = imgInfo.FeaturedFinish;
 			imgData.FinishType = imgInfo.FinishType;
+			imgData.FinishCode = imgInfo.FinishCode;
 			imgData.LaminatePattern = imgInfo.LaminatePattern;
 			imgData.LaminateIsLPL = imgInfo.LaminateIsLPL;
 			imgData.LaminateIsHPL = imgInfo.LaminateIsHPL;
@@ -748,6 +755,7 @@ namespace PWDRepositories
 			imgData.ImageContent = imgInfo.ImageContent;
 			imgData.FeaturedFinish = imgInfo.FeaturedFinish;
 			imgData.FinishType = imgInfo.FinishType;
+			imgData.FinishCode = imgInfo.FinishCode;
 			imgData.LaminatePattern = imgInfo.LaminatePattern;
 			imgData.LaminateIsLPL = imgInfo.LaminateIsLPL;
 			imgData.LaminateIsHPL = imgInfo.LaminateIsHPL;

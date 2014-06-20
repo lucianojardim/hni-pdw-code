@@ -611,6 +611,7 @@
           <Property Name="VeneerSpecies" Type="int" />
           <Property Name="LaminateIsHPL" Type="bit" Nullable="false" />
           <Property Name="LaminateIsLPL" Type="bit" Nullable="false" />
+          <Property Name="FinishCode" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="PageLinks">
           <Key>
@@ -808,13 +809,13 @@
           <Property Name="NeedXLSFiles" Type="bit" Nullable="false" />
           <Property Name="NeedPDFFiles" Type="bit" Nullable="false" />
           <Property Name="GrommetPosition" Type="ntext" />
-          <Property Name="SpecTeamNotes" Type="ntext" />
-          <Property Name="ContractID" Type="int" />
           <Property Name="CompletedByUserID" Type="int" />
           <Property Name="CompletedDateTime" Type="datetime" />
           <Property Name="IsCanceled" Type="bit" Nullable="false" />
           <Property Name="CanceledByUserID" Type="int" />
           <Property Name="CanceledDateTime" Type="datetime" />
+          <Property Name="SpecTeamNotes" Type="ntext" />
+          <Property Name="ContractID" Type="int" />
           <Property Name="DealerPOCEmail" Type="nvarchar" MaxLength="200" />
           <Property Name="DealerPOCPhone" Type="nvarchar" MaxLength="20" />
           <Property Name="DealerPOCAcctType" Type="int" />
@@ -2396,6 +2397,7 @@
           <Property Type="Int32" Name="VeneerSpecies" />
           <Property Type="Boolean" Name="LaminateIsHPL" Nullable="false" />
           <Property Type="Boolean" Name="LaminateIsLPL" Nullable="false" />
+          <Property Type="String" Name="FinishCode" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SeriesImageFile">
           <Key>
@@ -3734,6 +3736,7 @@
           <EntitySetMapping Name="ImageFiles">
             <EntityTypeMapping TypeName="PaoliPDWModel.ImageFile">
               <MappingFragment StoreEntitySet="ImageFiles">
+                <ScalarProperty Name="FinishCode" ColumnName="FinishCode" />
                 <ScalarProperty Name="LaminateIsLPL" ColumnName="LaminateIsLPL" />
                 <ScalarProperty Name="LaminateIsHPL" ColumnName="LaminateIsHPL" />
                 <ScalarProperty Name="VeneerSpecies" ColumnName="VeneerSpecies" />

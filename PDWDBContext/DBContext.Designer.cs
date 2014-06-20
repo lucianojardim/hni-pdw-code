@@ -7497,6 +7497,30 @@ namespace PDWDBContext
         private global::System.Boolean _LaminateIsLPL;
         partial void OnLaminateIsLPLChanging(global::System.Boolean value);
         partial void OnLaminateIsLPLChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String FinishCode
+        {
+            get
+            {
+                return _FinishCode;
+            }
+            set
+            {
+                OnFinishCodeChanging(value);
+                ReportPropertyChanging("FinishCode");
+                _FinishCode = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("FinishCode");
+                OnFinishCodeChanged();
+            }
+        }
+        private global::System.String _FinishCode;
+        partial void OnFinishCodeChanging(global::System.String value);
+        partial void OnFinishCodeChanged();
 
         #endregion
 

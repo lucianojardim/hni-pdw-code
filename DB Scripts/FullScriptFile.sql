@@ -1695,3 +1695,9 @@ create table [HomePageContent] (
 ) on [PRIMARY]
 go
 go
+/***********************************
+ * db0073_ImageFile_FinishCode.sql *
+ ***********************************/
+alter table [ImageFiles] add [FinishCode] [nvarchar](20) null
+go
+go
