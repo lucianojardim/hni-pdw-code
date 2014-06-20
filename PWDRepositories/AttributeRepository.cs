@@ -173,10 +173,13 @@ namespace PWDRepositories
 					aoi.VeneerGrade = ( img.FinishType == (int)PDWModels.Images.ImageInformation.FinishTypes.Veneer ) ? ( img.VeneerGrade ?? 0 ) : 0;
 					aoi.VeneerSpecies = ( img.FinishType == (int)PDWModels.Images.ImageInformation.FinishTypes.Veneer ) ? ( img.VeneerSpecies ?? 0 ) : 0;
 					aoi.FeaturedImage = img.ThumbnailImageData( "s16to9" );
+					aoi.Popularity = (aoi.VeneerGrade == (int)PDWModels.Images.ImageInformation.VeneerGrades.Premium ? 4 : 0) + 
+						(aoi.FinishType == (int)PDWModels.Images.ImageInformation.FinishTypes.Seating ? 2 : 0) +
+						1; // those with images go higher
 				}
 			} );
 
-			return aList;
+			return aList.OrderByDescending( a => a.Popularity );
 		}
 
 		public CMInformation GetImageCMInfo( int imageId )

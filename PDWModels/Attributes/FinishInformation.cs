@@ -19,5 +19,6 @@ namespace PDWModels.Attributes
 		public ImageComboItem FeaturedImage { get; set; }
 		public IEnumerable<string> Serieses { get; set; }
 		public string Caption { get; set; }
+		public int Popularity { get; set; }
 	}
 }
