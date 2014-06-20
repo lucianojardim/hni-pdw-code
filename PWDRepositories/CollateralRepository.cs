@@ -536,7 +536,7 @@ namespace PWDRepositories
 			summary.orderDetailList.AddRange( orderInfo.CollateralOrderDetails
 				.Where( cod => cod.GroupNKID.HasValue )
 				.GroupBy( cod => cod.GroupNKID )
-				.Select( codList => string.Format( "{0}, Qty. {1}", codList.First().ItemName, codList.Max( cod => cod.Quantity / cod.GroupQuantity ) ) ) );
+				.Select( codList => string.Format( "{0}, Qty. {1}", codList.First().GroupName, codList.Max( cod => cod.Quantity / cod.GroupQuantity ) ) ) );
 			summary.orderDetailList.Sort();
 
 			switch( orderInfo.RequestingParty )
