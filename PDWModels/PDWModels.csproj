@@ -43,6 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Articles\ArticleDisplayInfo.cs" />
+    <Compile Include="Articles\ArticleInformation.cs" />
+    <Compile Include="Articles\ArticleSummary.cs" />
+    <Compile Include="Articles\ArticleViewDetails.cs" />
     <Compile Include="Attributes\AttributeComboItem.cs" />
     <Compile Include="Attributes\AttributeInformation.cs" />
     <Compile Include="Attributes\CMInformation.cs" />

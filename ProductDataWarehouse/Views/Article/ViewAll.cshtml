@@ -1,0 +1,19 @@
+﻿@model IEnumerable<PDWModels.Articles.ArticleSummary>
+@{
+    ViewBag.Title = "ViewAll";
+    Layout = "~/Views/Shared/NewLayout.cshtml";
+}
+
+<div class="container">
+	<div class="main_inner1">
+		<h2>Article List</h2>
+
+@foreach( var article in Model )
+{
+			<div>
+				<a href="@Url.Action( "View", new { id = article.ArticleID } )">@article.Title</a><br />
+				Published by @article.Author on @article.PublishDate
+			</div>
+}
+	</div>
+</div>

@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArticleTableParams.cs" />
     <Compile Include="Attributes\TempPasswordCheckAttribute.cs" />
     <Compile Include="CollateralOrderTableParams.cs" />
     <Compile Include="CollateralTableParams.cs" />

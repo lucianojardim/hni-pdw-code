@@ -810,6 +810,22 @@ namespace PDWDBContext
             }
         }
         private ObjectSet<HomePageContent> _HomePageContents;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<ScoopArticle> ScoopArticles
+        {
+            get
+            {
+                if ((_ScoopArticles == null))
+                {
+                    _ScoopArticles = base.CreateObjectSet<ScoopArticle>("ScoopArticles");
+                }
+                return _ScoopArticles;
+            }
+        }
+        private ObjectSet<ScoopArticle> _ScoopArticles;
 
         #endregion
 
@@ -1149,6 +1165,14 @@ namespace PDWDBContext
         public void AddToHomePageContents(HomePageContent homePageContent)
         {
             base.AddObject("HomePageContents", homePageContent);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the ScoopArticles EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToScoopArticles(ScoopArticle scoopArticle)
+        {
+            base.AddObject("ScoopArticles", scoopArticle);
         }
 
         #endregion
@@ -8103,6 +8127,329 @@ namespace PDWDBContext
 
         #endregion
 
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="ScoopArticle")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class ScoopArticle : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new ScoopArticle object.
+        /// </summary>
+        /// <param name="articleID">Initial value of the ArticleID property.</param>
+        /// <param name="rank">Initial value of the Rank property.</param>
+        public static ScoopArticle CreateScoopArticle(global::System.Int32 articleID, global::System.Int32 rank)
+        {
+            ScoopArticle scoopArticle = new ScoopArticle();
+            scoopArticle.ArticleID = articleID;
+            scoopArticle.Rank = rank;
+            return scoopArticle;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ArticleID
+        {
+            get
+            {
+                return _ArticleID;
+            }
+            set
+            {
+                if (_ArticleID != value)
+                {
+                    OnArticleIDChanging(value);
+                    ReportPropertyChanging("ArticleID");
+                    _ArticleID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ArticleID");
+                    OnArticleIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ArticleID;
+        partial void OnArticleIDChanging(global::System.Int32 value);
+        partial void OnArticleIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String BigHeadline
+        {
+            get
+            {
+                return _BigHeadline;
+            }
+            set
+            {
+                OnBigHeadlineChanging(value);
+                ReportPropertyChanging("BigHeadline");
+                _BigHeadline = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("BigHeadline");
+                OnBigHeadlineChanged();
+            }
+        }
+        private global::System.String _BigHeadline;
+        partial void OnBigHeadlineChanging(global::System.String value);
+        partial void OnBigHeadlineChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String BigText
+        {
+            get
+            {
+                return _BigText;
+            }
+            set
+            {
+                OnBigTextChanging(value);
+                ReportPropertyChanging("BigText");
+                _BigText = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("BigText");
+                OnBigTextChanged();
+            }
+        }
+        private global::System.String _BigText;
+        partial void OnBigTextChanging(global::System.String value);
+        partial void OnBigTextChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String BigImageURL
+        {
+            get
+            {
+                return _BigImageURL;
+            }
+            set
+            {
+                OnBigImageURLChanging(value);
+                ReportPropertyChanging("BigImageURL");
+                _BigImageURL = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("BigImageURL");
+                OnBigImageURLChanged();
+            }
+        }
+        private global::System.String _BigImageURL;
+        partial void OnBigImageURLChanging(global::System.String value);
+        partial void OnBigImageURLChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String SmallHeadline
+        {
+            get
+            {
+                return _SmallHeadline;
+            }
+            set
+            {
+                OnSmallHeadlineChanging(value);
+                ReportPropertyChanging("SmallHeadline");
+                _SmallHeadline = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("SmallHeadline");
+                OnSmallHeadlineChanged();
+            }
+        }
+        private global::System.String _SmallHeadline;
+        partial void OnSmallHeadlineChanging(global::System.String value);
+        partial void OnSmallHeadlineChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String SmallText
+        {
+            get
+            {
+                return _SmallText;
+            }
+            set
+            {
+                OnSmallTextChanging(value);
+                ReportPropertyChanging("SmallText");
+                _SmallText = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("SmallText");
+                OnSmallTextChanged();
+            }
+        }
+        private global::System.String _SmallText;
+        partial void OnSmallTextChanging(global::System.String value);
+        partial void OnSmallTextChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String SmallImageURL
+        {
+            get
+            {
+                return _SmallImageURL;
+            }
+            set
+            {
+                OnSmallImageURLChanging(value);
+                ReportPropertyChanging("SmallImageURL");
+                _SmallImageURL = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("SmallImageURL");
+                OnSmallImageURLChanged();
+            }
+        }
+        private global::System.String _SmallImageURL;
+        partial void OnSmallImageURLChanging(global::System.String value);
+        partial void OnSmallImageURLChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ContentBlock
+        {
+            get
+            {
+                return _ContentBlock;
+            }
+            set
+            {
+                OnContentBlockChanging(value);
+                ReportPropertyChanging("ContentBlock");
+                _ContentBlock = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ContentBlock");
+                OnContentBlockChanged();
+            }
+        }
+        private global::System.String _ContentBlock;
+        partial void OnContentBlockChanging(global::System.String value);
+        partial void OnContentBlockChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Title
+        {
+            get
+            {
+                return _Title;
+            }
+            set
+            {
+                OnTitleChanging(value);
+                ReportPropertyChanging("Title");
+                _Title = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Title");
+                OnTitleChanged();
+            }
+        }
+        private global::System.String _Title;
+        partial void OnTitleChanging(global::System.String value);
+        partial void OnTitleChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> PubDate
+        {
+            get
+            {
+                return _PubDate;
+            }
+            set
+            {
+                OnPubDateChanging(value);
+                ReportPropertyChanging("PubDate");
+                _PubDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("PubDate");
+                OnPubDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _PubDate;
+        partial void OnPubDateChanging(Nullable<global::System.DateTime> value);
+        partial void OnPubDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String AuthorName
+        {
+            get
+            {
+                return _AuthorName;
+            }
+            set
+            {
+                OnAuthorNameChanging(value);
+                ReportPropertyChanging("AuthorName");
+                _AuthorName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("AuthorName");
+                OnAuthorNameChanged();
+            }
+        }
+        private global::System.String _AuthorName;
+        partial void OnAuthorNameChanging(global::System.String value);
+        partial void OnAuthorNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Rank
+        {
+            get
+            {
+                return _Rank;
+            }
+            set
+            {
+                OnRankChanging(value);
+                ReportPropertyChanging("Rank");
+                _Rank = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Rank");
+                OnRankChanged();
+            }
+        }
+        private global::System.Int32 _Rank;
+        partial void OnRankChanging(global::System.Int32 value);
+        partial void OnRankChanged();
+
+        #endregion
+
+    
     }
     
     /// <summary>

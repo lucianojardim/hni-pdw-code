@@ -115,12 +115,41 @@
 </script>
                      <div class="container">
 
-						@Html.Raw( ProductDataWarehouse.Controllers.HomeController.GetHomePageContent() )
+					 <div class="main_lt">
+					 @{
+						 var articleList = ProductDataWarehouse.Controllers.HomeController.GetHomePageContent();
+						 
+					 }
+					 
+					 @if( articleList.Count > 0 )
+	  {
+	<a href="@Url.Action( "View", "Article", new { id = articleList[0].ArticleID } )"><img src="@articleList[0].ImageURL" alt="img" width="600"/> </a>                     
+	<a href="@Url.Action( "View", "Article", new { id = articleList[0].ArticleID } )"><h3>@articleList[0].Headline</h3> </a>                               
+    <p>@articleList[0].Subheadline</p>                                 
+	  }
+	  @for( int row = 0; row < articleList.Count / 2; row++ )
+   {
+	<div class="main_lt_btm">                                      
+	   @for( int col = (row * 2) + 1; col < articleList.Count && col < (row * 2) + 3; col++ )
+	   {
+       <div class="main_lt_btm_lt @if( col % 2 == 0 ) { <text>last</text> }">                                          
+        	<a href="@Url.Action( "View", "Article", new { id = articleList[col].ArticleID } )" target="_blank"><img src="@articleList[col].ImageURL" alt="img" width="291"></a>                                          
+            <h3><a href="@Url.Action( "View", "Article", new { id = articleList[col].ArticleID } )" target="_blank">@articleList[col].Headline</a></h3>                                          
+            <p>@articleList[col].Subheadline</p>                                          
+       </div>                                      
+	   }
+	   </div>
+       <i class="clear_0"></i>                                 
+   }
+   <div class="main_lt_btm">
+   <a href="@Url.Action( "ViewAll", "Article" )">view all</a>
+   </div>
+						</div>
                           <div class="main_rt">
                                <div class="main_rt_box">
                                     <div class="main_rt_box_top">
                                         <h3><a href="@Url.Action( CurrentUser.CanManageOrders ? "Orders" : "ViewOrders", "Collateral" )"><cite><img src="/newcontent/images/collateral_img.jpg" width="22" height="24" alt="img"/></cite>Collateral Store</a> <span>@if( CurrentUser.CanAddOrders )
-																																												   { <a href="@Url.Action( "AddOrder", "Collateral" )"><img src="/newcontent/images/plus.jpg" width="15" height="15" alt="img"/></a> } </span></h3>
+																																																																	{ <a href="@Url.Action( "AddOrder", "Collateral" )"><img src="/newcontent/images/plus.jpg" width="15" height="15" alt="img"/></a> } </span></h3>
                                     </div>
                                  <div class="main_rt_box_btm" id="collateralOrderList">
                                         
@@ -140,7 +169,7 @@
                                <div class="main_rt_box">
                                     <div class="main_rt_box_top">
                                         <h3><a href="@Url.Action( CurrentUser.CanManageOrders ? "Manage" : "ViewAll", "SpecRequest" )"><cite><img src="/newcontent/images/quotes.jpg" width="22" height="22" alt="img"/></cite>Quotes &amp; Spec Requests</a> <span>@if( CurrentUser.CanAddSpecRequests )
-																																													 { <a href="@Url.Action( "AddRequest", "SpecRequest" )"><img src="/newcontent/images/plus.jpg" width="15" height="15" alt="img"/></a> } </span></h3>
+																																																																	{ <a href="@Url.Action( "AddRequest", "SpecRequest" )"><img src="/newcontent/images/plus.jpg" width="15" height="15" alt="img"/></a> } </span></h3>
                                     </div>
                                     <div class="main_rt_box_btm" id="specRequestList">
                                         

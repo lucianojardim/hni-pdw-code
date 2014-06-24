@@ -269,6 +269,10 @@ namespace PDWInfrastructure
 					PaoliWebRole.PaoliMemberMarketing, PaoliWebRole.PaoliMemberSpecTeam ); } }
 		public bool CanAddOrders { get { return CanManageOrders || OneOfRoles( PaoliWebRole.PaoliSalesRep ) || IsDealerUser; } }
 
+		public bool CanManageArticles { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin,
+					PaoliWebRole.PaoliMemberCustomerService, PaoliWebRole.PaoliMemberSales,
+					PaoliWebRole.PaoliMemberMarketing, PaoliWebRole.PaoliMemberSpecTeam ); } }
+
 		public string ProductsHomePage
 		{
 			get

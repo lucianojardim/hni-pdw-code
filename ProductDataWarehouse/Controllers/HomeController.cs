@@ -7,6 +7,7 @@ using PDWInfrastructure;
 using PWDRepositories;
 using PDWInfrastructure.Attributes;
 using PDWModels.Users;
+using PDWModels.Articles;
 
 namespace ProductDataWarehouse.Controllers
 {
@@ -37,15 +38,15 @@ namespace ProductDataWarehouse.Controllers
 			return ( new UserRepository() ).GetHeaderContacts( PaoliWebUser.CurrentUser.UserId );
 		}
 
-		public static string GetHomePageContent()
+		public static List<ArticleDisplayInfo> GetHomePageContent()
 		{
-			var contentArea = ( new ImportRepository() ).GetHomePageContent();
+			var contentArea = ( new ArticleRepository() ).GetMainArticleList();
 			if( contentArea != null )
 			{
-				return contentArea.ContentArea;
+				return contentArea.ToList();
 			}
 
-			return "";
+			return new List<ArticleDisplayInfo>();
 		}
     }
 }

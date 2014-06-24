@@ -1,0 +1,79 @@
+﻿@model PDWModels.Articles.ArticleInformation
+@{
+	ViewBag.Title = "Add Article";
+	ViewBag.CurrentPage = "Database";
+	ViewBag.CurrentSubPage = "Articles";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+
+
+    <script type="text/javascript">
+    	$(document).ready(function () {
+    		$('#PubDate').datepicker(
+            {
+            	dateFormat: "mm/dd/yy",
+            	changeMonth: true,
+            	changeYear: true
+            });
+
+    		$('#previewBtn').click(function () {
+    			$.ajax({
+    				dataType: 'json',
+    				type: 'POST',
+    				url: '/Article/SavePreview',
+    				data: { ContentBlock: $('#ContentBlock').val() },
+    				success: function (data, textStatus, jqXHR) {
+    					window.open('@Url.Action( "Preview" )');
+    				},
+    				error: function (jqXHR, textStatus, errorThrown) {
+    					alert('Error previewing this Article:' + errorThrown)
+    				}
+    			});
+
+    		});
+    	});
+
+    </script>    
+
+    <h2>Add Article</h2>
+
+    @using( Html.BeginForm( "Add", "Article", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
+	{
+		@Html.AntiForgeryToken()
+		<table cellpadding="0" cellspacing="0" class="dataLayout">
+        <tr>
+		<td>Title</td><td>@Html.TextBoxFor( m => m.Title )</td>
+		</tr>
+		<tr>
+		<td>Author Name</td><td>@Html.TextBoxFor( m => m.AuthorName )</td>
+		<td>Publication Date</td><td>@Html.EditorFor( m => m.PubDate )</td>
+		</tr>
+		<tr>
+		<td colspan="2"><h3>Big Article Information</h3></td>
+		<td colspan="2"><h3>Small Article Information</h3></td>
+		</tr>
+        <tr>
+		<td>Headline</td><td>@Html.TextBoxFor( m => m.BigHeadline )</td>
+		<td>Headline</td><td>@Html.TextBoxFor( m => m.SmallHeadline )</td>
+		</tr>
+        <tr>
+		<td>Sub-Headline</td><td>@Html.TextBoxFor( m => m.BigText )</td>
+		<td>Sub-Headline</td><td>@Html.TextBoxFor( m => m.SmallText )</td>
+		</tr>
+        <tr>
+		<td>Image URL</td><td>@Html.TextBoxFor( m => m.BigImageURL )</td>
+		<td>Image URL</td><td>@Html.TextBoxFor( m => m.SmallImageURL )</td>
+		</tr>
+        <tr>
+		<td colspan="4"><h3>Content Block</h3></td>
+		</tr>
+		<tr>
+		<td colspan="4">@Html.TextAreaFor( m => m.ContentBlock, new { style = "width:100%", rows = "30" } )</td>
+		</tr>
+		</table>
+@Html.ValidationSummary()
+        <input type="submit" class="btn_type1" value="Add" id="submitBtn" />
+        <input type="button" class="btn_type1" value="Preview" id="previewBtn" />
+	}

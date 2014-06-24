@@ -1,0 +1,132 @@
+﻿@{
+	ViewBag.Title = "Articles";
+	ViewBag.CurrentPage = "Database";
+	ViewBag.CurrentSubPage = "Articles";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+
+<h2>Article List</h2>
+
+<a href="@Url.Action( "Add", "Article" )" id="addNewArticle">Add New</a><br />
+<div>
+    <table id="articleList">
+    <thead></thead>
+    <tfoot></tfoot>
+    </table>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		loadArticles();
+	});
+
+	function moveArticle(aID, d) {
+		$.ajax({
+			dataType: 'json',
+			type: 'GET',
+			url: '/Article/Move',
+			data: { id: aID, direction: d },
+			success: function (data, textStatus, jqXHR) {
+				loadArticles();
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				alert('Error moving this Article:' + errorThrown)
+			}
+		});
+	}
+
+	function deleteArticle(dID) {
+		if (confirm('Delete Article?')) {
+			$.ajax({
+				dataType: 'json',
+				type: 'GET',
+				url: '/Article/Delete',
+				data: { id: dID },
+				success: function (data, textStatus, jqXHR) {
+					loadArticles();
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					alert('Error deleting this Article:' + errorThrown)
+				}
+			});
+		}
+	}
+
+	var oTable = null;
+	var totalArticles = 0;
+	function loadArticles() {
+		if (oTable != null) {
+			oTable.fnDraw(false);
+			return;
+		}
+
+		oTable = $('#articleList').dataTable({
+			"bServerSide": true,
+			"bAutoWidth": false,
+			"bFilter": true,
+			"bLengthChange": false, // don't show dropdown for #items per page
+			"bPaginate": true,
+			"bInfo": true,
+			"sAjaxSource": '@Url.Action( "FullArticleList" )',
+			"fnServerParams": function (aoData) {
+			},
+			"iDisplayLength": 100,
+			"fnServerData": function (sSource, aoData, fnCallback) {
+				$.ajax({
+					dataType: 'json',
+					type: "POST",
+					url: sSource,
+					data: aoData,
+					success: function (data, textStatus, jqXHR) {
+						totalArticles = data.iTotalRecords;
+						fnCallback(data, textStatus, jqXHR);
+					},
+					error: function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Articles:' + errorThrown) }
+				})
+			},
+			"bProcessing": false, // don't want to use the default progress indicator at this time
+			"aaSorting": [[0, "asc"]],
+			"aoColumnDefs": [
+                    { "sName": "Title", "sTitle": "Title", "aTargets": [0], "mDataProp": "Title", "bSortable": false, "sWidth": "55%" },
+                    { "sName": "PublishDate", "sTitle": "Publish Date", "aTargets": [1], "mDataProp": "PublishDate", "bSortable": false, "sWidth": "15%" },
+					{ "sName": "RankButtons",
+						"aTargets": [2],
+						"bSearchable": false,
+						"bSortable": false,
+						"mDataProp": "RankButtons", "sWidth": "15%",
+						"fnRender": function (oObj) {
+							var s = '';
+							if (oObj.aData["Rank"] > 1) {
+								s += ('<a onclick="moveArticle(' + oObj.aData["ArticleID"] + ',-2);return false;" href="#" ><i class="fa fa-angle-double-left fa-fw"></i></a>');
+								s += ('<a onclick="moveArticle(' + oObj.aData["ArticleID"] + ',-1);return false;" href="#" ><i class="fa fa-angle-left fa-fw"></i></a>');
+							} else {
+								s += '<i class="fa fa-fw"></i>';
+								s += '<i class="fa fa-fw"></i>';
+							}
+							if (oObj.aData["Rank"] < totalArticles) {
+								s += ('<a onclick="moveArticle(' + oObj.aData["ArticleID"] + ',1);return false;" href="#" ><i class="fa fa-angle-right fa-fw"></i></a>');
+								s += ('<a onclick="moveArticle(' + oObj.aData["ArticleID"] + ',2);return false;" href="#" ><i class="fa fa-angle-double-right fa-fw"></i></a>');
+							} else {
+								s += '<i class="fa fa-fw"></i>';
+								s += '<i class="fa fa-fw"></i>';
+							}
+							return s;
+						}
+					},
+                    { "sName": "EditButtons",
+                    	"aTargets": [3],
+                    	"bSearchable": false,
+                    	"bSortable": false,
+                    	"mDataProp": "EditButtons", "sWidth": "15%",
+                    	"fnRender": function (oObj) {
+                    		var s = '<a href=\"@Url.Action( "Edit", "Article" )/' + oObj.aData["ArticleID"] + '">Edit</a>';
+                    		s += ' | ';
+                    		s += '<a href=\"#\" onclick="deleteArticle(' + oObj.aData["ArticleID"] + ');">Delete</a>';
+                    		return s;
+                    	}
+                    }
+                ]
+		});
+	}
+
+</script>
