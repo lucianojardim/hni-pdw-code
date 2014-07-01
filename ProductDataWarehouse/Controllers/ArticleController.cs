@@ -122,7 +122,7 @@ namespace ProductDataWarehouse.Controllers
 		[ValidateInput( false )]
 		public JsonResult SavePreview( ArticleInformation aInfo )
 		{
-			Session["PreviewArticle"] = aInfo.ContentBlock;
+			Session["PreviewArticle"] = aInfo;
 
 			return Json( new
 			{
@@ -188,7 +188,7 @@ namespace ProductDataWarehouse.Controllers
 				return RedirectToAction( "Manage" );
 			}
 
-			return View( "View", new ArticleViewDetails() { Content = Session["PreviewArticle"].ToString() } );
+			return View( "View", (new ArticleRepository()).GetArticlePreview( (ArticleInformation)Session["PreviewArticle"] ) );
 		}
 	}
 }

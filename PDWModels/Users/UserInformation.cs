@@ -21,6 +21,8 @@ namespace PDWModels.Users
 		public bool SendWelcomeEmail { get; set; }
 		[DisplayName( "Is Active" )]
 		public bool IsActive { get; set; }
+		[DisplayName( "Author Credit" )]
+		public string AuthorCredit { get; set; }
 
 		public bool LockAccountType { get; set; }
 	}

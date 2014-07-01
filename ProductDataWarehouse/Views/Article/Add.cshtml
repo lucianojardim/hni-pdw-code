@@ -23,7 +23,13 @@
     				dataType: 'json',
     				type: 'POST',
     				url: '/Article/SavePreview',
-    				data: { ContentBlock: $('#ContentBlock').val() },
+    				data: {
+    					ContentBlock: $('#ContentBlock').val(),
+    					BigHeadline: $('#BigHeadline').val(),
+    					BigImageURL: $('#BigImageURL').val(),
+    					PubDate: $('#PubDate').val(),
+    					AuthorID: $('#AuthorID').val()
+    				},
     				success: function (data, textStatus, jqXHR) {
     					window.open('@Url.Action( "Preview" )');
     				},
@@ -47,7 +53,7 @@
 		<td>Title</td><td>@Html.TextBoxFor( m => m.Title )</td>
 		</tr>
 		<tr>
-		<td>Author Name</td><td>@Html.TextBoxFor( m => m.AuthorName )</td>
+		<td>Author Name</td><td>@Html.DropDownListFor( m => m.AuthorID, UserController.GetPaoliMemberDDList( true ) )</td>
 		<td>Publication Date</td><td>@Html.EditorFor( m => m.PubDate )</td>
 		</tr>
 		<tr>

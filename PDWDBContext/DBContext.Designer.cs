@@ -88,6 +88,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSpecRequest_CanceledUser", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSpecRequest_CompletedUser", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkLogin_User", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.User), "UserLogin", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.UserLogin), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkScoopArticle_User", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.User), "ScoopArticle", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.ScoopArticle), true)]
 
 #endregion
 
@@ -8143,11 +8144,13 @@ namespace PDWDBContext
         /// Create a new ScoopArticle object.
         /// </summary>
         /// <param name="articleID">Initial value of the ArticleID property.</param>
+        /// <param name="authorID">Initial value of the AuthorID property.</param>
         /// <param name="rank">Initial value of the Rank property.</param>
-        public static ScoopArticle CreateScoopArticle(global::System.Int32 articleID, global::System.Int32 rank)
+        public static ScoopArticle CreateScoopArticle(global::System.Int32 articleID, global::System.Int32 authorID, global::System.Int32 rank)
         {
             ScoopArticle scoopArticle = new ScoopArticle();
             scoopArticle.ArticleID = articleID;
+            scoopArticle.AuthorID = authorID;
             scoopArticle.Rank = rank;
             return scoopArticle;
         }
@@ -8402,26 +8405,26 @@ namespace PDWDBContext
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String AuthorName
+        public global::System.Int32 AuthorID
         {
             get
             {
-                return _AuthorName;
+                return _AuthorID;
             }
             set
             {
-                OnAuthorNameChanging(value);
-                ReportPropertyChanging("AuthorName");
-                _AuthorName = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("AuthorName");
-                OnAuthorNameChanged();
+                OnAuthorIDChanging(value);
+                ReportPropertyChanging("AuthorID");
+                _AuthorID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("AuthorID");
+                OnAuthorIDChanged();
             }
         }
-        private global::System.String _AuthorName;
-        partial void OnAuthorNameChanging(global::System.String value);
-        partial void OnAuthorNameChanged();
+        private global::System.Int32 _AuthorID;
+        partial void OnAuthorIDChanging(global::System.Int32 value);
+        partial void OnAuthorIDChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -8450,6 +8453,48 @@ namespace PDWDBContext
         #endregion
 
     
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkScoopArticle_User", "User")]
+        public User User
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkScoopArticle_User", "User").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkScoopArticle_User", "User").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<User> UserReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkScoopArticle_User", "User");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("PaoliPDWModel.fkScoopArticle_User", "User", value);
+                }
+            }
+        }
+
+        #endregion
+
     }
     
     /// <summary>
@@ -15103,6 +15148,30 @@ namespace PDWDBContext
         private global::System.Boolean _IsActive;
         partial void OnIsActiveChanging(global::System.Boolean value);
         partial void OnIsActiveChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String AuthorCredit
+        {
+            get
+            {
+                return _AuthorCredit;
+            }
+            set
+            {
+                OnAuthorCreditChanging(value);
+                ReportPropertyChanging("AuthorCredit");
+                _AuthorCredit = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("AuthorCredit");
+                OnAuthorCreditChanged();
+            }
+        }
+        private global::System.String _AuthorCredit;
+        partial void OnAuthorCreditChanging(global::System.String value);
+        partial void OnAuthorCreditChanged();
 
         #endregion
 
@@ -15555,6 +15624,28 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<UserLogin>("PaoliPDWModel.fkLogin_User", "UserLogin", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkScoopArticle_User", "ScoopArticle")]
+        public EntityCollection<ScoopArticle> ScoopArticles
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ScoopArticle>("PaoliPDWModel.fkScoopArticle_User", "ScoopArticle");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ScoopArticle>("PaoliPDWModel.fkScoopArticle_User", "ScoopArticle", value);
                 }
             }
         }

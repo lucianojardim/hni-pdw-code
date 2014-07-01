@@ -48,5 +48,17 @@ namespace ProductDataWarehouse.Controllers
 
 			return new List<ArticleDisplayInfo>();
 		}
+
+		public static string GetHomePageContentHTML()
+ 		{
+			var contentArea = ( new ImportRepository() ).GetHomePageContent();
+ 			if( contentArea != null )
+ 			{
+				return contentArea.ContentArea;
+ 			}
+ 
+			return "";
+ 		}
+
     }
 }

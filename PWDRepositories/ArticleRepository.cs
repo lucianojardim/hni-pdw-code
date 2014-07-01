@@ -12,6 +12,8 @@ namespace PWDRepositories
 	{
 		private PaoliPDWEntities database = new PaoliPDWEntities();
 
+		private const int ArticleCount = 9;
+
 		public ArticleRepository()
 		{
 		}
@@ -30,7 +32,7 @@ namespace PWDRepositories
 				ContentBlock = article.ContentBlock,
 				Title = article.Title,
 				PubDate = article.PubDate,
-				AuthorName = article.AuthorName
+				AuthorID = article.AuthorID
 			};
 		}
 
@@ -39,10 +41,12 @@ namespace PWDRepositories
 			return new ArticleSummary()
 			{
 				ArticleID = article.ArticleID,
-				Title = article.Title,
-				PublishDate = article.PubDate.HasValue ? article.PubDate.Value.ToShortDateString() : "",
+				Title = article.BigHeadline,
+				PublishDate = article.PubDate.HasValue ? article.PubDate.Value.ToString( "ddd, MMM dd, yyyy" ) : "",
 				Rank = article.Rank,
-				Author = article.AuthorName
+				Author = article.User.FullName,
+				ImgURL = article.BigImageURL,
+				Description = article.BigText
 			};
 		}
 
@@ -61,7 +65,7 @@ namespace PWDRepositories
 		{
 			return database.ScoopArticles
 				.OrderBy( a => a.Rank )
-				.Take( 9 )
+				.Take( ArticleCount )
 				.ToList()
 				.Select( s => ToArticleDisplayInfo( s ) );
 		}
@@ -117,7 +121,7 @@ namespace PWDRepositories
 			newArticle.ContentBlock = aInfo.ContentBlock;
 			newArticle.Title = aInfo.Title;
 			newArticle.PubDate = aInfo.PubDate;
-			newArticle.AuthorName = aInfo.AuthorName;
+			newArticle.AuthorID = aInfo.AuthorID;
 			newArticle.Rank = database.ScoopArticles.Count() + 1;
 
 			database.ScoopArticles.AddObject( newArticle );
@@ -155,7 +159,7 @@ namespace PWDRepositories
 			dbArticle.ContentBlock = aInfo.ContentBlock;
 			dbArticle.Title = aInfo.Title;
 			dbArticle.PubDate = aInfo.PubDate;
-			dbArticle.AuthorName = aInfo.AuthorName;
+			dbArticle.AuthorID = aInfo.AuthorID;
 
 			return database.SaveChanges() > 0;
 		}
@@ -229,6 +233,31 @@ namespace PWDRepositories
 			return database.SaveChanges() > 0;
 		}
 
+		public ArticleViewDetails GetArticlePreview( ArticleInformation aInfo )
+		{
+			var dbUser = database.Users.FirstOrDefault( u => u.UserID == aInfo.AuthorID );
+
+			return new ArticleViewDetails()
+			{
+				Headline = aInfo.BigHeadline,
+				Content = aInfo.ContentBlock,
+				ImageURL = aInfo.BigImageURL,
+				PublishDate = aInfo.PubDate.HasValue ? aInfo.PubDate.Value.ToString( "ddd, MMM dd, yyyy" ) : "",
+				AuthorName = dbUser != null ? dbUser.FullName : "",
+				AuthorImage = dbUser != null ? dbUser.ImageFileName : null,
+				AuthorCredit = dbUser != null ? dbUser.AuthorCredit : null,
+				RecentArticles = database.ScoopArticles
+					.OrderBy( a => a.Rank )
+					.Take( ArticleCount )
+					.ToList()
+					.Select( s => new ArticleViewDetails.RecentArticleDetails()
+					{
+						ArticleID = s.ArticleID,
+						Headline = s.BigHeadline
+					} )
+			};
+		}
+
 		public ArticleViewDetails GetArticleViewer( int id )
 		{
 			var dbArticle = database.ScoopArticles.FirstOrDefault( a => a.ArticleID == id );
@@ -240,8 +269,22 @@ namespace PWDRepositories
 
 			return new ArticleViewDetails()
 			{
-				Title = dbArticle.Title,
-				Content = dbArticle.ContentBlock
+				Headline = dbArticle.BigHeadline,
+				Content = dbArticle.ContentBlock,
+				ImageURL = dbArticle.BigImageURL,
+				PublishDate = dbArticle.PubDate.HasValue ? dbArticle.PubDate.Value.ToString( "ddd, MMM dd, yyyy" ) : "",
+				AuthorName = dbArticle.User.FullName,
+				AuthorImage = dbArticle.User.ImageFileName,
+				AuthorCredit = dbArticle.User.AuthorCredit,
+				RecentArticles = database.ScoopArticles
+					.OrderBy( a => a.Rank )
+					.Take( ArticleCount )
+					.ToList()
+					.Select( s => new ArticleViewDetails.RecentArticleDetails()
+					{
+						ArticleID = s.ArticleID,
+						Headline = s.BigHeadline
+					} )
 			};
 		}
 	}

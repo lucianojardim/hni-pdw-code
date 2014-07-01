@@ -447,6 +447,7 @@
     <Content Include="NewContent\css\jquery-filestyle.css" />
     <Content Include="NewContent\css\shCore.css" />
     <Content Include="NewContent\css\style.css" />
+    <Content Include="NewContent\css\style2.css" />
     <Content Include="NewContent\fancybox\blank.gif" />
     <Content Include="NewContent\fancybox\fancybox-x.png" />
     <Content Include="NewContent\fancybox\fancybox-y.png" />

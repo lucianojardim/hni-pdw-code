@@ -83,6 +83,7 @@
         <span class="dataRow">@Html.MJLabelFor( m => m.BusinessPhone, true )@Html.TextBoxFor( m => m.BusinessPhone )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.CellPhone, true )@Html.TextBoxFor( m => m.CellPhone )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.Title, true )@Html.TextBoxFor( m => m.Title )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.AuthorCredit, true )@Html.TextAreaFor( m => m.AuthorCredit )<br/></span>
 		<div class="padr30 padl30"><hr /></div>
         <span class="dataRow">@Html.MJLabelFor( m => m.AccountType, true )@Html.DropDownListFor( m => m.AccountType, UserController.GetUserRoleDDList() )<br/></span>
 		if( PDWInfrastructure.PaoliWebUser.CurrentUser.UserId != Model.UserID )

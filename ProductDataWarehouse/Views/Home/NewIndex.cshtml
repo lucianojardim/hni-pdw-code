@@ -115,11 +115,13 @@
 </script>
                      <div class="container">
 
-					 <div class="main_lt">
 					 @{
 						 var articleList = ProductDataWarehouse.Controllers.HomeController.GetHomePageContent();
 						 
 					 }
+					 @if( articleList.Any() )
+	  {
+					 <div class="main_lt">
 					 
 					 @if( articleList.Count > 0 )
 	  {
@@ -130,14 +132,15 @@
 	  @for( int row = 0; row < articleList.Count / 2; row++ )
    {
 	<div class="main_lt_btm">                                      
-	   @for( int col = (row * 2) + 1; col < articleList.Count && col < (row * 2) + 3; col++ )
-	   {
-       <div class="main_lt_btm_lt @if( col % 2 == 0 ) { <text>last</text> }">                                          
+	   @for( int col = ( row * 2 ) + 1; col < articleList.Count && col < ( row * 2 ) + 3; col++ )
+	{
+       <div class="main_lt_btm_lt @if( col % 2 == 0 )
+								  { <text>last</text> }">                                          
         	<a href="@Url.Action( "View", "Article", new { id = articleList[col].ArticleID } )" target="_blank"><img src="@articleList[col].ImageURL" alt="img" width="291"></a>                                          
             <h3><a href="@Url.Action( "View", "Article", new { id = articleList[col].ArticleID } )" target="_blank">@articleList[col].Headline</a></h3>                                          
             <p>@articleList[col].Subheadline</p>                                          
        </div>                                      
-	   }
+	}
 	   </div>
        <i class="clear_0"></i>                                 
    }
@@ -145,6 +148,13 @@
    <a href="@Url.Action( "ViewAll", "Article" )">view all</a>
    </div>
 						</div>
+	  }
+	  else
+	  {
+		  <text>
+@Html.Raw( ProductDataWarehouse.Controllers.HomeController.GetHomePageContentHTML() )
+		</text>
+	  }
                           <div class="main_rt">
                                <div class="main_rt_box">
                                     <div class="main_rt_box_top">

@@ -143,6 +143,7 @@ namespace PWDRepositories
 			newUser.Enabled = uInfo.Enabled && uInfo.SendWelcomeEmail;
 			newUser.RecWelcomeEmail = uInfo.SendWelcomeEmail;
 			newUser.IsActive = uInfo.IsActive;
+			newUser.AuthorCredit = uInfo.AuthorCredit;
 
 			string password = GenerateNewPassword();
 			PaoliEncryption enc = new PaoliEncryption( PaoliEncryption.DataPassPhrase );
@@ -228,7 +229,8 @@ namespace PWDRepositories
 				IsActive = eUser.IsActive,
 				SendWelcomeEmail = eUser.RecWelcomeEmail,
 				LockAccountType = eUser.SpecRequests.Any() || eUser.SpecRequests1.Any() || eUser.CompaniesAsPaoliMember.Any() || eUser.CompaniesAsPaoliSalesRep.Any(),
-				UserImageFileName = eUser.ImageFileName
+				UserImageFileName = eUser.ImageFileName,
+				AuthorCredit = eUser.AuthorCredit
 			};
 		}
 
@@ -271,6 +273,7 @@ namespace PWDRepositories
 				eUser.Enabled = ( uInfo as UserInformation ).Enabled;
 				eUser.IsActive = ( uInfo as UserInformation ).IsActive;
 				eUser.CompanyID = ( uInfo as UserInformation ).CompanyID;
+				eUser.AuthorCredit = ( uInfo as UserInformation ).AuthorCredit;
 				if( !eUser.RecWelcomeEmail && ( uInfo as UserInformation ).SendWelcomeEmail )
 				{
 					bWelcomeEmail = true;

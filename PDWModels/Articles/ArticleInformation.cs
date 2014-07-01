@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace PDWModels.Articles
 {
@@ -19,6 +20,8 @@ namespace PDWModels.Articles
 		public string Title { get; set; }
 		[DisplayFormat( ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}" )]
 		public DateTime? PubDate { get; set; }
-		public string AuthorName { get; set; }
+		[Required]
+		[DisplayName( "Author Name" )]
+		public int AuthorID { get; set; }
 	}
 }
