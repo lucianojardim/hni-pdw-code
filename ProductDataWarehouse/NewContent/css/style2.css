@@ -17,7 +17,7 @@
 	padding-bottom:40px;
 }
 
-.scoop_inlineImage {
+.scoop_inlineImage, .scoopItemMain img {
 	padding: 20px 0 15px 15px;
 	float:right;
 }
@@ -110,18 +110,22 @@ a {
 	margin-bottom:60px;
 }
 
+.main_inner1 {
+	padding: 20px !important;
+}
 
 /********Special styles for just article list view********/
 
 .scoop_item {
 	width:100%;
-	padding-top: 40px;
+	padding-top: 20px;
 	clear:both;
 }
 
 .scoop_itemContent {
 	width:700px;
 	float:left;
+	padding-bottom: 30px;
 }
 
 .scoop_item .scoop_itemContent .scoop_itemHeadline a {
@@ -136,7 +140,8 @@ a {
 
 .scoop_item .scoop_itemImage {
 	float:left;
-	padding-right:20px;
+	padding-right:45px;
+	padding-top: 5px;
 }
 
 .scoop_item .scoop_itemImage img {
@@ -154,4 +159,35 @@ a {
 	font-size: 11px;
 	color: #999;
 	padding-top:4px;
+}
+
+.scoop_listHeader {
+	width:100%;
+}
+
+.scoop_listHeader .scoop_title {
+	font-size:55px;
+	color:#666;
+	padding-bottom: 5px;
+	max-width: 66%;
+	float:left;
+	text-transform:uppercase;
+}
+
+.scoop_listHeader .scoop_subtitle {
+	font-size: 18px;
+	color: #999;
+	max-width:34%;
+	float: right;
+	border-left: 1px solid #eaeaea;
+	padding-left:30px;
+	text-transform:uppercase;
+}
+
+.scoop_hr {
+	width:100%;
+	border-bottom: 1px solid #eaeaea;
+	margin-bottom: 20px;
+	padding-top: 40px;
+	clear:left;
 }
