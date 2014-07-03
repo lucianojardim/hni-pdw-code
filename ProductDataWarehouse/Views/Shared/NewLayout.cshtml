@@ -172,12 +172,16 @@
 	}
 	   @if( CurrentUser.CanManageTypicals )
 	{
-                            <li><a href="@Url.Action( "Manage", "SpecRequest" )">Quotes & Specs</a></li>
+                            <li><a href="@Url.Action( "Manage", "SpecRequest" )">Specifications</a></li>
 	}
 	else if( CurrentUser.CanViewSpecRequests )
 	{
-                            <li><a href="@Url.Action( "ViewAll", "SpecRequest" )">Quotes & Specs</a></li>
+                            <li><a href="@Url.Action( "ViewAll", "SpecRequest" )">Specifications</a></li>
 	}
+	@if( CurrentUser.CanSeeYouniversity )
+ {
+                            <li><a href="https://my.paoli.com/documents/youniversity/training.html">YOUniversity</a></li>
+ }
                         </ul>
                     </li>
 	 }
@@ -233,29 +237,29 @@
 							  @switch( ( (string)ViewBag.HeaderArea ?? "" ) )
 		 {
 			 case "SpecRequests":
-	   if( CurrentUser.CanManageTypicals )
-	{
-                            <h1><a href="@Url.Action( "Manage", "SpecRequest" )"><img src="/newcontent/images/request.png" alt="img">Quotes & Spec Requests</a></h1>
-	}
-	else if( CurrentUser.CanViewSpecRequests )
-	{
-                            <h1><a href="@Url.Action( "ViewAll", "SpecRequest" )"><img src="/newcontent/images/request.png" alt="img">Quotes & Spec Requests</a></h1>
-	}
-	break;
+				 if( CurrentUser.CanManageTypicals )
+				 {
+                            <h1><a href="@Url.Action( "Manage", "SpecRequest" )"><img src="/newcontent/images/request.png" alt="img">Specification Requests</a></h1>
+				 }
+				 else if( CurrentUser.CanViewSpecRequests )
+				 {
+                            <h1><a href="@Url.Action( "ViewAll", "SpecRequest" )"><img src="/newcontent/images/request.png" alt="img">Specification Requests</a></h1>
+				 }
+				 break;
 			 case "Users":
 	<h2><img src="/newcontent/images/my_account.png" alt="img" height="50" width="57"/> My Account</h2>
-	break;
+				 break;
 			 case "CollateralOrders":
-	   if( CurrentUser.CanManageOrders )
-	{
+				 if( CurrentUser.CanManageOrders )
+				 {
 <h2><a href="@Url.Action( "Orders", "Collateral" )"><img src="/newcontent/images/store_img.png" alt="img" height="55" width="46"/> Collateral Store</a></h2>
-	}
-	else if( CurrentUser.CanAddOrders )
-	{
+				 }
+				 else if( CurrentUser.CanAddOrders )
+				 {
 <h2><a href="@Url.Action( "ViewOrders", "Collateral" )"><img src="/newcontent/images/store_img.png" alt="img" height="55" width="46"/> Collateral Store</a></h2>
-	}
+				 }
 
-	break;
+				 break;
 			 default:
                                    <h3 id="welcomeHeading"><span>@CurrentUser.FirstName!</span></h3>
                                    <h4>@if( CurrentUser.PreviousLogin.Any() )
