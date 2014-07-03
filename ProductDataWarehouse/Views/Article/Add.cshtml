@@ -9,6 +9,7 @@
 @using ProductDataWarehouse.Controllers
 
 
+    <script src="@Url.Content( "~/Content/tiny_mce/tiny_mce.js" )" type="text/javascript"></script>
     <script type="text/javascript">
     	$(document).ready(function () {
     		$('#PubDate').datepicker(
@@ -19,6 +20,8 @@
             });
 
     		$('#previewBtn').click(function () {
+    			tinyMCE.triggerSave();
+
     			$.ajax({
     				dataType: 'json',
     				type: 'POST',
@@ -39,7 +42,36 @@
     			});
 
     		});
+
+    		makeTextAreaTinyMCE('ContentBlock', 'submitBtn');
     	});
+
+    	function makeTextAreaTinyMCE(elementName, submitBtn) {
+    		tinyMCE.init({
+    			theme: "advanced",
+//    			plugins: "lists,spellchecker,pagebreak,style,layer,table,advhr,advimage,advlink,iespell,inlinepopups,media,contextmenu,paste",
+    			theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,formatselect,|,hr,|,sub,sup",
+    			theme_advanced_buttons2: "cut,copy,paste,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,code",
+    			theme_advanced_toolbar_location: "top",
+    			theme_advanced_toolbar_align: "left",
+    			theme_advanced_statusbar_location: "bottom",
+    			theme_advanced_resizing: true,
+    			encoding: "xml",
+    			mode: "exact",
+    			elements: elementName,
+    			width: "640",
+    			height: "480",
+    			setup: function (ed) {
+    				ed.onSaveContent.add(function (i, o) {
+    					o.content = o.content.replace(/&#39/g, "&apos");
+    				});
+    			}
+    		});
+
+    		$('#' + submitBtn).click(function () {
+    			tinyMCE.triggerSave();
+    		});
+    	}
 
     </script>    
 
@@ -80,6 +112,6 @@
 		</tr>
 		</table>
 @Html.ValidationSummary()
-        <input type="submit" class="btn_type1" value="Add" id="submitBtn" />
+        <input type="submit" class="btn_type1" value="Publish" id="submitBtn" />
         <input type="button" class="btn_type1" value="Preview" id="previewBtn" />
 	}

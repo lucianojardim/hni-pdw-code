@@ -5,6 +5,7 @@ using System.Text;
 using PDWDBContext;
 using PDWModels.Articles;
 using PDWInfrastructure;
+using System.Web;
 
 namespace PWDRepositories
 {
@@ -29,20 +30,20 @@ namespace PWDRepositories
 				SmallHeadline = article.SmallHeadline,
 				SmallText = article.SmallText,
 				SmallImageURL = article.SmallImageURL,
-				ContentBlock = article.ContentBlock,
+				ContentBlock = HttpUtility.HtmlDecode( article.ContentBlock ),
 				Title = article.Title,
 				PubDate = article.PubDate,
 				AuthorID = article.AuthorID
 			};
 		}
 
-		private ArticleSummary ToArticleSummary( ScoopArticle article )
+		private ArticleSummary ToArticleSummary( ScoopArticle article, bool bWantHeadline = false )
 		{
 			return new ArticleSummary()
 			{
 				ArticleID = article.ArticleID,
-				Title = article.BigHeadline,
-				PublishDate = article.PubDate.HasValue ? article.PubDate.Value.ToString( "ddd, MMM dd, yyyy" ) : "",
+				Title = bWantHeadline ? article.BigHeadline : article.Title,
+				PublishDate = article.PubDate.HasValue ? article.PubDate.Value.ToString( "MMMM dd, yyyy" ) : "",
 				Rank = article.Rank,
 				Author = article.User.FullName,
 				ImgURL = article.BigImageURL,
@@ -64,6 +65,7 @@ namespace PWDRepositories
 		public IEnumerable<ArticleDisplayInfo> GetMainArticleList()
 		{
 			return database.ScoopArticles
+				.Where( a => a.PubDate < DateTime.Now )
 				.OrderBy( a => a.Rank )
 				.Take( ArticleCount )
 				.ToList()
@@ -82,7 +84,8 @@ namespace PWDRepositories
 			if( !string.IsNullOrEmpty( param.sSearch ) )
 			{
 				articleList = articleList.Where( i =>
-					i.Title.Contains( param.sSearch ) );
+					i.Title.Contains( param.sSearch ) ||
+					i.User.FirstName.Contains( param.sSearch ) || i.User.LastName.Contains( param.sSearch ) );
 			}
 
 			displayedRecords = articleList.Count();
@@ -103,9 +106,11 @@ namespace PWDRepositories
 		{
 			var articleList = database.ScoopArticles.AsQueryable();
 
-			articleList = articleList.OrderBy( a => a.Rank );
+			articleList = articleList
+				.Where( a => a.PubDate < DateTime.Now )
+				.OrderBy( a => a.Rank );
 
-			return articleList.ToList().Select( v => ToArticleSummary( v ) );
+			return articleList.ToList().Select( v => ToArticleSummary( v, true ) );
 		}
 
 		public bool AddArticle( ArticleInformation aInfo )
@@ -242,7 +247,7 @@ namespace PWDRepositories
 				Headline = aInfo.BigHeadline,
 				Content = aInfo.ContentBlock,
 				ImageURL = aInfo.BigImageURL,
-				PublishDate = aInfo.PubDate.HasValue ? aInfo.PubDate.Value.ToString( "ddd, MMM dd, yyyy" ) : "",
+				PublishDate = aInfo.PubDate.HasValue ? aInfo.PubDate.Value.ToString( "MMMM dd, yyyy" ) : "",
 				AuthorName = dbUser != null ? dbUser.FullName : "",
 				AuthorImage = dbUser != null ? dbUser.ImageFileName : null,
 				AuthorCredit = dbUser != null ? dbUser.AuthorCredit : null,
@@ -272,7 +277,7 @@ namespace PWDRepositories
 				Headline = dbArticle.BigHeadline,
 				Content = dbArticle.ContentBlock,
 				ImageURL = dbArticle.BigImageURL,
-				PublishDate = dbArticle.PubDate.HasValue ? dbArticle.PubDate.Value.ToString( "ddd, MMM dd, yyyy" ) : "",
+				PublishDate = dbArticle.PubDate.HasValue ? dbArticle.PubDate.Value.ToString( "MMMM dd, yyyy" ) : "",
 				AuthorName = dbArticle.User.FullName,
 				AuthorImage = dbArticle.User.ImageFileName,
 				AuthorCredit = dbArticle.User.AuthorCredit,

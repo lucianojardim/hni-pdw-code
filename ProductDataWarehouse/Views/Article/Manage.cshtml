@@ -87,13 +87,14 @@
 			"bProcessing": false, // don't want to use the default progress indicator at this time
 			"aaSorting": [[0, "asc"]],
 			"aoColumnDefs": [
-                    { "sName": "Title", "sTitle": "Title", "aTargets": [0], "mDataProp": "Title", "bSortable": false, "sWidth": "55%" },
-                    { "sName": "PublishDate", "sTitle": "Publish Date", "aTargets": [1], "mDataProp": "PublishDate", "bSortable": false, "sWidth": "15%" },
+                    { "sName": "Title", "sTitle": "Title", "aTargets": [0], "mDataProp": "Title", "bSortable": false, "sWidth": "40%" },
+                    { "sName": "Author", "sTitle": "Author Name", "aTargets": [1], "mDataProp": "Author", "bSortable": false, "sWidth": "20%" },
+                    { "sName": "PublishDate", "sTitle": "Publish Date", "aTargets": [2], "mDataProp": "PublishDate", "bSortable": false, "sWidth": "15%" },
 					{ "sName": "RankButtons",
-						"aTargets": [2],
+						"aTargets": [3],
 						"bSearchable": false,
 						"bSortable": false,
-						"mDataProp": "RankButtons", "sWidth": "15%",
+						"mDataProp": "RankButtons", "sWidth": "10%",
 						"fnRender": function (oObj) {
 							var s = '';
 							if (oObj.aData["Rank"] > 1) {
@@ -114,7 +115,7 @@
 						}
 					},
                     { "sName": "EditButtons",
-                    	"aTargets": [3],
+                    	"aTargets": [4],
                     	"bSearchable": false,
                     	"bSortable": false,
                     	"mDataProp": "EditButtons", "sWidth": "15%",

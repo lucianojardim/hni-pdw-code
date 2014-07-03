@@ -11,7 +11,9 @@
 			<div class="scoop_h1">@Model.Headline</div>
 			<div class="scoop_date">Published: @Model.PublishDate</div>
 			<div class="scoop_byline">Written By: @Model.AuthorName</div>
-@Html.Raw( Model.Content )
+			<div class="scoopItemMain">
+@Html.Raw( HttpUtility.HtmlDecode( Model.Content ) )
+			</div>
 			<div class="scoop_footnote">
 			@if( Model.AuthorImage != null )
    {
