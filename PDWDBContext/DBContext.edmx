@@ -668,6 +668,7 @@
           <Property Name="PubDate" Type="datetime" />
           <Property Name="AuthorID" Type="int" Nullable="false" />
           <Property Name="Rank" Type="int" Nullable="false" />
+          <Property Name="ShowBigImage" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="SearchResultsLog">
           <Key>
@@ -3746,6 +3747,7 @@
           <Property Type="Int32" Name="AuthorID" Nullable="false" />
           <Property Type="Int32" Name="Rank" Nullable="false" />
           <NavigationProperty Name="User" Relationship="PaoliPDWModel.fkScoopArticle_User" FromRole="ScoopArticle" ToRole="User" />
+          <Property Type="Boolean" Name="ShowBigImage" Nullable="false" />
         </EntityType>
         <Association Name="fkScoopArticle_User">
           <End Type="PaoliPDWModel.User" Role="User" Multiplicity="1" />
@@ -4394,6 +4396,7 @@
           <EntitySetMapping Name="ScoopArticles">
             <EntityTypeMapping TypeName="PaoliPDWModel.ScoopArticle">
               <MappingFragment StoreEntitySet="ScoopArticles">
+                <ScalarProperty Name="ShowBigImage" ColumnName="ShowBigImage" />
                 <ScalarProperty Name="Rank" ColumnName="Rank" />
                 <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
                 <ScalarProperty Name="PubDate" ColumnName="PubDate" />

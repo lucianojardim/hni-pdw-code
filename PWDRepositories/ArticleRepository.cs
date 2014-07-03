@@ -33,7 +33,8 @@ namespace PWDRepositories
 				ContentBlock = HttpUtility.HtmlDecode( article.ContentBlock ),
 				Title = article.Title,
 				PubDate = article.PubDate,
-				AuthorID = article.AuthorID
+				AuthorID = article.AuthorID,
+				ShowBigImage = article.ShowBigImage
 			};
 		}
 
@@ -108,7 +109,7 @@ namespace PWDRepositories
 
 			articleList = articleList
 				.Where( a => a.PubDate < DateTime.Now )
-				.OrderBy( a => a.Rank );
+				.OrderByDescending( a => a.PubDate );
 
 			return articleList.ToList().Select( v => ToArticleSummary( v, true ) );
 		}
@@ -128,6 +129,7 @@ namespace PWDRepositories
 			newArticle.PubDate = aInfo.PubDate;
 			newArticle.AuthorID = aInfo.AuthorID;
 			newArticle.Rank = database.ScoopArticles.Count() + 1;
+			newArticle.ShowBigImage = aInfo.ShowBigImage;
 
 			database.ScoopArticles.AddObject( newArticle );
 
@@ -165,6 +167,7 @@ namespace PWDRepositories
 			dbArticle.Title = aInfo.Title;
 			dbArticle.PubDate = aInfo.PubDate;
 			dbArticle.AuthorID = aInfo.AuthorID;
+			dbArticle.ShowBigImage = aInfo.ShowBigImage;
 
 			return database.SaveChanges() > 0;
 		}
@@ -246,13 +249,14 @@ namespace PWDRepositories
 			{
 				Headline = aInfo.BigHeadline,
 				Content = aInfo.ContentBlock,
-				ImageURL = aInfo.BigImageURL,
+				ImageURL = aInfo.ShowBigImage ? aInfo.BigImageURL : null,
 				PublishDate = aInfo.PubDate.HasValue ? aInfo.PubDate.Value.ToString( "MMMM dd, yyyy" ) : "",
 				AuthorName = dbUser != null ? dbUser.FullName : "",
 				AuthorImage = dbUser != null ? dbUser.ImageFileName : null,
 				AuthorCredit = dbUser != null ? dbUser.AuthorCredit : null,
 				RecentArticles = database.ScoopArticles
-					.OrderBy( a => a.Rank )
+					.Where( a => a.PubDate < DateTime.Now )
+					.OrderByDescending( a => a.PubDate )
 					.Take( ArticleCount )
 					.ToList()
 					.Select( s => new ArticleViewDetails.RecentArticleDetails()
@@ -276,13 +280,14 @@ namespace PWDRepositories
 			{
 				Headline = dbArticle.BigHeadline,
 				Content = dbArticle.ContentBlock,
-				ImageURL = dbArticle.BigImageURL,
+				ImageURL = dbArticle.ShowBigImage ? dbArticle.BigImageURL : null,
 				PublishDate = dbArticle.PubDate.HasValue ? dbArticle.PubDate.Value.ToString( "MMMM dd, yyyy" ) : "",
 				AuthorName = dbArticle.User.FullName,
 				AuthorImage = dbArticle.User.ImageFileName,
 				AuthorCredit = dbArticle.User.AuthorCredit,
 				RecentArticles = database.ScoopArticles
-					.OrderBy( a => a.Rank )
+					.Where( a => a.PubDate < DateTime.Now )
+					.OrderByDescending( a => a.PubDate )
 					.Take( ArticleCount )
 					.ToList()
 					.Select( s => new ArticleViewDetails.RecentArticleDetails()

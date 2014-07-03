@@ -31,7 +31,8 @@
     					BigHeadline: $('#BigHeadline').val(),
     					BigImageURL: $('#BigImageURL').val(),
     					PubDate: $('#PubDate').val(),
-    					AuthorID: $('#AuthorID').val()
+    					AuthorID: $('#AuthorID').val(),
+						ShowBigImage: $('#ShowBigImage:checked').length > 0
     				},
     				success: function (data, textStatus, jqXHR) {
     					window.open('@Url.Action( "Preview" )');
@@ -89,8 +90,8 @@
 		<td>Publication Date</td><td>@Html.EditorFor( m => m.PubDate )</td>
 		</tr>
 		<tr>
-		<td colspan="2"><h3>Big Article Information</h3></td>
-		<td colspan="2"><h3>Small Article Information</h3></td>
+		<td colspan="2"><h3>Large Promo Information</h3></td>
+		<td colspan="2"><h3>Small Promo Information</h3></td>
 		</tr>
         <tr>
 		<td>Headline</td><td>@Html.TextBoxFor( m => m.BigHeadline )</td>
@@ -103,6 +104,12 @@
         <tr>
 		<td>Image URL</td><td>@Html.TextBoxFor( m => m.BigImageURL )</td>
 		<td>Image URL</td><td>@Html.TextBoxFor( m => m.SmallImageURL )</td>
+		</tr>
+		<tr>
+		<td colspan="4" class="triple"><span class="littleHelp">Images should be at least 600px wide in order to show properly throughout the site.</span></td>
+		</tr>
+		<tr>
+		<td colspan="4">Show Image on Article @Html.CheckBoxFor( m => m.ShowBigImage )</td>
 		</tr>
         <tr>
 		<td colspan="4"><h3>Content Block</h3></td>

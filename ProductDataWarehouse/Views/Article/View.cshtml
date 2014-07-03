@@ -7,7 +7,10 @@
 <div class="container">
 	<div class="main_inner1">
 		<div class="scoop_left">
+		@if( Model.ImageURL != null )
+  {
 			<div class="scoop_heroImage"><img src="@Model.ImageURL" width="600" height="337" alt=""/></div>
+  }
 			<div class="scoop_h1">@Model.Headline</div>
 			<div class="scoop_date">Published: @Model.PublishDate</div>
 			<div class="scoop_byline">Written By: @Model.AuthorName</div>
@@ -33,6 +36,7 @@
 				<li><a href="@Url.Action( "View", new { id = recentArticle.ArticleID } )">@recentArticle.Headline</a></li>
    }
 			</ul>
+			<a href="@Url.Action( "ViewAll" )">view all</a>
 		</div>
 
 		<div class="clear_0"></div>

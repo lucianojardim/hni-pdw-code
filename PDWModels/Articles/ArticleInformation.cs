@@ -23,5 +23,6 @@ namespace PDWModels.Articles
 		[Required]
 		[DisplayName( "Author Name" )]
 		public int AuthorID { get; set; }
+		public bool ShowBigImage { get; set; }
 	}
 }

@@ -52,7 +52,7 @@
 	float:right;
 }
 
-.scoop_right a {
+.scoop_right li a {
 	font-size: 12px;
 	color:#367ca8;
 	text-decoration:none;
@@ -60,6 +60,7 @@
 
 .scoop_right ul {
 	padding-top:7px;
+	padding-bottom:7px;
 }
 
 .scoop_left ul, .scoop_left ol {

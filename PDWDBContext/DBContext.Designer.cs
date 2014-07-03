@@ -8146,12 +8146,14 @@ namespace PDWDBContext
         /// <param name="articleID">Initial value of the ArticleID property.</param>
         /// <param name="authorID">Initial value of the AuthorID property.</param>
         /// <param name="rank">Initial value of the Rank property.</param>
-        public static ScoopArticle CreateScoopArticle(global::System.Int32 articleID, global::System.Int32 authorID, global::System.Int32 rank)
+        /// <param name="showBigImage">Initial value of the ShowBigImage property.</param>
+        public static ScoopArticle CreateScoopArticle(global::System.Int32 articleID, global::System.Int32 authorID, global::System.Int32 rank, global::System.Boolean showBigImage)
         {
             ScoopArticle scoopArticle = new ScoopArticle();
             scoopArticle.ArticleID = articleID;
             scoopArticle.AuthorID = authorID;
             scoopArticle.Rank = rank;
+            scoopArticle.ShowBigImage = showBigImage;
             return scoopArticle;
         }
 
@@ -8449,6 +8451,30 @@ namespace PDWDBContext
         private global::System.Int32 _Rank;
         partial void OnRankChanging(global::System.Int32 value);
         partial void OnRankChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean ShowBigImage
+        {
+            get
+            {
+                return _ShowBigImage;
+            }
+            set
+            {
+                OnShowBigImageChanging(value);
+                ReportPropertyChanging("ShowBigImage");
+                _ShowBigImage = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ShowBigImage");
+                OnShowBigImageChanged();
+            }
+        }
+        private global::System.Boolean _ShowBigImage;
+        partial void OnShowBigImageChanging(global::System.Boolean value);
+        partial void OnShowBigImageChanged();
 
         #endregion
 
