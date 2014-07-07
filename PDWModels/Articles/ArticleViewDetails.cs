@@ -21,5 +21,6 @@ namespace PDWModels.Articles
 		public string AuthorImage { get; set; }
 		public string AuthorCredit { get; set; }
 		public IEnumerable<RecentArticleDetails> RecentArticles { get; set; }
+		public int ArticleType { get; set; }
 	}
 }

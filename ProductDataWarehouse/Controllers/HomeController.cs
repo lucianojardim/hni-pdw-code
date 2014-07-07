@@ -40,7 +40,13 @@ namespace ProductDataWarehouse.Controllers
 
 		public static List<ArticleDisplayInfo> GetHomePageContent()
 		{
-			var contentArea = ( new ArticleRepository() ).GetMainArticleList();
+			var articleType = ArticleInformation.ArticleTypes.NewsAndUpdates;
+			if( PaoliWebUser.CurrentUser.CanSeeTheScoop )
+				articleType = ArticleInformation.ArticleTypes.Scoop;
+			else if( PaoliWebUser.CurrentUser.IsPaoliUser )
+				articleType = ArticleInformation.ArticleTypes.Internal;
+
+			var contentArea = ( new ArticleRepository() ).GetMainArticleList( articleType );
 			if( contentArea != null )
 			{
 				return contentArea.ToList();

@@ -34,7 +34,8 @@ namespace PWDRepositories
 				Title = article.Title,
 				PubDate = article.PubDate,
 				AuthorID = article.AuthorID,
-				ShowBigImage = article.ShowBigImage
+				ShowBigImage = article.ShowBigImage,
+				ArticleType = article.ArticleType
 			};
 		}
 
@@ -63,10 +64,10 @@ namespace PWDRepositories
 			};
 		}
 
-		public IEnumerable<ArticleDisplayInfo> GetMainArticleList()
+		public IEnumerable<ArticleDisplayInfo> GetMainArticleList( int articleType )
 		{
 			return database.ScoopArticles
-				.Where( a => a.PubDate < DateTime.Now )
+				.Where( a => a.PubDate < DateTime.Now && a.ArticleType == articleType )
 				.OrderBy( a => a.Rank )
 				.Take( ArticleCount )
 				.ToList()
@@ -103,12 +104,12 @@ namespace PWDRepositories
 			return articleList.ToList().Select( v => ToArticleSummary( v ) );
 		}
 
-		public IEnumerable<ArticleSummary> GetArticleViewList()
+		public IEnumerable<ArticleSummary> GetArticleViewList( int articleType )
 		{
 			var articleList = database.ScoopArticles.AsQueryable();
 
 			articleList = articleList
-				.Where( a => a.PubDate < DateTime.Now )
+				.Where( a => a.PubDate < DateTime.Now && a.ArticleType == articleType )
 				.OrderByDescending( a => a.PubDate );
 
 			return articleList.ToList().Select( v => ToArticleSummary( v, true ) );
@@ -130,6 +131,7 @@ namespace PWDRepositories
 			newArticle.AuthorID = aInfo.AuthorID;
 			newArticle.Rank = database.ScoopArticles.Count() + 1;
 			newArticle.ShowBigImage = aInfo.ShowBigImage;
+			newArticle.ArticleType = aInfo.ArticleType;
 
 			database.ScoopArticles.AddObject( newArticle );
 
@@ -168,6 +170,7 @@ namespace PWDRepositories
 			dbArticle.PubDate = aInfo.PubDate;
 			dbArticle.AuthorID = aInfo.AuthorID;
 			dbArticle.ShowBigImage = aInfo.ShowBigImage;
+			dbArticle.ArticleType = aInfo.ArticleType;
 
 			return database.SaveChanges() > 0;
 		}
@@ -254,8 +257,9 @@ namespace PWDRepositories
 				AuthorName = dbUser != null ? dbUser.FullName : "",
 				AuthorImage = dbUser != null ? dbUser.ImageFileName : null,
 				AuthorCredit = dbUser != null ? dbUser.AuthorCredit : null,
+				ArticleType = aInfo.ArticleType,
 				RecentArticles = database.ScoopArticles
-					.Where( a => a.PubDate < DateTime.Now )
+					.Where( a => a.PubDate < DateTime.Now && a.ArticleType == aInfo.ArticleType )
 					.OrderByDescending( a => a.PubDate )
 					.Take( ArticleCount )
 					.ToList()
@@ -285,8 +289,9 @@ namespace PWDRepositories
 				AuthorName = dbArticle.User.FullName,
 				AuthorImage = dbArticle.User.ImageFileName,
 				AuthorCredit = dbArticle.User.AuthorCredit,
+				ArticleType = dbArticle.ArticleType,
 				RecentArticles = database.ScoopArticles
-					.Where( a => a.PubDate < DateTime.Now )
+					.Where( a => a.PubDate < DateTime.Now && a.ArticleType == dbArticle.ArticleType )
 					.OrderByDescending( a => a.PubDate )
 					.Take( ArticleCount )
 					.ToList()

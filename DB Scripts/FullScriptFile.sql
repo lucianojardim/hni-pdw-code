@@ -1733,3 +1733,10 @@ alter table [ScoopArticles] add [ShowBigImage] [bit] not null constraint [defSBI
 alter table [ScoopArticles] drop constraint [defSBI]
 go
 go
+/****************************************
+ * db0076_ScoopArticles_ArticleType.sql *
+ ****************************************/
+alter table [ScoopArticles] add [ArticleType] [int] not null constraint [defArticleType] default(1)
+alter table [ScoopArticles] drop constraint [defArticleType]
+go
+go

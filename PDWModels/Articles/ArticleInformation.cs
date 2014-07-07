@@ -9,6 +9,25 @@ namespace PDWModels.Articles
 {
 	public class ArticleInformation
 	{
+		public class ArticleTypes
+		{
+			public const int Scoop = 1;
+			public const int NewsAndUpdates = 2;
+			public const int Internal = 3;
+
+			public static Dictionary<int, string> ArticleTypeList
+			{
+				get
+				{
+					return new Dictionary<int, string>() {
+					{ Scoop, "Scoop" },				
+					{ NewsAndUpdates, "News and Updates" },				
+					{ Internal, "Internal Only" },				
+                };
+				}
+			}
+		}
+
 		public int ArticleID { get; set; }
 		public string BigHeadline { get; set; }
 		public string BigText { get; set; }
@@ -24,5 +43,6 @@ namespace PDWModels.Articles
 		[DisplayName( "Author Name" )]
 		public int AuthorID { get; set; }
 		public bool ShowBigImage { get; set; }
+		public int ArticleType { get; set; }
 	}
 }

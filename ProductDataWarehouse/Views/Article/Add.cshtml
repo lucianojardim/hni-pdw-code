@@ -32,7 +32,8 @@
     					BigImageURL: $('#BigImageURL').val(),
     					PubDate: $('#PubDate').val(),
     					AuthorID: $('#AuthorID').val(),
-						ShowBigImage: $('#ShowBigImage:checked').length > 0
+    					ShowBigImage: $('#ShowBigImage:checked').length > 0,
+    					ArticleType: $('#ArticleType').val()
     				},
     				success: function (data, textStatus, jqXHR) {
     					window.open('@Url.Action( "Preview" )');
@@ -88,6 +89,9 @@
 		<tr>
 		<td>Author Name</td><td>@Html.DropDownListFor( m => m.AuthorID, UserController.GetPaoliMemberDDList( true ) )</td>
 		<td>Publication Date</td><td>@Html.EditorFor( m => m.PubDate )</td>
+		</tr>
+		<tr>
+		<td>Article Type</td><td>@Html.DropDownListFor( m => m.ArticleType, ArticleController.GetArticleTypeList() )</td>
 		</tr>
 		<tr>
 		<td colspan="2"><h3>Large Promo Information</h3></td>

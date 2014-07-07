@@ -170,13 +170,31 @@ namespace ProductDataWarehouse.Controllers
 			return View( aRepository.GetArticleViewer( id ) );
 		}
 
-		[PaoliAuthorize( "CanBeLoggedIn" )]
+		[PaoliAuthorize( "IsPaoliUser" )]
 		[TempPasswordCheck]
-		public ActionResult ViewAll()
+		public ActionResult ViewAllInternal()
 		{
 			ArticleRepository aRepository = new ArticleRepository();
 
-			return View( aRepository.GetArticleViewList() );
+			return View( viewName: "ViewAll", model: aRepository.GetArticleViewList( ArticleInformation.ArticleTypes.Internal ) );
+		}
+
+		[PaoliAuthorize( "CanSeeTheScoop" )]
+		[TempPasswordCheck]
+		public ActionResult ViewAllScoop()
+		{
+			ArticleRepository aRepository = new ArticleRepository();
+
+			return View( viewName: "ViewAll", model: aRepository.GetArticleViewList( ArticleInformation.ArticleTypes.Scoop ) );
+		}
+
+		[PaoliAuthorize( "CanBeLoggedIn" )]
+		[TempPasswordCheck]
+		public ActionResult ViewAllNewsAndUpdates()
+		{
+			ArticleRepository aRepository = new ArticleRepository();
+
+			return View( viewName: "ViewAll", model: aRepository.GetArticleViewList( ArticleInformation.ArticleTypes.NewsAndUpdates ) );
 		}
 
 		[PaoliAuthorize( "CanManageArticles" )]
@@ -189,6 +207,11 @@ namespace ProductDataWarehouse.Controllers
 			}
 
 			return View( "View", (new ArticleRepository()).GetArticlePreview( (ArticleInformation)Session["PreviewArticle"] ) );
+		}
+
+		public static IEnumerable<SelectListItem> GetArticleTypeList()
+		{
+			return ArticleInformation.ArticleTypes.ArticleTypeList.Select( a => new SelectListItem() { Text = a.Value, Value = a.Key.ToString() } );
 		}
 	}
 }

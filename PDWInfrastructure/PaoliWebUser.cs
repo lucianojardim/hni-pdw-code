@@ -236,6 +236,9 @@ namespace PDWInfrastructure
 		public bool IsSuperAdmin { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
 		public bool IsDealerUser { get { return OneOfRoles( PaoliWebRole.DealerAdmin, PaoliWebRole.DealerDesigner, 
 			PaoliWebRole.DealerPrincipal, PaoliWebRole.DealerSalesRep ); } }
+		public bool IsPaoliUser { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin,
+					PaoliWebRole.PaoliMemberMarketing, PaoliWebRole.PaoliMemberSpecTeam, PaoliWebRole.PaoliMemberCustomerService, 
+					PaoliWebRole.PaoliMemberSales ); } }
 
 		public bool CanBeLoggedIn { get { return true; } }
 		public bool CanSeeMainUsers { get { return CanManageUsers || CanManageCompanies; } }

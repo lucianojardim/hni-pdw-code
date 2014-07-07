@@ -8147,13 +8147,15 @@ namespace PDWDBContext
         /// <param name="authorID">Initial value of the AuthorID property.</param>
         /// <param name="rank">Initial value of the Rank property.</param>
         /// <param name="showBigImage">Initial value of the ShowBigImage property.</param>
-        public static ScoopArticle CreateScoopArticle(global::System.Int32 articleID, global::System.Int32 authorID, global::System.Int32 rank, global::System.Boolean showBigImage)
+        /// <param name="articleType">Initial value of the ArticleType property.</param>
+        public static ScoopArticle CreateScoopArticle(global::System.Int32 articleID, global::System.Int32 authorID, global::System.Int32 rank, global::System.Boolean showBigImage, global::System.Int32 articleType)
         {
             ScoopArticle scoopArticle = new ScoopArticle();
             scoopArticle.ArticleID = articleID;
             scoopArticle.AuthorID = authorID;
             scoopArticle.Rank = rank;
             scoopArticle.ShowBigImage = showBigImage;
+            scoopArticle.ArticleType = articleType;
             return scoopArticle;
         }
 
@@ -8475,6 +8477,30 @@ namespace PDWDBContext
         private global::System.Boolean _ShowBigImage;
         partial void OnShowBigImageChanging(global::System.Boolean value);
         partial void OnShowBigImageChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ArticleType
+        {
+            get
+            {
+                return _ArticleType;
+            }
+            set
+            {
+                OnArticleTypeChanging(value);
+                ReportPropertyChanging("ArticleType");
+                _ArticleType = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ArticleType");
+                OnArticleTypeChanged();
+            }
+        }
+        private global::System.Int32 _ArticleType;
+        partial void OnArticleTypeChanging(global::System.Int32 value);
+        partial void OnArticleTypeChanged();
 
         #endregion
 

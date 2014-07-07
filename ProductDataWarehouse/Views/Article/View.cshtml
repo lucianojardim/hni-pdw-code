@@ -36,7 +36,18 @@
 				<li><a href="@Url.Action( "View", new { id = recentArticle.ArticleID } )">@recentArticle.Headline</a></li>
    }
 			</ul>
-			<a href="@Url.Action( "ViewAll" )">view all</a>
+			@switch( Model.ArticleType )
+   {
+	   case PDWModels.Articles.ArticleInformation.ArticleTypes.Scoop:
+			<a href="@Url.Action( "ViewAllScoop" )">view all</a>
+	   break;
+	   case PDWModels.Articles.ArticleInformation.ArticleTypes.NewsAndUpdates:
+			<a href="@Url.Action( "ViewAllNewsAndUpdates" )">view all</a>
+	   break;
+	   case PDWModels.Articles.ArticleInformation.ArticleTypes.Internal:
+			<a href="@Url.Action( "ViewAllInternal" )">view all</a>
+	   break;
+   }
 		</div>
 
 		<div class="clear_0"></div>
