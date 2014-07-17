@@ -1,0 +1,17 @@
+﻿@model PDWModels.eCollateral.ECollateralDetails
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.ShowHeaderArea = false;
+}
+<script type="text/javascript">
+</script>
+<div class="container">
+	<div class="main_inner1">
+		<div class="main_inner2_btm">
+			<div class="">
+		@Html.Partial( partialViewName: "~/Views/ECB/" + Model.DisplayViewName + ".cshtml", model: Model )
+			</div>
+		</div>
+	</div>
+</div>

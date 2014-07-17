@@ -52,6 +52,7 @@
     <Compile Include="CollateralRepository.cs" />
     <Compile Include="CompanyRepository.cs" />
     <Compile Include="DealerRepository.cs" />
+    <Compile Include="ECollateralRepository.cs" />
     <Compile Include="ImageRepository.cs" />
     <Compile Include="ImportRepository.cs" />
     <Compile Include="PublicationRepository.cs" />

@@ -25,5 +25,19 @@ namespace PDWDBContext
 				return "";
 			}
 		}
+
+		public int? SalesRepCompanyID
+		{
+			get
+			{
+				var salesRep = Companies.FirstOrDefault( c => c.CompanyType == PaoliCompanyType.PaoliRepGroup );
+				if( salesRep != null )
+				{
+					return salesRep.CompanyID;
+				}
+
+				return null;
+			}
+		}
 	}
 }

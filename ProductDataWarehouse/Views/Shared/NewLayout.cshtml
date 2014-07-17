@@ -178,11 +178,19 @@
 	{
                             <li><a href="@Url.Action( "ViewAll", "SpecRequest" )">Specifications</a></li>
 	}
+	@if( CurrentUser.CanManageECollateral )
+ {
+                            <li><a href="@Url.Action( "Manage", "ECB" )">eCollateral Builder</a></li>
+ }
 	@if( CurrentUser.CanSeeYouniversity )
  {
                             <li><a href="https://my.paoli.com/documents/youniversity/training.html">YOUniversity</a></li>
  }
-                        </ul>
+                           @if( CurrentUser.CanSeeTheScoop )
+						   {
+                            <li><a href="@Url.Action( "ViewAllScoop", "Article" )">The Scoop</a></li>
+						   }
+</ul>
                     </li>
 	 }
 					@if( CurrentUser.HasAdminLink && !CurrentUser.HasTempPassword )
@@ -231,6 +239,8 @@
                               <div class="setting-icon"><a id="right-nav" href="#"><img src="/newcontent/images/narrow-nav-icon.jpg" alt=""/></a></div>
                           </div>  
                     </div>
+					@if( ( ViewBag.ShowHeaderArea ?? true ) )
+	 {
                     <div class="header_btm">
                          <div class="container">
                               <div class="poly_top_lt">
@@ -239,11 +249,11 @@
 			 case "SpecRequests":
 				 if( CurrentUser.CanManageTypicals )
 				 {
-                            <h1><a href="@Url.Action( "Manage", "SpecRequest" )"><img src="/newcontent/images/request.png" alt="img">Specification Requests</a></h1>
+                            <h2><a href="@Url.Action( "Manage", "SpecRequest" )"><img src="/newcontent/images/request.png" alt="img">Specification Requests</a></h2>
 				 }
 				 else if( CurrentUser.CanViewSpecRequests )
 				 {
-                            <h1><a href="@Url.Action( "ViewAll", "SpecRequest" )"><img src="/newcontent/images/request.png" alt="img">Specification Requests</a></h1>
+                            <h2><a href="@Url.Action( "ViewAll", "SpecRequest" )"><img src="/newcontent/images/request.png" alt="img">Specification Requests</a></h2>
 				 }
 				 break;
 			 case "Users":
@@ -259,6 +269,9 @@
 <h2><a href="@Url.Action( "ViewOrders", "Collateral" )"><img src="/newcontent/images/store_img.png" alt="img" height="55" width="46"/> Collateral Store</a></h2>
 				 }
 
+				 break;
+			 case "TheScoop":
+	<h2><a href="@Url.Action( "ViewAllScoop", "Article" )"><img src="/newcontent/images/scoop-icon.png" alt="img" height="50" width="50"/> The Scoop</a></h2>
 				 break;
 			 default:
                                    <h3 id="welcomeHeading"><span>@CurrentUser.FirstName!</span></h3>
@@ -298,6 +311,7 @@
                          </div>
                     
                     </div>
+	 }
                 </header>
             <!-- END: HEADER -->
            <!-- SET: main -->

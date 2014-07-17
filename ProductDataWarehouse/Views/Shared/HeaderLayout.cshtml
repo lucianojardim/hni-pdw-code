@@ -170,6 +170,10 @@
 	{
 				<li class="@(ViewBag.CurrentSubPage == "Images" ? "on_focus" : "")"><a href="@Url.Action( "Images", "Import" )">Image Engine</a></li>
 	}
+	@if( CurrentUser.CanManageECollateral )
+ {
+                <li><a href="@Url.Action( "Manage", "ECB" )">eCollateral</a></li>
+ }
 	   @if( CurrentUser.CanManageArticles )
 	{
 				<li class="@(ViewBag.CurrentSubPage == "Articles" ? "on_focus" : "")"><a href="@Url.Action( "Manage", "Article" )">Articles</a></li>

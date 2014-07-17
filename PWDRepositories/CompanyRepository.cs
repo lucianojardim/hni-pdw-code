@@ -486,5 +486,36 @@ namespace PWDRepositories
 				ContactEmail = eCompany.ContactEmail
 			};
 		}
+
+		public IEnumerable<IDToTextItem> GetDealerListForUser( int userId )
+		{
+			var user = database.Users.FirstOrDefault( u => u.UserID == userId );
+			if( user != null )
+			{
+				switch( user.Company.CompanyType )
+				{
+					case PaoliWebUser.PaoliCompanyType.Paoli:
+						return database.Companies
+							.Where( c => c.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer )
+							.OrderBy( c => c.Name )
+							.ToList()
+							.Select( c => new IDToTextItem() { ID = c.CompanyID, Text = c.FullName } );
+					case PaoliWebUser.PaoliCompanyType.PaoliRepGroup:
+						return database.Companies
+							.Where( c => c.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer && c.TerritoryID == user.Company.TerritoryID )
+							.OrderBy( c => c.Name )
+							.ToList()
+							.Select( c => new IDToTextItem() { ID = c.CompanyID, Text = c.FullName } );
+					case PaoliWebUser.PaoliCompanyType.Dealer:
+						return database.Companies
+							.Where( c => c.CompanyID == user.CompanyID )
+							.OrderBy( c => c.Name )
+							.ToList()
+							.Select( c => new IDToTextItem() { ID = c.CompanyID, Text = c.FullName } );
+				}
+			}
+
+			return new List<IDToTextItem>();
+		}
 	}
 }

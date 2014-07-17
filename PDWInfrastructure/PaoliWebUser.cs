@@ -275,6 +275,10 @@ namespace PDWInfrastructure
 
 		public bool CanManageArticles { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
 
+		public bool CanManageECollateral { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ) || IsDealerUser || IsPaoliUser; } }
+		public bool CanReviewECollateral { get { return IsPaoliUser; } }
+		public bool CanAddECTemplate { get { return IsPaoliUser; } }
+
 		public string ProductsHomePage
 		{
 			get

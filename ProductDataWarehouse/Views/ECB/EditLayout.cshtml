@@ -1,0 +1,105 @@
+﻿@model PDWModels.eCollateral.ECollateralDetails
+@{
+    ViewBag.Title = "EditLayout";
+    Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.ShowHeaderArea = false;
+}
+<script src="@Url.Content( "~/Content/tiny_mce/tiny_mce.js" )" type="text/javascript"></script>
+<script type="text/javascript">
+	function makeTextAreaTinyMCE(elementName, submitBtn) {
+		tinyMCE.init({
+			theme: "advanced",
+			theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,formatselect",
+			theme_advanced_buttons2: "cut,copy,paste,|,bullist,numlist,|,undo,redo",
+			theme_advanced_toolbar_location: "top",
+			theme_advanced_toolbar_align: "left",
+			theme_advanced_statusbar_location: "bottom",
+			theme_advanced_resizing: true,
+			encoding: "xml",
+			mode: "exact",
+			elements: elementName,
+//			width: "640",
+			height: "480",
+			setup: function (ed) {
+				ed.onSaveContent.add(function (i, o) {
+					o.content = o.content.replace(/&#39/g, "&apos");
+				});
+			}
+		});
+
+		$('#' + submitBtn).click(function () {
+			tinyMCE.triggerSave();
+		});
+	}
+
+	$(document).ready(function () {
+		$('.submitBtn').click(function (e) {
+			$('#theForm').submit();
+		});
+
+		$('.cancelBtn').click(function (e) {
+			location.href = '@Url.Action( "Manage", "ECB" )';
+		});
+
+		$('#btnDoSearch').on('click', function (e) {
+			if ($('#imgFilter').val() != '') {
+				$.ajax({
+					dataType: 'json',
+					type: 'GET',
+					url: '/ECB/GetImageList',
+					data: { imgFilter: $('#imgFilter').val() },
+					success: function (data, textStatus, jqXHR) {
+						$('#ImagePickerList').html('');
+						$.each(data, function (i, img) {
+							var newImage = '<div style="float: left; width: 30%; margin-right:10px;" class="">' +
+								'<img style="width:100%;" src="/images/' + img.FileName + '" data-id="' + img.ImageID + '" data-fname="' + img.FileName + '"/>' + 
+								'</div>';
+							$('#ImagePickerList').append(newImage);
+						});
+						$('#ImagePickerList img').on('click', function (e) {
+							var div = $('#ImagePicker').data('src');
+							$(div).find('img').attr('src', $(this).attr('src'));
+							$(div).find('input.inputImageID').val($(this).data('id'));
+							$(div).find('input.inputImageFileName').val($(this).data('fname'));
+							$.fancybox.close();
+						});
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+					}
+				});
+			} else {
+				$('#ImagePickerList').html('');
+			}
+
+		});
+	});
+
+</script>
+
+<div class="container">
+	<div class="main_inner1">
+		<h3>You selected @(Model.LayoutName) - let's get moving!</h3>
+		<div class="main_inner2_btm">
+			<div class="">
+				@using( Html.BeginForm( "EditLayout", "ECB", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
+	{
+					@Html.AntiForgeryToken()
+					@Html.HiddenFor( m => m.ItemID )
+					@Html.HiddenFor( m => m.LayoutName )
+					@Html.HiddenFor( m => m.EditViewName )
+					
+					<i class="clear_0"></i>
+		@Html.Partial( partialViewName: Model.EditViewName, model: Model )
+					<i class="clear_0"></i><span class="btn7 cancelBtn">CANCEL</span> <span class="btn8 submitBtn">SAVE AND CONTINUE</span>
+	}
+			</div>
+		</div>
+	</div>
+</div>
+
+<div style="display: none">
+	<div id="ImagePicker" data-src="">
+		Search for Image: <input type="text" id="imgFilter" /> <input type="button" value="Search" id="btnDoSearch" />
+		<div id="ImagePickerList"></div>
+	</div>
+</div>

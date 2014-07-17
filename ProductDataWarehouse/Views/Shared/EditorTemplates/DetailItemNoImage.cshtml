@@ -1,0 +1,37 @@
+﻿@model PDWModels.eCollateral.ECollateralDetails.DetailItem
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		makeTextAreaTinyMCE('Details_@(ViewBag.index)__Content', 'btnSaveContent@(ViewBag.index)');
+
+		$('#detailContent@(ViewBag.index)').on('click', function (e) {
+			$(this).hide();
+			$(this).siblings('.editContent').show();
+		});
+		$('#btnSaveContent@(ViewBag.index)').on('click', function (e) {
+			var decoded = $('<div/>').html($('#Details_@(ViewBag.index)__Content').val()).text();
+			$('#detailContent@(ViewBag.index)').html(decoded);
+			$(this).parents('.editContent').hide();
+			$('#detailContent@(ViewBag.index)').show();
+		});
+		$('#btnCancelContent@(ViewBag.index)').on('click', function (e) {
+			var ed = tinyMCE.get('Details_@(ViewBag.index)__Content');
+			ed.setContent($('#detailContent@(ViewBag.index)').html());
+			$(this).parents('.editContent').hide();
+			$('#detailContent@(ViewBag.index)').show();
+		});
+
+	});
+
+</script>
+
+	<div style="min-height: 100px; width: 100%;">
+		@Html.HiddenFor( m => m.ImageID )
+		<div id="detailContent@(ViewBag.index)" style="min-height: 100px; width: 100%; border: 1px solid #999;">
+		@Html.Raw( Model.Content )
+		</div>
+		<div style="display:none; height: 550px;" class="editContent">
+			@Html.TextAreaFor( m => m.Content, new { @style = "width: 100%; height: 100%" } )
+			<a href="javascript:void(0)" id="btnSaveContent@(ViewBag.index)">Save</a> <a href="javascript:void(0)" id="btnCancelContent@(ViewBag.index)">Cancel</a>
+		</div>
+	</div>

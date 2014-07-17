@@ -1131,12 +1131,12 @@ namespace PWDRepositories
 				stData.Series = rSeries;
 				stData.Typical = tData;
 				database.SeriesTypicals.AddObject( stData );
+				tData.FeaturedSeries = rSeries.Name;
 			}
 			else
 			{
-				throw new Exception( "Unable to find Featured Series" );
+				tData.FeaturedSeries = null;
 			}
-			tData.FeaturedSeries = rSeries.Name;
 
 			if( ( tInfo.SeriesList ?? "" ).Any() )
 			{

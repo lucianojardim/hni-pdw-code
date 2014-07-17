@@ -72,6 +72,11 @@
     <Compile Include="Dealers\DealerSummary.cs" />
     <Compile Include="Dealers\DealerVideoInformation.cs" />
     <Compile Include="Dealers\DealerVideoSummary.cs" />
+    <Compile Include="eCollateral\ECollateralDetails.cs" />
+    <Compile Include="eCollateral\ECollateralInformation.cs" />
+    <Compile Include="eCollateral\ECollateralLayout.cs" />
+    <Compile Include="eCollateral\ECollateralSettings.cs" />
+    <Compile Include="eCollateral\ECollateralSummary.cs" />
     <Compile Include="HomePageContentInformation.cs" />
     <Compile Include="IDToTextItem.cs" />
     <Compile Include="Images\HiResImageInfo.cs" />

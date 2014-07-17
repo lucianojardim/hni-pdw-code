@@ -375,19 +375,32 @@ namespace PWDRepositories
 			return gallery;
 		}
 
-		private ImageListSummary ToImageListSummary( ImageFile img )
+		private ImageListSummary ToImageListSummary( ImageFile img, bool largeImage = false )
 		{
 			return new ImageListSummary()
 				{
 					Caption = img.Caption,
-					FileName = img.ThumbnailImageData( "m16to9" ).FileName,
+					FileName = img.ThumbnailImageData( largeImage ? "l16to9" : "m16to9" ).FileName,
 					Name = img.Name,
 					ImageID = img.ImageID,
 					CanLightbox = ImageFile.ImageCanLightbox( img.ImageType )
 				};
 		}
 
-		public IEnumerable<ImageListSummary> Search( string searchText )
+		public IEnumerable<ImageListSummary> GetECollateralImageList( string imgFilter )
+		{
+			var imageTypeList = ImageFile.ImageTypes.Where( i => i.CommonImage )
+					.Select( iType => iType.Abbreviation );
+
+			return database.ImageFiles
+				.Where( imgFile => imageTypeList.Any( it => it == imgFile.ImageType ) )
+				.Where( i => i.Name.Contains( imgFilter ) )
+				.Distinct()
+				.ToList()
+				.Select( img => ToImageListSummary( img ) );
+		}
+
+		public IEnumerable<ImageListSummary> Search( string searchText, bool largeImage = false )
 		{
 			var termList = SearchText.GetSearchList( searchText );
 
@@ -416,7 +429,7 @@ namespace PWDRepositories
 				.Where( i => imageIdList.Contains( i.ImageID ) )
 				.Distinct()
 				.ToList()
-				.Select( img => ToImageListSummary( img ) );
+				.Select( img => ToImageListSummary( img, largeImage ) );
 		}
 
 		public ImageItemDetails GetImageDetailInfo( int imageId )

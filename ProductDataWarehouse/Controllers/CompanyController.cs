@@ -198,6 +198,18 @@ namespace ProductDataWarehouse.Controllers
 			return Json( theList, JsonRequestBehavior.AllowGet );
 		}
 
+		public JsonResult GetDealerListForUser( bool includeBlank = true )
+		{
+			var theList = ( new CompanyRepository() ).GetDealerListForUser( PaoliWebUser.CurrentUser.UserId ).ToList();
+
+			if( includeBlank )
+			{
+				theList.Insert( 0, new PDWModels.IDToTextItem() { ID = 0, Text = "" } );
+			}
+
+			return Json( theList, JsonRequestBehavior.AllowGet );
+		}
+
 		public delegate IEnumerable<SelectListItem> GetCompanyListFunction( int? companyType = null, bool includeBlank = true, bool includeTerritory = false );
 
 		public static IEnumerable<SelectListItem> GetThisCompanyAsDDItem( int? companyType = null, bool includeBlank = true, bool includeTerritory = false )

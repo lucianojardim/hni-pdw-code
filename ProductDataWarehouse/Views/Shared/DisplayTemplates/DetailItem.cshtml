@@ -1,0 +1,22 @@
+﻿@model PDWModels.eCollateral.ECollateralDetails.DetailItem
+
+<script type="text/javascript">
+	$(document).ready(function () {
+	});
+
+</script>
+
+  @if( Model.ImageID.HasValue )
+  {
+	<div style="width: 100%;">
+	  <img src="/Images/@Model.ImageFileName" width="100%" />
+	</div>
+  }
+  @if( ( Model.Content ?? "" ).Any() )
+  {
+	<div style="min-height: 100px; width: 100%;">
+		<div style="height: 100px; width: 100%;">
+		@Html.Raw( Model.Content )
+		</div>
+	</div>
+  }
