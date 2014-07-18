@@ -51,6 +51,12 @@ namespace PDWModels.Images
 			WoodGrain = 5
 		}
 
+		public enum SeatingGrades
+		{
+			Standard = 1,
+			Premium = 2
+		}
+
 		public int ImageID { get; set; }
 		[Required]
 		[DisplayName("Image Name")]
@@ -91,6 +97,8 @@ namespace PDWModels.Images
 		public int? VeneerGrade { get; set; }
 		[DisplayName( "Veneer Species" )]
 		public int? VeneerSpecies { get; set; }
+		[DisplayName( "Seating Grade" )]
+		public int? SeatingGrade { get; set; }
 
 		[DisplayName( "Featured Table Shape" )]
 		public string FeaturedTableShape { get; set; }

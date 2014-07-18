@@ -16,6 +16,7 @@ namespace PDWModels.Attributes
 		public int VeneerGrade { get; set; }
 		public int VeneerSpecies { get; set; }
 		public int VeneerColorTone { get; set; }
+		public int SeatingGrade { get; set; }
 		public ImageComboItem FeaturedImage { get; set; }
 		public IEnumerable<string> Serieses { get; set; }
 		public string Caption { get; set; }

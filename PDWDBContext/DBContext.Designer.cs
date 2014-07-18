@@ -8542,6 +8542,30 @@ namespace PDWDBContext
         private global::System.String _FinishCode;
         partial void OnFinishCodeChanging(global::System.String value);
         partial void OnFinishCodeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> SeatingGrade
+        {
+            get
+            {
+                return _SeatingGrade;
+            }
+            set
+            {
+                OnSeatingGradeChanging(value);
+                ReportPropertyChanging("SeatingGrade");
+                _SeatingGrade = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("SeatingGrade");
+                OnSeatingGradeChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _SeatingGrade;
+        partial void OnSeatingGradeChanging(Nullable<global::System.Int32> value);
+        partial void OnSeatingGradeChanged();
 
         #endregion
 

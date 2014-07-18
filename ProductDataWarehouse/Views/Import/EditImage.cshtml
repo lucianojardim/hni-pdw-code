@@ -27,18 +27,21 @@ else
 
            function doFinishTypeChange() {
            	switch ($('#FinishType').val()) {
-				case '@((int)PDWModels.Images.ImageInformation.FinishTypes.Laminate)':
-                    $('.laminateRange').show();
-                    $('.veneerRange').hide();
-				break;
-				case '@((int)PDWModels.Images.ImageInformation.FinishTypes.Veneer)':
-                    $('.laminateRange').hide();
-                    $('.veneerRange').show();
-				break;
-			case '@((int)PDWModels.Images.ImageInformation.FinishTypes.Seating)':
-				$('.laminateRange').hide();
-				$('.veneerRange').hide();
-				break;
+           		case '@((int)PDWModels.Images.ImageInformation.FinishTypes.Laminate)':
+           			$('.laminateRange').show();
+           			$('.veneerRange').hide();
+           			$('.seatingRange').hide();
+           			break;
+           		case '@((int)PDWModels.Images.ImageInformation.FinishTypes.Veneer)':
+           			$('.laminateRange').hide();
+           			$('.veneerRange').show();
+           			$('.seatingRange').hide();
+           			break;
+           		case '@((int)PDWModels.Images.ImageInformation.FinishTypes.Seating)':
+           			$('.laminateRange').hide();
+           			$('.veneerRange').hide();
+           			$('.seatingRange').show();
+           			break;
 
            	}
         }
@@ -175,6 +178,7 @@ else
         <span class="laminateRange dataRow">@Html.MJLabelFor( m => m.LaminateIsHPL, true ) @Html.CheckBoxFor( m => m.LaminateIsHPL )<br /></span>
         <span class="veneerRange dataRow">@Html.MJLabelFor( m => m.VeneerGrade, true ) @Html.DropDownListFor( m => m.VeneerGrade, ImportController.GetVeneerGradeList() )<br /></span>
         <span class="veneerRange dataRow">@Html.MJLabelFor( m => m.VeneerSpecies, true ) @Html.DropDownListFor( m => m.VeneerSpecies, ImportController.GetVeneerSpeciesList() )<br /></span>
+        <span class="seatingRange dataRow">@Html.MJLabelFor( m => m.SeatingGrade, true ) @Html.DropDownListFor( m => m.SeatingGrade, ImportController.GetSeatingGradeList() )<br /></span>
         <span class="featuredTableShapeRange dataRow">@Html.MJLabelFor( m => m.FeaturedTableShape, true ) @Html.TextBoxFor( m => m.FeaturedTableShape )<br /></span>
         <span class="featuredTableBaseRange dataRow">@Html.MJLabelFor( m => m.FeaturedTableBase, true ) @Html.TextBoxFor( m => m.FeaturedTableBase )<br /></span>
 		<span class="controlMechanismRange dataRow">@Html.MJLabelFor( m => m.ControlMechanism, true ) @Html.TextBoxFor( m => m.ControlMechanism )<br /></span>

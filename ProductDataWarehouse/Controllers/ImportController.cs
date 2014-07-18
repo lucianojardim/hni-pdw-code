@@ -631,6 +631,15 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
+		static public IEnumerable<SelectListItem> GetSeatingGradeList()
+		{
+			return new List<SelectListItem>()
+			{
+				new SelectListItem() { Text = "Standard", Value = ((int)ImageInformation.SeatingGrades.Standard).ToString() },
+				new SelectListItem() { Text = "Premium", Value = ((int)ImageInformation.SeatingGrades.Premium).ToString() },
+			};
+		}
+
 		static public IEnumerable<SelectListItem> GetVeneerGradeList()
 		{
 			return new List<SelectListItem>()

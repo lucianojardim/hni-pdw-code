@@ -677,6 +677,7 @@
           <Property Name="LaminateIsHPL" Type="bit" Nullable="false" />
           <Property Name="LaminateIsLPL" Type="bit" Nullable="false" />
           <Property Name="FinishCode" Type="nvarchar" MaxLength="20" />
+          <Property Name="SeatingGrade" Type="int" />
         </EntityType>
         <EntityType Name="PageLinks">
           <Key>
@@ -2599,6 +2600,7 @@
           <Property Type="Boolean" Name="LaminateIsLPL" Nullable="false" />
           <Property Type="String" Name="FinishCode" MaxLength="20" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="eCollateralSections" Relationship="PaoliPDWModel.fkeCSection_Image" FromRole="ImageFile" ToRole="eCollateralSection" />
+          <Property Type="Int32" Name="SeatingGrade" />
         </EntityType>
         <EntityType Name="SeriesImageFile">
           <Key>
@@ -4088,6 +4090,7 @@
           <EntitySetMapping Name="ImageFiles">
             <EntityTypeMapping TypeName="PaoliPDWModel.ImageFile">
               <MappingFragment StoreEntitySet="ImageFiles">
+                <ScalarProperty Name="SeatingGrade" ColumnName="SeatingGrade" />
                 <ScalarProperty Name="FinishCode" ColumnName="FinishCode" />
                 <ScalarProperty Name="LaminateIsLPL" ColumnName="LaminateIsLPL" />
                 <ScalarProperty Name="LaminateIsHPL" ColumnName="LaminateIsHPL" />

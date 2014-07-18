@@ -73,6 +73,7 @@ namespace PWDRepositories
 				LaminateIsHPL = img.LaminateIsHPL,
 				VeneerGrade = img.VeneerGrade,
 				VeneerSpecies = img.VeneerSpecies,
+				SeatingGrade = img.SeatingGrade,
 				FeaturedTableBase = img.TableBase,
 				FeaturedTableShape = img.TableShape,
 				ControlMechanism = img.ControlMechanism,
@@ -737,6 +738,7 @@ namespace PWDRepositories
 			imgData.LaminateIsHPL = imgInfo.LaminateIsHPL;
 			imgData.VeneerGrade = imgInfo.VeneerGrade;
 			imgData.VeneerSpecies = imgInfo.VeneerSpecies;
+			imgData.SeatingGrade = imgInfo.SeatingGrade;
 			imgData.DBKeywords = SearchText.GetKeywordList( new List<string>() { imgData.Name, imgData.Caption, imgData.Keyword } );
 			imgData.TableBase = imgInfo.FeaturedTableBase;
 			imgData.TableShape = imgInfo.FeaturedTableShape;
@@ -774,6 +776,7 @@ namespace PWDRepositories
 			imgData.LaminateIsHPL = imgInfo.LaminateIsHPL;
 			imgData.VeneerGrade = imgInfo.VeneerGrade;
 			imgData.VeneerSpecies = imgInfo.VeneerSpecies;
+			imgData.SeatingGrade = imgInfo.SeatingGrade;
 			imgData.DBKeywords = SearchText.GetKeywordList( new List<string>() { imgData.Name, imgData.Caption, imgData.Keyword } );
 			imgData.TableBase = imgInfo.FeaturedTableBase;
 			imgData.TableShape = imgInfo.FeaturedTableShape;
