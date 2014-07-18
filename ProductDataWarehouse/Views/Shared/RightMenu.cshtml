@@ -48,7 +48,7 @@
                 <div class="right-menu">
                    <ul id="accordion">
                     <li><a href="/"  class="first"><img src="/newcontent/images/menu_poly.jpg" width="107" height="38" alt="img"/></a></li>
-                    <li class="dcjq-current-parent"><a href="#"> <img src="/newcontent/images/account.jpg" width="36" height="31" alt="img"/>My Account</a>
+                    <li><a href="#"> <img src="/newcontent/images/account.jpg" width="36" height="31" alt="img"/>My Account</a>
                         <ul>
 			@if( !CurrentUser.HasTempPassword )
    {
@@ -96,7 +96,7 @@
 						   }
                            else if( CurrentUser.IsPaoliUser )
 						   {
-                            <li><a href="@Url.Action( "ViewAllInternal", "Article" )">News</a></li>
+                            <li><a href="@Url.Action( "ViewAllInternal", "Article" )">Paoli News</a></li>
 						   }
                            else 
 						   {

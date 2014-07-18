@@ -8,6 +8,7 @@
 <h2>Article List</h2>
 
 <a href="@Url.Action( "Add", "Article" )" id="addNewArticle">Add New</a><br />
+Article Type: @Html.DropDownList( "ArticleType", ProductDataWarehouse.Controllers.ArticleController.GetArticleTypeList( true ) )<br />
 <div>
     <table id="articleList">
     <thead></thead>
@@ -17,23 +18,10 @@
 
 <script type="text/javascript">
 	$(document).ready(function () {
+		$('#ArticleType').change(loadArticles);
+
 		loadArticles();
 	});
-
-	function moveArticle(aID, d) {
-		$.ajax({
-			dataType: 'json',
-			type: 'GET',
-			url: '/Article/Move',
-			data: { id: aID, direction: d },
-			success: function (data, textStatus, jqXHR) {
-				loadArticles();
-			},
-			error: function (jqXHR, textStatus, errorThrown) {
-				alert('Error moving this Article:' + errorThrown)
-			}
-		});
-	}
 
 	function deleteArticle(dID) {
 		if (confirm('Delete Article?')) {
@@ -69,6 +57,7 @@
 			"bInfo": true,
 			"sAjaxSource": '@Url.Action( "FullArticleList" )',
 			"fnServerParams": function (aoData) {
+				aoData.push({ "name": "articleType", "value": $('#ArticleType').val() });
 			},
 			"iDisplayLength": 100,
 			"fnServerData": function (sSource, aoData, fnCallback) {
@@ -85,40 +74,18 @@
 				})
 			},
 			"bProcessing": false, // don't want to use the default progress indicator at this time
-			"aaSorting": [[0, "asc"]],
+			"aaSorting": [[3, "desc"]],
 			"aoColumnDefs": [
-                    { "sName": "Title", "sTitle": "Title", "aTargets": [0], "mDataProp": "Title", "bSortable": false, "sWidth": "40%" },
-                    { "sName": "Author", "sTitle": "Author Name", "aTargets": [1], "mDataProp": "Author", "bSortable": false, "sWidth": "20%" },
-                    { "sName": "PublishDate", "sTitle": "Publish Date", "aTargets": [2], "mDataProp": "PublishDate", "bSortable": false, "sWidth": "15%" },
-					{ "sName": "RankButtons",
-						"aTargets": [3],
-						"bSearchable": false,
-						"bSortable": false,
-						"mDataProp": "RankButtons", "sWidth": "10%",
-						"fnRender": function (oObj) {
-							var s = '';
-							if (oObj.aData["Rank"] > 1) {
-								s += ('<a onclick="moveArticle(' + oObj.aData["ArticleID"] + ',-2);return false;" href="#" ><i class="fa fa-angle-double-left fa-fw"></i></a>');
-								s += ('<a onclick="moveArticle(' + oObj.aData["ArticleID"] + ',-1);return false;" href="#" ><i class="fa fa-angle-left fa-fw"></i></a>');
-							} else {
-								s += '<i class="fa fa-fw"></i>';
-								s += '<i class="fa fa-fw"></i>';
-							}
-							if (oObj.aData["Rank"] < totalArticles) {
-								s += ('<a onclick="moveArticle(' + oObj.aData["ArticleID"] + ',1);return false;" href="#" ><i class="fa fa-angle-right fa-fw"></i></a>');
-								s += ('<a onclick="moveArticle(' + oObj.aData["ArticleID"] + ',2);return false;" href="#" ><i class="fa fa-angle-double-right fa-fw"></i></a>');
-							} else {
-								s += '<i class="fa fa-fw"></i>';
-								s += '<i class="fa fa-fw"></i>';
-							}
-							return s;
-						}
-					},
+                    { "sName": "Title", "sTitle": "Title", "aTargets": [0], "mDataProp": "Title", "sWidth": "30%" },
+                    { "sName": "Author", "sTitle": "Author Name", "aTargets": [1], "mDataProp": "Author", "sWidth": "15%" },
+                    { "sName": "PublishDate", "sTitle": "Publish Date", "aTargets": [2], "mDataProp": "PublishDate", "sWidth": "15%" },
+                    { "sName": "Rank", "sTitle": "Rank", "aTargets": [3], "mDataProp": "Rank", "sWidth": "13%" },
+                    { "sName": "ArticleType", "sTitle": "Article Type", "aTargets": [4], "mDataProp": "ArticleType", "sWidth": "15%" },
                     { "sName": "EditButtons",
-                    	"aTargets": [4],
+                    	"aTargets": [5],
                     	"bSearchable": false,
                     	"bSortable": false,
-                    	"mDataProp": "EditButtons", "sWidth": "15%",
+                    	"mDataProp": "EditButtons", "sWidth": "12%",
                     	"fnRender": function (oObj) {
                     		var s = '<a href=\"@Url.Action( "Edit", "Article" )/' + oObj.aData["ArticleID"] + '">Edit</a>';
                     		s += ' | ';

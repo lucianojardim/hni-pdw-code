@@ -146,21 +146,6 @@ namespace ProductDataWarehouse.Controllers
 				JsonRequestBehavior.AllowGet );
 		}
 
-		[PaoliAuthorize( "CanManageArticles" )]
-		[TempPasswordCheck]
-		public JsonResult Move( int id, int direction )
-		{
-			ArticleRepository aRepository = new ArticleRepository();
-
-			bool bSuccess = aRepository.MoveArticle( id, direction );
-
-			return Json( new
-			{
-				success = bSuccess
-			},
-				JsonRequestBehavior.AllowGet );
-		}
-
 		[PaoliAuthorize( "CanBeLoggedIn" )]
 		[TempPasswordCheck]
 		public ActionResult View( int id )
@@ -218,9 +203,27 @@ namespace ProductDataWarehouse.Controllers
 			return View( "View", (new ArticleRepository()).GetArticlePreview( (ArticleInformation)Session["PreviewArticle"] ) );
 		}
 
-		public static IEnumerable<SelectListItem> GetArticleTypeList()
+		public static IEnumerable<SelectListItem> GetArticleTypeList( bool includeBlank = false )
 		{
-			return ArticleInformation.ArticleTypes.ArticleTypeList.Select( a => new SelectListItem() { Text = a.Value, Value = a.Key.ToString() } );
+			var theList = new List<SelectListItem>();
+
+			if( includeBlank )
+			{
+				theList.Add( new SelectListItem() { Text = "All", Value = "0", Selected = true } );
+			}
+
+			theList.AddRange(
+				ArticleInformation.ArticleTypes.ArticleTypeList
+					.Select( a => new SelectListItem() { Text = a.Value, Value = a.Key.ToString() } )
+			);
+
+			return theList;
+		}
+
+		public static IEnumerable<SelectListItem> GetArticleRankList()
+		{
+			var theList = ArticleInformation.ArticleRanks.ArticleRankList.Select( a => new SelectListItem() { Text = a.Value, Value = a.Key.ToString() } ).ToList();
+			return theList;
 		}
 	}
 }

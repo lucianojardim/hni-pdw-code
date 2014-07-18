@@ -28,6 +28,25 @@ namespace PDWModels.Articles
 			}
 		}
 
+		public class ArticleRanks
+		{
+			public const int Normal = 1;
+			public const int Promoted = 2;
+			public const int Featured = 3;
+
+			public static Dictionary<int, string> ArticleRankList
+			{
+				get
+				{
+					return new Dictionary<int, string>() {
+					{ Normal, "Normal" },				
+					{ Promoted, "Promoted" },				
+					{ Featured, "Featured" },				
+                };
+				}
+			}
+		}
+
 		public int ArticleID { get; set; }
 		public string BigHeadline { get; set; }
 		public string BigText { get; set; }
@@ -42,6 +61,7 @@ namespace PDWModels.Articles
 		[Required]
 		[DisplayName( "Author Name" )]
 		public int AuthorID { get; set; }
+		public int Rank { get; set; }
 		public bool ShowBigImage { get; set; }
 		public int ArticleType { get; set; }
 	}

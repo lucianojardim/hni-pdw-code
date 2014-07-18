@@ -35,6 +35,7 @@ namespace PWDRepositories
 				PubDate = article.PubDate,
 				AuthorID = article.AuthorID,
 				ShowBigImage = article.ShowBigImage,
+				Rank = article.Rank,
 				ArticleType = article.ArticleType
 			};
 		}
@@ -46,21 +47,22 @@ namespace PWDRepositories
 				ArticleID = article.ArticleID,
 				Title = bWantHeadline ? article.BigHeadline : article.Title,
 				PublishDate = article.PubDate.HasValue ? article.PubDate.Value.ToString( "MMMM dd, yyyy" ) : "",
-				Rank = article.Rank,
+				Rank = ArticleInformation.ArticleRanks.ArticleRankList[article.Rank],
 				Author = article.User.FullName,
 				ImgURL = article.BigImageURL,
-				Description = article.BigText
+				Description = article.BigText,
+				ArticleType = ArticleInformation.ArticleTypes.ArticleTypeList[article.ArticleType]
 			};
 		}
 
-		private ArticleDisplayInfo ToArticleDisplayInfo( ScoopArticle article )
+		private ArticleDisplayInfo ToArticleDisplayInfo( ScoopArticle article, int index )
 		{
 			return new ArticleDisplayInfo()
 			{
 				ArticleID = article.ArticleID,
-				Headline = article.Rank == 1 ? article.BigHeadline : article.SmallHeadline,
-				Subheadline = article.Rank == 1 ? article.BigText : article.SmallText,
-				ImageURL = article.Rank == 1 ? article.BigImageURL: article.SmallImageURL
+				Headline = index == 0 ? article.BigHeadline : article.SmallHeadline,
+				Subheadline = index == 0 ? article.BigText : article.SmallText,
+				ImageURL = index == 0 ? article.BigImageURL : article.SmallImageURL
 			};
 		}
 
@@ -68,10 +70,11 @@ namespace PWDRepositories
 		{
 			return database.ScoopArticles
 				.Where( a => a.PubDate < DateTime.Now && a.ArticleType == articleType )
-				.OrderBy( a => a.Rank )
+				.OrderByDescending( a => a.Rank )
+				.ThenByDescending( a => a.PubDate )
 				.Take( ArticleCount )
 				.ToList()
-				.Select( s => ToArticleDisplayInfo( s ) );
+				.Select( (s, i) => ToArticleDisplayInfo( s, i ) );
 		}
 
 		public IEnumerable<ArticleSummary> GetFullArticleList( ArticleTableParams param, out int totalRecords, out int displayedRecords )
@@ -90,11 +93,69 @@ namespace PWDRepositories
 					i.User.FirstName.Contains( param.sSearch ) || i.User.LastName.Contains( param.sSearch ) );
 			}
 
+			if( param.articleType != 0 )
+			{
+				articleList = articleList.Where( i => i.ArticleType == param.articleType );
+			}
+
 			displayedRecords = articleList.Count();
 
 			string sortCol = param.sColumns.Split( ',' )[param.iSortCol_0];
 
-			articleList = articleList.OrderBy( a => a.Rank );
+			switch( sortCol.ToLower() )
+			{
+				case "title":
+				default:
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						articleList = articleList.OrderBy( v => v.Title );
+					}
+					else
+					{
+						articleList = articleList.OrderByDescending( v => v.Title );
+					}
+					break;
+				case "author":
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						articleList = articleList.OrderBy( v => v.User.LastName ).ThenBy( v => v.User.FirstName );
+					}
+					else
+					{
+						articleList = articleList.OrderByDescending( v => v.User.LastName ).ThenByDescending( v => v.User.FirstName );
+					}
+					break;
+				case "publishdate":
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						articleList = articleList.OrderBy( v => v.PubDate );
+					}
+					else
+					{
+						articleList = articleList.OrderByDescending( v => v.PubDate );
+					}
+					break;
+				case "rank":
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						articleList = articleList.OrderBy( v => v.Rank ).ThenBy( v => v.PubDate );
+					}
+					else
+					{
+						articleList = articleList.OrderByDescending( v => v.Rank ).ThenByDescending( v => v.PubDate );
+					}
+					break;
+				case "articletype":
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						articleList = articleList.OrderBy( v => v.ArticleType );
+					}
+					else
+					{
+						articleList = articleList.OrderByDescending( v => v.ArticleType );
+					}
+					break;
+			}
 
 			if( ( displayedRecords > param.iDisplayLength ) && ( param.iDisplayLength > 0 ) )
 			{
@@ -129,7 +190,7 @@ namespace PWDRepositories
 			newArticle.Title = aInfo.Title;
 			newArticle.PubDate = aInfo.PubDate;
 			newArticle.AuthorID = aInfo.AuthorID;
-			newArticle.Rank = database.ScoopArticles.Count() + 1;
+			newArticle.Rank = aInfo.Rank;
 			newArticle.ShowBigImage = aInfo.ShowBigImage;
 			newArticle.ArticleType = aInfo.ArticleType;
 
@@ -171,6 +232,7 @@ namespace PWDRepositories
 			dbArticle.AuthorID = aInfo.AuthorID;
 			dbArticle.ShowBigImage = aInfo.ShowBigImage;
 			dbArticle.ArticleType = aInfo.ArticleType;
+			dbArticle.Rank = aInfo.Rank;
 
 			return database.SaveChanges() > 0;
 		}
@@ -184,62 +246,7 @@ namespace PWDRepositories
 				throw new Exception( "Unable to find article." );
 			}
 
-			foreach( var laterArticle in database.ScoopArticles.Where( a => a.Rank > dbArticle.Rank ) )
-			{
-				laterArticle.Rank--;
-			}
-
 			database.DeleteObject( dbArticle );
-
-			return database.SaveChanges() > 0;
-		}
-
-		public bool MoveArticle( int id, int direction )
-		{
-			var dbArticle = database.ScoopArticles.FirstOrDefault( a => a.ArticleID == id );
-
-			if( dbArticle == null )
-			{
-				throw new Exception( "Unable to find article." );
-			}
-
-			switch( direction )
-			{
-				case -2:	// to front of line
-					foreach( var laterArticle in database.ScoopArticles.Where( a => a.Rank < dbArticle.Rank ) )
-					{
-						laterArticle.Rank++;
-					}
-					dbArticle.Rank = 1;
-					break;
-				case -1:	// up one
-					{
-						var other = database.ScoopArticles.FirstOrDefault( a => a.Rank == dbArticle.Rank - 1 );
-						if( other != null )
-						{
-							other.Rank++;
-						}
-						dbArticle.Rank--;
-					}
-					break;
-				case 1:		// down one
-					{
-						var other = database.ScoopArticles.FirstOrDefault( a => a.Rank == dbArticle.Rank + 1 );
-						if( other != null )
-						{
-							other.Rank--;
-						}
-						dbArticle.Rank++;
-					}
-					break;
-				case 2:		// end of line
-					foreach( var laterArticle in database.ScoopArticles.Where( a => a.Rank > dbArticle.Rank ) )
-					{
-						laterArticle.Rank--;
-					}
-					dbArticle.Rank = database.ScoopArticles.Count();
-					break;
-			}
 
 			return database.SaveChanges() > 0;
 		}

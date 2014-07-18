@@ -13,8 +13,9 @@ namespace PDWModels.Articles
 		public string Author { get; set; }
 		public string ImgURL { get; set; }
 		public string Description { get; set; }
-		public int Rank { get; set; }
+		public string Rank { get; set; }
 		public string EditButtons { get; set; }
 		public string RankButtons { get; set; }
+		public string ArticleType { get; set; }
 	}
 }

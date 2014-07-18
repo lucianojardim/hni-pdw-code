@@ -7,5 +7,6 @@ namespace PDWInfrastructure
 {
 	public class ArticleTableParams : DataTableParams
 	{
+		public int articleType { get; set; }
 	}
 }
