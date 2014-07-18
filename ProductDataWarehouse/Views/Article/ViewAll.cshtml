@@ -2,12 +2,11 @@
 @{
     ViewBag.Title = "ViewAll";
     Layout = "~/Views/Shared/NewLayout.cshtml";
-	ViewBag.HeaderArea = "TheScoop";
 }
 
 <div class="container">
 	<div class="main_inner1">
-    	<div class="scoop_h1">Here's the Scoop</div>
+    	<div class="scoop_h1">@ViewBag.PageTitle</div>
 
 @foreach( var article in Model )
 {

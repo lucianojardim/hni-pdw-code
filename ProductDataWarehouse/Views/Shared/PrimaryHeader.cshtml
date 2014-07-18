@@ -1,0 +1,12 @@
+﻿                    <div class="header_top blue">
+                       <div class="container">
+                          <div class="logo"><a href="/"><img src="/newcontent/images/logo.png" width="127" height="47" alt="img"/></a></div>
+                          <!--    <div class="header_right">
+                                  <input type="text" value="Type here to search" onFocus="this.value=''" onBlur="this.value=!this.value?'Type here to search':this.value;"/> <span><a href="#"><img src="/newcontent/images/search.jpg" width="17" height="17" alt="img"></a></span>
+                              </div>-->
+							  @if( HttpContext.Current.User.Identity.IsAuthenticated )
+		 {
+                              <div class="setting-icon"><a id="right-nav" href="#"><img src="/newcontent/images/narrow-nav-icon.jpg" alt=""/></a></div>
+		 }
+                          </div>  
+                    </div>

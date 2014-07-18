@@ -230,7 +230,7 @@ namespace PDWInfrastructure
 			}
 		}
 
-		public bool IsNewLayout { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ) || IsDealerUser; } }
+		public bool IsNewLayout { get { return true; } }
 		public bool HasAdminLink { get { return CanManageUsers || CanManageCompanies || CanManageImages || CanManageImport || CanManageSearchLog; } }
 
 		public bool IsSuperAdmin { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }

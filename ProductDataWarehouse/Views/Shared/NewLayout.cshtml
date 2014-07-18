@@ -10,6 +10,7 @@
 <link rel="shortcut icon" type="image/x-icon" href="/newcontent/images/favicon.ico"/>
 <!-- END: FAVICON -->
 <!-- SET: STYLESHEET -->
+<link href="/NewContent/css/fonts.css" rel="stylesheet" type="text/css" />
 <link href="/newcontent/css/style.css" rel="stylesheet" type="text/css" media="all"/>
 <link href="/NewContent/fancybox/jquery.fancybox-1.3.4.css" rel="stylesheet" type="text/css" media="screen" />
 <link href="/newcontent/css/demo_table.css" rel="stylesheet" type="text/css" media="all"/>
@@ -17,6 +18,7 @@
 <link href="/newcontent/css/dd.css" type="text/css" rel="stylesheet"/>
 <link href="/newcontent/css/jquery-filestyle.css" type="text/css" rel="stylesheet"/>
 <link href="/newcontent/css/style2.css" rel="stylesheet" type="text/css">
+<link href="/NewContent/css/rightmenu.css" rel="stylesheet" type="text/css" />
 <!-- END: STYLESHEET -->
 
 <script type="text/javascript" src="/newcontent/js/jquery.1.8.3.min.js"></script>
@@ -33,44 +35,6 @@
 <script src="/NewContent/fancybox/jquery.fancybox-1.3.4.pack.js" type="text/javascript"></script>
 <script type="text/javascript">
 	$(document).ready(function () {
-
-		$('#accordion').dcAccordion({
-			eventType: 'click',
-			autoClose: false,
-			saveState: false,
-			disableLink: false,
-			showCount: false,
-			autoExpand: true,
-			classExpand : 'dcjq-current-parent',
-			speed: 'slow'
-		});
-
-		$('.left-menu-block').height($(document).height());
-		$('.right-menu-block').height($(document).height());
-
-		$('#nav-bar').toggle(function (e) {
-			$('.left-menu-block').animate({ left: 0 });
-			$('.wrapper').animate({ left: 480 });
-			$('.header').animate({ left: 480 });
-			$('.footer-area2').animate({ left: 480 });
-		}, function () {
-			$('.left-menu-block').animate({ left: -480 });
-			$('.wrapper').animate({ left: 0 });
-			$('.header').animate({ left: 0 });
-			$('.footer-area2').animate({ left: 0 });
-		});
-
-		$('#right-nav').toggle(function (e) {
-			$('.right-menu-block').animate({ right: 0 });
-			$('.wrapper').animate({ left: -337 });
-			$('.header').animate({ left: -337 });
-			$('.footer-area2').animate({ left: -337 });
-		}, function () {
-			$('.right-menu-block').animate({ right: -337 });
-			$('.wrapper').animate({ left: 0 });
-			$('.header').animate({ left: 0 });
-			$('.footer-area2').animate({ left: 0 });
-		});
 
 		$('form').bind('submit', function (e) {
 			if ($(this).data('submitted') === true) {
@@ -139,106 +103,17 @@
 </head>
 <body>
 
-  <div class="right-menu-block"><!--Start Right Menu-->
-           
-                <div class="right-menu">
-                   <ul id="accordion">
-                    <li><a href="/"  class="first"><img src="/newcontent/images/menu_poly.jpg" width="107" height="38" alt="img"/></a></li>
-                    <li class="dcjq-current-parent"><a href="#"> <img src="/newcontent/images/account.jpg" width="36" height="31" alt="img"/>My Account</a>
-                        <ul>
-			@if( !CurrentUser.HasTempPassword )
-   {
-                            <li><a href="@Url.Action( "MyAccount", "User" )">My Profile</a></li>
-   }
-                            <li><a href="@Url.Action( "ChangePW", "User" )">Password</a></li>
-			@if( !CurrentUser.HasTempPassword )
-   {
-                       <!--     <li><a href="@Url.Action( "Subscriptions", "User" )">Subscriptions</a></li>-->
-   }
-				            <li><a href="@Url.Action( "Logout", "Import" )">Log out</a></li>
-                        </ul>
-                    </li>
-					@if( !CurrentUser.HasTempPassword )
-	 {
-                    <li class="dcjq-current-parent"><a href="#"><img src="/newcontent/images/tools.jpg" width="35" height="35" alt="img"/>Tools</a>
-                        <ul>
-	   @if( CurrentUser.CanManageOrders )
-	{
-                            <li><a href="@Url.Action( "Orders", "Collateral" )">Collateral Store</a></li>
-	}
-	else if( CurrentUser.CanAddOrders )
-	{
-                            <li><a href="@Url.Action( "ViewOrders", "Collateral" )">Collateral Store</a></li>
-	}
-	   @if( CurrentUser.CanManageTypicals )
-	{
-                            <li><a href="@Url.Action( "Manage", "SpecRequest" )">Specifications</a></li>
-	}
-	else if( CurrentUser.CanViewSpecRequests )
-	{
-                            <li><a href="@Url.Action( "ViewAll", "SpecRequest" )">Specifications</a></li>
-	}
-	@if( CurrentUser.CanManageECollateral )
- {
-                            <li><a href="@Url.Action( "Manage", "ECB" )">eCollateral Builder</a></li>
- }
-	@if( CurrentUser.CanSeeYouniversity )
- {
-                            <li><a href="https://my.paoli.com/documents/youniversity/training.html">YOUniversity</a></li>
- }
-                           @if( CurrentUser.CanSeeTheScoop )
-						   {
-                            <li><a href="@Url.Action( "ViewAllScoop", "Article" )">The Scoop</a></li>
-						   }
-</ul>
-                    </li>
-	 }
-					@if( CurrentUser.HasAdminLink && !CurrentUser.HasTempPassword )
-	 {
-                    <li><a href="#"><img src="/newcontent/images/admin.jpg" width="35" height="35" alt="img"/>Admin</a>
-                        <ul>
-	   @if( CurrentUser.CanManageUsers )
-	{
-                            <li><a href="@Url.Action( "Manage", "User" )">Users</a></li>
-	}
-		@if( CurrentUser.CanManageCompanies )
-  {
-                            <li><a href="@Url.Action( "Manage", "Company" )">Companies</a></li>
-  }
-	   @if( CurrentUser.CanManageImages )
-	{
-                            <li><a href="@Url.Action( "Images", "Import" )">Image Engine</a></li>
-	}
-	   @if( CurrentUser.CanManageImport )
-	{
-                            <li><a href="@Url.Action( "Index", "Import" )">PDW</a></li>
-	}
-	   @if( CurrentUser.CanManageSearchLog )
-	{
-                            <li><a href="@Url.Action( "SearchLog", "Import" )">Search Log</a></li>
-	}
-                        </ul>
-                    </li>
-	 }
-                </ul>  
-          </div>
-           
-            <div class="right-menu-shadow"></div>
-        </div>
+@if( HttpContext.Current.User.Identity.IsAuthenticated )
+{
+	Html.RenderPartial( "RightMenu" );
+}
 
 <!-- SET: WRAPPER -->
-<div class="wrapper">
+<div class="wrapperNew">
             <!-- SET: HEADER -->
             	<header>
-                    <div class="header_top blue">
-                       <div class="container">
-                          <div class="logo"><a href="/"><img src="/newcontent/images/logo.png" width="127" height="47" alt="img"/></a></div>
-                          <!--    <div class="header_right">
-                                  <input type="text" value="Type here to search" onFocus="this.value=''" onBlur="this.value=!this.value?'Type here to search':this.value;"/> <span><a href="#"><img src="/newcontent/images/search.jpg" width="17" height="17" alt="img"></a></span>
-                              </div>-->
-                              <div class="setting-icon"><a id="right-nav" href="#"><img src="/newcontent/images/narrow-nav-icon.jpg" alt=""/></a></div>
-                          </div>  
-                    </div>
+					@{Html.RenderPartial( "PrimaryHeader" );}
+
 					@if( ( ViewBag.ShowHeaderArea ?? true ) )
 	 {
                     <div class="header_btm">
@@ -273,6 +148,12 @@
 			 case "TheScoop":
 	<h2><a href="@Url.Action( "ViewAllScoop", "Article" )"><img src="/newcontent/images/scoop-icon.png" alt="img" height="50" width="50"/> The Scoop</a></h2>
 				 break;
+			 case "NewsUpdates":
+	<h2><a href="@Url.Action( "ViewAllNewsAndUpdates", "Article" )"><img src="/newcontent/images/scoop-icon.png" alt="img" height="50" width="50"/> News</a></h2>
+		 break;
+			 case "InternalNews":
+	<h2><a href="@Url.Action( "ViewAllInternal", "Article" )"><img src="/newcontent/images/scoop-icon.png" alt="img" height="50" width="50"/> News</a></h2>
+		 break;
 			 default:
                                    <h3 id="welcomeHeading"><span>@CurrentUser.FirstName!</span></h3>
                                    <h4>@if( CurrentUser.PreviousLogin.Any() )
@@ -330,30 +211,7 @@
     </div>
 </div>
 
-<!-- SET: FOOTER -->
-                <footer>
-                    <div class="footer_top">
-                         <div class="container">
-                              <span>800-457-7415</span>
-                                <div class="footer_top_rt">
-                                  <h3>Paoli</h3>
-                                  <p>201 E Martin St</p>
-                                  <p>Orleans IN  47452</p>
-                                </div>
-                              <i class="clear_0"></i>
-                         </div>
-                    </div>
-                    <div class="footer_copy">
-                        <div class="container">
-                            <span><a href="http://www.paoli.com">Visit Paoli.com</a></span>
-                            <p>Copyright 2014. All Rights Reserved.   <cite>Paoli is an HNI company.</cite></p>
-                           <i class="clear_0"></i>
-                        </div>
-                    
-                    </div>
-                
-                </footer>	
-            <!-- END: FOOTER -->
+					@{Html.RenderPartial( "PrimaryFooter" );}
             
  
     

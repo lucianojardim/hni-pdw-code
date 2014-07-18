@@ -99,148 +99,24 @@
 
     });
 </script>
-<div id="page_navigation">
-	<div class="wrapper">
-		<a href="/Home" id="logo"><img class="no-print" src="@Url.Content( "~/Content/images/paoli_logo.png" )"><img class="printOnly" src="@Url.Content( "~/Content/images/paoli_bluergb.jpg" )"></a>
-		@if( !(ViewBag.EmptyHeader ?? false) )
-  {
-        <ul id="nav">
-			@if( HttpContext.Current.User.Identity.IsAuthenticated && !CurrentUser.HasTempPassword )
-   {
-			<li class="@(ViewBag.CurrentPage == "Home" ? "current_page" : "")"><a href="@Url.Action( "Index", "Home" )">Home</a></li>
-	   if( CurrentUser.CanSeeMainProducts )
-	   {
-			<li class="@(ViewBag.CurrentPage == "Database" ? "current_page" : "")"><a href="@CurrentUser.ProductsHomePage">Products</a></li>
-	   }
-	   if( CurrentUser.CanSeeMainUsers )
-	   {
-   			<li class="@(ViewBag.CurrentPage == "Users" ? "current_page" : "")"><a href="@Url.Action( "Manage", "User" )">Users</a></li>
-	   }
-	   if( CurrentUser.CanSeeMainCMSLink )
-	   {
-            <li><a href="javascript:void(0);" id="cmsLink">Login to CMS</a></li>
-	   }
-   }
-            <li><a href="javascript:void(0);" id="siteLink">Paoli.com Homepage</a></li>
-			@if( HttpContext.Current.User.Identity.IsAuthenticated )
-   {
-   			<li class="@(ViewBag.CurrentPage == "Account" ? "current_page" : "")"><a href="@Url.Action( "MyAccount", "User" )">My Account</a></li>
-            <li><a href="@Url.Action( "Logout", "Import" )">Log out</a></li>
-   }
-        </ul>
-	  }
-	</div>
-	@{var bNeedExtraSpace = false;}
-	@if( ViewBag.CurrentPage == "Users" && !CurrentUser.HasTempPassword )
- {
-	 bNeedExtraSpace = true;
-	<div id="sub_nav" class="stuckontop">
-		<div class="wrapper p20">
-			<ul class="nav_type_3">
-	   @if( CurrentUser.CanManageUsers )
-	{
-				<li class="@(ViewBag.CurrentSubPage == "Users" ? "on_focus" : "")"><a href="@Url.Action( "Manage", "User" )">Users</a></li>
-	}
-		@if( CurrentUser.CanManageCompanies )
-  {
-				<li class="@(ViewBag.CurrentSubPage == "Companies" ? "on_focus" : "")"><a href="@Url.Action( "Manage", "Company" )">Companies</a></li>
-  }
-		@if( CurrentUser.CanManageCompanies )
-  {
-				<li class="@(ViewBag.CurrentSubPage == "Dealers" ? "on_focus" : "")"><a href="@Url.Action( "ManageDealers", "Import" )">Dealers</a></li>
-				<li class="@(ViewBag.CurrentSubPage == "Videos" ? "on_focus" : "")"><a href="@Url.Action( "ManageVideos", "Import" )">Video Links</a></li>
-				<li class="@(ViewBag.CurrentSubPage == "Pages" ? "on_focus" : "")"><a href="@Url.Action( "ManagePages", "Import" )">Pages</a></li>
-  }
-			</ul>
-			<p class="clear"></p>
-		</div>
-	</div>
- }
- else if( ViewBag.CurrentPage == "Database" && !CurrentUser.HasTempPassword )
- {
-	 bNeedExtraSpace = true;
-	<div id="sub_nav" class="stuckontop">
-		<div class="wrapper p20">
-			<ul class="nav_type_3">
-	   @if( CurrentUser.CanManageImport )
-	{
-				<li class="@(ViewBag.CurrentSubPage == "Import" ? "on_focus" : "")"><a href="@Url.Action( "Index", "Import" )">PDW Import</a></li>
-	}
-	   @if( CurrentUser.CanManageImages )
-	{
-				<li class="@(ViewBag.CurrentSubPage == "Images" ? "on_focus" : "")"><a href="@Url.Action( "Images", "Import" )">Image Engine</a></li>
-	}
-	@if( CurrentUser.CanManageECollateral )
- {
-                <li><a href="@Url.Action( "Manage", "ECB" )">eCollateral</a></li>
- }
-	   @if( CurrentUser.CanManageArticles )
-	{
-				<li class="@(ViewBag.CurrentSubPage == "Articles" ? "on_focus" : "")"><a href="@Url.Action( "Manage", "Article" )">Articles</a></li>
-	}
-	   @if( CurrentUser.CanManagePrintMaterial && false )
-	{
-				<li class="@(ViewBag.CurrentSubPage == "PrintMaterial" ? "on_focus" : "")"><a href="@Url.Action( "PrintMaterial", "Import" )">Print Material</a></li>
-	}
-	   @if( CurrentUser.CanManageOrders )
-	{
-				<li class="@(ViewBag.CurrentSubPage == "Collateral" ? "on_focus" : "")"><a href="@Url.Action( "Orders", "Collateral" )">Collateral</a></li>
-	}
-	else if( CurrentUser.CanAddOrders )
-	{
-				<li class="@(ViewBag.CurrentSubPage == "Collateral" ? "on_focus" : "")"><a href="@Url.Action( "ViewOrders", "Collateral" )">Collateral</a></li>
-	}
-	   @if( CurrentUser.CanManageTypicals )
-	{
-				<li class="@(ViewBag.CurrentSubPage == "Typicals" ? "on_focus" : "")"><a href="@Url.Action( "Manage", "SpecRequest" )">Spec Requests</a></li>
-	}
-	else if( CurrentUser.CanViewSpecRequests )
-	{
-				<li class="@(ViewBag.CurrentSubPage == "Typicals" ? "on_focus" : "")"><a href="@Url.Action( "ViewAll", "SpecRequest" )">Spec Requests</a></li>
-	}
-	   @if( CurrentUser.CanManageSearchLog )
-	{
-				<li class="@(ViewBag.CurrentSubPage == "SearchLog" ? "on_focus" : "")"><a href="@Url.Action( "SearchLog", "Import" )">Search Log</a></li>
-	}
-	
-	@if( CurrentUser.CanManageNewHomePage )
- {
-				<li class="@(ViewBag.CurrentSubPage == "NewHomePage" ? "on_focus" : "")"><a href="@Url.Action( "NewHomePage", "Import" )">Home Page</a></li>
- }
-			</ul>
-			<p class="clear"></p>
-		</div>
-	</div>
- }
- else if( ViewBag.CurrentPage == "Account" )
- {
-	 bNeedExtraSpace = true;
-	<div id="sub_nav" class="stuckontop">
-		<div class="wrapper p20">
-			<ul class="nav_type_3">
-			@if( !CurrentUser.HasTempPassword )
-   {
-				<li class="@(ViewBag.CurrentSubPage == "MyAccount" ? "on_focus" : "")"><a href="@Url.Action( "MyAccount", "User" )">Profile</a></li>
-   }
-				<li class="@(ViewBag.CurrentSubPage == "ChangePW" ? "on_focus" : "")"><a href="@Url.Action( "ChangePW", "User" )">Change Password</a></li>
-			@if( !CurrentUser.HasTempPassword )
-   {
-				<li class="@(ViewBag.CurrentSubPage == "Subscriptions" ? "on_focus" : "")"><a href="@Url.Action( "Subscriptions", "User" )">Subsciptions and Alerts</a></li>
-   }
-			</ul>
-			<p class="clear"></p>
-		</div>
-	</div>
- }
-</div>
-<p style="padding-top:@(bNeedExtraSpace ? "145" : "120")px;"></p>
-<div class="wrapper p20">
-@RenderBody()
-</div>
 
+<div class="wrapperNew">
+@if( HttpContext.Current.User.Identity.IsAuthenticated )
+{
+	Html.RenderPartial( "RightMenu" );
+}
+
+	<header>
+		@Html.Partial( "PrimaryHeader" )
+	</header>
+	<div class="wrapper p20">
+		@RenderBody()
+	</div>
+</div>
 <div style="display:none">
 	<a href="#inProgressSection" id="btnFormSubmissionInProgress" style="display:none">In Progress</a>
     <div style="vertical-align:middle;" id="inProgressSection">
         <img src="@Url.Content( "~/Content/Images/baprogress.gif" )" alt="" style="display:inline;"/>&nbsp;<span>Working...</span>
     </div>
 </div>
+@Html.Partial( "PrimaryFooter" )

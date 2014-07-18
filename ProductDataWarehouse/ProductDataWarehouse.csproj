@@ -447,7 +447,9 @@
     <Content Include="NewContent\css\dd.css" />
     <Content Include="NewContent\css\demo_page.css" />
     <Content Include="NewContent\css\demo_table.css" />
+    <Content Include="NewContent\css\fonts.css" />
     <Content Include="NewContent\css\jquery-filestyle.css" />
+    <Content Include="NewContent\css\rightmenu.css" />
     <Content Include="NewContent\css\shCore.css" />
     <Content Include="NewContent\css\style.css" />
     <Content Include="NewContent\css\style2.css" />
@@ -712,6 +714,9 @@
     <Content Include="Views\ECB\ViewLayout.cshtml" />
     <Content Include="Views\eCollateral\Index.cshtml" />
     <Content Include="Views\ECB\EditSettings.cshtml" />
+    <Content Include="Views\Shared\RightMenu.cshtml" />
+    <Content Include="Views\Shared\PrimaryHeader.cshtml" />
+    <Content Include="Views\Shared\PrimaryFooter.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

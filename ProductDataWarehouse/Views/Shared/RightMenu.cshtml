@@ -1,0 +1,143 @@
+﻿@using PDWInfrastructure
+@{var CurrentUser = PaoliWebUser.CurrentUser;}
+
+<script type="text/javascript">
+	$(document).ready(function () {
+
+		$('#accordion').dcAccordion({
+			eventType: 'click',
+			autoClose: false,
+			saveState: false,
+			disableLink: false,
+			showCount: false,
+			autoExpand: true,
+			classExpand: 'dcjq-current-parent',
+			speed: 'slow'
+		});
+
+		$('.left-menu-block').height($(document).height());
+		$('.right-menu-block').height($(document).height());
+
+		$('#nav-bar').toggle(function (e) {
+			$('.left-menu-block').animate({ left: 0 });
+			$('.wrapperNew').animate({ left: 480 });
+			$('.header').animate({ left: 480 });
+			$('.footer-area2').animate({ left: 480 });
+		}, function () {
+			$('.left-menu-block').animate({ left: -480 });
+			$('.wrapperNew').animate({ left: 0 });
+			$('.header').animate({ left: 0 });
+			$('.footer-area2').animate({ left: 0 });
+		});
+
+		$('#right-nav').toggle(function (e) {
+			$('.right-menu-block').animate({ right: 0 });
+			$('.wrapperNew').animate({ left: -337 });
+			$('.header').animate({ left: -337 });
+			$('.footer-area2').animate({ left: -337 });
+		}, function () {
+			$('.right-menu-block').animate({ right: -337 });
+			$('.wrapperNew').animate({ left: 0 });
+			$('.header').animate({ left: 0 });
+			$('.footer-area2').animate({ left: 0 });
+		});
+	});
+</script>
+  <div class="right-menu-block"><!--Start Right Menu-->
+           
+                <div class="right-menu">
+                   <ul id="accordion">
+                    <li><a href="/"  class="first"><img src="/newcontent/images/menu_poly.jpg" width="107" height="38" alt="img"/></a></li>
+                    <li class="dcjq-current-parent"><a href="#"> <img src="/newcontent/images/account.jpg" width="36" height="31" alt="img"/>My Account</a>
+                        <ul>
+			@if( !CurrentUser.HasTempPassword )
+   {
+                            <li><a href="@Url.Action( "MyAccount", "User" )">My Profile</a></li>
+   }
+                            <li><a href="@Url.Action( "ChangePW", "User" )">Password</a></li>
+			@if( !CurrentUser.HasTempPassword )
+   {
+                       <!--     <li><a href="@Url.Action( "Subscriptions", "User" )">Subscriptions</a></li>-->
+   }
+				            <li><a href="@Url.Action( "Logout", "Import" )">Log out</a></li>
+                        </ul>
+                    </li>
+					@if( !CurrentUser.HasTempPassword )
+	 {
+                    <li class="dcjq-current-parent"><a href="#"><img src="/newcontent/images/tools.jpg" width="35" height="35" alt="img"/>Tools</a>
+                        <ul>
+	   @if( CurrentUser.CanManageOrders )
+	{
+                            <li><a href="@Url.Action( "Orders", "Collateral" )">Collateral Store</a></li>
+	}
+	else if( CurrentUser.CanAddOrders )
+	{
+                            <li><a href="@Url.Action( "ViewOrders", "Collateral" )">Collateral Store</a></li>
+	}
+	   @if( CurrentUser.CanManageTypicals )
+	{
+                            <li><a href="@Url.Action( "Manage", "SpecRequest" )">Specifications</a></li>
+	}
+	else if( CurrentUser.CanViewSpecRequests )
+	{
+                            <li><a href="@Url.Action( "ViewAll", "SpecRequest" )">Specifications</a></li>
+	}
+	@if( CurrentUser.CanManageECollateral )
+ {
+                            <li><a href="@Url.Action( "Manage", "ECB" )">eCollateral Builder</a></li>
+ }
+	@if( CurrentUser.CanSeeYouniversity )
+ {
+                            <li><a href="https://my.paoli.com/documents/youniversity/training.html">YOUniversity</a></li>
+ }
+                           @if( CurrentUser.CanSeeTheScoop )
+						   {
+                            <li><a href="@Url.Action( "ViewAllScoop", "Article" )">The Scoop</a></li>
+						   }
+                           else if( CurrentUser.IsPaoliUser )
+						   {
+                            <li><a href="@Url.Action( "ViewAllInternal", "Article" )">News</a></li>
+						   }
+                           else 
+						   {
+                            <li><a href="@Url.Action( "ViewAllNewsAndUpdates", "Article" )">News and Updates</a></li>
+						   }
+</ul>
+                    </li>
+	 }
+					@if( CurrentUser.HasAdminLink && !CurrentUser.HasTempPassword )
+	 {
+                    <li><a href="#"><img src="/newcontent/images/admin.jpg" width="35" height="35" alt="img"/>Admin</a>
+                        <ul>
+	   @if( CurrentUser.CanManageUsers )
+	{
+                            <li><a href="@Url.Action( "Manage", "User" )">Users</a></li>
+	}
+		@if( CurrentUser.CanManageCompanies )
+  {
+                            <li><a href="@Url.Action( "Manage", "Company" )">Companies</a></li>
+  }
+	   @if( CurrentUser.CanManageImages )
+	{
+                            <li><a href="@Url.Action( "Images", "Import" )">Image Engine</a></li>
+	}
+	   @if( CurrentUser.CanManageArticles )
+	{
+                            <li><a href="@Url.Action( "Manage", "Article" )">Articles</a></li>
+	}
+	   @if( CurrentUser.CanManageImport )
+	{
+                            <li><a href="@Url.Action( "Index", "Import" )">PDW</a></li>
+	}
+	   @if( CurrentUser.CanManageSearchLog )
+	{
+                            <li><a href="@Url.Action( "SearchLog", "Import" )">Search Log</a></li>
+	}
+                        </ul>
+                    </li>
+	 }
+                </ul>  
+          </div>
+           
+            <div class="right-menu-shadow"></div>
+        </div>

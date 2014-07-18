@@ -1,4 +1,4 @@
-body, ul.tagit
+﻿body, ul.tagit
 {
     font-size: 14px;
     font-family: adelle_sansregular,Arial,"Helvetica Neue",Helvetica,sans-serif;
@@ -8,10 +8,16 @@ body, ul.tagit
     margin: 0;
 }
 
+body
+{
+	height: 100%;
+}
+
 html 
 {
     padding: 0px;
     margin: 0px;
+    height: 100%;
 }
 
 header,
@@ -169,6 +175,7 @@ Header styles
     width: 960px;
     padding: 0px 20px;
 }
+.wrapperNew									{margin:0 auto; position:relative; min-height:100%; height: auto !important; height:100%; padding-bottom:110px; background:#fff;}
 
 #logo{display:inline-block; float:left}	
 

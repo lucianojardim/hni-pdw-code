@@ -176,6 +176,9 @@ namespace ProductDataWarehouse.Controllers
 		{
 			ArticleRepository aRepository = new ArticleRepository();
 
+			ViewBag.PageTitle = "Here's your Paoli news";
+			ViewBag.HeaderArea = "InternalNews";
+
 			return View( viewName: "ViewAll", model: aRepository.GetArticleViewList( ArticleInformation.ArticleTypes.Internal ) );
 		}
 
@@ -185,6 +188,9 @@ namespace ProductDataWarehouse.Controllers
 		{
 			ArticleRepository aRepository = new ArticleRepository();
 
+			ViewBag.PageTitle = "Here's the Scoop";
+			ViewBag.HeaderArea = "TheScoop";
+
 			return View( viewName: "ViewAll", model: aRepository.GetArticleViewList( ArticleInformation.ArticleTypes.Scoop ) );
 		}
 
@@ -193,6 +199,9 @@ namespace ProductDataWarehouse.Controllers
 		public ActionResult ViewAllNewsAndUpdates()
 		{
 			ArticleRepository aRepository = new ArticleRepository();
+
+			ViewBag.PageTitle = "Here's your News and Updates";
+			ViewBag.HeaderArea = "NewsUpdates";
 
 			return View( viewName: "ViewAll", model: aRepository.GetArticleViewList( ArticleInformation.ArticleTypes.NewsAndUpdates ) );
 		}
