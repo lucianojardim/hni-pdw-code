@@ -10,7 +10,6 @@ namespace PDWDBContext
 		public IEnumerable<ImageFile.ImageData> ImageListForSize( string suffix, int maxImageCount = 0 )
 		{
 			var imgList = TypicalImageFiles
-				.Where( t => t.ImageFile.ImageType == "ILD" )
 				.Where( s => !s.IsFeatured );
 
 			if( (maxImageCount > 0) )
