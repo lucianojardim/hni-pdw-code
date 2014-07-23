@@ -717,6 +717,7 @@
     <Content Include="Views\Shared\RightMenu.cshtml" />
     <Content Include="Views\Shared\PrimaryHeader.cshtml" />
     <Content Include="Views\Shared\PrimaryFooter.cshtml" />
+    <Content Include="Views\Shared\GoogleAnalytics.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
