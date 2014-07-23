@@ -175,8 +175,8 @@ namespace PWDRepositories
 					aoi.SeatingGrade = ( img.FinishType == (int)PDWModels.Images.ImageInformation.FinishTypes.Seating ) ? ( img.SeatingGrade ?? 0 ) : 0;
 					aoi.FeaturedImage = img.ThumbnailImageData( "s16to9" );
 					aoi.Popularity = ( aoi.VeneerGrade == (int)PDWModels.Images.ImageInformation.VeneerGrades.Premium ? 16 : 0 ) +
-						( aoi.VeneerGrade == (int)PDWModels.Images.ImageInformation.VeneerGrades.Standard ? 8 : 0 ) +
-						( aoi.SeatingGrade == (int)PDWModels.Images.ImageInformation.SeatingGrades.Premium ? 4 : 0 ) +
+						( aoi.SeatingGrade == (int)PDWModels.Images.ImageInformation.SeatingGrades.Premium ? 8 : 0 ) +
+						( aoi.VeneerGrade == (int)PDWModels.Images.ImageInformation.VeneerGrades.Standard ? 4 : 0 ) +
 						( aoi.SeatingGrade == (int)PDWModels.Images.ImageInformation.SeatingGrades.Standard ? 2 : 0 ) +
 						1; // those with images go higher
 				}
