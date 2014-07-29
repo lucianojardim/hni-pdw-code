@@ -19,6 +19,21 @@
 				$('#canceledDate').text(getLocalDateTime('@Model.CanceledDate.Value.ToString()'));
 			</text>
 			}
+
+			$('.openReqBtn').click(function(e) {
+				$.ajax({
+					dataType: 'json',
+					type: 'GET',
+					url: '/SpecRequest/OpenRequest',
+					data: { id: '@Model.RequestID' },
+					success: function (data, textStatus, jqXHR) {
+			    		window.location.href = '@Url.Action( "EditRequest", "SpecRequest", new { id = Model.RequestID } )';
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+						alert('Error re-opening Request:' + errorThrown)
+					}
+				});
+			});
     	});
 	</script>
 
@@ -294,4 +309,10 @@
 			 </div>
 			 <!-- END: main -->
 		 </div>  
+		 @if( Model.IsCompleted && !Model.IsCanceled && PDWInfrastructure.PaoliWebUser.CurrentUser.CanManageTypicals )
+   {
+<div class="btnAlt">
+<span class="btn7 openReqBtn">RE-OPEN</span>
+</div>
+   }
 </div>

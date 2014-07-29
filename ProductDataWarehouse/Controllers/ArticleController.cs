@@ -179,7 +179,7 @@ namespace ProductDataWarehouse.Controllers
 			return View( viewName: "ViewAll", model: aRepository.GetArticleViewList( ArticleInformation.ArticleTypes.Scoop ) );
 		}
 
-		[PaoliAuthorize( "CanBeLoggedIn" )]
+		[PaoliAuthorize( "CanSeeNewsUpdates" )]
 		[TempPasswordCheck]
 		public ActionResult ViewAllNewsAndUpdates()
 		{

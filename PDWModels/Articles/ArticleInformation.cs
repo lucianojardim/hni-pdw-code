@@ -20,9 +20,9 @@ namespace PDWModels.Articles
 				get
 				{
 					return new Dictionary<int, string>() {
-					{ Scoop, "Scoop" },				
-					{ NewsAndUpdates, "News and Updates" },				
-					{ Internal, "Internal Only" },				
+					{ Scoop, "The Scoop - Sales Reps" },				
+					{ NewsAndUpdates, "Dealer Updates - Dealers" },				
+					{ Internal, "Paoli News (Internal)" },				
                 };
 				}
 			}
@@ -41,7 +41,7 @@ namespace PDWModels.Articles
 					return new Dictionary<int, string>() {
 					{ Normal, "Normal" },				
 					{ Promoted, "Promoted" },				
-					{ Featured, "Featured" },				
+					{ Featured, "Top Story" },				
                 };
 				}
 			}

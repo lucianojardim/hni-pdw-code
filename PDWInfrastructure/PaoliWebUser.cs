@@ -263,7 +263,8 @@ namespace PDWInfrastructure
 		public bool CanManageCompanies { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
 
 		public bool CanSeeYouniversity { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ); } }
-		public bool CanSeeTheScoop { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ); } }
+		public bool CanSeeTheScoop { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ) || IsPaoliUser; } }
+		public bool CanSeeNewsUpdates { get { return IsPaoliUser || IsDealerUser; } }
 		public bool HasContacts { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ) || IsDealerUser; } }
 
 		public bool CanManageCollateral { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin,

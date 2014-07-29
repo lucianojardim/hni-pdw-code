@@ -94,11 +94,11 @@
 						   {
                             <li><a href="@Url.Action( "ViewAllScoop", "Article" )">The Scoop</a></li>
 						   }
-                           else if( CurrentUser.IsPaoliUser )
+                           @if( CurrentUser.IsPaoliUser )
 						   {
                             <li><a href="@Url.Action( "ViewAllInternal", "Article" )">Paoli News</a></li>
 						   }
-                           else 
+                           @if( CurrentUser.CanSeeNewsUpdates )
 						   {
                             <li><a href="@Url.Action( "ViewAllNewsAndUpdates", "Article" )">News and Updates</a></li>
 						   }

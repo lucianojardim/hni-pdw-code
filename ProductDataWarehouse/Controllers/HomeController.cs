@@ -41,10 +41,10 @@ namespace ProductDataWarehouse.Controllers
 		public static List<ArticleDisplayInfo> GetHomePageContent()
 		{
 			var articleType = ArticleInformation.ArticleTypes.NewsAndUpdates;
-			if( PaoliWebUser.CurrentUser.CanSeeTheScoop )
-				articleType = ArticleInformation.ArticleTypes.Scoop;
-			else if( PaoliWebUser.CurrentUser.IsPaoliUser )
+			if( PaoliWebUser.CurrentUser.IsPaoliUser )
 				articleType = ArticleInformation.ArticleTypes.Internal;
+			else if( PaoliWebUser.CurrentUser.CanSeeTheScoop )
+				articleType = ArticleInformation.ArticleTypes.Scoop;
 
 			var contentArea = ( new ArticleRepository() ).GetMainArticleList( articleType );
 			if( contentArea != null )

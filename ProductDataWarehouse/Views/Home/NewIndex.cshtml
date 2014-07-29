@@ -15,7 +15,7 @@
 			dataType: 'json',
 			success: function (data) {
 				$(data).each(function (i, item) {
-					var s = '<p class="sideListItem" data-id="' + item.RequestID + '"><span>';
+					var s = '<p class="sideListItem" data-id="' + item.RequestID + '" data-canedit="' + (!item.IsCanceled && !item.IsCompleted) + '"><span>';
 					if (item.IsCanceled) {
 						s += 'Canceled';
 					} else if (item.IsCompleted) {
@@ -48,7 +48,11 @@
 				$('#specRequestList .sideListItem').css('cursor', 'pointer').on('click', function () {
 				@if( CurrentUser.CanManageTypicals ) {
 					<text>
-					window.location = '@Url.Action( "EditRequest", "SpecRequest" )/' + $(this).data('id');
+					if ($(this).data('canedit')) {
+						window.location = '@Url.Action( "EditRequest", "SpecRequest" )/' + $(this).data('id');
+					} else {
+						window.location = '@Url.Action( "ViewRequest", "SpecRequest" )/' + $(this).data('id');
+					}
 					</text>
 					}
 					else{
@@ -68,7 +72,7 @@
 			dataType: 'json',
 			success: function (data) {
 				$(data).each(function (i, item) {
-					var s = '<p class="sideListItem" data-id="' + item.OrderID + '" data-canEdit="' + item.CanEdit + '"><span>';
+					var s = '<p class="sideListItem" data-id="' + item.OrderID + '" data-canedit="' + item.CanEdit + '"><span>';
 					s += item.Status;
 					s += ': </span> ';
 					s += item.OrderID;
@@ -95,7 +99,7 @@
 				$('#collateralOrderList .sideListItem').css('cursor', 'pointer').on('click', function () {
 				@if( CurrentUser.CanManageOrders ) {
 		<text>
-					if ($(this).data('CanEdit')) {
+					if ($(this).data('canedit')) {
 						window.location = '@Url.Action( "EditOrder", "Collateral" )/' + $(this).data('id');
 					} else {
 						window.location = '@Url.Action( "ViewOrder", "Collateral" )/' + $(this).data('id');
@@ -145,13 +149,13 @@
        <i class="clear_0"></i>                                 
    }
    <div class="main_lt_btm">
-   @if( CurrentUser.CanSeeTheScoop )
-   {
-   <a href="@Url.Action( "ViewAllScoop", "Article" )">view all</a>
-   }
-   else if( CurrentUser.IsPaoliUser )
+   @if( CurrentUser.IsPaoliUser )
    {
    <a href="@Url.Action( "ViewAllInternal", "Article" )">view all</a>
+   }
+   else if( CurrentUser.CanSeeTheScoop )
+   {
+   <a href="@Url.Action( "ViewAllScoop", "Article" )">view all</a>
    }
    else
    {
