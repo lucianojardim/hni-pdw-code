@@ -60,6 +60,10 @@
 				}
 			});
 
+			$('.viewBtn').click(function(e) {
+				window.open( '@Url.Action( "ViewRequest", new { id = Model.RequestID } )' );
+			});
+
     		$('#DealerID').change(function () {
     			reloadDealerSalesRepList();
     		});
@@ -416,6 +420,7 @@
 		@Html.MJLabelFor( m => m.CanceledByUser, true ) <br /><span>@Html.DisplayFor( m => m.CanceledByUser )</span>
 	  
   }
+		<input type="button" class="btn_type1 viewBtn" value="Print Request" />
 		</div>
 		<div class="clear"></div>
 		</div>
