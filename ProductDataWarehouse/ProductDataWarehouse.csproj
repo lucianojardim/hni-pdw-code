@@ -716,7 +716,6 @@
     <Content Include="Views\Shared\EditorTemplates\DetailItemNoImage.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DetailItem.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DetailItemNoImage.cshtml" />
-    <Content Include="Views\eCollateral\Index.cshtml" />
     <Content Include="Views\Shared\RightMenu.cshtml" />
     <Content Include="Views\Shared\PrimaryHeader.cshtml" />
     <Content Include="Views\Shared\PrimaryFooter.cshtml" />
