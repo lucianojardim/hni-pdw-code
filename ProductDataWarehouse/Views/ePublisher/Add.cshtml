@@ -1,0 +1,336 @@
+﻿@model PDWModels.eCollateral.ECollateralSettings
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.ShowHeaderArea = false;
+}
+@using ProductDataWarehouse.Controllers
+@using PDWInfrastructure
+    <script type="text/javascript">
+    	$(document).ready(function () {
+			$.data($('#theForm')[0], 'validator').settings.ignore = '.noValidate';
+
+    		$.validator.addMethod(
+					"regex",
+					function (value, element, regexp) {
+						var re = new RegExp(regexp);
+						return this.optional(element) || re.test(value);
+					},
+					"Please check your input."
+				);
+
+    		$.validator.addMethod(
+					"isunique",
+					function (value, element, regexp) {
+						return $(element).hasClass('isunique');
+					},
+					"Please check your input."
+				);
+
+    		$('#CustomURL').rules("add", { isunique: true, messages: { required: "URL must be valid and unique in the system."} });
+    		$('#PaoliSalesRepGroupID').rules("add", { required: true, messages: { required: "Sales Rep Territory is required."} });
+    		$('#DealershipID').rules("add", { required: true, messages: { required: "Dealership is required."} });
+    		$('#DealershipPOCID').rules("add", { required: true, messages: { required: "Dealership Point of Contact is required."} });
+    		$('#CustomerName').rules("add", { required: true, messages: { required: "Customer Name is required."} });
+    		$('#ProjectName').rules("add", { required: true, messages: { required: "Project Name is required."} });
+    		$('#DealershipPOCName').rules("add", { required: true, messages: { required: "Dealership Point of Contact Name is required."} });
+    		$("#DealershipPOCPhone").rules("add", { regex: "^[2-9]\\d{2}-\\d{3}-\\d{4}$", messages: { regex: "Phone Number must be in the format ###-###-####."} });
+    		$("#DealershipPOCEmail").rules("add", { regex: "^[A-Za-z0-9](([_\\.\\-\\+]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$", messages: { regex: "Email must be a valid Email Address."} });
+
+    		$('#IsTemplate').on('change', showHideProjectInfo);
+    		$('#PaoliSalesRepGroupID').on('change', reloadPaoliSalesRepList);
+    		$('#DealershipID').on('change', reloadDealerSalesRepList);
+    		$('#DealershipPOCID').on('change', showHideDealerPOC);
+
+    		$('.submitBtn').click(function (e) {
+    			$('#theForm').submit();
+    		});
+
+    		$('#CustomURL').on('keyup', function (e) {
+    			ValidateURL($(this).val());
+    		});
+
+			showHideProjectInfo();
+    		ValidateURL('');
+    		reloadPaoliSalesRepList();
+    	});
+
+		function showHideProjectInfo() {
+			if ($('#IsTemplate').val() == 'true') {
+				$('.projectInfo').hide();
+				$('.projectInfo input').addClass('noValidate');
+				$('.projectInfo select').addClass('noValidate');
+			} else {
+				$('.projectInfo').show();
+				$('.projectInfo input').removeClass('noValidate');
+				$('.projectInfo select').removeClass('noValidate');
+			}
+			showHideDealerPOC();
+		}
+
+    	function ValidateURL(urlValue) {
+    		$.ajax({
+    			dataType: 'json',
+    			type: 'GET',
+    			url: '/ePublisher/ValidateURL',
+    			data: { itemId: 0, url: urlValue },
+    			success: function (data, textStatus, jqXHR) {
+    				if (data.success) {
+    					$('#isURLOK').removeClass('notavailable');
+						$('#CustomURL').addClass('isunique');
+    				} else {
+    					$('#isURLOK').addClass('notavailable');
+						$('#CustomURL').removeClass('isunique');
+    				}
+    			},
+    			error: function (jqXHR, textStatus, errorThrown) {
+    				alert('Error getting Dealer list:' + errorThrown)
+    			}
+    		});
+    	}
+
+    	function emptyDropDownList(ddList) {
+			ddList.empty();
+    	}
+
+    	function reloadDropDownUserList(ddListID, data, bNeedOther) {
+    		var ddList = $(ddListID);
+    		emptyDropDownList(ddList);
+    		$.each(data.theList, function (idx, item) {
+				ddList.append('<option value="' + item.UserID + '">' + item.FullName + '</option>")');
+    		});
+			if( bNeedOther ) {
+				ddList.append('<option value="0">Other</option>")');
+			}
+    	}
+
+    	function reloadDropDownCompanyList(ddListID, data) {
+    		var ddList = $(ddListID);
+    		emptyDropDownList(ddList);
+    		$.each(data, function (idx, item) {
+				ddList.append('<option value="' + item.ID + '">' + item.Text + '</option>")');
+    		});
+    	}
+
+    	function reloadPaoliSalesRepList() {
+    		if ($('#PaoliSalesRepGroupID').val() != null && $('#PaoliSalesRepGroupID').val() != '' && $('#PaoliSalesRepGroupID').val() != '0') {
+				@if( PDWInfrastructure.PaoliWebUser.CurrentUser.IsDealerUser )
+	{
+		var thisCompany = ProductDataWarehouse.Controllers.CompanyController.GetThisCompanyAsDDItem( includeTerritory: true );
+				<text>
+    				emptyDropDownList($('#DealershipID'));
+					$('#DealershipID').append('<option value="@(thisCompany.First().Value)">@(thisCompany.First().Text.Replace( "'", "''" ))</option>")';
+
+    				reloadDealerSalesRepList();
+				</text>
+	}
+	else
+	{
+				<text>
+    			$.ajax({
+    				dataType: 'json',
+    				type: 'GET',
+    				url: '/Company/GetDealerListForSalesRep',
+    				data: { salesRepCompanyId: $('#PaoliSalesRepGroupID').val(), includeTerritory: true },
+    				success: function (data, textStatus, jqXHR) {
+						reloadDropDownCompanyList('#DealershipID', data);
+    					reloadDealerSalesRepList();
+    				},
+    				error: function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Dealer list:' + errorThrown)
+    				}
+    			});
+				</text>
+	}
+
+    		} else {
+    			emptyDropDownList($('#DealershipID'));
+    			emptyDropDownList($("#DealershipPOCID"));
+				$('#DealershipPOCName').addClass('noValidate');
+				$('.DSRPOCCell').hide();
+    		}
+		}
+
+    	function reloadDealerSalesRepList() {
+    		if ($('#DealershipID').val() != null && $('#DealershipID').val() != '' && $('#DealershipID').val() != '0') {
+    			$.ajax({
+    				dataType: 'json',
+    				type: 'GET',
+    				url: '/User/GetDealerSalesRepListForCompany',
+    				data: { companyId: $('#DealershipID').val(), enabledOnly: true },
+    				success: function (data, textStatus, jqXHR) {
+    					reloadDropDownUserList('#DealershipPOCID', data, true);
+						showHideDealerPOC();
+    				},
+    				error: function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Dealer Sales Rep list:' + errorThrown)
+    				}
+    			});
+    		} else {
+    			emptyDropDownList($("#DealershipPOCID"));
+				$('#DealershipPOCName').addClass('noValidate');
+				$('.DSRPOCCell').hide();
+    		}
+    	}
+
+		function showHideDealerPOC() {
+    		if ($('#DealershipPOCID').val() == '0' && $('#IsTemplate').val() == 'false') {
+    			$('.DSRPOCCell').show();
+				$('#DealershipPOCName').removeClass('noValidate');
+   			} else {
+    			$('.DSRPOCCell').hide();
+ 				$('#DealershipPOCName').addClass('noValidate');
+   			}
+		}
+
+	</script>
+@{
+	CompanyController.GetCompanyListFunction GetSalesRepList = CompanyController.GetCompanyDDList;
+	if( PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
+	{
+		GetSalesRepList = CompanyController.GetThisCompanyAsDDItem;
+	}
+	else if( PaoliWebUser.CurrentUser.IsDealerUser )
+	{
+		GetSalesRepList = CompanyController.GetSalesRepForDealerDDItem;
+	}
+	var isTemplateList = new List<SelectListItem>() { new SelectListItem() { Text = "No", Value = "false" } };
+	if( PaoliWebUser.CurrentUser.CanAddECTemplate )
+	{
+		isTemplateList.Add( new SelectListItem() { Text = "Yes", Value = "true" } );
+	}
+}
+
+<div class="content">
+	<div class="boxes settingpage">
+		<h1 class="aligncenter">Alright! Let’s get started creating<br/> your new ePublisher page!</h1>
+        
+             
+        <h2>Collateral Info</h2>
+        
+
+		@using( Html.BeginForm( "Add", "ePublisher", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data", @class = "form" } ) )
+  {
+			@Html.AntiForgeryToken()
+			<div class="filesettinglist">
+                <label for="template">Is Template?</label>
+                @Html.DropDownListFor( m => m.IsTemplate, isTemplateList )
+                <div class="clr"></div>
+                
+                <label for="FileName">File Name</label>
+                @Html.TextBoxFor( m => m.FileName )
+                <em>File name must be unique.</em>
+                <div class="clr"></div>
+				@Html.ValidationMessageFor( m => m.FileName )
+                <div class="clr"></div>
+                
+                <label for="CustomURL">Custom URL</label>
+                @Html.TextBoxFor( m => m.CustomURL )
+                <em>Custom URL must be unique and can only include letters, numbers, hyphens (-) or underscores (_).  No other special characters are permitted.
+				<i id="isURLOK">URL Available</i>
+				</em>
+                <div class="clr"></div>
+				@Html.ValidationMessageFor( m => m.CustomURL )
+                <div class="clr"></div>
+                 
+                 
+                 <br/><br/>
+                 <h2 class="projectInfo">Who is this for?</h2>
+
+				
+				<div class="projectInfo">
+                <label for="PaoliSalesRepGroupID">Sales Rep Territory</label>
+                @Html.DropDownListFor( m => m.PaoliSalesRepGroupID, GetSalesRepList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, includeTerritory: true ) )
+                <div class="clr"></div>
+				@Html.ValidationMessageFor( m => m.PaoliSalesRepGroupID )
+                <div class="clr"></div>
+				</div>
+                
+                
+				<div class="projectInfo">
+                <label for="DealershipID">Dealership</label>
+                @Html.DropDownListFor( m => m.DealershipID, new List<SelectListItem>() )
+                <em>Select your dealership from the drop down</em>
+                <div class="clr"></div>
+				@Html.ValidationMessageFor( m => m.DealershipID )
+                <div class="clr"></div>
+				</div>
+                
+                
+				<div class="projectInfo">
+                <label for="DealershipPOCID">Dealership Point of Contact</label>
+                @Html.DropDownListFor( m => m.DealershipPOCID, new List<SelectListItem>() )
+                <em>Select your dealership point of contact from the drop down</em>
+                <div class="clr"></div>
+				@Html.ValidationMessageFor( m => m.DealershipPOCID )
+                <div class="clr"></div>
+				</div>
+
+                
+				<div class="DSRPOCCell">
+                <label for="CustomerName">Name</label>
+                @Html.TextBoxFor( m => m.DealershipPOCName )
+                <div class="clr"></div>
+				@Html.ValidationMessageFor( m => m.DealershipPOCName )
+                <div class="clr"></div>
+				</div>
+
+                
+				<div class="DSRPOCCell">
+                <label for="CustomerName">Email</label>
+                @Html.TextBoxFor( m => m.DealershipPOCEmail )
+                <div class="clr"></div>
+				@Html.ValidationMessageFor( m => m.DealershipPOCEmail )
+                <div class="clr"></div>
+				</div>
+
+                
+				<div class="DSRPOCCell">
+                <label for="CustomerName">Phone</label>
+                @Html.TextBoxFor( m => m.DealershipPOCPhone )
+                <div class="clr"></div>
+				@Html.ValidationMessageFor( m => m.DealershipPOCPhone )
+                <div class="clr"></div>
+				</div>
+
+                
+				<div class="DSRPOCCell">
+                <label for="CustomerName">User Type</label>
+                @Html.DropDownListFor( m => m.DealershipPOCAcctType, UserController.GetDealerUserRoleDDList() )
+                <div class="clr"></div>
+				@Html.ValidationMessageFor( m => m.DealershipPOCAcctType )
+                <div class="clr"></div>
+				</div>
+
+                
+				<div class="projectInfo">
+                <label for="CustomerName">Customer Name</label>
+                @Html.TextBoxFor( m => m.CustomerName )
+                <em>Who is the end user?</em>
+                <div class="clr"></div>
+				@Html.ValidationMessageFor( m => m.CustomerName )
+                <div class="clr"></div>
+				</div>
+                
+				<div class="projectInfo">
+                <label for="ProjectName">Project Name</label>
+                @Html.TextBoxFor( m => m.ProjectName )
+                <em>What project is this for?</em>
+                <div class="clr"></div>
+				@Html.ValidationMessageFor( m => m.ProjectName )
+                <div class="clr"></div>
+				</div>
+
+                <div class="clr"></div>
+                
+                
+                
+            </div>
+  }
+        
+    </div>
+</div>
+<footer class="mainfooter">
+	<div class="leftdiv"><a href="@Url.Action( "Manage", "ePublisher" )" class="cancelBtn">Cancel</a></div>
+    <div class="rightdiv"><a href="javascript:void(0);" class="publish submitBtn">Save and Continue</a></div>
+</footer>

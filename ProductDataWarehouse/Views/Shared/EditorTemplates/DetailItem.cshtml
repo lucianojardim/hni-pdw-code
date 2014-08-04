@@ -39,24 +39,32 @@
 
 </script>
 
-	<div style="width: 100%;" id="detailImage@(ViewBag.index)">
+
+<div class="addimagebox" id="detailImage@(ViewBag.index)">
 	@Html.HiddenFor( m => m.ImageID, new { @class = "inputImageID" } )
 	@Html.HiddenFor( m => m.ImageFileName, new { @class = "inputImageFileName" } )
 		@if( Model.ImageID.HasValue )
   {
 	  <img src="/Images/@Model.ImageFileName" width="100%" />
   }
-  else
+  else if( ViewBag.isBigImage ?? true )
   {
-	  <img src="/NewContent/images/eCollateralAddImage.png" width="100%" />
+	  <img src="/NewContent/images/image-browse-lg.png" />
   }
-	</div>
-	<div style="min-height: 100px; width: 100%;">
-		<div id="detailContent@(ViewBag.index)" style="min-height: 100px; width: 100%; border: 1px solid #999;">
+  else 
+  {
+	  <img src="/NewContent/images/image-browse-sm.png" />
+  }
+</div>
+<div class="addcontentbox">
+	<div id="detailContent@(ViewBag.index)" style="border: 1px solid #999; min-height: 100px;" >
 		@Html.Raw( Model.Content )
-		</div>
-		<div style="display:none; height: 550px;" class="editContent">
-			@Html.TextAreaFor( m => m.Content, new { @style = "width: 100%; height: 100%" } )
-			<a href="javascript:void(0)" id="btnSaveContent@(ViewBag.index)">Save</a> <a href="javascript:void(0)" id="btnCancelContent@(ViewBag.index)">Cancel</a>
+	</div>
+	<div style="display:none; height: 550px;" class="editContent">
+		@Html.TextAreaFor( m => m.Content, new { @style = "width: 100%; height: 100%" } )
+		<div class="editorheading">
+			<a href="javascript:void(0)" id="btnSaveContent@(ViewBag.index)">Commit Changes</a><a href="javascript:void(0)" id="btnCancelContent@(ViewBag.index)">Close X</a>
 		</div>
 	</div>
+</div>
+<div class="clr"></div>

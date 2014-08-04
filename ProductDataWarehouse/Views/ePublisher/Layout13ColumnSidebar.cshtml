@@ -1,0 +1,51 @@
+﻿@model PDWModels.eCollateral.ECollateralDetails
+
+@Html.EditorFor( m => m.Details[0], additionalViewData: new { index = 0, isBigImage = true } )
+<br /><br />
+<div class="threecol">
+    <div class="collboxes">
+		@Html.EditorFor( m => m.Details[1], additionalViewData: new { index = 1, isBigImage = false } )
+    </div>
+    <div class="collboxes">
+		@Html.EditorFor( m => m.Details[2], additionalViewData: new { index = 2, isBigImage = false } )
+    </div>
+    <div class="collboxes">
+		@Html.EditorFor( m => m.Details[3], additionalViewData: new { index = 3, isBigImage = false } )
+    </div>
+	<div class="clr"></div>
+    <div class="collboxes">
+		@Html.EditorFor( m => m.Details[4], additionalViewData: new { index = 4, isBigImage = false } )
+    </div>
+    <div class="collboxes">
+		@Html.EditorFor( m => m.Details[5], additionalViewData: new { index = 5, isBigImage = false } )
+    </div>
+    <div class="collboxes">
+		@Html.EditorFor( m => m.Details[6], additionalViewData: new { index = 6, isBigImage = false } )
+    </div>
+	<div class="clr"></div>
+</div>
+<div class="onecol fullcoll bordertoop">
+    <div class="padingbox">
+		<div class="onecolthreebkl">
+		@Html.EditorFor( m => m.Details[7], templateName: "DetailItemNoImage", additionalViewData: new { index = 7 } )
+		</div>
+		<div class="onecolthreebkl">
+		@Html.EditorFor( m => m.Details[8], templateName: "DetailItemNoImage", additionalViewData: new { index = 8 } )
+		</div>
+		<div class="onecolthreebkl">
+		@Html.EditorFor( m => m.Details[9], templateName: "DetailItemNoImage", additionalViewData: new { index = 9 } )
+		</div>
+		<div class="clr"></div>
+	</div>
+</div>
+<div class="clr"></div>
+@Html.Hidden( "Details.Index", 0 )
+@Html.Hidden( "Details.Index", 1 )
+@Html.Hidden( "Details.Index", 2 )
+@Html.Hidden( "Details.Index", 3 )
+@Html.Hidden( "Details.Index", 4 )
+@Html.Hidden( "Details.Index", 5 )
+@Html.Hidden( "Details.Index", 6 )
+@Html.Hidden( "Details.Index", 7 )
+@Html.Hidden( "Details.Index", 8 )
+@Html.Hidden( "Details.Index", 9 )

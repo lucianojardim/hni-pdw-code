@@ -10,7 +10,7 @@ using PDWInfrastructure;
 
 namespace ProductDataWarehouse.Controllers
 {
-	public class ECBController : BaseController
+	public class ePublisherController : BaseController
     {
 		[PaoliAuthorize( "CanManageECollateral" )]
 		[TempPasswordCheck]
@@ -94,16 +94,9 @@ namespace ProductDataWarehouse.Controllers
 			return View( settings );
 		}
 
-		public static IEnumerable<SelectListItem> GetLayouts( int layoutType )
+		public static IEnumerable<ECollateralRepository.Layouts.LayoutDetails> GetLayouts( int layoutType )
 		{
-			var retList = new List<SelectListItem>();
-			var layoutList = ECollateralRepository.LayoutTypes.LayoutList[layoutType];
-			foreach( var layout in layoutList )
-			{
-				retList.Add( new SelectListItem() { Text = ECollateralRepository.Layouts.LayoutTitles[layout], Value = layout.ToString() } );
-			}
-
-			return retList;
+			return new ECollateralRepository().GetLayoutSelectionDetails( layoutType );
 		}
 
 		[PaoliAuthorize( "CanManageECollateral" )]
@@ -152,7 +145,14 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult EditLayout( int id )
 		{
-			return View( (new ECollateralRepository()).GetItemDetails( id ) );
+			var details = ( new ECollateralRepository() ).GetItemDetails( id );
+
+			if( details == null )
+			{
+				return RedirectToAction( "SetLayout", new { id = id } );
+			}
+
+			return View( details );
 		}
 
 		[PaoliAuthorize( "CanManageECollateral" )]
@@ -220,13 +220,27 @@ namespace ProductDataWarehouse.Controllers
 
 			return RedirectToAction( "EditSettings", new { id = newId } );
 		}
-		
-		[PaoliAuthorize( "CanManageECollateral" )]
-		public JsonResult ValidateURL( string url )
+
+		[PaoliAuthorize( "CanReviewECollateral" )]
+		public JsonResult UpdateStatus( int itemId, int updateStatus )
 		{
 			ECollateralRepository eRepository = new ECollateralRepository();
 
-			bool bSuccess = eRepository.ValidateURL( 0, url );
+			bool bSuccess = eRepository.UpdateStatus( itemId, updateStatus );
+
+			return Json( new
+			{
+				success = bSuccess
+			},
+				JsonRequestBehavior.AllowGet );
+		}
+
+		[PaoliAuthorize( "CanManageECollateral" )]
+		public JsonResult ValidateURL( int itemId, string url )
+		{
+			ECollateralRepository eRepository = new ECollateralRepository();
+
+			bool bSuccess = eRepository.ValidateURL( itemId, url );
 
 			return Json( new
 			{

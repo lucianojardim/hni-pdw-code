@@ -1,0 +1,47 @@
+﻿@model PDWModels.eCollateral.ECollateralLayout
+@{
+    ViewBag.Title = "SetLayout";
+    Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.ShowHeaderArea = false;
+}
+<script type="text/javascript">
+	function setLayout(layoutId) {
+		$('#LayoutID').val(layoutId);
+		$('#theForm').submit();
+	}
+
+	$(document).ready(function () {
+	});
+</script>
+
+<div class="content">
+	<div class="boxes">
+		<h1 class="aligncenter">What kind of layout would you<br/> like to work with?</h1>
+        
+             
+        <h2 class="marginbtm">Would you like to create an HTML Landing Page?</h2>
+        
+		@foreach( var layoutDetail in ProductDataWarehouse.Controllers.ePublisherController.GetLayouts( PWDRepositories.ECollateralRepository.LayoutTypes.HTMLPage ) )
+		{
+        <div class="twoblk layoutchoose aligncenter">
+        	<a href="javascript:void(0);" class="layouttype" onclick="setLayout(@(layoutDetail.Layout));"><img src="/NewContent/images/@layoutDetail.ImageName" alt="" height="182" width="141">
+            @layoutDetail.Name</a>
+        </div>
+		}
+       
+    @using( Html.BeginForm( "SetLayout", "ePublisher", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
+	{
+		@Html.AntiForgeryToken()
+		@Html.HiddenFor( m => m.ItemID )
+		@Html.HiddenFor( m => m.LayoutID )
+	}
+        
+        <div class="clr"></div>
+    </div>
+</div>
+
+
+<footer class="mainfooter">
+	<div class="leftdiv"><a href="@Url.Action( "Manage", "ePublisher" )" class="cancelBtn">Cancel</a></div>
+    <div class="rightdiv"><a href="@Url.Action( "EditSettings", "ePublisher", new { id = Model.ItemID } )" class="previousAlone">Previous</a><!--<a href="#" class="publish">Save and Continue</a>--></div>
+</footer>

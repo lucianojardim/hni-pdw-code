@@ -9,7 +9,7 @@ using ProductDataWarehouse.Models;
 
 namespace ProductDataWarehouse.Controllers
 {
-	public class eCollateralController : BaseController
+	public class InfoController : BaseController
     {
 		[PaoliAuthorize( "CanBeLoggedIn" )]
 		[ECollateralVerify]

@@ -33,8 +33,8 @@ namespace ProductDataWarehouse
 
 			routes.MapRoute(
 				"eCollateralPage", // Route name
-				"eCollateral/{id}", // URL with parameters
-				new { controller = "eCollateral", action = "Index" } // Parameter defaults
+				"Info/{id}", // URL with parameters
+				new { controller = "Info", action = "Index" } // Parameter defaults
 			);
 
 			routes.MapRoute(

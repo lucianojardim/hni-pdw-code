@@ -1,0 +1,339 @@
+﻿@{
+    ViewBag.Title = "Manage";
+    Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.ShowHeaderArea = false;
+	var CurrentUser = PDWInfrastructure.PaoliWebUser.CurrentUser;
+}
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		var headers = $('.tabmenu li');
+		headers.click(function (e) {
+			var myId = $(this).attr('id');
+			$('.tabmenu li').removeClass('active');
+			$('.tabcont').css('display','none');
+			$('.'+myId).fadeIn();
+			//alert(myId);
+			$(this).addClass('active');
+		});
+
+		$(window).scroll(checkScrollPosition);
+		$('#btnDoSearch').on('click', function(){ 
+			reloadLists(false);
+		});
+		reloadLists(false);
+	});
+
+	function reloadLists(bSubmit) {
+		resetMyPages();
+		resetTemplates();
+@if( CurrentUser.CanReviewECollateral )
+{
+		<text>resetReviewPages();</text>
+}
+		if( bSubmit ) {
+			$.fancybox.close();
+		}
+	}
+
+	function resetMyPages() {
+		$('#tab1').html('');
+		bRemaining1 = true;
+		GetMyPages(0);
+	}
+
+	function resetTemplates() {
+		$('#tab2').html('');
+		bRemaining2 = true;
+		GetTemplates(0);
+	}
+
+	function resetReviewPages() {
+		$('#tab3').html('');
+		bRemaining3 = true;
+		GetReviewPages(0);
+	}
+
+	var bLoading1 = false, bLoading2 = false, bLoading3 = false;
+	var bRemaining1 = true, bRemaining2 = true, bRemaining3 = true;
+	function checkScrollPosition() {
+		if (bLoading1 || bLoading2 || bLoading3) {
+			return;
+		}
+
+		var container = $(".tabcont:visible:first");
+		var listDiv = $(container).find('div');
+		if (($(window).scrollTop() + $(window).height()) >= ($(container).find('.galleryBottom').offset().top - 200)) {
+			switch(listDiv.attr('id')) {
+				case 'tab1':
+					GetMyPages(listDiv.children('div').length);
+					break;
+				case 'tab2':
+					GetTemplates(listDiv.children('div').length);
+					break;
+				case 'tab3':
+					GetReviewPages(listDiv.children('div').length);
+					break;
+			}
+		}
+	}
+
+	function GetMyPages(startValue) {
+		if( !bRemaining1 ){
+			return;
+		}
+
+		bLoading1 = true;
+		$.ajax({
+			dataType: 'json',
+			type: 'GET',
+			url: '/ePublisher/GetMyPagesList',
+			data: { skipItems: startValue, filterText: $('#nameFilter').val() },
+			success: function (data, textStatus, jqXHR) {
+				if( data.length > 0 ) {
+					$.each(data, function (i, item) {
+						var newDiv =
+							'<div class="twoblk">'+
+            				'	<div class="templimg">'+
+                    		'		<img src="/NewContent/images/' + item.LayoutImage + '" alt="" height="118" width="91">'+
+							'	</div>'+
+							'	<div class="templdesc">'+
+                    		'		<h4><a href="' + GetLinkLocation(item) + '">' + item.FileName + '</a></h4>'+
+							'		<p class="status"><strong>Last Modified</strong> ' + getLocalDate(item.LastModifiedDateMilliseconds) + 
+							'		<p class="status"><strong>Created By</strong> ' + item.AuthorName + 
+							'		<p class="status"><strong>Dealership</strong> ' + item.Dealership + 
+							'		<p class="status"><strong>Customer</strong> ' + item.CustomerName + 
+							'		<p class="projectname"><strong>Project Name</strong> ' + item.ProjectName + '</p>'+
+							'		<p class="typehtml"><strong>Type</strong> ' + item.ContentType + '</p>'+
+							'		<p class="layoutcol"><strong>Layout</strong> ' + item.LayoutName + '</p>'+
+							'		<p class="status"><strong>Status</strong> ' + item.Status + '</p>'+
+							(item.IsComplete ? ('		<a href="/ePublisher/CopyLayout/' + item.ItemID + '" class="icon createnew">Create New From File</a>') : '') +
+							'	</div>'+
+							'	<div class="clr"></div>'+
+        					'</div>';
+
+						$('#tab1').append(newDiv);
+					});
+					bRemaining1 = (data.length == 30);
+				} else {
+					$('#tab1').html('<h2>Unable to find any pages matching your criteria</h2>');
+					bRemaining1 = false;
+				}
+				bLoading1 = false;
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				alert('Error getting Dealer list:' + errorThrown)
+			}
+		});
+	}
+
+	function GetReviewPages(startValue) {
+		if( !bRemaining3 ){
+			return;
+		}
+
+		bLoading3 = true;
+		$.ajax({
+			dataType: 'json',
+			type: 'GET',
+			url: '/ePublisher/GetReviewPagesList',
+			data: { skipItems: startValue, filterText: $('#nameFilter').val() },
+			success: function (data, textStatus, jqXHR) {
+				if( data.length > 0 ) {
+					$.each(data, function (i, item) {
+						var newDiv =
+
+					        '<div class="twoblk">' +
+            				'	<div class="templimg">' +
+                    		'		<img src="/NewContent/images/' + item.LayoutImage + '" alt="" height="118" width="91">' +
+							'	</div>' +
+							'	<div class="templdesc">' +
+                    		'		<h4><a href="' + GetLinkLocation(item) + '">' + item.FileName + '</a></h4>'+
+							(item.AuthorImage != null ?
+							'		<img class="img" src="/images/' + item.AuthorImage + '" alt="" width="43" height="43">' : '') +
+							'		<p class="status"><strong>Last Modified</strong> ' + getLocalDate(item.LastModifiedDateMilliseconds) + 
+							'		<p class="status"><strong>Created By</strong> ' + item.AuthorName + 
+							'		<p class="status"><strong>Dealership</strong> ' + item.Dealership + 
+							'		<p class="status"><strong>Customer</strong> ' + item.CustomerName + 
+							'		<p class="projectname"><strong>Project Name</strong> ' + item.ProjectName + '</p>' +
+							'		<p class="typehtml"><strong>Type</strong> ' + item.ContentType + '</p>' +
+							'		<p class="layoutcol"><strong>Layout</strong> ' + item.LayoutName + '</p>' +
+							'		<p class="status"><strong>Status</strong> ' + item.Status + '</p>' +
+							'	</div>' +
+							'	<div class="clr"></div>' +
+        					'</div>';
+
+						$('#tab3').append(newDiv);
+					});
+					bRemaining3 = (data.length == 30);
+				} else {
+					$('#tab3').html('<h2>Unable to find any pages matching your criteria</h2>');
+					bRemaining3 = false;
+				}
+				bLoading3 = false;
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				alert('Error getting Dealer list:' + errorThrown)
+			}
+		});
+	}
+
+	function GetTemplates(startValue) {
+		if( !bRemaining2 ){
+			return;
+		}
+
+		bLoading2 = true;
+		$.ajax({
+			dataType: 'json',
+			type: 'GET',
+			url: '/ePublisher/GetTemplateList',
+			data: { skipItems: startValue, filterText: $('#nameFilter').val() },
+			success: function (data, textStatus, jqXHR) {
+				if( data.length > 0 ) {
+					$.each(data, function (i, item) {
+						var newDiv =
+
+					       	'<div class="twoblk">' + 
+            				'	<div class="templimg">' + 
+                    		'		<img src="/NewContent/images/' + item.LayoutImage + '" alt="" height="118" width="91">' + 
+							'	</div>' + 
+							'	<div class="templdesc">' + 
+                    		'		<h4>' + '<a href="' + GetLinkLocation(item) + '">' + item.FileName + '</a>' + '</h4>' + 
+							'		<p class="modified"><strong>Last Modified</strong> on ' + getLocalDate(item.LastModifiedDateMilliseconds) + '</p>' + 
+							'		<p class="typehtml"><strong>Type</strong> ' + item.ContentType + '</p>' + 
+							'		<p class="layoutcol"><strong>Layout</strong> ' + item.LayoutName + '</p>' + 
+							(item.IsComplete ? ('<a href="/ePublisher/CopyLayout/' + item.ItemID + '" class="icon createnew">Create New From File</a>') : '') +
+							'	</div>' + 
+							'	<div class="clr"></div>' + 
+        					'</div>'
+
+						$('#tab2').append(newDiv);
+					});
+					bRemaining2 = (data.length == 30);
+				} else {
+					$('#tab2').html('<h2>Unable to find any pages matching your criteria</h2>');
+					bRemaining2 = false;
+				}
+				bLoading2 = false;
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				alert('Error getting Dealer list:' + errorThrown)
+			}
+		});
+	}
+
+	function GetLinkLocation(item) {
+		if( item.IsComplete ) {
+			return '/ePublisher/ViewLayout/' + item.ItemID;
+		} else if( item.HasSections ) {
+			return '/ePublisher/VerifyLayout/' + item.ItemID;
+		} else if( item.HasLayout ) {
+			return '/ePublisher/EditLayout/' + item.ItemID;
+		}
+		return '/ePublisher/SetLayout/' + item.ItemID;
+	}
+
+</script>
+
+<div class="content">
+	<div class="boxes">
+		<h1>ePublisher Dashboard</h1>
+        
+        <div class="leftimgBlock">
+        	<img src="/NewContent/images/dashboard-image.png" width="167" alt="">
+        </div>
+        <div class="rightinfoBlock">
+        	<p>Welcome to Paoli’s new ePublisher tool.  Build custom landing pages and printable PDFs to suit your sales and marketing needs from your computer or tablet..</p>
+            <br>
+            <p><a href="@Url.Action( "Add" )" class="btn">Start Your Own Campaign</a></p>
+        </div>
+        <div class="clr"></div>
+        
+        
+        <!--tab menus -->
+        <div class="tabmenu">
+        	<form action="#" onsubmit="reloadLists(true);return false;">
+            	<fieldset><input type="text" placeholder="Keyword Filter / Search" id="nameFilter"/><input type="button" id="btnDoSearch"/></fieldset>
+            </form>
+        	<ul>
+            	<li id="one" class="active">My Pages</li>
+            	<li id="two">Templates</li>
+					@if( CurrentUser.CanReviewECollateral )
+	 {
+                <li id="three">Review Pages</li>
+	 }
+            </ul>
+        </div>
+        <!--tab menus -->
+        
+        <!--tab content -->
+        <div class="tabcont one" style="display:block;">
+        	<span class="filterby">&nbsp;</span>
+			<div style="display: block;" id="tab1">
+			</div>
+            <div class="clr galleryBottom"></div>
+        </div>
+        <div class="tabcont two">
+			<span class="filterby">&nbsp;</span>
+			<div style="display: block;" id="tab2">
+			</div>
+            <div class="clr galleryBottom"></div>
+        </div>
+        <div class="tabcont three">
+        	<span class="filterby"><!--<strong>Filter By</strong>: New-->&nbsp;</span>
+			<div style="display: block;" id="tab3">
+			</div>
+        	<div class="clr galleryBottom"></div>
+        </div>
+        
+        <!--tab content -->
+        
+        
+    </div>
+</div>
+<!--
+<div class="container2">
+	<div class="main_inner1">
+		<div>
+			<h1>eCollateral Builder Dashboard</h1>
+			<div>Welcome to Paoli's new eCollateral Builder tool.</div>
+			<div><a href="@Url.Action( "Add" )">Start Your Own Campaign</a></div>
+		</div>
+		<div class="main_inner9_btm">
+			<div class="main_inner9_btm_top">
+				<ul class="tabs1">
+					<li class="box1"><a href="#tab1main">My Pages</a></li>
+					<li class="box2"><a href="#tab2main">Templates</a></li>
+					@if( CurrentUser.CanReviewECollateral )
+					{
+					<li class="box3"><a href="#tab3main">Review Pages</a></li>
+					}
+				</ul>
+				<div style="float: right">
+					Name Filter: <input type="text" id="nameFilter" /> <input type="button" value="Filter" id="btnDoSearch" />
+					
+				</div>
+				<i class="clear_0"></i>
+			</div>
+			<div class="tab_container1">
+				 <div style="display: block;" id="tab1main" class="tab_content1">
+					<div style="display: block;" id="tab1">
+					</div>
+					<i class='clear_0 galleryBottom'></i>
+				 </div>
+				 <div style="display: block;" id="tab2main" class="tab_content1">
+					<div style="display: block;" id="tab2">
+					</div>
+					<i class='clear_0 galleryBottom'></i>
+				 </div>
+				 <div style="display: block;" id="tab3main" class="tab_content1">
+					<div style="display: block;" id="tab3">
+					</div>
+					<i class='clear_0 galleryBottom'></i>
+				 </div>
+			</div>
+		</div>
+	</div>
+
+</div>-->

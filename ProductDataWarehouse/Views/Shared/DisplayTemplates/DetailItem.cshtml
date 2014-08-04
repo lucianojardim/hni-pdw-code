@@ -6,17 +6,17 @@
 
 </script>
 
+
   @if( Model.ImageID.HasValue )
   {
-	<div style="width: 100%;">
-	  <img src="/Images/@Model.ImageFileName" width="100%" />
-	</div>
+<div class="addimagebox smalladimge">
+  <img src="/Images/@Model.ImageFileName" />
+</div>
   }
   @if( ( Model.Content ?? "" ).Any() )
   {
-	<div style="min-height: 100px; width: 100%;">
-		<div style="height: 100px; width: 100%;">
-		@Html.Raw( Model.Content )
-		</div>
-	</div>
+<div class="addcontentbox">
+	@Html.Raw( Model.Content )
+</div>
   }
+<div class="clr"></div>

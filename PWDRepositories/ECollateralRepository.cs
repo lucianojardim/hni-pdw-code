@@ -62,9 +62,9 @@ namespace PWDRepositories
 
 			public static Dictionary<int, int> LayoutSections = new Dictionary<int, int>()
 			{
-				{ Layout12ColumnSidebar, 6 },
-				{ Layout13ColumnSidebar, 7 },
-				{ Layout12LeftDetailSidebar, 6 },
+				{ Layout12ColumnSidebar, 8 },
+				{ Layout13ColumnSidebar, 10 },
+				{ Layout12LeftDetailSidebar, 8 },
 			};
 
 			public static Dictionary<int, string> LayoutEditViews = new Dictionary<int, string>()
@@ -83,16 +83,39 @@ namespace PWDRepositories
 
 			public static Dictionary<int, string> LayoutImages = new Dictionary<int, string>()
 			{
-				{ Layout12ColumnSidebar, "layout1.png" },
-				{ Layout13ColumnSidebar, "layout1.png" },
-				{ Layout12LeftDetailSidebar, "layout1.png" },
+				{ Layout12ColumnSidebar, "2col-sm.png" },
+				{ Layout13ColumnSidebar, "3col-sm.png" },
+				{ Layout12LeftDetailSidebar, "left-detail-sm.png" },
 			};
+
+			public class LayoutDetails
+			{
+				public int Layout { get; set; }
+				public string Name { get; set; }
+				public string ImageName { get; set; }
+			}
 		}
 
 		public ECollateralRepository()
 		{
 		}
-		
+
+		public IEnumerable<Layouts.LayoutDetails> GetLayoutSelectionDetails( int layoutType )
+		{
+			var retList = new List<Layouts.LayoutDetails>();
+			foreach( var layout in LayoutTypes.LayoutList[layoutType] )
+			{
+				retList.Add( new Layouts.LayoutDetails()
+				{
+					Name = Layouts.LayoutTitles[layout],
+					Layout = layout,
+					ImageName = Layouts.LayoutImages[layout]
+				} );
+			}
+
+			return retList;
+		}
+
 		public bool ValidateURL( int itemId, string url )
 		{
 			if( !Regex.IsMatch( url, "^[A-Za-z0-9\\-_]+$" ) )
@@ -155,7 +178,7 @@ namespace PWDRepositories
 
 		public bool EditSettings( ECollateralSettings settings, int userId )
 		{
-			if( !ValidateURL( 0, settings.CustomURL ) )
+			if( !ValidateURL( settings.ItemID, settings.CustomURL ) )
 			{
 				throw new Exception( "URL is invalid" );
 			}
@@ -236,6 +259,8 @@ namespace PWDRepositories
 				ItemID = dbItem.ItemID,
 				IsTemplate = dbItem.IsTemplate,
 				FileName = dbItem.FileName,
+				Status = StatusTypes.StatusList[dbItem.Status],
+				UpdateStatus = dbItem.Status,
 				CustomURL = dbItem.URLText
 			};
 
@@ -291,7 +316,12 @@ namespace PWDRepositories
 			var dbItem = database.eCollateralItems.FirstOrDefault( i => i.ItemID == id );
 			if( dbItem != null )
 			{
-				return ToECollateralDetails( dbItem );
+				if( dbItem.LayoutID.HasValue )
+				{
+					return ToECollateralDetails( dbItem );
+				}
+
+				return null;
 			}
 
 			throw new Exception( "Unable to find eCollateral" );
@@ -409,7 +439,7 @@ namespace PWDRepositories
 				newItem.FileName = dbItem.FileName;
 				newItem.URLText = "";
 				newItem.DealershipID = dbItem.DealershipID;
-				if( dbItem.DealershipPOCID != 0 )
+				if( dbItem.DealershipPOCID.HasValue )
 				{
 					newItem.DealershipPOCID = dbItem.DealershipPOCID;
 				}
@@ -553,6 +583,18 @@ namespace PWDRepositories
 				.Skip( skipItems ).Take( 30 )
 				.ToList()
 				.Select( i => ToECollateralSummary( i ) );
+		}
+
+		public bool UpdateStatus( int itemId, int updateStatus )
+		{
+			var dbItem = database.eCollateralItems.FirstOrDefault( i => i.ItemID == itemId );
+			if( dbItem != null )
+			{
+				dbItem.Status = updateStatus;
+
+				return database.SaveChanges() > 0;
+			}
+			return false;
 		}
 	}
 }

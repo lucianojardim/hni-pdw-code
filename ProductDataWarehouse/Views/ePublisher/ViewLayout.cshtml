@@ -1,0 +1,124 @@
+﻿@model PDWModels.eCollateral.ECollateralInformation
+@{
+	ViewBag.Title = "ConfirmLayout";
+	Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.ShowHeaderArea = false;
+	var CurrentUser = PDWInfrastructure.PaoliWebUser.CurrentUser;
+}
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('#Settings_UpdateStatus').on('change', function (e) {
+			if( $('#Settings_UpdateStatus').val() != '' ) {
+				$.ajax({
+					dataType: 'json',
+					type: 'GET',
+					url: '/ePublisher/UpdateStatus',
+					data: { itemId: @Model.Settings.ItemID, updateStatus: $('#Settings_UpdateStatus').val() },
+					success: function (data, textStatus, jqXHR) {
+						$('#actualStatus').html($('#Settings_UpdateStatus option:selected').text());
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+					}
+				});
+			}
+		});
+	});
+</script>
+
+<div class="content">
+	<div class="boxes settingpage">
+		<h1 class="aligncenter">It’s time to share your creation<br/>with the world!</h1>
+        
+             
+        <h2>File Settings</h2>
+        
+        <div class="filesettinglist">
+        	<span>File Name</span>
+            <b>@Html.DisplayFor( m => m.Settings.FileName )</b>
+            <div class="clr"></div>
+
+					@if( !Model.Settings.IsTemplate )
+	 {
+            <span>Sales Rep Territory</span>
+            <b>@Html.DisplayFor( m => m.Settings.PaoliSalesRepGroupName )</b>
+            <div class="clr"></div>
+            
+            <span>Dealership</span>
+            <b>@Html.DisplayFor( m => m.Settings.DealershipName )</b>
+            <div class="clr"></div>
+            
+		 if( Model.Settings.DealershipPOCID.HasValue )
+		 {
+            <span>Dealership Point of Contact</span>
+            <b>@Html.DisplayFor( m => m.Settings.DealershipPOCMember )</b>
+            <div class="clr"></div>
+		 }
+		 else
+		 {
+            <span>Name</span>
+            <b>@Html.DisplayFor( m => m.Settings.DealershipPOCName )</b>
+            <div class="clr"></div>
+		 
+            <span>Email</span>
+            <b>@Html.DisplayFor( m => m.Settings.DealershipPOCEmail )</b>
+            <div class="clr"></div>
+		 
+            <span>Phone</span>
+            <b>@Html.DisplayFor( m => m.Settings.DealershipPOCPhone )</b>
+            <div class="clr"></div>
+		 
+            <span>User Type</span>
+            <b>@Html.DisplayFor( m => m.Settings.DealershipPOCAcctTypeName )</b>
+            <div class="clr"></div>
+		 }
+            <span>End Customer</span>
+            <b>@Html.DisplayFor( m => m.Settings.CustomerName )</b>
+            <div class="clr"></div>
+            
+            <span>Project Name</span>
+            <b>@Html.DisplayFor( m => m.Settings.ProjectName )</b>
+            <div class="clr"></div>
+
+            <span>Status</span>
+            <b id="actualStatus">@Html.DisplayFor( m => m.Settings.Status )</b>
+            <div class="clr"></div>
+
+if( CurrentUser.CanReviewECollateral )
+{
+	var theList = new List<SelectListItem>() { new SelectListItem() { Selected = true },
+				new SelectListItem() { Text = PWDRepositories.ECollateralRepository.StatusTypes.StatusList[PWDRepositories.ECollateralRepository.StatusTypes.Approved], Value = PWDRepositories.ECollateralRepository.StatusTypes.Approved.ToString() },
+				new SelectListItem() { Text = PWDRepositories.ECollateralRepository.StatusTypes.StatusList[PWDRepositories.ECollateralRepository.StatusTypes.Unapproved], Value = PWDRepositories.ECollateralRepository.StatusTypes.Unapproved.ToString() }
+		  };
+
+	if( theList.Any( i => i.Value == Model.Settings.UpdateStatus.ToString() ) )
+	{
+		theList.RemoveAll( i => !( i.Text ?? "" ).Any() );
+	}
+            <span>Update Status</span>
+            <b>@Html.DropDownListFor( m => m.Settings.UpdateStatus, theList, new { @class = "newLookDDL" } )</b>
+            <div class="clr"></div>
+            
+}
+	 }
+            <span>Custom URL</span>
+            <b><a href="http://my.paoli.com/Info/@Html.DisplayFor( m => m.Settings.CustomURL )">http://my.paoli.com/Info/@Html.DisplayFor( m => m.Settings.CustomURL )</a></b>
+            <div class="clr"></div>
+        </div>
+        
+        <div class="line"></div>
+        
+        <h2>Page Preview</h2>
+        <br>
+        
+			<div class="">
+		@Html.Partial( partialViewName: Model.DetailInfo.DisplayViewName, model: Model.DetailInfo )
+			</div>
+        
+        
+    </div>
+</div>
+
+
+<footer class="mainfooter">
+    <div class="rightdiv"><a href="@Url.Action( "EditLayout", "ePublisher", new { id = Model.Settings.ItemID } )" class="previous editBtn">Edit</a><a href="@Url.Action( "Manage" )" class="publish submitBtn">Done Return to Dashboard</a></div>
+</footer>

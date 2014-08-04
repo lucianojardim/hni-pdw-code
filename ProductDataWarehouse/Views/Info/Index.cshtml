@@ -6,12 +6,8 @@
 }
 <script type="text/javascript">
 </script>
-<div class="container">
-	<div class="main_inner1">
-		<div class="main_inner2_btm">
-			<div class="">
-		@Html.Partial( partialViewName: "~/Views/ECB/" + Model.DisplayViewName + ".cshtml", model: Model )
-			</div>
-		</div>
+<div class="content">
+	<div class="boxes">
+		@Html.Partial( partialViewName: "~/Views/ePublisher/" + Model.DisplayViewName + ".cshtml", model: Model )
 	</div>
 </div>
