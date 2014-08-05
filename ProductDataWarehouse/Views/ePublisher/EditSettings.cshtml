@@ -52,7 +52,7 @@
 
 			showHideProjectInfo();
     		ValidateURL($('#CustomURL').val());
-    		reloadPaoliSalesRepList(@Model.DealershipID, @(Model.DealershipPOCID ?? 0));
+    		reloadPaoliSalesRepList(@(Model.DealershipID ?? 0), @(Model.DealershipPOCID ?? 0));
     	});
 
 		function showHideProjectInfo() {

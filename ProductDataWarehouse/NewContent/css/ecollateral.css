@@ -585,9 +585,6 @@ form.form em i.notavailable:after {
 .onecol ul li a, .twocol ul li a, .onecol ol li a, .twocol ol li a, .threecol ul li a, .threecol ol li a {
 	line-height:20px;
 }
-.onecol ul li a:hover, .twocol ul li a:hover, .onecol ol li a:hover, .twocol ol li a:hover, .threecol ul li a:hover, .threecol ol li a:hover {
-	text-decoration:underline;
-}
 .onecol ul li, .twocol ul li, .threecol ul li 
 {
 	list-style: disc none outside;
@@ -736,9 +733,6 @@ form.form em i.notavailable:after {
 	font-size:9px;
 	line-height:9px;
 }
-.templatebody div.firstfooter div.fourdiv ul li a:hover {
-	text-decoration:underline;
-}
 .templatebody div.firstfooter div.fourdiv p {
 	color:#96928c;
 	font-size:9px;
@@ -841,9 +835,6 @@ footer.mainfooter a {
 	display:inline-block;
 	position:relative;
 	line-height:65px;
-}
-footer.mainfooter a:hover {
-	text-decoration:underline;
 }
 footer.mainfooter a.previous, footer.mainfooter a.previousAlone {
 	padding:0 17px;
