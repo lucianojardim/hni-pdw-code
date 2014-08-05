@@ -130,6 +130,14 @@ header .header_btm                        { width:100%; background:url(../images
 .right-menu a				{color:#000; text-decoration:none; outline:0 none;}
 .right-menu a:hover			{color:#000;  text-decoration:none;}
 .right-menu ul				{padding-left:0px;}
+
+@media print
+{    
+    .right-menu-block
+    {
+        display: none !important;
+    }
+}
   
 .nav-icon {
 	width:36px;
