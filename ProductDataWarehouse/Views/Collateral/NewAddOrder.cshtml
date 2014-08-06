@@ -49,26 +49,20 @@
     		$("#tb2ShippingEmailAddress").rules("add", { regex: "^[A-Za-z0-9](([_\\.\\-\\+]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$", messages: { regex: "Email must be a valid Email Address."} });
     		$('#ShippingFedexAccount').rules("add", { required: true, messages: { required: "Fedex Account Number is required."} });
 			
-			$('#RequestingParty').msDropdown({ on: { change: setRPDetails} });
-			$('#PaoliMemberID').msDropdown();
-			$('#PaoliRepGroupID').msDropdown({ visibleRows: 15, on: { change: function () {
+			$('#RequestingParty').on('change', setRPDetails);
+			$('#PaoliRepGroupID').on('change', function () {
     			loadSPDealerList();
 				loadSPRepGroupList();
     			reloadPaoliSalesRepList();
-    		}} });
-			$('#PaoliRepGroupMemberID').msDropdown({ visibleRows: 15 });
-			$('#DealerID').msDropdown({ visibleRows: 15, on: { change: function () {
+    		});
+			$('#DealerID').on('change', function () {
     			loadSPDealerList();
     			reloadDealerSalesRepList();
-    		}} });
-			$('#DealerMemberID').msDropdown({ visibleRows: 15 });
+    		});
 
-			$('#ShippingParty').msDropdown({ visibleRows: 15, on: { change: setSPDetails} });
-			$('#SPPaoliMemberID').msDropdown({ visibleRows: 15 });
-			$('#SPPaoliRepGroupID').msDropdown({ visibleRows: 15, on: { change: reloadSPPaoliSalesRepList} });
-			$('#SPPaoliRepGroupMemberID').msDropdown({ visibleRows: 15 });
-			$('#SPDealerID').msDropdown({ visibleRows: 15, on: { change: reloadSPDealerSalesRepList} });
-			$('#SPDealerMemberID').msDropdown({ visibleRows: 15 });
+			$('#ShippingParty').on('change', setSPDetails);
+			$('#SPPaoliRepGroupID').on('change', reloadSPPaoliSalesRepList);
+			$('#SPDealerID').on('change', reloadSPDealerSalesRepList);
 
 			$('#tb1ShippingState').msDropdown({ visibleRows: 15 });
 			$('#tb2ShippingState').msDropdown({ visibleRows: 15 });
@@ -252,7 +246,7 @@
     		$('#ShippingParty option').removeAttr('disabled');
 			$('#RPControlSet input').addClass('noValidate');
 			$('#RPControlSet select').addClass('noValidate');
-    		switch ($('#RequestingParty').msDropdown().data("dd").get('value')) {
+    		switch ($('#RequestingParty').val()) {
     			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliMember':
     				$('.RPMember').show();
     				$('.RPRepGroup').hide();
@@ -286,19 +280,19 @@
     		}
 			$('.RPControlArea:not(:hidden) input').removeClass('noValidate');
 			$('.RPControlArea:not(:hidden) select').removeClass('noValidate');
-    		$('#ShippingParty').msDropdown().data("dd").set('value', Math.max($('#ShippingParty').msDropdown().data("dd").get('value'), $('#RequestingParty').msDropdown().data("dd").get('value')));
+    		$('#ShippingParty').val(Math.max($('#ShippingParty').val(), $('#RequestingParty').val()));
 
     		setSPDetails();
     	}
 
     	function setSPDetails() {
-			if( $('#ShippingParty').msDropdown().data("dd").get('value') < $('#RequestingParty').msDropdown().data("dd").get('value') ) {
-				$('#ShippingParty').msDropdown().data("dd").set('value', $('#RequestingParty').msDropdown().data("dd").get('value'))
+			if( $('#ShippingParty').val() < $('#RequestingParty').val() ) {
+				$('#ShippingParty').val($('#RequestingParty').val());
 			}
 
 			$('#SPControlSet input').addClass('noValidate');
 			$('#SPControlSet select').addClass('noValidate');
-    		switch ($('#ShippingParty').msDropdown().data("dd").get('value')) {
+    		switch ($('#ShippingParty').val()) {
     			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliMember':
     				$('.SPMember').show();
     				$('.SPRepGroup').hide();
@@ -363,33 +357,34 @@
     	}
 		
 		function emptyDropDownList(ddList) {
-			while( ddList.length > 0 ) {
-				ddList.remove(0);
+			ddList.empty();
+		}
+
+		function reloadDropDownUserList(ddListID, data, bNeedOther) {
+    		var ddList = $(ddListID);
+    		emptyDropDownList(ddList);
+    		$.each(data.theList, function (idx, item) {
+				ddList.append('<option value="' + item.UserID + '">' + item.FullName + '</option>")');
+    		});
+			if( bNeedOther ) {
+				ddList.append('<option value="0">Other</option>")');
 			}
 		}
 
-		function reloadDropDownUserList(ddListID, data) {
-			var ddList = $(ddListID).msDropdown().data("dd");
-			emptyDropDownList(ddList);
-    		$.each(data.theList, function (idx, item) {
-				ddList.add({text:item.FullName, value:item.UserID});
-    		});
-		}
-
 		function reloadDropDownCompanyList(ddListID, data) {
-			var ddList = $(ddListID).msDropdown().data("dd");
-			emptyDropDownList(ddList);
+    		var ddList = $(ddListID);
+    		emptyDropDownList(ddList);
     		$.each(data, function (idx, item) {
-				ddList.add({text:item.Text, value:item.ID});
+				ddList.append('<option value="' + item.ID + '">' + item.Text + '</option>")');
     		});
 		}
 
 		function setDropDownListToMatch(ddListID, ddSourceID) {
-			var ddList = $(ddListID).msDropdown().data("dd");
+			var ddList = $(ddListID);
 			emptyDropDownList(ddList);
-			var ddSource = $(ddSourceID).msDropdown().data("dd");
-			ddList.add({text:ddSource.get('selectedText'), value:ddSource.get('value')});
-			ddList.set('value', ddSource.get('value'));
+			var ddSource = $(ddSourceID);
+			ddList.append('<option value="' + ddSource.attr('value') + '">' + ddSource.find('option:selected').text() + '</option>")');
+			ddList.attr('value', ddSource.get('value'));
 		}
 
 		function loadSPDealerList() {
@@ -398,9 +393,9 @@
 			if ($('.RPRepGroup:hidden').length == 0) {
 				// rep group is showing - only load dealers for the group
 				theUrl = '/Company/GetDealerListForSalesRep';
-				dataSet = { salesRepCompanyId: $('#PaoliRepGroupID').msDropdown().data("dd").get('value'), includeBlank: 'true' };
+				dataSet = { salesRepCompanyId: $('#PaoliRepGroupID').val(), includeBlank: 'true' };
 				if ($('#PaoliRepGroupID option:selected').text() == '') {
-					emptyDropDownList('#SPDealerID');
+					emptyDropDownList($('#SPDealerID'));
 					reloadSPDealerSalesRepList();
 					return;
 				}
@@ -417,9 +412,6 @@
 				data: dataSet,
 				success: function (data, textStatus, jqXHR) {
 					reloadDropDownCompanyList('#SPDealerID', data);
-					if( $('#SPDealerID option').length > 0 ) {
-						$('#SPDealerID').msDropdown().data("dd").set("selectedIndex", 0);
-					}
 					reloadSPDealerSalesRepList();
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
@@ -445,9 +437,6 @@
 				data: dataSet,
 				success: function (data, textStatus, jqXHR) {
 					reloadDropDownCompanyList('#SPPaoliRepGroupID', data);
-					if( $('#SPPaoliRepGroupID option').length > 0 ) {
-						$('#SPPaoliRepGroupID').msDropdown().data("dd").set("selectedIndex", 0);
-					}
 					reloadSPDealerSalesRepList();
 					reloadSPPaoliSalesRepList();
 				},
@@ -463,19 +452,16 @@
 					dataType: 'json',
 					type: 'GET',
 					url: '/User/GetDealerSalesRepListForCompany',
-					data: { companyId: $('#DealerID').msDropdown().data("dd").get('value'), enabledOnly: true },
+					data: { companyId: $('#DealerID').val(), enabledOnly: true },
 					success: function (data, textStatus, jqXHR) {
 						reloadDropDownUserList('#DealerMemberID', data);
-						if( $('#DealerMemberID option').length > 0 ) {
-							$('#DealerMemberID').msDropdown().data("dd").set("selectedIndex", 0);
-						}
 					},
 					error: function (jqXHR, textStatus, errorThrown) {
 						alert('Error getting Dealer Sales Rep list:' + errorThrown)
 					}
 				});
 			} else {
-				emptyDropDownList($("#DealerMemberID").msDropdown().data("dd"));
+				emptyDropDownList($('#DealerMemberID'));
 			}
     	}
 
@@ -484,12 +470,9 @@
     			dataType: 'json',
     			type: 'GET',
     			url: '/User/GetPaoliSalesRepListForCompany',
-    			data: { companyId: $('#PaoliRepGroupID').msDropdown().data("dd").get('value'), enabledOnly: true },
+    			data: { companyId: $('#PaoliRepGroupID').val(), enabledOnly: true },
     			success: function (data, textStatus, jqXHR) {
 					reloadDropDownUserList('#PaoliRepGroupMemberID', data);
-					if( $('#PaoliRepGroupMemberID option').length > 0 ) {
-						$('#PaoliRepGroupMemberID').msDropdown().data("dd").set("selectedIndex", 0);
-					}
     			},
     			error: function (jqXHR, textStatus, errorThrown) {
     				alert('Error getting Paoli Sales Rep list:' + errorThrown)
@@ -503,19 +486,16 @@
     				dataType: 'json',
     				type: 'GET',
     				url: '/User/GetDealerSalesRepListForCompany',
-    				data: { companyId: $('#SPDealerID').msDropdown().data("dd").get('value'), enabledOnly: true },
+    				data: { companyId: $('#SPDealerID').val(), enabledOnly: true },
     				success: function (data, textStatus, jqXHR) {
     					reloadDropDownUserList('#SPDealerMemberID', data);
-						if( $('#SPDealerMemberID option').length > 0 ) {
-							$('#SPDealerMemberID').msDropdown().data("dd").set("selectedIndex", 0);
-						}
     				},
     				error: function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting SP Dealer Sales Rep list:' + errorThrown)
     				}
     			});
     		} else {
-				emptyDropDownList($("#SPDealerMemberID").msDropdown().data("dd"));
+				emptyDropDownList($('#SPDealerMemberID'));
     		}
     	}
 
@@ -525,19 +505,16 @@
     				dataType: 'json',
     				type: 'GET',
     				url: '/User/GetPaoliSalesRepListForCompany',
-    				data: { companyId: $('#SPPaoliRepGroupID').msDropdown().data("dd").get('value'), enabledOnly: true },
+    				data: { companyId: $('#SPPaoliRepGroupID').val(), enabledOnly: true },
     				success: function (data, textStatus, jqXHR) {
     					reloadDropDownUserList('#SPPaoliRepGroupMemberID', data);
-						if( $('#SPPaoliRepGroupMemberID option').length > 0 ) {
-							$('#SPPaoliRepGroupMemberID').msDropdown().data("dd").set("selectedIndex", 0);
-						}
     				},
     				error: function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting SP Paoli Sales Rep list:' + errorThrown)
     				}
     			});
     		} else {
-    			emptyDropDownList($("#SPPaoliRepGroupMemberID").msDropdown().data("dd"));
+    			emptyDropDownList($('#SPPaoliRepGroupMemberID'));
     		}
     	}
 

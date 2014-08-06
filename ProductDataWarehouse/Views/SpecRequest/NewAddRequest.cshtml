@@ -27,15 +27,9 @@
     		$("#DealerPointOfContactPhone").rules("add", { regex: "^[2-9]\\d{2}-\\d{3}-\\d{4}$", messages: { regex: "Phone Number must be in the format ###-###-####."} });
     		$("#DealerPointOfContactEmail").rules("add", { regex: "^[A-Za-z0-9](([_\\.\\-\\+]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$", messages: { regex: "Email must be a valid Email Address."} });
 
-			$('#PaoliSalesRepGroupID').msDropdown({ visibleRows: 15, on: { change: reloadPaoliSalesRepList } });
-			$('#PaoliSalesRepMemberID').msDropdown({ visibleRows: 15 });
-			$('#DealerID').msDropdown({ visibleRows: 15, on: { change: reloadDealerSalesRepList } });
-			$('#DealerMemberID').msDropdown({ visibleRows: 15, on: { change: showHideDealerPOC } });
-			$('#ContractID').msDropdown({ visibleRows: 15 });
-			$('#DrawerOption').msDropdown({ visibleRows: 15 });
-			$('#FabricGrade').msDropdown({ visibleRows: 15 });
-			$('#LaminatePreference').msDropdown({ visibleRows: 15 });
-			$('#DealerPointOfContactAcctType').msDropdown();
+			$('#PaoliSalesRepGroupID').on('change', reloadPaoliSalesRepList);
+			$('#DealerID').on('change', reloadDealerSalesRepList);
+			$('#DealerMemberID').on('change', showHideDealerPOC);
 
 			$('input').addClass('noValidate');
 			$('select').addClass('noValidate');
@@ -153,10 +147,10 @@
 		function showHideContractInfo() {
 			if ($('#IsGSA:checked').length > 0) {
 				$('.gsaOnly').show();
-				$('#ContractID_msdd').show();
+//				$('#ContractID_msdd').show();
 			} else {
 				$('.gsaOnly').hide();
-				$('#ContractID_msdd').hide();
+//				$('#ContractID_msdd').hide();
 			}			
 			
 		}
@@ -451,33 +445,34 @@
 		}
 
 		function emptyDropDownList(ddList) {
-			while( ddList.length > 0 ) {
-				ddList.remove(0);
+			ddList.empty();
+		}
+
+		function reloadDropDownUserList(ddListID, data, bNeedOther) {
+    		var ddList = $(ddListID);
+    		emptyDropDownList(ddList);
+    		$.each(data.theList, function (idx, item) {
+				ddList.append('<option value="' + item.UserID + '">' + item.FullName + '</option>")');
+    		});
+			if( bNeedOther ) {
+				ddList.append('<option value="0">Other</option>")');
 			}
 		}
 
-		function reloadDropDownUserList(ddListID, data) {
-			var ddList = $(ddListID).msDropdown().data("dd");
-			emptyDropDownList(ddList);
-    		$.each(data.theList, function (idx, item) {
-				ddList.add({text:item.FullName, value:item.UserID});
-    		});
-		}
-
 		function reloadDropDownCompanyList(ddListID, data) {
-			var ddList = $(ddListID).msDropdown().data("dd");
-			emptyDropDownList(ddList);
+    		var ddList = $(ddListID);
+    		emptyDropDownList(ddList);
     		$.each(data, function (idx, item) {
-				ddList.add({text:item.Text, value:item.ID});
+				ddList.append('<option value="' + item.ID + '">' + item.Text + '</option>")');
     		});
 		}
 
 		function setDropDownListToMatch(ddListID, ddSourceID) {
-			var ddList = $(ddListID).msDropdown().data("dd");
+			var ddList = $(ddListID);
 			emptyDropDownList(ddList);
-			var ddSource = $(ddSourceID).msDropdown().data("dd");
-			ddList.add({text:ddSource.get('selectedText'), value:ddSource.get('value')});
-			ddList.set('value', ddSource.get('value'));
+			var ddSource = $(ddSourceID);
+			ddList.append('<option value="' + ddSource.attr('value') + '">' + ddSource.find('option:selected').text() + '</option>")');
+			ddList.attr('value', ddSource.get('value'));
 		}
 
     	function reloadDealerSalesRepList() {
@@ -488,11 +483,9 @@
     				url: '/User/GetDealerSalesRepListForCompany',
     				data: { companyId: $('#DealerID').val(), enabledOnly: true },
     				success: function (data, textStatus, jqXHR) {
-						reloadDropDownUserList('#DealerMemberID', data);
-						$('#DealerMemberID').msDropdown().data("dd").add({text:'Other', value:'0'});
-						$('#DealerMemberID').msDropdown().data("dd").set("selectedIndex", 0);
+						reloadDropDownUserList('#DealerMemberID', data, true);
     					$('.DSRCell').show();
-		    			$('#DealerMemberID_msdd').show();
+//		    			$('#DealerMemberID_msdd').show();
 						showHideDealerPOC();
     				},
     				error: function (jqXHR, textStatus, errorThrown) {
@@ -500,11 +493,11 @@
     				}
     			});
     		} else {
-				emptyDropDownList($("#DealerMemberID").msDropdown().data("dd"));
+				emptyDropDownList($("#DealerMemberID"));
     			$('#DealerPointOfContact').val('');
 				$('#DealerPointOfContact').addClass('noValidate');
     			$('.DSRCell').hide();
-    			$('#DealerMemberID_msdd').hide();
+//    			$('#DealerMemberID_msdd').hide();
 				$('.DSRPOCCell').hide();
     		}
     	}
@@ -528,12 +521,11 @@
     				data: { companyId: $('#PaoliSalesRepGroupID').val(), enabledOnly: true },
     				success: function (data, textStatus, jqXHR) {
     					$('.PSRCell').hide();
-						$('#PaoliSalesRepMemberID_msdd').hide();
+//						$('#PaoliSalesRepMemberID_msdd').hide();
 						reloadDropDownUserList('#PaoliSalesRepMemberID', data);
     					if( $('#PaoliSalesRepMemberID option').length > 0 ) {
     						$('.PSRCell').show();
-							$('#PaoliSalesRepMemberID_msdd').show();
-							$('#PaoliSalesRepMemberID').msDropdown().data("dd").set("selectedIndex", 0);
+//							$('#PaoliSalesRepMemberID_msdd').show();
     					}
     				},
     				error: function (jqXHR, textStatus, errorThrown) {
@@ -546,9 +538,8 @@
 	{
 		var thisCompany = CompanyController.GetThisCompanyAsDDItem( includeTerritory: true );
 				<text>
-    				emptyDropDownList($('#DealerID').msDropdown().data("dd"));
-    				$('#DealerID').msDropdown().data("dd").add({text:'@(thisCompany.First().Text.Replace( "'", "''" ))', value:'@(thisCompany.First().Value)'});
-					$('#DealerID').msDropdown().data("dd").set("selectedIndex", 0);
+    				emptyDropDownList($('#DealerID'));
+					$('#DealerID').append('<option value="@(thisCompany.First().Value)">@(thisCompany.First().Text.Replace( "'", "''" ))</option>")';
 
     				reloadDealerSalesRepList();
 				</text>
@@ -565,7 +556,6 @@
     					$('.DealerRow').hide();
 						reloadDropDownCompanyList('#DealerID', data);
     					if( $('#DealerID option').length > 0 ) {
-							$('#DealerID').msDropdown().data("dd").set("selectedIndex", 0);
     						$('.DealerRow').show();
     					}
 
@@ -579,10 +569,10 @@
 	}
 
     		} else {
-    			emptyDropDownList($('#PaoliSalesRepMemberID').msDropdown().data("dd"));
-    			emptyDropDownList($('#DealerID').msDropdown().data("dd"));
+    			emptyDropDownList($('#PaoliSalesRepMemberID'));
+    			emptyDropDownList($('#DealerID'));
     			$('.PSRCell').hide();
-				$('#PaoliSalesRepMemberID_msdd').hide();
+//				$('#PaoliSalesRepMemberID_msdd').hide();
     			$('.DealerRow').hide();
 				$('.DSRPOCCell').hide();
 				$('#DealerPointOfContact').addClass('noValidate');
@@ -630,7 +620,7 @@
 								 Dealership</label>
 							 @Html.DropDownListFor( m => m.DealerID, new List<SelectListItem>() )
 							 <cite class="DSRCell">Dealership Point of Contact</cite>
-							 @Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>() )
+							 @Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>(), new { @class = "DSRCell" } )
 						 </div>
 					 </li>
 					 <li class="DSRPOCCell">

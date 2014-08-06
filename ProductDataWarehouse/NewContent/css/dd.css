@@ -92,6 +92,7 @@ img.fnone{float:none !important}
 .main_inner1_btm ul li .box1 .ddcommon .ddTitle .ddTitleText{display:block;}
 
 /*ERIN MOD TO EXISTING STYLES TO ACCOMMODATE LONGER DROP DOWN SELECTION - height from 25px to 35px, background position: 172px center*/
+.main_inner1_btm ul li .box1 select {width:178px !important; border:1px solid #eaeaea !important; height:35px !important; padding-left:5px; padding-right:8px; position:relative; top:0px;}
 .main_inner1_btm ul li .box1 .dd{width:178px !important; background:#FFF url(../images/select_arrow.jpg) no-repeat 175px 11px; background-position:172px center;border:1px solid #eaeaea !important; height:35px !important; padding-left:5px; padding-right:8px; position:relative; top:0px;}
 .main_inner1_btm ul li .box1 .dd .divider{border-left:0px solid #c3c3c3; border-right:0px solid #fff;right:24px;}
 .main_inner1_btm ul li .box1 .dd .arrow{width:25px;height:16px; margin-top:-6px; background:none ;}
@@ -278,6 +279,7 @@ img.fnone{float:none !important}
 .main_inner6_btm ul li .box2 .ddcommon .ddTitle .ddTitleText{display:block;}
 
 /*ERIN MOD TO EXISTING STYLES - DROP DOWN HEIGHT EXTENSION TO ACCOMMODATE LONGER TEXT ADD SPEC REQUEST - changed height from 25px to 35px and updated background position for arrow to be 172px center*/
+.main_inner6_btm ul li .box2 select {width:178px !important; border:1px solid #eaeaea !important; height:35px !important; padding-left:5px; padding-right:8px; position:relative; top:0px;}
 .main_inner6_btm ul li .box2 .dd{width:178px !important; background:#FFF url(../images/select_arrow.jpg) no-repeat 175px 11px; background-position:172px center; border:1px solid #eaeaea !important; height:35px !important; padding-left:5px; padding-right:8px; position:relative; top:0px; }
 .main_inner6_btm ul li .box2 .dd .divider{border-left:0px solid #c3c3c3; border-right:0px solid #fff;right:24px;}
 .main_inner6_btm ul li .box2 .dd .arrow{width:25px;height:16px; margin-top:-6px; background:none ;}
