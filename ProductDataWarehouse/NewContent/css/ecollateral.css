@@ -27,7 +27,7 @@ img {
 }
 a {
 	outline:none;
-	color:#898989;
+	color:#999;
 	text-decoration:none;
 }
 
@@ -95,6 +95,7 @@ nav.mainmenu li li a {
 	font-size:12px;
 	line-height:30px;
 	border-bottom:1px solid #666;
+	font-weight:100;
 }
 nav.mainmenu li li a:hover {
 	color:#666;
@@ -116,14 +117,19 @@ nav.mainmenu ul li:hover ul {
 	font-size:40px;
 	color:#454545;
 	margin:0;
-	padding:0 0 29px 0;
+	padding: 0 0 29px 0;
+	font-weight:100;
 }
+	
+	
+	
 .content h2 {
 	font-family: Helvetica, Arial, sans-serif;
-	font-size:22px;
+	font-size:23px;
 	color:#454545;
 	margin:0;
 	padding:10px 0 23px 0;
+	font-weight:100;
 }
 .content h4 {
 	font-family: Helvetica, Arial, sans-serif;
@@ -131,6 +137,7 @@ nav.mainmenu ul li:hover ul {
 	color:#454545;
 	margin:0;
 	padding:0 0 14px 0;
+	font-weight:100;
 }
 .boxes {
 	padding:47px 122px 35px 122px;
@@ -154,6 +161,7 @@ nav.mainmenu ul li:hover ul {
 	margin:0;
 	padding:0 0 10px 0;
 	line-height:22px;
+	font-weight:100;
 }
 .btn {
 	display:inline-block;
@@ -164,6 +172,7 @@ nav.mainmenu ul li:hover ul {
 	font-family: Helvetica, Arial, sans-serif;
 	line-height:31px;
 	padding:0 10px;
+	font-weight:100;
 }
 .tabmenu {
 	min-height:40px;
@@ -181,6 +190,8 @@ nav.mainmenu ul li:hover ul {
 	padding-left:10px;
 	width:140px;
 	float:left;
+	font-family: Helvetica, Arial, sans-serif;	
+	font-weight:100;
 }
 .tabmenu form fieldset {
 	border:0;
@@ -209,6 +220,7 @@ nav.mainmenu ul li:hover ul {
 	line-height:36px;
 	cursor:pointer;
 	border-bottom:4px solid #FFF;
+	font-weight:100;
 }
 .tabmenu ul li+li {
 	margin-left:28px;
@@ -220,6 +232,7 @@ nav.mainmenu ul li:hover ul {
 	color:#454545;
 	font-family: Helvetica, Arial, sans-serif;
 	border-bottom:4px solid #c7c2ba;
+	font-weight:100;
 }
 .tabcont {
 	display:none;
@@ -264,6 +277,7 @@ nav.mainmenu ul li:hover ul {
 	font-family: Helvetica, Arial, sans-serif;
 	color:#454545;
 	font-size:12px;
+	font-weight:100;
 }
 .templdesc p.modified {
 	padding-bottom:6px;
@@ -297,6 +311,7 @@ nav.mainmenu ul li:hover ul {
 	color:#454545;
 	font-size:12px;
 	margin-top:12px;
+	font-weight:100;
 }
 .createnew:after {
 	background:url(../images/sprite.png) no-repeat -39px top;
@@ -315,6 +330,7 @@ nav.mainmenu ul li:hover ul {
 	font-family: Helvetica, Arial, sans-serif;
 	padding-top:1px;
 	padding-bottom:21px;
+	font-weight:100;
 }
 .filesettinglist span {
 	display:block;
@@ -344,7 +360,7 @@ nav.mainmenu ul li:hover ul {
 .filesettinglist span.field-validation-error,
 .filesettinglist span.field-validation-error span
 {
-	color: #f00;
+	color: #c00;
 	width: 100%;
 }
 
@@ -362,6 +378,7 @@ nav.mainmenu ul li:hover ul {
 	font-family: Helvetica, Arial, sans-serif;
 	font-size:22px;
 	color:#454545;
+	font-weight:100;
 }
 .twoblk a.layouttype img {
 	display:block;
@@ -385,6 +402,7 @@ form.form input[type=text] {
 	float:left;
 	font-size:16px;
 	color:#454545;
+	font-weight:100;
 }
 form.form select, .newLookDDL {
 	border:2px solid #bababa;
@@ -395,24 +413,29 @@ form.form select, .newLookDDL {
 	float:left;
 	font-size:16px;
 	color:#454545;
+	font-weight:100;
 }
 form.form label {
 	margin:0 0 18px 0;
 }
+
+/*ERIN MOD - 8/6/2014 - adjust font weight / style*/
 form.form em {
 	font-size:12px;
 	color:#999999;
 	width:45%;
 	float:left;
 	padding-left:14px;
-	font-style:normal;
+	font-weight:100;
+	/*font-style:normal;*/
 }
 form.form em i {
 	display:block;
 	padding-left:23px;
 	position:relative;
-	font-style:normal;
 	margin-top:4px;
+	font-weight:100;
+	/*font-style:normal;*/
 }
 form.form em i:after {
 	position:absolute;
@@ -444,6 +467,7 @@ form.form em i.notavailable:after {
 	background:url(../images/bg.png) repeat left top;
 	font-family: Helvetica, Arial, sans-serif;
 	padding-bottom:15px;
+	font-weight:100;
 }
 .templatebody header {
 	background:#313c6d;
@@ -456,7 +480,7 @@ form.form em i.notavailable:after {
 	float:right;
 	margin:20px 39px 0 0;
 	font-size:12px;
-	color:#9696a1;
+	color:#999;
 }
 .templatecont {
 	background:#FFF;
@@ -473,11 +497,13 @@ form.form em i.notavailable:after {
     font-size: 33px;
     padding: 31px 0 7px 2px;
 }
+
+/*ERIN MOD - 8/6/2014 - from 21 to 3px*/
 .twocollboxh {
-	padding-top:21px;
+	padding-top:3px;
 }
 /*.finalsite div.templatebody h3 {
-    color: #7D7D7D;
+    color: #666;
     font-size: 25px;
     font-weight: normal;
     margin: 0;
@@ -540,18 +566,19 @@ form.form em i.notavailable:after {
 	display:none;
 }
 .templatebody h1 {
-	font-family:Arial, Helvetica, sans-serif;
+	font-family: Helvetica, Arial, sans-serif;
 	font-size:23px;
 	font-weight:bold;
-	color:#313131;
+	color:#454545;
 	margin:0;
 	padding:22px 0 7px 2px;
+	font-weight:100;
 }
 .templatebody h3 {
 	font-size:17px;
 	font-weight:normal;
 	margin:0;
-	color:#7d7d7d;
+	color:#666;
 	padding:4px 0 20px 0;
 }
 .templatebody p {
@@ -565,24 +592,28 @@ form.form em i.notavailable:after {
 .onecol h3, .twocol h3, .threecol h3 {
 	font-size:16px;
 	font-weight:bold;
-	font-family:Arial, Helvetica, sans-serif;
-	color:#082455;
+	font-family: Helvetica, Arial, sans-serif;
+	color:#263f6a;
 	padding:0 0 19px 0;
 	margin:0;
+	font-weight:100;
 }
 .onecol h4, .twocol h4, .threecol h4 {
 	font-size:14px;
 	font-weight:bold;
-	font-family:Arial, Helvetica, sans-serif;
-	color:#606060;
+	font-family: Helvetica, Arial, sans-serif;
+	color:#666;
 	padding:0px 0 15px 0;
+	font-weight:100;
 }
 .onecol ul, .twocol ul, .onecol ol, .twocol ol, .threecol ul, .threecol ol {
 	font-size:12px;
 	margin:0;
 	padding:0 0 0px 16px;
 }
-.onecol ul li a, .twocol ul li a, .onecol ol li a, .twocol ol li a, .threecol ul li a, .threecol ol li a {
+
+/***ERIN MOD - 8/6/2014 - adding non-anchor lists***/
+.onecol ul li a, .twocol ul li a, .onecol ol li a, .twocol ol li a, .threecol ul li a, .threecol ol li a, .onecol ul li, .twocol ul li, .onecol ol li, .twocol ol li, .threecol ul li, .threecol ol li {
 	line-height:20px;
 }
 .onecol ul li, .twocol ul li, .threecol ul li 
@@ -676,17 +707,18 @@ form.form em i.notavailable:after {
 }
 .collboxes h2 {
 	font-size:18px;
-	font-family:Arial, Helvetica, sans-serif;
+	font-family: Helvetica, Arial, sans-serif;
 	font-weight:bold;
-	color:#383838;
+	color:#454545;
 	margin:0;
 	padding:15px 0 6px 0;
+	font-weight:100;
 }
 .addImageContGrid .collboxes h2 {
 	padding-top:0;
 }
 .onecol, .twocol, .threecol {
-	color:#656565;
+	color:#666;
 	font-size:12px;
 }
 
@@ -716,7 +748,7 @@ form.form em i.notavailable:after {
 .templatebody div.firstfooter div.fourdiv h5 {
 	font-size:9px;
 	font-weight:bold;
-	color:#42587b;
+	color:#263f6a;
 	padding:10px 0 0 0;
 	margin:0;
 }
@@ -729,22 +761,22 @@ form.form em i.notavailable:after {
 	line-height:9px;
 }
 .templatebody div.firstfooter div.fourdiv ul li a {
-	color:#777b7f;
+	color:#666;
 	font-size:9px;
 	line-height:9px;
 }
 .templatebody div.firstfooter div.fourdiv p {
-	color:#96928c;
+	color:#999;
 	font-size:9px;
 	margin:0;
 	padding:0;
 }
 .templatebody div.firstfooter div.fourdiv p a {
-	color:#42587b;
+	color:#263f6a;
 	line-height:9px;
 }
 .templatebody div.firstfooter div.fourdiv span.phone {
-	color:#42587b;
+	color:#263f6a;
 	display:block;
 	padding-bottom:15px;
 	font-size:14px;
@@ -765,7 +797,7 @@ form.form em i.notavailable:after {
 }
 .templatebody div.secfooter ul li a {
 	display:inline-block;
-	color:#5876a4;
+	color:#263f6a;
 	font-size:9px;
 	padding:0 3px;
 	line-height:9px;
@@ -773,7 +805,7 @@ form.form em i.notavailable:after {
 .templatebody div.secfooter span.tempcopy {
 	float:right;
 	display:block;
-	color:#5876a4;
+	color:#263f6a;
 	font-size:9px;
 	padding:4px 7px 0 0;
 }
@@ -828,6 +860,7 @@ footer.mainfooter {
 	margin:0 auto;
 	background:#454545;
 	font-family: Helvetica, Arial, sans-serif;
+	font-weight:100;
 }
 footer.mainfooter a {
 	font-size:20px;
@@ -915,4 +948,30 @@ footer.mainfooter a.publish {
 	form.form em {
 		padding:0 0 0 00;
 	}
+
+
+
+}
+
+/**********NEW STYLES - EI - 8/6/2014************/
+.content .addcontentbox h1 {
+	padding-top:40px;
+}
+
+.content .addcontentbox h2 {
+	padding-bottom: 20px;
+}
+
+.content .addcontentbox p {
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight:100;
+	line-height:20px;
+}
+
+.content .addcontentbox h3 {
+	font-weight:normal;
+}
+
+.content .onecolthreebkl {
+	padding-bottom:25px;
 }
