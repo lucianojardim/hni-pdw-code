@@ -43,6 +43,10 @@
 			$('#theForm').submit();
 		});
 
+		$('.templatepage a').on('click', function (e) {
+			e.preventDefault();
+		});
+
 		$('#imgFilter').on('keydown', function (e) {
 			if (e.keyCode == 13) {
 				$('#btnDoSearch').trigger('click');
