@@ -73,7 +73,6 @@ header .header_btm                        { width:100%; background:url(../images
 	z-index:500;
 	}
 .right-menu-shadow {
-	background:url(../img/right-menu-shadow.png) repeat-y left top;
 	width:15px;
 	height:100%;
 	position:absolute;

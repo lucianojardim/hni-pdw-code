@@ -99,11 +99,11 @@
 							'	</div>'+
 							'	<div class="templdesc">'+
                     		'		<h4><a href="' + GetLinkLocation(item) + '">' + item.FileName + '</a></h4>'+
-							'		<p class="status"><strong>Last Modified</strong> ' + getLocalDate(item.LastModifiedDateMilliseconds) + 
-							'		<p class="status"><strong>Created By</strong> ' + item.AuthorName + 
-							'		<p class="status"><strong>Dealership</strong> ' + item.Dealership + 
-							'		<p class="status"><strong>Customer</strong> ' + item.CustomerName + 
-							'		<p class="projectname"><strong>Project Name</strong> ' + item.ProjectName + '</p>'+
+							'		<p class="status"><strong>Last Modified</strong> ' + getLocalDate(item.LastModifiedDateMilliseconds) + '</p>' + 
+							'		<p class="status"><strong>Created By</strong> ' + item.AuthorName + '</p>' + 
+							(item.Dealership != null ? ('		<p class="status"><strong>Dealership</strong> ' + item.Dealership + '</p>') : '') + 
+							(item.CustomerName != null ? ('		<p class="status"><strong>Customer</strong> ' + item.CustomerName + '</p>') : '') + 
+							(item.ProjectName != null ? ('		<p class="projectname"><strong>Project Name</strong> ' + item.ProjectName + '</p>') : '') +
 							'		<p class="typehtml"><strong>Type</strong> ' + item.ContentType + '</p>'+
 							'		<p class="layoutcol"><strong>Layout</strong> ' + item.LayoutName + '</p>'+
 							'		<p class="status"><strong>Status</strong> ' + item.Status + '</p>'+
@@ -151,11 +151,11 @@
                     		'		<h4><a href="' + GetLinkLocation(item) + '">' + item.FileName + '</a></h4>'+
 							(item.AuthorImage != null ?
 							'		<img class="img" src="/images/' + item.AuthorImage + '" alt="" width="43" height="43">' : '') +
-							'		<p class="status"><strong>Last Modified</strong> ' + getLocalDate(item.LastModifiedDateMilliseconds) + 
-							'		<p class="status"><strong>Created By</strong> ' + item.AuthorName + 
-							'		<p class="status"><strong>Dealership</strong> ' + item.Dealership + 
-							'		<p class="status"><strong>Customer</strong> ' + item.CustomerName + 
-							'		<p class="projectname"><strong>Project Name</strong> ' + item.ProjectName + '</p>' +
+							'		<p class="status"><strong>Last Modified</strong> ' + getLocalDate(item.LastModifiedDateMilliseconds) + '</p>' + 
+							'		<p class="status"><strong>Created By</strong> ' + item.AuthorName + '</p>' + 
+							(item.Dealership != null ? ('		<p class="status"><strong>Dealership</strong> ' + item.Dealership + '</p>') : '') + 
+							(item.CustomerName != null ? ('		<p class="status"><strong>Customer</strong> ' + item.CustomerName + '</p>') : '') + 
+							(item.ProjectName != null ? ('		<p class="projectname"><strong>Project Name</strong> ' + item.ProjectName + '</p>') : '') +
 							'		<p class="typehtml"><strong>Type</strong> ' + item.ContentType + '</p>' +
 							'		<p class="layoutcol"><strong>Layout</strong> ' + item.LayoutName + '</p>' +
 							'		<p class="status"><strong>Status</strong> ' + item.Status + '</p>' +

@@ -11,9 +11,6 @@ namespace ProductDataWarehouse.Controllers
 {
 	public class InfoController : BaseController
     {
-		[PaoliAuthorize( "CanBeLoggedIn" )]
-		[ECollateralVerify]
-		[TempPasswordCheck]
 		public ActionResult Index( string id )
         {
 			ECollateralRepository eRepository = new ECollateralRepository();

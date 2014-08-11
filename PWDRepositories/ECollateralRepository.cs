@@ -312,7 +312,7 @@ namespace PWDRepositories
 
 			if( !dbItem.IsTemplate )
 			{
-				retItem.PaoliSalesRepGroupID = dbItem.Company.Territory.SalesRepCompanyID;
+				retItem.PaoliSalesRepGroupID = dbItem.DealershipID.HasValue ? dbItem.Company.Territory.SalesRepCompanyID : null;
 				retItem.DealershipID = dbItem.DealershipID;
 				retItem.DealershipPOCID = dbItem.DealershipPOCID;
 				retItem.DealershipPOCName = dbItem.DealershipPOCName;
@@ -321,8 +321,8 @@ namespace PWDRepositories
 				retItem.DealershipPOCAcctType = dbItem.DealershipPOCAcctType;
 				retItem.CustomerName = dbItem.CustomerName;
 				retItem.ProjectName = dbItem.ProjectName;
-				retItem.PaoliSalesRepGroupName = dbItem.Company.Territory.SalesRepCompanyName;
-				retItem.DealershipName = dbItem.Company.Name;
+				retItem.PaoliSalesRepGroupName = dbItem.DealershipID.HasValue ? dbItem.Company.Territory.SalesRepCompanyName : null;
+				retItem.DealershipName = dbItem.DealershipID.HasValue ? dbItem.Company.Name : null;
 				retItem.DealershipPOCMember = dbItem.DealershipPOCID.HasValue ? dbItem.DealershipPOC.FullName : null;
 				retItem.DealershipPOCAcctTypeName = dbItem.DealershipPOCAcctType.HasValue ? PaoliWebUser.PaoliWebRole.RoleList[dbItem.DealershipPOCAcctType.Value] : null;
 			}
@@ -334,6 +334,7 @@ namespace PWDRepositories
 		{
 			var dInfo = new ECollateralDetails();
 			dInfo.ItemID = dbItem.ItemID;
+			dInfo.Name = dbItem.FileName;
 			dInfo.LayoutName = Layouts.LayoutTitles[dbItem.LayoutID.Value];
 			dInfo.EditViewName = Layouts.LayoutEditViews[dbItem.LayoutID.Value];
 			dInfo.DisplayViewName = Layouts.LayoutDisplayViews[dbItem.LayoutID.Value];
@@ -575,7 +576,7 @@ namespace PWDRepositories
 				LastModifiedDate = dbItem.LastModifiedByDateTime,
 				AuthorName = dbItem.CreatedByUser.FullName,
 				AuthorImage = dbItem.CreatedByUser.ImageFileName,
-				Dealership = !dbItem.IsTemplate ? dbItem.Company.Name : null,
+				Dealership = !dbItem.IsTemplate && dbItem.DealershipID.HasValue ? dbItem.Company.Name : null,
 				CustomerName = !dbItem.IsTemplate ? dbItem.CustomerName : null,
 				ProjectName = !dbItem.IsTemplate ? dbItem.ProjectName : null,
 				ContentType = dbItem.ContentType.HasValue ? LayoutTypes.LayoutTypeList[dbItem.ContentType.Value] : "None",

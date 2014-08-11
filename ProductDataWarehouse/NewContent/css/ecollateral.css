@@ -45,7 +45,6 @@ body {
 	padding:0 0 36px 0;
 	margin:0 auto;
 	/*max-width:1024px;*/
-	background:url(../images/bg.png) repeat left top;
 }
 
 /*Header styles starts here*/
@@ -464,7 +463,6 @@ form.form em i.notavailable:after {
 	margin-top:-19px;
 }
 .templatebody {
-	background:url(../images/bg.png) repeat left top;
 	font-family: Helvetica, Arial, sans-serif;
 	padding-bottom:15px;
 	font-weight:100;
@@ -690,7 +688,7 @@ form.form em i.notavailable:after {
 .addImageContGrid div.collboxes {
 	float:none;
 	margin:0 0 22px 0;
-	width:100%;
+	width:97%;
 }
 .addImageContGrid div.collboxes div.addimagebox {
 	float:left;

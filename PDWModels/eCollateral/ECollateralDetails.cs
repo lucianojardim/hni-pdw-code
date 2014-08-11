@@ -24,6 +24,7 @@ namespace PDWModels.eCollateral
 		}
 
 		public int ItemID { get; set; }
+		public string Name { get; set; }
 		public string LayoutName { get; set; }
 		public string EditViewName { get; set; }
 		public string DisplayViewName { get; set; }
