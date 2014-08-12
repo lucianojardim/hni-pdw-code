@@ -326,7 +326,7 @@ namespace PWDRepositories
 							FileID = i.FileID,
 							FileName = i.Name,
 							Extension = i.Extension,
-							UploadDate = i.UploadDate.ToString( "MM/dd/yyyy HH:mm" ),
+							UploadDate = i.UploadDate,
 							VersionNumber = i.VersionNumber
 						} )
 					.ToList()

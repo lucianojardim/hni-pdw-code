@@ -10,13 +10,20 @@
 	  		$('#fileArea' + fileId).hide();
 	  		$('#delete@(fieldName)').val($('#delete@(fieldName)').val() + ',' + fileId)
 	  	}
+
+		$(document).ready(function() {
+			@foreach( var item in Model.FileList )
+			{
+	   <text>$('#uploadDate@(item.FileID)').text(getLocalDateTime('@item.UploadDate.ToString()'));</text>
+			}
+		});
 	  </script>
 	  <div>
 	  <input type="hidden" id="delete@(fieldName)" name="delete@(fieldName)" />
 	  @foreach( var item in Model.FileList )
    {
 	   <div id="fileArea@(item.FileID)">
-	   <a href="/Documents/Typicals/@Model.SpecName/@item.Extension/@item.VersionNumber/@item.FileName" target="_blank">@item.FileName</a> (@item.UploadDate) <a href="javascript:void(0)" onclick="deleteFinalFile(@item.FileID)"><img src="@Url.Content( "~/Content/images/Delete.png" )" /></a><br />
+	   <a href="/Documents/Typicals/@Model.SpecName/@item.Extension/@item.VersionNumber/@item.FileName" target="_blank">@item.FileName</a> (<span id="uploadDate@(item.FileID)"></span>) <a href="javascript:void(0)" onclick="deleteFinalFile(@item.FileID)"><img src="@Url.Content( "~/Content/images/Delete.png" )" /></a><br />
 	   </div>
    }
 	  </div>

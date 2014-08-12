@@ -15,7 +15,7 @@ namespace PDWModels.SpecRequests
 			public int FileID { get; set; }
 			public int VersionNumber { get; set; }
 			public string FileName { get; set; }
-			public string UploadDate { get; set; }
+			public DateTime UploadDate { get; set; }
 			public string Extension { get; set; }
 		}
 
