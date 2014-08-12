@@ -422,7 +422,8 @@ namespace PWDRepositories
 				CreatedByUserEmail = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.Email : null,
 				CanceledDate = sInfo.IsCanceled ? sInfo.CanceledDateTime : null,
 				CanceledByUser = sInfo.IsCanceled && sInfo.CanceledByUserID.HasValue ? sInfo.CanceledByUser.FullName : null,
-				SpecTeamNotes = sInfo.SpecTeamNotes
+				SpecTeamNotes = sInfo.SpecTeamNotes,
+				InternalNotes = sInfo.InternalNotes
 					
 			};
 		}
@@ -683,6 +684,7 @@ namespace PWDRepositories
 			specInfo.IsCanceled = false;
 			specInfo.Footprint = sInfo.Footprint;
 			specInfo.SpecTeamNotes = sInfo.SpecTeamNotes;
+			specInfo.InternalNotes = sInfo.InternalNotes;
 
 			var rootLocation = Path.Combine( ConfigurationManager.AppSettings["SpecRequestDocumentLocation"], specInfo.Name );
 

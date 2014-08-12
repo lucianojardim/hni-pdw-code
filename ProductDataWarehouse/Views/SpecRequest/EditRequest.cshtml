@@ -486,6 +486,10 @@
 				<tr>
 				<td style="height:31px">@Html.MJLabelFor( m => m.SendCompleteEmail, true, new { @style = "display:none;", @class = "isGoodForWeb" } )</td><td style="height:31px">@Html.CheckBoxFor( m => m.SendCompleteEmail, new { @style = "display:none;", @class = "isGoodForWeb" } )</td>
 				</tr>
+				<tr>
+				<td></td><td></td>
+				<td class="double">@Html.MJLabelFor( m => m.InternalNotes, true )<br />@Html.TextAreaFor( m => m.InternalNotes, new { cols = 30, rows = 10 } )</td>
+				</tr>
 				<tr><td>&nbsp;</td><td></td></tr>
 			</table>
 		</div>

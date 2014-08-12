@@ -296,13 +296,29 @@
 						 <li>
 							 <div class="coln1">
 								 <h5>Spec Team Notes</h5>
-								 <h5>Final Client Files</h5>
 							 </div>
 							 <div class="coln2">
 								 <h5>@Html.DisplayFor( m => m.SpecTeamNotes )</h5>
+							 </div>
+							 <i class="clear_0"></i>
+							 <div class="coln1">
+								 <h5>Final Client Files</h5>
+							 </div>
+							 <div class="coln2">
 								 <h5>@Html.DisplayFor( m => m.specTeamFileList, templateName: "NewFullFileListing" )</h5>
 							 </div>
-							 <i class="clear_0"></i></li>
+							 <i class="clear_0"></i>
+							 @if( PDWInfrastructure.PaoliWebUser.CurrentUser.IsPaoliUser )
+		{
+							 <div class="coln1">
+								 <h5>Internal Notes</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>@Html.DisplayFor( m => m.InternalNotes )</h5>
+							 </div>
+							 <i class="clear_0"></i>
+		}
+						</li>
 					</ul>
 					 <i class="clear_0"></i>
 				 </div>

@@ -904,6 +904,7 @@
           <Property Name="DealerPOCEmail" Type="nvarchar" MaxLength="200" />
           <Property Name="DealerPOCPhone" Type="nvarchar" MaxLength="20" />
           <Property Name="DealerPOCAcctType" Type="int" />
+          <Property Name="InternalNotes" Type="ntext" />
         </EntityType>
         <EntityType Name="TAttributeOptions">
           <Key>
@@ -3205,6 +3206,7 @@
           <Property Type="String" Name="DealerPOCEmail" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="DealerPOCPhone" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="DealerPOCAcctType" />
+          <Property Type="String" Name="InternalNotes" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="fkSpec_Company">
           <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="0..1" />
@@ -4390,6 +4392,7 @@
           <EntitySetMapping Name="SpecRequests">
             <EntityTypeMapping TypeName="PaoliPDWModel.SpecRequest">
               <MappingFragment StoreEntitySet="SpecRequests">
+                <ScalarProperty Name="InternalNotes" ColumnName="InternalNotes" />
                 <ScalarProperty Name="DealerPOCAcctType" ColumnName="DealerPOCAcctType" />
                 <ScalarProperty Name="DealerPOCPhone" ColumnName="DealerPOCPhone" />
                 <ScalarProperty Name="DealerPOCEmail" ColumnName="DealerPOCEmail" />

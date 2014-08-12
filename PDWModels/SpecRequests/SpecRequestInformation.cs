@@ -150,6 +150,8 @@ namespace PDWModels.SpecRequests
 		public string deletespecTeamFileList { get; set; }
 		[DisplayName( "Spec Team Notes" )]
 		public string SpecTeamNotes { get; set; }
+		[DisplayName( "Internal Notes" )]
+		public string InternalNotes { get; set; }
 
 		/* obselete
 		[DisplayName( "Featured Series" )]

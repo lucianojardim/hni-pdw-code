@@ -13230,6 +13230,30 @@ namespace PDWDBContext
         private Nullable<global::System.Int32> _DealerPOCAcctType;
         partial void OnDealerPOCAcctTypeChanging(Nullable<global::System.Int32> value);
         partial void OnDealerPOCAcctTypeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String InternalNotes
+        {
+            get
+            {
+                return _InternalNotes;
+            }
+            set
+            {
+                OnInternalNotesChanging(value);
+                ReportPropertyChanging("InternalNotes");
+                _InternalNotes = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("InternalNotes");
+                OnInternalNotesChanged();
+            }
+        }
+        private global::System.String _InternalNotes;
+        partial void OnInternalNotesChanging(global::System.String value);
+        partial void OnInternalNotesChanged();
 
         #endregion
 
