@@ -204,6 +204,17 @@ namespace ProductDataWarehouse.Controllers
 			return theList;
 		}
 
+		public static IEnumerable<SelectListItem> GetShapeDDList()
+		{
+			var shapes = ( new AttributeRepository() ).GetTypicalOptionList( "Shape" ).Select( s => s.Name ).ToList();
+
+			shapes.Add( "" );
+
+			shapes.Sort();
+
+			return shapes.Select( a => new SelectListItem() { Text = a, Value = a } );
+		}
+
 		public static IEnumerable<SelectListItem> GetFootprintDDList()
 		{
 			var footprints = ( new AttributeRepository() ).GetTypicalOptionList( "Footprint" ).Select( s => s.Name ).ToList();

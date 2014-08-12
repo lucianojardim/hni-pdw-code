@@ -17,7 +17,7 @@ namespace PWDRepositories
 		{
 		}
 
-		public TypicalDetailListGallery GetTypicalDetailData( string category, int? seriesId, string fpSize, string keywords,
+		public TypicalDetailListGallery GetTypicalDetailData( string category, int? seriesId, string fpSize, string shape, string keywords,
 			int? minPrice, int? maxPrice, bool? in2Only,
 			string sortBy, int pageNum, int pageSize )
 		{
@@ -94,6 +94,10 @@ namespace PWDRepositories
 						}
 					}
 				}
+			}
+			if( ( shape ?? "" ).Any() )
+			{
+				theList = theList.Where( s => s.TypicalOptionAttributes.Any( a => a.TAttribute.Name == "Shape" && a.TAttributeOption.Name == shape ) );
 			}
 			if( minPrice.HasValue )
 			{
@@ -194,7 +198,7 @@ namespace PWDRepositories
 			return returnList;
 		}
 
-		public TypicalListGallery GetTypicalData( string category, int? seriesId, string fpSize, string keywords,
+		public TypicalListGallery GetTypicalData( string category, int? seriesId, string fpSize, string shape, string keywords,
 			int? minPrice, int? maxPrice, bool? in2Only,
 			string sortBy, int pageNum, int pageSize )
 		{
@@ -272,6 +276,10 @@ namespace PWDRepositories
 					}
 				}
 			}
+			if( ( shape ?? "" ).Any() )
+			{
+				theList = theList.Where( s => s.TypicalOptionAttributes.Any( a => a.TAttribute.Name == "Shape" && a.TAttributeOption.Name == shape ) );
+			}
 			if( minPrice.HasValue )
 			{
 				theList = theList.Where( s => s.TypicalIntAttributes.FirstOrDefault( a => a.TAttribute.Name == "Pricing" ).Value >= minPrice.Value );
@@ -320,7 +328,7 @@ namespace PWDRepositories
 				};
 		}
 
-		public TypicalListGallery GetTypicalCoverData( string category, int? seriesId, string fpSize, string keywords,
+		public TypicalListGallery GetTypicalCoverData( string category, int? seriesId, string fpSize, string shape, string keywords,
 			int? minPrice, int? maxPrice, bool? in2Only,
 			string sortBy, int? typicalId, string itemList )
 		{
@@ -407,6 +415,10 @@ namespace PWDRepositories
 						}
 					}
 				}
+			}
+			if( ( shape ?? "" ).Any() )
+			{
+				theList = theList.Where( s => s.TypicalOptionAttributes.Any( a => a.TAttribute.Name == "Shape" && a.TAttributeOption.Name == shape ) );
 			}
 			if( minPrice.HasValue )
 			{

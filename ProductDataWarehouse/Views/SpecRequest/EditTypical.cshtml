@@ -185,7 +185,8 @@
 			@Html.MJLabelFor( m => m.AvailableForIn2, true )</td><td>@Html.CheckBoxFor( m => m.AvailableForIn2 )</td></tr>
         <tr><td>@Html.MJLabelFor( m => m.Material, true )</td><td>@Html.TextBoxFor( m => m.Material, new { style = "display:none" } )</td><td>
 			@Html.MJLabelFor( m => m.Finish, true )</td><td>@Html.TextBoxFor( m => m.Finish, new { style = "display:none" } )</td></tr>
-        <tr><td>@Html.MJLabelFor( m => m.Footprint, true )</td><td>@Html.DropDownListFor( m => m.Footprint, SpecRequestController.GetFootprintDDList() )</td></tr>
+        <tr><td>@Html.MJLabelFor( m => m.Footprint, true )</td><td>@Html.DropDownListFor( m => m.Footprint, SpecRequestController.GetFootprintDDList() )</td>
+			<td>@Html.MJLabelFor( m => m.Shape, true )</td><td>@Html.DropDownListFor( m => m.Shape, SpecRequestController.GetShapeDDList() )</td></tr>
 		<tr><td>@Html.MJLabelFor( m => m.RenderingImage, true )</td><td>@Html.TextBoxFor( m => m.RenderingImage )</td><td>
 			@Html.MJLabelFor( m => m.AdditionalImages, true )</td><td>@Html.TextBoxFor( m => m.AdditionalImages, new { style = "display:none" } )</td></tr>
 		<tr><td>@Html.MJLabelFor( m => m.Notes, true )</td><td>@Html.TextAreaFor( m => m.Notes )</td></tr>

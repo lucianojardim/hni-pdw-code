@@ -51,13 +51,13 @@ namespace ProductDataWarehouse.Controllers
 			};
         }
 
-		public JsonpResult GetTypicalList( string category, int? seriesId, string fpSize, string keywords,
+		public JsonpResult GetTypicalList( string category, int? seriesId, string fpSize, string shape, string keywords,
 			int? minPrice, int? maxPrice, bool? in2Only,
 			string sortBy, int? pageNum = 1, int? pageSize = 28 )
 		{
 			TypicalRepository tRepo = new TypicalRepository();
 
-			var theList = tRepo.GetTypicalData( category, seriesId, fpSize, keywords,
+			var theList = tRepo.GetTypicalData( category, seriesId, fpSize, shape, keywords,
 				minPrice, maxPrice, in2Only,
 				sortBy, pageNum.Value, pageSize.Value );
 
@@ -68,13 +68,13 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
-		public JsonpResult GetTypicalDetailList( string category, int? seriesId, string fpSize, string keywords,
+		public JsonpResult GetTypicalDetailList( string category, int? seriesId, string fpSize, string shape, string keywords,
 			int? minPrice, int? maxPrice, bool? in2Only,
 			string sortBy, int? pageNum = 1, int? pageSize = 28 )
 		{
 			TypicalRepository tRepo = new TypicalRepository();
 
-			var theList = tRepo.GetTypicalDetailData( category, seriesId, fpSize, keywords,
+			var theList = tRepo.GetTypicalDetailData( category, seriesId, fpSize, shape, keywords,
 				minPrice, maxPrice, in2Only,
 				sortBy, pageNum.Value, pageSize.Value );
 
@@ -85,13 +85,13 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
-		public JsonpResult GetTypicalCoverList( string category, int? seriesId, string fpSize, string keywords,
+		public JsonpResult GetTypicalCoverList( string category, int? seriesId, string fpSize, string shape, string keywords,
 			int? minPrice, int? maxPrice, bool? in2Only,
 			string sortBy, int? typicalId, string itemList )
 		{
 			TypicalRepository tRepo = new TypicalRepository();
 
-			var theList = tRepo.GetTypicalCoverData( category, seriesId, fpSize, keywords,
+			var theList = tRepo.GetTypicalCoverData( category, seriesId, fpSize, shape, keywords,
 				minPrice, maxPrice, in2Only,
 				sortBy, typicalId, itemList );
 

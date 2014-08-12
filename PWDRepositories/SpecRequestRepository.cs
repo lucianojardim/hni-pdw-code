@@ -979,6 +979,7 @@ namespace PWDRepositories
 			FillTypicalAttribute( tData, tInfo.Footprint, "Footprint" );
 			FillTypicalAttribute( tData, tInfo.Material, "Material" );
 			FillTypicalAttribute( tData, tInfo.Finish, "Finish" );
+			FillTypicalAttribute( tData, tInfo.Shape, "Shape" );
 
 			arrKeywordList.Add( tInfo.FeaturedSeries );
 			arrKeywordList.Add( tInfo.Name );
@@ -1061,6 +1062,7 @@ namespace PWDRepositories
 				Footprint = string.Join( ",", tInfo.AttributeSet( "Footprint" ) ),
 				Material = string.Join( ",", tInfo.AttributeSet( "Material" ) ),
 				Finish = string.Join( ",", tInfo.AttributeSet( "Finish" ) ),
+				Shape = string.Join( ",", tInfo.AttributeSet( "Shape" ) ),
 
 				RenderingImage = string.Join( ",", tInfo.TypicalImageFiles.Where( tif => tif.IsFeatured ).Select( tif => tif.ImageFile.Name ) ),
 				AdditionalImages = string.Join( ",", tInfo.TypicalImageFiles.Where( tif => !tif.IsFeatured ).Select( tif => tif.ImageFile.Name ) ),
@@ -1238,6 +1240,7 @@ namespace PWDRepositories
 			FillTypicalAttribute( tData, tInfo.Footprint, "Footprint" );
 			FillTypicalAttribute( tData, tInfo.Material, "Material" );
 			FillTypicalAttribute( tData, tInfo.Finish, "Finish" );
+			FillTypicalAttribute( tData, tInfo.Shape, "Shape" );
 
 			arrKeywordList.Add( tInfo.FeaturedSeries );
 			arrKeywordList.Add( tInfo.Name );
