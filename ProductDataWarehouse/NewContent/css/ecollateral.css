@@ -56,6 +56,9 @@ header.siteheader {
 .logo {
 	float:left;
 }
+.sublogo {
+	width:100%; float:left; display:block; background:#313b6c; height:58px; padding-top:18px;
+}
 nav.mainmenu {
 	float:right;
 	padding-top:29px;
