@@ -340,6 +340,10 @@ nav.mainmenu ul li:hover ul {
 	line-height:29px;
 	padding-top: 1px;
 }
+.filesettinglist span.emphasis 
+{
+	font-weight: bold;
+}
 .filesettinglist label {
 	display:block;
 	float:left;

@@ -39,68 +39,92 @@
 
 					@if( !Model.Settings.IsTemplate )
 	 {
+		 if( ( Model.Settings.PaoliSalesRepGroupName ?? "" ).Any() )
+   {
             <span>Sales Rep Territory</span>
             <b>@Html.DisplayFor( m => m.Settings.PaoliSalesRepGroupName )</b>
             <div class="clr"></div>
-            
+   }
+   
+		 if( ( Model.Settings.DealershipName ?? "" ).Any() )
+   {
             <span>Dealership</span>
             <b>@Html.DisplayFor( m => m.Settings.DealershipName )</b>
             <div class="clr"></div>
+   }
             
-		 if( Model.Settings.DealershipPOCID.HasValue )
-		 {
+   if( Model.Settings.DealershipPOCID.HasValue )
+   {
             <span>Dealership Point of Contact</span>
             <b>@Html.DisplayFor( m => m.Settings.DealershipPOCMember )</b>
             <div class="clr"></div>
-		 }
-		 else
-		 {
+   }
+   else
+   {
+		 if( ( Model.Settings.DealershipPOCName ?? "" ).Any() )
+   {
             <span>Name</span>
             <b>@Html.DisplayFor( m => m.Settings.DealershipPOCName )</b>
             <div class="clr"></div>
+   }
 		 
+		 if( ( Model.Settings.DealershipPOCEmail ?? "" ).Any() )
+   {
             <span>Email</span>
             <b>@Html.DisplayFor( m => m.Settings.DealershipPOCEmail )</b>
             <div class="clr"></div>
+   }
 		 
+		 if( ( Model.Settings.DealershipPOCPhone ?? "" ).Any() )
+   {
             <span>Phone</span>
             <b>@Html.DisplayFor( m => m.Settings.DealershipPOCPhone )</b>
             <div class="clr"></div>
+   }
 		 
+		 if( ( Model.Settings.DealershipPOCAcctTypeName ?? "" ).Any() )
+   {
             <span>User Type</span>
             <b>@Html.DisplayFor( m => m.Settings.DealershipPOCAcctTypeName )</b>
             <div class="clr"></div>
-		 }
+   }
+   }
+		 if( ( Model.Settings.CustomerName ?? "" ).Any() )
+   {
             <span>End Customer</span>
             <b>@Html.DisplayFor( m => m.Settings.CustomerName )</b>
             <div class="clr"></div>
+   }
             
+		 if( ( Model.Settings.ProjectName ?? "" ).Any() )
+   {
             <span>Project Name</span>
             <b>@Html.DisplayFor( m => m.Settings.ProjectName )</b>
             <div class="clr"></div>
+   }
 
             <span>Status</span>
             <b id="actualStatus">@Html.DisplayFor( m => m.Settings.Status )</b>
             <div class="clr"></div>
 
-if( CurrentUser.CanReviewECollateral )
-{
-	var theList = new List<SelectListItem>() { new SelectListItem() { Selected = true },
+   if( CurrentUser.CanReviewECollateral )
+   {
+	   var theList = new List<SelectListItem>() { new SelectListItem() { Selected = true },
 				new SelectListItem() { Text = PWDRepositories.ECollateralRepository.StatusTypes.StatusList[PWDRepositories.ECollateralRepository.StatusTypes.Approved], Value = PWDRepositories.ECollateralRepository.StatusTypes.Approved.ToString() },
 				new SelectListItem() { Text = PWDRepositories.ECollateralRepository.StatusTypes.StatusList[PWDRepositories.ECollateralRepository.StatusTypes.Unapproved], Value = PWDRepositories.ECollateralRepository.StatusTypes.Unapproved.ToString() }
 		  };
 
-	if( theList.Any( i => i.Value == Model.Settings.UpdateStatus.ToString() ) )
-	{
-		theList.RemoveAll( i => !( i.Text ?? "" ).Any() );
-	}
+	   if( theList.Any( i => i.Value == Model.Settings.UpdateStatus.ToString() ) )
+	   {
+		   theList.RemoveAll( i => !( i.Text ?? "" ).Any() );
+	   }
             <span>Update Status</span>
             <b>@Html.DropDownListFor( m => m.Settings.UpdateStatus, theList, new { @class = "newLookDDL" } )</b>
             <div class="clr"></div>
             
-}
+   }
 	 }
-            <span>Custom URL</span>
+            <span class="emphasis">Live Page Link</span>
             <b><a href="/info/@Html.DisplayFor( m => m.Settings.CustomURL )" target="_blank">http://my.paoli.com/info/@Html.DisplayFor( m => m.Settings.CustomURL )</a></b>
             <div class="clr"></div>
         </div>
