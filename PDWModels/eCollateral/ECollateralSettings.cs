@@ -11,7 +11,7 @@ namespace PDWModels.eCollateral
 	{
 		public int ItemID { get; set; }
 		public bool IsTemplate { get; set; }
-		[DisplayName( "File Name" )]
+		[DisplayName( "Page Name" )]
 		[Required]
 		public string FileName { get; set; }
 		[DisplayName( "Custom URL" )]

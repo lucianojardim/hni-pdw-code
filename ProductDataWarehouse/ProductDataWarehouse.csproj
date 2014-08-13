@@ -517,6 +517,7 @@
     <Content Include="NewContent\images\plus.jpg" />
     <Content Include="NewContent\images\prev_arrow.jpg" />
     <Content Include="NewContent\images\productNoImage.png" />
+    <Content Include="NewContent\images\publisher.png" />
     <Content Include="NewContent\images\quotes.jpg" />
     <Content Include="NewContent\images\radio_new.jpg" />
     <Content Include="NewContent\images\request.png" />

@@ -211,9 +211,9 @@
                 @Html.DropDownListFor( m => m.IsTemplate, isTemplateList )
                 <div class="clr"></div>
                 
-                <label for="FileName">File Name</label>
+                <label for="FileName">Page Name</label>
                 @Html.TextBoxFor( m => m.FileName )
-                <em>File name must be unique.</em>
+                <em>Every page created by ePublisher must have a unique name. You will use this name to search and find it in the future.</em>
                 <div class="clr"></div>
 				@Html.ValidationMessageFor( m => m.FileName )
                 <div class="clr"></div>
