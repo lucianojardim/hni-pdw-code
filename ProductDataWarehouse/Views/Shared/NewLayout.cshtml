@@ -155,6 +155,9 @@
 			 case "InternalNews":
 	<h2><a href="@Url.Action( "ViewAllInternal", "Article" )"><img src="/newcontent/images/scoop-icon.png" alt="img" height="50" width="50"/> Paoli News</a></h2>
 		 break;
+		 case "ePublisher":
+	<h2><a href="@Url.Action( "Manage", "ePublisher" )"><img src="/newcontent/images/publisher.png" alt="img" height="50" width="50"/> ePublisher</a></h2>
+		 break;
 			 default:
                                    <h3 id="welcomeHeading"><span>@CurrentUser.FirstName!</span></h3>
                                    <h4>@if( CurrentUser.PreviousLogin.Any() )
