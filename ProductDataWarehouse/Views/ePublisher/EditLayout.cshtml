@@ -62,10 +62,14 @@
 					success: function (data, textStatus, jqXHR) {
 						$('#ImagePickerList').html('');
 						$.each(data, function (i, img) {
-							var newImage = '<div style="float: left; width: 30%; margin-right:10px;" class="">' +
+							var newImage = '<div style="float: left; width: 30%; margin-right:10px; margin-bottom: 10px;" class="">' +
 								'<img style="width:100%;" src="/images/' + img.FileName + '" data-id="' + img.ImageID + '" data-fname="' + img.FileName + '"/>' +
+								'<span>' + img.Caption + '</span>' +
 								'</div>';
 							$('#ImagePickerList').append(newImage);
+							if (i % 3 == 2) {
+								$('#ImagePickerList').append('<div class="clr"></div>');
+							}
 						});
 						$('#ImagePickerList img').on('click', function (e) {
 							var div = $('#ImagePicker').data('src');
