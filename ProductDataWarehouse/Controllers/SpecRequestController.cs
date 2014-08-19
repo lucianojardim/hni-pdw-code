@@ -105,6 +105,7 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[ValidateInput( false )]
 		public ActionResult AddRequest( SpecRequestInformation sInfo )
 		{
 			if( ModelState.IsValid )
@@ -277,6 +278,7 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[ValidateInput( false )]
 		public ActionResult EditRequest( SpecRequestInformation sInfo )
 		{
 			if( ModelState.IsValid )

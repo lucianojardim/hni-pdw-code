@@ -199,7 +199,11 @@
                     		'		<img src="/NewContent/images/' + item.LayoutImage + '" alt="" height="118" width="91">' + 
 							'	</div>' + 
 							'	<div class="templdesc">' + 
-                    		'		<h4>' + '<a href="' + GetLinkLocation(item) + '">' + item.FileName + '</a>' + '</h4>' + 
+							@if( CurrentUser.CanAddECTemplate ) {
+                    		<text>'		<h4>' + '<a href="' + GetLinkLocation(item) + '">' + item.FileName + '</a>' + '</h4>' + </text>
+							} else {
+                    		<text>'		<h4>' + item.FileName + '</h4>' + </text>
+							}
 							'		<p class="modified"><strong>Last Modified</strong> on ' + getLocalDate(item.LastModifiedDateMilliseconds) + '</p>' + 
 							'		<p class="typehtml"><strong>Type</strong> ' + item.ContentType + '</p>' + 
 							'		<p class="layoutcol"><strong>Layout</strong> ' + item.LayoutName + '</p>' + 

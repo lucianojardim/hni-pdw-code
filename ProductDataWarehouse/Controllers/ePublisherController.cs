@@ -29,6 +29,7 @@ namespace ProductDataWarehouse.Controllers
 		[PaoliAuthorize( "CanManageECollateral" )]
 		[TempPasswordCheck]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult Add( ECollateralSettings settings )
 		{
 			if( ModelState.IsValid )
@@ -69,6 +70,7 @@ namespace ProductDataWarehouse.Controllers
 		[PaoliAuthorize( "CanManageECollateral" )]
 		[TempPasswordCheck]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult EditSettings( ECollateralSettings settings )
 		{
 			if( ModelState.IsValid )
@@ -109,6 +111,7 @@ namespace ProductDataWarehouse.Controllers
 		[PaoliAuthorize( "CanManageECollateral" )]
 		[TempPasswordCheck]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult SetLayout( ECollateralLayout layoutInfo )
 		{
 			if( ModelState.IsValid )
@@ -158,6 +161,7 @@ namespace ProductDataWarehouse.Controllers
 		[PaoliAuthorize( "CanManageECollateral" )]
 		[TempPasswordCheck]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult EditLayout( ECollateralDetails dInfo )
 		{
 			if( ModelState.IsValid )
