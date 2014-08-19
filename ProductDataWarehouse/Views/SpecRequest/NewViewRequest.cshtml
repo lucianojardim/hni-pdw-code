@@ -161,11 +161,16 @@
 						 <li id="confirmAddlServiceInfo">
 							 <div class="coln1">
 								 <h5>Related Drawings or Notes</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>@Html.DisplayFor( m => m.addlFileList, templateName: "NewFullFileListing" )</h5>
+							 </div>
+							 <i class="clear_0"></i>
+							 <div class="coln1">
 								 <h5>File Format(s)</h5>
 								 <h5>Additional Services Notes</h5>
 							 </div>
 							 <div class="coln2">
-								 <h5>@Html.DisplayFor( m => m.addlFileList, templateName: "NewFullFileListing" )</h5>
 								 <h5>@{
 									 var NeedFileList = new List<string>();
 									 if( Model.NeedDWGFiles ) { NeedFileList.Add( "DWG" ); }
@@ -268,7 +273,7 @@
 					 </ul>
 					 <i class="clear_0"></i>
 				 </div>
-				 <div class="main_inner10_cont_btm">
+				 <div class="main_inner10_cont_mid">
 					 <h3>Additional Details</h3>
 					 <ul>
 						 <li>

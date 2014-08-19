@@ -3,5 +3,12 @@
 
 	  @foreach( var item in Model.FileList )
    {
-	   <a href="/Documents/Typicals/@Model.SpecName/@item.Extension/@item.VersionNumber/@item.FileName" target="_blank">@item.FileName</a> 
+	   var g = Guid.NewGuid().ToString().Replace( "-", "" );
+	   <a href="/Documents/Typicals/@Model.SpecName/@item.Extension/@item.VersionNumber/@item.FileName" target="_blank">@item.FileName</a> <text> on <span id="@g"></span></text> <br />
+	   
+	   <script type="text/javascript">
+	   	$(document).ready(function () {
+			$('#@g').text(getLocalDateTime('@item.UploadDate'));
+	   	});
+	   </script>
    }
