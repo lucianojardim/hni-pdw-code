@@ -20,6 +20,8 @@
 						s += 'Canceled';
 					} else if (item.IsCompleted) {
 						s += 'Completed';
+					} else if (item.IsOnHold) {
+						s += 'Pending - On Hold';
 					} else {
 						s += 'Pending';
 					}

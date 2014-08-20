@@ -36,6 +36,7 @@ namespace PWDRepositories
 				IsPublished = sRequest.Typicals.Any( t => t.IsPublished ),
 				HasTypical = sRequest.Typicals.Any(),
 				IsCompleted = sRequest.IsCompleted,
+				IsOnHold = sRequest.IsOnHold,
 				IsCanceled = sRequest.IsCanceled,
 				CreatedDate = sRequest.RequestDate,
 				IsAuditSpecOnly = sRequest.NeedAuditSpecs && !sRequest.NeedFloorplanSpecs &&
@@ -378,6 +379,7 @@ namespace PWDRepositories
 				SendCompleteEmail = true,
 				AvailableForIn2 = sInfo.AvailableForIn2 ?? false,
 				IsCompleted = sInfo.IsCompleted,
+				IsOnHold = sInfo.IsOnHold,
 				IsCanceled = sInfo.IsCanceled,
 				Footprint = sInfo.Footprint,
 				Notes = sInfo.Notes,
@@ -681,6 +683,7 @@ namespace PWDRepositories
 				specInfo.CompletedDateTime = null;
 			}
 			specInfo.IsCompleted = sInfo.IsCompleted;
+			specInfo.IsOnHold = sInfo.IsOnHold && !sInfo.IsCompleted;
 			specInfo.IsCanceled = false;
 			specInfo.Footprint = sInfo.Footprint;
 			specInfo.SpecTeamNotes = sInfo.SpecTeamNotes;

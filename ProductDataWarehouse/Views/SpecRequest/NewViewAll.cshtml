@@ -123,6 +123,8 @@
                     			return 'Completed';
                     		} else if (oObj.aData["SpecTeamMember"] == null || oObj.aData["SpecTeamMember"] == '') {
                     			return 'Not Assigned';
+                    		} else if (oObj.aData["IsOnHold"]) {
+                    			return 'Pending - On Hold';
                     		} 
                     		return 'Pending';
                     	}

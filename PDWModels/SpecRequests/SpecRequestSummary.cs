@@ -17,6 +17,7 @@ namespace PDWModels.SpecRequests
 		public bool IsRecommended { get; set; }
 		public bool IsPublished { get; set; }
 		public bool IsCompleted { get; set; }
+		public bool IsOnHold { get; set; }
 		public bool IsCanceled { get; set; }
 		public bool IsAuditSpecOnly { get; set; }
 		public bool HasTypical { get; set; }

@@ -11715,7 +11715,8 @@ namespace PDWDBContext
         /// <param name="needXLSFiles">Initial value of the NeedXLSFiles property.</param>
         /// <param name="needPDFFiles">Initial value of the NeedPDFFiles property.</param>
         /// <param name="isCanceled">Initial value of the IsCanceled property.</param>
-        public static SpecRequest CreateSpecRequest(global::System.Int32 requestID, global::System.Boolean isCompleted, global::System.Boolean needFloorplanSpecs, global::System.Boolean need3DDrawing, global::System.Boolean needValueEng, global::System.Boolean needPhotoRendering, global::System.Boolean need2DDrawing, global::System.Boolean needAuditSpecs, global::System.Boolean grommets, global::System.Boolean needDWGFiles, global::System.Boolean needSP4Files, global::System.Boolean needSIFFiles, global::System.Boolean needXLSFiles, global::System.Boolean needPDFFiles, global::System.Boolean isCanceled)
+        /// <param name="isOnHold">Initial value of the IsOnHold property.</param>
+        public static SpecRequest CreateSpecRequest(global::System.Int32 requestID, global::System.Boolean isCompleted, global::System.Boolean needFloorplanSpecs, global::System.Boolean need3DDrawing, global::System.Boolean needValueEng, global::System.Boolean needPhotoRendering, global::System.Boolean need2DDrawing, global::System.Boolean needAuditSpecs, global::System.Boolean grommets, global::System.Boolean needDWGFiles, global::System.Boolean needSP4Files, global::System.Boolean needSIFFiles, global::System.Boolean needXLSFiles, global::System.Boolean needPDFFiles, global::System.Boolean isCanceled, global::System.Boolean isOnHold)
         {
             SpecRequest specRequest = new SpecRequest();
             specRequest.RequestID = requestID;
@@ -11733,6 +11734,7 @@ namespace PDWDBContext
             specRequest.NeedXLSFiles = needXLSFiles;
             specRequest.NeedPDFFiles = needPDFFiles;
             specRequest.IsCanceled = isCanceled;
+            specRequest.IsOnHold = isOnHold;
             return specRequest;
         }
 
@@ -13254,6 +13256,30 @@ namespace PDWDBContext
         private global::System.String _InternalNotes;
         partial void OnInternalNotesChanging(global::System.String value);
         partial void OnInternalNotesChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsOnHold
+        {
+            get
+            {
+                return _IsOnHold;
+            }
+            set
+            {
+                OnIsOnHoldChanging(value);
+                ReportPropertyChanging("IsOnHold");
+                _IsOnHold = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsOnHold");
+                OnIsOnHoldChanged();
+            }
+        }
+        private global::System.Boolean _IsOnHold;
+        partial void OnIsOnHoldChanging(global::System.Boolean value);
+        partial void OnIsOnHoldChanged();
 
         #endregion
 
