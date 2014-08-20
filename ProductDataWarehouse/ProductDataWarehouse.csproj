@@ -514,6 +514,7 @@
     <Content Include="NewContent\images\my_account.png" />
     <Content Include="NewContent\images\narrow-nav-icon.jpg" />
     <Content Include="NewContent\images\order_arrow.jpg" />
+    <Content Include="NewContent\images\Paoli_BlueRGB.png" />
     <Content Include="NewContent\images\plus.jpg" />
     <Content Include="NewContent\images\prev_arrow.jpg" />
     <Content Include="NewContent\images\productNoImage.png" />
