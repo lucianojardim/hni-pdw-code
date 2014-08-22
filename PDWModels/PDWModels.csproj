@@ -53,6 +53,7 @@
     <Compile Include="Attributes\FinishInformation.cs" />
     <Compile Include="Collateral\CollateralGroupInformation.cs" />
     <Compile Include="Collateral\CollateralInformation.cs" />
+    <Compile Include="Collateral\CollateralOrderExport.cs" />
     <Compile Include="Collateral\CollateralOrderHPSummary.cs" />
     <Compile Include="Collateral\CollateralOrderSummary.cs" />
     <Compile Include="Collateral\CollateralShipmentDetail.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Series\SeriesInformation.cs" />
     <Compile Include="Series\SeriesListData.cs" />
     <Compile Include="Series\SeriesSearchResult.cs" />
+    <Compile Include="SpecRequests\SpecRequestExport.cs" />
     <Compile Include="SpecRequests\SpecRequestInformation.cs" />
     <Compile Include="SpecRequests\SpecRequestSummary.cs" />
     <Compile Include="SpecRequests\TypicalMgmtInfo.cs" />
@@ -112,6 +114,7 @@
     <Compile Include="Typicals\TypicalListGallery.cs" />
     <Compile Include="Users\ChangePWDetail.cs" />
     <Compile Include="Users\MyAccountInfo.cs" />
+    <Compile Include="Users\UserActivityExport.cs" />
     <Compile Include="Users\UserContactInfo.cs" />
     <Compile Include="Users\UserInformation.cs" />
     <Compile Include="Users\UserSubscriptionSummary.cs" />

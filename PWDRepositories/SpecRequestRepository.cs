@@ -64,6 +64,84 @@ namespace PWDRepositories
 			return requestList.ToList().Select( v => ToSpecRequestSummary( v ) );
 		}
 
+		public IEnumerable<SpecRequestExport> GetExportList()
+		{
+			return database.SpecRequests
+				.OrderBy( r => r.Name )
+				.ToList()
+				.Select( r => ToSpecRequestExport( r ) );
+		}
+
+		private SpecRequestExport ToSpecRequestExport( SpecRequest sInfo )
+		{
+			return new SpecRequestExport()
+			{
+				Name = sInfo.Name,
+				ProjectName = sInfo.ProjectName,
+				DealerPointOfContact = sInfo.DealerPOCText,
+				DealerPointOfContactEmail = sInfo.DealerPOCEmail,
+				DealerPointOfContactPhone = sInfo.DealerPOCPhone,
+				DealerPointOfContactAcctTypeName = sInfo.DealerPOCAcctType.HasValue ? PaoliWebUser.PaoliWebRole.RoleList[sInfo.DealerPOCAcctType.Value] : "",
+				IsGSA = sInfo.IsGSA ?? false,
+				ContractName = sInfo.ContractID.HasValue ? sInfo.GSAContract.Name : "",
+				SavedLocation = sInfo.SavedLocation,
+				ListPrice = sInfo.ListPrice,
+				Received = sInfo.Received ?? false,
+				SPLQuote = sInfo.SPLQuote,
+				IsGoodForWeb = ( sInfo.IsGoodForWeb ?? false ) && sInfo.IsCompleted,
+				AvailableForIn2 = sInfo.AvailableForIn2 ?? false,
+				IsCompleted = sInfo.IsCompleted,
+				IsOnHold = sInfo.IsOnHold,
+				IsCanceled = sInfo.IsCanceled,
+				Footprint = sInfo.Footprint,
+				Notes = sInfo.Notes,
+				NeedDWGFiles = sInfo.NeedDWGFiles,
+				NeedSP4Files = sInfo.NeedSP4Files,
+				NeedSIFFiles = sInfo.NeedSIFFiles,
+				NeedXLSFiles = sInfo.NeedXLSFiles,
+				NeedPDFFiles = sInfo.NeedPDFFiles,
+				addlFileList = string.Join( ", ", sInfo.SpecRequestFiles.Where( f => !f.IsSpecTeam ).Select( f => f.Name ) ),
+				specTeamFileList = string.Join( ", ", sInfo.SpecRequestFiles.Where( f => f.IsSpecTeam ).Select( f => f.Name ) ),
+				CreatedDate = sInfo.RequestDate,
+				DealerName = sInfo.PrimaryCompanyID.HasValue ? sInfo.PrimaryCompany.FullName : "None",
+				SalesRepGroupName = sInfo.PaoliSalesRepGroupID.HasValue ? sInfo.PaoliSalesRepGroup.FullName : "None",
+				SalesRepMemberName = sInfo.PaoliSalesRepMemberID.HasValue ? sInfo.PaoliSalesRepMember.FullName : "None",
+				SalesRepMemberContact = sInfo.PaoliSalesRepMemberID.HasValue ? sInfo.PaoliSalesRepMember.ContactInfo : "",
+				DealerSalesRepName = sInfo.DealerSalesRepID.HasValue ? sInfo.DealerSalesRep.FullName : "None",
+				DealerSalesRepContact = sInfo.DealerSalesRepID.HasValue ? sInfo.DealerSalesRep.ContactInfo : "",
+				SpecTeamMemberName = sInfo.PaoliSpecTeamMemberID.HasValue ? sInfo.SpecTeamMember.FullName : "Not Assigned",
+				EndCustomer = sInfo.EndCustomer,
+				ProjectSize = sInfo.ProjectSize,
+				NeedFloorplanSpecs = sInfo.NeedFloorplanSpecs,
+				NeedValueEng = sInfo.NeedValueEng,
+				NeedPhotoRendering = sInfo.NeedPhotoRendering,
+				Need2DDrawing = sInfo.Need2DDrawing,
+				NeedAuditSpecs = sInfo.NeedAuditSpecs,
+				Casegoods = sInfo.Casegoods,
+				Conferencing = sInfo.Conferencing,
+				Seating = sInfo.Seating,
+				Finishes = sInfo.Finishes,
+				LaminatePreference = sInfo.LaminatePreference,
+				OtherFinishDetails = sInfo.OtherFinishDetails,
+				Grommets = sInfo.Grommets,
+				GrommetDetails = sInfo.Grommets ? sInfo.GrommetDetails : null,
+				GrommetPosition = sInfo.Grommets ? sInfo.GrommetPosition : null,
+				DrawerOption = sInfo.DrawerOption,
+				FabricGrade = sInfo.FabricGrade,
+				Fabric = sInfo.FabricDetails,
+				SpecialRequests = sInfo.SpecialRequests,
+				CreatedByUser = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.FullName : null,
+				CreatedByUserCompany = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.Company.FullName : null,
+				CreatedByUserPhone = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.BusinessPhone : null,
+				CreatedByUserEmail = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.Email : null,
+				CanceledDate = sInfo.IsCanceled ? sInfo.CanceledDateTime : null,
+				CanceledByUser = sInfo.IsCanceled && sInfo.CanceledByUserID.HasValue ? sInfo.CanceledByUser.FullName : null,
+				SpecTeamNotes = sInfo.SpecTeamNotes,
+				InternalNotes = sInfo.InternalNotes
+
+			};
+		}
+
 		public IEnumerable<SpecRequestSummary> GetUserRequestList( UserSpecRequestTableParams paramDetails, out int totalRecords, out int displayedRecords )
 		{
 			totalRecords = 0;
@@ -353,6 +431,11 @@ namespace PWDRepositories
 				throw new Exception( "Unable to find Spec Request" );
 			}
 
+			return ToSpecRequestInformation( sInfo );
+		}
+
+		private SpecRequestInformation ToSpecRequestInformation( SpecRequest sInfo )
+		{
 			return new SpecRequestInformation()
 			{
 				RequestID = sInfo.RequestID,

@@ -102,6 +102,10 @@
 						   {
                             <li><a href="@Url.Action( "ViewAllNewsAndUpdates", "Article" )">News and Updates</a></li>
 						   }
+                           @if( CurrentUser.IsPaoliUser )
+						   {
+                            <li><a href="@Url.Action( "Index", "Report" )">Reports</a></li>
+						   }
                             <li><a href="http://www.paoliconnect.com">Paoli Connect</a></li>
 </ul>
                     </li>

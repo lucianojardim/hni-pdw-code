@@ -719,5 +719,19 @@ namespace PWDRepositories
 
 			throw new Exception( "Unable to find current user" );
 		}
+
+		public IEnumerable<UserActivityExport> GetExportList()
+		{
+			return database.UserLogins
+				.OrderByDescending( a => a.LoginDate )
+				.Select( a => new UserActivityExport()
+				{
+					EmailAddress = a.User.Email,
+					FirstName = a.User.FirstName,
+					LastName = a.User.LastName,
+					Activity = "Login",
+					UTCDateTime = a.LoginDate
+				} );
+		}
 	}
 }

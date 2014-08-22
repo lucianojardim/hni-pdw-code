@@ -280,6 +280,8 @@ namespace PDWInfrastructure
 		public bool CanReviewECollateral { get { return IsPaoliUser; } }
 		public bool CanAddECTemplate { get { return IsPaoliUser; } }
 
+		public bool CanViewReports { get { return IsPaoliUser; } }
+
 		public string ProductsHomePage
 		{
 			get
