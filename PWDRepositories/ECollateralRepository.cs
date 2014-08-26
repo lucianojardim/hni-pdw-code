@@ -181,17 +181,20 @@ namespace PWDRepositories
 			newItem.IsTemplate = settings.IsTemplate;
 			newItem.FileName = settings.FileName;
 			newItem.URLText = settings.CustomURL;
-			newItem.DealershipID = settings.DealershipID;
-			if( settings.DealershipPOCID != 0 )
+			if( settings.DealershipID != 0 )
 			{
-				newItem.DealershipPOCID = settings.DealershipPOCID;
-			}
-			else
-			{
-				newItem.DealershipPOCName = settings.DealershipPOCName;
-				newItem.DealershipPOCEmail = settings.DealershipPOCEmail;
-				newItem.DealershipPOCPhone = settings.DealershipPOCPhone;
-				newItem.DealershipPOCAcctType = settings.DealershipPOCAcctType;
+				newItem.DealershipID = settings.DealershipID;
+				if( settings.DealershipPOCID != 0 )
+				{
+					newItem.DealershipPOCID = settings.DealershipPOCID;
+				}
+				else
+				{
+					newItem.DealershipPOCName = settings.DealershipPOCName;
+					newItem.DealershipPOCEmail = settings.DealershipPOCEmail;
+					newItem.DealershipPOCPhone = settings.DealershipPOCPhone;
+					newItem.DealershipPOCAcctType = settings.DealershipPOCAcctType;
+				}
 			}
 			newItem.CustomerName = settings.CustomerName;
 			newItem.ProjectName = settings.ProjectName;
@@ -228,24 +231,36 @@ namespace PWDRepositories
 				dbItem.IsTemplate = settings.IsTemplate;
 				dbItem.FileName = settings.FileName;
 				dbItem.URLText = settings.CustomURL;
-				dbItem.DealershipID = settings.DealershipID;
-				if( settings.DealershipPOCID != 0 )
+				if( settings.DealershipID != 0 )
 				{
-					dbItem.DealershipPOCID = settings.DealershipPOCID;
+					dbItem.DealershipID = settings.DealershipID;
+					if( settings.DealershipPOCID != 0 )
+					{
+						dbItem.DealershipPOCID = settings.DealershipPOCID;
 
+						dbItem.DealershipPOCName = null;
+						dbItem.DealershipPOCEmail = null;
+						dbItem.DealershipPOCPhone = null;
+						dbItem.DealershipPOCAcctType = null;
+					}
+					else
+					{
+						dbItem.DealershipPOCName = settings.DealershipPOCName;
+						dbItem.DealershipPOCEmail = settings.DealershipPOCEmail;
+						dbItem.DealershipPOCPhone = settings.DealershipPOCPhone;
+						dbItem.DealershipPOCAcctType = settings.DealershipPOCAcctType;
+
+						dbItem.DealershipPOCID = null;
+					}
+				}
+				else
+				{
+					dbItem.DealershipID = null;
+					dbItem.DealershipPOCID = null;
 					dbItem.DealershipPOCName = null;
 					dbItem.DealershipPOCEmail = null;
 					dbItem.DealershipPOCPhone = null;
 					dbItem.DealershipPOCAcctType = null;
-				}
-				else
-				{
-					dbItem.DealershipPOCName = settings.DealershipPOCName;
-					dbItem.DealershipPOCEmail = settings.DealershipPOCEmail;
-					dbItem.DealershipPOCPhone = settings.DealershipPOCPhone;
-					dbItem.DealershipPOCAcctType = settings.DealershipPOCAcctType;
-
-					dbItem.DealershipPOCID = null;
 				}
 				dbItem.CustomerName = settings.CustomerName;
 				dbItem.ProjectName = settings.ProjectName;
