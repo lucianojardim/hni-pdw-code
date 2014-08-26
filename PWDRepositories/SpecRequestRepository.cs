@@ -79,12 +79,8 @@ namespace PWDRepositories
 				Name = sInfo.Name,
 				ProjectName = sInfo.ProjectName,
 				DealerPointOfContact = sInfo.DealerPOCText,
-				DealerPointOfContactEmail = sInfo.DealerPOCEmail,
-				DealerPointOfContactPhone = sInfo.DealerPOCPhone,
-				DealerPointOfContactAcctTypeName = sInfo.DealerPOCAcctType.HasValue ? PaoliWebUser.PaoliWebRole.RoleList[sInfo.DealerPOCAcctType.Value] : "",
 				IsGSA = sInfo.IsGSA ?? false,
 				ContractName = sInfo.ContractID.HasValue ? sInfo.GSAContract.Name : "",
-				SavedLocation = sInfo.SavedLocation,
 				ListPrice = sInfo.ListPrice,
 				Received = sInfo.Received ?? false,
 				SPLQuote = sInfo.SPLQuote,
@@ -100,13 +96,10 @@ namespace PWDRepositories
 				NeedSIFFiles = sInfo.NeedSIFFiles,
 				NeedXLSFiles = sInfo.NeedXLSFiles,
 				NeedPDFFiles = sInfo.NeedPDFFiles,
-				addlFileList = string.Join( ", ", sInfo.SpecRequestFiles.Where( f => !f.IsSpecTeam ).Select( f => f.Name ) ),
-				specTeamFileList = string.Join( ", ", sInfo.SpecRequestFiles.Where( f => f.IsSpecTeam ).Select( f => f.Name ) ),
 				CreatedDate = sInfo.RequestDate,
 				DealerName = sInfo.PrimaryCompanyID.HasValue ? sInfo.PrimaryCompany.FullName : "None",
 				SalesRepGroupName = sInfo.PaoliSalesRepGroupID.HasValue ? sInfo.PaoliSalesRepGroup.FullName : "None",
 				SalesRepMemberName = sInfo.PaoliSalesRepMemberID.HasValue ? sInfo.PaoliSalesRepMember.FullName : "None",
-				SalesRepMemberContact = sInfo.PaoliSalesRepMemberID.HasValue ? sInfo.PaoliSalesRepMember.ContactInfo : "",
 				DealerSalesRepName = sInfo.DealerSalesRepID.HasValue ? sInfo.DealerSalesRep.FullName : "None",
 				DealerSalesRepContact = sInfo.DealerSalesRepID.HasValue ? sInfo.DealerSalesRep.ContactInfo : "",
 				SpecTeamMemberName = sInfo.PaoliSpecTeamMemberID.HasValue ? sInfo.SpecTeamMember.FullName : "Not Assigned",
@@ -132,12 +125,11 @@ namespace PWDRepositories
 				SpecialRequests = sInfo.SpecialRequests,
 				CreatedByUser = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.FullName : null,
 				CreatedByUserCompany = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.Company.FullName : null,
-				CreatedByUserPhone = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.BusinessPhone : null,
-				CreatedByUserEmail = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.Email : null,
 				CanceledDate = sInfo.IsCanceled ? sInfo.CanceledDateTime : null,
 				CanceledByUser = sInfo.IsCanceled && sInfo.CanceledByUserID.HasValue ? sInfo.CanceledByUser.FullName : null,
 				SpecTeamNotes = sInfo.SpecTeamNotes,
-				InternalNotes = sInfo.InternalNotes
+				InternalNotes = sInfo.InternalNotes,
+				CompletedDate = sInfo.IsCompleted ? sInfo.CompletedDateTime : null
 
 			};
 		}

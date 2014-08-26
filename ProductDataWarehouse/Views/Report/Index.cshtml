@@ -35,10 +35,13 @@
 				<h4>Collateral Order Listing</h4>
 				<span class="btn7 orderListButton">DOWNLOAD</span>
 			</div>
+			@if( PDWInfrastructure.PaoliWebUser.CurrentUser.IsSuperAdmin )
+   {
 			<div class="main_inner10_cont_btm">
 				<h4>User Activity Listing</h4>
 				<span class="btn7 userActivityButton">DOWNLOAD</span>
 			</div>
+   }
 		</div>
 	</div>
 </div>

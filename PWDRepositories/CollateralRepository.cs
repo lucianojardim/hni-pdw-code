@@ -125,6 +125,15 @@ namespace PWDRepositories
 			return localList;
 		}
 
+		public List<string> GetOrderDetailNameList()
+		{
+			return database.CollateralOrderDetails
+				.Select( c => c.GroupNKID.HasValue ? c.GroupName : c.ItemName )
+				.Distinct()
+				.OrderBy( s => s )
+				.ToList();
+		}
+
 		public IEnumerable<CollateralOrderExport> GetExportList()
 		{
 			return database.CollateralOrders
@@ -139,18 +148,12 @@ namespace PWDRepositories
 			{
 				OrderID = dbOrder.OrderID,
 				RequestingParty = NewOrderInformation.RequestingParties[dbOrder.RequestingParty],
-				PaoliMember = dbOrder.PaoliMemberID.HasValue ? dbOrder.PaoliMember.FullName : "None",
-				PaoliRepGroup = dbOrder.PaoliRepGroupID.HasValue ? dbOrder.PaoliSalesRep.FullName : "None",
-				PaoliRepGroupMember = dbOrder.PaoliRepGroupMemberID.HasValue ? dbOrder.PaoliSalesRepMember.FullName : "None",
-				Dealer = dbOrder.DealerID.HasValue ? dbOrder.Dealer.FullName : "None",
-				DealerMember = dbOrder.DealerMemberID.HasValue ? dbOrder.DealerMember.FullName : "None",
 				EndUserFirstName = dbOrder.EndUserFirstName,
 				EndUserLastName = dbOrder.EndUserLastName,
 				EndUserPhoneNumber = dbOrder.EndUserPhoneNumber,
 				EndUserEMailAddress = dbOrder.EndUserEMailAddress,
 
 				ShippingType = NewOrderInformation.ShippingTypes[dbOrder.ShippingType],
-				ShippingFedexAccount = dbOrder.ShippingFedexAccount,
 				ShippingAttn = dbOrder.ShippingAttn,
 				ShippingCompanyName = dbOrder.ShippingCompanyName,
 				ShippingAddress1 = dbOrder.ShippingAddress1,
@@ -166,11 +169,13 @@ namespace PWDRepositories
 
 				CreatedByUserName = dbOrder.CreatedByUser.FullName,
 				CreatedByCompany = dbOrder.CreatedByUser.Company.FullName,
-				CreatedByEmailAddress = dbOrder.CreatedByUser.Email,
-				CreatedByPhoneNumber = dbOrder.CreatedByUser.BusinessPhone,
 
 				CanceledByUserName = dbOrder.CanceledByUserID.HasValue ? dbOrder.CanceledByUser.FullName : null,
-				CanceledOnDateTime = dbOrder.CanceledOnDateTime
+				CanceledOnDateTime = dbOrder.CanceledOnDateTime,
+				ItemNames = dbOrder.CollateralOrderDetails
+					.Select( c => c.GroupNKID.HasValue ? c.GroupName : c.ItemName )
+					.Distinct()
+					.ToList()
 			};
 
 			switch( dbOrder.RequestingParty )
@@ -180,8 +185,6 @@ namespace PWDRepositories
 					{
 						retOrder.RPUserName = dbOrder.PaoliMember.FullName;
 						retOrder.RPCompany = dbOrder.PaoliMember.Company.FullName;
-						retOrder.RPEmailAddress = dbOrder.PaoliMember.Email;
-						retOrder.RPPhoneNumber = dbOrder.PaoliMember.BusinessPhone;
 					}
 					break;
 				case NewOrderInformation.RPPaoliRepresentative:
@@ -189,14 +192,10 @@ namespace PWDRepositories
 					{
 						retOrder.RPUserName = dbOrder.PaoliSalesRepMember.FullName;
 						retOrder.RPCompany = dbOrder.PaoliSalesRepMember.Company.FullName;
-						retOrder.RPEmailAddress = dbOrder.PaoliSalesRepMember.Email;
-						retOrder.RPPhoneNumber = dbOrder.PaoliSalesRepMember.BusinessPhone;
 					}
 					else if( dbOrder.PaoliRepGroupID.HasValue )
 					{
 						retOrder.RPCompany = dbOrder.PaoliSalesRep.FullName;
-						retOrder.RPEmailAddress = dbOrder.PaoliSalesRep.ContactEmail;
-						retOrder.RPPhoneNumber = dbOrder.PaoliSalesRep.Phone;
 					}
 					break;
 				case NewOrderInformation.RPDealer:
@@ -204,20 +203,14 @@ namespace PWDRepositories
 					{
 						retOrder.RPUserName = dbOrder.DealerMember.FullName;
 						retOrder.RPCompany = dbOrder.DealerMember.Company.FullName;
-						retOrder.RPEmailAddress = dbOrder.DealerMember.Email;
-						retOrder.RPPhoneNumber = dbOrder.DealerMember.BusinessPhone;
 					}
 					else if( dbOrder.DealerID.HasValue )
 					{
 						retOrder.RPCompany = dbOrder.Dealer.FullName;
-						retOrder.RPEmailAddress = dbOrder.Dealer.ContactEmail;
-						retOrder.RPPhoneNumber = dbOrder.Dealer.Phone;
 					}
 					break;
 				case NewOrderInformation.RPEndUser:
 					retOrder.RPUserName = dbOrder.EndUserFirstName + " " + dbOrder.EndUserLastName;
-					retOrder.RPEmailAddress = dbOrder.EndUserEMailAddress;
-					retOrder.RPPhoneNumber = dbOrder.EndUserPhoneNumber;
 					break;
 			}
 
@@ -228,8 +221,6 @@ namespace PWDRepositories
 					{
 						retOrder.SPUserName = dbOrder.SPPaoliMember.FullName;
 						retOrder.SPCompany = dbOrder.SPPaoliMember.Company.FullName;
-						retOrder.SPEmailAddress = dbOrder.SPPaoliMember.Email;
-						retOrder.SPPhoneNumber = dbOrder.SPPaoliMember.BusinessPhone;
 					}
 					break;
 				case NewOrderInformation.RPPaoliRepresentative:
@@ -237,14 +228,10 @@ namespace PWDRepositories
 					{
 						retOrder.SPUserName = dbOrder.SPPaoliSalesRepMember.FullName;
 						retOrder.SPCompany = dbOrder.SPPaoliSalesRepMember.Company.FullName;
-						retOrder.SPEmailAddress = dbOrder.SPPaoliSalesRepMember.Email;
-						retOrder.SPPhoneNumber = dbOrder.SPPaoliSalesRepMember.BusinessPhone;
 					}
 					else if( dbOrder.SPPaoliRepGroupID.HasValue )
 					{
 						retOrder.SPCompany = dbOrder.SPPaoliSalesRep.FullName;
-						retOrder.SPEmailAddress = dbOrder.SPPaoliSalesRep.ContactEmail;
-						retOrder.SPPhoneNumber = dbOrder.SPPaoliSalesRep.Phone;
 					}
 					break;
 				case NewOrderInformation.RPDealer:
@@ -252,20 +239,14 @@ namespace PWDRepositories
 					{
 						retOrder.SPUserName = dbOrder.SPDealerMember.FullName;
 						retOrder.SPCompany = dbOrder.SPDealerMember.Company.FullName;
-						retOrder.SPEmailAddress = dbOrder.SPDealerMember.Email;
-						retOrder.SPPhoneNumber = dbOrder.SPDealerMember.BusinessPhone;
 					}
 					else if( dbOrder.SPDealerID.HasValue )
 					{
 						retOrder.SPCompany = dbOrder.SPDealer.FullName;
-						retOrder.SPEmailAddress = dbOrder.SPDealer.ContactEmail;
-						retOrder.SPPhoneNumber = dbOrder.SPDealer.Phone;
 					}
 					break;
 				case NewOrderInformation.RPEndUser:
 					retOrder.SPUserName = dbOrder.SPEndUserFirstName + " " + dbOrder.SPEndUserLastName;
-					retOrder.SPEmailAddress = dbOrder.SPEndUserEMailAddress;
-					retOrder.SPPhoneNumber = dbOrder.SPEndUserPhoneNumber;
 					break;
 			}
 
