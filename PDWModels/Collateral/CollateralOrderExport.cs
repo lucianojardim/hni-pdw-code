@@ -39,6 +39,6 @@ namespace PDWModels.Collateral
 		public string CanceledByUserName { get; set; }
 		public DateTime? CanceledOnDateTime { get; set; }
 
-		public List<string> ItemNames { get; set; }
+		public Dictionary<string, int> ItemNames { get; set; }
 	}
 }

@@ -172,11 +172,32 @@ namespace PWDRepositories
 
 				CanceledByUserName = dbOrder.CanceledByUserID.HasValue ? dbOrder.CanceledByUser.FullName : null,
 				CanceledOnDateTime = dbOrder.CanceledOnDateTime,
-				ItemNames = dbOrder.CollateralOrderDetails
-					.Select( c => c.GroupNKID.HasValue ? c.GroupName : c.ItemName )
-					.Distinct()
-					.ToList()
 			};
+
+			var OrderDetails = dbOrder.CollateralOrderDetails
+				.Where( c => !c.GroupNKID.HasValue )
+				.Select( cod => new NewOrderInformation.OrderDetail()
+					{
+						CollateralID = cod.CollateralNKID,
+						CollateralTypeID = cod.CollateralTypeNKID,
+						Name = cod.ItemName,
+						Quantity = cod.Quantity,
+						ShippedQuantity = cod.CollateralOrderShipmentDetails.Sum( c => c.Quantity )
+					} )
+				.ToList();
+			OrderDetails.AddRange( dbOrder.CollateralOrderDetails
+				.Where( c => c.GroupNKID.HasValue )
+				.GroupBy( c => c.GroupNKID )
+				.Select( cod => new NewOrderInformation.OrderDetail()
+				{
+					CollateralID = cod.FirstOrDefault().GroupNKID.Value,
+					Name = cod.FirstOrDefault().GroupName,
+					Quantity = cod.Select( d => d.Quantity / d.GroupQuantity.Value ).FirstOrDefault(),
+					ShippedQuantity = cod.Select( d => d.CollateralOrderShipmentDetails.Sum( s => s.Quantity ) / d.GroupQuantity.Value ).DefaultIfEmpty().Max()
+				} ) );
+
+			retOrder.ItemNames = OrderDetails
+				.ToDictionary( c => c.Name, c => c.Quantity );
 
 			switch( dbOrder.RequestingParty )
 			{

@@ -111,7 +111,7 @@ namespace ProductDataWarehouse.Controllers
 							csvWriter.WriteField( item.CanceledOnDateTime );
 							foreach( var header in theItems )
 							{
-								csvWriter.WriteField( item.ItemNames.Contains( header ) );
+								csvWriter.WriteField( item.ItemNames.Keys.Contains( header ) ? item.ItemNames[header].ToString() : null );
 							}
 							csvWriter.NextRecord();
 						}
