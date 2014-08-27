@@ -158,7 +158,10 @@
 		 case "ePublisher":
 	<h2><a href="@Url.Action( "Manage", "ePublisher" )"><img src="/newcontent/images/publisher.png" alt="img" height="50" width="50"/> ePublisher</a></h2>
 		 break;
-			 default:
+		 case "Reports":
+	<h2><a href="@Url.Action( "Index", "Report" )"><img src="/newcontent/images/reporting-icon.png" alt="img" height="50" width="50"/> Reports</a></h2>
+		 break;
+		 default:
                                    <h3 id="welcomeHeading"><span>@CurrentUser.FirstName!</span></h3>
                                    <h4>@if( CurrentUser.PreviousLogin.Any() )
 									   { <text>You last visited<span>@CurrentUser.PreviousLogin ago</span></text>}
