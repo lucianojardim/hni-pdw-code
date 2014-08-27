@@ -284,10 +284,17 @@
 								 <h5>Footprint</h5>
 								 <h5>Saved Location</h5>
 								 <h5>Received</h5>
+								 @if( Model.IsCanceled )
+		 {
+								 <h5>Canceled</h5>
+		 }
+		 else
+		 {
 								 <h5>Completed</h5>
-								 @if( !Model.IsCompleted && Model.IsOnHold )
+								 if( !Model.IsCompleted && Model.IsOnHold )
 		 {
 			 <h5>On Hold</h5>
+		 }
 		 }
 							 </div>
 							 <div class="coln2">
@@ -297,10 +304,17 @@
 								 <h5>@Html.DisplayFor( m => m.Footprint )</h5>
 								 <h5>@Html.DisplayFor( m => m.SavedLocation )</h5>
 								 <h5>@Html.DisplayFor( m => m.Received, templateName: "YesNo" )</h5>
+								 @if( Model.IsCanceled )
+		 {
+								 <h5>@Html.DisplayFor( m => m.IsCanceled, templateName: "YesNo" )</h5>
+		 }
+		 else
+		 {
 								 <h5>@Html.DisplayFor( m => m.IsCompleted, templateName: "YesNo" )</h5>
-								 @if( !Model.IsCompleted && Model.IsOnHold )
+								 if( !Model.IsCompleted && Model.IsOnHold )
 		 {
 			 <h5>@Html.DisplayFor( m => m.IsOnHold, templateName: "YesNo" )</h5>
+		 }
 		 }
 							 </div>
 							 <i class="clear_0"></i></li>
