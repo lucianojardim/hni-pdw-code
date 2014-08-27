@@ -78,14 +78,18 @@
 					s += item.Status;
 					s += ': </span> ';
 					s += item.OrderID;
-					s += ' requested by ';
 					if (item.RPName != null) {
+						s += ' requested by ';
 						s += item.RPName;
 					}
-					s += ' at ';
-					s += item.RPCompany;
-					s += ' for ';
-					s += item.SPCompany;
+					if( item.RPCompany != null ) {
+						s += ' at ';
+						s += item.RPCompany;
+					}
+					if( item.SPCompany != null ) {
+						s += ' for ';
+						s += item.SPCompany;
+					}
 					s += ' on ';
 					s += getLocalDate(item.OrderDateMilliseconds);
 					s += '</p>';
