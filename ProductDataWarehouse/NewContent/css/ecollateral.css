@@ -534,8 +534,9 @@ form.form em i.notavailable:after {
 	padding-bottom: 33px;
 }
 .templatecontbox {
-	padding:12px;
-	padding-bottom:35px;
+	/*8/26/14 changed padding 12px > 25px*/
+	padding:25px;
+	padding-bottom:25px;
 }
 .finalsite .twocol.addImageContGrid {
 	padding-top: 47px;
@@ -651,7 +652,9 @@ form.form em i.notavailable:after {
 }
 .fullcoll div.onecolthreebkl {
 	float:left;
-	width:33%;
+	/*change width to 29%, padding-right to 2%-old value was 33%, no padding*/
+	width:30%;
+	padding-right:2%;
 }
 .threecol div.collboxes {
 	width:47.2%;
@@ -659,10 +662,11 @@ form.form em i.notavailable:after {
 	padding-bottom:22px;
 }
 .threecol div.collboxes {
-	width:32%;
+	/*changing width from 32 > 29; margin from left 1.8 to right 2*/
+	width:30%;
 	float:left;
 	padding-bottom:22px;
-	margin-left:1.8%;
+	padding-right:2%;
 }
 .threecol div.collboxes:nth-child(1),
 .threecol div.collboxes:nth-child(5) ,
