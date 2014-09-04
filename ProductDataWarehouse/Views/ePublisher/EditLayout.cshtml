@@ -88,6 +88,17 @@
 			}
 
 		});
+
+		$('#removeImageBtn').on('click', function (e) {
+			e.preventDefault();
+
+			var div = $('#ImagePicker').data('src');
+			$(div).find('img').attr('src', '/NewContent/images/image-browse-lg.png');
+			$(div).find('input.inputImageID').val('');
+			$(div).find('input.inputImageFileName').val('');
+			$.fancybox.close();
+
+		});
 	});
 
 </script>
@@ -123,8 +134,8 @@
 		<div>
 		<p style="padding: 10px 0px 10px 0px;">You are connecting to Paoli's Image Engine to insert images into your landing page.<br />
 		Search by keyword below just as you would at paoli.com/images.</p>
-			Search for Image: <input type="text" id="imgFilter" /> <input type="button" value="Search" id="btnDoSearch" />
-			<div id="ImagePickerList"></div>
+			Search for Image: <input type="text" id="imgFilter" /> <input type="button" value="Search" id="btnDoSearch" /> <input type="button" value="Remove Image" id="removeImageBtn" />
+			<div id="ImagePickerList" style="padding: 10px 0px 0px 0px"></div>
 		</div>
 	</div>
 </div>
