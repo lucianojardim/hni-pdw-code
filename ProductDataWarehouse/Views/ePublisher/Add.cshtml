@@ -182,7 +182,7 @@
 	CompanyController.GetCompanyListFunction GetSalesRepList = CompanyController.GetCompanyDDList;
 	if( PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
 	{
-		GetSalesRepList = CompanyController.GetThisCompanyAsDDItem;
+		Model.PaoliSalesRepGroupID = Convert.ToInt32( CompanyController.GetThisCompanyAsDDItem().First().Value );
 	}
 	else if( PaoliWebUser.CurrentUser.IsDealerUser )
 	{
@@ -207,10 +207,16 @@
   {
 			@Html.AntiForgeryToken()
 			<div class="filesettinglist">
+			@if( PaoliWebUser.CurrentUser.CanAddECTemplate )
+   {
                 <label for="template">Is Template?</label>
                 @Html.DropDownListFor( m => m.IsTemplate, isTemplateList )
                 <div class="clr"></div>
-                
+   }
+   else
+   {
+	   @Html.HiddenFor( m => m.IsTemplate )
+   }            
                 <label for="FileName">Page Name</label>
                 @Html.TextBoxFor( m => m.FileName )
                 <em>Every page created by ePublisher must have a unique name. You will use this name to search and find it in the future.</em>
@@ -231,7 +237,8 @@
                  <br/><br/>
                  <h2 class="projectInfo">Who is this for?</h2>
 
-				
+				@if( PaoliWebUser.CurrentUser.IsPaoliUser )
+	{
 				<div class="projectInfo">
                 <label for="PaoliSalesRepGroupID">Sales Rep Territory</label>
                 @Html.DropDownListFor( m => m.PaoliSalesRepGroupID, GetSalesRepList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, includeTerritory: true ) )
@@ -239,7 +246,11 @@
 				@Html.ValidationMessageFor( m => m.PaoliSalesRepGroupID )
                 <div class="clr"></div>
 				</div>
-                
+	}
+	else
+	{
+		@Html.HiddenFor( m => m.PaoliSalesRepGroupID )
+	}                
                 
 				<div class="projectInfo">
                 <label for="DealershipID">Dealership</label>
