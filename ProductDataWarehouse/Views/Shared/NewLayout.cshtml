@@ -45,7 +45,9 @@
 				// Mark it so that the next submit can be ignored
 				$(this).data('submitted', true);
 				//$('#inProgress').show();
-				$('#btnFormSubmissionInProgress').click();
+				if (!$(this).hasClass('noSubmitProgress')) {
+					$('#btnFormSubmissionInProgress').click();
+				}
 			}
 		});
 

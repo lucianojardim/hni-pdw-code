@@ -66,36 +66,38 @@
     }
 
     $(document).ready(function () {
-        $('#cmsLink').click(clickCMSLink);
-        $('#siteLink').click(clickSiteLink);
+    	$('#cmsLink').click(clickCMSLink);
+    	$('#siteLink').click(clickSiteLink);
 
-        $('form').bind('submit', function (e) {
-        	if ($(this).data('submitted') === true) {
-        		// Previously submitted - don't submit again
-        		e.preventDefault();
-        	} else if ($(this).valid()) {
-        		// Mark it so that the next submit can be ignored
-        		$(this).data('submitted', true);
-        		//$('#inProgress').show();
-        		$('#btnFormSubmissionInProgress').click();
-        	}
-        });
+    	$('form').bind('submit', function (e) {
+    		if ($(this).data('submitted') === true) {
+    			// Previously submitted - don't submit again
+    			e.preventDefault();
+    		} else if ($(this).valid()) {
+    			// Mark it so that the next submit can be ignored
+    			$(this).data('submitted', true);
+    			//$('#inProgress').show();
+    			if (!$(this).hasClass('noSubmitProgress')) {
+    				$('#btnFormSubmissionInProgress').click();
+    			}
+    		}
+    	});
 
-        $("#btnFormSubmissionInProgress").fancybox({
-        	/*				'autoDimensions': false,
-        	'width': 450,
-        	'height': 600,*/
-        	'padding': 20,
-        	'margin': 0,
-        	'scrolling': 'auto',
-        	'titleShow': false,
-        	'hideOnOverlayClick': false,
-        	'hideOnContentClick': false,
-        	'showCloseButton': false,
-        	'onStart': function () {
+    	$("#btnFormSubmissionInProgress").fancybox({
+    		/*				'autoDimensions': false,
+    		'width': 450,
+    		'height': 600,*/
+    		'padding': 20,
+    		'margin': 0,
+    		'scrolling': 'auto',
+    		'titleShow': false,
+    		'hideOnOverlayClick': false,
+    		'hideOnContentClick': false,
+    		'showCloseButton': false,
+    		'onStart': function () {
 
-        	}
-        });
+    		}
+    	});
 
     });
 </script>
