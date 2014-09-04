@@ -285,6 +285,30 @@ namespace ProductDataWarehouse.Controllers
 			return Json( theList,
 				JsonRequestBehavior.AllowGet );
 		}
-		
-    }
+
+		[PaoliAuthorize( "CanManageAllECollateral" )]
+		public JsonResult GetAllPagesList( int skipItems, string filterText )
+		{
+			ECollateralRepository eRepository = new ECollateralRepository();
+
+			var theList = eRepository.GetAllItemsList( skipItems, filterText );
+
+			return Json( theList,
+				JsonRequestBehavior.AllowGet );
+		}
+
+		[PaoliAuthorize( "CanManageAllECollateral" )]
+		public JsonResult Delete( int id )
+		{
+			ECollateralRepository eRepository = new ECollateralRepository();
+
+			bool bSuccess = eRepository.DeletePage( id );
+
+			return Json( new
+			{
+				success = bSuccess
+			},
+				JsonRequestBehavior.AllowGet );
+		}
+	}
 }

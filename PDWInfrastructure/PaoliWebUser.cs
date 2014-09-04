@@ -279,6 +279,8 @@ namespace PDWInfrastructure
 		public bool CanManageECollateral { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ) || IsPaoliUser; } }
 		public bool CanReviewECollateral { get { return IsPaoliUser; } }
 		public bool CanAddECTemplate { get { return IsPaoliUser; } }
+		public bool CanManageAllECollateral { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin,
+					PaoliWebRole.PaoliMemberMarketing ); } }
 
 		public bool CanViewReports { get { return IsPaoliUser; } }
 

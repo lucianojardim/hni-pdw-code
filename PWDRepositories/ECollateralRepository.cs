@@ -595,7 +595,7 @@ namespace PWDRepositories
 				CustomerName = !dbItem.IsTemplate ? dbItem.CustomerName : null,
 				ProjectName = !dbItem.IsTemplate ? dbItem.ProjectName : null,
 				ContentType = dbItem.ContentType.HasValue ? LayoutTypes.LayoutTypeList[dbItem.ContentType.Value] : "None",
-				LayoutImage = dbItem.LayoutID.HasValue ? Layouts.LayoutImages[dbItem.LayoutID.Value] : "None",
+				LayoutImage = dbItem.LayoutID.HasValue ? Layouts.LayoutImages[dbItem.LayoutID.Value] : "transparent.png",
 				LayoutName = dbItem.LayoutID.HasValue ? Layouts.LayoutTitles[dbItem.LayoutID.Value] : "None",
 				Status = StatusTypes.StatusList[dbItem.Status],
 				HasLayout = dbItem.LayoutID.HasValue,
@@ -633,6 +633,18 @@ namespace PWDRepositories
 				.Select( i => ToECollateralSummary( i ) );
 		}
 
+		public IEnumerable<ECollateralSummary> GetAllItemsList( int skipItems, string filterText )
+		{
+			var theList = database.eCollateralItems
+				.Where( i => i.FileName.Contains( filterText ) || i.URLText.Contains( filterText ) )
+				.OrderByDescending( i => i.LastModifiedByDateTime );
+
+			return theList
+				.Skip( skipItems ).Take( 30 )
+				.ToList()
+				.Select( i => ToECollateralSummary( i ) );
+		}
+
 		public IEnumerable<ECollateralSummary> GetReviewItemsList( int skipItems, string filterText )
 		{
 			var theList = database.eCollateralItems
@@ -653,6 +665,23 @@ namespace PWDRepositories
 			if( dbItem != null )
 			{
 				dbItem.Status = updateStatus;
+
+				return database.SaveChanges() > 0;
+			}
+			return false;
+		}
+
+		public bool DeletePage( int itemId )
+		{
+			var dbItem = database.eCollateralItems.FirstOrDefault( i => i.ItemID == itemId );
+			if( dbItem != null )
+			{
+				foreach( var section in dbItem.eCollateralSections.ToList() )
+				{
+					database.eCollateralSections.DeleteObject( section );
+				}
+
+				database.eCollateralItems.DeleteObject( dbItem );
 
 				return database.SaveChanges() > 0;
 			}

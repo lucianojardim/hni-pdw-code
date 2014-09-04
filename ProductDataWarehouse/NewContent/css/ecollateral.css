@@ -325,6 +325,23 @@ nav.mainmenu ul li:hover ul {
 	left:0;
 	top:0px;
 }
+.deletePage {
+	font-family: Helvetica, Arial, sans-serif;
+	color:#454545;
+	font-size:12px;
+	margin-top:12px;
+	font-weight:100;
+}
+.deletePage:after {
+	background:url(../images/sprite.png) no-repeat -77px top;
+	display:block;
+	content:'';
+	width:16px;
+	height:16px;
+	position:absolute;
+	left:0;
+	top:0px;
+}
 .aligncenter {
 	text-align:center;
 }

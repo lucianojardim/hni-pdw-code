@@ -31,6 +31,10 @@
 {
 		<text>resetReviewPages();</text>
 }
+@if( CurrentUser.CanManageAllECollateral )
+{
+		<text>resetAllPages();</text>
+}
 		if( bSubmit ) {
 			$.fancybox.close();
 		}
@@ -54,15 +58,21 @@
 		GetReviewPages(0);
 	}
 
-	var bLoading1 = false, bLoading2 = false, bLoading3 = false;
-	var bRemaining1 = true, bRemaining2 = true, bRemaining3 = true;
+	function resetAllPages() {
+		$('#tab4').html('');
+		bRemaining4 = true;
+		GetAllPages(0);
+	}
+
+	var bLoading1 = false, bLoading2 = false, bLoading3 = false, bLoading4 = false;
+	var bRemaining1 = true, bRemaining2 = true, bRemaining3 = true, bRemaining4 = true;
 	function checkScrollPosition() {
-		if (bLoading1 || bLoading2 || bLoading3) {
+		if (bLoading1 || bLoading2 || bLoading3 || bLoading4) {
 			return;
 		}
 
 		var container = $(".tabcont:visible:first");
-		var listDiv = $(container).find('div');
+		var listDiv = $(container).find('div.galleryList');
 		if (($(window).scrollTop() + $(window).height()) >= ($(container).find('.galleryBottom').offset().top - 200)) {
 			switch(listDiv.attr('id')) {
 				case 'tab1':
@@ -73,6 +83,9 @@
 					break;
 				case 'tab3':
 					GetReviewPages(listDiv.children('div').length);
+					break;
+				case 'tab4':
+					GetAllPages(listDiv.children('div').length);
 					break;
 			}
 		}
@@ -227,6 +240,53 @@
 		});
 	}
 
+	function GetAllPages(startValue) {
+		if( !bRemaining4 ){
+			return;
+		}
+
+		bLoading4 = true;
+		$.ajax({
+			dataType: 'json',
+			type: 'GET',
+			url: '/ePublisher/GetAllPagesList',
+			data: { skipItems: startValue, filterText: $('#nameFilter').val() },
+			success: function (data, textStatus, jqXHR) {
+				if( data.length > 0 ) {
+					$.each(data, function (i, item) {
+						var newDiv =
+
+					       	'<div class="twoblk">' + 
+            				'	<div class="templimg">' + 
+                    		'		<img src="/NewContent/images/' + item.LayoutImage + '" alt="" height="118" width="91">' + 
+							'	</div>' + 
+							'	<div class="templdesc">' + 
+                    		'		<h4>' + '<a href="' + GetLinkLocation(item) + '">' + item.FileName + '</a>' + '</h4>' + 
+							'		<p class="modified"><strong>Last Modified</strong> on ' + getLocalDate(item.LastModifiedDateMilliseconds) + '</p>' + 
+							'		<p class="status"><strong>Created By</strong> ' + item.AuthorName + '</p>' + 
+							'		<p class="typehtml"><strong>Type</strong> ' + item.ContentType + '</p>' + 
+							'		<p class="layoutcol"><strong>Layout</strong> ' + item.LayoutName + '</p>' + 
+							(item.IsComplete ? ('<p class="layoutcol"><a href="/ePublisher/CopyLayout/' + item.ItemID + '" class="icon createnew">Create New From File</a></p>') : '') +
+							'<p class="layoutcol"><a href="javascript:void(0);" onclick="DeletePage(' + item.ItemID + ');" class="icon deletePage">Delete</a></p>' +
+							'	</div>' + 
+							'	<div class="clr"></div>' + 
+        					'</div>'
+
+						$('#tab4').append(newDiv);
+					});
+					bRemaining4 = (data.length == 30);
+				} else {
+					$('#tab4').html('<h2>Unable to find any pages matching your criteria</h2>');
+					bRemaining2 = false;
+				}
+				bLoading4 = false;
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				alert('Error getting Dealer list:' + errorThrown)
+			}
+		});
+	}
+
 	function GetLinkLocation(item) {
 		if( item.IsComplete ) {
 			return '/ePublisher/ViewLayout/' + item.ItemID;
@@ -238,6 +298,23 @@
 		return '/ePublisher/SetLayout/' + item.ItemID;
 	}
 
+	function DeletePage(itemId) {
+		if(confirm( 'Are you sure you want to delete this page?' )) {
+			$.ajax({
+				dataType: 'json',
+				type: 'GET',
+				url: '/ePublisher/Delete',
+				data: { id: itemId },
+				success: function (data, textStatus, jqXHR) {
+					reloadLists(false);
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					alert('Error deleting this Page:' + errorThrown)
+				}
+			});
+			
+		}
+	}
 </script>
 
 <div class="content">
@@ -267,6 +344,10 @@
 	 {
                 <li id="three">Review Pages</li>
 	 }
+	 @if( CurrentUser.CanManageAllECollateral )
+  {
+	  <li id="four">All Pages</li>
+  }
             </ul>
         </div>
         <!--tab menus -->
@@ -274,19 +355,25 @@
         <!--tab content -->
         <div class="tabcont one" style="display:block;">
         	<span class="filterby">&nbsp;</span>
-			<div style="display: block;" id="tab1">
+			<div style="display: block;" id="tab1" class="galleryList">
 			</div>
             <div class="clr galleryBottom"></div>
         </div>
         <div class="tabcont two">
 			<span class="filterby">&nbsp;</span>
-			<div style="display: block;" id="tab2">
+			<div style="display: block;" id="tab2" class="galleryList">
 			</div>
             <div class="clr galleryBottom"></div>
         </div>
         <div class="tabcont three">
         	<span class="filterby"><!--<strong>Filter By</strong>: New-->&nbsp;</span>
-			<div style="display: block;" id="tab3">
+			<div style="display: block;" id="tab3" class="galleryList">
+			</div>
+        	<div class="clr galleryBottom"></div>
+        </div>
+        <div class="tabcont four">
+        	<span class="filterby"><!--<strong>Filter By</strong>: New-->&nbsp;</span>
+			<div style="display: block;" id="tab4" class="galleryList">
 			</div>
         	<div class="clr galleryBottom"></div>
         </div>
@@ -296,48 +383,3 @@
         
     </div>
 </div>
-<!--
-<div class="container2">
-	<div class="main_inner1">
-		<div>
-			<h1>eCollateral Builder Dashboard</h1>
-			<div>Welcome to Paoli's new eCollateral Builder tool.</div>
-			<div><a href="@Url.Action( "Add" )">Start Your Own Campaign</a></div>
-		</div>
-		<div class="main_inner9_btm">
-			<div class="main_inner9_btm_top">
-				<ul class="tabs1">
-					<li class="box1"><a href="#tab1main">My Pages</a></li>
-					<li class="box2"><a href="#tab2main">Templates</a></li>
-					@if( CurrentUser.CanReviewECollateral )
-					{
-					<li class="box3"><a href="#tab3main">Review Pages</a></li>
-					}
-				</ul>
-				<div style="float: right">
-					Name Filter: <input type="text" id="nameFilter" /> <input type="button" value="Filter" id="btnDoSearch" />
-					
-				</div>
-				<i class="clear_0"></i>
-			</div>
-			<div class="tab_container1">
-				 <div style="display: block;" id="tab1main" class="tab_content1">
-					<div style="display: block;" id="tab1">
-					</div>
-					<i class='clear_0 galleryBottom'></i>
-				 </div>
-				 <div style="display: block;" id="tab2main" class="tab_content1">
-					<div style="display: block;" id="tab2">
-					</div>
-					<i class='clear_0 galleryBottom'></i>
-				 </div>
-				 <div style="display: block;" id="tab3main" class="tab_content1">
-					<div style="display: block;" id="tab3">
-					</div>
-					<i class='clear_0 galleryBottom'></i>
-				 </div>
-			</div>
-		</div>
-	</div>
-
-</div>-->
