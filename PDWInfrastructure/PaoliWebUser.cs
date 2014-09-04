@@ -262,7 +262,7 @@ namespace PDWInfrastructure
 		public bool CanManageUsers { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin ); } }
 		public bool CanManageCompanies { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
 
-		public bool CanSeeYouniversity { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ); } }
+		public bool CanSeeYouniversity { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ) || IsPaoliUser; } }
 		public bool CanSeeTheScoop { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ) || IsPaoliUser; } }
 		public bool CanSeeNewsUpdates { get { return IsPaoliUser || IsDealerUser; } }
 		public bool HasContacts { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ) || IsDealerUser; } }

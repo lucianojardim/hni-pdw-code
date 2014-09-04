@@ -593,7 +593,9 @@ form.form em i.notavailable:after {
 }
 .onecol {
 	float:left;
-	width:31.45%;
+	/*EI Mod 8/26 Change width from 31.45% and added left padding*/
+	width:29%;
+	padding-left:2%;
 }
 .onecol h3, .twocol h3, .threecol h3 {
 	font-size:16px;
@@ -639,6 +641,7 @@ form.form em i.notavailable:after {
 .twocol {
 	float:left;
 	width:68.24%;
+	
 }
 .borderright {
 	border-right:1px solid #f0f0f0;
@@ -683,7 +686,9 @@ form.form em i.notavailable:after {
 }
 
 .twocol div.collboxes {
-	width:47.2%;
+	/*EI change width from 47.2% adding right padding*/
+	width:46%;
+	padding-right:2%;
 	float:left;
 	padding-bottom:13px;
 	padding-top:5px;
@@ -706,7 +711,8 @@ form.form em i.notavailable:after {
 	width:47.42%;
 }
 .addImageContGrid div.collboxes div.addcontentbox {
-	margin-left:49.88%;
+	/*EI mod 8/26 margin-left old value 49.88*/
+	margin-left:51.4%;
 }
 .addImageContGrid.twocol div.collboxes:nth-child(even) {
 	margin-left:0;
