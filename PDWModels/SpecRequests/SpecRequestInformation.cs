@@ -149,8 +149,10 @@ namespace PDWModels.SpecRequests
 		[DisplayName( "Final Client Files" )]
 		public List<HttpPostedFileBase> specTeamFiles { get; set; }
 		public string deletespecTeamFileList { get; set; }
-		[DisplayName( "Spec Team Notes" )]
+		[DisplayName( "Spec Team Notes to Recipients" )]
 		public string SpecTeamNotes { get; set; }
+		[DisplayName( "Previous Spec Team Notes" )]
+		public string PreviousSpecTeamNotes { get; set; }
 		[DisplayName( "Internal Notes" )]
 		public string InternalNotes { get; set; }
 

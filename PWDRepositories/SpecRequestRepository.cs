@@ -38,7 +38,7 @@ namespace PWDRepositories
 				IsCompleted = sRequest.IsCompleted,
 				IsOnHold = sRequest.IsOnHold,
 				IsCanceled = sRequest.IsCanceled,
-				CreatedDate = sRequest.RequestDate,
+				CreatedDate = sRequest.CreatedOnDate,
 				IsAuditSpecOnly = sRequest.NeedAuditSpecs && !sRequest.NeedFloorplanSpecs &&
 					!sRequest.NeedPhotoRendering && !sRequest.Need2DDrawing && !sRequest.NeedValueEng
 			};
@@ -96,7 +96,7 @@ namespace PWDRepositories
 				NeedSIFFiles = sInfo.NeedSIFFiles,
 				NeedXLSFiles = sInfo.NeedXLSFiles,
 				NeedPDFFiles = sInfo.NeedPDFFiles,
-				CreatedDate = sInfo.RequestDate,
+				CreatedDate = sInfo.CreatedOnDate,
 				DealerName = sInfo.PrimaryCompanyID.HasValue ? sInfo.PrimaryCompany.FullName : "None",
 				SalesRepGroupName = sInfo.PaoliSalesRepGroupID.HasValue ? sInfo.PaoliSalesRepGroup.FullName : "None",
 				SalesRepMemberName = sInfo.PaoliSalesRepMemberID.HasValue ? sInfo.PaoliSalesRepMember.FullName : "None",
@@ -123,13 +123,14 @@ namespace PWDRepositories
 				FabricGrade = sInfo.FabricGrade,
 				Fabric = sInfo.FabricDetails,
 				SpecialRequests = sInfo.SpecialRequests,
-				CreatedByUser = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.FullName : null,
-				CreatedByUserCompany = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.Company.FullName : null,
-				CanceledDate = sInfo.IsCanceled ? sInfo.CanceledDateTime : null,
-				CanceledByUser = sInfo.IsCanceled && sInfo.CanceledByUserID.HasValue ? sInfo.CanceledByUser.FullName : null,
+				CreatedByUser = sInfo.CreatedByUserName,
+				CreatedByUserCompany = sInfo.CreatedByCompany,
+				CanceledDate = sInfo.CanceledOnDate,
+				CanceledByUser = sInfo.CanceledByUserName,
 				SpecTeamNotes = sInfo.SpecTeamNotes,
 				InternalNotes = sInfo.InternalNotes,
-				CompletedDate = sInfo.IsCompleted ? sInfo.CompletedDateTime : null
+				CompletedDate = sInfo.CompletedOnDate,
+				ReOpenedCount = sInfo.ReOpenedCount
 
 			};
 		}
@@ -366,11 +367,11 @@ namespace PWDRepositories
 				case "createddate":
 					if( paramDetails.sSortDir_0.ToLower() == "asc" )
 					{
-						filteredAndSorted = requestList.OrderBy( v => v.RequestDate );
+						filteredAndSorted = requestList.OrderBy( v => v.RequestID );
 					}
 					else
 					{
-						filteredAndSorted = requestList.OrderByDescending( v => v.RequestDate );
+						filteredAndSorted = requestList.OrderByDescending( v => v.RequestID );
 					}
 					break;
 			}
@@ -413,6 +414,47 @@ namespace PWDRepositories
 				Conferencing = database.Serieses.Where( s => s.Category.Name == "Tables" ).Select( s => s.Name ).ToList(),
 				Finishes = new List<string>() { "Laminate", "Veneer" }
 			};
+		}
+
+		public ReOpenRequestInformation GetReOpenRequest( int requestId )
+		{
+			var sInfo = database.SpecRequests.FirstOrDefault( s => s.RequestID == requestId );
+			if( sInfo == null )
+			{
+				throw new Exception( "Unable to find Spec Request" );
+			}
+
+			return new ReOpenRequestInformation() {
+				RequestID = sInfo.RequestID,
+				Name = sInfo.Name
+			};
+		}
+
+		public bool ReOpenSpecRequest( ReOpenRequestInformation sInfo )
+		{
+			var dbInfo = database.SpecRequests.FirstOrDefault( s => s.RequestID == sInfo.RequestID );
+			if( dbInfo == null )
+			{
+				throw new Exception( "Unable to find Spec Request" );
+			}
+
+			dbInfo.IsCompleted = false;
+
+			dbInfo.Notes += (((dbInfo.Notes ?? "").Any() ? "\n" : "") + "Re-Opened: " + sInfo.Notes);
+
+			dbInfo.SpecRequestEvents.Add( SpecRequestEvent.ReOpenedEvent( PaoliWebUser.CurrentUser.UserId ) );
+
+			var rootLocation = Path.Combine( ConfigurationManager.AppSettings["SpecRequestDocumentLocation"], dbInfo.Name );
+
+			foreach( var fileStream in sInfo.addlFiles )
+			{
+				if( fileStream != null )
+				{
+					SaveNewFileVersion( dbInfo, rootLocation, Path.GetExtension( fileStream.FileName ).Trim( '.' ), fileStream.InputStream, fileStream.FileName, false );
+				}
+			}
+
+			return database.SaveChanges() > 0;
 		}
 
 		public SpecRequestInformation GetSpecRequest( int requestId )
@@ -465,7 +507,7 @@ namespace PWDRepositories
 				NeedPDFFiles = sInfo.NeedPDFFiles,
 				addlFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles.Where( f => !f.IsSpecTeam ) ),
 				specTeamFileList = GetFileListing( sInfo.Name, sInfo.SpecRequestFiles.Where( f => f.IsSpecTeam ) ),
-				CreatedDate = sInfo.RequestDate,
+				CreatedDate = sInfo.CreatedOnDate,
 				DealerName = sInfo.PrimaryCompanyID.HasValue ? sInfo.PrimaryCompany.FullName : "None",
 				SalesRepGroupName = sInfo.PaoliSalesRepGroupID.HasValue ? sInfo.PaoliSalesRepGroup.FullName : "None",
 				SalesRepMemberName = sInfo.PaoliSalesRepMemberID.HasValue ? sInfo.PaoliSalesRepMember.FullName : "None",
@@ -493,15 +535,17 @@ namespace PWDRepositories
 				FabricGrade = sInfo.FabricGrade,
 				Fabric = sInfo.FabricDetails,
 				SpecialRequests = sInfo.SpecialRequests,
-				CreatedByUser = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.FullName : null,
-				CreatedByUserCompany = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.Company.FullName : null,
-				CreatedByUserPhone = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.BusinessPhone : null,
-				CreatedByUserEmail = sInfo.CreatedByUserId.HasValue ? sInfo.CreatedByUser.Email : null,
-				CanceledDate = sInfo.IsCanceled ? sInfo.CanceledDateTime : null,
-				CanceledByUser = sInfo.IsCanceled && sInfo.CanceledByUserID.HasValue ? sInfo.CanceledByUser.FullName : null,
 				SpecTeamNotes = sInfo.SpecTeamNotes,
-				InternalNotes = sInfo.InternalNotes
-					
+				PreviousSpecTeamNotes = sInfo.SpecTeamNotes,
+				InternalNotes = sInfo.InternalNotes,
+
+				CreatedByUser = sInfo.CreatedByUserName,
+				CreatedByUserCompany = sInfo.CreatedByCompany,
+				CreatedByUserPhone = sInfo.CreatedByUserPhone,
+				CreatedByUserEmail = sInfo.CreatedByUserEmail,
+				CanceledDate = sInfo.CanceledOnDate,
+				CanceledByUser = sInfo.CanceledByUserName
+	
 			};
 		}
 
@@ -518,7 +562,6 @@ namespace PWDRepositories
 			newSpec.DealerPOCEmail = !newSpec.DealerSalesRepID.HasValue ? sInfo.DealerPointOfContactEmail : null;
 			newSpec.DealerPOCPhone = !newSpec.DealerSalesRepID.HasValue ? sInfo.DealerPointOfContactPhone : null;
 			newSpec.DealerPOCAcctType = !newSpec.DealerSalesRepID.HasValue ? sInfo.DealerPointOfContactAcctType : null;
-			newSpec.RequestDate = DateTime.UtcNow;
 			newSpec.IsGSA = sInfo.IsGSA;
 			newSpec.ContractID = sInfo.ContractID;
 			newSpec.AvailableForIn2 = sInfo.AvailableForIn2;
@@ -558,8 +601,9 @@ namespace PWDRepositories
 			newSpec.IsCompleted = false;
 			newSpec.IsCanceled = false;
 			newSpec.Footprint = null;
-			newSpec.CreatedByUserId = PaoliWebUser.CurrentUser.UserId;
 			newSpec.SpecTeamNotes = null;
+
+			newSpec.SpecRequestEvents.Add( SpecRequestEvent.CreatedEvent( PaoliWebUser.CurrentUser.UserId ) );
 
 			database.SpecRequests.AddObject( newSpec );
 
@@ -586,12 +630,12 @@ namespace PWDRepositories
 				{
 					//( new NewSpecRequestEmailSender( "NewSpecRequestSpecTeam" ) ).SubmitNewRequestEmail( "PAOProjectSpecTeam@paoli.com", ToEmailSpecRequestSummary( newSpec, new EmailSender.EmailTarget() ) );
 
-					( new NewSpecRequestEmailSender( "NewSpecRequest" ) ).SubmitNewRequestEmail( newSpec.CreatedByUser.Email,
-						ToEmailSpecRequestSummary( newSpec, new EmailSender.EmailTarget() { EmailAddress = newSpec.CreatedByUser.Email, FirstName = newSpec.CreatedByUser.FirstName } ) );
+					( new NewSpecRequestEmailSender( "NewSpecRequest" ) ).SubmitNewRequestEmail( newSpec.CreatedByUserEmail,
+						ToEmailSpecRequestSummary( newSpec, new EmailSender.EmailTarget() { EmailAddress = newSpec.CreatedByUserEmail, FirstName = newSpec.CreatedByUserFirstName } ) );
 
 					if( newSpec.PaoliSalesRepMemberID.HasValue )
 					{
-						if( newSpec.PaoliSalesRepMemberID.Value != newSpec.CreatedByUserId.Value && (newSpec.PaoliSalesRepMember.Enabled || EmailSender.EmailDisabledUsers) )
+						if( newSpec.PaoliSalesRepMemberID.Value != newSpec.CreatedByUserID.Value && (newSpec.PaoliSalesRepMember.Enabled || EmailSender.EmailDisabledUsers) )
 						{
 							( new NewSpecRequestEmailSender( "NewSpecRequestSalesRep" ) ).SubmitNewRequestEmail( newSpec.PaoliSalesRepMember.Email,
 								ToEmailSpecRequestSummary( newSpec, new EmailSender.EmailTarget() { EmailAddress = newSpec.PaoliSalesRepMember.Email, FirstName = newSpec.PaoliSalesRepMember.FirstName } ) );
@@ -601,7 +645,7 @@ namespace PWDRepositories
 					{
 						foreach( var salesRepUser in newSpec.PaoliSalesRepGroup.Users )
 						{
-							if( salesRepUser.UserID != newSpec.CreatedByUserId.Value && (salesRepUser.Enabled || EmailSender.EmailDisabledUsers) )
+							if( salesRepUser.UserID != newSpec.CreatedByUserID.Value && (salesRepUser.Enabled || EmailSender.EmailDisabledUsers) )
 							{
 								( new NewSpecRequestEmailSender( "NewSpecRequestSalesRep" ) ).SubmitNewRequestEmail( salesRepUser.Email,
 									ToEmailSpecRequestSummary( newSpec, new EmailSender.EmailTarget() { EmailAddress = salesRepUser.Email, FirstName = salesRepUser.FirstName } ) );
@@ -749,19 +793,16 @@ namespace PWDRepositories
 			bool bDoCompleteEmail = sInfo.IsCompleted && !specInfo.IsCompleted && sInfo.SendCompleteEmail;
 			if( sInfo.IsCompleted && !specInfo.IsCompleted )
 			{
-				specInfo.CompletedByUserID = PaoliWebUser.CurrentUser.UserId;
-				specInfo.CompletedDateTime = DateTime.UtcNow;
-			}
-			else if( !sInfo.IsCompleted )
-			{
-				specInfo.CompletedByUserID = null;
-				specInfo.CompletedDateTime = null;
+				specInfo.SpecRequestEvents.Add( SpecRequestEvent.CompletedEvent( PaoliWebUser.CurrentUser.UserId ) );
 			}
 			specInfo.IsCompleted = sInfo.IsCompleted;
 			specInfo.IsOnHold = sInfo.IsOnHold && !sInfo.IsCompleted;
 			specInfo.IsCanceled = false;
 			specInfo.Footprint = sInfo.Footprint;
-			specInfo.SpecTeamNotes = sInfo.SpecTeamNotes;
+			if( ( sInfo.SpecTeamNotes ?? "" ).Any() )
+			{
+				specInfo.SpecTeamNotes += ( ( ( specInfo.SpecTeamNotes ?? "" ).Any() ? "\n" : "" ) + string.Format( "Notes added by {0}: {1}", PaoliWebUser.CurrentUser.FullName, sInfo.SpecTeamNotes ) );
+			}
 			specInfo.InternalNotes = sInfo.InternalNotes;
 
 			var rootLocation = Path.Combine( ConfigurationManager.AppSettings["SpecRequestDocumentLocation"], specInfo.Name );
@@ -807,20 +848,20 @@ namespace PWDRepositories
 				if( bDoCompleteEmail )
 				{
 					List<EmailSender.EmailTarget> emailAddresses = new List<EmailSender.EmailTarget>();
-					if( specInfo.CreatedByUser != null )
+					if( specInfo.CreatedByUserEmail != null )
 					{
-						emailAddresses.Add( new EmailSender.EmailTarget() { EmailAddress = specInfo.CreatedByUser.Email, FirstName = specInfo.CreatedByUser.FirstName } );
+						emailAddresses.Add( new EmailSender.EmailTarget() { EmailAddress = specInfo.CreatedByUserEmail, FirstName = specInfo.CreatedByUserFirstName } );
 					}
 					if( specInfo.DealerSalesRep != null )
 					{
-						if( specInfo.DealerSalesRepID != specInfo.CreatedByUserId && (specInfo.DealerSalesRep.Enabled || EmailSender.EmailDisabledUsers) )
+						if( specInfo.DealerSalesRepID != specInfo.CreatedByUserID && (specInfo.DealerSalesRep.Enabled || EmailSender.EmailDisabledUsers) )
 						{
 							emailAddresses.Add( new EmailSender.EmailTarget() { EmailAddress = specInfo.DealerSalesRep.Email, FirstName = specInfo.DealerSalesRep.FirstName } );
 						}
 					}
 					if( specInfo.PaoliSalesRepMember != null )
 					{
-						if( specInfo.PaoliSalesRepMemberID != specInfo.CreatedByUserId && (specInfo.PaoliSalesRepMember.Enabled || EmailSender.EmailDisabledUsers) )
+						if( specInfo.PaoliSalesRepMemberID != specInfo.CreatedByUserID && (specInfo.PaoliSalesRepMember.Enabled || EmailSender.EmailDisabledUsers) )
 						{
 							emailAddresses.Add( new EmailSender.EmailTarget() { EmailAddress = specInfo.PaoliSalesRepMember.Email, FirstName = specInfo.PaoliSalesRepMember.FirstName } );
 						}
@@ -828,13 +869,13 @@ namespace PWDRepositories
 					else if( specInfo.PaoliSalesRepGroup != null )
 					{
 						emailAddresses.AddRange( specInfo.PaoliSalesRepGroup.Users
-							.Where( u => u.UserID != specInfo.CreatedByUserId && (u.Enabled || EmailSender.EmailDisabledUsers) )
+							.Where( u => u.UserID != specInfo.CreatedByUserID && (u.Enabled || EmailSender.EmailDisabledUsers) )
 							.Select( u => new EmailSender.EmailTarget() { EmailAddress = u.Email, FirstName = u.FirstName } ) );
 					}
 
 					foreach( var emailTarget in emailAddresses )
 					{
-						( new CompletedSpecRequestEmailSender() ).SubmitCompletedRequestEmail( emailTarget.EmailAddress, ToEmailCompleteSpecRequestSummary( specInfo, emailTarget ) );
+						( new CompletedSpecRequestEmailSender() ).SubmitCompletedRequestEmail( emailTarget.EmailAddress, ToEmailCompleteSpecRequestSummary( specInfo, emailTarget, sInfo.SpecTeamNotes ) );
 					}
 				}
 
@@ -843,7 +884,7 @@ namespace PWDRepositories
 			return false;
 		}
 
-		private CompletedSpecRequestEmailSender.EmailCompleteSpecRequestSummary ToEmailCompleteSpecRequestSummary( SpecRequest request, EmailSender.EmailTarget target )
+		private CompletedSpecRequestEmailSender.EmailCompleteSpecRequestSummary ToEmailCompleteSpecRequestSummary( SpecRequest request, EmailSender.EmailTarget target, string finalNotes )
 		{
 			var summary = new CompletedSpecRequestEmailSender.EmailCompleteSpecRequestSummary()
 			{
@@ -851,10 +892,10 @@ namespace PWDRepositories
 				requestName = request.Name,
 				firstName = target.FirstName,
 				projectName = request.ProjectName,
-				specTeamMember = 
-					(request.CompletedByUser != null) ? request.CompletedByUser.FullName :
+				specTeamMember =
+					( request.CompletedByUserName != null ) ? request.CompletedByUserName :
 						((request.SpecTeamMember != null) ? request.SpecTeamMember.FullName : "a member of our team"),
-				specTeamNotes = request.SpecTeamNotes
+				specTeamNotes = finalNotes
 			};
 
 			summary.fullFileList = request.SpecRequestFiles
@@ -1410,10 +1451,7 @@ namespace PWDRepositories
 
 			specInfo.IsCanceled = true;
 			specInfo.IsCompleted = true;
-			specInfo.CanceledByUserID = PaoliWebUser.CurrentUser.UserId;
-			specInfo.CanceledDateTime = DateTime.UtcNow;
-			specInfo.CompletedByUserID = null;
-			specInfo.CompletedDateTime = null;
+			specInfo.SpecRequestEvents.Add( SpecRequestEvent.CanceledEvent( PaoliWebUser.CurrentUser.UserId ) );
 
 			return database.SaveChanges() > 0;
 		}
@@ -1427,8 +1465,8 @@ namespace PWDRepositories
 			}
 
 			specInfo.IsCompleted = false;
-			specInfo.CompletedByUserID = null;
-			specInfo.CompletedDateTime = null;
+
+			specInfo.SpecRequestEvents.Add( SpecRequestEvent.ReOpenedEvent( PaoliWebUser.CurrentUser.UserId ) );
 
 			return database.SaveChanges() > 0;
 		}

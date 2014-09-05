@@ -103,6 +103,7 @@
     <Compile Include="Series\SeriesInformation.cs" />
     <Compile Include="Series\SeriesListData.cs" />
     <Compile Include="Series\SeriesSearchResult.cs" />
+    <Compile Include="SpecRequests\ReOpenRequestInformation.cs" />
     <Compile Include="SpecRequests\SpecRequestExport.cs" />
     <Compile Include="SpecRequests\SpecRequestInformation.cs" />
     <Compile Include="SpecRequests\SpecRequestSummary.cs" />

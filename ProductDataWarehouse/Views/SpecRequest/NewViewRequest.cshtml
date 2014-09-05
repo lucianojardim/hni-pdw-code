@@ -34,6 +34,10 @@
 					}
 				});
 			});
+
+			$('.openReqSalesRepBtn').click(function(e) {
+			    window.location.href = '@Url.Action( "ReOpenRequest", "SpecRequest", new { id = Model.RequestID } )';
+			});
     	});
 	</script>
 
@@ -180,7 +184,7 @@
 									 if( Model.NeedPDFFiles ) { NeedFileList.Add( "PDF" ); }
 			   }
 			   @(string.Join( ", ", NeedFileList ))</h5>
-								 <h5>@Html.DisplayFor( m => m.Notes )</h5>
+								 <h5>@Html.DisplayFor( m => m.Notes, templateName: "MultilineDisplay" )</h5>
 							 </div>
 							 <i class="clear_0"></i></li>
 						 <li id="confirmSeriesList">
@@ -325,7 +329,7 @@
 								 <h5>Spec Team Notes</h5>
 							 </div>
 							 <div class="coln2">
-								 <h5>@Html.DisplayFor( m => m.SpecTeamNotes )</h5>
+								 <h5>@Html.DisplayFor( m => m.SpecTeamNotes, templateName: "MultilineDisplay" )</h5>
 							 </div>
 							 <i class="clear_0"></i>
 							 <div class="coln1">
@@ -341,7 +345,7 @@
 								 <h5>Internal Notes</h5>
 							 </div>
 							 <div class="coln2">
-								 <h5>@Html.DisplayFor( m => m.InternalNotes )</h5>
+								 <h5>@Html.DisplayFor( m => m.InternalNotes, templateName: "MultilineDisplay" )</h5>
 							 </div>
 							 <i class="clear_0"></i>
 		}
@@ -356,6 +360,12 @@
    {
 <div class="btnAlt">
 <span class="btn7 openReqBtn">RE-OPEN</span>
+</div>
+   }
+		 @if( Model.IsCompleted && !Model.IsCanceled && PDWInfrastructure.PaoliWebUser.CurrentUser.CanReOpenSpecRequests )
+   {
+<div class="btnAlt">
+<span class="btn7 openReqSalesRepBtn">Request a Change</span>
 </div>
    }
 </div>

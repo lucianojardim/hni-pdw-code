@@ -263,6 +263,50 @@ namespace ProductDataWarehouse.Controllers
 			return View( sRepository.GetSpecRequest( id ) );
 		}
 
+		[PaoliAuthorize( "CanReOpenSpecRequests" )]
+		[TempPasswordCheck]
+		public ActionResult ReOpenRequest( int id )
+		{
+			SpecRequestRepository sRepository = new SpecRequestRepository();
+
+			return View( sRepository.GetReOpenRequest( id ) );
+		}
+
+		[PaoliAuthorize( "CanReOpenSpecRequests" )]
+		[TempPasswordCheck]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		[ValidateInput( false )]
+		public ActionResult ReOpenRequest( ReOpenRequestInformation sInfo )
+		{
+			if( ModelState.IsValid )
+			{
+				try
+				{
+					SpecRequestRepository sRepository = new SpecRequestRepository();
+
+					sRepository.ReOpenSpecRequest( sInfo );
+
+					if( PaoliWebUser.CurrentUser.CanManageTypicals )
+					{
+						return RedirectToAction( "Manage" );
+					}
+					return RedirectToAction( "ViewAll" );
+				}
+				catch( Exception ex )
+				{
+					ModelState.AddModelError( "", ex.Message );
+					if( ex.InnerException != null )
+					{
+						ModelState.AddModelError( "", ex.InnerException.Message );
+					}
+				}
+
+			}
+
+			return View( sInfo );
+		}
+
 		[PaoliAuthorize( "CanManageTypicals" )]
 		[TempPasswordCheck]
 		public ActionResult EditRequest( int id )

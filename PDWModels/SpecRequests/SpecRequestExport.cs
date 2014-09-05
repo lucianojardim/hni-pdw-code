@@ -56,6 +56,7 @@ namespace PDWModels.SpecRequests
 		public bool IsCompleted { get; set; }
 		public bool IsCanceled { get; set; }
 		public bool IsOnHold { get; set; }
+		public int ReOpenedCount { get; set; }
 		public string SPLQuote { get; set; }
 		public bool IsGoodForWeb { get; set; }
 		public string Footprint { get; set; }

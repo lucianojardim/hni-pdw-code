@@ -71,7 +71,6 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCOrder_DealerMember", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "CollateralOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrder), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCOrder_SalesRepMember", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "CollateralOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrder), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCOrder_PaoliMember", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "CollateralOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrder), true)]
-[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSRequest_CreatedBy", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCO_CreatedUser", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.User), "CollateralOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrder), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkShipmentDetail_CODetail", "CollateralOrderDetail", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.CollateralOrderDetail), "CollateralOrderShipmentDetail", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrderShipmentDetail), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkShipment_COrder", "CollateralOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.CollateralOrder), "CollateralOrderShipment", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.CollateralOrderShipment), true)]
@@ -85,8 +84,6 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCompany_PaoliMember", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Company), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkCompany_PaoliSalesRepMember", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.Company), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSpecRequest_GSAContract", "GSAContract", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.GSAContract), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
-[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSpecRequest_CanceledUser", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
-[assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkSpecRequest_CompletedUser", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequest), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkLogin_User", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.User), "UserLogin", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.UserLogin), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkScoopArticle_User", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.User), "ScoopArticle", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.ScoopArticle), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkeCollateral_Dealership", "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.Company), "eCollateralItem", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.eCollateralItem), true)]
@@ -95,6 +92,8 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkeCollateral_ModifiedUser", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.User), "eCollateralItem", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.eCollateralItem), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkeCSection_Item", "eCollateralItem", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.eCollateralItem), "eCollateralSection", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.eCollateralSection), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkeCSection_Image", "ImageFile", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.ImageFile), "eCollateralSection", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.eCollateralSection), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "FK_Events_SpecRequests", "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.SpecRequest), "SpecRequestEvent", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequestEvent), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "FK_Events_Users", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.User), "SpecRequestEvent", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequestEvent), true)]
 
 #endregion
 
@@ -865,6 +864,22 @@ namespace PDWDBContext
             }
         }
         private ObjectSet<eCollateralSection> _eCollateralSections;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<SpecRequestEvent> SpecRequestEvents
+        {
+            get
+            {
+                if ((_SpecRequestEvents == null))
+                {
+                    _SpecRequestEvents = base.CreateObjectSet<SpecRequestEvent>("SpecRequestEvents");
+                }
+                return _SpecRequestEvents;
+            }
+        }
+        private ObjectSet<SpecRequestEvent> _SpecRequestEvents;
 
         #endregion
 
@@ -1228,6 +1243,14 @@ namespace PDWDBContext
         public void AddToeCollateralSections(eCollateralSection eCollateralSection)
         {
             base.AddObject("eCollateralSections", eCollateralSection);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the SpecRequestEvents EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToSpecRequestEvents(SpecRequestEvent specRequestEvent)
+        {
+            base.AddObject("SpecRequestEvents", specRequestEvent);
         }
 
         #endregion
@@ -11918,30 +11941,6 @@ namespace PDWDBContext
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.DateTime> RequestDate
-        {
-            get
-            {
-                return _RequestDate;
-            }
-            set
-            {
-                OnRequestDateChanging(value);
-                ReportPropertyChanging("RequestDate");
-                _RequestDate = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("RequestDate");
-                OnRequestDateChanged();
-            }
-        }
-        private Nullable<global::System.DateTime> _RequestDate;
-        partial void OnRequestDateChanging(Nullable<global::System.DateTime> value);
-        partial void OnRequestDateChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
         public Nullable<global::System.Boolean> IsGSA
         {
             get
@@ -12782,30 +12781,6 @@ namespace PDWDBContext
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int32> CreatedByUserId
-        {
-            get
-            {
-                return _CreatedByUserId;
-            }
-            set
-            {
-                OnCreatedByUserIdChanging(value);
-                ReportPropertyChanging("CreatedByUserId");
-                _CreatedByUserId = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("CreatedByUserId");
-                OnCreatedByUserIdChanged();
-            }
-        }
-        private Nullable<global::System.Int32> _CreatedByUserId;
-        partial void OnCreatedByUserIdChanging(Nullable<global::System.Int32> value);
-        partial void OnCreatedByUserIdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
         public global::System.String LaminatePreference
         {
             get
@@ -13044,54 +13019,6 @@ namespace PDWDBContext
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Int32> CompletedByUserID
-        {
-            get
-            {
-                return _CompletedByUserID;
-            }
-            set
-            {
-                OnCompletedByUserIDChanging(value);
-                ReportPropertyChanging("CompletedByUserID");
-                _CompletedByUserID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("CompletedByUserID");
-                OnCompletedByUserIDChanged();
-            }
-        }
-        private Nullable<global::System.Int32> _CompletedByUserID;
-        partial void OnCompletedByUserIDChanging(Nullable<global::System.Int32> value);
-        partial void OnCompletedByUserIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.DateTime> CompletedDateTime
-        {
-            get
-            {
-                return _CompletedDateTime;
-            }
-            set
-            {
-                OnCompletedDateTimeChanging(value);
-                ReportPropertyChanging("CompletedDateTime");
-                _CompletedDateTime = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("CompletedDateTime");
-                OnCompletedDateTimeChanged();
-            }
-        }
-        private Nullable<global::System.DateTime> _CompletedDateTime;
-        partial void OnCompletedDateTimeChanging(Nullable<global::System.DateTime> value);
-        partial void OnCompletedDateTimeChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.Boolean IsCanceled
@@ -13112,54 +13039,6 @@ namespace PDWDBContext
         private global::System.Boolean _IsCanceled;
         partial void OnIsCanceledChanging(global::System.Boolean value);
         partial void OnIsCanceledChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Int32> CanceledByUserID
-        {
-            get
-            {
-                return _CanceledByUserID;
-            }
-            set
-            {
-                OnCanceledByUserIDChanging(value);
-                ReportPropertyChanging("CanceledByUserID");
-                _CanceledByUserID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("CanceledByUserID");
-                OnCanceledByUserIDChanged();
-            }
-        }
-        private Nullable<global::System.Int32> _CanceledByUserID;
-        partial void OnCanceledByUserIDChanging(Nullable<global::System.Int32> value);
-        partial void OnCanceledByUserIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.DateTime> CanceledDateTime
-        {
-            get
-            {
-                return _CanceledDateTime;
-            }
-            set
-            {
-                OnCanceledDateTimeChanging(value);
-                ReportPropertyChanging("CanceledDateTime");
-                _CanceledDateTime = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("CanceledDateTime");
-                OnCanceledDateTimeChanged();
-            }
-        }
-        private Nullable<global::System.DateTime> _CanceledDateTime;
-        partial void OnCanceledDateTimeChanging(Nullable<global::System.DateTime> value);
-        partial void OnCanceledDateTimeChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -13526,44 +13405,6 @@ namespace PDWDBContext
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSRequest_CreatedBy", "User")]
-        public User CreatedByUser
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkSRequest_CreatedBy", "User").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkSRequest_CreatedBy", "User").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<User> CreatedByUserReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkSRequest_CreatedBy", "User");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("PaoliPDWModel.fkSRequest_CreatedBy", "User", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSpecRequest_GSAContract", "GSAContract")]
         public GSAContract GSAContract
         {
@@ -13602,16 +13443,203 @@ namespace PDWDBContext
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSpecRequest_CanceledUser", "User")]
-        public User CanceledByUser
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "FK_Events_SpecRequests", "SpecRequestEvent")]
+        public EntityCollection<SpecRequestEvent> SpecRequestEvents
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkSpecRequest_CanceledUser", "User").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<SpecRequestEvent>("PaoliPDWModel.FK_Events_SpecRequests", "SpecRequestEvent");
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkSpecRequest_CanceledUser", "User").Value = value;
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SpecRequestEvent>("PaoliPDWModel.FK_Events_SpecRequests", "SpecRequestEvent", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="SpecRequestEvent")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class SpecRequestEvent : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new SpecRequestEvent object.
+        /// </summary>
+        /// <param name="eventID">Initial value of the EventID property.</param>
+        /// <param name="requestID">Initial value of the RequestID property.</param>
+        /// <param name="userID">Initial value of the UserID property.</param>
+        /// <param name="eventDate">Initial value of the EventDate property.</param>
+        /// <param name="eventType">Initial value of the EventType property.</param>
+        public static SpecRequestEvent CreateSpecRequestEvent(global::System.Int32 eventID, global::System.Int32 requestID, global::System.Int32 userID, global::System.DateTime eventDate, global::System.Int32 eventType)
+        {
+            SpecRequestEvent specRequestEvent = new SpecRequestEvent();
+            specRequestEvent.EventID = eventID;
+            specRequestEvent.RequestID = requestID;
+            specRequestEvent.UserID = userID;
+            specRequestEvent.EventDate = eventDate;
+            specRequestEvent.EventType = eventType;
+            return specRequestEvent;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 EventID
+        {
+            get
+            {
+                return _EventID;
+            }
+            set
+            {
+                if (_EventID != value)
+                {
+                    OnEventIDChanging(value);
+                    ReportPropertyChanging("EventID");
+                    _EventID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("EventID");
+                    OnEventIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _EventID;
+        partial void OnEventIDChanging(global::System.Int32 value);
+        partial void OnEventIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 RequestID
+        {
+            get
+            {
+                return _RequestID;
+            }
+            set
+            {
+                OnRequestIDChanging(value);
+                ReportPropertyChanging("RequestID");
+                _RequestID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("RequestID");
+                OnRequestIDChanged();
+            }
+        }
+        private global::System.Int32 _RequestID;
+        partial void OnRequestIDChanging(global::System.Int32 value);
+        partial void OnRequestIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 UserID
+        {
+            get
+            {
+                return _UserID;
+            }
+            set
+            {
+                OnUserIDChanging(value);
+                ReportPropertyChanging("UserID");
+                _UserID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("UserID");
+                OnUserIDChanged();
+            }
+        }
+        private global::System.Int32 _UserID;
+        partial void OnUserIDChanging(global::System.Int32 value);
+        partial void OnUserIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime EventDate
+        {
+            get
+            {
+                return _EventDate;
+            }
+            set
+            {
+                OnEventDateChanging(value);
+                ReportPropertyChanging("EventDate");
+                _EventDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("EventDate");
+                OnEventDateChanged();
+            }
+        }
+        private global::System.DateTime _EventDate;
+        partial void OnEventDateChanging(global::System.DateTime value);
+        partial void OnEventDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 EventType
+        {
+            get
+            {
+                return _EventType;
+            }
+            set
+            {
+                OnEventTypeChanging(value);
+                ReportPropertyChanging("EventType");
+                _EventType = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("EventType");
+                OnEventTypeChanged();
+            }
+        }
+        private global::System.Int32 _EventType;
+        partial void OnEventTypeChanging(global::System.Int32 value);
+        partial void OnEventTypeChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "FK_Events_SpecRequests", "SpecRequest")]
+        public SpecRequest SpecRequest
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<SpecRequest>("PaoliPDWModel.FK_Events_SpecRequests", "SpecRequest").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<SpecRequest>("PaoliPDWModel.FK_Events_SpecRequests", "SpecRequest").Value = value;
             }
         }
         /// <summary>
@@ -13619,17 +13647,17 @@ namespace PDWDBContext
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<User> CanceledByUserReference
+        public EntityReference<SpecRequest> SpecRequestReference
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkSpecRequest_CanceledUser", "User");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<SpecRequest>("PaoliPDWModel.FK_Events_SpecRequests", "SpecRequest");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("PaoliPDWModel.fkSpecRequest_CanceledUser", "User", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<SpecRequest>("PaoliPDWModel.FK_Events_SpecRequests", "SpecRequest", value);
                 }
             }
         }
@@ -13640,16 +13668,16 @@ namespace PDWDBContext
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSpecRequest_CompletedUser", "User")]
-        public User CompletedByUser
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "FK_Events_Users", "User")]
+        public User User
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkSpecRequest_CompletedUser", "User").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.FK_Events_Users", "User").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkSpecRequest_CompletedUser", "User").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.FK_Events_Users", "User").Value = value;
             }
         }
         /// <summary>
@@ -13657,17 +13685,17 @@ namespace PDWDBContext
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<User> CompletedByUserReference
+        public EntityReference<User> UserReference
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.fkSpecRequest_CompletedUser", "User");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.FK_Events_Users", "User");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("PaoliPDWModel.fkSpecRequest_CompletedUser", "User", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("PaoliPDWModel.FK_Events_Users", "User", value);
                 }
             }
         }
@@ -16536,28 +16564,6 @@ namespace PDWDBContext
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSRequest_CreatedBy", "SpecRequest")]
-        public EntityCollection<SpecRequest> SpecRequests3
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<SpecRequest>("PaoliPDWModel.fkSRequest_CreatedBy", "SpecRequest");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SpecRequest>("PaoliPDWModel.fkSRequest_CreatedBy", "SpecRequest", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkCO_CreatedUser", "CollateralOrder")]
         public EntityCollection<CollateralOrder> CollateralOrders_1
         {
@@ -16712,50 +16718,6 @@ namespace PDWDBContext
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSpecRequest_CanceledUser", "SpecRequest")]
-        public EntityCollection<SpecRequest> SpecRequests2_1
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<SpecRequest>("PaoliPDWModel.fkSpecRequest_CanceledUser", "SpecRequest");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SpecRequest>("PaoliPDWModel.fkSpecRequest_CanceledUser", "SpecRequest", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkSpecRequest_CompletedUser", "SpecRequest")]
-        public EntityCollection<SpecRequest> SpecRequests3_1
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<SpecRequest>("PaoliPDWModel.fkSpecRequest_CompletedUser", "SpecRequest");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SpecRequest>("PaoliPDWModel.fkSpecRequest_CompletedUser", "SpecRequest", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "fkLogin_User", "UserLogin")]
         public EntityCollection<UserLogin> UserLogins
         {
@@ -16856,6 +16818,28 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<eCollateralItem>("PaoliPDWModel.fkeCollateral_ModifiedUser", "eCollateralItem", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "FK_Events_Users", "SpecRequestEvent")]
+        public EntityCollection<SpecRequestEvent> SpecRequestEvents
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<SpecRequestEvent>("PaoliPDWModel.FK_Events_Users", "SpecRequestEvent");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SpecRequestEvent>("PaoliPDWModel.FK_Events_Users", "SpecRequestEvent", value);
                 }
             }
         }

@@ -749,6 +749,8 @@
     <Content Include="Views\ePublisher\Layout12LeftDetailSidebar.cshtml" />
     <Content Include="Views\ePublisher\Layout13ColumnSidebar.cshtml" />
     <Content Include="Views\Report\Index.cshtml" />
+    <Content Include="Views\SpecRequest\ReOpenRequest.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\MultilineDisplay.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

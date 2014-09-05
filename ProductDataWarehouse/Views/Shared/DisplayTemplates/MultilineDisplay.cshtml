@@ -1,0 +1,6 @@
+﻿@model string
+
+@if( Model != null )
+{
+	<text>@Html.Raw( Model.Replace( "\n", "<br/>" ) )</text>
+}

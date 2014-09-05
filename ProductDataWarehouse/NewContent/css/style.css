@@ -335,6 +335,15 @@ span.btn11                                 { padding:6px 15px; color:#FFFFFF; cu
 .main_inner7_rt_msg h5                    { color:#454545; font-size:12px;font-family:Helvetica, Arial, Helvetica, sans-serif; padding-bottom:2px;}
 .main_inner7_rt_msg img                   { display:block; width:100%; height: auto;}
 .main_inner7_rt_msg .msg                   { width:433px; min-height:108px; background:#FFF; padding:6px; resize:none; border:1px solid #eaeaea;}
+
+.main_inner11_btm                          { width:932px; margin:0 auto; padding:28px 18px 27px 22px; background:#f7f9f9;}
+.main_inner11_msg                       { display:block;}
+.main_inner11_msg h4                       { color:#454545; font-size:14px; font-family: 'Conv_Helvetica-Bold'; padding-bottom:5px;}
+.main_inner11_msg ul                        { margin:0; list-style:none}
+.main_inner11_msg ul li                     { display:block; width:100%; padding-bottom:24px; float:left;}
+.main_inner11_msg ul li p             { font-size:10px; color:#454545; font-family:Helvetica, Arial, sans-serif;}
+.main_inner11_msg .msg                   { width:433px; min-height:108px; background:#FFF; padding:6px; resize:none; border:1px solid #eaeaea;}
+
 /*----------------------------inner8-------------*/
 
 .main_inner9_btm                           { width:932px; margin:0 auto; padding:0px 18px 30px 22px; background:#f7f9f9;}
