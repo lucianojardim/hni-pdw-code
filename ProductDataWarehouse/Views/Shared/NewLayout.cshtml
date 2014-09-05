@@ -106,6 +106,28 @@
 </head>
 <body>
 
+<div id='lightbox' class='mainlightbox' style='display:none'>
+	<div class='lightbox_in'>
+		<div class='lb_in page_content'>
+			<a class='close_lightbox' href='javascript:void(0);' onclick="$('#lightbox').hide();hideImage();return false;"></a>
+				<img width='785px' class='img_style_3' id='indImage'/>
+				<p class='underImagePadding'></p>
+				<div class='leftCol '>
+					<div class='leftColDetail'>
+						<h5 id='indImageTitle'>Image Name</h5>
+						<p id='indImageCaption'>Some Text</p>
+					</div>
+				</div>
+				<div class='rightCol '>
+					<div class='rightColDetail'>
+						<a href='' class='download_btn' id='indImageHiRes'>Download High Resolution Image</a>
+					</div>
+				</div>
+				<p class='clear'></p>
+		</div>
+	</div>
+</div>
+
 @if( HttpContext.Current.User.Identity.IsAuthenticated )
 {
 	Html.RenderPartial( "RightMenu" );

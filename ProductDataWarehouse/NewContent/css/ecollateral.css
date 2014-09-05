@@ -1007,3 +1007,89 @@ footer.mainfooter a.publish {
 .content .onecolthreebkl {
 	padding-bottom:25px;
 }
+
+.mainlightbox{
+	background:url(../images/transparent_blue.png) top left repeat;
+	height:100%;
+	width:100%;
+	position:fixed;
+	z-index:2000
+}
+.lightbox_in{
+	width:870px;
+	margin:40px auto 0;
+	background-color:#fff;
+	-moz-box-shadow: 0px 0px 4px #000;
+	-webkit-box-shadow: 0px 0px 4px #000;
+	box-shadow: 0px 0px 4px #000;
+}
+.lightbox_in_gtg{
+	width:870px;
+	margin:40px auto 0;
+}
+.lb_in{
+	padding:35px;
+	position:relative;
+}
+.lb_in_gtg{
+	padding:0px;
+	position:relative;
+}
+.close_lightbox{
+	cursor:pointer;
+	background:url(../images/close_icon.png) top left no-repeat;
+	height:33px;
+	width:34px;
+	position:absolute;
+	top:-16px;
+	right:-16px;
+}
+.lb_in_gtg .close_lightbox 
+{
+    top:0px;
+    right:0px;
+}
+
+.lightbox_in .underImagePadding
+{
+	padding-bottom: 20px;
+}
+
+.lightbox_in .leftCol
+{
+	float:left;
+	width: 66.666%;
+}
+
+.lightbox_in .rightCol
+{
+	float:left;
+	width: 33.333%;
+}
+
+.lightbox_in .leftColDetail
+{
+	margin-right: 30px;
+}
+
+.lightbox_in .leftColDetail h5, .lightbox_in .rightColDetail h5
+{
+	font-size: 16px;
+	padding-bottom: 10px;
+	font-weight: bold;
+}
+
+.lightbox_in .rightColDetail
+{
+	margin-left: 10px;
+}
+
+.lightbox_in .rightColDetail a.download_btn
+{
+    background: url('../images/download_icon.png') no-repeat scroll left center transparent;
+    color: #263F6A;
+    font-size: 15px;
+    padding-left: 30px;
+    display: block;
+    margin-bottom: 20px;
+}

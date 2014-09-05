@@ -496,8 +496,10 @@
     <Content Include="NewContent\images\blue_bg.jpg" />
     <Content Include="NewContent\images\checkbox.png" />
     <Content Include="NewContent\images\chopse.jpg" />
+    <Content Include="NewContent\images\close_icon.png" />
     <Content Include="NewContent\images\collateral_img.jpg" />
     <Content Include="NewContent\images\dashboard-image.png" />
+    <Content Include="NewContent\images\download_icon.png" />
     <Content Include="NewContent\images\eCollateralAddImage.png" />
     <Content Include="NewContent\images\email-us.png" />
     <Content Include="NewContent\images\favicon.ico" />
@@ -534,6 +536,9 @@
     <Content Include="NewContent\images\sprite.png" />
     <Content Include="NewContent\images\store_img.png" />
     <Content Include="NewContent\images\tools.jpg" />
+    <Content Include="NewContent\images\transparent.png" />
+    <Content Include="NewContent\images\transparent_blue.png" />
+    <Content Include="NewContent\images\zoom_icon.png" />
     <Content Include="NewContent\js\jquery-filestyle.js" />
     <Content Include="NewContent\js\jquery-ui-1.8.11.min.js" />
     <Content Include="NewContent\js\jquery.1.8.3.min.js" />
