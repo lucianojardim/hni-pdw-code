@@ -37,7 +37,7 @@ namespace PWDRepositories
 				Name = img.Name,
 				Caption = img.Caption,
 				Keywords = img.Keyword,
-				HasReferences = img.SeriesImageFiles.Any() || img.TypicalImageFiles.Any() || img.Showrooms.Any()
+				HasReferences = img.SeriesImageFiles.Any() || img.TypicalImageFiles.Any() || img.Showrooms.Any() || img.eCollateralSections.Any()
 			};
 		}
 

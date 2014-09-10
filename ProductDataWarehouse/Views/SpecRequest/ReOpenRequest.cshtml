@@ -64,6 +64,8 @@
 			 <h3>Request a Change to Request @Model.Name</h3>
 			 <div class="main_inner11_btm">
 					 <div class="main_inner11_msg">
+					 <p>You have reopened Specification Project @Model.Name to make a change request or additional specification work to be completed for this project.<br />
+Please provide any additional drawings or files related to the request below, along with notes and directions for the Spec Team.<br /><br /></p>
 							<h4>Related Drawings or Notes</h4>
 							<ul><li>
 							<p>
@@ -76,7 +78,7 @@
 							</div>
 							</li></ul>
 							<br />
-						 <h4>Notes and directions for Spec Team</h4>
+						 <h4>I would like to request the following changes to @Model.Name</h4>
 						 
 						 @Html.TextAreaFor( m => m.Notes, new { @rows = "15", @class = "msg" } )
 					 </div>

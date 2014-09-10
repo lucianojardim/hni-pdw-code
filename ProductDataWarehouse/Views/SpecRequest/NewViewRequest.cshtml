@@ -44,8 +44,22 @@
                      <div class="container">
 
 		 <div class="main_inner1">
-			 <h3>
+			 <h3 class="floating">
 				 View Spec Request - @Model.Name</h3>
+		 @if( Model.IsCompleted && !Model.IsCanceled && PDWInfrastructure.PaoliWebUser.CurrentUser.CanManageTypicals )
+   {
+		<div class="headerBtns">
+			<span class="btn7 openReqBtn">RE-OPEN</span>
+		</div>
+   }
+		 @if( Model.IsCompleted && !Model.IsCanceled && PDWInfrastructure.PaoliWebUser.CurrentUser.CanReOpenSpecRequests )
+   {
+		<div class="headerBtns">
+			<span class="btn7 openReqSalesRepBtn">Request a Change</span>
+		</div>
+   }
+	   <i class="clear_0"></i>
+
 			 <div class="main_inner10_cont">
 				 <div class="main_inner10_cont_top">
 					 <h3>
@@ -89,12 +103,12 @@
 									 @Html.DisplayFor( m => m.DealerName )</h5>
 								 <h5>
 									@if( ( Model.DealerPointOfContact ?? "" ).Any() || ( Model.DealerPointOfContactEmail ?? "" ).Any() || ( Model.DealerPointOfContactPhone ?? "" ).Any() || ( Model.DealerPointOfContactAcctTypeName ?? "" ).Any() )
-									{ 
+		 { 
 										@Html.DisplayFor( m => m.DealerPointOfContact )<br />
 										@Html.DisplayFor( m => m.DealerPointOfContactEmail )<br />
 										@Html.DisplayFor( m => m.DealerPointOfContactPhone )<br />
 			 @Html.DisplayFor( m => m.DealerPointOfContactAcctTypeName )
-									}
+		 }
 		 else
 		 {
 									@Html.DisplayFor( m => m.DealerSalesRepName )
@@ -295,10 +309,10 @@
 		 else
 		 {
 								 <h5>Completed</h5>
-								 if( !Model.IsCompleted && Model.IsOnHold )
-		 {
+			 if( !Model.IsCompleted && Model.IsOnHold )
+			 {
 			 <h5>On Hold</h5>
-		 }
+			 }
 		 }
 							 </div>
 							 <div class="coln2">
@@ -315,10 +329,10 @@
 		 else
 		 {
 								 <h5>@Html.DisplayFor( m => m.IsCompleted, templateName: "YesNo" )</h5>
-								 if( !Model.IsCompleted && Model.IsOnHold )
-		 {
+			 if( !Model.IsCompleted && Model.IsOnHold )
+			 {
 			 <h5>@Html.DisplayFor( m => m.IsOnHold, templateName: "YesNo" )</h5>
-		 }
+			 }
 		 }
 							 </div>
 							 <i class="clear_0"></i></li>
@@ -356,16 +370,4 @@
 			 </div>
 			 <!-- END: main -->
 		 </div>  
-		 @if( Model.IsCompleted && !Model.IsCanceled && PDWInfrastructure.PaoliWebUser.CurrentUser.CanManageTypicals )
-   {
-<div class="btnAlt">
-<span class="btn7 openReqBtn">RE-OPEN</span>
-</div>
-   }
-		 @if( Model.IsCompleted && !Model.IsCanceled && PDWInfrastructure.PaoliWebUser.CurrentUser.CanReOpenSpecRequests )
-   {
-<div class="btnAlt">
-<span class="btn7 openReqSalesRepBtn">Request a Change</span>
-</div>
-   }
 </div>

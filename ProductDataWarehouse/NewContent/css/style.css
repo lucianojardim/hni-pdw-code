@@ -113,6 +113,9 @@ span.btn                                  { padding:7px; color:#FFFFFF; cursor:p
 span.btn1                                 { padding:7px 15px; color:#FFFFFF; cursor:pointer; font-family: Helvetica, Arial, sans-serif; font-size:12px; color:#FFFFFF; background:#263f6a url(../images/next_arrow.jpg) no-repeat 47px center; -moz-box-shadow:2px 2px 2px 0px #cbcdcd; -webkit-box-shadow:2px 2px 2px 0px #cbcdcd; box-shadow:2px 2px 2px 0px #cbcdcd; position:relative; z-index:1; border:none;  float:
 right; display:inline-block; margin-top:41px;}
 span.btn1 cite    { padding-top:5px;}
+.main_inner1 .headerBtns					{ float: right; }
+.main_inner1 h3.floating						{ float: left; }
+
 /* ------------------------ inner3 HERE --------------*/
 .main_inner2_btm                           { width:932px; margin:0 auto; padding:28px 18px 30px 22px; background:#f7f9f9;}
 .main_inner2_btm_top                       { width:932px;}

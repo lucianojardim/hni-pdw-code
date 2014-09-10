@@ -21,6 +21,8 @@
 				}
 			}
 		});
+
+		$(window).scroll(checkLightBoxPosition);
 	}
 
 	function showPopupIcon() {
@@ -53,6 +55,11 @@
 
 		});
 
+	}
+
+	var stickyLBPos = 0;
+	function checkLightBoxPosition() {
+		$('.lightbox_in').css('margin-top', (stickyLBPos - $(window).scrollTop()) + 40);
 	}
 
 	function showImage(imgId, imgData) {
@@ -99,6 +106,9 @@
 		} else {
 			$('#seriesForImgHeader').hide();
 		}
+
+		stickyLBPos = $(window).scrollTop();
+		checkLightBoxPosition();
 
 		$('#lightbox').show();
 	}
