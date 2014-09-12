@@ -21,18 +21,15 @@
 			}
 
 			$('.openReqBtn').click(function(e) {
-				$.ajax({
-					dataType: 'json',
-					type: 'GET',
-					url: '/SpecRequest/OpenRequest',
-					data: { id: '@Model.RequestID' },
-					success: function (data, textStatus, jqXHR) {
+				makeAjaxCall('/SpecRequest/OpenRequest',
+					{ id: '@Model.RequestID' },
+					function (data, textStatus, jqXHR) {
 			    		window.location.href = '@Url.Action( "EditRequest", "SpecRequest", new { id = Model.RequestID } )';
 					},
-					error: function (jqXHR, textStatus, errorThrown) {
+					function (jqXHR, textStatus, errorThrown) {
 						alert('Error re-opening Request:' + errorThrown)
 					}
-				});
+				);
 			});
 
 			$('.openReqSalesRepBtn').click(function(e) {

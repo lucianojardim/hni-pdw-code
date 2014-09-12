@@ -47,12 +47,9 @@
     			},
     			autocomplete: ({
     				source: function (request, response) {
-    					$.ajax({
-    						url: '@Url.Action( "GetTypeaheadImageList", "PDW" )',
-    						data: { format: "json", query: request.term, max: 15 },
-    						dataType: 'json',
-    						type: 'GET',
-    						success: function (data) {
+    					makeAjaxCall('@Url.Action( "GetTypeaheadImageList", "PDW" )',
+    						{ format: "json", query: request.term, max: 15 },
+    						function (data, textstatus, jq) {
 								returnedImages = data;
     							response($.map(data, function (item) {
     								return {
@@ -61,12 +58,11 @@
     								}
     							}));
     						},
-    						error: function (request, status, error) {
+    						function (request, status, error) {
     							alert(error);
 								returnedImages = [];
     						}
-    					}
-					)
+    					);
     				},
     				minLength: 2
     			})
@@ -106,12 +102,9 @@
 
     	function reloadPaoliSalesRepList() {
     		if ($('#TerritoryID option:selected').text() != '') {
-    			$.ajax({
-    				dataType: 'json',
-    				type: 'GET',
-    				url: '/User/GetPaoliSalesRepListForTerritory',
-    				data: { territoryID: $('#TerritoryID').val(), enabledOnly: true },
-    				success: function (data, textStatus, jqXHR) {
+    			makeAjaxCall('/User/GetPaoliSalesRepListForTerritory',
+    				{ territoryID: $('#TerritoryID').val(), enabledOnly: true },
+    				function (data, textStatus, jqXHR) {
     					$('#PaoliSalesRepMemberID').empty();
     					$.each(data.theList, function (idx, item) {
 							if( item != null ) {
@@ -121,10 +114,10 @@
 							}
     					});
     				},
-    				error: function (jqXHR, textStatus, errorThrown) {
+    				function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting Paoli Sales Rep list:' + errorThrown)
     				}
-    			});
+    			);
      		} else {
     			$('#PaoliSalesRepMemberID').empty();
     		}

@@ -120,22 +120,19 @@
 
 			$('#btnCancel').click(function() {
 				if( confirm('Are you sure you want to cancel @if( Model.Shipments.Any() ) {<text>the remaining parts of </text>}this order?') ) {
-    				$.ajax({
-    					dataType: 'json',
-    					type: 'GET',
-    					url: '/Collateral/CancelOrder',
-    					data: { id: @Model.OrderID },
-    					success: function (data, textStatus, jqXHR) {
+    				makeAjaxCall('/Collateral/CancelOrder',
+    					{ id: @Model.OrderID },
+    					function (data, textStatus, jqXHR) {
 							if( data ) {
 								window.location = '/Collateral/Orders';
 							} else {
 								alert('Unable to cancel order at this time.');
 							}
     					},
-    					error: function (jqXHR, textStatus, errorThrown) {
+    					function (jqXHR, textStatus, errorThrown) {
     						alert('Error canceling order:' + errorThrown)
     					}
-    				});
+    				);
 				};
 			});
 

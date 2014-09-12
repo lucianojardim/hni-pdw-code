@@ -69,16 +69,13 @@
 			},
 			"iDisplayLength": 100,
 			"fnServerData": function (sSource, aoData, fnCallback) {
-				$.ajax({
-					dataType: 'json',
-					type: "POST",
-					url: sSource,
-					data: aoData,
-					success: function (data, textStatus, jqXHR) {
+				makeAjaxCall(sSource,
+					aoData,
+					function (data, textStatus, jqXHR) {
 						fnCallback(data, textStatus, jqXHR);
 					},
-					error: function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Orders:' + errorThrown) }
-				});
+					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Orders:' + errorThrown) }
+				);
 			},
 			"fnHeaderCallback": function (nHead, aData, iStart, iEnd, aiDisplay) {
 				$(nHead).addClass('bg');

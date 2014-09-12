@@ -9,17 +9,14 @@
 	$(document).ready(function () {
 		$('#Settings_UpdateStatus').on('change', function (e) {
 			if( $('#Settings_UpdateStatus').val() != '' ) {
-				$.ajax({
-					dataType: 'json',
-					type: 'GET',
-					url: '/ePublisher/UpdateStatus',
-					data: { itemId: @Model.Settings.ItemID, updateStatus: $('#Settings_UpdateStatus').val() },
-					success: function (data, textStatus, jqXHR) {
+				makeAjaxCall('/ePublisher/UpdateStatus',
+					{ itemId: @Model.Settings.ItemID, updateStatus: $('#Settings_UpdateStatus').val() },
+					function (data, textStatus, jqXHR) {
 						$('#actualStatus').html($('#Settings_UpdateStatus option:selected').text());
 					},
-					error: function (jqXHR, textStatus, errorThrown) {
+					function (jqXHR, textStatus, errorThrown) {
 					}
-				});
+				);
 			}
 		});
 	});

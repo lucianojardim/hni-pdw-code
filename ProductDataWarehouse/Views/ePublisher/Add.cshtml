@@ -63,12 +63,9 @@
 		}
 
     	function ValidateURL(urlValue) {
-    		$.ajax({
-    			dataType: 'json',
-    			type: 'GET',
-    			url: '/ePublisher/ValidateURL',
-    			data: { itemId: 0, url: urlValue },
-    			success: function (data, textStatus, jqXHR) {
+    		makeAjaxCall('/ePublisher/ValidateURL',
+    			{ itemId: 0, url: urlValue },
+    			function (data, textStatus, jqXHR) {
     				if (data.success) {
     					$('#isURLOK').removeClass('notavailable');
 						$('#CustomURL').addClass('isunique');
@@ -77,10 +74,10 @@
 						$('#CustomURL').removeClass('isunique');
     				}
     			},
-    			error: function (jqXHR, textStatus, errorThrown) {
+    			function (jqXHR, textStatus, errorThrown) {
     				alert('Error getting Dealer list:' + errorThrown)
     			}
-    		});
+    		);
     	}
 
     	function emptyDropDownList(ddList) {
@@ -121,19 +118,16 @@
 	else
 	{
 				<text>
-    			$.ajax({
-    				dataType: 'json',
-    				type: 'GET',
-    				url: '/Company/GetDealerListForSalesRep',
-    				data: { salesRepCompanyId: $('#PaoliSalesRepGroupID').val(), includeTerritory: true },
-    				success: function (data, textStatus, jqXHR) {
+    			makeAjaxCall('/Company/GetDealerListForSalesRep',
+    				{ salesRepCompanyId: $('#PaoliSalesRepGroupID').val(), includeTerritory: true },
+    				function (data, textStatus, jqXHR) {
 						reloadDropDownCompanyList('#DealershipID', data);
     					reloadDealerSalesRepList();
     				},
-    				error: function (jqXHR, textStatus, errorThrown) {
+    				function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting Dealer list:' + errorThrown)
     				}
-    			});
+    			);
 				</text>
 	}
 
@@ -147,19 +141,16 @@
 
     	function reloadDealerSalesRepList() {
     		if ($('#DealershipID').val() != null && $('#DealershipID').val() != '' && $('#DealershipID').val() != '0') {
-    			$.ajax({
-    				dataType: 'json',
-    				type: 'GET',
-    				url: '/User/GetDealerSalesRepListForCompany',
-    				data: { companyId: $('#DealershipID').val(), enabledOnly: true },
-    				success: function (data, textStatus, jqXHR) {
+    			makeAjaxCall('/User/GetDealerSalesRepListForCompany',
+    				{ companyId: $('#DealershipID').val(), enabledOnly: true },
+    				function (data, textStatus, jqXHR) {
     					reloadDropDownUserList('#DealershipPOCID', data, true);
 						showHideDealerPOC();
     				},
-    				error: function (jqXHR, textStatus, errorThrown) {
+    				function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting Dealer Sales Rep list:' + errorThrown)
     				}
-    			});
+    			);
     		} else {
     			emptyDropDownList($("#DealershipPOCID"));
 				$('#DealershipPOCName').addClass('noValidate');

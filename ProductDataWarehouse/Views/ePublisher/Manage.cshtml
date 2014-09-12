@@ -97,12 +97,9 @@
 		}
 
 		bLoading1 = true;
-		$.ajax({
-			dataType: 'json',
-			type: 'GET',
-			url: '/ePublisher/GetMyPagesList',
-			data: { skipItems: startValue, filterText: $('#nameFilter').val() },
-			success: function (data, textStatus, jqXHR) {
+		makeAjaxCall('/ePublisher/GetMyPagesList',
+			{ skipItems: startValue, filterText: $('#nameFilter').val() },
+			function (data, textStatus, jqXHR) {
 				if( data.length > 0 ) {
 					$.each(data, function (i, item) {
 						var newDiv =
@@ -134,10 +131,10 @@
 				}
 				bLoading1 = false;
 			},
-			error: function (jqXHR, textStatus, errorThrown) {
+			function (jqXHR, textStatus, errorThrown) {
 				alert('Error getting Dealer list:' + errorThrown)
 			}
-		});
+		);
 	}
 
 	function GetReviewPages(startValue) {
@@ -146,12 +143,9 @@
 		}
 
 		bLoading3 = true;
-		$.ajax({
-			dataType: 'json',
-			type: 'GET',
-			url: '/ePublisher/GetReviewPagesList',
-			data: { skipItems: startValue, filterText: $('#nameFilter').val() },
-			success: function (data, textStatus, jqXHR) {
+		makeAjaxCall('/ePublisher/GetReviewPagesList',
+			{ skipItems: startValue, filterText: $('#nameFilter').val() },
+			function (data, textStatus, jqXHR) {
 				if( data.length > 0 ) {
 					$.each(data, function (i, item) {
 						var newDiv =
@@ -185,10 +179,10 @@
 				}
 				bLoading3 = false;
 			},
-			error: function (jqXHR, textStatus, errorThrown) {
+			function (jqXHR, textStatus, errorThrown) {
 				alert('Error getting Dealer list:' + errorThrown)
 			}
-		});
+		);
 	}
 
 	function GetTemplates(startValue) {
@@ -197,12 +191,9 @@
 		}
 
 		bLoading2 = true;
-		$.ajax({
-			dataType: 'json',
-			type: 'GET',
-			url: '/ePublisher/GetTemplateList',
-			data: { skipItems: startValue, filterText: $('#nameFilter').val() },
-			success: function (data, textStatus, jqXHR) {
+		makeAjaxCall('/ePublisher/GetTemplateList',
+			{ skipItems: startValue, filterText: $('#nameFilter').val() },
+			function (data, textStatus, jqXHR) {
 				if( data.length > 0 ) {
 					$.each(data, function (i, item) {
 						var newDiv =
@@ -234,10 +225,10 @@
 				}
 				bLoading2 = false;
 			},
-			error: function (jqXHR, textStatus, errorThrown) {
+			function (jqXHR, textStatus, errorThrown) {
 				alert('Error getting Dealer list:' + errorThrown)
 			}
-		});
+		);
 	}
 
 	function GetAllPages(startValue) {
@@ -246,12 +237,9 @@
 		}
 
 		bLoading4 = true;
-		$.ajax({
-			dataType: 'json',
-			type: 'GET',
-			url: '/ePublisher/GetAllPagesList',
-			data: { skipItems: startValue, filterText: $('#nameFilter').val() },
-			success: function (data, textStatus, jqXHR) {
+		makeAjaxCall('/ePublisher/GetAllPagesList',
+			{ skipItems: startValue, filterText: $('#nameFilter').val() },
+			function (data, textStatus, jqXHR) {
 				if( data.length > 0 ) {
 					$.each(data, function (i, item) {
 						var newDiv =
@@ -281,10 +269,10 @@
 				}
 				bLoading4 = false;
 			},
-			error: function (jqXHR, textStatus, errorThrown) {
+			function (jqXHR, textStatus, errorThrown) {
 				alert('Error getting Dealer list:' + errorThrown)
 			}
-		});
+		);
 	}
 
 	function GetLinkLocation(item) {
@@ -300,18 +288,15 @@
 
 	function DeletePage(itemId) {
 		if(confirm( 'Are you sure you want to delete this page?' )) {
-			$.ajax({
-				dataType: 'json',
-				type: 'GET',
-				url: '/ePublisher/Delete',
-				data: { id: itemId },
-				success: function (data, textStatus, jqXHR) {
+			makeAjaxCall('/ePublisher/Delete',
+				{ id: itemId },
+				function (data, textStatus, jqXHR) {
 					reloadLists(false);
 				},
-				error: function (jqXHR, textStatus, errorThrown) {
+				function (jqXHR, textStatus, errorThrown) {
 					alert('Error deleting this Page:' + errorThrown)
 				}
-			});
+			);
 			
 		}
 	}

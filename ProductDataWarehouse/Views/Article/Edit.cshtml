@@ -22,11 +22,8 @@
     		$('#previewBtn').click(function () {
     			tinyMCE.triggerSave();
 
-    			$.ajax({
-    				dataType: 'json',
-    				type: 'POST',
-    				url: '/Article/SavePreview',
-    				data: {
+    			makeAjaxCall('/Article/SavePreview',
+    				{
     					ContentBlock: $('#ContentBlock').val(),
     					BigHeadline: $('#BigHeadline').val(),
     					BigImageURL: $('#BigImageURL').val(),
@@ -35,13 +32,13 @@
     					ShowBigImage: $('#ShowBigImage:checked').length > 0,
 						ArticleType: $('#ArticleType').val()
     				},
-    				success: function (data, textStatus, jqXHR) {
+    				function (data, textStatus, jqXHR) {
     					window.open('@Url.Action( "Preview" )');
     				},
-    				error: function (jqXHR, textStatus, errorThrown) {
+    				function (jqXHR, textStatus, errorThrown) {
     					alert('Error previewing this Article:' + errorThrown)
     				}
-    			});
+    			);
 
     		});
 

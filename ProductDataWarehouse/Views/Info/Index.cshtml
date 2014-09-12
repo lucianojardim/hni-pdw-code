@@ -38,22 +38,14 @@
 		url += ('&imageId=' + imgId);
 		url += '&callback=?'
 
-		$.ajax({
-			dataType: 'json',
-			crossDomain: true,
-			type: 'GET',
-			data: null,
-			url: url,
-
-			success: function (data) {
+		makeAjaxCall(url, null,
+			function (data) {
 				showImage(imgId, data);
 			},
-
-			error: function (jqXHR, textStatus, errorThrown) {
+			function (jqXHR, textStatus, errorThrown) {
 				ajaxError('Error getting data: ' + errorThrown + '[' + textStatus + ']');
 			}
-
-		});
+		);
 
 	}
 

@@ -25,18 +25,14 @@ Article Type: @Html.DropDownList( "ArticleType", ProductDataWarehouse.Controller
 
 	function deleteArticle(dID) {
 		if (confirm('Delete Article?')) {
-			$.ajax({
-				dataType: 'json',
-				type: 'GET',
-				url: '/Article/Delete',
-				data: { id: dID },
-				success: function (data, textStatus, jqXHR) {
+			makeAjaxCall('/Article/Delete', { id: dID },
+				function (data, textStatus, jqXHR) {
 					loadArticles();
 				},
-				error: function (jqXHR, textStatus, errorThrown) {
+				function (jqXHR, textStatus, errorThrown) {
 					alert('Error deleting this Article:' + errorThrown)
 				}
-			});
+			);
 		}
 	}
 
@@ -61,17 +57,15 @@ Article Type: @Html.DropDownList( "ArticleType", ProductDataWarehouse.Controller
 			},
 			"iDisplayLength": 100,
 			"fnServerData": function (sSource, aoData, fnCallback) {
-				$.ajax({
-					dataType: 'json',
-					type: "POST",
-					url: sSource,
-					data: aoData,
-					success: function (data, textStatus, jqXHR) {
+				makeAjaxCall(sSource, aoData,
+					function (data, textStatus, jqXHR) {
 						totalArticles = data.iTotalRecords;
 						fnCallback(data, textStatus, jqXHR);
 					},
-					error: function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Articles:' + errorThrown) }
-				})
+					function (jqXHR, textStatus, errorThrown) {
+						alert('Error getting list of Articles:' + errorThrown) 
+					}
+				);
 			},
 			"bProcessing": false, // don't want to use the default progress indicator at this time
 			"aaSorting": [[3, "desc"]],

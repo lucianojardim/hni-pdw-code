@@ -27,21 +27,18 @@
 
     	function reloadAccountType() {
     		if ($('#CompanyID').val() != null && $('#CompanyID').val() != '') {
-    			$.ajax({
-    				dataType: 'json',
-    				type: 'GET',
-    				url: '/Company/GetTypeListForCompany',
-    				data: { companyId: $('#CompanyID').val() },
-    				success: function (data, textStatus, jqXHR) {
+    			makeAjaxCall('/Company/GetTypeListForCompany',
+    				{ companyId: $('#CompanyID').val() },
+    				function (data, textStatus, jqXHR) {
     					$('#AccountType').empty();
     					$.each(data.theList, function (idx, item) {
     						$('#AccountType').append('<option value="' + item.Value + '">' + item.Text + '</option>');
     					});
     				},
-    				error: function (jqXHR, textStatus, errorThrown) {
+    				function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting Account Type list:' + errorThrown)
     				}
-    			});
+    			);
     		} else {
     			$('#AccountType').empty();
     		}			

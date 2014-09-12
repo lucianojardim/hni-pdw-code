@@ -27,18 +27,15 @@ Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.C
 
 	function deleteCompany(dID) {
 		if (confirm('Delete Company?')) {
-			$.ajax({
-				dataType: 'json',
-				type: 'GET',
-				url: '/Company/Delete',
-				data: { id: dID },
-				success: function (data, textStatus, jqXHR) {
+			makeAjaxCall('/Company/Delete',
+				{ id: dID },
+				function (data, textStatus, jqXHR) {
 					loadCompanies();
 				},
-				error: function (jqXHR, textStatus, errorThrown) {
+				function (jqXHR, textStatus, errorThrown) {
 					alert('Error deleting this Company:' + errorThrown)
 				}
-			});
+			);
 		}
 	}
 
@@ -63,16 +60,13 @@ Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.C
 			},
 			"iDisplayLength": 100,
 			"fnServerData": function (sSource, aoData, fnCallback) {
-				$.ajax({
-					dataType: 'json',
-					type: "POST",
-					url: sSource,
-					data: aoData,
-					success: function (data, textStatus, jqXHR) {
+				makeAjaxCall(sSource,
+					aoData,
+					function (data, textStatus, jqXHR) {
 						fnCallback(data, textStatus, jqXHR);
 					},
-					error: function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Companies:' + errorThrown) }
-				})
+					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Companies:' + errorThrown) }
+				);
 			},
 			"bProcessing": false, // don't want to use the default progress indicator at this time
 			"aaSorting": [[0, "asc"]],
@@ -82,7 +76,7 @@ Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.C
                     		var s;
                     		s = '<a href=\"@Url.Action( "Edit", "Company" )/' + oObj.aData["CompanyID"] + '">' + oObj.aData["Name"] + '</a>';
                     		return s;
-                    	} 
+                    	}
                     },
                     { "sName": "MasterID", "sTitle": "Master Consolidated Number", "aTargets": [1], "mDataProp": "MasterID", "sWidth": "21%" },
                     { "sName": "BaseNumber", "sTitle": "Base Number", "aTargets": [2], "mDataProp": "BaseNumber", "sWidth": "20%" },

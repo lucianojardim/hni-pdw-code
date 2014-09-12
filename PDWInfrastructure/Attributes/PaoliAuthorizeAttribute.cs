@@ -32,5 +32,27 @@ namespace PDWInfrastructure.Attributes
 
 			return false;
 		}
+
+		protected override void HandleUnauthorizedRequest( AuthorizationContext filterContext )
+		{
+			if( filterContext.HttpContext.Request.IsAjaxRequest() )
+            {
+				var urlHelper = new UrlHelper( filterContext.RequestContext );
+				filterContext.HttpContext.Response.StatusCode = 403;
+				filterContext.Result = new JsonResult
+                {
+                    Data = new
+                    {
+                        Error = "NotAuthorized",
+                        LogOnUrl = "/Login" //urlHelper.Action("LogOn", "Account")
+                    },
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                };
+            }
+            else
+            {
+				base.HandleUnauthorizedRequest( filterContext );
+            }
+		}
 	}
 }

@@ -23,35 +23,28 @@
 
 			$('.cancelReqBtn').click(function(e) {
 				if( confirm('Are you sure?') ) {
-					$.ajax({
-						dataType: 'json',
-						type: 'GET',
-						url: '/SpecRequest/CancelRequest',
-						data: { id: '@Model.RequestID' },
-						success: function (data, textStatus, jqXHR) {
+					makeAjaxCall('/SpecRequest/CancelRequest',
+						{ id: '@Model.RequestID' },
+						function (data, textStatus, jqXHR) {
 			    			window.location.href = '@Url.Action( "Manage" )';
 						},
-						error: function (jqXHR, textStatus, errorThrown) {
+						function (jqXHR, textStatus, errorThrown) {
 							alert('Error canceling Request:' + errorThrown)
 						}
-					});
-					
+					);					
 				}
 			});
 
 			$('.openReqBtn').click(function(e) {
-				$.ajax({
-					dataType: 'json',
-					type: 'GET',
-					url: '/SpecRequest/OpenRequest',
-					data: { id: '@Model.RequestID' },
-					success: function (data, textStatus, jqXHR) {
+				makeAjaxCall('/SpecRequest/OpenRequest',
+					{ id: '@Model.RequestID' },
+					function (data, textStatus, jqXHR) {
 			    		window.location.href = '@Url.Action( "EditRequest", "SpecRequest", new { id = Model.RequestID } )';
 					},
-					error: function (jqXHR, textStatus, errorThrown) {
+					function (jqXHR, textStatus, errorThrown) {
 						alert('Error re-opening Request:' + errorThrown)
 					}
-				});
+				);
 			});
     	});
 	</script>

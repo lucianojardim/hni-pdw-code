@@ -477,21 +477,18 @@
 
     	function reloadDealerSalesRepList() {
     		if ($('#DealerID').val() != null && $('#DealerID').val() != '' && $('#DealerID').val() != '0') {
-    			$.ajax({
-    				dataType: 'json',
-    				type: 'GET',
-    				url: '/User/GetDealerSalesRepListForCompany',
-    				data: { companyId: $('#DealerID').val(), enabledOnly: true },
-    				success: function (data, textStatus, jqXHR) {
+    			makeAjaxCall('/User/GetDealerSalesRepListForCompany',
+    				{ companyId: $('#DealerID').val(), enabledOnly: true },
+    				function (data, textStatus, jqXHR) {
 						reloadDropDownUserList('#DealerMemberID', data, true);
     					$('.DSRCell').show();
 //		    			$('#DealerMemberID_msdd').show();
 						showHideDealerPOC();
     				},
-    				error: function (jqXHR, textStatus, errorThrown) {
+    				function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting Dealer Sales Rep list:' + errorThrown)
     				}
-    			});
+    			);
     		} else {
 				emptyDropDownList($("#DealerMemberID"));
     			$('#DealerPointOfContact').val('');
@@ -514,12 +511,9 @@
 
     	function reloadPaoliSalesRepList() {
     		if ($('#PaoliSalesRepGroupID').val() != null && $('#PaoliSalesRepGroupID').val() != '' && $('#PaoliSalesRepGroupID').val() != '0') {
-    			$.ajax({
-    				dataType: 'json',
-    				type: 'GET',
-    				url: '/User/GetPaoliSalesRepListForCompany',
-    				data: { companyId: $('#PaoliSalesRepGroupID').val(), enabledOnly: true },
-    				success: function (data, textStatus, jqXHR) {
+    			makeAjaxCall('/User/GetPaoliSalesRepListForCompany',
+    				{ companyId: $('#PaoliSalesRepGroupID').val(), enabledOnly: true },
+    				function (data, textStatus, jqXHR) {
     					$('.PSRCell').hide();
 //						$('#PaoliSalesRepMemberID_msdd').hide();
 						reloadDropDownUserList('#PaoliSalesRepMemberID', data);
@@ -528,10 +522,10 @@
 //							$('#PaoliSalesRepMemberID_msdd').show();
     					}
     				},
-    				error: function (jqXHR, textStatus, errorThrown) {
+    				function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting Paoli Sales Rep list:' + errorThrown)
     				}
-    			});
+    			);
 				
 
 				@if( PaoliWebUser.CurrentUser.IsDealerUser )
@@ -547,12 +541,9 @@
 	else
 	{
 				<text>
-    			$.ajax({
-    				dataType: 'json',
-    				type: 'GET',
-    				url: '/Company/GetDealerListForSalesRep',
-    				data: { salesRepCompanyId: $('#PaoliSalesRepGroupID').val(), includeTerritory: true },
-    				success: function (data, textStatus, jqXHR) {
+    			makeAjaxCall('/Company/GetDealerListForSalesRep',
+    				{ salesRepCompanyId: $('#PaoliSalesRepGroupID').val(), includeTerritory: true },
+    				function (data, textStatus, jqXHR) {
     					$('.DealerRow').hide();
 						reloadDropDownCompanyList('#DealerID', data);
     					if( $('#DealerID option').length > 0 ) {
@@ -561,10 +552,10 @@
 
     					reloadDealerSalesRepList();
     				},
-    				error: function (jqXHR, textStatus, errorThrown) {
+    				function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting Dealer list:' + errorThrown)
     				}
-    			});
+    			);
 				</text>
 	}
 

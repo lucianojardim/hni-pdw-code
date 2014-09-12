@@ -55,12 +55,9 @@
 		});
 		$('#btnDoSearch').on('click', function (e) {
 			if ($('#imgFilter').val() != '') {
-				$.ajax({
-					dataType: 'json',
-					type: 'GET',
-					url: '/ePublisher/GetImageList',
-					data: { imgFilter: $('#imgFilter').val() },
-					success: function (data, textStatus, jqXHR) {
+				makeAjaxCall('/ePublisher/GetImageList',
+					{ imgFilter: $('#imgFilter').val() },
+					function (data, textStatus, jqXHR) {
 						$('#ImagePickerList').html('');
 						$.each(data, function (i, img) {
 							var newImage = '<div style="float: left; width: 30%; margin-right:10px; margin-bottom: 10px;" class="">' +
@@ -80,9 +77,9 @@
 							$.fancybox.close();
 						});
 					},
-					error: function (jqXHR, textStatus, errorThrown) {
+					function (jqXHR, textStatus, errorThrown) {
 					}
-				});
+				);
 			} else {
 				$('#ImagePickerList').html('');
 			}

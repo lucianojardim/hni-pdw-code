@@ -47,29 +47,23 @@
             return;
         }
 
-        $.ajax({
-            dataType: 'json',
-            type: "POST",
-            url: '@Url.Action("AddPubImage","Import")',
-            data: { pubId: @Html.DisplayFor( m => m.PublicationID ), imageId: imageId, pageNumber: thePageNumber },
-            success: function (data, textStatus, jqXHR) {
+        makeAjaxCall('@Url.Action("AddPubImage","Import")',
+            { pubId: @Html.DisplayFor( m => m.PublicationID ), imageId: imageId, pageNumber: thePageNumber },
+            function (data, textStatus, jqXHR) {
                 loadLists();
             },
-            error: function (jqXHR, textStatus, errorThrown) { alert('Unable to add Image:' + errorThrown) }
-        });
+            function (jqXHR, textStatus, errorThrown) { alert('Unable to add Image:' + errorThrown) }
+        );
     }
 
     function removeImage(imageId) {
-        $.ajax({
-            dataType: 'json',
-            type: "POST",
-            url: '@Url.Action("RemovePubImage","Import")',
-            data: { pubId: @Html.DisplayFor( m => m.PublicationID ), imageId: imageId },
-            success: function (data, textStatus, jqXHR) {
+        makeAjaxCall('@Url.Action("RemovePubImage","Import")',
+            { pubId: @Html.DisplayFor( m => m.PublicationID ), imageId: imageId },
+            function (data, textStatus, jqXHR) {
                 loadLists();
             },
-            error: function (jqXHR, textStatus, errorThrown) { alert('Unable to remove Image:' + errorThrown) }
-        });
+            function (jqXHR, textStatus, errorThrown) { alert('Unable to remove Image:' + errorThrown) }
+        );
     }
 
     var nonPubTable = null;
@@ -92,16 +86,13 @@
             },
             "iDisplayLength": 10,
             "fnServerData": function (sSource, aoData, fnCallback) {
-                $.ajax({
-                    dataType: 'json',
-                    type: "POST",
-                    url: sSource,
-                    data: aoData,
-                    success: function (data, textStatus, jqXHR) {
+                makeAjaxCall(sSource,
+                    aoData,
+                    function (data, textStatus, jqXHR) {
                         fnCallback(data, textStatus, jqXHR);
                     },
-                    error: function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Images:' + errorThrown) }
-                })
+                    function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Images:' + errorThrown) }
+                );
             },
             "bProcessing": false, // don't want to use the default progress indicator at this time
             "aaSorting": [[1, "asc"]],
@@ -142,16 +133,13 @@
             },
             "iDisplayLength": 10,
             "fnServerData": function (sSource, aoData, fnCallback) {
-                $.ajax({
-                    dataType: 'json',
-                    type: "POST",
-                    url: sSource,
-                    data: aoData,
-                    success: function (data, textStatus, jqXHR) {
+                makeAjaxCall(sSource,
+                    aoData,
+                    function (data, textStatus, jqXHR) {
                         fnCallback(data, textStatus, jqXHR);
                     },
-                    error: function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Images:' + errorThrown) }
-                })
+                    function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Images:' + errorThrown) }
+                );
             },
             "bProcessing": false, // don't want to use the default progress indicator at this time
             "aaSorting": [[1, "asc"]],

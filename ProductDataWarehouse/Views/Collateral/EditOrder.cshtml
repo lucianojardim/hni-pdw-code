@@ -116,12 +116,9 @@
 				$('.newAddress').removeAttr('disabled');
 				if( bInit ) {
    					if (officialCompanyID != null || officialUserID != null) {
-    					$.ajax({
-    						dataType: 'json',
-    						type: 'GET',
-    						url: '/Company/GetShippingAddress',
-    						data: { companyId: officialCompanyID, userId: officialUserID },
-    						success: function (data, textStatus, jqXHR) {
+    					makeAjaxCall('/Company/GetShippingAddress',
+    						{ companyId: officialCompanyID, userId: officialUserID },
+    						function (data, textStatus, jqXHR) {
     							$('#tb1ShippingCompanyName').val(data.Name);
     							$('#tb1ShippingAttn').val(data.ContactAttn);
     							$('#tb1ShippingAddress1').val(data.Address1);
@@ -133,10 +130,10 @@
     							$('#tb1ShippingEmailAddress').val(data.ContactEmail);
 
     						},
-    						error: function (jqXHR, textStatus, errorThrown) {
+    						function (jqXHR, textStatus, errorThrown) {
     							alert('Error getting Company Address:' + errorThrown)
     						}
-    					});
+    					);
 					}
 				}
 			} else {

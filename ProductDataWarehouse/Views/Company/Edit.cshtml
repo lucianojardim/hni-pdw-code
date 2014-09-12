@@ -54,12 +54,9 @@
     			},
     			autocomplete: ({
     				source: function (request, response) {
-    					$.ajax({
-    						url: '@Url.Action( "GetTypeaheadImageList", "PDW" )',
-    						data: { format: "json", query: request.term, max: 15 },
-    						dataType: 'json',
-    						type: 'GET',
-    						success: function (data) {
+    					makeAjaxCall('@Url.Action( "GetTypeaheadImageList", "PDW" )',
+    						{ format: "json", query: request.term, max: 15 },
+    						function (data) {
 								returnedImages = data;
     							response($.map(data, function (item) {
     								return {
@@ -68,12 +65,11 @@
     								}
     							}));
     						},
-    						error: function (request, status, error) {
+    						function (request, status, error) {
     							alert(error);
 								returnedImages = [];
     						}
-    					}
-					)
+						);
     				},
     				minLength: 2
     			})
@@ -113,12 +109,9 @@
 
     	function reloadPaoliSalesRepList(psrMemberId) {
     		if ($('#TerritoryID option:selected').text() != '') {
-    			$.ajax({
-    				dataType: 'json',
-    				type: 'GET',
-    				url: '/User/GetPaoliSalesRepListForTerritory',
-    				data: { territoryID: $('#TerritoryID').val(), enabledOnly: false },
-    				success: function (data, textStatus, jqXHR) {
+    			makeAjaxCall('/User/GetPaoliSalesRepListForTerritory',
+    				{ territoryID: $('#TerritoryID').val(), enabledOnly: false },
+    				function (data, textStatus, jqXHR) {
     					$('#PaoliSalesRepMemberID').empty();
     					$.each(data.theList, function (idx, item) {
 							if( item != null ) {
@@ -128,10 +121,10 @@
 							}
     					});
     				},
-    				error: function (jqXHR, textStatus, errorThrown) {
+    				function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting Paoli Sales Rep list:' + errorThrown)
     				}
-    			});
+    			);
      		} else {
     			$('#PaoliSalesRepMemberID').empty();
     		}
@@ -317,16 +310,13 @@
 				"sSearch": "Filter by Keyword:"
 			},
 			"fnServerData": function (sSource, aoData, fnCallback) {
-				$.ajax({
-					dataType: 'json',
-					type: "POST",
-					url: sSource,
-					data: aoData,
-					success: function (data, textStatus, jqXHR) {
+				makeAjaxCall(sSource,
+					aoData,
+					function (data, textStatus, jqXHR) {
 						fnCallback(data, textStatus, jqXHR);
 					},
-					error: function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Requests:' + errorThrown) }
-				})
+					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Requests:' + errorThrown) }
+				);
 			},
 			"bProcessing": false, // don't want to use the default progress indicator at this time
 			"aaSorting": [[0, "desc"]],
@@ -434,16 +424,13 @@
 			},
 			"iDisplayLength": 100,
 			"fnServerData": function (sSource, aoData, fnCallback) {
-				$.ajax({
-					dataType: 'json',
-					type: "POST",
-					url: sSource,
-					data: aoData,
-					success: function (data, textStatus, jqXHR) {
+				makeAjaxCall(sSource,
+					aoData,
+					function (data, textStatus, jqXHR) {
 						fnCallback(data, textStatus, jqXHR);
 					},
-					error: function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Orders:' + errorThrown) }
-				});
+					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Orders:' + errorThrown) }
+				);
 			},
 			"bProcessing": false, // don't want to use the default progress indicator at this time
 			"aaSorting": [[0, "desc"]],
@@ -520,16 +507,13 @@
 			},
 			"iDisplayLength": 100,
 			"fnServerData": function (sSource, aoData, fnCallback) {
-				$.ajax({
-					dataType: 'json',
-					type: "POST",
-					url: sSource,
-					data: aoData,
-					success: function (data, textStatus, jqXHR) {
+				makeAjaxCall(sSource,
+					aoData,
+					function (data, textStatus, jqXHR) {
 						fnCallback(data, textStatus, jqXHR);
 					},
-					error: function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Users:' + errorThrown) }
-				})
+					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Users:' + errorThrown) }
+				);
 			},
 			"bProcessing": false, // don't want to use the default progress indicator at this time
 			"aaSorting": [[1, "asc"]],

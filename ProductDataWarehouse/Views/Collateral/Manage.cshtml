@@ -30,18 +30,15 @@ Collateral Type: @Html.DropDownList( "CollateralType", ProductDataWarehouse.Cont
 
 	function deleteCollateral(dID) {
 		if (confirm('Delete Collateral?')) {
-			$.ajax({
-				dataType: 'json',
-				type: 'GET',
-				url: '/Collateral/Delete',
-				data: { id: dID },
-				success: function (data, textStatus, jqXHR) {
+			makeAjaxCall('/Collateral/Delete',
+				{ id: dID },
+				function (data, textStatus, jqXHR) {
 					loadCollateral();
 				},
-				error: function (jqXHR, textStatus, errorThrown) {
+				function (jqXHR, textStatus, errorThrown) {
 					alert('Error deleting this Collateral:' + errorThrown)
 				}
-			});
+			);
 		}
 	}
 
@@ -66,16 +63,13 @@ Collateral Type: @Html.DropDownList( "CollateralType", ProductDataWarehouse.Cont
 			},
 			"iDisplayLength": 100,
 			"fnServerData": function (sSource, aoData, fnCallback) {
-				$.ajax({
-					dataType: 'json',
-					type: "POST",
-					url: sSource,
-					data: aoData,
-					success: function (data, textStatus, jqXHR) {
+				makeAjaxCall(sSource,
+					aoData,
+					function (data, textStatus, jqXHR) {
 						fnCallback(data, textStatus, jqXHR);
 					},
-					error: function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Collateral:' + errorThrown) }
-				})
+					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Collateral:' + errorThrown) }
+				);
 			},
 			"bProcessing": false, // don't want to use the default progress indicator at this time
 			"aaSorting": [[0, "asc"]],
@@ -108,8 +102,8 @@ Collateral Type: @Html.DropDownList( "CollateralType", ProductDataWarehouse.Cont
                     		} else {
                     			s += '<a href=\"@Url.Action( "Edit", "Collateral" )/' + oObj.aData["CollateralID"] + '">Edit</a>';
                     		}
-//                    		s += '&nbsp;|&nbsp;';
-//                  		s += '<a href=\"#\" onclick="deleteCollateral(' + oObj.aData["CollateralID"] + ');">Delete</a>';
+                    		//                    		s += '&nbsp;|&nbsp;';
+                    		//                  		s += '<a href=\"#\" onclick="deleteCollateral(' + oObj.aData["CollateralID"] + ');">Delete</a>';
                     		return s;
                     	}
                     }

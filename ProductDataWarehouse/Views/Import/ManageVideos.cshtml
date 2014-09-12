@@ -34,18 +34,15 @@
 
 	function deleteVideo(dID) {
 		if (confirm('Delete Video? ')) {
-			$.ajax({
-				dataType: 'json',
-				type: 'GET',
-				url: '/Import/DeleteDealerVideo',
-				data: { id: dID },
-				success: function (data, textStatus, jqXHR) {
+			makeAjaxCall('/Import/DeleteDealerVideo',
+				{ id: dID },
+				function (data, textStatus, jqXHR) {
 					loadVideos();
 				},
-				error: function (jqXHR, textStatus, errorThrown) {
+				function (jqXHR, textStatus, errorThrown) {
 					alert('Unable to delete Video at this time.');
 				}
-			});
+			);
 		}
 	}
 
@@ -68,12 +65,9 @@
 			},
 			"iDisplayLength": 10,
 			"fnServerData": function (sSource, aoData, fnCallback) {
-				$.ajax({
-					dataType: 'json',
-					type: "POST",
-					url: sSource,
-					data: aoData,
-					success: function (data, textStatus, jqXHR) {
+				makeAjaxCall(sSource,
+					aoData,
+					function (data, textStatus, jqXHR) {
 						fnCallback(data, textStatus, jqXHR);
 						$('.fbImageBtn').fancybox({
 							'autoDimensions': false,
@@ -86,8 +80,8 @@
 							'type': 'iframe'
 						});
 					},
-					error: function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Videos:' + errorThrown) }
-				})
+					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Videos:' + errorThrown) }
+				);
 			},
 			"bProcessing": false, // don't want to use the default progress indicator at this time
 			"aaSorting": [[0, "asc"]],

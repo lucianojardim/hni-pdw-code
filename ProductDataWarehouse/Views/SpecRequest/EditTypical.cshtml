@@ -50,12 +50,9 @@
     			allowSpaces: true,
     			autocomplete: ({
     				source: function (request, response) {
-    					$.ajax({
-    						url: '@Url.Action("GetTypeAheadTypicalOptionList", "PDW")',
-    						data: { format: "json", attr: 'Material', query: request.term },
-    						dataType: 'json',
-    						type: 'GET',
-    						success: function (data) {
+    					makeAjaxCall('@Url.Action("GetTypeAheadTypicalOptionList", "PDW")',
+    						{ format: "json", attr: 'Material', query: request.term },
+    						function (data) {
     							response($.map(data, function (item) {
     								return {
     									label: item,
@@ -63,11 +60,10 @@
     								}
     							}));
     						},
-    						error: function (request, status, error) {
+    						function (request, status, error) {
     							alert(error);
     						}
-    					}
-					)
+						);
     				},
     				minLength: 0
     			})
@@ -77,12 +73,9 @@
     			allowSpaces: true,
     			autocomplete: ({
     				source: function (request, response) {
-    					$.ajax({
-    						url: '@Url.Action("GetTypeAheadTypicalOptionList", "PDW")',
-    						data: { format: "json", attr: 'Finish', query: request.term },
-    						dataType: 'json',
-    						type: 'GET',
-    						success: function (data) {
+    					makeAjaxCall('@Url.Action("GetTypeAheadTypicalOptionList", "PDW")',
+    						{ format: "json", attr: 'Finish', query: request.term },
+    						function (data) {
     							response($.map(data, function (item) {
     								return {
     									label: item,
@@ -90,11 +83,10 @@
     								}
     							}));
     						},
-    						error: function (request, status, error) {
+    						function (request, status, error) {
     							alert(error);
     						}
-    					}
-					)
+    					);
     				},
     				minLength: 0
     			})
@@ -102,12 +94,9 @@
 
     		$('#RenderingImage').autocomplete ({
     				source: function (request, response) {
-    					$.ajax({
-    						url: '@Url.Action("GetTypeaheadImageList", "PDW")',
-    						data: { format: "json", query: request.term, max: 15 },
-    						dataType: 'json',
-    						type: 'GET',
-    						success: function (data) {
+    					makeAjaxCall('@Url.Action("GetTypeaheadImageList", "PDW")',
+    						{ format: "json", query: request.term, max: 15 },
+    						function (data) {
     							response($.map(data, function (item) {
     								return {
     									label: item,
@@ -115,11 +104,10 @@
     								}
     							}));
     						},
-    						error: function (request, status, error) {
+    						function (request, status, error) {
     							alert(error);
     						}
-    					}
-					)
+						);
     				},
     				minLength: 2
     			});
@@ -140,12 +128,9 @@
     			},
     			autocomplete: ({
     				source: function (request, response) {
-    					$.ajax({
-    						url: '@Url.Action( "GetTypeaheadImageList", "PDW" )',
-    						data: { format: "json", query: request.term, max: 15 },
-    						dataType: 'json',
-    						type: 'GET',
-    						success: function (data) {
+    					makeAjaxCall('@Url.Action( "GetTypeaheadImageList", "PDW" )',
+    						{ format: "json", query: request.term, max: 15 },
+    						function (data) {
 								returnedImages = data;
     							response($.map(data, function (item) {
     								return {
@@ -154,12 +139,11 @@
     								}
     							}));
     						},
-    						error: function (request, status, error) {
+    						function (request, status, error) {
     							alert(error);
 								returnedImages = [];
     						}
-    					}
-					)
+						);
     				},
     				minLength: 2
     			})

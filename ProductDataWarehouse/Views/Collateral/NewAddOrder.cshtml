@@ -204,12 +204,9 @@
     				break;
     		}
     		if (officialCompanyID != null || officialUserID != null) {
-    			$.ajax({
-    				dataType: 'json',
-    				type: 'GET',
-    				url: '/Company/GetShippingAddress',
-    				data: { companyId: officialCompanyID, userId: officialUserID },
-    				success: function (data, textStatus, jqXHR) {
+    			makeAjaxCall('/Company/GetShippingAddress',
+    				{ companyId: officialCompanyID, userId: officialUserID },
+    				function (data, textStatus, jqXHR) {
     					$('#tb1ShippingCompanyName').val(data.Name);
     					$('#tb1ShippingAttn').val(data.ContactAttn);
     					$('#tb1ShippingAddress1').val(data.Address1);
@@ -221,10 +218,10 @@
     					$('#tb1ShippingEmailAddress').val(data.ContactEmail);
 
     				},
-    				error: function (jqXHR, textStatus, errorThrown) {
+    				function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting Company Address:' + errorThrown)
     				}
-    			});
+    			);
     		}
    			if (officialCompanyID == null && officialUserID == null) {
     			$('#ShippingAddressType[value="0"]').attr('disabled', true);
@@ -405,19 +402,16 @@
 				return;
 			}
 
-			$.ajax({
-				dataType: 'json',
-				type: 'GET',
-				url: theUrl,
-				data: dataSet,
-				success: function (data, textStatus, jqXHR) {
+			makeAjaxCall(theUrl,
+				dataSet,
+				function (data, textStatus, jqXHR) {
 					reloadDropDownCompanyList('#SPDealerID', data);
 					reloadSPDealerSalesRepList();
 				},
-				error: function (jqXHR, textStatus, errorThrown) {
+				function (jqXHR, textStatus, errorThrown) {
 					alert('Error getting Dealer list:' + errorThrown)
 				}
-			});
+			);
 		}
 
 		function loadSPRepGroupList() {
@@ -430,70 +424,58 @@
 				return;
 			}
 
-			$.ajax({
-				dataType: 'json',
-				type: 'GET',
-				url: theUrl,
-				data: dataSet,
-				success: function (data, textStatus, jqXHR) {
+			makeAjaxCall(theUrl,
+				dataSet,
+				function (data, textStatus, jqXHR) {
 					reloadDropDownCompanyList('#SPPaoliRepGroupID', data);
 					reloadSPDealerSalesRepList();
 					reloadSPPaoliSalesRepList();
 				},
-				error: function (jqXHR, textStatus, errorThrown) {
+				function (jqXHR, textStatus, errorThrown) {
 					alert('Error getting Rep Group list:' + errorThrown)
 				}
-			});
+			);
 		}
 
 		function reloadDealerSalesRepList() {
 			if ($('#DealerID option:selected').text() != '') {
-				$.ajax({
-					dataType: 'json',
-					type: 'GET',
-					url: '/User/GetDealerSalesRepListForCompany',
-					data: { companyId: $('#DealerID').val(), enabledOnly: true },
-					success: function (data, textStatus, jqXHR) {
+				makeAjaxCall('/User/GetDealerSalesRepListForCompany',
+					{ companyId: $('#DealerID').val(), enabledOnly: true },
+					function (data, textStatus, jqXHR) {
 						reloadDropDownUserList('#DealerMemberID', data);
 					},
-					error: function (jqXHR, textStatus, errorThrown) {
+					function (jqXHR, textStatus, errorThrown) {
 						alert('Error getting Dealer Sales Rep list:' + errorThrown)
 					}
-				});
+				);
 			} else {
 				emptyDropDownList($('#DealerMemberID'));
 			}
     	}
 
     	function reloadPaoliSalesRepList() {
-    		$.ajax({
-    			dataType: 'json',
-    			type: 'GET',
-    			url: '/User/GetPaoliSalesRepListForCompany',
-    			data: { companyId: $('#PaoliRepGroupID').val(), enabledOnly: true },
-    			success: function (data, textStatus, jqXHR) {
+    		makeAjaxCall('/User/GetPaoliSalesRepListForCompany',
+    			{ companyId: $('#PaoliRepGroupID').val(), enabledOnly: true },
+    			function (data, textStatus, jqXHR) {
 					reloadDropDownUserList('#PaoliRepGroupMemberID', data);
     			},
-    			error: function (jqXHR, textStatus, errorThrown) {
+    			function (jqXHR, textStatus, errorThrown) {
     				alert('Error getting Paoli Sales Rep list:' + errorThrown)
     			}
-    		});
+    		);
     	}
 
     	function reloadSPDealerSalesRepList() {
     		if ($('#SPDealerID option:selected').text() != '') {
-    			$.ajax({
-    				dataType: 'json',
-    				type: 'GET',
-    				url: '/User/GetDealerSalesRepListForCompany',
-    				data: { companyId: $('#SPDealerID').val(), enabledOnly: true },
-    				success: function (data, textStatus, jqXHR) {
+    			makeAjaxCall('/User/GetDealerSalesRepListForCompany',
+    				{ companyId: $('#SPDealerID').val(), enabledOnly: true },
+    				function (data, textStatus, jqXHR) {
     					reloadDropDownUserList('#SPDealerMemberID', data);
     				},
-    				error: function (jqXHR, textStatus, errorThrown) {
+    				function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting SP Dealer Sales Rep list:' + errorThrown)
     				}
-    			});
+    			);
     		} else {
 				emptyDropDownList($('#SPDealerMemberID'));
     		}
@@ -501,18 +483,15 @@
 
     	function reloadSPPaoliSalesRepList() {
     		if ($('#SPPaoliRepGroupID option:selected').text() != '') {
-    			$.ajax({
-    				dataType: 'json',
-    				type: 'GET',
-    				url: '/User/GetPaoliSalesRepListForCompany',
-    				data: { companyId: $('#SPPaoliRepGroupID').val(), enabledOnly: true },
-    				success: function (data, textStatus, jqXHR) {
+    			makeAjaxCall('/User/GetPaoliSalesRepListForCompany',
+    				{ companyId: $('#SPPaoliRepGroupID').val(), enabledOnly: true },
+    				function (data, textStatus, jqXHR) {
     					reloadDropDownUserList('#SPPaoliRepGroupMemberID', data);
     				},
-    				error: function (jqXHR, textStatus, errorThrown) {
+    				function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting SP Paoli Sales Rep list:' + errorThrown)
     				}
-    			});
+    			);
     		} else {
     			emptyDropDownList($('#SPPaoliRepGroupMemberID'));
     		}

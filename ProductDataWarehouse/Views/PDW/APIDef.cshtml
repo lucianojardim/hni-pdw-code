@@ -24,21 +24,17 @@
         $('#resultsArea').html('');
         var theData = $.parseJSON($('#inputCall').val());
         console.log(theData);
-        $.ajax({
-            url: '' + $('#inputUrl option:selected').text() + '/?callback=?',
-            type: 'get',
-            data: theData,
-            dataType: 'json',
-            contentType: 'application/json',
-            success: function (response) {
+        makeAjaxCall('' + $('#inputUrl option:selected').text() + '/?callback=?',
+            theData,
+            function (response) {
                 $('#resultsArea').html(JSON.stringify(response));
             },
-            error: function (xhr, ajaxOptions, thrownError) {
+            function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr);
                 console.log(ajaxOptions);
                 alert(thrownError);
             }
-        });
+        );
         
     }
 

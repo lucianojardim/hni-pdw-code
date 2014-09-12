@@ -7,13 +7,9 @@
 
 <script type="text/javascript">
 	$(document).ready(function () {
-		$.ajax({
-			url: '@Url.Action( "UserHomePageList", "SpecRequest" )',
-			type: 'GET',
-			data: { itemCount: 3 },
-			contentType: 'application/json',
-			dataType: 'json',
-			success: function (data) {
+		makeAjaxCall('@Url.Action( "UserHomePageList", "SpecRequest" )',
+			{ itemCount: 3 },
+			function (data) {
 				$(data).each(function (i, item) {
 					var s = '<p class="sideListItem" data-id="' + item.RequestID + '" data-canedit="' + (!item.IsCanceled && !item.IsCompleted) + '"><span>';
 					if (item.IsCanceled) {
@@ -64,15 +60,11 @@
 					}
 				});
 			}
-		});
+		);
 
-		$.ajax({
-			url: '@Url.Action( "UserHomePageList", "Collateral" )',
-			type: 'GET',
-			data: { itemCount: 3 },
-			contentType: 'application/json',
-			dataType: 'json',
-			success: function (data) {
+		makeAjaxCall('@Url.Action( "UserHomePageList", "Collateral" )',
+			{ itemCount: 3 },
+			function (data) {
 				$(data).each(function (i, item) {
 					var s = '<p class="sideListItem" data-id="' + item.OrderID + '" data-canedit="' + item.CanEdit + '"><span>';
 					s += item.Status;
@@ -119,7 +111,7 @@
 					}
 				});
 			}
-		});
+		);
 	});
 
 </script>

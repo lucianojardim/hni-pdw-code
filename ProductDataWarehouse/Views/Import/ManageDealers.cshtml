@@ -45,18 +45,15 @@
 
 	function deleteDealer(dID) {
 		if (confirm('Delete Dealer? ')) {
-			$.ajax({
-				dataType: 'json',
-				type: 'GET',
-				url: '/Import/DeleteDealer',
-				data: { id: dID },
-				success: function (data, textStatus, jqXHR) {
+			makeAjaxCall('/Import/DeleteDealer',
+				{ id: dID },
+				function (data, textStatus, jqXHR) {
 					loadDealers();
 				},
-				error: function (jqXHR, textStatus, errorThrown) {
+				function (jqXHR, textStatus, errorThrown) {
 					alert('Error deleting Dealer:' + errorThrown) 
 				}
-			});
+			);
 		}
 	}
 
@@ -79,12 +76,9 @@
 			},
 			"iDisplayLength": 10,
 			"fnServerData": function (sSource, aoData, fnCallback) {
-				$.ajax({
-					dataType: 'json',
-					type: "POST",
-					url: sSource,
-					data: aoData,
-					success: function (data, textStatus, jqXHR) {
+				makeAjaxCall(sSource,
+					aoData,
+					function (data, textStatus, jqXHR) {
 						fnCallback(data, textStatus, jqXHR);
 						$('.fbImageBtn').fancybox({
 							'autoDimensions': false,
@@ -97,8 +91,8 @@
 							'type': 'iframe'
 						});
 					},
-					error: function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Dealers:' + errorThrown) }
-				})
+					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Dealers:' + errorThrown) }
+				);
 			},
 			"bProcessing": false, // don't want to use the default progress indicator at this time
 			"aaSorting": [[0, "asc"]],
@@ -113,7 +107,7 @@
                     	"fnRender": function (oObj) {
                     		var s;
                     		s = '<a href=\"@Url.Action( "EditDealer", "Import" )/' + oObj.aData["DealerID"] + '/?iframe\" class="fbImageBtn">Edit</a>';
-							s += '&nbsp;|&nbsp;';
+                    		s += '&nbsp;|&nbsp;';
                     		s += '<a href=\"#\" onclick="deleteDealer(' + oObj.aData["DealerID"] + ');">Delete</a>';
                     		return s;
                     	}

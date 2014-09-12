@@ -27,37 +27,31 @@ Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.C
 
 	function resetPassword(dID) {
 		if (confirm('Reset Password for User?')) {
-			$.ajax({
-				dataType: 'json',
-				type: 'GET',
-				url: '/User/ResetPassword',
-				data: { id: dID },
-				success: function (data, textStatus, jqXHR) {
+			makeAjaxCall('/User/ResetPassword',
+				{ id: dID },
+				function (data, textStatus, jqXHR) {
 					alert('The password for this user has been reset.');
 					loadUsers();
 				},
-				error: function (jqXHR, textStatus, errorThrown) {
+				function (jqXHR, textStatus, errorThrown) {
 					alert('Error resetting password for User:' + errorThrown)
 				}
-			});
+			);
 		}
 	}
 
 	function sendWelcomeEmail(dID) {
 		if (confirm('Send Welcome Email for User?')) {
-			$.ajax({
-				dataType: 'json',
-				type: 'GET',
-				url: '/User/SendWelcomeEmail',
-				data: { id: dID },
-				success: function (data, textStatus, jqXHR) {
+			makeAjaxCall('/User/SendWelcomeEmail',
+				{ id: dID },
+				function (data, textStatus, jqXHR) {
 					alert('A welcome email has been sent to this user.');
 					loadUsers();
 				},
-				error: function (jqXHR, textStatus, errorThrown) {
+				function (jqXHR, textStatus, errorThrown) {
 					alert('Error send welcome email to User:' + errorThrown)
 				}
-			});
+			);
 		}
 	}
 
@@ -82,16 +76,13 @@ Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.C
 			},
 			"iDisplayLength": 100,
 			"fnServerData": function (sSource, aoData, fnCallback) {
-				$.ajax({
-					dataType: 'json',
-					type: "POST",
-					url: sSource,
-					data: aoData,
-					success: function (data, textStatus, jqXHR) {
+				makeAjaxCall(sSource,
+					aoData,
+					function (data, textStatus, jqXHR) {
 						fnCallback(data, textStatus, jqXHR);
 					},
-					error: function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Users:' + errorThrown) }
-				})
+					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Users:' + errorThrown) }
+				);
 			},
 			"bProcessing": false, // don't want to use the default progress indicator at this time
 			"aaSorting": [[1, "asc"]],
@@ -128,7 +119,7 @@ Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.C
                     	"fnRender": function (oObj) {
                     		return getDateTimeFromMilliseconds(oObj.aData["LastLoginMilliseconds"]);
                     	}, "sWidth": "10%"
-                    },					
+                    },
                     { "sName": "EditButtons",
                     	"aTargets": [5],
                     	"bSearchable": false,
