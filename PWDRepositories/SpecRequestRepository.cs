@@ -657,6 +657,12 @@ namespace PWDRepositories
 						}
 					}
 
+					if( newSpec.IsGSA ?? false )
+					{
+						( new NewSpecRequestEmailSender( "NewSpecRequestGSA" ) ).SubmitNewRequestEmail( "gsa@paoli.com",
+							ToEmailSpecRequestSummary( newSpec, new EmailSender.EmailTarget() { EmailAddress = "gsa@paoli.com", FirstName = "" } ) );
+					}
+
 					return true;
 				}
 			}
@@ -673,7 +679,8 @@ namespace PWDRepositories
 				firstName = target.FirstName,
 				companyName = request.EndCustomer,
 				projectName = request.ProjectName,
-				scopeDescription = request.ProjectSize
+				scopeDescription = request.ProjectSize,
+				createdBy = request.CreatedByUserName
 			};
 
 			Territory dsrTerritory = null;
@@ -701,6 +708,20 @@ namespace PWDRepositories
 			{
 				summary.placingNameAndCompany = string.Format( "{0}", request.PaoliSalesRepGroup.Name );
 				dsrTerritory = request.PaoliSalesRepGroup.Territory;
+			}
+
+			if( request.DealerSalesRepID.HasValue )
+			{
+				summary.dealerPOCName = request.DealerSalesRep.FullName;
+			}
+			else if( ( request.DealerPOCText ?? "" ).Any() )
+			{
+				summary.dealerPOCName = request.DealerPOCText;
+			}
+
+			if( request.PaoliSalesRepMemberID.HasValue )
+			{
+				summary.salesRepName = request.PaoliSalesRepMember.FullName;
 			}
 
 			if( dsrTerritory != null )
