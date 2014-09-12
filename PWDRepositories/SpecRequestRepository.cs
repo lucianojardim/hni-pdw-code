@@ -299,6 +299,10 @@ namespace PWDRepositories
 				requestList = requestList.Where( i => i.NeedAuditSpecs && !i.NeedFloorplanSpecs &&
 					!i.NeedPhotoRendering && !i.Need2DDrawing && !i.NeedValueEng );
 			}
+			if( paramDetails.showGSAOnly )
+			{
+				requestList = requestList.Where( i => i.IsGSA ?? false );
+			}
 			if( paramDetails.companyId.HasValue )
 			{
 				requestList = requestList.Where( s => s.PrimaryCompanyID == paramDetails.companyId.Value || s.PaoliSalesRepGroupID == paramDetails.companyId.Value );

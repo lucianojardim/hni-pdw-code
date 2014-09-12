@@ -12,5 +12,6 @@ namespace PDWInfrastructure
 		public bool notYetAssigned { get; set; }
 		public bool auditSpecOnly { get; set; }
 		public int? companyId { get; set; }
+		public bool showGSAOnly { get; set; }
 	}
 }

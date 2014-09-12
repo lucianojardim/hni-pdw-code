@@ -12,6 +12,7 @@
 @Html.CheckBox( "RecommendedOnly" )Show Only Recommended Spec Requests<br />
 @Html.CheckBox( "NotYetAssigned" )Not Yet Assigned<br />
 @Html.CheckBox( "AuditSpecOnly" )Spec Audit Checks<br />
+@Html.CheckBox( "GSAOnly" )Show GSA Only<br />
 <div>
     <table id="specRequestList">
     <thead></thead>
@@ -25,6 +26,7 @@
 		$('#RecommendedOnly').click(loadSpecRequests);
 		$('#NotYetAssigned').click(loadSpecRequests);
 		$('#AuditSpecOnly').click(loadSpecRequests);
+		$('#GSAOnly').click(loadSpecRequests);
 
 		loadSpecRequests();
 	});
@@ -49,6 +51,7 @@
 				aoData.push({ "name": "recommendedOnly", "value": $('#RecommendedOnly:checked').length > 0 });
 				aoData.push({ "name": "notYetAssigned", "value": $('#NotYetAssigned:checked').length > 0 });
 				aoData.push({ "name": "auditSpecOnly", "value": $('#AuditSpecOnly:checked').length > 0 });
+				aoData.push({ "name": "showGSAOnly", "value": $('#GSAOnly:checked').length > 0 });
 			},
 			"iDisplayLength": 100,
 			"oLanguage": {
