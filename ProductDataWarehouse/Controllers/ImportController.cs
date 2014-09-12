@@ -34,6 +34,13 @@ namespace ProductDataWarehouse.Controllers
 			return RedirectToAction( "Index", "Home" );
 		}
 
+		public JsonResult KeepAlive()
+		{
+			return Json( new {
+				success = true
+			}, JsonRequestBehavior.AllowGet );
+		}
+
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Logon( string userName, string password, string ReturnUrl )

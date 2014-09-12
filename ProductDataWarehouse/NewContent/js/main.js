@@ -51,6 +51,12 @@ function getDateTimeFromMilliseconds(datetime) {
 			((cDate.getHours() >= 12) ? ' p.m.' : ' a.m.');
 }
 
+function getIntervalFromMilliseconds(interval) {
+	var minutes = Math.round(((interval / 1000) / 60) - 0.5);
+	var seconds = Math.round(((interval / 1000) % 60) - 0.5);
+	return minutes + ':' + ((seconds <= 9) ? '0' : '') + seconds;
+}
+
 $(document).ready(function () {
 	$.ajaxSetup({
 		// Disable caching of AJAX responses
@@ -104,6 +110,9 @@ function makeAjaxCall(url, inputData, success, error) {
 		url: url,
 		data: inputData,
 		success: function (data, textStatus, jqXHR) {
+			if (resetSessionEnd != null) {
+				resetSessionEnd();
+			}
 			if (success != null) {
 				success(data, textStatus, jqXHR);
 			}

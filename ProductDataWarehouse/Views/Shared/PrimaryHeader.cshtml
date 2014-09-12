@@ -10,3 +10,68 @@
 		 }
                           </div>  
                     </div>
+
+					@if( HttpContext.Current.User.Identity.IsAuthenticated )
+	 {
+					<script type="text/javascript">
+						var bShowing = false;
+						var sessionEnd = null;
+						function resetSessionEnd() {
+							sessionEnd = new Date(Date.now() + @FormsAuthentication.Timeout.TotalMilliseconds);
+							console.log('sessionEnd: ' + sessionEnd);
+						}
+
+						$(document).ready(function () {
+							$("#sessionTimeoutWarningLink").fancybox({
+								'autoDimensions': true,
+								'padding': 20,
+								'margin': 0,
+								'scrolling': 'auto',
+								'titleShow': false,
+								'type': 'inline',
+								'hideOnOverlayClick': false,
+								'showCloseButton': false,
+								'onClosed': function() {
+									bShowing = false;
+								},
+								'onComplete': function() {
+									bShowing = true;
+								}
+							});
+
+							$('#sessionTimeoutWarningOK').click(function(e) {
+								makeAjaxCall('@Url.Action( "KeepAlive", "Import" )', null, 
+									resetSessionEnd, null);
+								$.fancybox.close();
+							});
+
+							resetSessionEnd();
+
+							setInterval(function() {
+								if( Date.now() > sessionEnd ) {
+									window.location.href = '@Url.Action( "Logout", "Import" )';
+									return;
+								} else if( Date.now() + (5 * 60 * 1000) > sessionEnd ) {
+									$('#sessionTimeoutWarning span').html(getIntervalFromMilliseconds(sessionEnd - Date.now()));
+									if( $('#fancybox-content:visible').length == 0 ) {
+										// only if fancybox not already showing
+										if( !bShowing ) {
+											// ...and we are not already showing the warning message
+											$('#sessionTimeoutWarningLink').trigger('click');
+										}
+									}
+								} else if ( bShowing ) {
+									$.fancybox.close();
+								}
+							}, 1000);
+						});
+					</script>
+	 }
+	 
+	 <div style="display:none;">
+	 <a href="#sessionTimeoutWarning" id="sessionTimeoutWarningLink"></a>
+		<div id="sessionTimeoutWarning" style="text-align:center; color: #000;">
+			Your session will end in <span></span>.<br />Press OK to continue working.<br /><br />
+			<input type="button" class="btn_type1" value="OK" id="sessionTimeoutWarningOK" />
+		</div>
+	 </div>
