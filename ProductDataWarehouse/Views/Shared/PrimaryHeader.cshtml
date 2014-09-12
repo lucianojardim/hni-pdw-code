@@ -18,7 +18,6 @@
 						var sessionEnd = null;
 						function resetSessionEnd() {
 							sessionEnd = new Date(Date.now() + @FormsAuthentication.Timeout.TotalMilliseconds);
-							console.log('sessionEnd: ' + sessionEnd);
 						}
 
 						$(document).ready(function () {
