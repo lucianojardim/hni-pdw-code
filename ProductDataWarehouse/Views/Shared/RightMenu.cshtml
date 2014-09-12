@@ -74,6 +74,13 @@
 	{
                             <li><a href="@Url.Action( "ViewOrders", "Collateral" )">Collateral Store</a></li>
 	}
+                            <li><a href="http://www.paoliconnect.com">eOrder</a></li>
+	@if( CurrentUser.CanManageECollateral )
+ {
+                            <li><a href="@Url.Action( "Manage", "ePublisher" )">ePublisher</a></li>
+ }
+                            <li><a href="http://www.paoliconnect.com">Order Status</a></li>
+                            <li><a href="http://www.paoliconnect.com">Smart Quote</a></li>
 	   @if( CurrentUser.CanManageTypicals )
 	{
                             <li><a href="@Url.Action( "Manage", "SpecRequest" )">Specifications</a></li>
@@ -82,35 +89,10 @@
 	{
                             <li><a href="@Url.Action( "ViewAll", "SpecRequest" )">Specifications</a></li>
 	}
-	@if( CurrentUser.CanManageECollateral )
- {
-                            <li><a href="@Url.Action( "Manage", "ePublisher" )">ePublisher</a></li>
- }
-	@if( CurrentUser.CanSeeYouniversity )
- {
-                            <li><a href="https://my.paoli.com/documents/youniversity/training.html">YOUniversity</a></li>
- }
-                           @if( CurrentUser.CanSeeTheScoop )
-						   {
-                            <li><a href="@Url.Action( "ViewAllScoop", "Article" )">The Scoop</a></li>
-						   }
-                           @if( CurrentUser.IsPaoliUser )
-						   {
-                            <li><a href="@Url.Action( "ViewAllInternal", "Article" )">Paoli News</a></li>
-						   }
-                           @if( CurrentUser.CanSeeNewsUpdates )
-						   {
-                            <li><a href="@Url.Action( "ViewAllNewsAndUpdates", "Article" )">News and Updates</a></li>
-						   }
-                           @if( CurrentUser.IsPaoliUser )
-						   {
-                            <li><a href="@Url.Action( "Index", "Report" )">Reports</a></li>
-						   }
-                            <li><a href="http://www.paoliconnect.com">Paoli Connect</a></li>
-</ul>
+						</ul>
                     </li>
-	 }
-					@if( CurrentUser.HasAdminLink && !CurrentUser.HasTempPassword )
+
+					if( CurrentUser.HasAdminLink )
 	 {
                     <li><a href="#"><img src="/newcontent/images/admin.jpg" width="35" height="35" alt="img"/>Admin</a>
                         <ul>
@@ -138,9 +120,39 @@
 	{
                             <li><a href="@Url.Action( "SearchLog", "Import" )">Search Log</a></li>
 	}
+                           @if( CurrentUser.IsPaoliUser )
+						   {
+                            <li><a href="@Url.Action( "Index", "Report" )">Reports</a></li>
+						   }
                         </ul>
                     </li>
 	 }
+                    <li><a href="#"><img src="/newcontent/images/news-and-updates.jpg" width="35" height="35" alt="img"/>News & Updates</a>
+                        <ul>
+                           @if( CurrentUser.CanSeeTheScoop )
+						   {
+                            <li><a href="@Url.Action( "ViewAllScoop", "Article" )">The Scoop</a></li>
+						   }
+                           @if( CurrentUser.IsPaoliUser )
+						   {
+                            <li><a href="@Url.Action( "ViewAllInternal", "Article" )">Member News</a></li>
+						   }
+                           @if( CurrentUser.CanSeeNewsUpdates )
+						   {
+                            <li><a href="@Url.Action( "ViewAllNewsAndUpdates", "Article" )">Dealer Updates</a></li>
+						   }
+						</ul>
+					</li>
+	 }
+	@if( CurrentUser.CanSeeYouniversity )
+ {
+                    <li><a href="#"><img src="/newcontent/images/youniversity.jpg" width="35" height="35" alt="img"/>YOUniversity</a>
+                        <ul>
+                            <li><a href="https://my.paoli.com/documents/youniversity/training.html">Training</a></li>
+						</ul>
+					</li>
+ }
+	 
                 </ul>  
           </div>
            

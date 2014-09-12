@@ -519,6 +519,7 @@
     <Content Include="NewContent\images\mypaoli_index_smallright_temp.jpg" />
     <Content Include="NewContent\images\my_account.png" />
     <Content Include="NewContent\images\narrow-nav-icon.jpg" />
+    <Content Include="NewContent\images\news-and-updates.jpg" />
     <Content Include="NewContent\images\order_arrow.jpg" />
     <Content Include="NewContent\images\Paoli_BlueRGB.png" />
     <Content Include="NewContent\images\plus.jpg" />
@@ -538,6 +539,7 @@
     <Content Include="NewContent\images\tools.jpg" />
     <Content Include="NewContent\images\transparent.png" />
     <Content Include="NewContent\images\transparent_blue.png" />
+    <Content Include="NewContent\images\youniversity.jpg" />
     <Content Include="NewContent\images\zoom_icon.png" />
     <Content Include="NewContent\js\jquery-filestyle.js" />
     <Content Include="NewContent\js\jquery-ui-1.8.11.min.js" />
