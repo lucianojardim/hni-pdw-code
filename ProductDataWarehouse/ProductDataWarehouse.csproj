@@ -754,6 +754,8 @@
     <Content Include="Views\Report\Index.cshtml" />
     <Content Include="Views\SpecRequest\ReOpenRequest.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\MultilineDisplay.cshtml" />
+    <Content Include="Views\Import\ViewImage.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\StringListPerLine.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

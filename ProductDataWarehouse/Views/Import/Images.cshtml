@@ -92,6 +92,8 @@ Image Content: @Html.DropDownList( "ImageContent", ProductDataWarehouse.Controll
                     		s = '<a href=\"@Url.Action( "EditImage", "Import" )/' + oObj.aData["ImageID"] + '/?iframe\" class="fbImageBtn">Edit</a>&nbsp;|&nbsp;';
                     		if (!oObj.aData["HasReferences"]) {
                     			s += '<a href=\"@Url.Action( "DeleteImage", "Import" )/' + oObj.aData["ImageID"] + '\" onclick="return confirm( \'Delete Image? \' );">Delete</a>&nbsp;|&nbsp;';
+                    		} else {
+                    			s += '<a href=\"@Url.Action( "ViewImage", "Import" )/' + oObj.aData["ImageID"] + '\" class="fbImageBtn">Usage</a>&nbsp;|&nbsp;';
                     		}
                     		s += '<a href=\"@Url.Action( "UploadImage", "Import" )/' + oObj.aData["ImageID"] + '/?iframe\" class="fbImageBtn">Replace Image</a>';
                     		return s;

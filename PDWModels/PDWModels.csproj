@@ -91,6 +91,7 @@
     <Compile Include="Images\ImageThumbnailGallery.cs" />
     <Compile Include="Images\ImageInformation.cs" />
     <Compile Include="Images\ImageSummary.cs" />
+    <Compile Include="Images\ImageUsage.cs" />
     <Compile Include="Images\PubImageDetail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Publications\PublicationComboItem.cs" />

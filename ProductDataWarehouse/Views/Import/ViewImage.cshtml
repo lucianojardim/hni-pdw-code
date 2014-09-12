@@ -1,0 +1,22 @@
+﻿@using ProductDataWarehouse.Models
+
+@model PDWModels.Images.ImageUsage
+
+    <h2 class="mart0">View Image Usage</h2>
+
+	@if( Model.Serieses != null && Model.Serieses.Any() )
+ {
+    <span class="dataRow">@Html.MJLabelFor( m => m.Serieses, true )@Html.DisplayFor( m => m.Serieses, templateName: "StringListPerLine" )<br /></span>
+ }
+	@if( Model.Serieses != null && Model.Typicals.Any() )
+ {
+    <span class="dataRow">@Html.MJLabelFor( m => m.Typicals, true )@Html.DisplayFor( m => m.Typicals, templateName: "StringListPerLine" )<br /></span>
+ }
+	@if( Model.Serieses != null && Model.Showrooms.Any() )
+ {
+    <span class="dataRow">@Html.MJLabelFor( m => m.Showrooms, true )@Html.DisplayFor( m => m.Showrooms, templateName: "StringListPerLine" )<br /></span>
+ }
+	@if( Model.Serieses != null && Model.ECollateral.Any() )
+ {
+    <span class="dataRow">@Html.MJLabelFor( m => m.ECollateral, true )@Html.DisplayFor( m => m.ECollateral, templateName: "StringListPerLine" )<br /></span>
+ }

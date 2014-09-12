@@ -601,6 +601,24 @@ namespace PWDRepositories
 			return null;
 		}
 
+		public ImageUsage GetImageUsage( int id )
+		{
+			var img = database.ImageFiles.FirstOrDefault( i => i.ImageID == id );
+
+			if( img != null )
+			{
+				return new ImageUsage()
+				{
+					Serieses = img.SeriesImageFiles.Select( s => s.Series.Name ),
+					Typicals = img.TypicalImageFiles.Select( t => t.Typical.Name ),
+					Showrooms = img.Showrooms.Select( s => s.Name ),
+					ECollateral = img.eCollateralSections.Select( e => e.eCollateralItem.FileName )
+				};
+			}
+
+			return new ImageUsage();
+		}
+
 		private void ResizeImage( string fileName, Image fullSizeImg, int widthRatio, int heightRatio, int maxWidth, int maxHeight, string cropLocation )
 		{
 			int height = fullSizeImg.Height, width = fullSizeImg.Width;

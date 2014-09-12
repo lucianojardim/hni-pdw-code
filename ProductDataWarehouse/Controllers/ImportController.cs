@@ -373,6 +373,15 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanManageImages" )]
 		[TempPasswordCheck]
+		public ActionResult ViewImage( int id )
+		{
+			ImageRepository iRepo = new ImageRepository();
+
+			return View( iRepo.GetImageUsage( id ) );
+		}
+
+		[PaoliAuthorize( "CanManageImages" )]
+		[TempPasswordCheck]
 		public ActionResult EditImage( int id )
 		{
 			ImageRepository iRepo = new ImageRepository();
