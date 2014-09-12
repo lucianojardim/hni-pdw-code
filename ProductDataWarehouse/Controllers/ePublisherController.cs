@@ -170,9 +170,10 @@ namespace ProductDataWarehouse.Controllers
 				{
 					ECollateralRepository eRepository = new ECollateralRepository();
 
-					eRepository.SetItemSections( dInfo, PaoliWebUser.CurrentUser.UserId );
+					bool bNeedVerify;
+					eRepository.SetItemSections( dInfo, PaoliWebUser.CurrentUser.UserId, out bNeedVerify );
 
-					return RedirectToAction( "VerifyLayout", new { id = dInfo.ItemID } );
+					return RedirectToAction( bNeedVerify ? "VerifyLayout" : "ViewLayout", new { id = dInfo.ItemID } );
 				}
 				catch( Exception ex )
 				{

@@ -429,8 +429,10 @@ namespace PWDRepositories
 			throw new Exception( "Unable to find eCollateral" );
 		}
 
-		public bool SetItemSections( ECollateralDetails sectionInfo, int userId )
+		public bool SetItemSections( ECollateralDetails sectionInfo, int userId, out bool bNeedVerify )
 		{
+			bNeedVerify = false;
+
 			var dbItem = database.eCollateralItems.FirstOrDefault( i => i.ItemID == sectionInfo.ItemID );
 			if( dbItem != null )
 			{
@@ -463,6 +465,12 @@ namespace PWDRepositories
 						database.DeleteObject( dbSection );
 					}
 
+				}
+
+				bNeedVerify = ((dbItem.Status == StatusTypes.Incomplete) || (dbItem.Status == StatusTypes.Unapproved));
+				if( dbItem.Status == StatusTypes.Approved && !dbItem.IsTemplate )
+				{
+					dbItem.Status = StatusTypes.New;
 				}
 
 				return database.SaveChanges() > 0;
