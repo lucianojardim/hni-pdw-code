@@ -79,6 +79,10 @@
  {
                             <li><a href="@Url.Action( "Manage", "ePublisher" )">ePublisher</a></li>
  }
+ @if( CurrentUser.CanViewLeadTimes )
+ {
+	 <li><a href="@Url.Action( "LeadTimes", "Home" )">Lead Times</a></li>
+ }
                             <li><a href="http://www.paoliconnect.com">Order Status</a></li>
                             <li><a href="http://www.paoliconnect.com">Smart Quote</a></li>
 	   @if( CurrentUser.CanManageTypicals )

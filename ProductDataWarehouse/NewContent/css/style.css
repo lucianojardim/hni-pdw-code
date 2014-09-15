@@ -342,10 +342,17 @@ span.btn11                                 { padding:6px 15px; color:#FFFFFF; cu
 .main_inner11_btm                          { width:932px; margin:0 auto; padding:28px 18px 27px 22px; background:#f7f9f9;}
 .main_inner11_msg                       { display:block;}
 .main_inner11_msg h4                       { color:#454545; font-size:14px; font-family: 'Conv_Helvetica-Bold'; padding-bottom:5px;}
+.main_inner11_msg h5                    { font-size:14px; color:#454545; font-family: Helvetica, Arial, sans-serif; padding-top:6px;}
 .main_inner11_msg ul                        { margin:0; list-style:none}
 .main_inner11_msg ul li                     { display:block; width:100%; padding-bottom:24px; float:left;}
 .main_inner11_msg ul li p             { font-size:10px; color:#454545; font-family:Helvetica, Arial, sans-serif;}
 .main_inner11_msg .msg                   { width:433px; min-height:108px; background:#FFF; padding:6px; resize:none; border:1px solid #eaeaea;}
+.main_inner11_btm ul li .box2              { width:100%; float:left; display:block;}
+.main_inner11_btm ul li .box2  input[type="text"] { width:178px; border:1px solid #eaeaea; padding:6px; vertical-align:middle; display:inline-block; height:12px;  font-size:14px; color:#454545; font-family: Helvetica, Arial, sans-serif;}
+.main_inner11_btm ul li .box2 label        { width:251px; float:left; display:block; font-size:14px; color:#454545; font-family: Helvetica, Arial, sans-serif; padding-top:6px;}
+.main_inner11_btm ul li .box2 .colmn1      { width:195px; float:left; display:block}
+.main_inner11_btm ul li .box2 .colmn2      { width:251px; float:left; display:block; font-size:14px; color:#454545; font-family:  Helvetica, Arial, sans-serif; padding-top:6px; padding-left:40px;}
+.main_inner11_btm ul li .box2 select {width:192px !important; border:1px solid #eaeaea !important; height:35px !important; padding-left:5px; padding-right:8px; position:relative; top:0px;}
 
 /*----------------------------inner8-------------*/
 
@@ -520,6 +527,22 @@ hr { border:0; width:100%; background-color:#eaeaea; color:#eaeaea; height:1px; 
 .main_inner1 .main_inner10_cont .main_inner10_cont_mid ul li .coln2 h5 a    { color: #454545;}
 
 .btnAlt { width:932px; margin:0 auto; padding:28px 18px 27px 22px; background:#f7f9f9; }
+
+.LdTm_PromoBox               { width:270px;  float:left; display:block; background:#f7f9f9; -moz-box-shadow:3px 3px 3px 0  #a8aaad; -webkit-box-shadow:3px 3px 3px 0  #a8aaad; box-shadow:3px 3px 3px 0  #a8aaafffd; position:relative; z-index:1; padding:20px;}
+.LdTm_PromoHeadline { font-family: "HelveticaNeue-Light","Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif; color:#454545; font-size: 22px;}
+.LdTm_PromoText {font-family: "HelveticaNeue-Light","Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif; color:#454545; font-size: 14px; padding-top: 10px; line-height:150%;}
+.LdTm_Contact_Left { width:55px; padding-right:15px; float:left; }
+.LdTm_Contact_Left, .LdTm_Contact_Right {padding-top: 15px;}
+.LdTm_Contact_Right .LdTm_Contact_Name { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color:#454545; font-size: 14px; font-weight:bold;}
+.LdTm_Contact_Right .LdTm_Contact_Info { font-family: "HelveticaNeue-Light","Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif; color:#454545; font-size: 11px; padding-top:3px;}
+.LdTm_Contact_Right .LdTm_Contact_Info a { color: #367ca8;}
+.LdTm_Main_Left, LdTm_Main_Right {width:50%; float:left;}
+.LdTm_Main_Left {padding: 20px 10px 0 20px;}
+.LdTm_Main_Right {padding: 20px 20px 0 10px;}
+.LdTm_Main_Left table, .LdTm_Main_Right table {width:270px;margin-bottom:25px;}
+.LdTm_Main_Left th, .LdTm_Main_Right th {width:50%; border-bottom:#dadada solid 1px; font-family:"HelveticaNeue-Light","Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif; color:#454545; font-size: 18px; padding-bottom:12px;}
+.LdTm_Main_Left td, .LdTm_Main_Right td {font-family:"HelveticaNeue-Light","Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif; color:#454545; font-size: 12px; padding-top:15px;}
+
 /************************END COMPLETELY NEW ERIN STYLES************************/
 .btn_type1 {
     background-color: rgb(38, 63, 106);
@@ -532,3 +555,4 @@ hr { border:0; width:100%; background-color:#eaeaea; color:#eaeaea; height:1px; 
     padding: 6px 9px;
     font-weight: bold;
 }
+a.btn_type2                                  { padding:6px 7px; color:#FFFFFF; cursor:pointer;  font-family: Helvetica, Arial, sans-serif; font-size:12px; color:#FFFFFF; background:#263f6a; -moz-box-shadow:2px 2px 2px 0px #cbcdcd; -webkit-box-shadow:2px 2px 2px 0px #cbcdcd; box-shadow:2px 2px 2px 0px #cbcdcd; position:relative; z-index:1; border:none; display:inline-block; margin-top:8px;} 

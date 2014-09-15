@@ -285,6 +285,9 @@ namespace PDWInfrastructure
 
 		public bool CanViewReports { get { return IsPaoliUser; } }
 
+		public bool CanViewLeadTimes { get { return CanBeLoggedIn; } }
+		public bool CanManageLeadTimes { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin ); } }
+
 		public string ProductsHomePage
 		{
 			get
@@ -322,5 +325,6 @@ namespace PDWInfrastructure
 				return "";
 			}
 		}
+
 	}
 }

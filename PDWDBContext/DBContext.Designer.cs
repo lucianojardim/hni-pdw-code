@@ -94,6 +94,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "fkeCSection_Image", "ImageFile", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.ImageFile), "eCollateralSection", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.eCollateralSection), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "FK_Events_SpecRequests", "SpecRequest", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.SpecRequest), "SpecRequestEvent", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequestEvent), true)]
 [assembly: EdmRelationshipAttribute("PaoliPDWModel", "FK_Events_Users", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PDWDBContext.User), "SpecRequestEvent", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.SpecRequestEvent), true)]
+[assembly: EdmRelationshipAttribute("PaoliPDWModel", "FK_LeadTimeDetail_User", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PDWDBContext.User), "LeadTimeDetail", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PDWDBContext.LeadTimeDetail), true)]
 
 #endregion
 
@@ -880,6 +881,22 @@ namespace PDWDBContext
             }
         }
         private ObjectSet<SpecRequestEvent> _SpecRequestEvents;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<LeadTimeDetail> LeadTimeDetails
+        {
+            get
+            {
+                if ((_LeadTimeDetails == null))
+                {
+                    _LeadTimeDetails = base.CreateObjectSet<LeadTimeDetail>("LeadTimeDetails");
+                }
+                return _LeadTimeDetails;
+            }
+        }
+        private ObjectSet<LeadTimeDetail> _LeadTimeDetails;
 
         #endregion
 
@@ -1251,6 +1268,14 @@ namespace PDWDBContext
         public void AddToSpecRequestEvents(SpecRequestEvent specRequestEvent)
         {
             base.AddObject("SpecRequestEvents", specRequestEvent);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the LeadTimeDetails EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToLeadTimeDetails(LeadTimeDetail leadTimeDetail)
+        {
+            base.AddObject("LeadTimeDetails", leadTimeDetail);
         }
 
         #endregion
@@ -8701,6 +8726,225 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<eCollateralSection>("PaoliPDWModel.fkeCSection_Image", "eCollateralSection", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PaoliPDWModel", Name="LeadTimeDetail")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class LeadTimeDetail : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new LeadTimeDetail object.
+        /// </summary>
+        /// <param name="leadTimeID">Initial value of the LeadTimeID property.</param>
+        public static LeadTimeDetail CreateLeadTimeDetail(global::System.Int32 leadTimeID)
+        {
+            LeadTimeDetail leadTimeDetail = new LeadTimeDetail();
+            leadTimeDetail.LeadTimeID = leadTimeID;
+            return leadTimeDetail;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 LeadTimeID
+        {
+            get
+            {
+                return _LeadTimeID;
+            }
+            set
+            {
+                if (_LeadTimeID != value)
+                {
+                    OnLeadTimeIDChanging(value);
+                    ReportPropertyChanging("LeadTimeID");
+                    _LeadTimeID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("LeadTimeID");
+                    OnLeadTimeIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _LeadTimeID;
+        partial void OnLeadTimeIDChanging(global::System.Int32 value);
+        partial void OnLeadTimeIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Headline
+        {
+            get
+            {
+                return _Headline;
+            }
+            set
+            {
+                OnHeadlineChanging(value);
+                ReportPropertyChanging("Headline");
+                _Headline = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Headline");
+                OnHeadlineChanged();
+            }
+        }
+        private global::System.String _Headline;
+        partial void OnHeadlineChanging(global::System.String value);
+        partial void OnHeadlineChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String PromoText
+        {
+            get
+            {
+                return _PromoText;
+            }
+            set
+            {
+                OnPromoTextChanging(value);
+                ReportPropertyChanging("PromoText");
+                _PromoText = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("PromoText");
+                OnPromoTextChanged();
+            }
+        }
+        private global::System.String _PromoText;
+        partial void OnPromoTextChanging(global::System.String value);
+        partial void OnPromoTextChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> UserID
+        {
+            get
+            {
+                return _UserID;
+            }
+            set
+            {
+                OnUserIDChanging(value);
+                ReportPropertyChanging("UserID");
+                _UserID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("UserID");
+                OnUserIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _UserID;
+        partial void OnUserIDChanging(Nullable<global::System.Int32> value);
+        partial void OnUserIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String LeftSide
+        {
+            get
+            {
+                return _LeftSide;
+            }
+            set
+            {
+                OnLeftSideChanging(value);
+                ReportPropertyChanging("LeftSide");
+                _LeftSide = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("LeftSide");
+                OnLeftSideChanged();
+            }
+        }
+        private global::System.String _LeftSide;
+        partial void OnLeftSideChanging(global::System.String value);
+        partial void OnLeftSideChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String RightSide
+        {
+            get
+            {
+                return _RightSide;
+            }
+            set
+            {
+                OnRightSideChanging(value);
+                ReportPropertyChanging("RightSide");
+                _RightSide = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("RightSide");
+                OnRightSideChanged();
+            }
+        }
+        private global::System.String _RightSide;
+        partial void OnRightSideChanging(global::System.String value);
+        partial void OnRightSideChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "FK_LeadTimeDetail_User", "User")]
+        public User User
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.FK_LeadTimeDetail_User", "User").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.FK_LeadTimeDetail_User", "User").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<User> UserReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("PaoliPDWModel.FK_LeadTimeDetail_User", "User");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("PaoliPDWModel.FK_LeadTimeDetail_User", "User", value);
                 }
             }
         }
@@ -16840,6 +17084,28 @@ namespace PDWDBContext
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SpecRequestEvent>("PaoliPDWModel.FK_Events_Users", "SpecRequestEvent", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PaoliPDWModel", "FK_LeadTimeDetail_User", "LeadTimeDetail")]
+        public EntityCollection<LeadTimeDetail> LeadTimeDetails
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<LeadTimeDetail>("PaoliPDWModel.FK_LeadTimeDetail_User", "LeadTimeDetail");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<LeadTimeDetail>("PaoliPDWModel.FK_LeadTimeDetail_User", "LeadTimeDetail", value);
                 }
             }
         }

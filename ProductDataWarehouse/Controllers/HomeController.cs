@@ -8,6 +8,7 @@ using PWDRepositories;
 using PDWInfrastructure.Attributes;
 using PDWModels.Users;
 using PDWModels.Articles;
+using PDWModels.LeadTimes;
 
 namespace ProductDataWarehouse.Controllers
 {
@@ -66,5 +67,40 @@ namespace ProductDataWarehouse.Controllers
 			return "";
  		}
 
-    }
+		[PaoliAuthorize( "CanViewLeadTimes" )]
+		[TempPasswordCheck]
+		public ActionResult LeadTimes()
+		{
+			var iRepo = new ImportRepository();
+
+			return View( iRepo.GetLeadTimeSummary() );
+		}
+
+		[PaoliAuthorize( "CanManageLeadTimes" )]
+		[TempPasswordCheck]
+		public ActionResult EditLeadTimes()
+		{
+			var iRepo = new ImportRepository();
+
+			return View( iRepo.GetLeadTimeInformation() );
+		}
+
+		[PaoliAuthorize( "CanManageLeadTimes" )]
+		[TempPasswordCheck]
+		[ValidateInput( false )]
+		[HttpPost]
+		public ActionResult EditLeadTimes( LeadTimeInformation info )
+		{
+			if( ModelState.IsValid )
+			{
+				var iRepo = new ImportRepository();
+
+				iRepo.UpdateLeadTimes( info );
+
+				return RedirectToAction( "LeadTimes" );
+			}
+
+			return View( info );
+		}
+	}
 }

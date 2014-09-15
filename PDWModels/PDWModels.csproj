@@ -93,6 +93,8 @@
     <Compile Include="Images\ImageSummary.cs" />
     <Compile Include="Images\ImageUsage.cs" />
     <Compile Include="Images\PubImageDetail.cs" />
+    <Compile Include="LeadTimes\LeadTimeInformation.cs" />
+    <Compile Include="LeadTimes\LeadTimeSummary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Publications\PublicationComboItem.cs" />
     <Compile Include="Publications\PublicationInformation.cs" />

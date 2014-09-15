@@ -11,6 +11,7 @@ using PDWModels.Images;
 using System.Diagnostics;
 using PDWModels;
 using System.Text.RegularExpressions;
+using PDWModels.LeadTimes;
 
 namespace PWDRepositories
 {
@@ -529,6 +530,63 @@ namespace PWDRepositories
 			{
 				database.HomePageContents.AddObject( new HomePageContent() { ContentData = content.ContentArea } );
 			}
+
+			return database.SaveChanges() > 0;
+		}
+
+		public LeadTimeSummary GetLeadTimeSummary()
+		{
+			var detail = database.LeadTimeDetails.FirstOrDefault();
+			if( detail != null )
+			{
+				return new LeadTimeSummary()
+				{
+					PromoHeadline = detail.Headline,
+					PromoText = detail.PromoText,
+					UserImage = detail.UserID.HasValue ? detail.User.ImageFileName : null,
+					UserName = detail.UserID.HasValue ? detail.User.FullName : null,
+					UserEmail = detail.UserID.HasValue ? detail.User.Email : null,
+					UserPhone = detail.UserID.HasValue ? detail.User.BusinessPhone : null,
+					LeftSide = detail.LeftSide,
+					RightSide = detail.RightSide
+				};
+			}
+
+			return null;
+		}
+
+		public LeadTimeInformation GetLeadTimeInformation()
+		{
+			var detail = database.LeadTimeDetails.FirstOrDefault();
+			if( detail != null )
+			{
+				return new LeadTimeInformation()
+				{
+					PromoHeadline = detail.Headline,
+					PromoText = detail.PromoText,
+					LeftSide = detail.LeftSide,
+					RightSide = detail.RightSide,
+					UserID = detail.UserID
+				};
+			}
+
+			return new LeadTimeInformation();
+		}
+
+		public bool UpdateLeadTimes( LeadTimeInformation info )
+		{
+			var detail = database.LeadTimeDetails.FirstOrDefault();
+			if( detail == null )
+			{
+				detail = new LeadTimeDetail();
+				database.LeadTimeDetails.AddObject( detail );
+			}
+
+			detail.PromoText = info.PromoText;
+			detail.Headline = info.PromoHeadline;
+			detail.LeftSide = info.LeftSide;
+			detail.RightSide = info.RightSide;
+			detail.UserID = info.UserID;
 
 			return database.SaveChanges() > 0;
 		}

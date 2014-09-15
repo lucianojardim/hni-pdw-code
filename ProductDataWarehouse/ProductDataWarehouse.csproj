@@ -510,6 +510,7 @@
     <Content Include="NewContent\images\headline_img01.jpg" />
     <Content Include="NewContent\images\image-browse-lg.png" />
     <Content Include="NewContent\images\image-browse-sm.png" />
+    <Content Include="NewContent\images\leadtimes.png" />
     <Content Include="NewContent\images\left-detail-sm.png" />
     <Content Include="NewContent\images\left-detail.png" />
     <Content Include="NewContent\images\logo.png" />
@@ -757,6 +758,8 @@
     <Content Include="Views\Shared\DisplayTemplates\MultilineDisplay.cshtml" />
     <Content Include="Views\Import\ViewImage.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\StringListPerLine.cshtml" />
+    <Content Include="Views\Home\LeadTimes.cshtml" />
+    <Content Include="Views\Home\EditLeadTimes.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
