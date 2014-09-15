@@ -17,6 +17,13 @@ namespace PDWInfrastructure.EmailSenders
 		{
 			public string FirstName { get; set; }
 			public string EmailAddress { get; set; }
+			public string TemplateName { get; set; }
+		}
+
+		public class FileDetail
+		{
+			public string fileName { get; set; }
+			public string filePath { get; set; }
 		}
 
 		protected delegate bool SubmitEmailFunction(

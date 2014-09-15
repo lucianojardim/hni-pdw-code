@@ -10,12 +10,6 @@ namespace PDWInfrastructure.EmailSenders
 	{
 		public class EmailCompleteSpecRequestSummary
 		{
-			public class FileDetail
-			{
-				public string fileName { get; set; }
-				public string filePath { get; set; }
-			}
-
 			public int requestId { get; set; }
 			public string requestName { get; set; }
 			public string specTeamMember { get; set; }

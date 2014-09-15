@@ -88,6 +88,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Email Templates\ChangeSpecRequestDealer.htm" />
+    <Content Include="Content\Email Templates\ChangeSpecRequestService.htm" />
+    <Content Include="Content\Email Templates\ChangeSpecRequestSpecTeam.htm" />
     <Content Include="Content\Email Templates\CompletedSpecRequest.htm" />
     <Content Include="Content\Email Templates\NewDealerUserAdded.htm" />
     <Content Include="Content\Email Templates\NewSpecRequestGSA.htm" />
