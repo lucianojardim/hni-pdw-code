@@ -110,7 +110,7 @@ function makeAjaxCall(url, inputData, success, error) {
 		url: url,
 		data: inputData,
 		success: function (data, textStatus, jqXHR) {
-			if (resetSessionEnd != null) {
+			if (typeof (resetSessionEnd) == 'function') {
 				resetSessionEnd();
 			}
 			if (success != null) {
