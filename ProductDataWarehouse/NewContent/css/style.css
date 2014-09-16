@@ -482,7 +482,7 @@ table.display td.center, table.display tr.gradeA,tr.odd.gradeC td.sorting_1, tr.
 table.display            { margin-bottom:12px !important; background:#f7f9f9; }
 table.display td           { padding: 13px 10px 3px 20px !important; color:#454545;  font-size:12px ; font-family: 'Conv_Helvetica-Light'; }
 .bg                  { background:#FFF}
-.radio				 { height:25px; width:19px; clear:left; float:left; margin:-4px 0 0px 0px; padding:0 0 0 0px;  background:url(../images/radio_new.jpg); background-repeat:no-repeat;  cursor:default;}
+.radio				 { height:25px; width:19px; clear:left; float:left; margin:-4px 0 0px 0px; padding:0 0 0 0px;  background:url(../images/radio_new.png); background-repeat:no-repeat;  cursor:default;}
 .radio input 		 { display:none;}
 .radio input.show 	 { display:inline; }
 .checkbox 			    { height:25px; width:19px; clear:left; float:left; margin:0px 0  14px -4px; padding:0 0 0 22px; background:url(../images/checkbox.png) no-repeat left top; background-repeat:no-repeat;  cursor:default; text-align:left; color:#4d4d4d; font-size:21px;font-family: 'Conv_Helvetica'; display:inline-block; line-height:16px;}
