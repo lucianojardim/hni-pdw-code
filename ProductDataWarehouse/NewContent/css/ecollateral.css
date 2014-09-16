@@ -723,7 +723,7 @@ form.form em i.notavailable:after {
 	margin:0 0 22px 0;
 	width:97%;
 }
-.addImageContGrid div.collboxes div.addimagebox {
+.addImageContGrid div.collboxes div.addimagebox, .addImageContGrid div.collboxes div.smalladimge {
 	float:left;
 	width:47.42%;
 }
