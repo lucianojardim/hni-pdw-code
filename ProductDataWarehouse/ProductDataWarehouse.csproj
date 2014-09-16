@@ -84,6 +84,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ECollateralVerifyAttribute.cs" />
+    <Compile Include="Models\HandleErrorAttribute.cs" />
     <Compile Include="Models\HtmlExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -539,6 +540,7 @@
     <Content Include="NewContent\images\search.jpg" />
     <Content Include="NewContent\images\select_arrow.jpg" />
     <Content Include="NewContent\images\select_arrowup.jpg" />
+    <Content Include="NewContent\images\ServerError.jpg" />
     <Content Include="NewContent\images\sprite.png" />
     <Content Include="NewContent\images\store_img.png" />
     <Content Include="NewContent\images\tools.jpg" />

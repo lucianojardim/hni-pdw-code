@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections.Specialized;
 
 namespace PDWInfrastructure.EmailSenders
 {
 	public class ErrorEmailSender : EmailSender
 	{
 		public bool SubmitErrorEmail(
-			Exception exp )
+			Exception exp,
+			string user,
+			string url, 
+			NameValueCollection formData )
 		{
 			try
 			{
@@ -24,6 +28,20 @@ namespace PDWInfrastructure.EmailSenders
 					}
 					template.Replace( "[{ExceptionList}]", excList );
 					template.Replace( "[{StackTraceList}]", exp.StackTrace.Replace( "\n", "<br/>" ) );
+					template.Replace( "[{VisitedURL}]", url );
+					template.Replace( "[{CurrentUser}]", user );
+
+					var formList = "";
+					foreach( var key in formData )
+					{
+						formList += string.Format( "<li>{0}: {1}</li>", key, string.Join( ", ", formData.GetValues( key.ToString() ) ) );
+					}
+					if( !formList.Any() )
+					{
+						formList = "None";
+					}
+
+					template.Replace( "[{FormDataList}]", formList );
 
 					return SubmitEmail( new List<string>() { "matt.james@wddsoftware.com" }, null, null, GetSubject( template ), template );
 				}

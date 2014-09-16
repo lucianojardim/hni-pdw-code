@@ -18,7 +18,7 @@ namespace ProductDataWarehouse
 	{
 		public static void RegisterGlobalFilters( GlobalFilterCollection filters )
 		{
-			filters.Add( new HandleErrorAttribute() );
+			filters.Add( new ProductDataWarehouse.Models.HandlePaoliErrorAttribute() );
 		}
 
 		public static void RegisterRoutes( RouteCollection routes )

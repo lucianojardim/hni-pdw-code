@@ -75,14 +75,8 @@ namespace ProductDataWarehouse.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult ForgotPassword( string fpEmailAddress )
 		{
-			try
-			{
-				ViewBag.EmailSent = ( new UserRepository().ResetUserPassword( fpEmailAddress ) );
-			}
-			catch
-			{
-				ModelState.AddModelError( "error", "Unable to reset password at this time." );
-			}
+			ViewBag.EmailSent = ( new UserRepository().ResetUserPassword( fpEmailAddress ) );
+
 			return View();
 		}
 
@@ -104,8 +98,6 @@ namespace ProductDataWarehouse.Controllers
 			{
 				if( csvFile != null )
 				{
-					try
-					{
 						ImportRepository iRepo = new ImportRepository();
 
 						iRepo.ImportFileData( csvFile.InputStream, csvFile.ContentLength );
@@ -113,15 +105,6 @@ namespace ProductDataWarehouse.Controllers
 						ViewBag.ImportSuccess = true;
 
 						return View();
-					}
-					catch( Exception ex )
-					{
-						ModelState.AddModelError( "", ex.Message );
-						if( ex.InnerException != null )
-						{
-							ModelState.AddModelError( "", ex.InnerException.Message );
-						}
-					}
 				}
 				else
 				{
@@ -150,22 +133,11 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					ImportRepository iRepo = new ImportRepository();
 
 					iRepo.UpsertHomePageContent( content );
 
 					return RedirectToAction( "Index", "Home" );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
 			}
 
 			return View();
@@ -349,8 +321,6 @@ namespace ProductDataWarehouse.Controllers
 
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					ImageRepository iRepo = new ImageRepository();
 
 					iRepo.ImportImageFileData( imgInfo, imageFile.InputStream, imageFile.ContentLength, imageFile.FileName, imageFile.ContentType );
@@ -358,15 +328,6 @@ namespace ProductDataWarehouse.Controllers
 					ViewBag.CloseFancyBox = true;
 
 					return View();
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
 			}
 			return View();
 		}
@@ -530,8 +491,6 @@ namespace ProductDataWarehouse.Controllers
 
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					ImageRepository iRepo = new ImageRepository();
 
 					iRepo.UpdateImageFile( imgInfo );
@@ -539,15 +498,6 @@ namespace ProductDataWarehouse.Controllers
 					ViewBag.CloseFancyBox = true;
 
 					return View();
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
 			}
 			return View();
 		}
@@ -569,8 +519,6 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					ImageRepository iRepo = new ImageRepository();
 
 					iRepo.UploadImageFile( ImageID, imageFile.InputStream, imageFile.ContentLength, imageFile.FileName, imageFile.ContentType );
@@ -578,15 +526,6 @@ namespace ProductDataWarehouse.Controllers
 					ViewBag.CloseFancyBox = true;
 
 					return View();
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
 			}
 			return View();
 		}
@@ -757,8 +696,6 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					PublicationRepository pRepo = new PublicationRepository();
 
 					pRepo.AddPublication( pubInfo );
@@ -766,15 +703,6 @@ namespace ProductDataWarehouse.Controllers
 					ViewBag.CloseFancyBox = true;
 
 					return View( pubInfo );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
 			}
 			return View( pubInfo );
 		}
@@ -794,8 +722,6 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					PublicationRepository pRepo = new PublicationRepository();
 
 					pRepo.UpdatePublication( pubInfo );
@@ -803,15 +729,6 @@ namespace ProductDataWarehouse.Controllers
 					ViewBag.CloseFancyBox = true;
 
 					return View( pubInfo );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
 			}
 			return View( pubInfo );
 		}
@@ -907,8 +824,6 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					DealerRepository dRepository = new DealerRepository();
 
 					dRepository.ImportDealers( dealerFile.InputStream );
@@ -916,15 +831,6 @@ namespace ProductDataWarehouse.Controllers
 					ViewBag.CloseFancyBox = true;
 
 					return View();
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
 
 			}
 
@@ -1000,8 +906,6 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					DealerRepository dRepository = new DealerRepository();
 
 					dRepository.AddDealer( dInfo );
@@ -1009,15 +913,6 @@ namespace ProductDataWarehouse.Controllers
 					ViewBag.CloseFancyBox = true;
 
 					return View( dInfo );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
 
 			}
 
@@ -1043,8 +938,6 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					DealerRepository dRepository = new DealerRepository();
 
 					dRepository.UpdateDealer( dInfo );
@@ -1052,15 +945,6 @@ namespace ProductDataWarehouse.Controllers
 					ViewBag.CloseFancyBox = true;
 
 					return View( dInfo );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
 
 			}
 
@@ -1128,8 +1012,6 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					DealerRepository dRepository = new DealerRepository();
 
 					dRepository.AddDealerVideo( dInfo );
@@ -1137,15 +1019,6 @@ namespace ProductDataWarehouse.Controllers
 					ViewBag.CloseFancyBox = true;
 
 					return View();
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
 
 			}
 
@@ -1171,8 +1044,6 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					DealerRepository dRepository = new DealerRepository();
 
 					dRepository.UpdateDealerVideo( dInfo );
@@ -1180,15 +1051,6 @@ namespace ProductDataWarehouse.Controllers
 					ViewBag.CloseFancyBox = true;
 
 					return View();
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
 
 			}
 
@@ -1256,8 +1118,6 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					DealerRepository dRepository = new DealerRepository();
 
 					dRepository.AddDealerPage( dInfo );
@@ -1265,15 +1125,6 @@ namespace ProductDataWarehouse.Controllers
 					ViewBag.CloseFancyBox = true;
 
 					return View();
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
 
 			}
 
@@ -1299,8 +1150,6 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					DealerRepository dRepository = new DealerRepository();
 
 					dRepository.UpdateDealerPage( dInfo );
@@ -1308,15 +1157,6 @@ namespace ProductDataWarehouse.Controllers
 					ViewBag.CloseFancyBox = true;
 
 					return View();
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
 
 			}
 

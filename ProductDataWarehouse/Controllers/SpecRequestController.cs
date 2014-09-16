@@ -110,8 +110,6 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					SpecRequestRepository sRepository = new SpecRequestRepository();
 
 					sRepository.AddSpecRequest( sInfo );
@@ -121,17 +119,6 @@ namespace ProductDataWarehouse.Controllers
 						return RedirectToAction( "Manage" );
 					}
 					return RedirectToAction( "ViewAll" );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-
-					( new PDWInfrastructure.EmailSenders.ErrorEmailSender() ).SubmitErrorEmail( ex );
-				}
 			}
 			ViewBag.BlankInformation = new SpecRequestRepository().NewSpecRequest();
 
@@ -162,22 +149,11 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					SpecRequestRepository sRepository = new SpecRequestRepository();
 
 					sRepository.AddTypical( tInfo, typeOfSubmit == "Publish" );
 
 					return RedirectToAction( "Manage" );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
 
 			}
 
@@ -281,8 +257,6 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					SpecRequestRepository sRepository = new SpecRequestRepository();
 
 					sRepository.ReOpenSpecRequest( sInfo );
@@ -292,15 +266,6 @@ namespace ProductDataWarehouse.Controllers
 						return RedirectToAction( "Manage" );
 					}
 					return RedirectToAction( "ViewAll" );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
 
 			}
 
@@ -327,22 +292,11 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					SpecRequestRepository sRepository = new SpecRequestRepository();
 
 					sRepository.UpdateSpecRequest( sInfo );
 
 					return RedirectToAction( "Manage" );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
 
 			}
 			ViewBag.BlankInformation = new SpecRequestRepository().NewSpecRequest();
@@ -393,22 +347,11 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					SpecRequestRepository sRepository = new SpecRequestRepository();
 
 					sRepository.UpdateTypical( tInfo, typeOfSubmit != "Save Changes" );
 
 					return RedirectToAction( "Manage" );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
 
 			}
 

@@ -1,19 +1,14 @@
 ﻿@model System.Web.Mvc.HandleErrorInfo
 @{
-    Layout = null;
+	Layout = "~/Views/Shared/NewLayout.cshtml";
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Error</title>
-</head>
-<body>
-    <h2>
-        Sorry, an error occurred while processing your request.
-    </h2>
-		@{var e = Model.Exception;}
-        @while( e != null )
+<div class="content" style="text-align:center;">
+    <img src="/NewContent/images/ServerError.jpg" style="padding:40px;" />
+	@if( Model != null )
+	{
+		var e = Model.Exception;
+        while( e != null )
         {
         <!-- 
 @e.Message
@@ -23,5 +18,5 @@
         -->
 			e = e.InnerException;
         }
-</body>
-</html>
+	}
+</div>

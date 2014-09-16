@@ -102,5 +102,10 @@ namespace ProductDataWarehouse.Controllers
 
 			return View( info );
 		}
+
+		public ActionResult Error()
+		{
+			return View();
+		}
 	}
 }

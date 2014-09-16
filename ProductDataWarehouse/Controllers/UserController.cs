@@ -55,22 +55,11 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					UserRepository uRepository = new UserRepository();
 
 					uRepository.AddUser( uInfo, UserImage != null ? UserImage.InputStream : null, UserImage != null ? UserImage.FileName : null );
 
 					return RedirectToAction( "Manage" );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
 
 			}
 
@@ -96,22 +85,11 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					UserRepository uRepository = new UserRepository();
 
 					uRepository.UpdateUser( uInfo, UserImage != null ? UserImage.InputStream : null, UserImage != null ? UserImage.FileName : null );
 
 					return RedirectToAction( "Manage" );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
 
 			}
 
@@ -170,8 +148,6 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					UserRepository uRepository = new UserRepository();
 
 					uRepository.UpdateUser( uInfo, UserImage != null ? UserImage.InputStream : null, UserImage != null ? UserImage.FileName : null );
@@ -180,11 +156,6 @@ namespace ProductDataWarehouse.Controllers
 
 					// yes, do this - it forces the account to be retrieved from the database again, but keeps the viewbag entry
 					return MyAccount();
-				}
-				catch( Exception )
-				{
-					ModelState.AddModelError( "", "Unable to update your account at this time." );
-				}
 			}
 
 			if( PaoliWebUser.CurrentUser.IsNewLayout )
@@ -227,10 +198,6 @@ namespace ProductDataWarehouse.Controllers
 				{
 					ModelState.AddModelError( "OldPassword", ex.Message );
 				}
-				catch( Exception )
-				{
-					ModelState.AddModelError( "", "Unable to change your password at this time." );
-				}
 			}
 
 			if( PaoliWebUser.CurrentUser.IsNewLayout )
@@ -265,10 +232,6 @@ namespace ProductDataWarehouse.Controllers
 				catch( ApplicationException e )
 				{
 					ModelState.AddModelError( "", e.Message );
-				}
-				catch( Exception )
-				{
-					ModelState.AddModelError( "", "Unable to update your settings at this time." );
 				}
 			}
 

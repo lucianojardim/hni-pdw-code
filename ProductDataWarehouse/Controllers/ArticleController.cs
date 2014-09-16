@@ -56,23 +56,11 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
-					ArticleRepository aRepository = new ArticleRepository();
+				ArticleRepository aRepository = new ArticleRepository();
 
-					aRepository.AddArticle( aInfo );
+				aRepository.AddArticle( aInfo );
 
-					return RedirectToAction( "Manage" );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
-
+				return RedirectToAction( "Manage" );
 			}
 
 			return View( aInfo );
@@ -94,23 +82,11 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
-					ArticleRepository aRepository = new ArticleRepository();
+				ArticleRepository aRepository = new ArticleRepository();
 
-					aRepository.EditArticle( aInfo );
+				aRepository.EditArticle( aInfo );
 
-					return RedirectToAction( "Manage" );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
-
+				return RedirectToAction( "Manage" );
 			}
 
 			return View( aInfo );

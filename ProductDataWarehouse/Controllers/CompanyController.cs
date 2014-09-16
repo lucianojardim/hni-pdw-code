@@ -55,23 +55,11 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					CompanyRepository cRepository = new CompanyRepository();
 
 					cRepository.AddCompany( uInfo );
 
 					return RedirectToAction( "Manage" );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
-
 			}
 
 			return View( uInfo );
@@ -96,22 +84,11 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					CompanyRepository cRepository = new CompanyRepository();
 
 					cRepository.UpdateCompany( uInfo );
 
 					return RedirectToAction( "Manage" );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
 
 			}
 

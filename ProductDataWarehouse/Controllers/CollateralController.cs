@@ -55,25 +55,13 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
-					CollateralRepository cRepository = new CollateralRepository();
+				CollateralRepository cRepository = new CollateralRepository();
 
-					cRepository.AddCollateral( cInfo, 
-						CollateralImage != null ? CollateralImage.InputStream : null, 
-						CollateralImage != null ? CollateralImage.FileName : null );
+				cRepository.AddCollateral( cInfo, 
+					CollateralImage != null ? CollateralImage.InputStream : null, 
+					CollateralImage != null ? CollateralImage.FileName : null );
 
-					return RedirectToAction( "Manage" );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
-
+				return RedirectToAction( "Manage" );
 			}
 
 			return View( cInfo );
@@ -97,8 +85,6 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					CollateralRepository cRepository = new CollateralRepository();
 
 					cRepository.AddCollateral( cInfo,
@@ -106,16 +92,6 @@ namespace ProductDataWarehouse.Controllers
 						CollateralImage != null ? CollateralImage.FileName : null );
 
 					return RedirectToAction( "Manage" );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
-
 			}
 
 			return View( cInfo );
@@ -140,8 +116,6 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					CollateralRepository cRepository = new CollateralRepository();
 
 					cRepository.UpdateCollateral( cInfo,
@@ -149,16 +123,6 @@ namespace ProductDataWarehouse.Controllers
 						CollateralImage != null ? CollateralImage.FileName : null );
 
 					return RedirectToAction( "Manage" );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
-
 			}
 
 			return View( cInfo );
@@ -183,8 +147,6 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					CollateralRepository cRepository = new CollateralRepository();
 
 					cRepository.UpdateCollateral( cInfo,
@@ -192,16 +154,6 @@ namespace ProductDataWarehouse.Controllers
 						CollateralImage != null ? CollateralImage.FileName : null );
 
 					return RedirectToAction( "Manage" );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
-
 			}
 
 			return View( cInfo );
@@ -235,19 +187,11 @@ namespace ProductDataWarehouse.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult AddShipment( List<CollateralShipmentDetail> theList )
 		{
-			try
-			{
 				CollateralRepository cRepository = new CollateralRepository();
 
 				cRepository.AddCollateralShipment( theList );
 
 				return RedirectToAction( "Manage" );
-			}
-			catch( Exception )
-			{
-				ModelState.AddModelError( "", "Unable to add a shipment at this time." );
-			}
-			return View( theList );
 		}
 
 		[PaoliAuthorize( "CanAddOrders" )]
@@ -270,8 +214,6 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					CollateralRepository cRepository = new CollateralRepository();
 
 					cRepository.AddCollateralOrder( orderInfo );
@@ -282,11 +224,6 @@ namespace ProductDataWarehouse.Controllers
 					}
 
 					return RedirectToAction( "ViewOrders" );
-				}
-				catch( Exception )
-				{
-					ModelState.AddModelError( "", "Unable to add an order at this time." );
-				}
 			}
 
 			if( PaoliWebUser.CurrentUser.IsNewLayout )
@@ -312,18 +249,11 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					CollateralRepository cRepository = new CollateralRepository();
 
 					cRepository.UpdateCollateralOrder( orderInfo );
 
 					return RedirectToAction( "Orders" );
-				}
-				catch( Exception )
-				{
-					ModelState.AddModelError( "", "Unable to update order at this time." );
-				}
 			}
 
 			return View( orderInfo );
@@ -427,18 +357,11 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					CollateralRepository cRepository = new CollateralRepository();
 
 					cRepository.AddOrderShipment( id, summary );
 
 					return RedirectToAction( "ShipOrder", new { id = id } );
-				}
-				catch( Exception )
-				{
-					ModelState.AddModelError( "", "Unable to add order shipment at this time." );
-				}
 			}
 
 			return View( ( new CollateralRepository() ).GetPendingOrder( id, false ) );

@@ -121,6 +121,9 @@ function makeAjaxCall(url, inputData, success, error) {
 			if (jqXHR.status == 403) {
 				window.location = '/Import/Logon?ReturnURL=' + window.location.pathname;
 				return;
+			} else if (jqXHR.status == 500) {
+				window.location = '/Home/Error';
+				return;
 			}
 			if (error != null) {
 				error(jqXHR, textStatus, errorThrown);

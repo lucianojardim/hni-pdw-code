@@ -15,15 +15,7 @@ namespace ProductDataWarehouse.Controllers
         {
 			ECollateralRepository eRepository = new ECollateralRepository();
 
-			try
-			{
-				return View( eRepository.GetItemDetails( id ) );
-			}
-			catch
-			{
-			}
-
-			return RedirectToAction( "Index", "Home" );
+			return View( eRepository.GetItemDetails( id ) );
 		}
 
     }

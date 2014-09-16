@@ -34,23 +34,12 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					ECollateralRepository eRepository = new ECollateralRepository();
 
 					int itemId = 0;
 					eRepository.AddSettings( settings, PaoliWebUser.CurrentUser.UserId, out itemId );
 
 					return RedirectToAction( "SetLayout", new { id = itemId } );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
 			}
 
 			return View( settings );
@@ -75,22 +64,11 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					ECollateralRepository eRepository = new ECollateralRepository();
 
 					eRepository.EditSettings( settings, PaoliWebUser.CurrentUser.UserId );
 
 					return RedirectToAction( "EditLayout", new { id = settings.ItemID } );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
 			}
 
 			return View( settings );
@@ -116,22 +94,11 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					ECollateralRepository eRepository = new ECollateralRepository();
 
 					eRepository.SetLayout( layoutInfo, PaoliWebUser.CurrentUser.UserId );
 
 					return RedirectToAction( "EditLayout", new { id = layoutInfo.ItemID } );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
 			}
 
 			return View( layoutInfo );
@@ -166,23 +133,12 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				try
-				{
 					ECollateralRepository eRepository = new ECollateralRepository();
 
 					bool bNeedVerify;
 					eRepository.SetItemSections( dInfo, PaoliWebUser.CurrentUser.UserId, out bNeedVerify );
 
 					return RedirectToAction( bNeedVerify ? "VerifyLayout" : "ViewLayout", new { id = dInfo.ItemID } );
-				}
-				catch( Exception ex )
-				{
-					ModelState.AddModelError( "", ex.Message );
-					if( ex.InnerException != null )
-					{
-						ModelState.AddModelError( "", ex.InnerException.Message );
-					}
-				}
 			}
 
 			return View( dInfo );
