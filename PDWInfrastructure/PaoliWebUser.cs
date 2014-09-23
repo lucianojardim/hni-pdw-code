@@ -260,7 +260,7 @@ namespace PDWInfrastructure
 
 		public bool CanManageSearchLog { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin, PaoliWebRole.PaoliMemberMarketing ); } }
 
-		public bool CanManageUsers { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin ); } }
+		public bool CanManageUsers { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
 		public bool CanManageCompanies { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
 
 		public bool CanSeeYouniversity { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ) || IsPaoliUser; } }
