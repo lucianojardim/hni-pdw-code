@@ -128,7 +128,7 @@ namespace PWDRepositories
 		public List<string> GetOrderDetailNameList()
 		{
 			return database.CollateralOrderDetails
-				.Select( c => c.GroupNKID.HasValue ? c.GroupName : c.ItemName )
+				.Select( c => c.GroupNKID.HasValue ? ("Bundle - " + c.GroupName) : (c.CollateralTypeName + " - " + c.ItemName) )
 				.Distinct()
 				.OrderBy( s => s )
 				.ToList();
@@ -180,7 +180,7 @@ namespace PWDRepositories
 					{
 						CollateralID = cod.CollateralNKID,
 						CollateralTypeID = cod.CollateralTypeNKID,
-						Name = cod.ItemName,
+						Name = cod.CollateralTypeName + " - " + cod.ItemName,
 						Quantity = cod.Quantity,
 						ShippedQuantity = cod.CollateralOrderShipmentDetails.Sum( c => c.Quantity )
 					} )
@@ -191,7 +191,7 @@ namespace PWDRepositories
 				.Select( cod => new NewOrderInformation.OrderDetail()
 				{
 					CollateralID = cod.FirstOrDefault().GroupNKID.Value,
-					Name = cod.FirstOrDefault().GroupName,
+					Name = "Bundle - " + cod.FirstOrDefault().GroupName,
 					Quantity = cod.Select( d => d.Quantity / d.GroupQuantity.Value ).FirstOrDefault(),
 					ShippedQuantity = cod.Select( d => d.CollateralOrderShipmentDetails.Sum( s => s.Quantity ) / d.GroupQuantity.Value ).DefaultIfEmpty().Max()
 				} ) );
