@@ -10,7 +10,7 @@ using PDWInfrastructure.Attributes;
 
 namespace ProductDataWarehouse.Controllers
 {
-    public class CompanyController : Controller
+	public class CompanyController : BaseController
 	{
 		[PaoliAuthorize( "CanManageCompanies" )]
 		[TempPasswordCheck]

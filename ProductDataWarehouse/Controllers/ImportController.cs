@@ -15,8 +15,13 @@ using PDWModels;
 
 namespace ProductDataWarehouse.Controllers
 {
-    public class ImportController : Controller
+	public class ImportController : BaseController
     {
+		public ActionResult Error()
+		{
+			return View();
+		}
+
 		public ActionResult Logon()
 		{
 			if( HttpContext.User.Identity.IsAuthenticated )

@@ -9,7 +9,7 @@ using PDWInfrastructure;
 
 namespace ProductDataWarehouse.Controllers
 {
-    public class PDWController : Controller
+	public class PDWController : BaseController
     {
 		public class JsonpResult : JsonResult
 		{

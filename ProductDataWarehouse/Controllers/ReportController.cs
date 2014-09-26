@@ -10,7 +10,7 @@ using CsvHelper;
 
 namespace ProductDataWarehouse.Controllers
 {
-    public class ReportController : Controller
+	public class ReportController : BaseController
     {
         //
         // GET: /Report/

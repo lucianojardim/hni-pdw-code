@@ -10,7 +10,7 @@ using PDWInfrastructure.Attributes;
 
 namespace ProductDataWarehouse.Controllers
 {
-    public class SpecRequestController : Controller
+	public class SpecRequestController : BaseController
     {
         //
         // GET: /SpecRequest/

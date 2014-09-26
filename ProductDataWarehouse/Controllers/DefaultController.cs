@@ -7,7 +7,7 @@ using System.Configuration;
 
 namespace ProductDataWarehouse.Controllers
 {
-    public class DefaultController : Controller
+	public class DefaultController : BaseController
     {
         //
         // GET: /Default/
