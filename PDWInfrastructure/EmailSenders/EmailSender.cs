@@ -18,12 +18,21 @@ namespace PDWInfrastructure.EmailSenders
 			public string FirstName { get; set; }
 			public string EmailAddress { get; set; }
 			public string TemplateName { get; set; }
+			public EmailFromDetails FromDetails { get; set; }
 		}
 
 		public class FileDetail
 		{
 			public string fileName { get; set; }
 			public string filePath { get; set; }
+		}
+
+		public class EmailFromDetails
+		{
+			public string FromFirstName { get; set; }
+			public string FromFullName { get; set; }
+			public string FromJobTitle { get; set; }
+			public string FromEmailAddress { get; set; }
 		}
 
 		protected delegate bool SubmitEmailFunction(
@@ -206,6 +215,14 @@ namespace PDWInfrastructure.EmailSenders
 				extraInfo = "<p>(from WDD Test Server)</p>";
 			
 			template.Replace( "[{MachineName}]", extraInfo );
+		}
+
+		protected void PerformFromAreaChanges( StringBuilder template, EmailFromDetails fromDetails )
+		{
+			template.Replace( "[{FromFirstName}]", fromDetails.FromFirstName );
+			template.Replace( "[{FromFullName}]", fromDetails.FromFullName );
+			template.Replace( "[{FromJobTitle}]", fromDetails.FromJobTitle );
+			template.Replace( "[{FromEmailAddress}]", fromDetails.FromEmailAddress );
 		}
 
 		public static bool EmailDisabledUsers

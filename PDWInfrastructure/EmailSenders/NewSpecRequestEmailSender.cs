@@ -33,7 +33,8 @@ namespace PDWInfrastructure.EmailSenders
 
 		public bool SubmitNewRequestEmail(
 			string emailAddress,
-			EmailSpecRequestSummary summary )
+			EmailSpecRequestSummary summary,
+			EmailFromDetails fromDetails )
 		{
 			try
 			{
@@ -70,6 +71,8 @@ namespace PDWInfrastructure.EmailSenders
 					{
 						template.Replace( "[{AdditionalPersonnel}]", "" );
 					}
+
+					PerformFromAreaChanges( template, fromDetails );
 
 					return SubmitEmail( new List<string>() { emailAddress }, null, null, GetSubject( template ), template );
 				}

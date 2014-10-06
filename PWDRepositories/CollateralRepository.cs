@@ -17,7 +17,7 @@ using PDWInfrastructure.EmailSenders;
 
 namespace PWDRepositories
 {
-	public class CollateralRepository
+	public class CollateralRepository : BaseRepository
 	{
 		private PaoliPDWEntities database = new PaoliPDWEntities();
 
@@ -642,18 +642,18 @@ namespace PWDRepositories
 				GetEmailList( newOrder, out createdByEmail, salesRepEmails, requestedForEmails );
 
 				( new NewCollateralOrderEmailSender( "NewCollateralOrderCreatedBy" ) ).SubmitNewOrderEmail( createdByEmail.EmailAddress,
-					ToEmailOrderSummary( createdByEmail, newOrder ) );
+					ToEmailOrderSummary( createdByEmail, newOrder ), createdByEmail.FromDetails );
 
 				foreach( var salesRep in salesRepEmails )
 				{
 					( new NewCollateralOrderEmailSender( "NewCollateralOrderSalesRep" ) ).SubmitNewOrderEmail( salesRep.EmailAddress,
-						ToEmailOrderSummary( salesRep, newOrder ) );
+						ToEmailOrderSummary( salesRep, newOrder ), salesRep.FromDetails );
 				}
 
 				foreach( var reqParty in requestedForEmails )
 				{
 					( new NewCollateralOrderEmailSender( "NewCollateralOrderRequestedBy" ) ).SubmitNewOrderEmail( reqParty.EmailAddress,
-						ToEmailOrderSummary( reqParty, newOrder ) );
+						ToEmailOrderSummary( reqParty, newOrder ), reqParty.FromDetails );
 				}
 
 				return true;
@@ -772,7 +772,12 @@ namespace PWDRepositories
 		private void GetEmailList( CollateralOrder orderInfo, out EmailSender.EmailTarget createdByEmail, 
 			List<EmailSender.EmailTarget> extraSalesRepEmails, List<EmailSender.EmailTarget> requestedForEmails )
 		{
-			createdByEmail = new EmailSender.EmailTarget() { EmailAddress = orderInfo.CreatedByUser.Email, FirstName = orderInfo.CreatedByUser.FirstName };
+			createdByEmail = new EmailSender.EmailTarget()
+			{
+				EmailAddress = orderInfo.CreatedByUser.Email,
+				FirstName = orderInfo.CreatedByUser.FirstName,
+				FromDetails = GetPaoliMemberFromDetails( orderInfo.CreatedByUser.Company )
+			};
 
 			switch( orderInfo.RequestingParty )
 			{
@@ -781,7 +786,12 @@ namespace PWDRepositories
 					{
 						if( orderInfo.PaoliMember.Enabled || EmailSender.EmailDisabledUsers )
 						{
-							requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.PaoliMember.Email, FirstName = orderInfo.PaoliMember.FirstName } );
+							requestedForEmails.Add( new EmailSender.EmailTarget()
+							{
+								EmailAddress = orderInfo.PaoliMember.Email,
+								FirstName = orderInfo.PaoliMember.FirstName,
+								FromDetails = GetPaoliMemberFromDetails( orderInfo.PaoliMember.Company )
+							} );
 						}
 					}
 					break;
@@ -790,7 +800,12 @@ namespace PWDRepositories
 					{
 						if( orderInfo.PaoliSalesRepMember.Enabled || EmailSender.EmailDisabledUsers )
 						{
-							requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.PaoliSalesRepMember.Email, FirstName = orderInfo.PaoliSalesRepMember.FirstName } );
+							requestedForEmails.Add( new EmailSender.EmailTarget()
+							{
+								EmailAddress = orderInfo.PaoliSalesRepMember.Email,
+								FirstName = orderInfo.PaoliSalesRepMember.FirstName,
+								FromDetails = GetPaoliMemberFromDetails( orderInfo.PaoliSalesRepMember.Company )
+							} );
 						}
 					}
 					break;
@@ -799,7 +814,12 @@ namespace PWDRepositories
 					{
 						if( orderInfo.DealerMember.Enabled || EmailSender.EmailDisabledUsers )
 						{
-							requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.DealerMember.Email, FirstName = orderInfo.DealerMember.FirstName } );
+							requestedForEmails.Add( new EmailSender.EmailTarget()
+							{
+								EmailAddress = orderInfo.DealerMember.Email,
+								FirstName = orderInfo.DealerMember.FirstName,
+								FromDetails = GetPaoliMemberFromDetails( orderInfo.DealerMember.Company )
+							} );
 						}
 					}
 					if( orderInfo.Dealer != null )
@@ -807,7 +827,13 @@ namespace PWDRepositories
 						extraSalesRepEmails.AddRange( database.Companies.Where( c => c.TerritoryID == orderInfo.Dealer.TerritoryID && c.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup )
 							.SelectMany( srg => srg.Users )
 							.Where( u => u.Enabled || EmailSender.EmailDisabledUsers )
-							.Select( srgm => new EmailSender.EmailTarget() { EmailAddress = srgm.Email, FirstName = srgm.FirstName } ) );
+							.ToList()
+							.Select( srgm => new EmailSender.EmailTarget()
+							{
+								EmailAddress = srgm.Email,
+								FirstName = srgm.FirstName,
+								FromDetails = GetPaoliMemberFromDetails( srgm.Company )
+							} ) );
 					}
 					break;
 				case NewOrderInformation.RPEndUser:
@@ -822,7 +848,12 @@ namespace PWDRepositories
 					{
 						if( orderInfo.SPPaoliMember.Enabled || EmailSender.EmailDisabledUsers )
 						{
-							requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.SPPaoliMember.Email, FirstName = orderInfo.SPPaoliMember.FirstName } );
+							requestedForEmails.Add( new EmailSender.EmailTarget()
+							{
+								EmailAddress = orderInfo.SPPaoliMember.Email,
+								FirstName = orderInfo.SPPaoliMember.FirstName,
+								FromDetails = GetPaoliMemberFromDetails( orderInfo.SPPaoliMember.Company )
+							} );
 						}
 					}
 					break;
@@ -831,7 +862,12 @@ namespace PWDRepositories
 					{
 						if( orderInfo.SPPaoliSalesRepMember.Enabled || EmailSender.EmailDisabledUsers )
 						{
-							requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.SPPaoliSalesRepMember.Email, FirstName = orderInfo.SPPaoliSalesRepMember.FirstName } );
+							requestedForEmails.Add( new EmailSender.EmailTarget()
+							{
+								EmailAddress = orderInfo.SPPaoliSalesRepMember.Email,
+								FirstName = orderInfo.SPPaoliSalesRepMember.FirstName,
+								FromDetails = GetPaoliMemberFromDetails( orderInfo.SPPaoliSalesRepMember.Company )
+							} );
 						}
 					}
 					break;
@@ -840,7 +876,12 @@ namespace PWDRepositories
 					{
 						if( orderInfo.SPDealerMember.Enabled || EmailSender.EmailDisabledUsers )
 						{
-							requestedForEmails.Add( new EmailSender.EmailTarget() { EmailAddress = orderInfo.SPDealerMember.Email, FirstName = orderInfo.SPDealerMember.FirstName } );
+							requestedForEmails.Add( new EmailSender.EmailTarget()
+							{
+								EmailAddress = orderInfo.SPDealerMember.Email,
+								FirstName = orderInfo.SPDealerMember.FirstName,
+								FromDetails = GetPaoliMemberFromDetails( orderInfo.SPDealerMember.Company )
+							} );
 						}
 					}
 					if( orderInfo.SPDealer != null )
@@ -848,7 +889,13 @@ namespace PWDRepositories
 						extraSalesRepEmails.AddRange( database.Companies.Where( c => c.TerritoryID == orderInfo.SPDealer.TerritoryID && c.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup )
 							.SelectMany( srg => srg.Users )
 							.Where( u => u.Enabled || EmailSender.EmailDisabledUsers )
-							.Select( srgm => new EmailSender.EmailTarget() { EmailAddress = srgm.Email, FirstName = srgm.FirstName } ) );
+							.ToList()
+							.Select( srgm => new EmailSender.EmailTarget()
+							{
+								EmailAddress = srgm.Email,
+								FirstName = srgm.FirstName,
+								FromDetails = GetPaoliMemberFromDetails( srgm.Company )
+							} ) );
 					}
 					break;
 				case NewOrderInformation.RPEndUser:
@@ -1671,11 +1718,11 @@ namespace PWDRepositories
 					var summary = ToEmailShipmentSummary( emailTarget, dbShipment );
 					if( dbOrder.Status == NewOrderInformation.SPartial )
 					{
-						( new NewCollateralOrderShipmentEmailSender( "NewCollateralOrderPartialShipment" ) ).SubmitNewShipmentEmail( emailTarget.EmailAddress, summary );
+						( new NewCollateralOrderShipmentEmailSender( "NewCollateralOrderPartialShipment" ) ).SubmitNewShipmentEmail( emailTarget.EmailAddress, summary, emailTarget.FromDetails );
 					}
 					else if( dbOrder.Status == NewOrderInformation.SFulfilled )
 					{
-						( new NewCollateralOrderShipmentEmailSender( "NewCollateralOrderShipment" ) ).SubmitNewShipmentEmail( emailTarget.EmailAddress, summary );
+						( new NewCollateralOrderShipmentEmailSender( "NewCollateralOrderShipment" ) ).SubmitNewShipmentEmail( emailTarget.EmailAddress, summary, emailTarget.FromDetails );
 					}
 				}
 				return true;

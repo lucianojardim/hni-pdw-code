@@ -39,6 +39,11 @@
     <add key="EmailTemplates" value="C:\Projects\Paoli\ProductDataWarehouse\ProductDataWarehouse\Content\Email Templates"/>
     <add key="EmailRedirection" value="true"/>
     <add key="EmailDisabledUsers" value="true"/>
+
+		<add key="EmailFromFirstName" value="Stan"/>
+		<add key="EmailFromFullName" value="Stan King"/>
+		<add key="EmailFromJobTitle" value="Customer Service Manager"/>
+		<add key="EmailFromEmailAddress" value="kings@paoli.com"/>
   </appSettings>
 
 	<encSettings>
@@ -73,9 +78,13 @@
     </compilation>
 
     <authentication mode="Forms">
-      <forms loginUrl="~/Import/LogOn" timeout="2880" />
+      <forms loginUrl="~/Import/LogOn" timeout="120" />
     </authentication>
 
+		<customErrors mode="On" defaultRedirect="/Import/Error">
+			<error statusCode="404" redirect="http://www.paoli.com/404"/>
+		</customErrors>
+		
     <pages>
       <namespaces>
         <add namespace="System.Web.Helpers" />

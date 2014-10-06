@@ -54,7 +54,8 @@ namespace PDWInfrastructure.EmailSenders
 
 		public bool SubmitNewOrderEmail(
 			string emailAddress,
-			EmailOrderSummary summary )
+			EmailOrderSummary summary,
+			EmailFromDetails fromDetails )
 		{
 			try
 			{
@@ -74,6 +75,8 @@ namespace PDWInfrastructure.EmailSenders
 
 					template.Replace( "[{PlacingNameAndCompany}]", summary.placingNameAndCompany );
 					template.Replace( "[{ReceivingNameAndCompany}]", summary.receivingNameAndCompany );
+
+					PerformFromAreaChanges( template, fromDetails );
 
 					return SubmitEmail( new List<string>() { emailAddress }, null, null, GetSubject( template ), template );
 				}

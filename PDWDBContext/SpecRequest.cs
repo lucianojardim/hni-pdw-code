@@ -164,6 +164,23 @@ namespace PDWDBContext
 				return null;
 			}
 		}
+
+		public Company CreatedByCompanyDetails
+		{
+			get
+			{
+				var created = SpecRequestEvents
+					.OrderByDescending( e => e.EventDate )
+					.FirstOrDefault( e => e.EventType == SpecRequestEventType.Created );
+				if( created != null )
+				{
+					return created.User.Company;
+				}
+
+				return null;
+			}
+		}
+
 		public string CanceledByUserName
 		{
 			get

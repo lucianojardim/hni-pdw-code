@@ -87,7 +87,8 @@ namespace PDWInfrastructure.EmailSenders
 
 		public bool SubmitNewShipmentEmail(
 			string emailAddress,
-			EmailShipmentSummary summary )
+			EmailShipmentSummary summary,
+			EmailFromDetails fromDetails )
 		{
 			try
 			{
@@ -108,6 +109,8 @@ namespace PDWInfrastructure.EmailSenders
 					template.Replace( "[{TrackingNumber}]", summary.TrackingNumberList );
 
 					template.Replace( "[{TrackingPlural}]", summary.trackingNumbers.Where( t => ( t ?? "" ).Any() ).Count() > 1 ? "s are" : " is" );
+
+					PerformFromAreaChanges( template, fromDetails );
 
 					return SubmitEmail( new List<string>() { emailAddress }, null, null, GetSubject( template ), template );
 				}

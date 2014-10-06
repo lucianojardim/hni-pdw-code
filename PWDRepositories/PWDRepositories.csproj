@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="ArticleRepository.cs" />
     <Compile Include="AttributeRepository.cs" />
+    <Compile Include="BaseRepository.cs" />
     <Compile Include="CollateralRepository.cs" />
     <Compile Include="CompanyRepository.cs" />
     <Compile Include="DealerRepository.cs" />
