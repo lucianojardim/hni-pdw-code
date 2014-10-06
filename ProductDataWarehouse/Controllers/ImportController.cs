@@ -80,7 +80,14 @@ namespace ProductDataWarehouse.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult ForgotPassword( string fpEmailAddress )
 		{
-			ViewBag.EmailSent = ( new UserRepository().ResetUserPassword( fpEmailAddress ) );
+			try
+			{
+				ViewBag.EmailSent = ( new UserRepository().ResetUserPassword( fpEmailAddress ) );
+			}
+			catch
+			{
+				ModelState.AddModelError( "error", "Unable to reset password at this time." );
+			}
 
 			return View();
 		}

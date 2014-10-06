@@ -12,6 +12,11 @@ namespace ProductDataWarehouse.Models
 	{
 		public override void OnException( ExceptionContext filterContext )
 		{
+			if( filterContext.ExceptionHandled )
+			{
+				return;
+			}
+
 			var currentUser = "Unknown";
 			if( HttpContext.Current.User.Identity.IsAuthenticated )
 			{
@@ -21,7 +26,32 @@ namespace ProductDataWarehouse.Models
 			( new ErrorEmailSender() ).SubmitErrorEmail( filterContext.Exception, currentUser, 
 				filterContext.RequestContext.HttpContext.Request.Url.ToString(), filterContext.RequestContext.HttpContext.Request.Form );
 
-			base.OnException( filterContext );
+			if( filterContext.HttpContext.Request.IsAjaxRequest() )
+			{
+				string jsoncallback = ( filterContext.RouteData.Values["callback"] as string ) ?? filterContext.HttpContext.Request["callback"];
+				if( !string.IsNullOrEmpty( jsoncallback ) )
+				{
+					var response = filterContext.HttpContext.Response;
+					response.ContentType = "application/x-javascript";
+					response.Write( string.Format( "{0}({{ success: false }});", jsoncallback ) );
+				}
+				else
+				{
+					filterContext.Result = new JsonResult
+					{
+						Data = new
+						{
+							success = false
+						},
+						JsonRequestBehavior = JsonRequestBehavior.AllowGet
+					};
+				}
+				filterContext.ExceptionHandled = true;
+			}
+			else
+			{
+				base.OnException( filterContext );
+			}
 		}
 	}
 }

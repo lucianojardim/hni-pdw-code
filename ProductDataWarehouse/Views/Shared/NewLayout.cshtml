@@ -122,15 +122,20 @@
 	<h2><a href="@Url.Action( "LeadTimes", "Home" )"><img src="/newcontent/images/leadtimes.png" alt="img" height="50" width="50"/> Lead Times</a></h2>
 		 break;
 		 default:
+			if(  HttpContext.Current.User.Identity.IsAuthenticated )
+			{
                                    <h3 id="welcomeHeading"><span>@CurrentUser.FirstName!</span></h3>
                                    <h4>@if( CurrentUser.PreviousLogin.Any() )
 									   { <text>You last visited<span>@CurrentUser.PreviousLogin ago</span></text>}
 									   else
 									   {<text>&nbsp;</text>}</h4>
+			}
 									   break;
 		 }
                               </div>
                               <div class="poly_top_rt">
+			@if(  HttpContext.Current.User.Identity.IsAuthenticated )
+			{
                                  <h3>How Can We <span>Help?</span></h3>
                                  <ul>
 								 @{var contactList = ProductDataWarehouse.Controllers.HomeController.GetHomeContacts();}
@@ -152,7 +157,7 @@
                                     </li>
 		 }
                                  </ul>
-                              
+	   }
                               </div>
                          <i class="clear_0"></i>
                          
