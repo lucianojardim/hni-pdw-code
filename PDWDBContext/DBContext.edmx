@@ -1031,6 +1031,7 @@
           <Property Name="IsTempPassword" Type="bit" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="AuthorCredit" Type="nvarchar" MaxLength="500" />
+          <Property Name="DefaultShippingAddress" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="UserSubscriptions">
           <Key>
@@ -3087,6 +3088,7 @@
           <NavigationProperty Name="eCollateralItems2" Relationship="PaoliPDWModel.fkeCollateral_ModifiedUser" FromRole="User" ToRole="eCollateralItem" />
           <NavigationProperty Name="SpecRequestEvents" Relationship="PaoliPDWModel.FK_Events_Users" FromRole="User" ToRole="SpecRequestEvent" />
           <NavigationProperty Name="LeadTimeDetails" Relationship="PaoliPDWModel.FK_LeadTimeDetail_User" FromRole="User" ToRole="LeadTimeDetail" />
+          <Property Type="Int32" Name="DefaultShippingAddress" Nullable="false" />
           </EntityType>
         <EntityType Name="Company">
           <Key>
@@ -4353,6 +4355,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="PaoliPDWModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="DefaultShippingAddress" ColumnName="DefaultShippingAddress" />
                 <ScalarProperty Name="AuthorCredit" ColumnName="AuthorCredit" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="IsTempPassword" ColumnName="IsTempPassword" />

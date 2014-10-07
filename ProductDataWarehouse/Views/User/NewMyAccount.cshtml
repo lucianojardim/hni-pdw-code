@@ -19,6 +19,7 @@
 		});
 
 		$("#State").msDropdown({ visibleRows: 15 });
+		$("#DefaultShippingAddress").msDropdown({ visibleRows: 15 });
 
         @if( ViewBag.AccountUpdateSuccess ?? false )
         {
@@ -170,6 +171,10 @@
 						Mobile Phone</div>
 					<div class="colmn3">
 						<input type="text"></div>-->
+				</li>
+				<li>
+					<div class="colmn1">Default Shipping Address@(Html.ValidationMessageFor( m => m.DefaultShippingAddress ))</div>
+					<div class="colmn3single">@Html.DropDownListFor( m => m.DefaultShippingAddress, UserController.GetAddressTypeDDList() )</div>
 				</li>
 				<!--<li>
 					<div class="colmn1">

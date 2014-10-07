@@ -308,6 +308,11 @@ namespace PWDRepositories
 				requestList = requestList.Where( s => s.PrimaryCompanyID == paramDetails.companyId.Value || s.PaoliSalesRepGroupID == paramDetails.companyId.Value );
 				totalRecords = requestList.Count();
 			}
+			if( paramDetails.userId.HasValue )
+			{
+				requestList = requestList.Where( s => s.DealerSalesRepID == paramDetails.userId.Value || s.PaoliSalesRepMemberID == paramDetails.userId.Value );
+				totalRecords = requestList.Count();
+			}
 
 			displayedRecords = requestList.Count();
 

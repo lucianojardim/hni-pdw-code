@@ -21,6 +21,12 @@ namespace PWDRepositories
 		{
 		}
 
+		public class AddressTypes
+		{
+			public const int Company = 1;
+			public const int User = 2;
+		}
+
 		private UserSummary ToUserSummary( User u )
 		{
 			return new UserSummary()
@@ -144,6 +150,7 @@ namespace PWDRepositories
 			newUser.RecWelcomeEmail = uInfo.SendWelcomeEmail;
 			newUser.IsActive = uInfo.IsActive;
 			newUser.AuthorCredit = uInfo.AuthorCredit;
+			newUser.DefaultShippingAddress = uInfo.DefaultShippingAddress;
 
 			string password = GenerateNewPassword();
 			PaoliEncryption enc = new PaoliEncryption( PaoliEncryption.DataPassPhrase );
@@ -230,7 +237,8 @@ namespace PWDRepositories
 				SendWelcomeEmail = eUser.RecWelcomeEmail,
 				LockAccountType = eUser.SpecRequests.Any() || eUser.SpecRequests1.Any() || eUser.CompaniesAsPaoliMember.Any() || eUser.CompaniesAsPaoliSalesRep.Any(),
 				UserImageFileName = eUser.ImageFileName,
-				AuthorCredit = eUser.AuthorCredit
+				AuthorCredit = eUser.AuthorCredit,
+				DefaultShippingAddress = eUser.DefaultShippingAddress
 			};
 		}
 
@@ -259,6 +267,7 @@ namespace PWDRepositories
 			eUser.BusinessPhone = uInfo.BusinessPhone;
 			eUser.CellPhone = uInfo.CellPhone;
 			eUser.Title = uInfo.Title;
+			eUser.DefaultShippingAddress = uInfo.DefaultShippingAddress;
 
 			string password = GenerateNewPassword();
 			if( uInfo is UserInformation )
@@ -692,6 +701,23 @@ namespace PWDRepositories
 			if( eUser == null )
 			{
 				return new PDWModels.Companies.ShippingAddress();
+			}
+
+			if( eUser.DefaultShippingAddress == AddressTypes.Company )
+			{
+				return new PDWModels.Companies.ShippingAddress()
+				{
+					CompanyID = eUser.CompanyID,
+					ContactAttn = eUser.FullName,
+					Name = eUser.Company.Name,
+					Address1 = eUser.Company.Address1,
+					Address2 = eUser.Company.Address2,
+					City = eUser.Company.City,
+					State = eUser.Company.State,
+					Zip = eUser.Company.Zip,
+					Phone = eUser.Company.Phone,
+					ContactEmail = eUser.Email
+				};
 			}
 
 			return new PDWModels.Companies.ShippingAddress()

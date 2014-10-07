@@ -50,6 +50,8 @@ namespace PDWModels.Users
 		public string Title { get; set; }
 		[DisplayName( "Image" )]
 		public string UserImageFileName { get; set; }
+		[DisplayName( "Default Shipping Address" )]
+		public int DefaultShippingAddress { get; set; }
 
 		[DisplayName( "Company" )]
 		public string CompanyName { get; set; }

@@ -83,6 +83,7 @@
         <span class="dataRow">@Html.MJLabelFor( m => m.AuthorCredit, true )@Html.TextAreaFor( m => m.AuthorCredit )<br/></span>
 		<div class="padr30 padl30"><hr /></div>
         <span class="dataRow">@Html.MJLabelFor( m => m.AccountType, true )@Html.DropDownListFor( m => m.AccountType, UserController.GetUserRoleDDList() )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.DefaultShippingAddress, true )@Html.DropDownListFor( m => m.DefaultShippingAddress, UserController.GetAddressTypeDDList() )<br/></span>
 		if( PDWInfrastructure.PaoliWebUser.CurrentUser.UserId != Model.UserID )
 		{
         <span class="dataRow">@Html.MJLabelFor( m => m.Enabled, true )@Html.CheckBoxFor( m => m.Enabled, Model.SendWelcomeEmail ? null : new { @disabled = true } )<br/></span>
@@ -105,3 +106,205 @@
 @Html.ValidationSummary()
         <input type="submit" class="btn_type1" value="Save Changes" id="submitBtn" />
 	}
+	<div class="clear"></div>
+	<div>
+<br /><hr />
+<h3>Specification Requests</h3>
+    <table id="specRequestList">
+    <thead></thead>
+    <tfoot></tfoot>
+    </table>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		loadSpecRequests();
+	});
+
+	var srTable = null;
+	function loadSpecRequests() {
+		if (srTable != null) {
+			srTable.fnDraw();
+			return;
+		}
+
+		srTable = $('#specRequestList').dataTable({
+			"bServerSide": true,
+			"bAutoWidth": false,
+			"bFilter": false,
+			"bLengthChange": false, // don't show dropdown for #items per page
+			"bPaginate": true,
+			"bInfo": true,
+			"sAjaxSource": '@Url.Action( "FullRequestList", "SpecRequest" )',
+			"fnServerParams": function (aoData) {
+				aoData.push({ "name": "userId", "value": @Model.UserID });
+			},
+			"iDisplayLength": 100,
+			"oLanguage": {
+				"sSearch": "Filter by Keyword:"
+			},
+			"fnServerData": function (sSource, aoData, fnCallback) {
+				makeAjaxCall(sSource,
+					aoData,
+					function (data, textStatus, jqXHR) {
+						fnCallback(data, textStatus, jqXHR);
+					},
+					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Requests:' + errorThrown) }
+				);
+			},
+			"bProcessing": false, // don't want to use the default progress indicator at this time
+			"aaSorting": [[0, "desc"]],
+			"aoColumnDefs": [
+					{ "sName": "EditButtons",
+						"sTitle": "Name",
+						"aTargets": [0],
+						"mDataProp": "EditButtons", "sWidth": "8%",
+						"fnRender": function (oObj) {
+							if (oObj.aData["IsCanceled"] || oObj.aData["IsCompleted"]) {
+								return '<a href=\"@Url.Action( "ViewRequest", "SpecRequest" )/' + oObj.aData["RequestID"] + '\">' + oObj.aData["Name"] + '</a>';
+							}
+							return '<a href=\"@Url.Action( "EditRequest", "SpecRequest" )/' + oObj.aData["RequestID"] + '\">' + oObj.aData["Name"] + '</a>';
+						}
+					},
+                    { "sName": "Dealer", "sTitle": "Dealer", "aTargets": [1], "mDataProp": "Dealer", "sWidth": "17%" },
+                    { "sName": "ProjectName", "sTitle": "Project Name", "aTargets": [2], "mDataProp": "ProjectName", "sWidth": "16%" },
+                    { "sName": "SalesRepGroup", "sTitle": "Rep Group", "aTargets": [3], "mDataProp": "SalesRepGroup", "sWidth": "17%" },
+                    { "sName": "SpecTeamMember", "sTitle": "Member", "aTargets": [4], "mDataProp": "SpecTeamMember", "sWidth": "10%" },
+                    { "sName": "CreatedDate", "sTitle": "Created", "aTargets": [5], "mDataProp": "CreatedDate", "sWidth": "9%",
+                    	"fnRender": function (oObj) {
+                    		if (oObj.aData["CreatedDate"] != null) {
+                    			var milli = oObj.aData["CreatedDate"].replace(/\/Date\((-?\d+)\)\//, '$1');
+                    			return getLocalDate(parseInt(milli));
+                    		}
+                    		return '';
+                    	}
+                    },
+                    { "sName": "Status",
+                    	"aTargets": [6],
+                    	"bSearchable": false,
+                    	"bSortable": false,
+                    	"mDataProp": "Status", "sTitle": "Status", "sWidth": "10%",
+                    	"fnRender": function (oObj) {
+                    		if (oObj.aData["IsCanceled"]) {
+                    			return 'Canceled';
+                    		} else if (oObj.aData["IsCompleted"]) {
+                    			return 'Completed';
+                    		} else if (oObj.aData["SpecTeamMember"] == null || oObj.aData["SpecTeamMember"] == '') {
+                    			return 'Not Assigned';
+                    		} else if (oObj.aData["IsAuditSpecOnly"]) {
+                    			return 'Pending - Spec Audit Check';
+                    		}
+                    		return 'Pending';
+                    	}
+                    },
+                    { "sName": "TypicalFinder",
+                    	"aTargets": [7],
+                    	"bSearchable": false,
+                    	"bSortable": false,
+                    	"mDataProp": "TypicalFinder", "sTitle": "Typical Finder", "sWidth": "13%",
+                    	"fnRender": function (oObj) {
+                    		if (oObj.aData["IsPublished"]) {
+                    			return '<a href=\"@Url.Action( "EditTypical", "SpecRequest" )/' + oObj.aData["RequestID"] + '/\" class="fbImageBtn">Published</a>';
+                    		} else if (oObj.aData["IsCompleted"] && !oObj.aData["IsCanceled"]) {
+                    			if (oObj.aData["HasTypical"]) {
+                    				return '<a href=\"@Url.Action( "EditTypical", "SpecRequest" )/' + oObj.aData["RequestID"] + '/\" class="fbImageBtn">Recommended</a>';
+                    			} else if (oObj.aData["IsRecommended"]) {
+                    				return '<a href=\"@Url.Action( "AddTypical", "SpecRequest" )/' + oObj.aData["RequestID"] + '/\" class="fbImageBtn">Recommended</a>';
+                    			} else {
+                    				return 'Not recommended';
+                    			}
+                    		}
+                    		return '';
+                    	}
+                    }
+                ]
+		});
+	}
+
+</script>
+
+	<div class="clear"></div>
+<div>
+<br /><hr />
+<h3>Collateral Orders</h3>
+    <table id="orderList">
+    <thead></thead>
+    <tfoot></tfoot>
+    </table>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		loadOrders();
+	});
+
+	var oTable = null;
+	function loadOrders() {
+		if (oTable != null) {
+			oTable.fnDraw();
+			return;
+		}
+
+		oTable = $('#orderList').dataTable({
+			"bServerSide": true,
+			"bAutoWidth": false,
+			"bFilter": false,
+			"bLengthChange": false, // don't show dropdown for #items per page
+			"bPaginate": true,
+			"bInfo": true,
+			"sAjaxSource": '@Url.Action( "FullCollateralOrderList", "Collateral" )',
+			"fnServerParams": function (aoData) {
+				aoData.push({ "name": "userId", "value": @Model.UserID });
+			},
+			"iDisplayLength": 100,
+			"fnServerData": function (sSource, aoData, fnCallback) {
+				makeAjaxCall(sSource,
+					aoData,
+					function (data, textStatus, jqXHR) {
+						fnCallback(data, textStatus, jqXHR);
+					},
+					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Orders:' + errorThrown) }
+				);
+			},
+			"bProcessing": false, // don't want to use the default progress indicator at this time
+			"aaSorting": [[0, "desc"]],
+			"aoColumnDefs": [
+                    { "sName": "EditButtons",
+                    	"aTargets": [0],
+                    	"sTitle": "Order Number",
+                    	"mDataProp": "EditButtons", "sWidth": "8%",
+                    	"fnRender": function (oObj) {
+                    		var s = '';
+                    		if (oObj.aData["CanEdit"]) {
+                    			s += '<a href=\"@Url.Action( "EditOrder", "Collateral" )/' + oObj.aData["OrderID"] + '">' + oObj.aData["OrderID"] + '</a>';
+                    		} else {
+                    			s += oObj.aData["OrderID"];
+                    		}
+                    		return s;
+                    	}
+                    },
+                    { "sName": "RequestingParty", "sTitle": "Requested By", "aTargets": [1], "mDataProp": "RequestingParty", "sWidth": "36%" },
+                    { "sName": "ShippingParty", "sTitle": "Requested For", "aTargets": [2], "mDataProp": "ShippingParty", "sWidth": "36%" },
+                    { "sName": "OrderDate", "sTitle": "Order Date", "aTargets": [3], "mDataProp": "OrderDate",
+                    	"fnRender": function (oObj) {
+                    		return getLocalDate(oObj.aData["OrderDateMilliseconds"]);
+                    	}, "sWidth": "10%"
+                    },
+                    { "sName": "Status", "sTitle": "Status", "aTargets": [4], "mDataProp": "Status", "sWidth": "10%",
+                    	"fnRender": function (oObj) {
+                    		var s = '';
+                    		s += '<a href=\"@Url.Action( "ShipOrder", "Collateral" )/' + oObj.aData["OrderID"] + '">' + oObj.aData["Status"] + '</a>';
+                    		if (oObj.aData["IsOvernight"]) {
+                    			s += ' <img src="@Url.Content( "~/Content/images/SeriousWarning.png" )" />';
+                    		}
+                    		return s;
+                    	}
+                    }
+                ]
+		});
+	}
+
+</script>
+
+	<div class="clear"></div>
+<div>

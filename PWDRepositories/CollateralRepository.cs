@@ -1089,6 +1089,18 @@ namespace PWDRepositories
 
 				totalRecords = collateralList.Count();
 			}
+			if( param.userId.HasValue )
+			{
+				collateralList = collateralList.Where( c =>
+					( ( c.RequestingParty == NewOrderInformation.RPPaoliMember ) && ( c.PaoliMemberID == param.userId.Value ) ) ||
+					( ( c.ShippingParty == NewOrderInformation.RPPaoliMember ) && ( c.SPPaoliMemberID == param.userId.Value ) ) ||
+					( ( c.RequestingParty == NewOrderInformation.RPPaoliRepresentative ) && ( c.PaoliRepGroupMemberID == param.userId.Value ) ) ||
+					( ( c.ShippingParty == NewOrderInformation.RPPaoliRepresentative ) && ( c.SPPaoliRepGroupMemberID == param.userId.Value ) ) ||
+					( ( c.RequestingParty == NewOrderInformation.RPDealer ) && ( c.DealerMemberID == param.userId.Value ) ) ||
+					( ( c.ShippingParty == NewOrderInformation.RPDealer ) && ( c.SPDealerMemberID == param.userId.Value ) ) );
+
+				totalRecords = collateralList.Count();
+			}
 
 			displayedRecords = collateralList.Count();
 

@@ -16061,7 +16061,8 @@ namespace PDWDBContext
         /// <param name="recWelcomeEmail">Initial value of the RecWelcomeEmail property.</param>
         /// <param name="isTempPassword">Initial value of the IsTempPassword property.</param>
         /// <param name="isActive">Initial value of the IsActive property.</param>
-        public static User CreateUser(global::System.Int32 userID, global::System.String firstName, global::System.String lastName, global::System.String email, global::System.String password, global::System.Boolean enabled, global::System.Int32 accountType, global::System.Int32 companyID, global::System.Boolean recWelcomeEmail, global::System.Boolean isTempPassword, global::System.Boolean isActive)
+        /// <param name="defaultShippingAddress">Initial value of the DefaultShippingAddress property.</param>
+        public static User CreateUser(global::System.Int32 userID, global::System.String firstName, global::System.String lastName, global::System.String email, global::System.String password, global::System.Boolean enabled, global::System.Int32 accountType, global::System.Int32 companyID, global::System.Boolean recWelcomeEmail, global::System.Boolean isTempPassword, global::System.Boolean isActive, global::System.Int32 defaultShippingAddress)
         {
             User user = new User();
             user.UserID = userID;
@@ -16075,6 +16076,7 @@ namespace PDWDBContext
             user.RecWelcomeEmail = recWelcomeEmail;
             user.IsTempPassword = isTempPassword;
             user.IsActive = isActive;
+            user.DefaultShippingAddress = defaultShippingAddress;
             return user;
         }
 
@@ -16588,6 +16590,30 @@ namespace PDWDBContext
         private global::System.String _AuthorCredit;
         partial void OnAuthorCreditChanging(global::System.String value);
         partial void OnAuthorCreditChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 DefaultShippingAddress
+        {
+            get
+            {
+                return _DefaultShippingAddress;
+            }
+            set
+            {
+                OnDefaultShippingAddressChanging(value);
+                ReportPropertyChanging("DefaultShippingAddress");
+                _DefaultShippingAddress = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("DefaultShippingAddress");
+                OnDefaultShippingAddressChanged();
+            }
+        }
+        private global::System.Int32 _DefaultShippingAddress;
+        partial void OnDefaultShippingAddressChanging(global::System.Int32 value);
+        partial void OnDefaultShippingAddressChanged();
 
         #endregion
 

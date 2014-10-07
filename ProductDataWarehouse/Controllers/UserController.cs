@@ -306,6 +306,14 @@ namespace ProductDataWarehouse.Controllers
 			return theList;
 		}
 
+		public static IEnumerable<SelectListItem> GetAddressTypeDDList()
+		{
+			return new List<SelectListItem>() {
+				new SelectListItem() { Text = "Company Address", Value = UserRepository.AddressTypes.Company.ToString() },
+				new SelectListItem() { Text = "My Address", Value = UserRepository.AddressTypes.User.ToString() }
+			};
+		}
+
 		public static IEnumerable<SelectListItem> GetUserRoleFilterList()
 		{
 			return new List<SelectListItem>() { new SelectListItem() { Text = "All", Value = "0", Selected = true } }.Union( GetUserRoleDDList() );
