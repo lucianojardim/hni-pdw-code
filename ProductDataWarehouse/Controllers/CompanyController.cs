@@ -125,6 +125,7 @@ namespace ProductDataWarehouse.Controllers
 
 			return Json( new
 			{
+				companyType = uInfo.CompanyType,
 				theList = theList
 			},
 				JsonRequestBehavior.AllowGet );
@@ -239,6 +240,16 @@ namespace ProductDataWarehouse.Controllers
 		{
 			return new List<SelectListItem>() { new SelectListItem() { Text = "", Value = "", Selected = true } }
 				.Union( ( new CompanyRepository() ).GetTerritoryList().Select( t => new SelectListItem() { Value = t.TerritoryID.ToString(), Text = t.Name + ( addCompany ? (" - " + t.SalesRepCompany) : "" ) } ) );
+		}
+
+		public static IEnumerable<SelectListItem> GetTripGroupDDList()
+		{
+			return new List<SelectListItem>() {
+				new SelectListItem() { Text = "Ohana", Value = "Ohana" },
+				new SelectListItem() { Text = "Shaka", Value = "Shaka" },
+				new SelectListItem() { Text = "Aloha", Value = "Aloha" },
+				new SelectListItem() { Text = "Mahalo", Value = "Mahalo" }
+			};
 		}
 	}
 }

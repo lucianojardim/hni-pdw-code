@@ -176,6 +176,17 @@
 					<div class="colmn1">Default Shipping Address@(Html.ValidationMessageFor( m => m.DefaultShippingAddress ))</div>
 					<div class="colmn3single">@Html.DropDownListFor( m => m.DefaultShippingAddress, UserController.GetAddressTypeDDList() )</div>
 				</li>
+				@if( ( Model.TierGroup ?? "" ).Any() )
+	{
+				<li>
+					<div class="colmn1">User Tier</div>
+					<div class="colmn3single">@Html.DisplayFor( m => m.TierGroup )@Html.HiddenFor( m => m.TierGroup )</div>
+				</li>
+				<li>
+					<div class="colmn1">Company Tier</div>
+					<div class="colmn3single">@Html.DisplayFor( m => m.CompanyTierGroup )@Html.HiddenFor( m => m.CompanyTierGroup )</div>
+				</li>
+	}
 				<!--<li>
 					<div class="colmn1">
 						Fax</div>

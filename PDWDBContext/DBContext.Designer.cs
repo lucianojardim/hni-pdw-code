@@ -5242,13 +5242,15 @@ namespace PDWDBContext
         /// <param name="name">Initial value of the Name property.</param>
         /// <param name="tripIncentive">Initial value of the TripIncentive property.</param>
         /// <param name="companyType">Initial value of the CompanyType property.</param>
-        public static Company CreateCompany(global::System.Int32 companyID, global::System.String name, global::System.Boolean tripIncentive, global::System.Int32 companyType)
+        /// <param name="signedUpForTrip">Initial value of the SignedUpForTrip property.</param>
+        public static Company CreateCompany(global::System.Int32 companyID, global::System.String name, global::System.Boolean tripIncentive, global::System.Int32 companyType, global::System.Boolean signedUpForTrip)
         {
             Company company = new Company();
             company.CompanyID = companyID;
             company.Name = name;
             company.TripIncentive = tripIncentive;
             company.CompanyType = companyType;
+            company.SignedUpForTrip = signedUpForTrip;
             return company;
         }
 
@@ -5954,6 +5956,78 @@ namespace PDWDBContext
         private Nullable<global::System.Int32> _PaoliSalesRepMemberID;
         partial void OnPaoliSalesRepMemberIDChanging(Nullable<global::System.Int32> value);
         partial void OnPaoliSalesRepMemberIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean SignedUpForTrip
+        {
+            get
+            {
+                return _SignedUpForTrip;
+            }
+            set
+            {
+                OnSignedUpForTripChanging(value);
+                ReportPropertyChanging("SignedUpForTrip");
+                _SignedUpForTrip = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("SignedUpForTrip");
+                OnSignedUpForTripChanged();
+            }
+        }
+        private global::System.Boolean _SignedUpForTrip;
+        partial void OnSignedUpForTripChanging(global::System.Boolean value);
+        partial void OnSignedUpForTripChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String TripGroup
+        {
+            get
+            {
+                return _TripGroup;
+            }
+            set
+            {
+                OnTripGroupChanging(value);
+                ReportPropertyChanging("TripGroup");
+                _TripGroup = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("TripGroup");
+                OnTripGroupChanged();
+            }
+        }
+        private global::System.String _TripGroup;
+        partial void OnTripGroupChanging(global::System.String value);
+        partial void OnTripGroupChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String TierGroup
+        {
+            get
+            {
+                return _TierGroup;
+            }
+            set
+            {
+                OnTierGroupChanging(value);
+                ReportPropertyChanging("TierGroup");
+                _TierGroup = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("TierGroup");
+                OnTierGroupChanged();
+            }
+        }
+        private global::System.String _TierGroup;
+        partial void OnTierGroupChanging(global::System.String value);
+        partial void OnTierGroupChanged();
 
         #endregion
 
@@ -16062,7 +16136,8 @@ namespace PDWDBContext
         /// <param name="isTempPassword">Initial value of the IsTempPassword property.</param>
         /// <param name="isActive">Initial value of the IsActive property.</param>
         /// <param name="defaultShippingAddress">Initial value of the DefaultShippingAddress property.</param>
-        public static User CreateUser(global::System.Int32 userID, global::System.String firstName, global::System.String lastName, global::System.String email, global::System.String password, global::System.Boolean enabled, global::System.Int32 accountType, global::System.Int32 companyID, global::System.Boolean recWelcomeEmail, global::System.Boolean isTempPassword, global::System.Boolean isActive, global::System.Int32 defaultShippingAddress)
+        /// <param name="viewPerfData">Initial value of the ViewPerfData property.</param>
+        public static User CreateUser(global::System.Int32 userID, global::System.String firstName, global::System.String lastName, global::System.String email, global::System.String password, global::System.Boolean enabled, global::System.Int32 accountType, global::System.Int32 companyID, global::System.Boolean recWelcomeEmail, global::System.Boolean isTempPassword, global::System.Boolean isActive, global::System.Int32 defaultShippingAddress, global::System.Boolean viewPerfData)
         {
             User user = new User();
             user.UserID = userID;
@@ -16077,6 +16152,7 @@ namespace PDWDBContext
             user.IsTempPassword = isTempPassword;
             user.IsActive = isActive;
             user.DefaultShippingAddress = defaultShippingAddress;
+            user.ViewPerfData = viewPerfData;
             return user;
         }
 
@@ -16614,6 +16690,54 @@ namespace PDWDBContext
         private global::System.Int32 _DefaultShippingAddress;
         partial void OnDefaultShippingAddressChanging(global::System.Int32 value);
         partial void OnDefaultShippingAddressChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean ViewPerfData
+        {
+            get
+            {
+                return _ViewPerfData;
+            }
+            set
+            {
+                OnViewPerfDataChanging(value);
+                ReportPropertyChanging("ViewPerfData");
+                _ViewPerfData = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ViewPerfData");
+                OnViewPerfDataChanged();
+            }
+        }
+        private global::System.Boolean _ViewPerfData;
+        partial void OnViewPerfDataChanging(global::System.Boolean value);
+        partial void OnViewPerfDataChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String TierGroup
+        {
+            get
+            {
+                return _TierGroup;
+            }
+            set
+            {
+                OnTierGroupChanging(value);
+                ReportPropertyChanging("TierGroup");
+                _TierGroup = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("TierGroup");
+                OnTierGroupChanged();
+            }
+        }
+        private global::System.String _TierGroup;
+        partial void OnTierGroupChanging(global::System.String value);
+        partial void OnTierGroupChanged();
 
         #endregion
 

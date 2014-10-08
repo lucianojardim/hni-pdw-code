@@ -296,6 +296,16 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
+		public static IEnumerable<SelectListItem> GetTierGroupDDList()
+		{
+			return new List<SelectListItem>() {
+				new SelectListItem() { Text = "Diamond", Value = "Diamond" },
+				new SelectListItem() { Text = "Ruby", Value = "Ruby" },
+				new SelectListItem() { Text = "Emerald", Value = "Emerald" },
+				new SelectListItem() { Text = "Cubic Zirconia", Value = "Cubic Zirconia" }
+			};
+		}
+
 		public static IEnumerable<SelectListItem> GetUserRoleDDList()
 		{
 			var theList = PaoliWebUser.PaoliWebRole.RoleList.Select( u => new SelectListItem() { Value = u.Key.ToString(), Text = u.Value } );

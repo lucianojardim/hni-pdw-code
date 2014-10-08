@@ -533,7 +533,7 @@
 		var thisCompany = CompanyController.GetThisCompanyAsDDItem( includeTerritory: true );
 				<text>
     				emptyDropDownList($('#DealerID'));
-					$('#DealerID').append('<option value="@(thisCompany.First().Value)">@(thisCompany.First().Text.Replace( "'", "''" ))</option>")';
+					$('#DealerID').append('<option value="@(thisCompany.First().Value)">@(thisCompany.First().Text.Replace( "'", "''" ))</option>');
 
     				reloadDealerSalesRepList();
 				</text>

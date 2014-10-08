@@ -562,6 +562,9 @@
           <Property Name="BusinessUnitName" Type="nvarchar" MaxLength="200" />
           <Property Name="PaoliMemberID" Type="int" />
           <Property Name="PaoliSalesRepMemberID" Type="int" />
+          <Property Name="SignedUpForTrip" Type="bit" Nullable="false" />
+          <Property Name="TripGroup" Type="nvarchar" MaxLength="50" />
+          <Property Name="TierGroup" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="DealerFeaturedProducts">
           <Key>
@@ -1032,6 +1035,8 @@
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="AuthorCredit" Type="nvarchar" MaxLength="500" />
           <Property Name="DefaultShippingAddress" Type="int" Nullable="false" />
+          <Property Name="ViewPerfData" Type="bit" Nullable="false" />
+          <Property Name="TierGroup" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="UserSubscriptions">
           <Key>
@@ -3089,6 +3094,8 @@
           <NavigationProperty Name="SpecRequestEvents" Relationship="PaoliPDWModel.FK_Events_Users" FromRole="User" ToRole="SpecRequestEvent" />
           <NavigationProperty Name="LeadTimeDetails" Relationship="PaoliPDWModel.FK_LeadTimeDetail_User" FromRole="User" ToRole="LeadTimeDetail" />
           <Property Type="Int32" Name="DefaultShippingAddress" Nullable="false" />
+          <Property Type="Boolean" Name="ViewPerfData" Nullable="false" />
+          <Property Type="String" Name="TierGroup" MaxLength="50" FixedLength="false" Unicode="true" />
           </EntityType>
         <EntityType Name="Company">
           <Key>
@@ -3136,6 +3143,9 @@
           <Property Type="Int32" Name="PaoliSalesRepMemberID" />
           <NavigationProperty Name="PaoliSalesRepMember" Relationship="PaoliPDWModel.fkCompany_PaoliSalesRepMember" FromRole="Company" ToRole="User" />
           <NavigationProperty Name="eCollateralItems" Relationship="PaoliPDWModel.fkeCollateral_Dealership" FromRole="Company" ToRole="eCollateralItem" />
+          <Property Type="Boolean" Name="SignedUpForTrip" Nullable="false" />
+          <Property Type="String" Name="TripGroup" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TierGroup" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SpecRequestFile">
           <Key>
@@ -4355,6 +4365,8 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="PaoliPDWModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="TierGroup" ColumnName="TierGroup" />
+                <ScalarProperty Name="ViewPerfData" ColumnName="ViewPerfData" />
                 <ScalarProperty Name="DefaultShippingAddress" ColumnName="DefaultShippingAddress" />
                 <ScalarProperty Name="AuthorCredit" ColumnName="AuthorCredit" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
@@ -4383,6 +4395,9 @@
           <EntitySetMapping Name="Companies">
             <EntityTypeMapping TypeName="PaoliPDWModel.Company">
               <MappingFragment StoreEntitySet="Companies">
+                <ScalarProperty Name="TierGroup" ColumnName="TierGroup" />
+                <ScalarProperty Name="TripGroup" ColumnName="TripGroup" />
+                <ScalarProperty Name="SignedUpForTrip" ColumnName="SignedUpForTrip" />
                 <ScalarProperty Name="PaoliSalesRepMemberID" ColumnName="PaoliSalesRepMemberID" />
                 <ScalarProperty Name="PaoliMemberID" ColumnName="PaoliMemberID" />
                 <ScalarProperty Name="BusinessUnitName" ColumnName="BusinessUnitName" />

@@ -52,8 +52,12 @@ namespace PDWModels.Users
 		public string UserImageFileName { get; set; }
 		[DisplayName( "Default Shipping Address" )]
 		public int DefaultShippingAddress { get; set; }
+		[DisplayName( "User Tier" )]
+		public string TierGroup { get; set; }
 
 		[DisplayName( "Company" )]
 		public string CompanyName { get; set; }
+		[DisplayName( "Company Tier" )]
+		public string CompanyTierGroup { get; set; }
 	}
 }

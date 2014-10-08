@@ -91,6 +91,13 @@ namespace PDWModels.Companies
 		public int? PaoliMemberID { get; set; }
 		[DisplayName( "Primary Sales Rep" )]
 		public int? PaoliSalesRepMemberID { get; set; }
+		[DisplayName( "Is business unit signed up for trip?" )]
+		[Required]
+		public bool SignedUpForTrip { get; set; }
+		[DisplayName( "Trip group" )]
+		public string TripGroup { get; set; }
+		[DisplayName( "Company Tier Assignment" )]
+		public string TierGroup { get; set; }
 
 		public bool LockCompanyType { get; set; }
 

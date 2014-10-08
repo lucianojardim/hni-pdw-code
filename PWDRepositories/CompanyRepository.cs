@@ -70,6 +70,9 @@ namespace PWDRepositories
 			newCompany.PublicContactEmail = cInfo.PublicContactEmail;
 			newCompany.PublicWebSite = cInfo.PublicWebSite;
 			newCompany.PublicDisplayName = cInfo.PublicDisplayName;
+			newCompany.SignedUpForTrip = cInfo.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ? cInfo.SignedUpForTrip : false;
+			newCompany.TripGroup = cInfo.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ? (newCompany.SignedUpForTrip ? cInfo.TripGroup : null) : null;
+			newCompany.TierGroup = cInfo.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ? cInfo.TierGroup : null;
 
 			if( cInfo.HasShowroom )
 			{
@@ -147,6 +150,9 @@ namespace PWDRepositories
 				PublicContactEmail = eCompany.PublicContactEmail,
 				PublicWebSite = eCompany.PublicWebSite,
 				PublicDisplayName = eCompany.PublicDisplayName,
+				SignedUpForTrip = eCompany.SignedUpForTrip,
+				TripGroup = eCompany.TripGroup,
+				TierGroup = eCompany.TierGroup,
 
 				HasShowroom = eCompany.Showroom != null,
 				ShowroomDisplayName = eCompany.Showroom != null ? eCompany.Showroom.DisplayName : null,
@@ -207,6 +213,9 @@ namespace PWDRepositories
 			eCompany.PublicContactEmail = cInfo.PublicContactEmail;
 			eCompany.PublicWebSite = cInfo.PublicWebSite;
 			eCompany.PublicDisplayName = cInfo.PublicDisplayName;
+			eCompany.SignedUpForTrip = cInfo.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ? cInfo.SignedUpForTrip : false;
+			eCompany.TripGroup = cInfo.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ? ( eCompany.SignedUpForTrip ? cInfo.TripGroup : null ) : null;
+			eCompany.TierGroup = cInfo.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ? cInfo.TierGroup : null;
 
 			eCompany.ShowroomImages.Clear();
 
