@@ -289,8 +289,9 @@ namespace PWDRepositories
 				{ 
 					Name = img.Name, 
 					FileName = img.ThumbnailImageData( "m16to9" ).FileName, 
-					ImageID = img.ImageID, 
-					CanLightbox = ImageFile.ImageCanLightbox( img.ImageType ) 
+					ImageID = img.ImageID,
+					CanLightbox = ImageFile.ImageCanLightbox( img.ImageType ),
+					HiResFileName = img.OriginalImage 
 				} );
 
 			return gallery;
