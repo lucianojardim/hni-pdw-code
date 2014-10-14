@@ -427,9 +427,11 @@ namespace PWDRepositories
 			var imageIdList = termImageList.Keys.Where( i => termImageList[i] == rightAnswer );
 
 			return database.ImageFiles
+				.Where( i => !i.HasPeople )
 				.Where( imgFile => imageTypeList.Any( it => it == imgFile.ImageType ) )
 				.Where( i => imageIdList.Contains( i.ImageID ) )
 				.Distinct()
+				.OrderByDescending( i => i.CreatedDate )
 				.ToList()
 				.Select( img => ToImageListSummary( img, largeImage ) );
 		}
