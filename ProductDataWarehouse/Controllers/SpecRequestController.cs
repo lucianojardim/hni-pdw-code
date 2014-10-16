@@ -26,12 +26,7 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult ViewAll()
 		{
-			if( PaoliWebUser.CurrentUser.IsNewLayout )
-			{
-				return View( viewName: "NewViewAll" );
-			}
-
-			return View();
+			return View( viewName: "NewViewAll" );
 		}
 
 		[PaoliAuthorize( "CanViewSpecRequests" )]
@@ -93,12 +88,7 @@ namespace ProductDataWarehouse.Controllers
 		{
 			ViewBag.BlankInformation = new SpecRequestRepository().NewSpecRequest();
 
-			if( PaoliWebUser.CurrentUser.IsNewLayout )
-			{
-				return View( viewName: "NewAddRequest" );
-			}
-
-			return View();
+			return View( viewName: "NewAddRequest" );
 		}
 
 		[PaoliAuthorize( "CanAddSpecRequests" )]
@@ -122,12 +112,7 @@ namespace ProductDataWarehouse.Controllers
 			}
 			ViewBag.BlankInformation = new SpecRequestRepository().NewSpecRequest();
 
-			if( PaoliWebUser.CurrentUser.IsNewLayout )
-			{
-				return View( viewName: "NewAddRequest", model: sInfo );
-			}
-
-			return View( sInfo );
+			return View( viewName: "NewAddRequest", model: sInfo );
 		}
 
 		[PaoliAuthorize( "CanManageTypicals" )]
@@ -231,12 +216,7 @@ namespace ProductDataWarehouse.Controllers
 		{
 			SpecRequestRepository sRepository = new SpecRequestRepository();
 
-			if( PaoliWebUser.CurrentUser.IsNewLayout )
-			{
-				return View( viewName: "NewViewRequest", model: sRepository.GetSpecRequest( id ) );
-			}
-
-			return View( sRepository.GetSpecRequest( id ) );
+			return View( viewName: "NewViewRequest", model: sRepository.GetSpecRequest( id ) );
 		}
 
 		[PaoliAuthorize( "CanReOpenSpecRequests" )]

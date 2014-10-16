@@ -9,10 +9,8 @@ using PDWModels;
 
 namespace PWDRepositories
 {
-	public class CompanyRepository
+	public class CompanyRepository : BaseRepository
 	{
-		private PaoliPDWEntities database = new PaoliPDWEntities();
-
 		public CompanyRepository()
 		{
 		}
@@ -105,7 +103,7 @@ namespace PWDRepositories
 				}
 			}
 
-			database.Companies.AddObject( newCompany );
+			database.Companies.Add( newCompany );
 
 			return database.SaveChanges() > 0;
 		}
@@ -255,7 +253,7 @@ namespace PWDRepositories
 			}
 			else if( eCompany.Showroom != null )
 			{
-				database.DeleteObject( eCompany.Showroom );
+				database.Showrooms.Remove( eCompany.Showroom );
 			}
 
 			return database.SaveChanges() > 0;
@@ -272,9 +270,9 @@ namespace PWDRepositories
 			eCompany.ShowroomImages.Clear();
 			if( eCompany.Showroom != null )
 			{
-				database.DeleteObject( eCompany.Showroom );
+				database.Showrooms.Remove( eCompany.Showroom );
 			}
-			database.DeleteObject( eCompany );
+			database.Companies.Remove( eCompany );
 
 			return database.SaveChanges() > 0;
 		}

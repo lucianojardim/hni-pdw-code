@@ -13,10 +13,8 @@ using PDWInfrastructure.EmailSenders;
 
 namespace PWDRepositories
 {
-    public class UserRepository
+    public class UserRepository : BaseRepository
     {
-		private PaoliPDWEntities database = new PaoliPDWEntities();
-
         public UserRepository()
 		{
 		}
@@ -75,7 +73,7 @@ namespace PWDRepositories
 					user.Password = enc.Encrypt( "Password!" );
 					user.AccountType = PaoliWebUser.PaoliWebRole.SuperAdmin;
 					user.CompanyID = database.Companies.First( c => c.CompanyType == PaoliWebUser.PaoliCompanyType.Paoli ).CompanyID;
-					database.AddToUsers( user );
+					database.Users.Add( user );
 
 					if( database.SaveChanges() == 0 )
 					{
@@ -168,7 +166,7 @@ namespace PWDRepositories
 					newUser.ImageFileName ) );
 			}
 
-			database.Users.AddObject( newUser );
+			database.Users.Add( newUser );
 
 			if( database.SaveChanges() > 0 )
 			{
@@ -179,7 +177,7 @@ namespace PWDRepositories
 
 				if( PaoliWebUser.PaoliWebRole.IsDealerAccountType( newUser.AccountType ) )
 				{
-					database.Refresh( System.Data.Objects.RefreshMode.StoreWins, newUser );
+					database.Entry( newUser ).Reload();
 
 					( new NewDealerUserEmailSender() ).SubmitNewUserEmail( new NewDealerUserEmailSender.EmailUserSummary()
 						{
@@ -578,7 +576,7 @@ namespace PWDRepositories
 			{
 				eUser = new UserSubscription();
 				eUser.UserID = uSummary.UserID;
-				database.UserSubscriptions.AddObject( eUser );
+				database.UserSubscriptions.Add( eUser );
 			}
 
 			if( uSummary.SMSAlerts && uSummary.SMSPhoneNumber == null )

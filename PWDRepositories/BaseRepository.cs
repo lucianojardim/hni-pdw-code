@@ -8,8 +8,10 @@ using System.Configuration;
 
 namespace PWDRepositories
 {
-	public abstract class BaseRepository
+	public abstract class BaseRepository : IDisposable
 	{
+		protected PaoliPDWEntities database = new PaoliPDWEntities();
+
 		public EmailSender.EmailFromDetails GetPaoliMemberFromDetails( Company company )
 		{
 			if( company != null && company.PaoliMemberID.HasValue )
@@ -31,5 +33,14 @@ namespace PWDRepositories
 				FromEmailAddress = ConfigurationManager.AppSettings["EmailFromEmailAddress"]
 			};
 		}
+
+		#region IDisposable Members
+
+		public void Dispose()
+		{
+			database.Dispose();
+		}
+
+		#endregion
 	}
 }

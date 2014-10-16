@@ -9,10 +9,8 @@ using System.Web;
 
 namespace PWDRepositories
 {
-	public class ArticleRepository
+	public class ArticleRepository : BaseRepository
 	{
-		private PaoliPDWEntities database = new PaoliPDWEntities();
-
 		private const int ArticleCount = 9;
 
 		public ArticleRepository()
@@ -194,7 +192,7 @@ namespace PWDRepositories
 			newArticle.ShowBigImage = aInfo.ShowBigImage;
 			newArticle.ArticleType = aInfo.ArticleType;
 
-			database.ScoopArticles.AddObject( newArticle );
+			database.ScoopArticles.Add( newArticle );
 
 			return database.SaveChanges() > 0;
 		}
@@ -246,7 +244,7 @@ namespace PWDRepositories
 				throw new Exception( "Unable to find article." );
 			}
 
-			database.DeleteObject( dbArticle );
+			database.ScoopArticles.Remove( dbArticle );
 
 			return database.SaveChanges() > 0;
 		}

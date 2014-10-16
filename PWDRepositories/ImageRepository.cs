@@ -13,10 +13,8 @@ using PDWModels;
 
 namespace PWDRepositories
 {
-	public class ImageRepository
+	public class ImageRepository : BaseRepository
 	{
-		private PaoliPDWEntities database = new PaoliPDWEntities();
-
 		public ImageRepository()
 		{
 		}
@@ -94,6 +92,7 @@ namespace PWDRepositories
 							.SeriesTypicals
 								.Where( t => t.Typical.IsPublished && t.Typical.TypicalImageFiles.Any( tif => tif.ImageID == s.ImageID ) )
 								.Select( st1 => st1.Typical.Name )
+								.ToList()
 					} ).ToList();
 
 			// add orphaned typicals
@@ -433,7 +432,8 @@ namespace PWDRepositories
 				.Distinct()
 				.OrderByDescending( i => i.CreatedDate )
 				.ToList()
-				.Select( img => ToImageListSummary( img, largeImage ) );
+				.Select( img => ToImageListSummary( img, largeImage ) )
+				.ToList();
 		}
 
 		public ImageItemDetails GetImageDetailInfo( int imageId )
@@ -767,7 +767,7 @@ namespace PWDRepositories
 			imgData.ControlDescription = imgInfo.ControlDescription;
 			imgData.GoToGuidePage = imgInfo.GoToGuidePageNum;
 
-			database.ImageFiles.AddObject( imgData );
+			database.ImageFiles.Add( imgData );
 
 			database.SaveChanges();
 
@@ -815,7 +815,7 @@ namespace PWDRepositories
 			{
 				if( !imgData.SeriesImageFiles.Any() && !imgData.TypicalImageFiles.Any() )
 				{
-					database.ImageFiles.DeleteObject( imgData );
+					database.ImageFiles.Remove( imgData );
 
 					database.SaveChanges();
 				}
@@ -884,7 +884,8 @@ namespace PWDRepositories
 				.Where( i => i.Name.Contains( query ) )
 				.OrderBy( i => i.Name )
 				.Take( maxNumber )
-				.Select( i => i.Name );
+				.Select( i => i.Name )
+				.ToList();
 		}
 	}
 }

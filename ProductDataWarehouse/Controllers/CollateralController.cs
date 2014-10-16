@@ -198,12 +198,7 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult AddOrder()
 		{
-			if( PaoliWebUser.CurrentUser.IsNewLayout )
-			{
-				return View( viewName: "NewAddOrder", model: ( new CollateralRepository() ).BlankOrderInformation() );
-			}
-
-			return View( ( new CollateralRepository() ).BlankOrderInformation() );
+			return View( viewName: "NewAddOrder", model: ( new CollateralRepository() ).BlankOrderInformation() );
 		}
 
 		[PaoliAuthorize( "CanAddOrders" )]
@@ -226,12 +221,7 @@ namespace ProductDataWarehouse.Controllers
 					return RedirectToAction( "ViewOrders" );
 			}
 
-			if( PaoliWebUser.CurrentUser.IsNewLayout )
-			{
-				return View( viewName: "NewAddOrder", model: orderInfo );
-			}
-
-			return View( orderInfo );
+			return View( viewName: "NewAddOrder", model: orderInfo );
 		}
 
 		[PaoliAuthorize( "CanManageOrders" )]
@@ -263,11 +253,7 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult ViewOrder( int id )
 		{
-			if( PaoliWebUser.CurrentUser.IsNewLayout )
-			{
-				return View( viewName: "NewViewOrder", model: ( new CollateralRepository() ).GetPendingOrder( id, true ) );
-			}
-			return View( ( new CollateralRepository() ).GetPendingOrder( id, true ) );
+			return View( viewName: "NewViewOrder", model: ( new CollateralRepository() ).GetPendingOrder( id, true ) );
 		}
 
 		[PaoliAuthorize( "CanManageOrders" )]
@@ -302,12 +288,7 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult ViewOrders()
 		{
-			if( PaoliWebUser.CurrentUser.IsNewLayout )
-			{
-				return View( viewName: "NewOrderList" );
-			}
-
-			return View();
+			return View( viewName: "NewOrderList" );
 		}
 
 		[PaoliAuthorize( "CanAddOrders" )]

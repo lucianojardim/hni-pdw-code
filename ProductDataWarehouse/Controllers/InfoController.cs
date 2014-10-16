@@ -13,9 +13,10 @@ namespace ProductDataWarehouse.Controllers
     {
 		public ActionResult Index( string id )
         {
-			ECollateralRepository eRepository = new ECollateralRepository();
-
-			return View( eRepository.GetItemDetails( id ) );
+			using( ECollateralRepository eRepository = new ECollateralRepository() )
+			{
+				return View( eRepository.GetItemDetails( id ) );
+			}
 		}
 
     }

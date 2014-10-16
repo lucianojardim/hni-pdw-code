@@ -15,17 +15,15 @@ using PDWModels.LeadTimes;
 
 namespace PWDRepositories
 {
-	public class ImportRepository
+	public class ImportRepository : BaseRepository
 	{
-		private PaoliPDWEntities database = new PaoliPDWEntities();
-
 		public ImportRepository()
 		{
 		}
 
 		private void DeleteAllObjects( string dbTable )
 		{
-			database.ExecuteStoreCommand( string.Format( "DELETE FROM {0}", dbTable ) );
+			database.Database.ExecuteSqlCommand( string.Format( "DELETE FROM {0}", dbTable ) );
 		}
 
 		public void ImportFileData( Stream fStream, int fileLength )
@@ -77,7 +75,7 @@ namespace PWDRepositories
 								{
 									cat = new Category();
 									cat.Name = val;
-									database.Categories.AddObject( cat );
+									database.Categories.Add( cat );
 								}
 								sData.Category = cat;
 							}
@@ -107,16 +105,16 @@ namespace PWDRepositories
 								var attData = database.Attributes.FirstOrDefault( a => a.Name == header );
 								if( attData == null )
 								{
-									attData = new PDWDBContext.Attribute();
+									attData = new PDWDBContext.Attribute( false );
 									attData.Name = header;
-									database.Attributes.AddObject( attData );
+									database.Attributes.Add( attData );
 								}
 
 								var attForSeries = new SeriesTextAttribute();
 								attForSeries.Attribute = attData;
 								attForSeries.Value = val ?? "";
 								attForSeries.Series = sData;
-								database.SeriesTextAttributes.AddObject( attForSeries );
+								database.SeriesTextAttributes.Add( attForSeries );
 							}
 							break;
 						case "image - featured":
@@ -135,7 +133,7 @@ namespace PWDRepositories
 										sif.ImageFile = img;
 										sif.Series = sData;
 										sif.DisplayOrder = sif.IsFeatured ? 0 : displayOrder;
-										database.SeriesImageFiles.AddObject( sif );
+										database.SeriesImageFiles.Add( sif );
 
 										displayOrder++;
 									}
@@ -148,16 +146,16 @@ namespace PWDRepositories
 								var attData = database.Attributes.FirstOrDefault( a => a.Name == "ranking" );
 								if( attData == null )
 								{
-									attData = new PDWDBContext.Attribute();
+									attData = new PDWDBContext.Attribute( false );
 									attData.Name = "Ranking";
-									database.Attributes.AddObject( attData );
+									database.Attributes.Add( attData );
 								}
 
 								var attForSeries = new SeriesIntAttribute();
 								attForSeries.Attribute = attData;
 								attForSeries.Value = val.ToLower() == "yes" ? 2 : 1;
 								attForSeries.Series = sData;
-								database.SeriesIntAttributes.AddObject( attForSeries );
+								database.SeriesIntAttributes.Add( attForSeries );
 							}
 							break;
 						case "related series":
@@ -184,16 +182,16 @@ namespace PWDRepositories
 								var attData = database.Attributes.FirstOrDefault( a => a.Name == header );
 								if( attData == null )
 								{
-									attData = new PDWDBContext.Attribute();
+									attData = new PDWDBContext.Attribute( false );
 									attData.Name = header;
-									database.Attributes.AddObject( attData );
+									database.Attributes.Add( attData );
 								}
 
 								var attForSeries = new SeriesTextAttribute();
 								attForSeries.Attribute = attData;
 								attForSeries.Value = val;
 								attForSeries.Series = sData;
-								database.SeriesTextAttributes.AddObject( attForSeries );
+								database.SeriesTextAttributes.Add( attForSeries );
 							}
 							break;
 						case "pricing range":
@@ -202,16 +200,16 @@ namespace PWDRepositories
 								var attData = database.Attributes.FirstOrDefault( a => a.Name == header );
 								if( attData == null )
 								{
-									attData = new PDWDBContext.Attribute();
+									attData = new PDWDBContext.Attribute( false );
 									attData.Name = header;
-									database.Attributes.AddObject( attData );
+									database.Attributes.Add( attData );
 								}
 
 								var attForSeries = new SeriesTextAttribute();
 								attForSeries.Attribute = attData;
 								attForSeries.Value = val;
 								attForSeries.Series = sData;
-								database.SeriesTextAttributes.AddObject( attForSeries );
+								database.SeriesTextAttributes.Add( attForSeries );
 
 								var startingPrice = string.Join( "", val.Intersect( "0123456789" ) );
 								int price = 0;
@@ -220,16 +218,16 @@ namespace PWDRepositories
 									var priceData = database.Attributes.FirstOrDefault( a => a.Name == "Starting Price" );
 									if( priceData == null )
 									{
-										priceData = new PDWDBContext.Attribute();
+										priceData = new PDWDBContext.Attribute( false );
 										priceData.Name = "Starting Price";
-										database.Attributes.AddObject( priceData );
+										database.Attributes.Add( priceData );
 									}
 
 									var priceForSeries = new SeriesIntAttribute();
 									priceForSeries.Attribute = priceData;
 									priceForSeries.Value = price;
 									priceForSeries.Series = sData;
-									database.SeriesIntAttributes.AddObject( priceForSeries );
+									database.SeriesIntAttributes.Add( priceForSeries );
 								}
 							}
 							break;
@@ -239,15 +237,9 @@ namespace PWDRepositories
 								var attData = database.Attributes.FirstOrDefault( a => a.Name == header );
 								if( attData == null )
 								{
-									attData = new PDWDBContext.Attribute();
-									switch( header.ToLower() )
-									{
-										default:
-											attData.DetailItem = true;
-											break;
-									}
+									attData = new PDWDBContext.Attribute( true );
 									attData.Name = header;
-									database.Attributes.AddObject( attData );
+									database.Attributes.Add( attData );
 								}
 								var values = val.Split( '\r', '\n' );
 								foreach( var indVal in values.Select( s => s.Trim() ) )
@@ -263,7 +255,7 @@ namespace PWDRepositories
 											}
 											optVal = new AttributeOption();
 											optVal.Name = indVal;
-											database.AttributeOptions.AddObject( optVal );
+											database.AttributeOptions.Add( optVal );
 											attData.AttributeOptions.Add( optVal );
 										}
 
@@ -271,7 +263,7 @@ namespace PWDRepositories
 										attForSeries.Attribute = attData;
 										attForSeries.AttributeOption = optVal;
 										attForSeries.Series = sData;
-										database.SeriesOptionAttributes.AddObject( attForSeries );
+										database.SeriesOptionAttributes.Add( attForSeries );
 									}
 								}
 							}
@@ -282,15 +274,9 @@ namespace PWDRepositories
 								var attData = database.Attributes.FirstOrDefault( a => a.Name == header );
 								if( attData == null )
 								{
-									attData = new PDWDBContext.Attribute();
-									switch( header.ToLower() )
-									{
-										default:
-											attData.DetailItem = true;
-											break;
-									}
+									attData = new PDWDBContext.Attribute( true );
 									attData.Name = header;
-									database.Attributes.AddObject( attData );
+									database.Attributes.Add( attData );
 								}
 								var values = val.Split( ',' );
 								foreach( var indVal in values.Select( s => s.Trim() ).Where( s => s.Any() ) )
@@ -304,7 +290,7 @@ namespace PWDRepositories
 										}
 										optVal = new AttributeOption();
 										optVal.Name = indVal;
-										database.AttributeOptions.AddObject( optVal );
+										database.AttributeOptions.Add( optVal );
 										attData.AttributeOptions.Add( optVal );
 									}
 
@@ -312,7 +298,7 @@ namespace PWDRepositories
 									attForSeries.Attribute = attData;
 									attForSeries.AttributeOption = optVal;
 									attForSeries.Series = sData;
-									database.SeriesOptionAttributes.AddObject( attForSeries );
+									database.SeriesOptionAttributes.Add( attForSeries );
 								}
 							}
 							break;
@@ -344,9 +330,9 @@ namespace PWDRepositories
 
 				sData.DBKeywords = SearchText.GetKeywordList( arrKeywordList );
 
-				database.Serieses.AddObject( sData );
+				database.Serieses.Add( sData );
 				database.SaveChanges();
-				database.Refresh( RefreshMode.StoreWins, sData );
+				database.Entry( sData ).Reload();
 
 				if( relatedSeries.Any() )
 				{
@@ -384,7 +370,7 @@ namespace PWDRepositories
 					stData.IsPrimary = true;
 					stData.Series = rSeries;
 					stData.Typical = tData;
-					database.SeriesTypicals.AddObject( stData );
+					database.SeriesTypicals.Add( stData );
 
 					tData.FeaturedSeries = rSeries.Name;
 				}
@@ -400,7 +386,7 @@ namespace PWDRepositories
 							stData.IsPrimary = false;
 							stData.Series = oSeries;
 							stData.Typical = tData;
-							database.SeriesTypicals.AddObject( stData );
+							database.SeriesTypicals.Add( stData );
 						}
 					}
 				}
@@ -420,7 +406,7 @@ namespace PWDRepositories
 			srl.ImageCount = imageCount;
 			srl.TypicalCount = typicalCount;
 			srl.PageCount = pageCount;
-			database.AddToSearchResultsLogs( srl );
+			database.SearchResultsLogs.Add( srl );
 
 			return (database.SaveChanges() > 0);
 		}
@@ -528,7 +514,7 @@ namespace PWDRepositories
 			}
 			else
 			{
-				database.HomePageContents.AddObject( new HomePageContent() { ContentData = content.ContentArea } );
+				database.HomePageContents.Add( new HomePageContent() { ContentData = content.ContentArea } );
 			}
 
 			return database.SaveChanges() > 0;
@@ -579,7 +565,7 @@ namespace PWDRepositories
 			if( detail == null )
 			{
 				detail = new LeadTimeDetail();
-				database.LeadTimeDetails.AddObject( detail );
+				database.LeadTimeDetails.Add( detail );
 			}
 
 			detail.PromoText = info.PromoText;

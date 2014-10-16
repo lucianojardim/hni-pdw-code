@@ -7,9 +7,9 @@ namespace PDWDBContext
 {
 	public partial class Attribute
 	{
-		public Attribute()
+		public Attribute( bool bDetail ) : this()
 		{
-			DetailItem = false;
+			DetailItem = bDetail;
 		}
 	}
 }

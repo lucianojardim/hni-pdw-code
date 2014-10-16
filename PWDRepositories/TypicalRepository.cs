@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 using System.Text;
 using PDWDBContext;
 using PDWModels.Typicals;
@@ -9,10 +10,8 @@ using PDWModels;
 
 namespace PWDRepositories
 {
-	public class TypicalRepository
+	public class TypicalRepository : BaseRepository
 	{
-		private PaoliPDWEntities database = new PaoliPDWEntities();
-
 		public TypicalRepository()
 		{
 		}
@@ -24,6 +23,11 @@ namespace PWDRepositories
 			TypicalDetailListGallery gallery = new TypicalDetailListGallery();
 
 			var theList = database.Typicals
+				.Include( t => t.SeriesTypicals.Select( s => s.Series.Category ) )
+				.Include( t => t.TypicalOptionAttributes.Select( s => s.TAttribute ) )
+				.Include( t => t.TypicalOptionAttributes.Select( s => s.TAttributeOption ) )
+				.Include( t => t.TypicalIntAttributes )
+				.Include( t => t.TypicalImageFiles.Select( s => s.ImageFile ) )
 				.Where( t => t.IsPublished )
 				.AsQueryable();
 			gallery.TotalListCount = theList.Count();
@@ -61,7 +65,7 @@ namespace PWDRepositories
 			}
 			if( (fpSize ?? "").Any() )
 			{
-				var userDimList = fpSize.Split( 'x' );
+				var userDimList = fpSize.ToLower().Split( 'x' );
 				if( userDimList.Length == 2 )
 				{
 					int nLength = 0, nWidth = 0;
@@ -75,7 +79,7 @@ namespace PWDRepositories
 							{
 								foreach( var tOption in fpAttribute.TypicalOptionAttributes )
 								{
-									var dimList = tOption.TAttributeOption.Name.Split( 'x' );
+									var dimList = tOption.TAttributeOption.Name.ToLower().Split( 'x' );
 									if( dimList.Count() == 2 )
 									{
 										int nDim1 = 0, nDim2 = 0;
@@ -90,7 +94,10 @@ namespace PWDRepositories
 									}
 								}
 							}
-							theList = theList.Where( s => fpList.Contains( s.TypicalOptionAttributes.FirstOrDefault( a => a.TAttribute.Name == "Footprint" ).OptionID ) );
+							var tList = database.TypicalOptionAttributes.Where( a => fpList.Contains( a.OptionID ) )
+								.Select( a => a.TypicalID )
+								.ToList();
+							theList = theList.Where( s => tList.Contains( s.TypicalID ) );
 						}
 					}
 				}
@@ -138,8 +145,10 @@ namespace PWDRepositories
 					ImageFileData = t.FeaturedImageForSize( "m16to9" ),
 					Price = t.IntAttribute( "Pricing" ),
 					Footprints = t.AttributeSet( "Footprint" ),
-					SeriesList = t.SeriesTypicals.Select( st => st.Series.Name )
-				} );
+					SeriesList = t.SeriesTypicals.Select( st => st.Series.Name ),
+					Shapes = t.AttributeSet( "Shape" )
+				} )
+				.ToList();
 
 			return gallery;
 		}
@@ -205,6 +214,11 @@ namespace PWDRepositories
 			TypicalListGallery gallery = new TypicalListGallery();
 
 			var theList = database.Typicals
+				.Include( t => t.SeriesTypicals.Select( s => s.Series.Category ) )
+				.Include( t => t.TypicalOptionAttributes.Select( s => s.TAttribute ) )
+				.Include( t => t.TypicalOptionAttributes.Select( s => s.TAttributeOption ) )
+				.Include( t => t.TypicalIntAttributes )
+				.Include( t => t.TypicalImageFiles.Select( s => s.ImageFile ) )
 				.Where( t => t.IsPublished )
 				.AsQueryable();
 			gallery.TotalListCount = theList.Count();
@@ -242,7 +256,7 @@ namespace PWDRepositories
 			}
 			if( (fpSize ?? "").Any() )
 			{
-				var userDimList = fpSize.Split( 'x' );
+				var userDimList = fpSize.ToLower().Split( 'x' );
 				if( userDimList.Length == 2 )
 				{
 					int nLength = 0, nWidth = 0;
@@ -256,7 +270,7 @@ namespace PWDRepositories
 							{
 								foreach( var tOption in fpAttribute.TypicalOptionAttributes )
 								{
-									var dimList = tOption.TAttributeOption.Name.Split( 'x' );
+									var dimList = tOption.TAttributeOption.Name.ToLower().Split( 'x' );
 									if( dimList.Count() == 2 )
 									{
 										int nDim1 = 0, nDim2 = 0;
@@ -271,7 +285,10 @@ namespace PWDRepositories
 									}
 								}
 							}
-							theList = theList.Where( s => fpList.Contains( s.TypicalOptionAttributes.FirstOrDefault( a => a.TAttribute.Name == "Footprint" ).OptionID ) );
+							var tList = database.TypicalOptionAttributes.Where( a => fpList.Contains( a.OptionID ) )
+								.Select( a => a.TypicalID )
+								.ToList();
+							theList = theList.Where( s => tList.Contains( s.TypicalID ) );
 						}
 					}
 				}
@@ -345,6 +362,11 @@ namespace PWDRepositories
 			TypicalListGallery gallery = new TypicalListGallery();
 
 			var theList = database.Typicals
+				.Include( t => t.SeriesTypicals.Select( s => s.Series.Category ) )
+				.Include( t => t.TypicalOptionAttributes.Select( s => s.TAttribute ) )
+				.Include( t => t.TypicalOptionAttributes.Select( s => s.TAttributeOption ) )
+				.Include( t => t.TypicalIntAttributes )
+				.Include( t => t.TypicalImageFiles.Select( s => s.ImageFile ) )
 				.Where( t => t.IsPublished )
 				.AsQueryable();
 			gallery.TotalListCount = theList.Count();
@@ -382,7 +404,7 @@ namespace PWDRepositories
 			}
 			if( (fpSize ?? "").Any() )
 			{
-				var userDimList = fpSize.Split( 'x' );
+				var userDimList = fpSize.ToLower().Split( 'x' );
 				if( userDimList.Length == 2 )
 				{
 					int nLength = 0, nWidth = 0;
@@ -396,7 +418,7 @@ namespace PWDRepositories
 							{
 								foreach( var tOption in fpAttribute.TypicalOptionAttributes )
 								{
-									var dimList = tOption.TAttributeOption.Name.Split( 'x' );
+									var dimList = tOption.TAttributeOption.Name.ToLower().Split( 'x' );
 									if( dimList.Count() == 2 )
 									{
 										int nDim1 = 0, nDim2 = 0;
@@ -411,7 +433,10 @@ namespace PWDRepositories
 									}
 								}
 							}
-							theList = theList.Where( s => fpList.Contains( s.TypicalOptionAttributes.FirstOrDefault( a => a.TAttribute.Name == "Footprint" ).OptionID ) );
+							var tList = database.TypicalOptionAttributes.Where( a => fpList.Contains( a.OptionID ) )
+								.Select( a => a.TypicalID )
+								.ToList();
+							theList = theList.Where( s => tList.Contains( s.TypicalID ) );
 						}
 					}
 				}
@@ -472,7 +497,8 @@ namespace PWDRepositories
 
 			gallery.Typicals = goodIdList
 				.Select( i => database.Typicals.FirstOrDefault( typ => typ.TypicalID == i ) )
-				.Select( t => ToTypicalListData( t ) );
+				.Select( t => ToTypicalListData( t ) )
+				.ToList();
 
 			return gallery;
 		}
@@ -498,7 +524,7 @@ namespace PWDRepositories
 					tInfo.Series = serTypical.Series.Name;
 				}
 				tInfo.FeaturedImageFileData = theData.FeaturedImageForSize( "l16to9" );
-				tInfo.Images = theData.ImageListForSize( "m16to9", 3 ).Select( i => (ImageComboItem)i );
+				tInfo.Images = theData.ImageListForSize( "m16to9", 3 ).Select( i => (ImageComboItem)i ).ToList();
 				tInfo.Options = new Dictionary<string, IEnumerable<string>>();
 				tInfo.Details = new Dictionary<string, IEnumerable<string>>();
 

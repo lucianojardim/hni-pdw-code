@@ -7,10 +7,8 @@ using PDWModels.Attributes;
 
 namespace PWDRepositories
 {
-	public class AttributeRepository
+	public class AttributeRepository : BaseRepository
 	{
-		private PaoliPDWEntities database = new PaoliPDWEntities();
-
 		public AttributeRepository()
 		{
 		}
@@ -21,7 +19,7 @@ namespace PWDRepositories
 
 			if( attrData != null )
 			{
-				return attrData.AttributeOptions.Select( ao => ao.Name );
+				return attrData.AttributeOptions.Select( ao => ao.Name ).ToList();
 			}
 
 			return new List<string>();
@@ -33,7 +31,7 @@ namespace PWDRepositories
 
 			if( attrData != null )
 			{
-				return attrData.TAttributeOptions.Select( ao => new AttributeComboItem() { ID = ao.OptionID, Name = ao.Name } );
+				return attrData.TAttributeOptions.Select( ao => new AttributeComboItem() { ID = ao.OptionID, Name = ao.Name } ).ToList();
 			}
 
 			return new List<AttributeComboItem>();
@@ -48,7 +46,8 @@ namespace PWDRepositories
 				return attrData.TAttributeOptions
 					.Where( ao => ao.Name.Contains( query ) )
 					.OrderBy( ao => ao.Name )
-					.Select( ao => ao.Name );
+					.Select( ao => ao.Name )
+					.ToList();
 			}
 
 			return new List<string>();
@@ -79,7 +78,7 @@ namespace PWDRepositories
 				.Select( ao => new AttributeOptionInformation()
 					{
 						Name = ao.Name,
-						Serieses = ao.SeriesOptionAttributes.Select( soa => soa.Series.Name )
+						Serieses = ao.SeriesOptionAttributes.Select( soa => soa.Series.Name ).ToList()
 					} )
 				.OrderBy( a => a.Name )
 				.ToList();
@@ -155,7 +154,7 @@ namespace PWDRepositories
 				.Select( ao => new FinishInformation()
 				{
 					Name = ao.Name,
-					Serieses = ao.SeriesOptionAttributes.Select( soa => soa.Series.Name ).OrderBy( s => s )
+					Serieses = ao.SeriesOptionAttributes.Select( soa => soa.Series.Name ).OrderBy( s => s ).ToList()
 				} )
 				.OrderBy( a => a.Name )
 				.ToList();
@@ -200,7 +199,7 @@ namespace PWDRepositories
 					return new CMInformation()
 					{
 						Name = img.ControlMechanism,
-						Serieses = aOption.SeriesOptionAttributes.Select( soa => soa.Series.Name ).OrderBy( s => s ),
+						Serieses = aOption.SeriesOptionAttributes.Select( soa => soa.Series.Name ).OrderBy( s => s ).ToList(),
 						Title = img.Name,
 						FeaturedImage = img.ThumbnailImageData( "l16to9" ),
 						Description = img.ControlDescription

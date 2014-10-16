@@ -11,10 +11,8 @@ using LumenWorks.Framework.IO.Csv;
 
 namespace PWDRepositories
 {
-	public class DealerRepository
+	public class DealerRepository : BaseRepository
 	{
-		private PaoliPDWEntities database = new PaoliPDWEntities();
-
 		public DealerRepository()
 		{
 		}
@@ -209,7 +207,7 @@ namespace PWDRepositories
 				}
 			}
 
-			database.Dealers.AddObject( newDealer );
+			database.Dealers.Add( newDealer );
 
 			return database.SaveChanges() > 0;
 		}
@@ -281,7 +279,7 @@ namespace PWDRepositories
 				dealer.PageLinks.Clear();
 				dealer.DealerFeaturedProducts.Clear();
 
-				database.Dealers.DeleteObject( dealer );
+				database.Dealers.Remove( dealer );
 
 				return database.SaveChanges() > 0;
 			}
@@ -291,7 +289,7 @@ namespace PWDRepositories
 
 		private void DeleteAllObjects( string dbTable )
 		{
-			database.ExecuteStoreCommand( string.Format( "DELETE FROM {0}", dbTable ) );
+			database.Database.ExecuteSqlCommand( string.Format( "DELETE FROM {0}", dbTable ) );
 		}
 
 		public bool ImportDealers( Stream fStream )
@@ -422,7 +420,7 @@ namespace PWDRepositories
 					}
 				}
 
-				database.Dealers.AddObject( dealer );
+				database.Dealers.Add( dealer );
 			}
 
 			return database.SaveChanges() > 0;
@@ -513,7 +511,7 @@ namespace PWDRepositories
 			newVideo.Display = vInfo.Name;
 			newVideo.YouTubeID = vInfo.YouTubeID;
 
-			database.VideoLinks.AddObject( newVideo );
+			database.VideoLinks.Add( newVideo );
 
 			return database.SaveChanges() > 0;
 		}
@@ -539,7 +537,7 @@ namespace PWDRepositories
 			{
 				video.Dealers.Clear();
 
-				database.VideoLinks.DeleteObject( video );
+				database.VideoLinks.Remove( video );
 
 				return database.SaveChanges() > 0;
 			}
@@ -644,7 +642,7 @@ namespace PWDRepositories
 			newPage.Display = vInfo.Name;
 			newPage.URLLocation = vInfo.URLLocation;
 
-			database.PageLinks.AddObject( newPage );
+			database.PageLinks.Add( newPage );
 
 			return database.SaveChanges() > 0;
 		}
@@ -670,7 +668,7 @@ namespace PWDRepositories
 			{
 				pageLink.Dealers.Clear();
 
-				database.PageLinks.DeleteObject( pageLink );
+				database.PageLinks.Remove( pageLink );
 
 				return database.SaveChanges() > 0;
 			}

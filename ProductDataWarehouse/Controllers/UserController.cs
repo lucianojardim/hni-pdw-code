@@ -132,12 +132,7 @@ namespace ProductDataWarehouse.Controllers
 
 			var uInfo = uRepository.GetUser( PaoliWebUser.CurrentUser.UserId );
 
-			if( PaoliWebUser.CurrentUser.IsNewLayout )
-			{
-				return View( viewName: "NewMyAccount", model: uInfo );
-			}
-
-			return View( uInfo );
+			return View( viewName: "NewMyAccount", model: uInfo );
 		}
 
 		[PaoliAuthorize( "CanBeLoggedIn" )]
@@ -148,33 +143,23 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-					UserRepository uRepository = new UserRepository();
+				UserRepository uRepository = new UserRepository();
 
-					uRepository.UpdateUser( uInfo, UserImage != null ? UserImage.InputStream : null, UserImage != null ? UserImage.FileName : null );
+				uRepository.UpdateUser( uInfo, UserImage != null ? UserImage.InputStream : null, UserImage != null ? UserImage.FileName : null );
 
-					ViewBag.AccountUpdateSuccess = true;
+				ViewBag.AccountUpdateSuccess = true;
 
-					// yes, do this - it forces the account to be retrieved from the database again, but keeps the viewbag entry
-					return MyAccount();
+				// yes, do this - it forces the account to be retrieved from the database again, but keeps the viewbag entry
+				return MyAccount();
 			}
 
-			if( PaoliWebUser.CurrentUser.IsNewLayout )
-			{
-				return View( viewName: "NewMyAccount", model: uInfo );
-			}
-
-			return View( uInfo );
+			return View( viewName: "NewMyAccount", model: uInfo );
 		}
 
 		[PaoliAuthorize( "CanBeLoggedIn" )]
 		public ActionResult ChangePW()
 		{
-			if( PaoliWebUser.CurrentUser.IsNewLayout )
-			{
-				return View( viewName: "NewChangePW" );
-			}
-
-			return View();
+			return View( viewName: "NewChangePW" );
 		}
 
 		[PaoliAuthorize( "CanBeLoggedIn" )]
@@ -200,12 +185,7 @@ namespace ProductDataWarehouse.Controllers
 				}
 			}
 
-			if( PaoliWebUser.CurrentUser.IsNewLayout )
-			{
-				return View( viewName: "NewChangePW" );
-			}
-
-			return View();
+			return View( viewName: "NewChangePW" );
 		}
 
 		[PaoliAuthorize( "CanBeLoggedIn" )]

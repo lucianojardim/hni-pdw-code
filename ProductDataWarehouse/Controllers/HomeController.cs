@@ -21,22 +21,15 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult Index()
         {
-			if( PaoliWebUser.CurrentUser.IsNewLayout )
-			{
-				return View( viewName: "NewIndex" );
-			}
-
-			ViewBag.RSSURL = FullSiteURLLocal() + "/";
-			ViewBag.SiteURL = FullSiteURL() + "/";
-			ViewBag.PaoliRepContacts = ( new UserRepository() ).GetPaoliRepContacts( PaoliWebUser.CurrentUser.UserId );
-			ViewBag.PaoliMemberContact = ( new UserRepository() ).GetPaoliMemberContact( PaoliWebUser.CurrentUser.UserId );
-
-			return View();
+			return View( viewName: "NewIndex" );
         }
 
 		public static IEnumerable<UserContactInfo> GetHomeContacts()
 		{
-			return ( new UserRepository() ).GetHeaderContacts( PaoliWebUser.CurrentUser.UserId );
+			using( var uRepo = new UserRepository() )
+			{
+				return uRepo.GetHeaderContacts( PaoliWebUser.CurrentUser.UserId );
+			}
 		}
 
 		public static List<ArticleDisplayInfo> GetHomePageContent()
@@ -47,10 +40,13 @@ namespace ProductDataWarehouse.Controllers
 			else if( PaoliWebUser.CurrentUser.CanSeeTheScoop )
 				articleType = ArticleInformation.ArticleTypes.Scoop;
 
-			var contentArea = ( new ArticleRepository() ).GetMainArticleList( articleType );
-			if( contentArea != null )
+			using( var aRepo = new ArticleRepository() )
 			{
-				return contentArea.ToList();
+				var contentArea = aRepo.GetMainArticleList( articleType );
+				if( contentArea != null )
+				{
+					return contentArea.ToList();
+				}
 			}
 
 			return new List<ArticleDisplayInfo>();
@@ -58,12 +54,15 @@ namespace ProductDataWarehouse.Controllers
 
 		public static string GetHomePageContentHTML()
  		{
-			var contentArea = ( new ImportRepository() ).GetHomePageContent();
- 			if( contentArea != null )
- 			{
-				return contentArea.ContentArea;
- 			}
- 
+			using( var iRepo = new ImportRepository() )
+			{
+				var contentArea = iRepo.GetHomePageContent();
+				if( contentArea != null )
+				{
+					return contentArea.ContentArea;
+				}
+			}
+
 			return "";
  		}
 
@@ -71,18 +70,20 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult LeadTimes()
 		{
-			var iRepo = new ImportRepository();
-
-			return View( iRepo.GetLeadTimeSummary() );
+			using( var iRepo = new ImportRepository() )
+			{
+				return View( iRepo.GetLeadTimeSummary() );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageLeadTimes" )]
 		[TempPasswordCheck]
 		public ActionResult EditLeadTimes()
 		{
-			var iRepo = new ImportRepository();
-
-			return View( iRepo.GetLeadTimeInformation() );
+			using( var iRepo = new ImportRepository() )
+			{
+				return View( iRepo.GetLeadTimeInformation() );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageLeadTimes" )]
@@ -93,9 +94,10 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				var iRepo = new ImportRepository();
-
-				iRepo.UpdateLeadTimes( info );
+				using( var iRepo = new ImportRepository() )
+				{
+					iRepo.UpdateLeadTimes( info );
+				}
 
 				return RedirectToAction( "LeadTimes" );
 			}

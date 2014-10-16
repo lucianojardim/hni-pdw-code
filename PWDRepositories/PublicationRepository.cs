@@ -8,10 +8,8 @@ using PDWModels.Publications;
 
 namespace PWDRepositories
 {
-	public class PublicationRepository
+	public class PublicationRepository : BaseRepository
 	{
-		private PaoliPDWEntities database = new PaoliPDWEntities();
-
 		public PublicationRepository()
 		{
 		}
@@ -112,7 +110,7 @@ namespace PWDRepositories
 			pubData.PubDate = pubInfo.PublicationDate;
 			pubData.FilterVisible = pubInfo.FilterVisible;
 
-			database.Publications.AddObject( pubData );
+			database.Publications.Add( pubData );
 
 			database.SaveChanges();
 		}
@@ -198,7 +196,8 @@ namespace PWDRepositories
 				.Where( p => p.FilterVisible )
 				.Where( p => p.PublicationImages.Any() )
 				.OrderByDescending( p => p.PubDate )
-				.Select( p => new PublicationComboItem() { PublicationID = p.PublicationID, Name = p.Name } );
+				.Select( p => new PublicationComboItem() { PublicationID = p.PublicationID, Name = p.Name } )
+				.ToList();
 		}
 	}
 }

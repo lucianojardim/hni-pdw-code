@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 using System.Text;
 using PDWDBContext;
 using PDWModels.Series;
@@ -9,10 +10,8 @@ using PDWModels;
 
 namespace PWDRepositories
 {
-	public class SeriesRepository
+	public class SeriesRepository : BaseRepository
 	{
-		private PaoliPDWEntities database = new PaoliPDWEntities();
-
 		public SeriesRepository()
 		{
 		}
@@ -20,8 +19,11 @@ namespace PWDRepositories
 		public IEnumerable<SeriesComboItem> GetSeriesNameList( string category )
 		{
 			return database.Serieses
+				.Include( s => s.Category )
 				.Where( s => s.Category.Name == category || category == null )
-				.Select( s => new SeriesComboItem() { SeriesID = s.SeriesID, Name = s.Name } ).Distinct();
+				.Select( s => new SeriesComboItem() { SeriesID = s.SeriesID, Name = s.Name } )
+				.Distinct()
+				.ToList();
 		}
 
 		public IEnumerable<string> GetJustSeriesNameList()
@@ -33,8 +35,11 @@ namespace PWDRepositories
 		public IEnumerable<SeriesComboItem> GetSeriesNameListWithTypicals()
 		{
 			return database.Serieses
+				.Include( s=> s.SeriesTypicals )
 				.Where( se => se.SeriesTypicals.Any() )
-				.Select( s => new SeriesComboItem() { SeriesID = s.SeriesID, Name = s.Name } ).Distinct();
+				.Select( s => new SeriesComboItem() { SeriesID = s.SeriesID, Name = s.Name } )
+				.Distinct()
+				.ToList();
 		}
 
 		private SeriesSearchResult ToSeriesSearchResult( Series s )
@@ -58,13 +63,7 @@ namespace PWDRepositories
 					SeriesID = s.SeriesID,
 					Name = s.Name,
 					Category = s.Category.Name,
-					ImageData = s.FeaturedImageForSize( "m16to9" ),
 					DateCreated = s.CreatedDate,
-					Ranking = s.Ranking,
-					Price = s.StartingPrice,
-					Style = s.AttributeSet( "Style" ),
-					Applications = s.AttributeSet( "Casegood Application" ).Union( s.AttributeSet( "Table Application" ) ).Union( s.AttributeSet( "Seating Application" ) ),
-					IsInTwo = s.AttributeSet( "inTWO" ).Select( i => i.ToLower() ).Contains( "yes" )
 				};
 		}
 
@@ -121,17 +120,39 @@ namespace PWDRepositories
 				.Where( s => seriesIdList.Contains( s.SeriesID ) )
 				.Distinct()
 				.ToList()
-				.Select( s => ToSeriesSearchResult( s ) );
+				.Select( s => ToSeriesSearchResult( s ) )
+				.ToList();
 		}
 
 		public IEnumerable<SeriesListData> GetSeriesData( string category )
 		{
 			var theList = database.Serieses
+				.Include( s => s.Category )
 				.Where( s => s.Category.Name == category || category == null )
 				.Where( s => s.IsActive )
+				.ToList()
+				.Select( s => ToSeriesListData( s ) )
 				.ToList();
 
-			return theList.Select( s => ToSeriesListData( s ) );
+			foreach( var data in theList )
+			{
+				var dbSeries = database.Serieses
+					.Include( s => s.SeriesOptionAttributes.Select( a => a.AttributeOption ) )
+					.Include( s => s.SeriesOptionAttributes.Select( a => a.Attribute ) )
+					.FirstOrDefault( s => s.SeriesID == data.SeriesID );
+
+				if( dbSeries != null )
+				{
+					data.ImageData = dbSeries.FeaturedImageForSize( "m16to9" );
+					data.Ranking = dbSeries.Ranking;
+					data.Price = dbSeries.StartingPrice;
+					data.Style = dbSeries.AttributeSet( "Style" );
+					data.Applications = dbSeries.AttributeSet( "Casegood Application" ).Union( dbSeries.AttributeSet( "Table Application" ) ).Union( dbSeries.AttributeSet( "Seating Application" ) );
+					data.IsInTwo = dbSeries.AttributeSet( "inTWO" ).Select( i => i.ToLower() ).Contains( "yes" );
+				}
+			}
+
+			return theList;
 		}
 
 		public IEnumerable<SeriesDocListData> GetSeriesTextData( IEnumerable<string> attList, IEnumerable<string> detailList )
@@ -139,7 +160,8 @@ namespace PWDRepositories
 			return database.Serieses
 				.OrderBy( s => s.Name )
 				.ToList()
-				.Select( s => ToSeriesDocListData( s, attList, detailList ) );
+				.Select( s => ToSeriesDocListData( s, attList, detailList ) )
+				.ToList();
 		}
 
 		public SeriesInformation GetSeriesInfo( int? id = null, string seriesName = null )
@@ -148,9 +170,11 @@ namespace PWDRepositories
 
 			Series theData = null;
 			if( id.HasValue )
-				theData = database.Serieses.FirstOrDefault( s => s.SeriesID == id );
+				theData = database.Serieses
+					.FirstOrDefault( s => s.SeriesID == id );
 			else if( (seriesName ?? "").Any() )
-				theData = database.Serieses.FirstOrDefault( s => s.Name == seriesName );
+				theData = database.Serieses
+					.FirstOrDefault( s => s.Name == seriesName );
 
 			if( theData != null )
 			{
@@ -158,7 +182,7 @@ namespace PWDRepositories
 				sInfo.Name = theData.Name;
 				sInfo.Category = theData.Category.Name;
 				sInfo.FeaturedImageFile = theData.FeaturedImageForSize( "l16to9" );
-				sInfo.Images = theData.ImageListForSize( "m16to9", 3 ).Select( i => (ImageComboItem)i );
+				sInfo.Images = theData.ImageListForSize( "m16to9", 3 ).Select( i => (ImageComboItem)i ).ToList();
 				sInfo.Options = new Dictionary<string, IEnumerable<string>>();
 				sInfo.Details = new Dictionary<string, IEnumerable<string>>();
 
@@ -321,7 +345,8 @@ namespace PWDRepositories
 						SeriesID = cs.SeriesID,
 						Name = cs.Name,
 						ImageFileData = cs.FeaturedImageForSize( "m16to9" )
-					} );
+					} )
+					.ToList();
 
 				sInfo.Typicals = theData.SeriesTypicals
 					.Where( t => t.Typical.IsPublished )
@@ -331,7 +356,8 @@ namespace PWDRepositories
 						TypicalID = t.TypicalID,
 						Name = t.Typical.Name,
 						ImageFileData = t.Typical.FeaturedImageForSize( "m16to9" )
-					} );
+					} )
+					.ToList();
 			}
 
 			return sInfo;
@@ -342,7 +368,7 @@ namespace PWDRepositories
 			var theData = database.Serieses.FirstOrDefault( s => s.SeriesID == id );
 			if( theData != null )
 			{
-				return theData.ImageListForSize( "m16to9" ).Select( i => (ImageComboItem)i );
+				return theData.ImageListForSize( "m16to9" ).Select( i => (ImageComboItem)i ).ToList();
 			}
 
 			return new List<ImageComboItem>();

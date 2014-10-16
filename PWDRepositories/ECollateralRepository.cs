@@ -9,10 +9,8 @@ using PDWInfrastructure;
 
 namespace PWDRepositories
 {
-	public class ECollateralRepository
+	public class ECollateralRepository : BaseRepository
 	{
-		private PaoliPDWEntities database = new PaoliPDWEntities();
-
 		public class StatusTypes
 		{
 			public const int Incomplete = 1;
@@ -201,11 +199,11 @@ namespace PWDRepositories
 
 			newItem.Status = StatusTypes.Incomplete;
 
-			database.eCollateralItems.AddObject( newItem );
+			database.eCollateralItems.Add( newItem );
 
 			if( database.SaveChanges() > 0 )
 			{
-				database.Refresh( System.Data.Objects.RefreshMode.StoreWins, newItem );
+				database.Entry( newItem ).Reload();
 
 				itemId = newItem.ItemID;
 
@@ -293,7 +291,7 @@ namespace PWDRepositories
 
 					foreach( var dbSection in dbItem.eCollateralSections.ToList() )
 					{
-						database.DeleteObject( dbSection );
+						database.eCollateralSections.Remove( dbSection );
 					}
 
 					var defaultList = Layouts.LayoutDefaultSections[dbItem.LayoutID.Value];
@@ -462,7 +460,7 @@ namespace PWDRepositories
 					}
 					else
 					{
-						database.DeleteObject( dbSection );
+						database.eCollateralSections.Remove( dbSection );
 					}
 
 				}
@@ -537,11 +535,11 @@ namespace PWDRepositories
 					} );
 				}
 
-				database.eCollateralItems.AddObject( newItem );
+				database.eCollateralItems.Add( newItem );
 
 				if( database.SaveChanges() > 0 )
 				{
-					database.Refresh( System.Data.Objects.RefreshMode.StoreWins, newItem );
+					database.Entry( newItem ).Reload();
 
 					return newItem.ItemID;
 				}
@@ -686,10 +684,10 @@ namespace PWDRepositories
 			{
 				foreach( var section in dbItem.eCollateralSections.ToList() )
 				{
-					database.eCollateralSections.DeleteObject( section );
+					database.eCollateralSections.Remove( section );
 				}
 
-				database.eCollateralItems.DeleteObject( dbItem );
+				database.eCollateralItems.Remove( dbItem );
 
 				return database.SaveChanges() > 0;
 			}

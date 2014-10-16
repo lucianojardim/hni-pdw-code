@@ -15,8 +15,6 @@ namespace PWDRepositories
 {
 	public class SpecRequestRepository : BaseRepository
 	{
-		private PaoliPDWEntities database = new PaoliPDWEntities();
-
 		public SpecRequestRepository()
 		{
 		}
@@ -725,11 +723,11 @@ namespace PWDRepositories
 
 			newSpec.SpecRequestEvents.Add( SpecRequestEvent.CreatedEvent( PaoliWebUser.CurrentUser.UserId ) );
 
-			database.SpecRequests.AddObject( newSpec );
+			database.SpecRequests.Add( newSpec );
 
 			if( database.SaveChanges() > 0 )
 			{
-				database.Refresh( System.Data.Objects.RefreshMode.StoreWins, newSpec );
+				database.Entry( newSpec ).Reload();
 
 				newSpec.Name = string.Format( "T{0}", newSpec.RequestID.ToString( "D4" ) );
 
@@ -984,7 +982,7 @@ namespace PWDRepositories
 						{
 							DeleteRequestFile( deleteFile, rootLocation );
 
-							database.DeleteObject( deleteFile );
+							database.SpecRequestFiles.Remove( deleteFile );
 						}
 					}
 				}
@@ -992,7 +990,7 @@ namespace PWDRepositories
 
 			if( database.SaveChanges() > 0 )
 			{
-				database.Refresh( System.Data.Objects.RefreshMode.StoreWins, specInfo );
+				database.Entry( specInfo ).Reload();
 
 				if( bDoCompleteEmail )
 				{
@@ -1178,7 +1176,7 @@ namespace PWDRepositories
 				stData.IsPrimary = true;
 				stData.Series = rSeries;
 				stData.Typical = tData;
-				database.SeriesTypicals.AddObject( stData );
+				database.SeriesTypicals.Add( stData );
 			}
 			else
 			{
@@ -1197,7 +1195,7 @@ namespace PWDRepositories
 						stData.IsPrimary = false;
 						stData.Series = oSeries;
 						stData.Typical = tData;
-						database.SeriesTypicals.AddObject( stData );
+						database.SeriesTypicals.Add( stData );
 					}
 				}
 				tData.SeriesList = string.Join( ", ", tData.SeriesTypicals.Where( st => !st.IsPrimary ).Select( st => st.Series.Name ) );
@@ -1210,7 +1208,7 @@ namespace PWDRepositories
 				sif.IsFeatured = true;
 				sif.ImageFile = img;
 				sif.Typical = tData;
-				database.TypicalImageFiles.AddObject( sif );
+				database.TypicalImageFiles.Add( sif );
 			}
 
 			if( ( tInfo.AdditionalImages ?? "" ).Any() )
@@ -1224,7 +1222,7 @@ namespace PWDRepositories
 						sif.IsFeatured = false;
 						sif.ImageFile = oImg;
 						sif.Typical = tData;
-						database.TypicalImageFiles.AddObject( sif );
+						database.TypicalImageFiles.Add( sif );
 					}
 				}
 			}
@@ -1235,14 +1233,14 @@ namespace PWDRepositories
 				{
 					attData = new PDWDBContext.TAttribute();
 					attData.Name = "pricing";
-					database.TAttributes.AddObject( attData );
+					database.TAttributes.Add( attData );
 				}
 
 				var attForTypical = new TypicalIntAttribute();
 				attForTypical.TAttribute = attData;
 				attForTypical.Value = tInfo.ListPrice;
 				attForTypical.Typical = tData;
-				database.TypicalIntAttributes.AddObject( attForTypical );
+				database.TypicalIntAttributes.Add( attForTypical );
 			}
 
 			var rootLocation = Path.Combine( ConfigurationManager.AppSettings["SpecRequestDocumentLocation"], tInfo.Name );
@@ -1288,7 +1286,7 @@ namespace PWDRepositories
 			tData.Notes = tInfo.Notes;
 			tData.AvailableForIn2 = tInfo.AvailableForIn2;
 
-			database.Typicals.AddObject( tData );
+			database.Typicals.Add( tData );
 
 			return database.SaveChanges() > 0;
 		}
@@ -1314,19 +1312,19 @@ namespace PWDRepositories
 			{
 				attData = new PDWDBContext.TAttribute();
 				attData.Name = header;
-				database.TAttributes.AddObject( attData );
+				database.TAttributes.Add( attData );
 			}
 
 			if( tData.TypicalTextAttributes.Any( tta => tta.AttributeID == attData.AttributeID ) )
 			{
-				database.DeleteObject( tData.TypicalTextAttributes.First( tta => tta.AttributeID == attData.AttributeID ) );
+				database.TypicalTextAttributes.Remove( tData.TypicalTextAttributes.First( tta => tta.AttributeID == attData.AttributeID ) );
 			}
 
 			var attForTypical = new TypicalTextAttribute();
 			attForTypical.TAttribute = attData;
 			attForTypical.Value = @"Typicals/" + tData.Name + @"/" + fileName;
 			attForTypical.Typical = tData;
-			database.TypicalTextAttributes.AddObject( attForTypical );
+			database.TypicalTextAttributes.Add( attForTypical );
 		}
 
 		public TypicalMgmtInfo GetTypical( int requestId )
@@ -1418,7 +1416,7 @@ namespace PWDRepositories
 				tData.IsPublished = !tData.IsPublished;
 			}
 
-			tData.SeriesTypicals.ToList().ForEach( st => database.DeleteObject( st ) );
+			tData.SeriesTypicals.ToList().ForEach( st => database.SeriesTypicals.Remove( st ) );
 
 			List<string> arrKeywordList = new List<string>();
 			var rSeries = database.Serieses.FirstOrDefault( s => s.Name == tInfo.FeaturedSeries );
@@ -1428,7 +1426,7 @@ namespace PWDRepositories
 				stData.IsPrimary = true;
 				stData.Series = rSeries;
 				stData.Typical = tData;
-				database.SeriesTypicals.AddObject( stData );
+				database.SeriesTypicals.Add( stData );
 				tData.FeaturedSeries = rSeries.Name;
 			}
 			else
@@ -1447,7 +1445,7 @@ namespace PWDRepositories
 						stData.IsPrimary = false;
 						stData.Series = oSeries;
 						stData.Typical = tData;
-						database.SeriesTypicals.AddObject( stData );
+						database.SeriesTypicals.Add( stData );
 					}
 				}
 				tData.SeriesList = string.Join( ", ", tData.SeriesTypicals.Where( st => !st.IsPrimary ).Select( st => st.Series.Name ) );
@@ -1457,7 +1455,7 @@ namespace PWDRepositories
 				tData.SeriesList = null;
 			}
 
-			tData.TypicalImageFiles.ToList().ForEach( tif => database.DeleteObject( tif ) );
+			tData.TypicalImageFiles.ToList().ForEach( tif => database.TypicalImageFiles.Remove( tif ) );
 
 			var img = database.ImageFiles.FirstOrDefault( i => i.Name == tInfo.RenderingImage );
 			if( img != null )
@@ -1466,7 +1464,7 @@ namespace PWDRepositories
 				sif.IsFeatured = true;
 				sif.ImageFile = img;
 				sif.Typical = tData;
-				database.TypicalImageFiles.AddObject( sif );
+				database.TypicalImageFiles.Add( sif );
 			}
 
 			if( ( tInfo.AdditionalImages ?? "" ).Any() )
@@ -1480,7 +1478,7 @@ namespace PWDRepositories
 						sif.IsFeatured = false;
 						sif.ImageFile = oImg;
 						sif.Typical = tData;
-						database.TypicalImageFiles.AddObject( sif );
+						database.TypicalImageFiles.Add( sif );
 					}
 				}
 			}
@@ -1491,19 +1489,19 @@ namespace PWDRepositories
 				{
 					attData = new PDWDBContext.TAttribute();
 					attData.Name = "Pricing";
-					database.TAttributes.AddObject( attData );
+					database.TAttributes.Add( attData );
 				}
 
 				if( tData.TypicalIntAttributes.Any( tia => tia.AttributeID == attData.AttributeID ) )
 				{
-					database.DeleteObject( tData.TypicalIntAttributes.First( tia => tia.AttributeID == attData.AttributeID ) );
+					database.TypicalIntAttributes.Remove( tData.TypicalIntAttributes.First( tia => tia.AttributeID == attData.AttributeID ) );
 				}
 
 				var attForTypical = new TypicalIntAttribute();
 				attForTypical.TAttribute = attData;
 				attForTypical.Value = tInfo.ListPrice;
 				attForTypical.Typical = tData;
-				database.TypicalIntAttributes.AddObject( attForTypical );
+				database.TypicalIntAttributes.Add( attForTypical );
 			}
 
 			var rootLocation = Path.Combine( ConfigurationManager.AppSettings["SpecRequestDocumentLocation"], tInfo.Name );
@@ -1568,12 +1566,12 @@ namespace PWDRepositories
 							break;
 					}
 					attData.Name = header;
-					database.TAttributes.AddObject( attData );
+					database.TAttributes.Add( attData );
 				}
 
 				if( tData.TypicalOptionAttributes.Any( toa => toa.AttributeID == attData.AttributeID ) )
 				{
-					database.DeleteObject( tData.TypicalOptionAttributes.First( toa => toa.AttributeID == attData.AttributeID ) );
+					database.TypicalOptionAttributes.Remove( tData.TypicalOptionAttributes.First( toa => toa.AttributeID == attData.AttributeID ) );
 				}
 
 				var values = val.Split( ',' );
@@ -1588,7 +1586,7 @@ namespace PWDRepositories
 						}
 						optVal = new TAttributeOption();
 						optVal.Name = indVal;
-						database.TAttributeOptions.AddObject( optVal );
+						database.TAttributeOptions.Add( optVal );
 						attData.TAttributeOptions.Add( optVal );
 					}
 
@@ -1596,7 +1594,7 @@ namespace PWDRepositories
 					attForTypical.TAttribute = attData;
 					attForTypical.TAttributeOption = optVal;
 					attForTypical.Typical = tData;
-					database.TypicalOptionAttributes.AddObject( attForTypical );
+					database.TypicalOptionAttributes.Add( attForTypical );
 				}
 			}
 		}
@@ -1607,7 +1605,8 @@ namespace PWDRepositories
 				.Where( ao => ao.Footprint.Contains( query ) )
 				.Select( ao => ao.Footprint )
 				.Distinct()
-				.OrderBy( s => s );
+				.OrderBy( s => s )
+				.ToList();
 		}
 
 		public IEnumerable<IDToTextItem> GetGSAContractList()

@@ -19,8 +19,6 @@ namespace PWDRepositories
 {
 	public class CollateralRepository : BaseRepository
 	{
-		private PaoliPDWEntities database = new PaoliPDWEntities();
-
 		public CollateralRepository()
 		{
 		}
@@ -299,7 +297,7 @@ namespace PWDRepositories
 					newItem.ImageFileName ) );
 			}
 
-			database.CollateralItems.AddObject( newItem );
+			database.CollateralItems.Add( newItem );
 
 			if( cInfo is CollateralGroupInformation )
 			{
@@ -320,7 +318,7 @@ namespace PWDRepositories
 						ChildCollateralItem = childItem,
 						Quantity = groupCollateral.Quantity
 					};
-					database.CollateralGroupItems.AddObject( newcgi );
+					database.CollateralGroupItems.Add( newcgi );
 				}
 			}
 
@@ -429,7 +427,7 @@ namespace PWDRepositories
 				cItem.CollateralTypeID = null;
 				cItem.IsGroup = true;
 
-				cItem.CollateralGroupItems.ToList().ForEach( cgi => database.DeleteObject( cgi ) );
+				cItem.CollateralGroupItems.ToList().ForEach( cgi => database.CollateralGroupItems.Remove( cgi ) );
 
 				foreach( var groupCollateral in ( cInfo as CollateralGroupInformation ).GroupItems )
 				{
@@ -445,7 +443,7 @@ namespace PWDRepositories
 						ChildCollateralItem = childItem,
 						Quantity = groupCollateral.Quantity
 					};
-					database.CollateralGroupItems.AddObject( newcgi );
+					database.CollateralGroupItems.Add( newcgi );
 				}
 			}
 
@@ -460,7 +458,7 @@ namespace PWDRepositories
 				throw new Exception( "Unable to find collateral." );
 			}
 
-			database.DeleteObject( cItem );
+			database.CollateralItems.Remove( cItem );
 
 			return database.SaveChanges() > 0;
 		}
@@ -630,11 +628,11 @@ namespace PWDRepositories
 				}
 			}
 
-			database.CollateralOrders.AddObject( newOrder );
+			database.CollateralOrders.Add( newOrder );
 
 			if( database.SaveChanges() > 0 )
 			{
-				database.Refresh( System.Data.Objects.RefreshMode.StoreWins, newOrder );
+				database.Entry( newOrder ).Reload();
 
 				EmailSender.EmailTarget createdByEmail = null;
 				List<EmailSender.EmailTarget> salesRepEmails = new List<EmailSender.EmailTarget>(), requestedForEmails = new List<EmailSender.EmailTarget>();
@@ -1416,7 +1414,7 @@ namespace PWDRepositories
 						}
 						else
 						{
-							database.DeleteObject( bundlePart );
+							database.CollateralOrderDetails.Remove( bundlePart );
 						}
 					}
 				}
@@ -1437,7 +1435,7 @@ namespace PWDRepositories
 						}
 						else
 						{
-							database.DeleteObject( dbDetail );
+							database.CollateralOrderDetails.Remove( dbDetail );
 						}
 					}
 				}
