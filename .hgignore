@@ -3,7 +3,8 @@ syntax: glob
 *.user
 bin/*
 obj/*
-*.[Cc]onfig
+[Ww]eb*.[Cc]onfig
+[Aa]pp.[Cc]onfig
 PDWImages/*
 ProductDataWarehouse/Images/*
 ProductDataWarehouse/Documents/*
