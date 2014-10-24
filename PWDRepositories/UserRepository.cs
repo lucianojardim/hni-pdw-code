@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Configuration;
 using PDWModels;
 using PDWInfrastructure.EmailSenders;
+using System.Data.Entity;
 
 namespace PWDRepositories
 {
@@ -177,27 +178,29 @@ namespace PWDRepositories
 
 				if( PaoliWebUser.PaoliWebRole.IsDealerAccountType( newUser.AccountType ) )
 				{
-					database.Entry( newUser ).Reload();
+					var reloadedUser = database.Users
+						.Include( u => u.Company )
+						.FirstOrDefault( u => u.UserID == newUser.UserID );
 
 					( new NewDealerUserEmailSender() ).SubmitNewUserEmail( new NewDealerUserEmailSender.EmailUserSummary()
 						{
-							UserID = newUser.UserID,
-							EmailAddress = newUser.Email,
-							FirstName = newUser.FirstName,
-							LastName = newUser.LastName,
-							CompanyName = newUser.Company.Name,
-							Address1 = newUser.Address1,
-							Address2 = newUser.Address2,
-							City = newUser.City,
-							State = newUser.State,
-							Zip = newUser.Zip,
-							BusinessPhone = newUser.BusinessPhone,
-							CellPhone = newUser.CellPhone,
-							Title = newUser.Title,
-							AccountType = PaoliWebUser.PaoliWebRole.RoleList[newUser.AccountType],
-							Enabled = newUser.Enabled.ToString(),
-							SendWelcomeEmail = newUser.RecWelcomeEmail.ToString(),
-							IsActive = newUser.IsActive.ToString()
+							UserID = reloadedUser.UserID,
+							EmailAddress = reloadedUser.Email,
+							FirstName = reloadedUser.FirstName,
+							LastName = reloadedUser.LastName,
+							CompanyName = reloadedUser.Company.Name,
+							Address1 = reloadedUser.Address1,
+							Address2 = reloadedUser.Address2,
+							City = reloadedUser.City,
+							State = reloadedUser.State,
+							Zip = reloadedUser.Zip,
+							BusinessPhone = reloadedUser.BusinessPhone,
+							CellPhone = reloadedUser.CellPhone,
+							Title = reloadedUser.Title,
+							AccountType = PaoliWebUser.PaoliWebRole.RoleList[reloadedUser.AccountType],
+							Enabled = reloadedUser.Enabled.ToString(),
+							SendWelcomeEmail = reloadedUser.RecWelcomeEmail.ToString(),
+							IsActive = reloadedUser.IsActive.ToString()
 						} );
 				}
 

@@ -9,6 +9,7 @@ using System.IO;
 using System.Drawing;
 using System.Configuration;
 using PDWInfrastructure.EmailSenders;
+using System.Data.Entity;
 /*
  * Change Edit order to look like Ship Order - don't need to show all collateral items, just those in the order
  * Can lock down objects in bundle after creation if needed
@@ -632,26 +633,43 @@ namespace PWDRepositories
 
 			if( database.SaveChanges() > 0 )
 			{
-				database.Entry( newOrder ).Reload();
+				var reloadedOrder = database.CollateralOrders
+					.Include( c => c.CreatedByUser )
+					.Include( c => c.CreatedByUser.Company )
+					.Include( c => c.PaoliMember )
+					.Include( c => c.PaoliMember.Company )
+					.Include( c => c.PaoliSalesRepMember )
+					.Include( c => c.PaoliSalesRepMember.Company )
+					.Include( c => c.DealerMember )
+					.Include( c => c.DealerMember.Company )
+					.Include( c => c.Dealer )
+					.Include( c => c.SPPaoliMember )
+					.Include( c => c.SPPaoliMember.Company )
+					.Include( c => c.SPPaoliSalesRepMember )
+					.Include( c => c.SPPaoliSalesRepMember.Company )
+					.Include( c => c.SPDealerMember )
+					.Include( c => c.SPDealerMember.Company )
+					.Include( c => c.SPDealer )
+					.FirstOrDefault( c => c.OrderID == newOrder.OrderID );
 
 				EmailSender.EmailTarget createdByEmail = null;
 				List<EmailSender.EmailTarget> salesRepEmails = new List<EmailSender.EmailTarget>(), requestedForEmails = new List<EmailSender.EmailTarget>();
 
-				GetEmailList( newOrder, out createdByEmail, salesRepEmails, requestedForEmails );
+				GetEmailList( reloadedOrder, out createdByEmail, salesRepEmails, requestedForEmails );
 
 				( new NewCollateralOrderEmailSender( "NewCollateralOrderCreatedBy" ) ).SubmitNewOrderEmail( createdByEmail.EmailAddress,
-					ToEmailOrderSummary( createdByEmail, newOrder ), createdByEmail.FromDetails );
+					ToEmailOrderSummary( createdByEmail, reloadedOrder ), createdByEmail.FromDetails );
 
 				foreach( var salesRep in salesRepEmails )
 				{
 					( new NewCollateralOrderEmailSender( "NewCollateralOrderSalesRep" ) ).SubmitNewOrderEmail( salesRep.EmailAddress,
-						ToEmailOrderSummary( salesRep, newOrder ), salesRep.FromDetails );
+						ToEmailOrderSummary( salesRep, reloadedOrder ), salesRep.FromDetails );
 				}
 
 				foreach( var reqParty in requestedForEmails )
 				{
 					( new NewCollateralOrderEmailSender( "NewCollateralOrderRequestedBy" ) ).SubmitNewOrderEmail( reqParty.EmailAddress,
-						ToEmailOrderSummary( reqParty, newOrder ), reqParty.FromDetails );
+						ToEmailOrderSummary( reqParty, reloadedOrder ), reqParty.FromDetails );
 				}
 
 				return true;
@@ -1675,7 +1693,25 @@ namespace PWDRepositories
 
 		public bool AddOrderShipment( int orderID, PendingOrderInformation.ShipmentSummary shipmentInfo )
 		{
-			var dbOrder = database.CollateralOrders.FirstOrDefault( c => c.OrderID == orderID );
+			var dbOrder = database.CollateralOrders
+				.Include( c => c.CreatedByUser )
+				.Include( c => c.CreatedByUser.Company )
+				.Include( c => c.PaoliMember )
+				.Include( c => c.PaoliMember.Company )
+				.Include( c => c.PaoliSalesRepMember )
+				.Include( c => c.PaoliSalesRepMember.Company )
+				.Include( c => c.DealerMember )
+				.Include( c => c.DealerMember.Company )
+				.Include( c => c.Dealer )
+				.Include( c => c.SPPaoliMember )
+				.Include( c => c.SPPaoliMember.Company )
+				.Include( c => c.SPPaoliSalesRepMember )
+				.Include( c => c.SPPaoliSalesRepMember.Company )
+				.Include( c => c.SPDealerMember )
+				.Include( c => c.SPDealerMember.Company )
+				.Include( c => c.SPDealer )
+				.Include( c => c.CollateralOrderDetails )
+				.FirstOrDefault( c => c.OrderID == orderID );
 			if( dbOrder == null )
 			{
 				throw new Exception( "Unable to find order for shipment." );
@@ -1770,7 +1806,10 @@ namespace PWDRepositories
 
 			foreach( var detail in dbOrder.CollateralOrderDetails )
 			{
-				var shippedQuantity = detail.CollateralOrderShipmentDetails.Sum( d => d.Quantity );
+				var shippedQuantity = dbOrder.CollateralOrderShipments
+					.SelectMany( s => s.CollateralOrderShipmentDetails )
+					.Where( d => d.CollateralOrderDetail.DetailID == detail.DetailID )
+					.Sum( d => d.Quantity );
 				bHasFulfilled |= (detail.Quantity == shippedQuantity);
 				bHasUnfulfilled |= (0 == shippedQuantity);
 				bHasPartial |= ( (shippedQuantity > 0) && (detail.Quantity > shippedQuantity) );

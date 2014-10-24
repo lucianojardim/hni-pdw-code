@@ -10,6 +10,7 @@ using System.Configuration;
 using System.Data.Objects.DataClasses;
 using PDWModels;
 using PDWInfrastructure.EmailSenders;
+using System.Data.Entity;
 
 namespace PWDRepositories
 {
@@ -439,7 +440,27 @@ namespace PWDRepositories
 
 		public bool ReOpenSpecRequest( ReOpenRequestInformation sInfo )
 		{
-			var dbInfo = database.SpecRequests.FirstOrDefault( s => s.RequestID == sInfo.RequestID );
+			var dbInfo = database.SpecRequests
+				.Include( s => s.SpecRequestEvents )
+				.Include( s => s.SpecRequestEvents.Select( e => e.User ) )
+				.Include( s => s.SpecRequestEvents.Select( e => e.User.Company ) )
+				.Include( s => s.SpecRequestEvents.Select( e => e.User.Company.PaoliMember ) )
+				.Include( s => s.PaoliSalesRepMember )
+				.Include( s => s.PaoliSalesRepMember.Company )
+				.Include( s => s.PaoliSalesRepMember.Company.PaoliMember )
+				.Include( s => s.PaoliSalesRepGroup )
+				.Include( s => s.PaoliSalesRepGroup.Users )
+				.Include( s => s.PaoliSalesRepGroup.Users.Select( u => u.Company ) )
+				.Include( s => s.PaoliSalesRepGroup.Users.Select( u => u.Company.PaoliMember ) )
+				.Include( s => s.DealerSalesRep )
+				.Include( s => s.DealerSalesRep.Company )
+				.Include( s => s.PrimaryCompany )
+				.Include( s => s.DealerSalesRep.Company.Territory )
+				.Include( s => s.PrimaryCompany.Territory )
+				.Include( s => s.PaoliSalesRepMember.Company.Territory )
+				.Include( s => s.PaoliSalesRepGroup.Territory )
+				.Include( s => s.SpecRequestFiles )
+				.FirstOrDefault( s => s.RequestID == sInfo.RequestID );
 			if( dbInfo == null )
 			{
 				throw new Exception( "Unable to find Spec Request" );
@@ -746,42 +767,63 @@ namespace PWDRepositories
 
 				if( database.SaveChanges() > 0 )
 				{
+					var reloadRequest = database.SpecRequests
+						.Include( s => s.SpecRequestEvents )
+						.Include( s => s.SpecRequestEvents.Select( e => e.User ) )
+						.Include( s => s.SpecRequestEvents.Select( e => e.User.Company ) )
+						.Include( s => s.SpecRequestEvents.Select( e => e.User.Company.PaoliMember ) )
+						.Include( s => s.PaoliSalesRepMember )
+						.Include( s => s.PaoliSalesRepMember.Company )
+						.Include( s => s.PaoliSalesRepMember.Company.PaoliMember )
+						.Include( s => s.PaoliSalesRepGroup )
+						.Include( s => s.PaoliSalesRepGroup.Users )
+						.Include( s => s.PaoliSalesRepGroup.Users.Select( u => u.Company ) )
+						.Include( s => s.PaoliSalesRepGroup.Users.Select( u => u.Company.PaoliMember ) )
+						.Include( s => s.DealerSalesRep )
+						.Include( s => s.DealerSalesRep.Company )
+						.Include( s => s.PrimaryCompany )
+						.Include( s => s.DealerSalesRep.Company.Territory )
+						.Include( s => s.PrimaryCompany.Territory )
+						.Include( s => s.PaoliSalesRepMember.Company.Territory )
+						.Include( s => s.PaoliSalesRepGroup.Territory )
+						.FirstOrDefault( s => s.RequestID == newSpec.RequestID );
+
 					//( new NewSpecRequestEmailSender( "NewSpecRequestSpecTeam" ) ).SubmitNewRequestEmail( "PAOProjectSpecTeam@paoli.com", ToEmailSpecRequestSummary( newSpec, new EmailSender.EmailTarget() ) );
 
-					( new NewSpecRequestEmailSender( "NewSpecRequest" ) ).SubmitNewRequestEmail( newSpec.CreatedByUserEmail,
-						ToEmailSpecRequestSummary( newSpec, new EmailSender.EmailTarget()
+					( new NewSpecRequestEmailSender( "NewSpecRequest" ) ).SubmitNewRequestEmail( reloadRequest.CreatedByUserEmail,
+						ToEmailSpecRequestSummary( reloadRequest, new EmailSender.EmailTarget()
 						{
-							EmailAddress = newSpec.CreatedByUserEmail,
-							FirstName = newSpec.CreatedByUserFirstName
-						} ), 
-						GetPaoliMemberFromDetails( newSpec.CreatedByCompanyDetails ) );
+							EmailAddress = reloadRequest.CreatedByUserEmail,
+							FirstName = reloadRequest.CreatedByUserFirstName
+						} ),
+						GetPaoliMemberFromDetails( reloadRequest.CreatedByCompanyDetails ) );
 
-					if( newSpec.PaoliSalesRepMemberID.HasValue )
+					if( reloadRequest.PaoliSalesRepMemberID.HasValue )
 					{
-						if( newSpec.PaoliSalesRepMemberID.Value != newSpec.CreatedByUserID.Value && (newSpec.PaoliSalesRepMember.Enabled || EmailSender.EmailDisabledUsers) )
+						if( reloadRequest.PaoliSalesRepMemberID.Value != reloadRequest.CreatedByUserID.Value && ( reloadRequest.PaoliSalesRepMember.Enabled || EmailSender.EmailDisabledUsers ) )
 						{
-							( new NewSpecRequestEmailSender( "NewSpecRequestSalesRep" ) ).SubmitNewRequestEmail( newSpec.PaoliSalesRepMember.Email,
-								ToEmailSpecRequestSummary( newSpec, new EmailSender.EmailTarget() { EmailAddress = newSpec.PaoliSalesRepMember.Email, FirstName = newSpec.PaoliSalesRepMember.FirstName } ),
-								GetPaoliMemberFromDetails( newSpec.PaoliSalesRepMember.Company ) );
+							( new NewSpecRequestEmailSender( "NewSpecRequestSalesRep" ) ).SubmitNewRequestEmail( reloadRequest.PaoliSalesRepMember.Email,
+								ToEmailSpecRequestSummary( reloadRequest, new EmailSender.EmailTarget() { EmailAddress = reloadRequest.PaoliSalesRepMember.Email, FirstName = reloadRequest.PaoliSalesRepMember.FirstName } ),
+								GetPaoliMemberFromDetails( reloadRequest.PaoliSalesRepMember.Company ) );
 						}
 					}
-					else if( newSpec.PaoliSalesRepGroupID.HasValue )
+					else if( reloadRequest.PaoliSalesRepGroupID.HasValue )
 					{
-						foreach( var salesRepUser in newSpec.PaoliSalesRepGroup.Users )
+						foreach( var salesRepUser in reloadRequest.PaoliSalesRepGroup.Users )
 						{
-							if( salesRepUser.UserID != newSpec.CreatedByUserID.Value && (salesRepUser.Enabled || EmailSender.EmailDisabledUsers) )
+							if( salesRepUser.UserID != reloadRequest.CreatedByUserID.Value && ( salesRepUser.Enabled || EmailSender.EmailDisabledUsers ) )
 							{
 								( new NewSpecRequestEmailSender( "NewSpecRequestSalesRep" ) ).SubmitNewRequestEmail( salesRepUser.Email,
-									ToEmailSpecRequestSummary( newSpec, new EmailSender.EmailTarget() { EmailAddress = salesRepUser.Email, FirstName = salesRepUser.FirstName } ),
+									ToEmailSpecRequestSummary( reloadRequest, new EmailSender.EmailTarget() { EmailAddress = salesRepUser.Email, FirstName = salesRepUser.FirstName } ),
 									GetPaoliMemberFromDetails( salesRepUser.Company ) );
 							}
 						}
 					}
 
-					if( newSpec.IsGSA ?? false )
+					if( reloadRequest.IsGSA ?? false )
 					{
 						( new NewSpecRequestEmailSender( "NewSpecRequestGSA" ) ).SubmitNewRequestEmail( "gsa@paoli.com",
-							ToEmailSpecRequestSummary( newSpec, new EmailSender.EmailTarget() { EmailAddress = "gsa@paoli.com", FirstName = "" } ), 
+							ToEmailSpecRequestSummary( reloadRequest, new EmailSender.EmailTarget() { EmailAddress = "gsa@paoli.com", FirstName = "" } ), 
 							GetPaoliMemberFromDetails( null ) );
 					}
 
@@ -886,7 +928,9 @@ namespace PWDRepositories
 
 		public bool UpdateSpecRequest( SpecRequestInformation sInfo )
 		{
-			var specInfo = database.SpecRequests.FirstOrDefault( s => s.RequestID == sInfo.RequestID );
+			var specInfo = database.SpecRequests
+				.Include( s => s.SpecRequestFiles )
+				.FirstOrDefault( s => s.RequestID == sInfo.RequestID );
 			if( specInfo == null )
 			{
 				throw new Exception( "Unable to find Spec Request" );
@@ -990,60 +1034,79 @@ namespace PWDRepositories
 
 			if( database.SaveChanges() > 0 )
 			{
-				database.Entry( specInfo ).Reload();
-
 				if( bDoCompleteEmail )
 				{
+					var reloadRequest = database.SpecRequests
+						.Include( s => s.SpecRequestEvents )
+						.Include( s => s.SpecRequestEvents.Select( e => e.User ) )
+						.Include( s => s.SpecRequestEvents.Select( e => e.User.Company ) )
+						.Include( s => s.SpecRequestEvents.Select( e => e.User.Company.PaoliMember ) )
+						.Include( s => s.PaoliSalesRepMember )
+						.Include( s => s.PaoliSalesRepMember.Company )
+						.Include( s => s.PaoliSalesRepMember.Company.PaoliMember )
+						.Include( s => s.PaoliSalesRepGroup )
+						.Include( s => s.PaoliSalesRepGroup.Users )
+						.Include( s => s.PaoliSalesRepGroup.Users.Select( u => u.Company ) )
+						.Include( s => s.PaoliSalesRepGroup.Users.Select( u => u.Company.PaoliMember ) )
+						.Include( s => s.DealerSalesRep )
+						.Include( s => s.DealerSalesRep.Company )
+						.Include( s => s.PrimaryCompany )
+						.Include( s => s.DealerSalesRep.Company.Territory )
+						.Include( s => s.PrimaryCompany.Territory )
+						.Include( s => s.PaoliSalesRepMember.Company.Territory )
+						.Include( s => s.PaoliSalesRepGroup.Territory )
+						.FirstOrDefault( s => s.RequestID == specInfo.RequestID );
+
 					List<EmailSender.EmailTarget> emailAddresses = new List<EmailSender.EmailTarget>();
-					if( specInfo.CreatedByUserEmail != null )
+					if( reloadRequest.CreatedByUserEmail != null )
 					{
 						emailAddresses.Add( new EmailSender.EmailTarget()
 						{
-							EmailAddress = specInfo.CreatedByUserEmail,
-							FirstName = specInfo.CreatedByUserFirstName,
-							FromDetails = GetPaoliMemberFromDetails( specInfo.CreatedByCompanyDetails )
+							EmailAddress = reloadRequest.CreatedByUserEmail,
+							FirstName = reloadRequest.CreatedByUserFirstName,
+							FromDetails = GetPaoliMemberFromDetails( reloadRequest.CreatedByCompanyDetails )
 						} );
 					}
-					if( specInfo.DealerSalesRep != null )
+					if( reloadRequest.DealerSalesRep != null )
 					{
-						if( specInfo.DealerSalesRepID != specInfo.CreatedByUserID && (specInfo.DealerSalesRep.Enabled || EmailSender.EmailDisabledUsers) )
+						if( reloadRequest.DealerSalesRepID != reloadRequest.CreatedByUserID && ( reloadRequest.DealerSalesRep.Enabled || EmailSender.EmailDisabledUsers ) )
 						{
 							emailAddresses.Add( new EmailSender.EmailTarget()
 							{
-								EmailAddress = specInfo.DealerSalesRep.Email,
-								FirstName = specInfo.DealerSalesRep.FirstName,
-								FromDetails = GetPaoliMemberFromDetails( specInfo.DealerSalesRep.Company )
+								EmailAddress = reloadRequest.DealerSalesRep.Email,
+								FirstName = reloadRequest.DealerSalesRep.FirstName,
+								FromDetails = GetPaoliMemberFromDetails( reloadRequest.DealerSalesRep.Company )
 							} );
 						}
 					}
-					if( specInfo.PaoliSalesRepMember != null )
+					if( reloadRequest.PaoliSalesRepMember != null )
 					{
-						if( specInfo.PaoliSalesRepMemberID != specInfo.CreatedByUserID && (specInfo.PaoliSalesRepMember.Enabled || EmailSender.EmailDisabledUsers) )
+						if( reloadRequest.PaoliSalesRepMemberID != reloadRequest.CreatedByUserID && ( reloadRequest.PaoliSalesRepMember.Enabled || EmailSender.EmailDisabledUsers ) )
 						{
 							emailAddresses.Add( new EmailSender.EmailTarget()
 							{
-								EmailAddress = specInfo.PaoliSalesRepMember.Email,
-								FirstName = specInfo.PaoliSalesRepMember.FirstName,
-								FromDetails = GetPaoliMemberFromDetails( specInfo.PaoliSalesRepMember.Company )
+								EmailAddress = reloadRequest.PaoliSalesRepMember.Email,
+								FirstName = reloadRequest.PaoliSalesRepMember.FirstName,
+								FromDetails = GetPaoliMemberFromDetails( reloadRequest.PaoliSalesRepMember.Company )
 							} );
 						}
 					}
-					else if( specInfo.PaoliSalesRepGroup != null )
+					else if( reloadRequest.PaoliSalesRepGroup != null )
 					{
-						emailAddresses.AddRange( specInfo.PaoliSalesRepGroup.Users
-							.Where( u => u.UserID != specInfo.CreatedByUserID && (u.Enabled || EmailSender.EmailDisabledUsers) )
+						emailAddresses.AddRange( reloadRequest.PaoliSalesRepGroup.Users
+							.Where( u => u.UserID != reloadRequest.CreatedByUserID && ( u.Enabled || EmailSender.EmailDisabledUsers ) )
 							.Select( u => new EmailSender.EmailTarget()
 							{
 								EmailAddress = u.Email,
 								FirstName = u.FirstName,
-								FromDetails = GetPaoliMemberFromDetails( specInfo.PaoliSalesRepGroup )
+								FromDetails = GetPaoliMemberFromDetails( reloadRequest.PaoliSalesRepGroup )
 							} ) );
 					}
 
 					foreach( var emailTarget in emailAddresses )
 					{
-						( new CompletedSpecRequestEmailSender() ).SubmitCompletedRequestEmail( emailTarget.EmailAddress, 
-							ToEmailCompleteSpecRequestSummary( specInfo, emailTarget, sInfo.SpecTeamNotes ),
+						( new CompletedSpecRequestEmailSender() ).SubmitCompletedRequestEmail( emailTarget.EmailAddress,
+							ToEmailCompleteSpecRequestSummary( reloadRequest, emailTarget, sInfo.SpecTeamNotes ),
 							emailTarget.FromDetails );
 					}
 				}
@@ -1632,7 +1695,26 @@ namespace PWDRepositories
 
 		public bool ReOpenRequest( int requestId )
 		{
-			var specInfo = database.SpecRequests.FirstOrDefault( s => s.RequestID == requestId );
+			var specInfo = database.SpecRequests
+				.Include( s => s.SpecRequestEvents )
+				.Include( s => s.SpecRequestEvents.Select( e => e.User ) )
+				.Include( s => s.SpecRequestEvents.Select( e => e.User.Company ) )
+				.Include( s => s.SpecRequestEvents.Select( e => e.User.Company.PaoliMember ) )
+				.Include( s => s.PaoliSalesRepMember )
+				.Include( s => s.PaoliSalesRepMember.Company )
+				.Include( s => s.PaoliSalesRepMember.Company.PaoliMember )
+				.Include( s => s.PaoliSalesRepGroup )
+				.Include( s => s.PaoliSalesRepGroup.Users )
+				.Include( s => s.PaoliSalesRepGroup.Users.Select( u => u.Company ) )
+				.Include( s => s.PaoliSalesRepGroup.Users.Select( u => u.Company.PaoliMember ) )
+				.Include( s => s.DealerSalesRep )
+				.Include( s => s.DealerSalesRep.Company )
+				.Include( s => s.PrimaryCompany )
+				.Include( s => s.DealerSalesRep.Company.Territory )
+				.Include( s => s.PrimaryCompany.Territory )
+				.Include( s => s.PaoliSalesRepMember.Company.Territory )
+				.Include( s => s.PaoliSalesRepGroup.Territory )
+				.FirstOrDefault( s => s.RequestID == requestId );
 			if( specInfo == null )
 			{
 				throw new Exception( "Unable to find Spec Request" );
