@@ -81,15 +81,26 @@
         <span class="dataRow">@Html.MJLabelFor( m => m.FirstName, true )@Html.TextBoxFor( m => m.FirstName )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.LastName, true )@Html.TextBoxFor( m => m.LastName )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.CompanyID, true )@Html.DropDownListFor( m => m.CompanyID, CompanyController.GetCompanyDDList() )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Title, true )@Html.TextBoxFor( m => m.Title )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.AuthorCredit, true )@Html.TextAreaFor( m => m.AuthorCredit )<br/></span>
+		<h3>Business Address</h3>
         <span class="dataRow">@Html.MJLabelFor( m => m.Address1, true )@Html.TextBoxFor( m => m.Address1 )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.Address2, true )@Html.TextBoxFor( m => m.Address2 )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.City, true )@Html.TextBoxFor( m => m.City )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.State, true )@Html.DropDownListFor( m => m.State, UserController.GetStateDDList() )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.Zip, true )@Html.TextBoxFor( m => m.Zip )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.BusinessPhone, true )@Html.TextBoxFor( m => m.BusinessPhone )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Extension, true )@Html.TextBoxFor( m => m.Extension )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.CellPhone, true )@Html.TextBoxFor( m => m.CellPhone )<br/></span>
-        <span class="dataRow">@Html.MJLabelFor( m => m.Title, true )@Html.TextBoxFor( m => m.Title )<br/></span>
-        <span class="dataRow">@Html.MJLabelFor( m => m.AuthorCredit, true )@Html.TextAreaFor( m => m.AuthorCredit )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.FaxNumber, true )@Html.TextBoxFor( m => m.FaxNumber )<br/></span>
+		<h3>Home Address</h3>
+        <span class="dataRow">@Html.MJLabelFor( m => m.HomeAddress1, true )@Html.TextBoxFor( m => m.HomeAddress1 )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.HomeAddress2, true )@Html.TextBoxFor( m => m.HomeAddress2 )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.HomeCity, true )@Html.TextBoxFor( m => m.HomeCity )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.HomeState, true )@Html.DropDownListFor( m => m.HomeState, UserController.GetStateDDList() )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.HomeZip, true )@Html.TextBoxFor( m => m.HomeZip )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.HomePhone, true )@Html.TextBoxFor( m => m.HomePhone )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.PersonalCellPhone, true )@Html.TextBoxFor( m => m.PersonalCellPhone )<br/></span>
 		<div class="padr30 padl30"><hr /></div>
         <span class="dataRow">@Html.MJLabelFor( m => m.AccountType, true )@Html.DropDownListFor( m => m.AccountType, UserController.GetUserRoleDDList() )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.DefaultShippingAddress, true )@Html.DropDownListFor( m => m.DefaultShippingAddress, UserController.GetAddressTypeDDList() )<br/></span>

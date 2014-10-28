@@ -42,9 +42,35 @@ namespace PDWModels.Users
 		[DisplayName( "Business Phone" )]
 		[PhoneNumber]
 		public string BusinessPhone { get; set; }
-		[DisplayName( "Mobile Phone" )]
+		[DisplayName( "Work Mobile" )]
 		[PhoneNumber]
 		public string CellPhone { get; set; }
+		[DisplayName( "Address 1" )]
+		[StringLength( 100 )]
+		public string HomeAddress1 { get; set; }
+		[DisplayName( "Address 2" )]
+		[StringLength( 100 )]
+		public string HomeAddress2 { get; set; }
+		[DisplayName( "City" )]
+		[StringLength( 50 )]
+		public string HomeCity { get; set; }
+		[DisplayName( "State" )]
+		public string HomeState { get; set; }
+		[DisplayName( "Zip Code" )]
+		[PostalCode]
+		public string HomeZip { get; set; }
+		[DisplayName( "Home Phone" )]
+		[PhoneNumber]
+		public string HomePhone { get; set; }
+		[DisplayName( "Personal Mobile" )]
+		[PhoneNumber]
+		public string PersonalCellPhone { get; set; }
+		[DisplayName( "Fax" )]
+		[PhoneNumber]
+		public string FaxNumber { get; set; }
+		[DisplayName( "Extension" )]
+		[StringLength( 10 )]
+		public string Extension { get; set; }
 		[DisplayName( "Title" )]
 		[StringLength( 50 )]
 		public string Title { get; set; }

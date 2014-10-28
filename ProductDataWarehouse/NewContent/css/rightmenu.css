@@ -33,7 +33,7 @@ header .header_btm                        { width:100%; background:url(../images
 .right-menu ul li {
 	display:block;
 	font-size:20px;
-	 color:#eaeaea; font-family: 'Conv_Helvetica-Bold';
+	 color:#eaeaea; font-family: "HelveticaNeue-Bold", "Helvetica Neue Bold", Helvetica, Arial, sans-serif; font-weight:bold;
 	}
 .right-menu ul li a.first { padding-left:33px; display:block;  padding-bottom:16px; padding-top:20px}
 .right-menu ul li a {

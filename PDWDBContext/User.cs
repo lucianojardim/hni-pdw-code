@@ -62,6 +62,15 @@ namespace PDWDBContext
         public int DefaultShippingAddress { get; set; }
         public bool ViewPerfData { get; set; }
         public string TierGroup { get; set; }
+        public string HomeAddress1 { get; set; }
+        public string HomeAddress2 { get; set; }
+        public string HomeCity { get; set; }
+        public string HomeState { get; set; }
+        public string HomeZip { get; set; }
+        public string HomePhone { get; set; }
+        public string PersonalCellPhone { get; set; }
+        public string FAX { get; set; }
+        public string Extension { get; set; }
     
         public virtual ICollection<SpecRequest> SpecRequests { get; set; }
         public virtual ICollection<SpecRequest> SpecRequests1 { get; set; }

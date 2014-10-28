@@ -1037,6 +1037,15 @@
           <Property Name="DefaultShippingAddress" Type="int" Nullable="false" />
           <Property Name="ViewPerfData" Type="bit" Nullable="false" />
           <Property Name="TierGroup" Type="nvarchar" MaxLength="50" />
+          <Property Name="HomeAddress1" Type="nvarchar" MaxLength="100" />
+          <Property Name="HomeAddress2" Type="nvarchar" MaxLength="100" />
+          <Property Name="HomeCity" Type="nvarchar" MaxLength="50" />
+          <Property Name="HomeState" Type="nvarchar" MaxLength="5" />
+          <Property Name="HomeZip" Type="nvarchar" MaxLength="12" />
+          <Property Name="HomePhone" Type="nvarchar" MaxLength="20" />
+          <Property Name="PersonalCellPhone" Type="nvarchar" MaxLength="20" />
+          <Property Name="FAX" Type="nvarchar" MaxLength="20" />
+          <Property Name="Extension" Type="nvarchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="UserSubscriptions">
           <Key>
@@ -3096,6 +3105,15 @@
           <Property Type="Int32" Name="DefaultShippingAddress" Nullable="false" />
           <Property Type="Boolean" Name="ViewPerfData" Nullable="false" />
           <Property Type="String" Name="TierGroup" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="HomeAddress1" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="HomeAddress2" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="HomeCity" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="HomeState" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="HomeZip" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="HomePhone" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PersonalCellPhone" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FAX" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Extension" MaxLength="10" FixedLength="false" Unicode="true" />
           </EntityType>
         <EntityType Name="Company">
           <Key>
@@ -4365,6 +4383,15 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="PaoliPDWModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
+                <ScalarProperty Name="FAX" ColumnName="FAX" />
+                <ScalarProperty Name="PersonalCellPhone" ColumnName="PersonalCellPhone" />
+                <ScalarProperty Name="HomePhone" ColumnName="HomePhone" />
+                <ScalarProperty Name="HomeZip" ColumnName="HomeZip" />
+                <ScalarProperty Name="HomeState" ColumnName="HomeState" />
+                <ScalarProperty Name="HomeCity" ColumnName="HomeCity" />
+                <ScalarProperty Name="HomeAddress2" ColumnName="HomeAddress2" />
+                <ScalarProperty Name="HomeAddress1" ColumnName="HomeAddress1" />
                 <ScalarProperty Name="TierGroup" ColumnName="TierGroup" />
                 <ScalarProperty Name="ViewPerfData" ColumnName="ViewPerfData" />
                 <ScalarProperty Name="DefaultShippingAddress" ColumnName="DefaultShippingAddress" />

@@ -1024,7 +1024,7 @@ namespace PWDRepositories
 						var deleteFile = specInfo.SpecRequestFiles.FirstOrDefault( f => f.FileID == fileId );
 						if( deleteFile != null )
 						{
-							DeleteRequestFile( deleteFile, rootLocation );
+							//DeleteRequestFile( deleteFile, rootLocation );
 
 							database.SpecRequestFiles.Remove( deleteFile );
 						}

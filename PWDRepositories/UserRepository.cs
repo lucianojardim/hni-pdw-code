@@ -22,8 +22,8 @@ namespace PWDRepositories
 
 		public class AddressTypes
 		{
-			public const int Company = 1;
-			public const int User = 2;
+			public const int Business = 1;
+			public const int Home = 2;
 		}
 
 		private UserSummary ToUserSummary( User u )
@@ -143,6 +143,15 @@ namespace PWDRepositories
 			newUser.Zip = uInfo.Zip;
 			newUser.BusinessPhone = uInfo.BusinessPhone;
 			newUser.CellPhone = uInfo.CellPhone;
+			newUser.HomeAddress1 = uInfo.HomeAddress1;
+			newUser.HomeAddress2 = uInfo.HomeAddress2;
+			newUser.HomeCity = uInfo.HomeCity;
+			newUser.HomeState = uInfo.HomeState;
+			newUser.HomeZip = uInfo.HomeZip;
+			newUser.HomePhone = uInfo.HomePhone;
+			newUser.PersonalCellPhone = uInfo.PersonalCellPhone;
+			newUser.FAX = uInfo.FaxNumber;
+			newUser.Extension = uInfo.Extension;
 			newUser.Title = uInfo.Title;
 			newUser.AccountType = uInfo.AccountType;
 			newUser.Enabled = uInfo.Enabled && uInfo.SendWelcomeEmail;
@@ -233,6 +242,15 @@ namespace PWDRepositories
 				Zip = eUser.Zip,
 				BusinessPhone = eUser.BusinessPhone,
 				CellPhone = eUser.CellPhone,
+				HomeAddress1 = eUser.HomeAddress1,
+				HomeAddress2 = eUser.HomeAddress2,
+				HomeCity = eUser.HomeCity,
+				HomeState = eUser.HomeState,
+				HomeZip = eUser.HomeZip,
+				HomePhone = eUser.HomePhone,
+				PersonalCellPhone = eUser.PersonalCellPhone,
+				FaxNumber = eUser.FAX,
+				Extension = eUser.Extension,
 				Title = eUser.Title,
 				AccountType = eUser.AccountType,
 				Enabled = eUser.Enabled,
@@ -272,6 +290,15 @@ namespace PWDRepositories
 			eUser.Zip = uInfo.Zip;
 			eUser.BusinessPhone = uInfo.BusinessPhone;
 			eUser.CellPhone = uInfo.CellPhone;
+			eUser.HomeAddress1 = uInfo.HomeAddress1;
+			eUser.HomeAddress2 = uInfo.HomeAddress2;
+			eUser.HomeCity = uInfo.HomeCity;
+			eUser.HomeState = uInfo.HomeState;
+			eUser.HomeZip = uInfo.HomeZip;
+			eUser.HomePhone = uInfo.HomePhone;
+			eUser.PersonalCellPhone = uInfo.PersonalCellPhone;
+			eUser.FAX = uInfo.FaxNumber;
+			eUser.Extension = uInfo.Extension;
 			eUser.Title = uInfo.Title;
 			eUser.DefaultShippingAddress = uInfo.DefaultShippingAddress;
 
@@ -711,19 +738,19 @@ namespace PWDRepositories
 				return new PDWModels.Companies.ShippingAddress();
 			}
 
-			if( eUser.DefaultShippingAddress == AddressTypes.Company )
+			if( eUser.DefaultShippingAddress == AddressTypes.Home )
 			{
 				return new PDWModels.Companies.ShippingAddress()
 				{
 					CompanyID = eUser.CompanyID,
 					ContactAttn = eUser.FullName,
 					Name = eUser.Company.Name,
-					Address1 = eUser.Company.Address1,
-					Address2 = eUser.Company.Address2,
-					City = eUser.Company.City,
-					State = eUser.Company.State,
-					Zip = eUser.Company.Zip,
-					Phone = eUser.Company.Phone,
+					Address1 = eUser.HomeAddress1,
+					Address2 = eUser.HomeAddress2,
+					City = eUser.HomeCity,
+					State = eUser.HomeState,
+					Zip = eUser.HomeZip,
+					Phone = eUser.HomePhone,
 					ContactEmail = eUser.Email
 				};
 			}

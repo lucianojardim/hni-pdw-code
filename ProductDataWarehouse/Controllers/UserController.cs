@@ -299,8 +299,8 @@ namespace ProductDataWarehouse.Controllers
 		public static IEnumerable<SelectListItem> GetAddressTypeDDList()
 		{
 			return new List<SelectListItem>() {
-				new SelectListItem() { Text = "Company Address", Value = UserRepository.AddressTypes.Company.ToString() },
-				new SelectListItem() { Text = "My Address", Value = UserRepository.AddressTypes.User.ToString() }
+				new SelectListItem() { Text = "Business Address", Value = UserRepository.AddressTypes.Business.ToString() },
+				new SelectListItem() { Text = "Home Address", Value = UserRepository.AddressTypes.Home.ToString() }
 			};
 		}
 
