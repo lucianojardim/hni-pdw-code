@@ -475,11 +475,14 @@ namespace PWDRepositories
 			var rootLocation = Path.Combine( ConfigurationManager.AppSettings["SpecRequestDocumentLocation"], dbInfo.Name );
 
 			var files = new List<EmailSender.FileDetail>();
-			foreach( var fileStream in sInfo.addlFiles )
+			if( sInfo.addlFiles != null )
 			{
-				if( fileStream != null )
+				foreach( var fileStream in sInfo.addlFiles )
 				{
-					files.Add( SaveNewFileVersion( dbInfo, rootLocation, Path.GetExtension( fileStream.FileName ).Trim( '.' ), fileStream.InputStream, fileStream.FileName, false ) );
+					if( fileStream != null )
+					{
+						files.Add( SaveNewFileVersion( dbInfo, rootLocation, Path.GetExtension( fileStream.FileName ).Trim( '.' ), fileStream.InputStream, fileStream.FileName, false ) );
+					}
 				}
 			}
 

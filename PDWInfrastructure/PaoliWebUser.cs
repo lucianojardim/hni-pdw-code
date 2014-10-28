@@ -288,6 +288,9 @@ namespace PDWInfrastructure
 		public bool CanViewLeadTimes { get { return CanBeLoggedIn; } }
 		public bool CanManageLeadTimes { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin ); } }
 
+		public bool CanViewMyTerritory { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ); } }
+		public bool CanViewMyCompany { get { return IsDealerUser; } }
+
 		public string ProductsHomePage
 		{
 			get

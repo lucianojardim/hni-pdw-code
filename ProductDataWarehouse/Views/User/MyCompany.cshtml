@@ -1,0 +1,102 @@
+﻿@model PDWModels.Companies.MyCompanyInfo
+@{
+	ViewBag.Title = "MyCompany";
+	Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.HeaderArea = "Users";
+}
+<div class="container">
+	<div class="main_inner1">
+		<div class="territory-companyProfile">
+			<!--left Column -->
+			<div class="main_inner2_btm_2Col_Col marginTop30">
+				<h2>
+					@Model.CompanyName</h2>
+				<div class="addrssColmn">
+					@Model.Address1<br>
+					@if( (Model.Address2 ?? "").Any() )
+	 {
+		 <text>
+					@Model.Address2<br>
+					</text>
+					}
+					@Model.City @Model.State @Model.Zip
+				</div>
+				<div class="phneFaxWebLblColmn marginTop30">
+					Phone<br>
+					Fax<br>
+					Website
+				</div>
+				<div class="phneFaxWebInfoColmn marginTop30">
+					@Model.PhoneNumber<br>
+					@Model.FaxNumber<br>
+					<a href="@Model.WebSite">@Model.WebSite</a>
+				</div>
+				<!--<img src="img/incentiveFPO.jpg" alt="" width="455" height="207" class="incentiveImg">-->
+			</div>
+			<!--//END left Column -->
+			<!--right Column -->
+			<div class="main_inner2_btm_2Col_Col">
+			&nbsp;
+				<!--<img src="img/victoryOffice-FPO.png" alt="" width="447" height="192" />-->
+			</div>
+			<div class="clear"></div>
+			<!--//END right Column -->
+			<hr>
+			<!-- registered user tablature data --->
+			<!--<span class="flt_Rt"><img src="img/addPlusSig.jpg" width="15" height="15" />New User</span>-->
+			<h4>Registered Users</h4>
+			<table class="userTable" id="userList">
+			</table>
+			<!-- //END registered user tablature data --->
+			<div class="clear">
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		loadUsers();
+	});
+
+	var uTable = null;
+	function loadUsers() {
+		if (uTable != null) {
+			uTable.fnDraw();
+			return;
+		}
+
+		uTable = $('#userList').dataTable({
+			"bServerSide": true,
+			"bAutoWidth": false,
+			"bFilter": false,
+			"bLengthChange": false, // don't show dropdown for #items per page
+			"bPaginate": true,
+			"bInfo": true,
+			"sAjaxSource": '@Url.Action( "MyCompanyUserList", "User" )',
+			"fnServerParams": function (aoData) {
+				aoData.push({ "name": "companyId", "value": @Model.CompanyID });
+			},
+			"iDisplayLength": 100,
+			"fnServerData": function (sSource, aoData, fnCallback) {
+				makeAjaxCall(sSource,
+					aoData,
+					function (data, textStatus, jqXHR) {
+						fnCallback(data, textStatus, jqXHR);
+					},
+					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Users:' + errorThrown) }
+				);
+			},
+			"bProcessing": false, // don't want to use the default progress indicator at this time
+			"aaSorting": [[1, "asc"]],
+			"asStripeClasses": [],
+			"aoColumnDefs": [
+                    { "sName": "FirstName", "sTitle": "First Name", "aTargets": [0], "mDataProp": "FirstName", "sWidth": "25%" },
+                    { "sName": "LastName", "sTitle": "Last Name", "aTargets": [1], "mDataProp": "LastName", "sWidth": "25%" },
+                    { "sName": "Title", "sTitle": "Title", "aTargets": [2], "mDataProp": "Title", "sWidth": "25%" },
+                    { "sName": "Role", "sTitle": "Role", "aTargets": [3], "mDataProp": "Role", "sWidth": "25%", "bSortable": false }
+                ]
+		});
+	}
+
+</script>

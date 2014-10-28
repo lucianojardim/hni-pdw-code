@@ -792,6 +792,8 @@
     <Content Include="Views\Shared\DisplayTemplates\StringListPerLine.cshtml" />
     <Content Include="Views\Home\LeadTimes.cshtml" />
     <Content Include="Views\Home\EditLeadTimes.cshtml" />
+    <Content Include="Views\User\MyTerritory.cshtml" />
+    <Content Include="Views\User\MyCompany.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

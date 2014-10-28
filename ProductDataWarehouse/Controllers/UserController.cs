@@ -40,6 +40,48 @@ namespace ProductDataWarehouse.Controllers
 				JsonRequestBehavior.AllowGet );
 		}
 
+		[PaoliAuthorize( "CanViewMyTerritory" )]
+		[TempPasswordCheck]
+		public JsonResult MyTerritoryUserList( UserTableParams param )
+		{
+			int totalCount = 0, filteredCount = 0;
+
+			UserRepository uRepository = new UserRepository();
+
+			var results = uRepository.GetFullUserList(
+				param, out totalCount, out filteredCount );
+
+			return Json( new
+			{
+				sEcho = param.sEcho,
+				iTotalRecords = totalCount,
+				iTotalDisplayRecords = filteredCount,
+				aaData = results
+			},
+				JsonRequestBehavior.AllowGet );
+		}
+
+		[PaoliAuthorize( "CanViewMyCompany" )]
+		[TempPasswordCheck]
+		public JsonResult MyCompanyUserList( UserTableParams param )
+		{
+			int totalCount = 0, filteredCount = 0;
+
+			UserRepository uRepository = new UserRepository();
+
+			var results = uRepository.GetFullUserList(
+				param, out totalCount, out filteredCount );
+
+			return Json( new
+			{
+				sEcho = param.sEcho,
+				iTotalRecords = totalCount,
+				iTotalDisplayRecords = filteredCount,
+				aaData = results
+			},
+				JsonRequestBehavior.AllowGet );
+		}
+
 		[PaoliAuthorize( "CanManageUsers" )]
 		[TempPasswordCheck]
 		public ActionResult Add()
@@ -154,6 +196,33 @@ namespace ProductDataWarehouse.Controllers
 			}
 
 			return View( viewName: "NewMyAccount", model: uInfo );
+		}
+
+		[PaoliAuthorize( "CanViewMyTerritory" )]
+		public ActionResult MyTerritory()
+		{
+			using( var cRepository = new CompanyRepository() )
+			{
+				return View( cRepository.GetMyTerritoryInfo( PaoliWebUser.CurrentUser.UserId ) );
+			}
+		}
+
+		[PaoliAuthorize( "CanViewMyTerritory" )]
+		public ActionResult MyCompanyInfo( int id )
+		{
+			using( var cRepository = new CompanyRepository() )
+			{
+				return View( "MyCompany", cRepository.GetMyCompanyInfo( companyId: id ) );
+			}
+		}
+
+		[PaoliAuthorize( "CanViewMyCompany" )]
+		public ActionResult MyCompany()
+		{
+			using( var cRepository = new CompanyRepository() )
+			{
+				return View( cRepository.GetMyCompanyInfo( userId: PaoliWebUser.CurrentUser.UserId ) );
+			}
 		}
 
 		[PaoliAuthorize( "CanBeLoggedIn" )]

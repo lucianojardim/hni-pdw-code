@@ -24,6 +24,10 @@ namespace PWDRepositories
 				CompanyType = PaoliWebUser.PaoliCompanyType.CompanyTypeList[c.CompanyType],
 				MasterID = c.MasterID,
 				BaseNumber = c.SubCompanyIDs,
+				City = c.City,
+				State = c.State,
+				PaoliContact = c.PaoliMemberID.HasValue ? c.PaoliMember.FullName : "",
+				TierGroup = c.TierGroup,
 				UserCount = c.Users.Where( u => u.IsActive && u.Enabled ).Count(),
 				CanDelete = !c.Users.Any() && !c.SpecRequests.Any() && !c.SpecRequests1.Any() && !c.CollateralOrders.Any() && !c.CollateralOrders1.Any() &&
 					!c.CollateralOrders2.Any() && !c.CollateralOrders3.Any()
@@ -330,6 +334,56 @@ namespace PWDRepositories
 						filteredAndSorted = companyList.OrderByDescending( v => v.MasterID );
 					}
 					break;
+				case "city":
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = companyList.OrderBy( v => v.City );
+					}
+					else
+					{
+						filteredAndSorted = companyList.OrderByDescending( v => v.City );
+					}
+					break;
+				case "state":
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = companyList.OrderBy( v => v.State );
+					}
+					else
+					{
+						filteredAndSorted = companyList.OrderByDescending( v => v.State );
+					}
+					break;
+				case "usercount":
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = companyList.OrderBy( v => v.Users.Where( u => u.IsActive && u.Enabled ).Count() );
+					}
+					else
+					{
+						filteredAndSorted = companyList.OrderByDescending( v => v.Users.Where( u => u.IsActive && u.Enabled ).Count() );
+					}
+					break;
+				case "paolicontact":
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = companyList.OrderBy( v => v.PaoliMember.FirstName ).ThenBy( v => v.PaoliMember.LastName );
+					}
+					else
+					{
+						filteredAndSorted = companyList.OrderByDescending( v => v.PaoliMember.FirstName ).ThenByDescending( v => v.PaoliMember.LastName );
+					}
+					break;
+				case "tiergroup":
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = companyList.OrderBy( v => v.TierGroup );
+					}
+					else
+					{
+						filteredAndSorted = companyList.OrderByDescending( v => v.TierGroup );
+					}
+					break;
 			}
 
 			if( ( displayedRecords > param.iDisplayLength ) && ( param.iDisplayLength > 0 ) )
@@ -523,6 +577,60 @@ namespace PWDRepositories
 			}
 
 			return new List<IDToTextItem>();
+		}
+
+		public MyCompanyInfo GetMyCompanyInfo( int? companyId = null, int? userId = null )
+		{
+			if( !companyId.HasValue )
+			{
+				var thisUser = database.Users.FirstOrDefault( u => u.UserID == userId );
+				if( thisUser == null )
+				{
+					throw new Exception( "Unable to find user." );
+				}
+
+				companyId = thisUser.CompanyID;
+			}
+
+			var thisCompany = database.Companies.FirstOrDefault( c => c.CompanyID == companyId.Value );
+
+			return new MyCompanyInfo()
+			{
+				CompanyID = thisCompany.CompanyID,
+				CompanyName = thisCompany.Name,
+				Address1 = thisCompany.Address1,
+				Address2 = thisCompany.Address2,
+				City = thisCompany.City,
+				State = thisCompany.State,
+				Zip = thisCompany.Zip,
+				PhoneNumber = thisCompany.Phone,
+				FaxNumber = thisCompany.FAX,
+				WebSite = thisCompany.WebSite
+			};
+		}
+
+		public MyTerritoryInfo GetMyTerritoryInfo( int userId )
+		{
+			var thisUser = database.Users.FirstOrDefault( u => u.UserID == userId );
+			if( thisUser == null )
+			{
+				throw new Exception( "Unable to find user." );
+			}
+
+			return new MyTerritoryInfo()
+			{
+				CompanyID = thisUser.CompanyID,
+				CompanyName = thisUser.Company.Name,
+				TerritoryID = thisUser.Company.TerritoryID.Value,
+				Address1 = thisUser.Company.Address1,
+				Address2 = thisUser.Company.Address2,
+				City = thisUser.Company.City,
+				State = thisUser.Company.State,
+				Zip = thisUser.Company.Zip,
+				PhoneNumber = thisUser.Company.Phone,
+				FaxNumber = thisUser.Company.FAX,
+				WebSite = thisUser.Company.WebSite
+			};
 		}
 	}
 }

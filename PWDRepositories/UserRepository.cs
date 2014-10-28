@@ -38,7 +38,9 @@ namespace PWDRepositories
 				PhoneNumber = u.BusinessPhone,
 				Enabled = u.Enabled,
 				SentWelcomeEmail = u.RecWelcomeEmail,
-				LastLogin = u.LastLogin
+				LastLogin = u.LastLogin,
+				Title = u.Title,
+				Role = PaoliWebUser.PaoliWebRole.RoleList[u.AccountType]
 			};
 		}
 
@@ -510,6 +512,16 @@ namespace PWDRepositories
 					else
 					{
 						filteredAndSorted = userList.OrderByDescending( v => v.UserLogins.Max( ul => ul.LoginDate ) );
+					}
+					break;
+				case "title":
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = userList.OrderBy( v => v.Title );
+					}
+					else
+					{
+						filteredAndSorted = userList.OrderByDescending( v => v.Title );
 					}
 					break;
 			}

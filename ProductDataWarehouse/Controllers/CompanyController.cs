@@ -40,6 +40,27 @@ namespace ProductDataWarehouse.Controllers
 				JsonRequestBehavior.AllowGet );
 		}
 
+		[PaoliAuthorize( "CanViewMyTerritory" )]
+		[TempPasswordCheck]
+		public JsonResult DealerForTerritoryCompanyList( CompanyTableParams param )
+		{
+			int totalCount = 0, filteredCount = 0;
+
+			CompanyRepository cRepository = new CompanyRepository();
+
+			var results = cRepository.GetFullCompanyList(
+				param, out totalCount, out filteredCount );
+
+			return Json( new
+			{
+				sEcho = param.sEcho,
+				iTotalRecords = totalCount,
+				iTotalDisplayRecords = filteredCount,
+				aaData = results
+			},
+				JsonRequestBehavior.AllowGet );
+		}
+
 		[PaoliAuthorize( "CanManageCompanies" )]
 		[TempPasswordCheck]
 		public ActionResult Add()
