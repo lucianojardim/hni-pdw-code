@@ -683,7 +683,7 @@ namespace PWDRepositories
 				}
 			}
 
-			theList.Add( new UserContactInfo() { FullName = "Customer Service", EmailAddress = "helpdesk@paoli.com", PhoneNumber = "812-555-1234" } );
+			theList.Add( new UserContactInfo() { FullName = "Paoli Helpdesk", EmailAddress = "helpdesk@paoli.com", PhoneNumber = "800-457-7415" } );
 
 			return theList;
 		}
