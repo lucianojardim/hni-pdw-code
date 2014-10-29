@@ -37,7 +37,7 @@ namespace PDWModels
 			wordList.RemoveAll( InStopList );
 
 			int nIndex = 0;
-			foreach( var w in wordList )
+			foreach( var w in wordList.Where( s => s.Any() ) )
 			{
 				if( w.Substring( w.Length - 1 ).ToLower() == "s" )
 				{
