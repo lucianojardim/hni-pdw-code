@@ -605,7 +605,8 @@ namespace PWDRepositories
 				Zip = thisCompany.Zip,
 				PhoneNumber = thisCompany.Phone,
 				FaxNumber = thisCompany.FAX,
-				WebSite = thisCompany.WebSite
+				WebSite = thisCompany.WebSite,
+				IsTripIncentive = thisCompany.SignedUpForTrip
 			};
 		}
 

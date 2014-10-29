@@ -31,12 +31,14 @@
 					@Model.FaxNumber<br>
 					<a href="@Model.WebSite">@Model.WebSite</a>
 				</div>
-				<!--<img src="img/incentiveFPO.jpg" alt="" width="455" height="207" class="incentiveImg">-->
+				@if( Model.IsTripIncentive )
+	{
+				<img src="/NewContent/images/incentiveFPO.jpg" alt="" width="455" height="207" class="incentiveImg" />
+	}
 			</div>
 			<!--//END left Column -->
 			<!--right Column -->
 			<div class="main_inner2_btm_2Col_Col">
-			&nbsp;
 				<!--<img src="img/victoryOffice-FPO.png" alt="" width="447" height="192" />-->
 			</div>
 			<div class="clear"></div>

@@ -539,6 +539,7 @@
     <Content Include="NewContent\images\headline_img01.jpg" />
     <Content Include="NewContent\images\image-browse-lg.png" />
     <Content Include="NewContent\images\image-browse-sm.png" />
+    <Content Include="NewContent\images\incentiveFPO.jpg" />
     <Content Include="NewContent\images\leadtimes.png" />
     <Content Include="NewContent\images\left-detail-sm.png" />
     <Content Include="NewContent\images\left-detail.png" />
