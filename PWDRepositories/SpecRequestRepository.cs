@@ -45,7 +45,14 @@ namespace PWDRepositories
 
 		public IEnumerable<SpecRequestSummary> GetHomePageRequestList( int itemCount )
 		{
-			var requestList = database.SpecRequests.AsQueryable();
+			var requestList = database.SpecRequests
+				.Include( s => s.PrimaryCompany )
+				.Include( s => s.DealerSalesRep )
+				.Include( s => s.SpecTeamMember )
+				.Include( s => s.PaoliSalesRepGroup )
+				.Include( s => s.Typicals )
+				.Include( s => s.SpecRequestEvents )
+				.AsQueryable();
 
 			if( PaoliWebUser.CurrentUser.IsDealerUser )
 			{
@@ -139,7 +146,14 @@ namespace PWDRepositories
 			totalRecords = 0;
 			displayedRecords = 0;
 
-			var requestList = database.SpecRequests.AsQueryable();
+			var requestList = database.SpecRequests
+				.Include( s => s.PrimaryCompany )
+				.Include( s => s.DealerSalesRep )
+				.Include( s => s.SpecTeamMember )
+				.Include( s => s.PaoliSalesRepGroup )
+				.Include( s => s.Typicals )
+				.Include( s => s.SpecRequestEvents )
+				.AsQueryable();
 
 			if( PaoliWebUser.CurrentUser.IsDealerUser )
 			{
@@ -264,7 +278,14 @@ namespace PWDRepositories
 			totalRecords = 0;
 			displayedRecords = 0;
 
-			var requestList = database.SpecRequests.AsQueryable();
+			var requestList = database.SpecRequests
+				.Include( s => s.PrimaryCompany )
+				.Include( s => s.DealerSalesRep )
+				.Include( s => s.SpecTeamMember )
+				.Include( s => s.PaoliSalesRepGroup )
+				.Include( s => s.Typicals )
+				.Include( s => s.SpecRequestEvents )
+				.AsQueryable();
 
 			totalRecords = requestList.Count();
 

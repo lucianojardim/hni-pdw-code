@@ -10,6 +10,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Configuration;
 using PDWModels;
+using System.Data.Entity;
 
 namespace PWDRepositories
 {
@@ -542,7 +543,12 @@ namespace PWDRepositories
 				filteredAndSorted = filteredAndSorted.Skip( param.iDisplayStart ).Take( param.iDisplayLength );
 			}
 
-			return filteredAndSorted.ToList().Select( v => ToImageDetail( v ) );
+			return filteredAndSorted
+				.Include( i => i.SeriesImageFiles )
+				.Include( i => i.TypicalImageFiles )
+				.Include( i => i.Showrooms )
+				.Include( i => i.eCollateralSections )
+				.ToList().Select( v => ToImageDetail( v ) );
 		}
 
 		public IEnumerable<PubImageDetail> GetPubImageList( PubImageTableParams param, bool bInPublication,
@@ -606,7 +612,12 @@ namespace PWDRepositories
 
 		public ImageUsage GetImageUsage( int id )
 		{
-			var img = database.ImageFiles.FirstOrDefault( i => i.ImageID == id );
+			var img = database.ImageFiles
+				.Include( i => i.SeriesImageFiles.Select( s => s.Series ) )
+				.Include( i => i.TypicalImageFiles.Select( s => s.Typical ) )
+				.Include( i => i.Showrooms )
+				.Include( i => i.eCollateralSections.Select( s => s.eCollateralItem ) )
+				.FirstOrDefault( i => i.ImageID == id );
 
 			if( img != null )
 			{
@@ -726,10 +737,9 @@ namespace PWDRepositories
 			imgData.MIMEType = mimeType;
 			imgData.OriginalExtension = Path.GetExtension( origFileName );
 
-			if( database.SaveChanges() > 0 )
-			{
-				UploadImage( imgData.Name, fStream, fileLength, origFileName );
-			}
+			database.SaveChanges();
+
+			UploadImage( imgData.Name, fStream, fileLength, origFileName );
 		}
 
 		public void ImportImageFileData( ImageInformation imgInfo, Stream fStream, int fileLength, string origFileName, string mimeType )

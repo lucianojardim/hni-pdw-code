@@ -43,7 +43,11 @@ namespace PWDRepositories
 			totalRecords = 0;
 			displayedRecords = 0;
 
-			var collateralList = database.CollateralItems.AsQueryable();
+			var collateralList = database.CollateralItems
+				.Include( c => c.CollateralType )
+				.Include( c => c.CollateralGroupItems )
+				.Include( c => c.CollateralGroupItems.Select( cgi => cgi.ChildCollateralItem ) )
+				.AsQueryable();
 
 			totalRecords = collateralList.Count();
 
@@ -954,7 +958,24 @@ namespace PWDRepositories
 				.OrderByDescending( c => c.OrderID )
 				.Take( itemCount );
 
-			return collateralList.ToList().Select( c => ToCollateralOrderHPSummary( c ) );
+			return collateralList
+				.Include( c => c.PaoliMember )
+				.Include( c => c.PaoliMember.Company )
+				.Include( c => c.PaoliSalesRepMember )
+				.Include( c => c.PaoliSalesRepMember.Company )
+				.Include( c => c.PaoliSalesRep )
+				.Include( c => c.DealerMember )
+				.Include( c => c.DealerMember.Company )
+				.Include( c => c.Dealer )
+				.Include( c => c.SPPaoliMember )
+				.Include( c => c.SPPaoliMember.Company )
+				.Include( c => c.SPPaoliSalesRepMember )
+				.Include( c => c.SPPaoliSalesRepMember.Company )
+				.Include( c => c.SPPaoliSalesRep )
+				.Include( c => c.SPDealerMember )
+				.Include( c => c.SPDealerMember.Company )
+				.Include( c => c.SPDealer )
+				.ToList().Select( c => ToCollateralOrderHPSummary( c ) );
 		}
 
 		public IEnumerable<CollateralOrderSummary> GetFullCollateralOrderListForUser( CollateralOrderTableParams param, out int totalRecords, out int displayedRecords )

@@ -6,6 +6,7 @@ using PDWDBContext;
 using PDWModels.Companies;
 using PDWInfrastructure;
 using PDWModels;
+using System.Data.Entity;
 
 namespace PWDRepositories
 {
@@ -391,7 +392,17 @@ namespace PWDRepositories
 				filteredAndSorted = filteredAndSorted.Skip( param.iDisplayStart ).Take( param.iDisplayLength );
 			}
 
-			return filteredAndSorted.ToList().Select( v => ToCompanySummary( v ) );
+			return filteredAndSorted
+				.Include( c => c.PaoliMember )
+				.Include( c => c.Users )
+				.Include( c => c.SpecRequests )
+				.Include( c => c.SpecRequests1 )
+				.Include( c => c.CollateralOrders )
+				.Include( c => c.CollateralOrders1 )
+				.Include( c => c.CollateralOrders2 )
+				.Include( c => c.CollateralOrders3 )
+				.ToList()
+				.Select( v => ToCompanySummary( v ) );
 		}
 
 		public IEnumerable<IDToTextItem> GetFullCompanyList( int? companyType, bool includeTerritory = false )
@@ -406,6 +417,7 @@ namespace PWDRepositories
 		public IEnumerable<TerritorySummary> GetTerritoryList()
 		{
 			return database.Territories
+				.Include( t => t.Companies )
 				.ToList()
 				.Select( t => new TerritorySummary() { TerritoryID = t.TerritoryID, Name = t.Name, SalesRepCompany = t.SalesRepCompanyName } );
 		}

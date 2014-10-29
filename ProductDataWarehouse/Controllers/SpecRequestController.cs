@@ -33,11 +33,12 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public JsonResult UserHomePageList( int itemCount )
 		{
-			SpecRequestRepository sRepository = new SpecRequestRepository();
+			using( var sRepository = new SpecRequestRepository() )
+			{
+				var results = sRepository.GetHomePageRequestList( itemCount );
 
-			var results = sRepository.GetHomePageRequestList( itemCount );
-
-			return Json( results, JsonRequestBehavior.AllowGet );
+				return Json( results, JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		[PaoliAuthorize( "CanViewSpecRequests" )]
@@ -46,19 +47,20 @@ namespace ProductDataWarehouse.Controllers
 		{
 			int totalCount = 0, filteredCount = 0;
 
-			SpecRequestRepository sRepository = new SpecRequestRepository();
-
-			var results = sRepository.GetUserRequestList(
-				paramDetails, out totalCount, out filteredCount );
-
-			return Json( new
+			using( var sRepository = new SpecRequestRepository() )
 			{
-				sEcho = paramDetails.sEcho,
-				iTotalRecords = totalCount,
-				iTotalDisplayRecords = filteredCount,
-				aaData = results
-			},
-				JsonRequestBehavior.AllowGet );
+				var results = sRepository.GetUserRequestList(
+					paramDetails, out totalCount, out filteredCount );
+
+				return Json( new
+				{
+					sEcho = paramDetails.sEcho,
+					iTotalRecords = totalCount,
+					iTotalDisplayRecords = filteredCount,
+					aaData = results
+				},
+					JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageTypicals" )]
@@ -67,28 +69,32 @@ namespace ProductDataWarehouse.Controllers
 		{
 			int totalCount = 0, filteredCount = 0;
 
-			SpecRequestRepository sRepository = new SpecRequestRepository();
-
-			var results = sRepository.GetFullRequestList(
-				paramDetails, out totalCount, out filteredCount );
-
-			return Json( new
+			using( var sRepository = new SpecRequestRepository() )
 			{
-				sEcho = paramDetails.sEcho,
-				iTotalRecords = totalCount,
-				iTotalDisplayRecords = filteredCount,
-				aaData = results
-			},
-				JsonRequestBehavior.AllowGet );
+				var results = sRepository.GetFullRequestList(
+					paramDetails, out totalCount, out filteredCount );
+
+				return Json( new
+				{
+					sEcho = paramDetails.sEcho,
+					iTotalRecords = totalCount,
+					iTotalDisplayRecords = filteredCount,
+					aaData = results
+				},
+					JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		[PaoliAuthorize( "CanAddSpecRequests" )]
 		[TempPasswordCheck]
 		public ActionResult AddRequest()
 		{
-			ViewBag.BlankInformation = new SpecRequestRepository().NewSpecRequest();
+			using( var sRepository = new SpecRequestRepository() )
+			{
+				ViewBag.BlankInformation = sRepository.NewSpecRequest();
 
-			return View( viewName: "NewAddRequest" );
+				return View( viewName: "NewAddRequest" );
+			}
 		}
 
 		[PaoliAuthorize( "CanAddSpecRequests" )]
@@ -98,10 +104,10 @@ namespace ProductDataWarehouse.Controllers
 		[ValidateInput( false )]
 		public ActionResult AddRequest( SpecRequestInformation sInfo )
 		{
-			if( ModelState.IsValid )
+			using( var sRepository = new SpecRequestRepository() )
 			{
-					SpecRequestRepository sRepository = new SpecRequestRepository();
-
+				if( ModelState.IsValid )
+				{
 					sRepository.AddSpecRequest( sInfo );
 
 					if( PaoliWebUser.CurrentUser.CanManageTypicals )
@@ -109,8 +115,9 @@ namespace ProductDataWarehouse.Controllers
 						return RedirectToAction( "Manage" );
 					}
 					return RedirectToAction( "ViewAll" );
+				}
+				ViewBag.BlankInformation = sRepository.NewSpecRequest();
 			}
-			ViewBag.BlankInformation = new SpecRequestRepository().NewSpecRequest();
 
 			return View( viewName: "NewAddRequest", model: sInfo );
 		}
@@ -119,11 +126,12 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult AddTypical( int id )
 		{
-			SpecRequestRepository sRepository = new SpecRequestRepository();
+			using( var sRepository = new SpecRequestRepository() )
+			{
+				var newTypical = sRepository.GetNewTypical( id );
 
-			var newTypical = sRepository.GetNewTypical( id );
-
-			return View( newTypical );
+				return View( newTypical );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageTypicals" )]
@@ -134,12 +142,12 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-					SpecRequestRepository sRepository = new SpecRequestRepository();
-
+				using( var sRepository = new SpecRequestRepository() )
+				{
 					sRepository.AddTypical( tInfo, typeOfSubmit == "Publish" );
 
 					return RedirectToAction( "Manage" );
-
+				}
 			}
 
 			return View( tInfo );
@@ -147,85 +155,99 @@ namespace ProductDataWarehouse.Controllers
 
 		public static string GetJustSeriesNameList()
 		{
-			var list = (new SeriesRepository()).GetJustSeriesNameList();
+			using( var sRepository = new SeriesRepository() )
+			{
+				var list = sRepository.GetJustSeriesNameList();
 
-			return "'" + string.Join( "','", list ) + "'";
+				return "'" + string.Join( "','", list ) + "'";
+			}
 		}
 
 		public static IEnumerable<SelectListItem> GSAContractList( bool includeBlank )
 		{
-			var theList = ( new SpecRequestRepository() ).GetGSAContractList()
-				.Select( g => new SelectListItem() { Value = g.ID.ToString(), Text = g.Text } )
-				.ToList();
-				
-			if( includeBlank )
+			using( var sRepository = new SpecRequestRepository() )
 			{
-				theList.Insert( 0, new SelectListItem() );
-			}
+				var theList = sRepository.GetGSAContractList()
+					.Select( g => new SelectListItem() { Value = g.ID.ToString(), Text = g.Text } )
+					.ToList();
 
-			return theList;
+				if( includeBlank )
+				{
+					theList.Insert( 0, new SelectListItem() );
+				}
+
+				return theList;
+			}
 		}
 
 		public static IEnumerable<SelectListItem> GetShapeDDList()
 		{
-			var shapes = ( new AttributeRepository() ).GetTypicalOptionList( "Shape" ).Select( s => s.Name ).ToList();
+			using( var aRepository = new AttributeRepository() )
+			{
+				var shapes = aRepository.GetTypicalOptionList( "Shape" ).Select( s => s.Name ).ToList();
 
-			shapes.Add( "" );
+				shapes.Add( "" );
 
-			shapes.Sort();
+				shapes.Sort();
 
-			return shapes.Select( a => new SelectListItem() { Text = a, Value = a } );
+				return shapes.Select( a => new SelectListItem() { Text = a, Value = a } );
+			}
 		}
 
 		public static IEnumerable<SelectListItem> GetFootprintDDList()
 		{
-			var footprints = ( new AttributeRepository() ).GetTypicalOptionList( "Footprint" ).Select( s => s.Name ).ToList();
-
-			footprints.Add( "" );
-
-			footprints.Sort( delegate( string x, string y )
+			using( var aRepository = new AttributeRepository() )
 			{
-				var xSizes = x.Split( 'x' );
-				var ySizes = y.Split( 'x' );
-				if( xSizes.Count() == ySizes.Count() && xSizes.Count() == 2 )
+				var footprints = aRepository.GetTypicalOptionList( "Footprint" ).Select( s => s.Name ).ToList();
+
+				footprints.Add( "" );
+
+				footprints.Sort( delegate( string x, string y )
 				{
-					int x1 = 0, x2 = 0, y1 = 0, y2 = 0;
-
-					if( int.TryParse( xSizes[0], out x1 ) &&
-						int.TryParse( xSizes[1], out x2 ) &&
-						int.TryParse( ySizes[0], out y1 ) &&
-						int.TryParse( ySizes[1], out y1 ) )
+					var xSizes = x.Split( 'x' );
+					var ySizes = y.Split( 'x' );
+					if( xSizes.Count() == ySizes.Count() && xSizes.Count() == 2 )
 					{
-						if( x1 == y1 )
+						int x1 = 0, x2 = 0, y1 = 0, y2 = 0;
+
+						if( int.TryParse( xSizes[0], out x1 ) &&
+							int.TryParse( xSizes[1], out x2 ) &&
+							int.TryParse( ySizes[0], out y1 ) &&
+							int.TryParse( ySizes[1], out y1 ) )
 						{
-							return x2 < y2 ? -1 : ( ( x2 > y2 ) ? 1 : 0 );
+							if( x1 == y1 )
+							{
+								return x2 < y2 ? -1 : ( ( x2 > y2 ) ? 1 : 0 );
+							}
+							return x1 < y1 ? -1 : ( ( x1 > y1 ) ? 1 : 0 );
 						}
-						return x1 < y1 ? -1 : ( ( x1 > y1 ) ? 1 : 0 );
 					}
-				}
 
-				return string.Compare( x, y );
-			} );
+					return string.Compare( x, y );
+				} );
 
-			return footprints.Select( a => new SelectListItem() { Text = a, Value = a } );
+				return footprints.Select( a => new SelectListItem() { Text = a, Value = a } );
+			}
 		}
 
 		[PaoliAuthorize( "CanViewSpecRequests" )]
 		[TempPasswordCheck]
 		public ActionResult ViewRequest( int id )
 		{
-			SpecRequestRepository sRepository = new SpecRequestRepository();
-
-			return View( viewName: "NewViewRequest", model: sRepository.GetSpecRequest( id ) );
+			using( var sRepository = new SpecRequestRepository() )
+			{
+				return View( viewName: "NewViewRequest", model: sRepository.GetSpecRequest( id ) );
+			}
 		}
 
 		[PaoliAuthorize( "CanReOpenSpecRequests" )]
 		[TempPasswordCheck]
 		public ActionResult ReOpenRequest( int id )
 		{
-			SpecRequestRepository sRepository = new SpecRequestRepository();
-
-			return View( sRepository.GetReOpenRequest( id ) );
+			using( var sRepository = new SpecRequestRepository() )
+			{
+				return View( sRepository.GetReOpenRequest( id ) );
+			}
 		}
 
 		[PaoliAuthorize( "CanReOpenSpecRequests" )]
@@ -237,8 +259,8 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-					SpecRequestRepository sRepository = new SpecRequestRepository();
-
+				using( var sRepository = new SpecRequestRepository() )
+				{
 					sRepository.ReOpenSpecRequest( sInfo );
 
 					if( PaoliWebUser.CurrentUser.CanManageTypicals )
@@ -246,7 +268,7 @@ namespace ProductDataWarehouse.Controllers
 						return RedirectToAction( "Manage" );
 					}
 					return RedirectToAction( "ViewAll" );
-
+				}
 			}
 
 			return View( sInfo );
@@ -256,11 +278,12 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult EditRequest( int id )
 		{
-			SpecRequestRepository sRepository = new SpecRequestRepository();
+			using( var sRepository = new SpecRequestRepository() )
+			{
+				ViewBag.BlankInformation = sRepository.NewSpecRequest();
 
-			ViewBag.BlankInformation = sRepository.NewSpecRequest();
-
-			return View( sRepository.GetSpecRequest( id ) );
+				return View( sRepository.GetSpecRequest( id ) );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageTypicals" )]
@@ -270,16 +293,16 @@ namespace ProductDataWarehouse.Controllers
 		[ValidateInput( false )]
 		public ActionResult EditRequest( SpecRequestInformation sInfo )
 		{
-			if( ModelState.IsValid )
+			using( var sRepository = new SpecRequestRepository() )
 			{
-					SpecRequestRepository sRepository = new SpecRequestRepository();
-
+				if( ModelState.IsValid )
+				{
 					sRepository.UpdateSpecRequest( sInfo );
 
 					return RedirectToAction( "Manage" );
-
+				}
+				ViewBag.BlankInformation = sRepository.NewSpecRequest();
 			}
-			ViewBag.BlankInformation = new SpecRequestRepository().NewSpecRequest();
 
 			return View( sInfo );
 		}
@@ -287,36 +310,43 @@ namespace ProductDataWarehouse.Controllers
 		[PaoliAuthorize( "CanViewSpecRequests" )]
 		public JsonResult CancelRequest( int id )
 		{
-			bool bSuccess = ( new SpecRequestRepository() ).CancelRequest( id );
-
-			return Json( new
+			using( var sRepository = new SpecRequestRepository() )
 			{
-				success = bSuccess
-			},
-				JsonRequestBehavior.AllowGet );
+				bool bSuccess = sRepository.CancelRequest( id );
+
+				return Json( new
+				{
+					success = bSuccess
+				},
+					JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageTypicals" )]
 		public JsonResult OpenRequest( int id )
 		{
-			bool bSuccess = ( new SpecRequestRepository() ).ReOpenRequest( id );
-
-			return Json( new
+			using( var sRepository = new SpecRequestRepository() )
 			{
-				success = bSuccess
-			},
-				JsonRequestBehavior.AllowGet );
+				bool bSuccess = sRepository.ReOpenRequest( id );
+
+				return Json( new
+				{
+					success = bSuccess
+				},
+					JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageTypicals" )]
 		[TempPasswordCheck]
 		public ActionResult EditTypical( int id )
 		{
-			SpecRequestRepository sRepository = new SpecRequestRepository();
+			using( var sRepository = new SpecRequestRepository() )
+			{
+				var typical = sRepository.GetTypical( id );
 
-			var typical = sRepository.GetTypical( id );
-
-			return View( typical );
+				return View( typical );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageTypicals" )]
@@ -327,12 +357,12 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-					SpecRequestRepository sRepository = new SpecRequestRepository();
-
+				using( var sRepository = new SpecRequestRepository() )
+				{
 					sRepository.UpdateTypical( tInfo, typeOfSubmit != "Save Changes" );
 
 					return RedirectToAction( "Manage" );
-
+				}
 			}
 
 			return View( tInfo );
@@ -340,7 +370,10 @@ namespace ProductDataWarehouse.Controllers
 
 		public static IDictionary<string, string> GetFeatureImageList()
 		{
-			return ( new SeriesRepository() ).GetFeatureImageList();
+			using( var sRepository = new SeriesRepository() )
+			{
+				return sRepository.GetFeatureImageList();
+			}
 		}
     }
 }

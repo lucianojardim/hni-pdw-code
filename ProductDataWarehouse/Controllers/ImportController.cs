@@ -53,16 +53,19 @@ namespace ProductDataWarehouse.Controllers
 			if( ModelState.IsValid )
 			{
 				string homePage = "";
-				if( ( new UserRepository().ValidateUserAccount( userName, password, out homePage ) ) )
+				using( var uRepository = new UserRepository() )
 				{
-					FormsAuthentication.SetAuthCookie( userName, false );
-
-					if( ReturnUrl != null )
+					if( uRepository.ValidateUserAccount( userName, password, out homePage ) )
 					{
-						return Redirect( ReturnUrl );
-					}
+						FormsAuthentication.SetAuthCookie( userName, false );
 
-					return Redirect( homePage );
+						if( ReturnUrl != null )
+						{
+							return Redirect( ReturnUrl );
+						}
+
+						return Redirect( homePage );
+					}
 				}
 				Thread.Sleep( 5000 );	// delay to prevent brute force attacks
 				ModelState.AddModelError( "", "Invalid email address and/or password." );
@@ -82,7 +85,10 @@ namespace ProductDataWarehouse.Controllers
 		{
 			try
 			{
-				ViewBag.EmailSent = ( new UserRepository().ResetUserPassword( fpEmailAddress ) );
+				using( var uRepository = new UserRepository() )
+				{
+					ViewBag.EmailSent = ( uRepository.ResetUserPassword( fpEmailAddress ) );
+				}
 			}
 			catch
 			{
@@ -110,13 +116,14 @@ namespace ProductDataWarehouse.Controllers
 			{
 				if( csvFile != null )
 				{
-						ImportRepository iRepo = new ImportRepository();
-
+					using( var iRepo = new ImportRepository() )
+					{
 						iRepo.ImportFileData( csvFile.InputStream, csvFile.ContentLength );
 
 						ViewBag.ImportSuccess = true;
 
 						return View();
+					}
 				}
 				else
 				{
@@ -133,7 +140,10 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult NewHomePage()
 		{
-			return View( (new ImportRepository()).GetHomePageContent() );
+			using( var iRepository = new ImportRepository() )
+			{
+				return View( iRepository.GetHomePageContent() );
+			}
 		}
 
 		[HttpPost]
@@ -145,11 +155,12 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-					ImportRepository iRepo = new ImportRepository();
-
+				using( var iRepo = new ImportRepository() )
+				{
 					iRepo.UpsertHomePageContent( content );
 
 					return RedirectToAction( "Index", "Home" );
+				}
 			}
 
 			return View();
@@ -170,19 +181,20 @@ namespace ProductDataWarehouse.Controllers
 		{
 			int totalCount = 0, filteredCount = 0;
 
-			ImageRepository iRepository = new ImageRepository();
-
-			var results = iRepository.GetFullImageList( 
-				param, out totalCount, out filteredCount );
-
-			return Json( new
+			using( var iRepository = new ImageRepository() )
 			{
-				sEcho = param.sEcho,
-				iTotalRecords = totalCount,
-				iTotalDisplayRecords = filteredCount,
-				aaData = results
-			},
-				JsonRequestBehavior.AllowGet );
+				var results = iRepository.GetFullImageList(
+					param, out totalCount, out filteredCount );
+
+				return Json( new
+				{
+					sEcho = param.sEcho,
+					iTotalRecords = totalCount,
+					iTotalDisplayRecords = filteredCount,
+					aaData = results
+				},
+					JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageImages" )]
@@ -333,13 +345,14 @@ namespace ProductDataWarehouse.Controllers
 
 			if( ModelState.IsValid )
 			{
-					ImageRepository iRepo = new ImageRepository();
-
+				using( var iRepo = new ImageRepository() )
+				{
 					iRepo.ImportImageFileData( imgInfo, imageFile.InputStream, imageFile.ContentLength, imageFile.FileName, imageFile.ContentType );
 
 					ViewBag.CloseFancyBox = true;
 
 					return View();
+				}
 			}
 			return View();
 		}
@@ -348,18 +361,20 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult ViewImage( int id )
 		{
-			ImageRepository iRepo = new ImageRepository();
-
-			return View( iRepo.GetImageUsage( id ) );
+			using( var iRepo = new ImageRepository() )
+			{
+				return View( iRepo.GetImageUsage( id ) );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageImages" )]
 		[TempPasswordCheck]
 		public ActionResult EditImage( int id )
 		{
-			ImageRepository iRepo = new ImageRepository();
-
-			return View( iRepo.GetImageInformation( id ) );
+			using( var iRepo = new ImageRepository() )
+			{
+				return View( iRepo.GetImageInformation( id ) );
+			}
 		}
 
 		[HttpPost]
@@ -503,13 +518,14 @@ namespace ProductDataWarehouse.Controllers
 
 			if( ModelState.IsValid )
 			{
-					ImageRepository iRepo = new ImageRepository();
-
+				using( var iRepo = new ImageRepository() )
+				{
 					iRepo.UpdateImageFile( imgInfo );
 
 					ViewBag.CloseFancyBox = true;
 
 					return View();
+				}
 			}
 			return View();
 		}
@@ -518,9 +534,10 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult UploadImage( int id )
 		{
-			ImageRepository iRepo = new ImageRepository();
-
-			return View( iRepo.GetImageInformation( id ) );
+			using( var iRepo = new ImageRepository() )
+			{
+				return View( iRepo.GetImageInformation( id ) );
+			}
 		}
 
 		[HttpPost]
@@ -531,13 +548,14 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-					ImageRepository iRepo = new ImageRepository();
-
+				using( var iRepo = new ImageRepository() )
+				{
 					iRepo.UploadImageFile( ImageID, imageFile.InputStream, imageFile.ContentLength, imageFile.FileName, imageFile.ContentType );
 
 					ViewBag.CloseFancyBox = true;
 
 					return View();
+				}
 			}
 			return View();
 		}
@@ -546,11 +564,12 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult DeleteImage( int id )
 		{
-			ImageRepository iRepo = new ImageRepository();
+			using( var iRepo = new ImageRepository() )
+			{
+				iRepo.DeleteImageFile( id );
 
-			iRepo.DeleteImageFile( id );
-
-			return RedirectToAction( "Images" );
+				return RedirectToAction( "Images" );
+			}
 		}
 
 		static public IEnumerable<SelectListItem> GetImageContentList( bool bIncludeAll )
@@ -644,11 +663,12 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult RebuildDBKeywords()
 		{
-			ImportRepository iRepo = new ImportRepository();
+			using( var iRepo = new ImportRepository() )
+			{
+				iRepo.RebuildDBKeywords();
 
-			iRepo.RebuildDBKeywords();
-
-			return RedirectToAction( "Index" );
+				return RedirectToAction( "Index" );
+			}
 		}
 		
 		#endregion
@@ -657,540 +677,30 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult SearchLog()
 		{
-			ImportRepository iRepo = new ImportRepository();
-
-			var logList = iRepo.GetSearchLogList();
-
-			return View( logList );
-		}
-
-		#region Print Material Management
-		[PaoliAuthorize( "CanManagePrintMaterial" )]
-		[TempPasswordCheck]
-		public ActionResult PrintMaterial()
-		{
-			return View();
-		}
-
-		[PaoliAuthorize( "CanManagePrintMaterial" )]
-		[TempPasswordCheck]
-		public JsonResult FullPrintMaterialList( DataTableParams param )
-		{
-			int totalCount = 0, filteredCount = 0;
-
-			PublicationRepository pRepository = new PublicationRepository();
-
-			var results = pRepository.GetFullPublicationList(
-				param, out totalCount, out filteredCount );
-
-			return Json( new
+			using( var iRepo = new ImportRepository() )
 			{
-				sEcho = param.sEcho,
-				iTotalRecords = totalCount,
-				iTotalDisplayRecords = filteredCount,
-				aaData = results
-			},
-				JsonRequestBehavior.AllowGet );
-		}
+				var logList = iRepo.GetSearchLogList();
 
-		[PaoliAuthorize( "CanManagePrintMaterial" )]
-		[TempPasswordCheck]
-		public ActionResult AddPrintMaterial()
-		{
-			return View( new PublicationInformation() { PublicationDate = DateTime.Now } );
-		}
-
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		[PaoliAuthorize( "CanManagePrintMaterial" )]
-		[TempPasswordCheck]
-		public ActionResult AddPrintMaterial( PublicationInformation pubInfo )
-		{
-			if( ModelState.IsValid )
-			{
-					PublicationRepository pRepo = new PublicationRepository();
-
-					pRepo.AddPublication( pubInfo );
-
-					ViewBag.CloseFancyBox = true;
-
-					return View( pubInfo );
+				return View( logList );
 			}
-			return View( pubInfo );
-		}
-
-		[PaoliAuthorize( "CanManagePrintMaterial" )]
-		[TempPasswordCheck]
-		public ActionResult EditPrintMaterial( int id )
-		{
-			return View( new PublicationRepository().GetPublicationInformation( id ) );
-		}
-
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		[PaoliAuthorize( "CanManagePrintMaterial" )]
-		[TempPasswordCheck]
-		public ActionResult EditPrintMaterial( PublicationInformation pubInfo )
-		{
-			if( ModelState.IsValid )
-			{
-					PublicationRepository pRepo = new PublicationRepository();
-
-					pRepo.UpdatePublication( pubInfo );
-
-					ViewBag.CloseFancyBox = true;
-
-					return View( pubInfo );
-			}
-			return View( pubInfo );
-		}
-
-		[PaoliAuthorize( "CanManagePrintMaterial" )]
-		[TempPasswordCheck]
-		public ActionResult PrintMaterialImages( int id )
-		{
-			return View( new PublicationRepository().GetPublicationInformation( id ) );
-		}
-
-		[PaoliAuthorize( "CanManagePrintMaterial" )]
-		[TempPasswordCheck]
-		public JsonResult NonPubImageList( PubImageTableParams param )
-		{
-			int totalCount = 0, filteredCount = 0;
-
-			ImageRepository iRepository = new ImageRepository();
-
-			var results = iRepository.GetPubImageList(
-				param, false, out totalCount, out filteredCount );
-
-			return Json( new
-			{
-				sEcho = param.sEcho,
-				iTotalRecords = totalCount,
-				iTotalDisplayRecords = filteredCount,
-				aaData = results
-			},
-				JsonRequestBehavior.AllowGet );
-		}
-
-		[PaoliAuthorize( "CanManagePrintMaterial" )]
-		[TempPasswordCheck]
-		public JsonResult PubImageList( PubImageTableParams param )
-		{
-			int totalCount = 0, filteredCount = 0;
-
-			ImageRepository iRepository = new ImageRepository();
-
-			var results = iRepository.GetPubImageList(
-				param, true, out totalCount, out filteredCount );
-
-			return Json( new
-			{
-				sEcho = param.sEcho,
-				iTotalRecords = totalCount,
-				iTotalDisplayRecords = filteredCount,
-				aaData = results
-			},
-				JsonRequestBehavior.AllowGet );
-		}
-
-		[PaoliAuthorize( "CanManagePrintMaterial" )]
-		[TempPasswordCheck]
-		public JsonResult AddPubImage( int pubId, int imageId, int? pageNumber )
-		{
-			new PublicationRepository().AddPubImage( pubId, imageId, pageNumber );
-
-			return Json( new { success = true }, JsonRequestBehavior.AllowGet );
-		}
-
-		[PaoliAuthorize( "CanManagePrintMaterial" )]
-		[TempPasswordCheck]
-		public JsonResult RemovePubImage( int pubId, int imageId )
-		{
-			new PublicationRepository().RemovePubImage( pubId, imageId );
-
-			return Json( new { success = true }, JsonRequestBehavior.AllowGet );
-		}
-		#endregion
-
-		#region Dealers
-		[PaoliAuthorize( "CanManageCompanies" )]
-		[TempPasswordCheck]
-		public ActionResult ManageDealers()
-		{
-			return View();
-		}
-
-		[PaoliAuthorize( "CanManageCompanies" )]
-		[TempPasswordCheck]
-		public ActionResult ImportDealers()
-		{
-			return View();
-		}
-
-		[PaoliAuthorize( "CanManageCompanies" )]
-		[TempPasswordCheck]
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult ImportDealers( HttpPostedFileBase dealerFile )
-		{
-			if( ModelState.IsValid )
-			{
-					DealerRepository dRepository = new DealerRepository();
-
-					dRepository.ImportDealers( dealerFile.InputStream );
-
-					ViewBag.CloseFancyBox = true;
-
-					return View();
-
-			}
-
-			return View();
-		}
-
-		public static IEnumerable<SelectListItem> GetVideoDDList()
-		{
-			DealerRepository dRepository = new DealerRepository();
-
-			var results = dRepository.GetFullVideoList().OrderBy( v => v.Name );
-
-			return results.Select( i => new SelectListItem() { Text = i.Name, Value = i.VideoID.ToString() } );
-		}
-
-		public static IEnumerable<SelectListItem> GetPageDDList()
-		{
-			DealerRepository dRepository = new DealerRepository();
-
-			var results = dRepository.GetFullPageList().OrderBy( v => v.Name );
-
-			return results.Select( i => new SelectListItem() { Text = i.Name, Value = i.PageID.ToString() } );
 		}
 
 		public static IEnumerable<SelectListItem> GetSeriesDDList( bool bIncludeBlank )
 		{
-			SeriesRepository sRepository = new SeriesRepository();
-
-			var results = sRepository.GetSeriesNameList( null ).OrderBy( v => v.Name );
-
-			List<SelectListItem> theList = new List<SelectListItem>();
-			if( bIncludeBlank )
+			using( var sRepository = new SeriesRepository() )
 			{
-				theList.Add( new SelectListItem() { Text = "", Value = "" } );
+				var results = sRepository.GetSeriesNameList( null ).OrderBy( v => v.Name );
+
+				List<SelectListItem> theList = new List<SelectListItem>();
+				if( bIncludeBlank )
+				{
+					theList.Add( new SelectListItem() { Text = "", Value = "" } );
+				}
+
+				return theList.Union( results.Select( i => new SelectListItem() { Text = i.Name, Value = i.Name } ) );
 			}
-
-			return theList.Union( results.Select( i => new SelectListItem() { Text = i.Name, Value = i.Name } ) );
 		}
 
-		[PaoliAuthorize( "CanManageCompanies" )]
-		[TempPasswordCheck]
-		public JsonResult FullDealerList( DealerTableParams param )
-		{
-			int totalCount = 0, filteredCount = 0;
-
-			DealerRepository dRepository = new DealerRepository();
-
-			var results = dRepository.GetFullDealerList(
-				param, out totalCount, out filteredCount );
-
-			return Json( new
-			{
-				sEcho = param.sEcho,
-				iTotalRecords = totalCount,
-				iTotalDisplayRecords = filteredCount,
-				aaData = results
-			},
-				JsonRequestBehavior.AllowGet );
-		}
-
-		[PaoliAuthorize( "CanManageCompanies" )]
-		[TempPasswordCheck]
-		public ActionResult AddDealer()
-		{
-			return View( new DealerInformation() );
-		}
-
-		[PaoliAuthorize( "CanManageCompanies" )]
-		[TempPasswordCheck]
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult AddDealer( DealerInformation dInfo )
-		{
-			if( ModelState.IsValid )
-			{
-					DealerRepository dRepository = new DealerRepository();
-
-					dRepository.AddDealer( dInfo );
-
-					ViewBag.CloseFancyBox = true;
-
-					return View( dInfo );
-
-			}
-
-			return View( dInfo );
-		}
-
-		[PaoliAuthorize( "CanManageCompanies" )]
-		[TempPasswordCheck]
-		public ActionResult EditDealer( int id )
-		{
-			DealerRepository dRepository = new DealerRepository();
-
-			var dInfo = dRepository.GetDealer( id );
-
-			return View( dInfo );
-		}
-
-		[PaoliAuthorize( "CanManageCompanies" )]
-		[TempPasswordCheck]
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult EditDealer( DealerInformation dInfo )
-		{
-			if( ModelState.IsValid )
-			{
-					DealerRepository dRepository = new DealerRepository();
-
-					dRepository.UpdateDealer( dInfo );
-
-					ViewBag.CloseFancyBox = true;
-
-					return View( dInfo );
-
-			}
-
-			return View( dInfo );
-		}
-
-		[PaoliAuthorize( "CanManageCompanies" )]
-		[TempPasswordCheck]
-		public JsonResult DeleteDealer( int id )
-		{
-			DealerRepository dRepository = new DealerRepository();
-
-			bool bSuccess = dRepository.DeleteDealer( id );
-
-			return Json( new
-			{
-				success = bSuccess
-			},
-				JsonRequestBehavior.AllowGet );
-		}
-
-		#endregion
-
-		#region Dealer Videos
-		[PaoliAuthorize( "CanManageCompanies" )]
-		[TempPasswordCheck]
-		public ActionResult ManageVideos()
-		{
-			return View();
-		}
-
-		[PaoliAuthorize( "CanManageCompanies" )]
-		[TempPasswordCheck]
-		public JsonResult FullVideoList( VideoTableParams param )
-		{
-			int totalCount = 0, filteredCount = 0;
-
-			DealerRepository dRepository = new DealerRepository();
-
-			var results = dRepository.GetFullVideoList(
-				param, out totalCount, out filteredCount );
-
-			return Json( new
-			{
-				sEcho = param.sEcho,
-				iTotalRecords = totalCount,
-				iTotalDisplayRecords = filteredCount,
-				aaData = results
-			},
-				JsonRequestBehavior.AllowGet );
-		}
-
-		[PaoliAuthorize( "CanManageCompanies" )]
-		[TempPasswordCheck]
-		public ActionResult AddDealerVideo()
-		{
-			return View();
-		}
-
-		[PaoliAuthorize( "CanManageCompanies" )]
-		[TempPasswordCheck]
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult AddDealerVideo( DealerVideoInformation dInfo )
-		{
-			if( ModelState.IsValid )
-			{
-					DealerRepository dRepository = new DealerRepository();
-
-					dRepository.AddDealerVideo( dInfo );
-
-					ViewBag.CloseFancyBox = true;
-
-					return View();
-
-			}
-
-			return View();
-		}
-
-		[PaoliAuthorize( "CanManageCompanies" )]
-		[TempPasswordCheck]
-		public ActionResult EditDealerVideo( int id )
-		{
-			DealerRepository dRepository = new DealerRepository();
-
-			var dInfo = dRepository.GetDealerVideo( id );
-
-			return View( dInfo );
-		}
-
-		[PaoliAuthorize( "CanManageCompanies" )]
-		[TempPasswordCheck]
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult EditDealerVideo( DealerVideoInformation dInfo )
-		{
-			if( ModelState.IsValid )
-			{
-					DealerRepository dRepository = new DealerRepository();
-
-					dRepository.UpdateDealerVideo( dInfo );
-
-					ViewBag.CloseFancyBox = true;
-
-					return View();
-
-			}
-
-			return View();
-		}
-
-		[PaoliAuthorize( "CanManageCompanies" )]
-		[TempPasswordCheck]
-		public JsonResult DeleteDealerVideo( int id )
-		{
-			DealerRepository dRepository = new DealerRepository();
-
-			bool bSuccess = dRepository.DeleteDealerVideo( id );
-
-			return Json( new
-			{
-				success = bSuccess
-			},
-				JsonRequestBehavior.AllowGet );
-		}
-
-		#endregion
-
-		#region Dealer Pages
-		[PaoliAuthorize( "CanManageCompanies" )]
-		[TempPasswordCheck]
-		public ActionResult ManagePages()
-		{
-			return View();
-		}
-
-		[PaoliAuthorize( "CanManageCompanies" )]
-		[TempPasswordCheck]
-		public JsonResult FullDealerPageList( DealerPageTableParams param )
-		{
-			int totalCount = 0, filteredCount = 0;
-
-			DealerRepository dRepository = new DealerRepository();
-
-			var results = dRepository.GetFullPageList(
-				param, out totalCount, out filteredCount );
-
-			return Json( new
-			{
-				sEcho = param.sEcho,
-				iTotalRecords = totalCount,
-				iTotalDisplayRecords = filteredCount,
-				aaData = results
-			},
-				JsonRequestBehavior.AllowGet );
-		}
-
-		[PaoliAuthorize( "CanManageCompanies" )]
-		[TempPasswordCheck]
-		public ActionResult AddDealerPage()
-		{
-			return View();
-		}
-
-		[PaoliAuthorize( "CanManageCompanies" )]
-		[TempPasswordCheck]
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult AddDealerPage( DealerPageInformation dInfo )
-		{
-			if( ModelState.IsValid )
-			{
-					DealerRepository dRepository = new DealerRepository();
-
-					dRepository.AddDealerPage( dInfo );
-
-					ViewBag.CloseFancyBox = true;
-
-					return View();
-
-			}
-
-			return View();
-		}
-
-		[PaoliAuthorize( "CanManageCompanies" )]
-		[TempPasswordCheck]
-		public ActionResult EditDealerPage( int id )
-		{
-			DealerRepository dRepository = new DealerRepository();
-
-			var dInfo = dRepository.GetDealerPage( id );
-
-			return View( dInfo );
-		}
-
-		[PaoliAuthorize( "CanManageCompanies" )]
-		[TempPasswordCheck]
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult EditDealerPage( DealerPageInformation dInfo )
-		{
-			if( ModelState.IsValid )
-			{
-					DealerRepository dRepository = new DealerRepository();
-
-					dRepository.UpdateDealerPage( dInfo );
-
-					ViewBag.CloseFancyBox = true;
-
-					return View();
-
-			}
-
-			return View();
-		}
-
-		[PaoliAuthorize( "CanManageCompanies" )]
-		[TempPasswordCheck]
-		public JsonResult DeleteDealerPage( int id )
-		{
-			DealerRepository dRepository = new DealerRepository();
-
-			bool bSuccess = dRepository.DeleteDealerPage( id );
-
-			return Json( new
-			{
-				success = bSuccess
-			},
-				JsonRequestBehavior.AllowGet );
-		}
-
-		#endregion
 	}
 
 }

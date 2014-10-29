@@ -25,19 +25,20 @@ namespace ProductDataWarehouse.Controllers
 		{
 			int totalCount = 0, filteredCount = 0;
 
-			CompanyRepository cRepository = new CompanyRepository();
-
-			var results = cRepository.GetFullCompanyList(
-				param, out totalCount, out filteredCount );
-
-			return Json( new
+			using( var cRepository = new CompanyRepository() )
 			{
-				sEcho = param.sEcho,
-				iTotalRecords = totalCount,
-				iTotalDisplayRecords = filteredCount,
-				aaData = results
-			},
-				JsonRequestBehavior.AllowGet );
+				var results = cRepository.GetFullCompanyList(
+					param, out totalCount, out filteredCount );
+
+				return Json( new
+				{
+					sEcho = param.sEcho,
+					iTotalRecords = totalCount,
+					iTotalDisplayRecords = filteredCount,
+					aaData = results
+				},
+					JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		[PaoliAuthorize( "CanViewMyTerritory" )]
@@ -46,19 +47,20 @@ namespace ProductDataWarehouse.Controllers
 		{
 			int totalCount = 0, filteredCount = 0;
 
-			CompanyRepository cRepository = new CompanyRepository();
-
-			var results = cRepository.GetFullCompanyList(
-				param, out totalCount, out filteredCount );
-
-			return Json( new
+			using( var cRepository = new CompanyRepository() )
 			{
-				sEcho = param.sEcho,
-				iTotalRecords = totalCount,
-				iTotalDisplayRecords = filteredCount,
-				aaData = results
-			},
-				JsonRequestBehavior.AllowGet );
+				var results = cRepository.GetFullCompanyList(
+					param, out totalCount, out filteredCount );
+
+				return Json( new
+				{
+					sEcho = param.sEcho,
+					iTotalRecords = totalCount,
+					iTotalDisplayRecords = filteredCount,
+					aaData = results
+				},
+					JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
@@ -76,11 +78,12 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-					CompanyRepository cRepository = new CompanyRepository();
-
+				using( var cRepository = new CompanyRepository() )
+				{
 					cRepository.AddCompany( uInfo );
 
 					return RedirectToAction( "Manage" );
+				}
 			}
 
 			return View( uInfo );
@@ -90,11 +93,12 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult Edit( int id )
 		{
-			CompanyRepository cRepository = new CompanyRepository();
+			using( var cRepository = new CompanyRepository() )
+			{
+				var uInfo = cRepository.GetCompany( id );
 
-			var uInfo = cRepository.GetCompany( id );
-
-			return View( uInfo );
+				return View( uInfo );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
@@ -105,12 +109,12 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-					CompanyRepository cRepository = new CompanyRepository();
-
+				using( var cRepository = new CompanyRepository() )
+				{
 					cRepository.UpdateCompany( uInfo );
 
 					return RedirectToAction( "Manage" );
-
+				}
 			}
 
 			return View( uInfo );
@@ -120,131 +124,166 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public JsonResult Delete( int id )
 		{
-			CompanyRepository cRepository = new CompanyRepository();
-
-			bool bSuccess = cRepository.DeleteCompany( id );
-
-			return Json( new
+			using( var cRepository = new CompanyRepository() )
 			{
-				success = bSuccess
-			},
-				JsonRequestBehavior.AllowGet );
+				bool bSuccess = cRepository.DeleteCompany( id );
+
+				return Json( new
+				{
+					success = bSuccess
+				},
+					JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		public JsonResult GetTypeListForCompany( int companyId )
 		{
-			CompanyRepository cRepository = new CompanyRepository();
-
-			var uInfo = cRepository.GetCompany( companyId );
-
-			var theList = PaoliWebUser.PaoliWebRole.RoleList
-				.Where( r => PaoliWebUser.PaoliCompanyType.CompanyTypeAllowedUsers[uInfo.CompanyType].Contains( r.Key ) )
-				.Select( u => new SelectListItem() { Value = u.Key.ToString(), Text = u.Value } );
-
-			if( !PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.SuperAdmin ) )
-				theList = theList.Where( i => i.Value != PaoliWebUser.PaoliWebRole.SuperAdmin.ToString() );
-
-			return Json( new
+			using( var cRepository = new CompanyRepository() )
 			{
-				companyType = uInfo.CompanyType,
-				theList = theList
-			},
-				JsonRequestBehavior.AllowGet );
-			
+				var uInfo = cRepository.GetCompany( companyId );
+
+				var theList = PaoliWebUser.PaoliWebRole.RoleList
+					.Where( r => PaoliWebUser.PaoliCompanyType.CompanyTypeAllowedUsers[uInfo.CompanyType].Contains( r.Key ) )
+					.Select( u => new SelectListItem() { Value = u.Key.ToString(), Text = u.Value } );
+
+				if( !PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.SuperAdmin ) )
+					theList = theList.Where( i => i.Value != PaoliWebUser.PaoliWebRole.SuperAdmin.ToString() );
+
+				return Json( new
+				{
+					companyType = uInfo.CompanyType,
+					theList = theList
+				},
+					JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		public JsonResult GetShippingAddress( int? companyID, int? userId )
 		{
 			if( userId.HasValue )
-				return Json( ( new UserRepository() ).GetUserAddress( userId.Value ), JsonRequestBehavior.AllowGet );
+			{
+				using( var uRepository = new UserRepository() )
+				{
+					return Json( uRepository.GetUserAddress( userId.Value ), JsonRequestBehavior.AllowGet );
+				}
+			}
 			else if( companyID.HasValue )
-				return Json( ( new CompanyRepository() ).GetCompanyAddress( companyID.Value ), JsonRequestBehavior.AllowGet );
+			{
+				using( var cRepository = new CompanyRepository() )
+				{
+					return Json( cRepository.GetCompanyAddress( companyID.Value ), JsonRequestBehavior.AllowGet );
+				}
+			}
 
 			throw new Exception( "Unable to find shipping address" );
 		}
 
 		public JsonResult GetDealerList( bool includeBlank = true )
 		{
-			var theList = ( new CompanyRepository() ).GetFullCompanyList( PaoliWebUser.PaoliCompanyType.Dealer )
-				.ToList();
-			if( includeBlank )
+			using( var cRepository = new CompanyRepository() )
 			{
-				theList.Insert( 0, new PDWModels.IDToTextItem() { ID = 0, Text = "" } );
+				var theList = cRepository.GetFullCompanyList( PaoliWebUser.PaoliCompanyType.Dealer )
+					.ToList();
+				if( includeBlank )
+				{
+					theList.Insert( 0, new PDWModels.IDToTextItem() { ID = 0, Text = "" } );
+				}
+				return Json( theList, JsonRequestBehavior.AllowGet );
 			}
-			return Json( theList, JsonRequestBehavior.AllowGet );
 		}
 
 		public JsonResult GetPaoliRepGroupList( bool includeBlank = true )
 		{
-			var theList = ( new CompanyRepository() ).GetFullCompanyList( PaoliWebUser.PaoliCompanyType.PaoliRepGroup )
-				.ToList();
-			if( includeBlank )
+			using( var cRepository = new CompanyRepository() )
 			{
-				theList.Insert( 0, new PDWModels.IDToTextItem() { ID = 0, Text = "" } );
+				var theList = cRepository.GetFullCompanyList( PaoliWebUser.PaoliCompanyType.PaoliRepGroup )
+					.ToList();
+				if( includeBlank )
+				{
+					theList.Insert( 0, new PDWModels.IDToTextItem() { ID = 0, Text = "" } );
+				}
+				return Json( theList, JsonRequestBehavior.AllowGet );
 			}
-			return Json( theList, JsonRequestBehavior.AllowGet );
 		}
 
 		public JsonResult GetDealerListForSalesRep( int salesRepCompanyId, bool includeBlank = true, bool includeTerritory = false )
 		{
-			var theList = ( new CompanyRepository() ).GetDealerList( salesRepCompanyId, includeTerritory ).ToList();
-
-			if( includeBlank )
+			using( var cRepository = new CompanyRepository() )
 			{
-				theList.Insert( 0, new PDWModels.IDToTextItem() { ID = 0, Text = "" } );
-			}
+				var theList = cRepository.GetDealerList( salesRepCompanyId, includeTerritory ).ToList();
 
-			return Json( theList, JsonRequestBehavior.AllowGet );
+				if( includeBlank )
+				{
+					theList.Insert( 0, new PDWModels.IDToTextItem() { ID = 0, Text = "" } );
+				}
+
+				return Json( theList, JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		public JsonResult GetDealerListForUser( bool includeBlank = true )
 		{
-			var theList = ( new CompanyRepository() ).GetDealerListForUser( PaoliWebUser.CurrentUser.UserId ).ToList();
-
-			if( includeBlank )
+			using( var cRepository = new CompanyRepository() )
 			{
-				theList.Insert( 0, new PDWModels.IDToTextItem() { ID = 0, Text = "" } );
-			}
+				var theList = cRepository.GetDealerListForUser( PaoliWebUser.CurrentUser.UserId ).ToList();
 
-			return Json( theList, JsonRequestBehavior.AllowGet );
+				if( includeBlank )
+				{
+					theList.Insert( 0, new PDWModels.IDToTextItem() { ID = 0, Text = "" } );
+				}
+
+				return Json( theList, JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		public delegate IEnumerable<SelectListItem> GetCompanyListFunction( int? companyType = null, bool includeBlank = true, bool includeTerritory = false );
 
 		public static IEnumerable<SelectListItem> GetThisCompanyAsDDItem( int? companyType = null, bool includeBlank = true, bool includeTerritory = false )
 		{
-			var cInfo = ( new UserRepository() ).GetCurrentCompanyInfo( includeTerritory );
+			using( var uRepository = new UserRepository() )
+			{
+				var cInfo = uRepository.GetCurrentCompanyInfo( includeTerritory );
 
-			return new List<SelectListItem>() { new SelectListItem() { Value = cInfo.ID.ToString(), Text = cInfo.Text } };
+				return new List<SelectListItem>() { new SelectListItem() { Value = cInfo.ID.ToString(), Text = cInfo.Text } };
+			}
 		}
 
 		public static IEnumerable<SelectListItem> GetDealerForSalesRepDDList( int? companyType = null, bool includeBlank = true, bool includeTerritory = false )
 		{
-			var theList = ( new CompanyRepository() ).GetMyDealerList().ToList();
-
-			if( includeBlank )
+			using( var cRepository = new CompanyRepository() )
 			{
-				theList.Insert( 0, new PDWModels.IDToTextItem() { ID = 0, Text = "" } );
-			}
+				var theList = cRepository.GetMyDealerList().ToList();
 
-			return theList.Select( cInfo => new SelectListItem() { Value = cInfo.ID.ToString(), Text = cInfo.Text } );
+				if( includeBlank )
+				{
+					theList.Insert( 0, new PDWModels.IDToTextItem() { ID = 0, Text = "" } );
+				}
+
+				return theList.Select( cInfo => new SelectListItem() { Value = cInfo.ID.ToString(), Text = cInfo.Text } );
+			}
 		}
 
 		public static IEnumerable<SelectListItem> GetSalesRepForDealerDDItem( int? companyType = null, bool includeBlank = true, bool includeTerritory = false )
 		{
-			var cInfo = ( new CompanyRepository() ).GetMySalesRepInfo( includeTerritory );
+			using( var cRepository = new CompanyRepository() )
+			{
+				var cInfo = cRepository.GetMySalesRepInfo( includeTerritory );
 
-			return new List<SelectListItem>() { new SelectListItem() { Value = cInfo.ID.ToString(), Text = cInfo.Text } };
+				return new List<SelectListItem>() { new SelectListItem() { Value = cInfo.ID.ToString(), Text = cInfo.Text } };
+			}
 		}
 
 		public static IEnumerable<SelectListItem> GetCompanyDDList( int? companyType = null, bool includeBlank = true, bool includeTerritory = false )
 		{
-			var theList = ( new CompanyRepository() ).GetFullCompanyList( companyType, includeTerritory ).Select( c => new SelectListItem() { Value = c.ID.ToString(), Text = c.Text } ).ToList();
-			if( includeBlank )
+			using( var cRepository = new CompanyRepository() )
 			{
-				theList.Insert( 0, new SelectListItem() );
+				var theList = cRepository.GetFullCompanyList( companyType, includeTerritory ).Select( c => new SelectListItem() { Value = c.ID.ToString(), Text = c.Text } ).ToList();
+				if( includeBlank )
+				{
+					theList.Insert( 0, new SelectListItem() );
+				}
+				return theList;
 			}
-			return theList;
 		}
 
 		public static IEnumerable<SelectListItem> GetCompanyTypeDDList()
@@ -259,8 +298,11 @@ namespace ProductDataWarehouse.Controllers
 
 		public static IEnumerable<SelectListItem> GetTerritoryDDList( bool addCompany = false )
 		{
-			return new List<SelectListItem>() { new SelectListItem() { Text = "", Value = "", Selected = true } }
-				.Union( ( new CompanyRepository() ).GetTerritoryList().Select( t => new SelectListItem() { Value = t.TerritoryID.ToString(), Text = t.Name + ( addCompany ? (" - " + t.SalesRepCompany) : "" ) } ) );
+			using( var cRepository = new CompanyRepository() )
+			{
+				return new List<SelectListItem>() { new SelectListItem() { Text = "", Value = "", Selected = true } }
+					.Union( cRepository.GetTerritoryList().Select( t => new SelectListItem() { Value = t.TerritoryID.ToString(), Text = t.Name + ( addCompany ? ( " - " + t.SalesRepCompany ) : "" ) } ) );
+			}
 		}
 
 		public static IEnumerable<SelectListItem> GetTripGroupDDList()

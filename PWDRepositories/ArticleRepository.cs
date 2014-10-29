@@ -6,6 +6,7 @@ using PDWDBContext;
 using PDWModels.Articles;
 using PDWInfrastructure;
 using System.Web;
+using System.Data.Entity;
 
 namespace PWDRepositories
 {
@@ -160,7 +161,9 @@ namespace PWDRepositories
 				articleList = articleList.Skip( param.iDisplayStart ).Take( param.iDisplayLength );
 			}
 
-			return articleList.ToList().Select( v => ToArticleSummary( v ) );
+			return articleList
+				.Include( a => a.User )
+				.ToList().Select( v => ToArticleSummary( v ) );
 		}
 
 		public IEnumerable<ArticleSummary> GetArticleViewList( int articleType )
@@ -168,6 +171,7 @@ namespace PWDRepositories
 			var articleList = database.ScoopArticles.AsQueryable();
 
 			articleList = articleList
+				.Include( a => a.User )
 				.Where( a => a.PubDate < DateTime.Now && a.ArticleType == articleType )
 				.OrderByDescending( a => a.PubDate );
 

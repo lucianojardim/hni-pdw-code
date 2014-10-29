@@ -25,19 +25,20 @@ namespace ProductDataWarehouse.Controllers
 		{
 			int totalCount = 0, filteredCount = 0;
 
-			ArticleRepository aRepository = new ArticleRepository();
-
-			var results = aRepository.GetFullArticleList(
-				param, out totalCount, out filteredCount );
-
-			return Json( new
+			using( var aRepository = new ArticleRepository() )
 			{
-				sEcho = param.sEcho,
-				iTotalRecords = totalCount,
-				iTotalDisplayRecords = filteredCount,
-				aaData = results
-			},
-				JsonRequestBehavior.AllowGet );
+				var results = aRepository.GetFullArticleList(
+					param, out totalCount, out filteredCount );
+
+				return Json( new
+				{
+					sEcho = param.sEcho,
+					iTotalRecords = totalCount,
+					iTotalDisplayRecords = filteredCount,
+					aaData = results
+				},
+					JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageArticles" )]
@@ -56,11 +57,12 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				ArticleRepository aRepository = new ArticleRepository();
+				using( var aRepository = new ArticleRepository() )
+				{
+					aRepository.AddArticle( aInfo );
 
-				aRepository.AddArticle( aInfo );
-
-				return RedirectToAction( "Manage" );
+					return RedirectToAction( "Manage" );
+				}
 			}
 
 			return View( aInfo );
@@ -70,7 +72,10 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult Edit( int id )
 		{
-			return View( ( new ArticleRepository() ).GetArticle( id ) );
+			using( var aRepository = new ArticleRepository() )
+			{
+				return View( aRepository.GetArticle( id ) );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageArticles" )]
@@ -82,11 +87,12 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				ArticleRepository aRepository = new ArticleRepository();
+				using( var aRepository = new ArticleRepository() )
+				{
+					aRepository.EditArticle( aInfo );
 
-				aRepository.EditArticle( aInfo );
-
-				return RedirectToAction( "Manage" );
+					return RedirectToAction( "Manage" );
+				}
 			}
 
 			return View( aInfo );
@@ -111,60 +117,65 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public JsonResult Delete( int id )
 		{
-			ArticleRepository aRepository = new ArticleRepository();
-
-			bool bSuccess = aRepository.DeleteArticle( id );
-
-			return Json( new
+			using( var aRepository = new ArticleRepository() )
 			{
-				success = bSuccess
-			},
-				JsonRequestBehavior.AllowGet );
+				bool bSuccess = aRepository.DeleteArticle( id );
+
+				return Json( new
+				{
+					success = bSuccess
+				},
+					JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		[PaoliAuthorize( "CanBeLoggedIn" )]
 		[TempPasswordCheck]
 		public ActionResult View( int id )
 		{
-			ArticleRepository aRepository = new ArticleRepository();
-
-			return View( aRepository.GetArticleViewer( id ) );
+			using( var aRepository = new ArticleRepository() )
+			{
+				return View( aRepository.GetArticleViewer( id ) );
+			}
 		}
 
 		[PaoliAuthorize( "IsPaoliUser" )]
 		[TempPasswordCheck]
 		public ActionResult ViewAllInternal()
 		{
-			ArticleRepository aRepository = new ArticleRepository();
+			using( var aRepository = new ArticleRepository() )
+			{
+				ViewBag.PageTitle = "Here's your Paoli news";
+				ViewBag.HeaderArea = "InternalNews";
 
-			ViewBag.PageTitle = "Here's your Paoli news";
-			ViewBag.HeaderArea = "InternalNews";
-
-			return View( viewName: "ViewAll", model: aRepository.GetArticleViewList( ArticleInformation.ArticleTypes.Internal ) );
+				return View( viewName: "ViewAll", model: aRepository.GetArticleViewList( ArticleInformation.ArticleTypes.Internal ) );
+			}
 		}
 
 		[PaoliAuthorize( "CanSeeTheScoop" )]
 		[TempPasswordCheck]
 		public ActionResult ViewAllScoop()
 		{
-			ArticleRepository aRepository = new ArticleRepository();
+			using( var aRepository = new ArticleRepository() )
+			{
+				ViewBag.PageTitle = "Here's the Scoop";
+				ViewBag.HeaderArea = "TheScoop";
 
-			ViewBag.PageTitle = "Here's the Scoop";
-			ViewBag.HeaderArea = "TheScoop";
-
-			return View( viewName: "ViewAll", model: aRepository.GetArticleViewList( ArticleInformation.ArticleTypes.Scoop ) );
+				return View( viewName: "ViewAll", model: aRepository.GetArticleViewList( ArticleInformation.ArticleTypes.Scoop ) );
+			}
 		}
 
 		[PaoliAuthorize( "CanSeeNewsUpdates" )]
 		[TempPasswordCheck]
 		public ActionResult ViewAllNewsAndUpdates()
 		{
-			ArticleRepository aRepository = new ArticleRepository();
+			using( var aRepository = new ArticleRepository() )
+			{
+				ViewBag.PageTitle = "Here's your News and Updates";
+				ViewBag.HeaderArea = "NewsUpdates";
 
-			ViewBag.PageTitle = "Here's your News and Updates";
-			ViewBag.HeaderArea = "NewsUpdates";
-
-			return View( viewName: "ViewAll", model: aRepository.GetArticleViewList( ArticleInformation.ArticleTypes.NewsAndUpdates ) );
+				return View( viewName: "ViewAll", model: aRepository.GetArticleViewList( ArticleInformation.ArticleTypes.NewsAndUpdates ) );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageArticles" )]
@@ -176,7 +187,10 @@ namespace ProductDataWarehouse.Controllers
 				return RedirectToAction( "Manage" );
 			}
 
-			return View( "View", (new ArticleRepository()).GetArticlePreview( (ArticleInformation)Session["PreviewArticle"] ) );
+			using( var aRepository = new ArticleRepository() )
+			{
+				return View( "View", aRepository.GetArticlePreview( (ArticleInformation)Session["PreviewArticle"] ) );
+			}
 		}
 
 		public static IEnumerable<SelectListItem> GetArticleTypeList( bool includeBlank = false )

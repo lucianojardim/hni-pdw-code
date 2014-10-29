@@ -25,19 +25,20 @@ namespace ProductDataWarehouse.Controllers
 		{
 			int totalCount = 0, filteredCount = 0;
 
-			CollateralRepository cRepository = new CollateralRepository();
-
-			var results = cRepository.GetFullCollateralList(
-				param, out totalCount, out filteredCount );
-
-			return Json( new
+			using( var cRepository = new CollateralRepository() )
 			{
-				sEcho = param.sEcho,
-				iTotalRecords = totalCount,
-				iTotalDisplayRecords = filteredCount,
-				aaData = results
-			},
-				JsonRequestBehavior.AllowGet );
+				var results = cRepository.GetFullCollateralList(
+					param, out totalCount, out filteredCount );
+
+				return Json( new
+				{
+					sEcho = param.sEcho,
+					iTotalRecords = totalCount,
+					iTotalDisplayRecords = filteredCount,
+					aaData = results
+				},
+					JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageCollateral" )]
@@ -55,13 +56,14 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				CollateralRepository cRepository = new CollateralRepository();
+				using( var cRepository = new CollateralRepository() )
+				{
+					cRepository.AddCollateral( cInfo,
+						CollateralImage != null ? CollateralImage.InputStream : null,
+						CollateralImage != null ? CollateralImage.FileName : null );
 
-				cRepository.AddCollateral( cInfo, 
-					CollateralImage != null ? CollateralImage.InputStream : null, 
-					CollateralImage != null ? CollateralImage.FileName : null );
-
-				return RedirectToAction( "Manage" );
+					return RedirectToAction( "Manage" );
+				}
 			}
 
 			return View( cInfo );
@@ -85,13 +87,14 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-					CollateralRepository cRepository = new CollateralRepository();
-
+				using( var cRepository = new CollateralRepository() )
+				{
 					cRepository.AddCollateral( cInfo,
 						CollateralImage != null ? CollateralImage.InputStream : null,
 						CollateralImage != null ? CollateralImage.FileName : null );
 
 					return RedirectToAction( "Manage" );
+				}
 			}
 
 			return View( cInfo );
@@ -101,11 +104,12 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult Edit( int id )
 		{
-			CollateralRepository cRepository = new CollateralRepository();
+			using( var cRepository = new CollateralRepository() )
+			{
+				var cInfo = cRepository.GetCollateral( id );
 
-			var cInfo = cRepository.GetCollateral( id );
-
-			return View( cInfo );
+				return View( cInfo );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageCollateral" )]
@@ -116,13 +120,14 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-					CollateralRepository cRepository = new CollateralRepository();
-
+				using( var cRepository = new CollateralRepository() )
+				{
 					cRepository.UpdateCollateral( cInfo,
 						CollateralImage != null ? CollateralImage.InputStream : null,
 						CollateralImage != null ? CollateralImage.FileName : null );
 
 					return RedirectToAction( "Manage" );
+				}
 			}
 
 			return View( cInfo );
@@ -132,11 +137,12 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult EditGroup( int id )
 		{
-			CollateralRepository cRepository = new CollateralRepository();
+			using( var cRepository = new CollateralRepository() )
+			{
+				var cInfo = cRepository.GetCollateralGroup( id );
 
-			var cInfo = cRepository.GetCollateralGroup( id );
-
-			return View( cInfo );
+				return View( cInfo );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageCollateral" )]
@@ -147,13 +153,14 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-					CollateralRepository cRepository = new CollateralRepository();
-
+				using( var cRepository = new CollateralRepository() )
+				{
 					cRepository.UpdateCollateral( cInfo,
 						CollateralImage != null ? CollateralImage.InputStream : null,
 						CollateralImage != null ? CollateralImage.FileName : null );
 
 					return RedirectToAction( "Manage" );
+				}
 			}
 
 			return View( cInfo );
@@ -187,18 +194,22 @@ namespace ProductDataWarehouse.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult AddShipment( List<CollateralShipmentDetail> theList )
 		{
-				CollateralRepository cRepository = new CollateralRepository();
-
+			using( var cRepository = new CollateralRepository() )
+			{
 				cRepository.AddCollateralShipment( theList );
 
 				return RedirectToAction( "Manage" );
+			}
 		}
 
 		[PaoliAuthorize( "CanAddOrders" )]
 		[TempPasswordCheck]
 		public ActionResult AddOrder()
 		{
-			return View( viewName: "NewAddOrder", model: ( new CollateralRepository() ).BlankOrderInformation() );
+			using( var cRepository = new CollateralRepository() )
+			{
+				return View( viewName: "NewAddOrder", model: cRepository.BlankOrderInformation() );
+			}
 		}
 
 		[PaoliAuthorize( "CanAddOrders" )]
@@ -209,8 +220,8 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-					CollateralRepository cRepository = new CollateralRepository();
-
+				using( var cRepository = new CollateralRepository() )
+				{
 					cRepository.AddCollateralOrder( orderInfo );
 
 					if( PaoliWebUser.CurrentUser.CanManageOrders )
@@ -219,6 +230,7 @@ namespace ProductDataWarehouse.Controllers
 					}
 
 					return RedirectToAction( "ViewOrders" );
+				}
 			}
 
 			return View( viewName: "NewAddOrder", model: orderInfo );
@@ -228,7 +240,10 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult EditOrder( int id )
 		{
-			return View( ( new CollateralRepository() ).GetOrderInformation( id ) );
+			using( var cRepository = new CollateralRepository() )
+			{
+				return View( cRepository.GetOrderInformation( id ) );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageOrders" )]
@@ -239,11 +254,12 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-					CollateralRepository cRepository = new CollateralRepository();
-
+				using( var cRepository = new CollateralRepository() )
+				{
 					cRepository.UpdateCollateralOrder( orderInfo );
 
 					return RedirectToAction( "Orders" );
+				}
 			}
 
 			return View( orderInfo );
@@ -253,7 +269,10 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult ViewOrder( int id )
 		{
-			return View( viewName: "NewViewOrder", model: ( new CollateralRepository() ).GetPendingOrder( id, true ) );
+			using( var cRepository = new CollateralRepository() )
+			{
+				return View( viewName: "NewViewOrder", model: cRepository.GetPendingOrder( id, true ) );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageOrders" )]
@@ -269,19 +288,20 @@ namespace ProductDataWarehouse.Controllers
 		{
 			int totalCount = 0, filteredCount = 0;
 
-			CollateralRepository cRepository = new CollateralRepository();
-
-			var results = cRepository.GetFullCollateralOrderList(
-				param, out totalCount, out filteredCount );
-
-			return Json( new
+			using( var cRepository = new CollateralRepository() )
 			{
-				sEcho = param.sEcho,
-				iTotalRecords = totalCount,
-				iTotalDisplayRecords = filteredCount,
-				aaData = results
-			},
-				JsonRequestBehavior.AllowGet );
+				var results = cRepository.GetFullCollateralOrderList(
+					param, out totalCount, out filteredCount );
+
+				return Json( new
+				{
+					sEcho = param.sEcho,
+					iTotalRecords = totalCount,
+					iTotalDisplayRecords = filteredCount,
+					aaData = results
+				},
+					JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		[PaoliAuthorize( "CanAddOrders" )]
@@ -295,11 +315,12 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public JsonResult UserHomePageList( int itemCount )
 		{
-			CollateralRepository cRepository = new CollateralRepository();
+			using( var cRepository = new CollateralRepository() )
+			{
+				var results = cRepository.GetHomePageOrderList( itemCount );
 
-			var results = cRepository.GetHomePageOrderList( itemCount );
-
-			return Json( results, JsonRequestBehavior.AllowGet );
+				return Json( results, JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		[PaoliAuthorize( "CanAddOrders" )]
@@ -308,26 +329,30 @@ namespace ProductDataWarehouse.Controllers
 		{
 			int totalCount = 0, filteredCount = 0;
 
-			CollateralRepository cRepository = new CollateralRepository();
-
-			var results = cRepository.GetFullCollateralOrderListForUser(
-				param, out totalCount, out filteredCount );
-
-			return Json( new
+			using( var cRepository = new CollateralRepository() )
 			{
-				sEcho = param.sEcho,
-				iTotalRecords = totalCount,
-				iTotalDisplayRecords = filteredCount,
-				aaData = results
-			},
-				JsonRequestBehavior.AllowGet );
+				var results = cRepository.GetFullCollateralOrderListForUser(
+					param, out totalCount, out filteredCount );
+
+				return Json( new
+				{
+					sEcho = param.sEcho,
+					iTotalRecords = totalCount,
+					iTotalDisplayRecords = filteredCount,
+					aaData = results
+				},
+					JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageOrders" )]
 		[TempPasswordCheck]
 		public ActionResult ShipOrder( int id )
 		{
-			return View( (new CollateralRepository()).GetPendingOrder( id, false ) );
+			using( var cRepository = new CollateralRepository() )
+			{
+				return View( cRepository.GetPendingOrder( id, false ) );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageOrders" )]
@@ -336,33 +361,37 @@ namespace ProductDataWarehouse.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult ShipOrder( int id, PendingOrderInformation.ShipmentSummary summary )
 		{
-			if( ModelState.IsValid )
+			using( var cRepository = new CollateralRepository() )
 			{
-					CollateralRepository cRepository = new CollateralRepository();
-
+				if( ModelState.IsValid )
+				{
 					cRepository.AddOrderShipment( id, summary );
 
 					return RedirectToAction( "ShipOrder", new { id = id } );
-			}
+				}
 
-			return View( ( new CollateralRepository() ).GetPendingOrder( id, false ) );
+				return View( cRepository.GetPendingOrder( id, false ) );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageOrders" )]
 		[TempPasswordCheck]
 		public ActionResult ViewShipment( int id )
 		{
-
-			return View( ( new CollateralRepository() ).GetOrderShipment( id ) );
+			using( var cRepository = new CollateralRepository() )
+			{
+				return View( cRepository.GetOrderShipment( id ) );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageOrders" )]
 		[TempPasswordCheck]
 		public JsonResult CancelOrder( int id )
 		{
-			CollateralRepository cRepository = new CollateralRepository();
-
-			return Json( cRepository.CancelOrder( id ), JsonRequestBehavior.AllowGet );
+			using( var cRepository = new CollateralRepository() )
+			{
+				return Json( cRepository.CancelOrder( id ), JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		public static IEnumerable<SelectListItem> GetPartyListForUser()
@@ -384,7 +413,10 @@ namespace ProductDataWarehouse.Controllers
 
 		public static IEnumerable<SelectListItem> GetCollateralTypeDDList()
 		{
-			return ( new CollateralRepository() ).GetCollateralTypeList().Select( u => new SelectListItem() { Value = u.Key.ToString(), Text = u.Value } );
+			using( var cRepository = new CollateralRepository() )
+			{
+				return cRepository.GetCollateralTypeList().Select( u => new SelectListItem() { Value = u.Key.ToString(), Text = u.Value } );
+			}
 		}
 
 		public static IEnumerable<SelectListItem> GetCollateralTypeFilterList()
@@ -401,7 +433,10 @@ namespace ProductDataWarehouse.Controllers
 
 		public static IEnumerable<SelectListItem> GetProductDDList( int? itemId = null )
 		{
-			return ( new CollateralRepository() ).GetCollateralList( false ).Select( c => new SelectListItem() { Value = c.Key.ToString(), Text = c.Value, Selected = (c.Key == (itemId ?? 0)) } );
+			using( var cRepository = new CollateralRepository() )
+			{
+				return cRepository.GetCollateralList( false ).Select( c => new SelectListItem() { Value = c.Key.ToString(), Text = c.Value, Selected = ( c.Key == ( itemId ?? 0 ) ) } );
+			}
 		}
     }
 }

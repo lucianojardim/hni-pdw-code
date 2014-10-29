@@ -25,19 +25,20 @@ namespace ProductDataWarehouse.Controllers
 		{
 			int totalCount = 0, filteredCount = 0;
 
-			UserRepository uRepository = new UserRepository();
-
-			var results = uRepository.GetFullUserList(
-				param, out totalCount, out filteredCount );
-
-			return Json( new
+			using( var uRepository = new UserRepository() )
 			{
-				sEcho = param.sEcho,
-				iTotalRecords = totalCount,
-				iTotalDisplayRecords = filteredCount,
-				aaData = results
-			},
-				JsonRequestBehavior.AllowGet );
+				var results = uRepository.GetFullUserList(
+					param, out totalCount, out filteredCount );
+
+				return Json( new
+				{
+					sEcho = param.sEcho,
+					iTotalRecords = totalCount,
+					iTotalDisplayRecords = filteredCount,
+					aaData = results
+				},
+					JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		[PaoliAuthorize( "CanViewMyTerritory" )]
@@ -46,19 +47,20 @@ namespace ProductDataWarehouse.Controllers
 		{
 			int totalCount = 0, filteredCount = 0;
 
-			UserRepository uRepository = new UserRepository();
-
-			var results = uRepository.GetFullUserList(
-				param, out totalCount, out filteredCount );
-
-			return Json( new
+			using( var uRepository = new UserRepository() )
 			{
-				sEcho = param.sEcho,
-				iTotalRecords = totalCount,
-				iTotalDisplayRecords = filteredCount,
-				aaData = results
-			},
-				JsonRequestBehavior.AllowGet );
+				var results = uRepository.GetFullUserList(
+					param, out totalCount, out filteredCount );
+
+				return Json( new
+				{
+					sEcho = param.sEcho,
+					iTotalRecords = totalCount,
+					iTotalDisplayRecords = filteredCount,
+					aaData = results
+				},
+					JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		[PaoliAuthorize( "CanViewMyCompany" )]
@@ -67,19 +69,20 @@ namespace ProductDataWarehouse.Controllers
 		{
 			int totalCount = 0, filteredCount = 0;
 
-			UserRepository uRepository = new UserRepository();
-
-			var results = uRepository.GetFullUserList(
-				param, out totalCount, out filteredCount );
-
-			return Json( new
+			using( var uRepository = new UserRepository() )
 			{
-				sEcho = param.sEcho,
-				iTotalRecords = totalCount,
-				iTotalDisplayRecords = filteredCount,
-				aaData = results
-			},
-				JsonRequestBehavior.AllowGet );
+				var results = uRepository.GetFullUserList(
+					param, out totalCount, out filteredCount );
+
+				return Json( new
+				{
+					sEcho = param.sEcho,
+					iTotalRecords = totalCount,
+					iTotalDisplayRecords = filteredCount,
+					aaData = results
+				},
+					JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageUsers" )]
@@ -97,12 +100,12 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-					UserRepository uRepository = new UserRepository();
-
+				using( var uRepository = new UserRepository() )
+				{
 					uRepository.AddUser( uInfo, UserImage != null ? UserImage.InputStream : null, UserImage != null ? UserImage.FileName : null );
 
 					return RedirectToAction( "Manage" );
-
+				}
 			}
 
 			return View( uInfo );
@@ -112,11 +115,12 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult Edit( int id )
 		{
-			UserRepository uRepository = new UserRepository();
+			using( var uRepository = new UserRepository() )
+			{
+				var uInfo = uRepository.GetUser( id );
 
-			var uInfo = uRepository.GetUser( id );
-
-			return View( uInfo );
+				return View( uInfo );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageUsers" )]
@@ -127,11 +131,12 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-					UserRepository uRepository = new UserRepository();
-
+				using( var uRepository = new UserRepository() )
+				{
 					uRepository.UpdateUser( uInfo, UserImage != null ? UserImage.InputStream : null, UserImage != null ? UserImage.FileName : null );
 
 					return RedirectToAction( "Manage" );
+				}
 
 			}
 
@@ -142,39 +147,44 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public JsonResult SendWelcomeEmail( int id )
 		{
-			bool bSuccess = ( new UserRepository() ).SendWelcomeEmail( id );
-			
-			return Json( new
+			using( var uRepository = new UserRepository() )
 			{
-				success = bSuccess
-			},
-				JsonRequestBehavior.AllowGet );
+				bool bSuccess = uRepository.SendWelcomeEmail( id );
+
+				return Json( new
+				{
+					success = bSuccess
+				},
+					JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		[PaoliAuthorize( "CanManageUsers" )]
 		[TempPasswordCheck]
 		public JsonResult ResetPassword( int id )
 		{
-			UserRepository uRepository = new UserRepository();
-
-			bool bSuccess = uRepository.ResetUserPassword( id );
-
-			return Json( new
+			using( var uRepository = new UserRepository() )
 			{
-				success = bSuccess
-			},
-				JsonRequestBehavior.AllowGet );
+				bool bSuccess = uRepository.ResetUserPassword( id );
+
+				return Json( new
+				{
+					success = bSuccess
+				},
+					JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		[PaoliAuthorize( "CanBeLoggedIn" )]
 		[TempPasswordCheck]
 		public ActionResult MyAccount()
 		{
-			UserRepository uRepository = new UserRepository();
+			using( var uRepository = new UserRepository() )
+			{
+				var uInfo = uRepository.GetUser( PaoliWebUser.CurrentUser.UserId );
 
-			var uInfo = uRepository.GetUser( PaoliWebUser.CurrentUser.UserId );
-
-			return View( viewName: "NewMyAccount", model: uInfo );
+				return View( viewName: "NewMyAccount", model: uInfo );
+			}
 		}
 
 		[PaoliAuthorize( "CanBeLoggedIn" )]
@@ -185,14 +195,15 @@ namespace ProductDataWarehouse.Controllers
 		{
 			if( ModelState.IsValid )
 			{
-				UserRepository uRepository = new UserRepository();
+				using( var uRepository = new UserRepository() )
+				{
+					uRepository.UpdateUser( uInfo, UserImage != null ? UserImage.InputStream : null, UserImage != null ? UserImage.FileName : null );
 
-				uRepository.UpdateUser( uInfo, UserImage != null ? UserImage.InputStream : null, UserImage != null ? UserImage.FileName : null );
+					ViewBag.AccountUpdateSuccess = true;
 
-				ViewBag.AccountUpdateSuccess = true;
-
-				// yes, do this - it forces the account to be retrieved from the database again, but keeps the viewbag entry
-				return MyAccount();
+					// yes, do this - it forces the account to be retrieved from the database again, but keeps the viewbag entry
+					return MyAccount();
+				}
 			}
 
 			return View( viewName: "NewMyAccount", model: uInfo );
@@ -240,13 +251,14 @@ namespace ProductDataWarehouse.Controllers
 			{
 				try
 				{
-					UserRepository uRepository = new UserRepository();
+					using( var uRepository = new UserRepository() )
+					{
+						uRepository.ChangePassword( pwDetail );
 
-					uRepository.ChangePassword( pwDetail );
+						ViewBag.ChangePWSuccess = true;
 
-					ViewBag.ChangePWSuccess = true;
-
-					return ChangePW();
+						return ChangePW();
+					}
 				}
 				catch( ApplicationException ex )
 				{
@@ -261,7 +273,10 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		public ActionResult Subscriptions()
 		{
-			return View( new UserRepository().GetUserSubscriptionSummary( PaoliWebUser.CurrentUser.UserId ) );
+			using( var uRepository = new UserRepository() )
+			{
+				return View( uRepository.GetUserSubscriptionSummary( PaoliWebUser.CurrentUser.UserId ) );
+			}
 		}
 
 		[PaoliAuthorize( "CanBeLoggedIn" )]
@@ -274,9 +289,12 @@ namespace ProductDataWarehouse.Controllers
 			{
 				try
 				{
-					new UserRepository().UpdateUserSubscriptions( uSummary );
+					using( var uRepository = new UserRepository() )
+					{
+						uRepository.UpdateUserSubscriptions( uSummary );
 
-					return Redirect( PaoliWebUser.CurrentUser.HomePage );
+						return Redirect( PaoliWebUser.CurrentUser.HomePage );
+					}
 				}
 				catch( ApplicationException e )
 				{
@@ -389,8 +407,11 @@ namespace ProductDataWarehouse.Controllers
 
 		private static List<SelectListItem> GetJustUserDDList( List<int> accountTypes, bool enabledOnly )
 		{
-			return ( new UserRepository() ).GetUserListForAccountType( accountTypes, enabledOnly )
-				.Select( u => new SelectListItem() { Value = u.UserID.ToString(), Text = u.FullName } ).ToList();
+			using( var uRepository = new UserRepository() )
+			{
+				return uRepository.GetUserListForAccountType( accountTypes, enabledOnly )
+					.Select( u => new SelectListItem() { Value = u.UserID.ToString(), Text = u.FullName } ).ToList();
+			}
 		}
 
 		public static IEnumerable<SelectListItem> GetPaoliMemberDDList( bool includeBlank )
@@ -435,38 +456,46 @@ namespace ProductDataWarehouse.Controllers
 
 		public JsonResult GetPaoliSalesRepListForTerritory( int territoryId, bool enabledOnly )
 		{
-			var theList = ( new UserRepository() ).GetSalesRepListForTerritory( territoryId, enabledOnly ).ToList();
-
-			theList.Insert( 0, null );
-
-			return Json( new
+			using( var uRepository = new UserRepository() )
 			{
-				theList = theList
-			},
-				JsonRequestBehavior.AllowGet );
+				var theList = uRepository.GetSalesRepListForTerritory( territoryId, enabledOnly ).ToList();
+
+				theList.Insert( 0, null );
+
+				return Json( new
+				{
+					theList = theList
+				},
+					JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		public JsonResult GetPaoliSalesRepListForCompany( int companyId, bool enabledOnly )
 		{
-			var theList = ( new UserRepository() ).GetUserListForAccountType( companyId, PaoliWebUser.PaoliWebRole.PaoliSalesRep, enabledOnly );
-
-			return Json( new
+			using( var uRepository = new UserRepository() )
 			{
-				theList = theList
-			},
-				JsonRequestBehavior.AllowGet );
+				var theList = uRepository.GetUserListForAccountType( companyId, PaoliWebUser.PaoliWebRole.PaoliSalesRep, enabledOnly );
+
+				return Json( new
+				{
+					theList = theList
+				},
+					JsonRequestBehavior.AllowGet );
+			}
 		}
 
 		public JsonResult GetDealerSalesRepListForCompany( int companyId, bool enabledOnly )
 		{
-			var theList = ( new UserRepository() ).GetUserListForAccountType( companyId, PaoliWebUser.PaoliWebRole.DealerSalesRep, enabledOnly );
-
-			return Json( new
+			using( var uRepository = new UserRepository() )
 			{
-				theList = theList
-			},
-				JsonRequestBehavior.AllowGet );
+				var theList = uRepository.GetUserListForAccountType( companyId, PaoliWebUser.PaoliWebRole.DealerSalesRep, enabledOnly );
 
+				return Json( new
+				{
+					theList = theList
+				},
+					JsonRequestBehavior.AllowGet );
+			}
 		}
 	}
 }

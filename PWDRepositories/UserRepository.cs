@@ -531,7 +531,10 @@ namespace PWDRepositories
 				filteredAndSorted = filteredAndSorted.Skip( param.iDisplayStart ).Take( param.iDisplayLength );
 			}
 
-			return filteredAndSorted.ToList().Select( v => ToUserSummary( v ) );
+			return filteredAndSorted
+				.Include( u => u.Company )
+				.Include( u => u.UserLogins )
+				.ToList().Select( v => ToUserSummary( v ) );
 		}
 
 		public bool ChangePassword( ChangePWDetail pwDetail )
@@ -557,6 +560,8 @@ namespace PWDRepositories
 		public IEnumerable<UserSummary> GetUserListForAccountType( List<int> accountTypes, bool enabledOnly )
 		{
 			return database.Users
+				.Include( u => u.Company )
+				.Include( u => u.UserLogins )
 				.Where( u => accountTypes.Contains( u.AccountType ) || !accountTypes.Any() || accountTypes.Contains( 0 ) )
 				.Where( u => u.IsActive || !enabledOnly )
 				.ToList()
@@ -567,6 +572,8 @@ namespace PWDRepositories
 		public IEnumerable<UserSummary> GetSalesRepListForTerritory( int territoryId, bool enabledOnly )
 		{
 			return database.Users
+				.Include( u => u.Company )
+				.Include( u => u.UserLogins )
 				.Where( u => u.Company.TerritoryID == territoryId )
 				.Where( u => u.AccountType == PaoliWebUser.PaoliWebRole.PaoliSalesRep )
 				.Where( u => u.IsActive || !enabledOnly )
@@ -578,6 +585,8 @@ namespace PWDRepositories
 		public IEnumerable<UserSummary> GetUserListForAccountType( int companyId, int accountType, bool enabledOnly )
 		{
 			return database.Users
+				.Include( u => u.Company )
+				.Include( u => u.UserLogins )
 				.Where( u => u.CompanyID == companyId )
 				.Where( u => u.AccountType == accountType || accountType == 0 )
 				.Where( u => u.IsActive || !enabledOnly )

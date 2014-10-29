@@ -6,6 +6,7 @@ using PDWDBContext;
 using System.Text.RegularExpressions;
 using PDWModels.eCollateral;
 using PDWInfrastructure;
+using System.Data.Entity;
 
 namespace PWDRepositories
 {
@@ -620,6 +621,9 @@ namespace PWDRepositories
 				.OrderByDescending( i => i.LastModifiedByDateTime );
 
 			return theList
+				.Include( i => i.CreatedByUser )
+				.Include( i => i.Company )
+				.Include( i => i.eCollateralSections )
 				.Skip( skipItems ).Take( 30 )
 				.ToList()
 				.Select( i => ToECollateralSummary( i ) );
@@ -634,6 +638,9 @@ namespace PWDRepositories
 				.OrderByDescending( i => i.LastModifiedByDateTime );
 
 			return theList
+				.Include( i => i.CreatedByUser )
+				.Include( i => i.Company )
+				.Include( i => i.eCollateralSections )
 				.Skip( skipItems ).Take( 30 )
 				.ToList()
 				.Select( i => ToECollateralSummary( i ) );
@@ -646,6 +653,9 @@ namespace PWDRepositories
 				.OrderByDescending( i => i.LastModifiedByDateTime );
 
 			return theList
+				.Include( i => i.CreatedByUser )
+				.Include( i => i.Company )
+				.Include( i => i.eCollateralSections )
 				.Skip( skipItems ).Take( 30 )
 				.ToList()
 				.Select( i => ToECollateralSummary( i ) );
@@ -660,6 +670,9 @@ namespace PWDRepositories
 				.OrderByDescending( i => i.LastModifiedByDateTime );
 
 			return theList
+				.Include( i => i.CreatedByUser )
+				.Include( i => i.Company )
+				.Include( i => i.eCollateralSections )
 				.Skip( skipItems ).Take( 30 )
 				.ToList()
 				.Select( i => ToECollateralSummary( i ) );
