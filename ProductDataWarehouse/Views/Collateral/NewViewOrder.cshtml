@@ -304,29 +304,29 @@
 														 break;
 	}
 			<li>@if( ( shipmentInfo.Vendor ?? "" ).Any() )
-	   { <text> shipmentInfo.Vendor </text> } else { <text>&nbsp;</text> }</li>
+	   { <text> @shipmentInfo.Vendor </text> } else { <text>&nbsp;</text> }</li>
 			<li>@if( ( shipmentInfo.TrackingNumbers ?? "" ).Any() )
-	   { <text> shipmentInfo.TrackingNumbers </text> } else { <text>&nbsp;</text> }</li>
+	   { <text> @shipmentInfo.TrackingNumbers </text> } else { <text>&nbsp;</text> }</li>
 			<li>@if((shipmentInfo.GLCode ?? "").Any() ) { <text> shipmentInfo.GLCode </text> } else { <text>&nbsp;</text> }</li>
 			<li>&nbsp;</li>
 			<li>@if( ( shipmentInfo.ShippingAttn ?? "" ).Any() )
-	   { <text> shipmentInfo.ShippingAttn </text> } else { <text>&nbsp;</text> }</li>
+	   { <text> @shipmentInfo.ShippingAttn </text> } else { <text>&nbsp;</text> }</li>
 			<li>@if( ( shipmentInfo.ShippingCompanyName ?? "" ).Any() )
-	   { <text> shipmentInfo.ShippingCompanyName </text> } else { <text>&nbsp;</text> }</li>
+	   { <text> @shipmentInfo.ShippingCompanyName </text> } else { <text>&nbsp;</text> }</li>
 			<li>@if( ( shipmentInfo.ShippingAddress1 ?? "" ).Any() )
-	   { <text> shipmentInfo.ShippingAddress1 </text> } else { <text>&nbsp;</text> }</li>
+	   { <text> @shipmentInfo.ShippingAddress1 </text> } else { <text>&nbsp;</text> }</li>
 			<li>@if( ( shipmentInfo.ShippingAddress2 ?? "" ).Any() )
-	   { <text> shipmentInfo.ShippingAddress2 </text> } else { <text>&nbsp;</text> }</li>
+	   { <text> @shipmentInfo.ShippingAddress2 </text> } else { <text>&nbsp;</text> }</li>
 			<li>@if( ( shipmentInfo.ShippingCity ?? "" ).Any() )
-	   { <text> shipmentInfo.ShippingCity </text> } else { <text>&nbsp;</text> }</li>
+	   { <text> @shipmentInfo.ShippingCity </text> } else { <text>&nbsp;</text> }</li>
 			<li>@if( ( shipmentInfo.ShippingState ?? "" ).Any() )
-	   { <text> shipmentInfo.ShippingState </text> } else { <text>&nbsp;</text> }</li>
+	   { <text> @shipmentInfo.ShippingState </text> } else { <text>&nbsp;</text> }</li>
 			<li>@if( ( shipmentInfo.ShippingZip ?? "" ).Any() )
-	   { <text> shipmentInfo.ShippingZip </text> } else { <text>&nbsp;</text> }</li>
+	   { <text> @shipmentInfo.ShippingZip </text> } else { <text>&nbsp;</text> }</li>
 			<li>@if( ( shipmentInfo.ShippingPhoneNumber ?? "" ).Any() )
-	   { <text> shipmentInfo.ShippingPhoneNumber </text> } else { <text>&nbsp;</text> }</li>
+	   { <text> @shipmentInfo.ShippingPhoneNumber </text> } else { <text>&nbsp;</text> }</li>
 			<li>@if( ( shipmentInfo.ShippingEmailAddress ?? "" ).Any() )
-	   { <text> shipmentInfo.ShippingEmailAddress </text> } else { <text>&nbsp;</text> }</li>
+	   { <text> @shipmentInfo.ShippingEmailAddress </text> } else { <text>&nbsp;</text> }</li>
 			</ul>
 			</div>
 					<i class="clear_0"></i>
