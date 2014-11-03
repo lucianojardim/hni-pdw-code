@@ -63,7 +63,7 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
-		[PaoliAuthorize( "CanViewMyCompany" )]
+		[PaoliAuthorize( "CanViewMyCompanyUserList" )]
 		[TempPasswordCheck]
 		public JsonResult MyCompanyUserList( UserTableParams param )
 		{

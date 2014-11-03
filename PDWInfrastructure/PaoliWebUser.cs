@@ -290,6 +290,7 @@ namespace PDWInfrastructure
 
 		public bool CanViewMyTerritory { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ); } }
 		public bool CanViewMyCompany { get { return IsDealerUser; } }
+		public bool CanViewMyCompanyUserList { get { return CanViewMyCompany || CanViewMyTerritory; } }
 
 		public string ProductsHomePage
 		{
