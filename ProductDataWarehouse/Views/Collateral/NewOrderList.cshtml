@@ -101,20 +101,20 @@
 			"aoColumnDefs": [
                     { "sName": "EditButtons",
                     	"aTargets": [0],
-                    	"sTitle": "Order No.<span></span>",
+                    	"sTitle": "Order No.<span></span>", "sClass": "hasSpan",
                     	"mDataProp": "EditButtons", "sWidth": "8%",
                     	"fnRender": function (oObj) {
                     		return oObj.aData["OrderID"];
                     	}
                     },
-                    { "sName": "RequestingParty", "sTitle": "Requested By<span></span>", "aTargets": [1], "mDataProp": "RequestingParty", "sWidth": "36%" },
-                    { "sName": "ShippingParty", "sTitle": "Recipient<span></span>", "aTargets": [2], "mDataProp": "ShippingParty", "sWidth": "36%" },
-                    { "sName": "OrderDate", "sTitle": "Date<span></span>", "aTargets": [3], "mDataProp": "OrderDate",
+                    { "sName": "RequestingParty", "sTitle": "Requested By<span></span>", "sClass": "hasSpan", "aTargets": [1], "mDataProp": "RequestingParty", "sWidth": "36%" },
+                    { "sName": "ShippingParty", "sTitle": "Recipient<span></span>", "sClass": "hasSpan", "aTargets": [2], "mDataProp": "ShippingParty", "sWidth": "36%" },
+                    { "sName": "OrderDate", "sTitle": "Date<span></span>", "sClass": "hasSpan", "aTargets": [3], "mDataProp": "OrderDate",
                     	"fnRender": function (oObj) {
                     		return getLocalDate(oObj.aData["OrderDateMilliseconds"]);
                     	}, "sWidth": "10%"
                     },
-                    { "sName": "Status", "sTitle": "Status<span></span>", "aTargets": [4], "mDataProp": "Status", "sWidth": "10%",
+                    { "sName": "Status", "sTitle": "Status<span></span>", "sClass": "hasSpan", "aTargets": [4], "mDataProp": "Status", "sWidth": "10%",
                     	"fnRender": function (oObj) {
                     		return oObj.aData["Status"];
                     	}

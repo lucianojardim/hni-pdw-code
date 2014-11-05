@@ -183,12 +183,22 @@ table.display td.center {
 
 .sorting_asc span{
 	background:url(../images/select_arrowup.jpg) no-repeat; 
-	 width:8px; height:5px; display:inline-block;  margin-left:4px
+	 width:7px; height:9px; display:inline-block;  margin-left:4px
 }
 
 .sorting_desc span{
 	background:url(../images/order_arrow.jpg) no-repeat;
-	width:8px; height:5px; display:inline-block;  margin-left:4px
+	width:7px; height:9px; display:inline-block;  margin-left:4px
+}
+
+.sorting span {
+	background:url(../images/noorder_arrow.jpg) no-repeat;
+	width:7px; height:9px; display:inline-block; margin-left:4px
+}
+
+.sorting.hasSpan, .sorting_asc.hasSpan, .sorting_desc.hasSpan
+{
+	background: none;
 }
 /*
 .sorting_desc  span{

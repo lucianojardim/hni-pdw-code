@@ -38,7 +38,7 @@ namespace PDWModels.Companies
 		[PhoneNumber]
 		public string FAX { get; set; }
 		[DisplayName( "Contact Email" )]
-		[Email]
+		[Email( ErrorMessage = "The field Contact Email must be a valid email address." )]
 		public string ContactEmail { get; set; }
 		[DisplayName( "Web Site URL" )]
 		public string WebSite { get; set; }
@@ -66,7 +66,7 @@ namespace PDWModels.Companies
 		[PhoneNumber]
 		public string PublicFAX { get; set; }
 		[DisplayName( "Contact Email" )]
-		[Email]
+		[Email( ErrorMessage = "The field Contact Email must be a valid email address." )]
 		public string PublicContactEmail { get; set; }
 		[DisplayName( "Web Site URL" )]
 		public string PublicWebSite { get; set; }

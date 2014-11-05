@@ -96,10 +96,10 @@
 			"aaSorting": [[1, "asc"]],
 			"asStripeClasses": [],
 			"aoColumnDefs": [
-                    { "sName": "FirstName", "sTitle": "First Name", "aTargets": [0], "mDataProp": "FirstName", "sWidth": "25%" },
-                    { "sName": "LastName", "sTitle": "Last Name", "aTargets": [1], "mDataProp": "LastName", "sWidth": "25%" },
-                    { "sName": "Title", "sTitle": "Title", "aTargets": [2], "mDataProp": "Title", "sWidth": "25%" },
-                    { "sName": "Role", "sTitle": "Role", "aTargets": [3], "mDataProp": "Role", "sWidth": "25%", "bSortable": false }
+                    { "sName": "FirstName", "sTitle": "First Name<span></span>", "sClass": "hasSpan", "aTargets": [0], "mDataProp": "FirstName", "sWidth": "25%" },
+                    { "sName": "LastName", "sTitle": "Last Name<span></span>", "sClass": "hasSpan", "aTargets": [1], "mDataProp": "LastName", "sWidth": "25%" },
+                    { "sName": "Title", "sTitle": "Title<span></span>", "sClass": "hasSpan", "aTargets": [2], "mDataProp": "Title", "sWidth": "25%" },
+                    { "sName": "Role", "sTitle": "Role<span></span>", "sClass": "hasSpan", "aTargets": [3], "mDataProp": "Role", "sWidth": "25%", "bSortable": false }
                 ]
 		});
 	}
@@ -137,18 +137,18 @@
 			"aaSorting": [[0, "asc"]],
 			"asStripeClasses": [],
 			"aoColumnDefs": [
-                    { "sName": "Name", "sTitle": "Dealership", "aTargets": [0], "mDataProp": "Name",
+                    { "sName": "Name", "sTitle": "Dealership<span></span>", "sClass": "hasSpan", "aTargets": [0], "mDataProp": "Name",
                     	"fnRender": function (oObj) {
                     		var s;
                     		s = '<a href=\"@Url.Action( "MyCompanyInfo", "User" )/' + oObj.aData["CompanyID"] + '">' + oObj.aData["Name"] + '</a>';
                     		return s;
                     	}
                     },
-                    { "sName": "City", "sTitle": "City", "aTargets": [1], "mDataProp": "City" },
-                    { "sName": "State", "sTitle": "State", "aTargets": [2], "mDataProp": "State" },
-                    { "sName": "UserCount", "sTitle": "# of Users", "aTargets": [3], "mDataProp": "UserCount", "sType": "numeric" },
-                    { "sName": "PaoliContact", "sTitle": "Paoli Contact", "aTargets": [4], "mDataProp": "PaoliContact" },
-                    { "sName": "TierGroup", "sTitle": "Tier", "aTargets": [5], "mDataProp": "TierGroup" }
+                    { "sName": "City", "sTitle": "City<span></span>", "sClass": "hasSpan", "aTargets": [1], "mDataProp": "City" },
+                    { "sName": "State", "sTitle": "State<span></span>", "sClass": "hasSpan", "aTargets": [2], "mDataProp": "State" },
+                    { "sName": "UserCount", "sTitle": "# of Users<span></span>", "sClass": "hasSpan", "aTargets": [3], "mDataProp": "UserCount", "sType": "numeric" },
+                    { "sName": "PaoliContact", "sTitle": "Paoli Contact<span></span>", "sClass": "hasSpan", "aTargets": [4], "mDataProp": "PaoliContact" },
+                    { "sName": "TierGroup", "sTitle": "Tier<span></span>", "sClass": "hasSpan", "aTargets": [5], "mDataProp": "TierGroup" }
                 ]
 		});
 	}

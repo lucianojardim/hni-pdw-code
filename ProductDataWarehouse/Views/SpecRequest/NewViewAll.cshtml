@@ -90,7 +90,7 @@
 			},
 			"bProcessing": false, // don't want to use the default progress indicator at this time
 			"aoColumnDefs": [
-                    { "sName": "Name", "sTitle": "Name<span></span>", "aTargets": [@(colNum++)], "mDataProp": "Name", "sWidth": "9%",
+                    { "sName": "Name", "sTitle": "Name<span></span>", "sClass": "hasSpan", "aTargets": [@(colNum++)], "mDataProp": "Name", "sWidth": "9%",
                     	"fnRender": function (oObj) {
 							return oObj.aData["Name"];
                     	}
@@ -98,21 +98,21 @@
 			@if( !PaoliWebUser.CurrentUser.IsDealerUser && !PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
    {
 	<text>
-                    { "sName": "SalesRepGroup", "sTitle": "Rep Group<span></span>", "aTargets": [@(colNum++)], "mDataProp": "SalesRepGroup", "sWidth": "27%" },
+                    { "sName": "SalesRepGroup", "sTitle": "Rep Group<span></span>", "sClass": "hasSpan", "aTargets": [@(colNum++)], "mDataProp": "SalesRepGroup", "sWidth": "27%" },
 	</text>
    }
 	@if( !PaoliWebUser.CurrentUser.IsDealerUser )
  {
 	<text>
-                    { "sName": "Dealer", "sTitle": "Dealer<span></span>", "aTargets": [@(colNum++)], "mDataProp": "Dealer", "sWidth": "27%" },
+                    { "sName": "Dealer", "sTitle": "Dealer<span></span>", "sClass": "hasSpan", "aTargets": [@(colNum++)], "mDataProp": "Dealer", "sWidth": "27%" },
 	</text>
  }
-                    { "sName": "ProjectName", "sTitle": "Project Name<span></span>", "aTargets": [@(colNum++)], "mDataProp": "ProjectName", "sWidth": "27%" },
+                    { "sName": "ProjectName", "sTitle": "Project Name<span></span>", "sClass": "hasSpan", "aTargets": [@(colNum++)], "mDataProp": "ProjectName", "sWidth": "27%" },
                     { "sName": "Status",
                     	"aTargets": [@(colNum)],
                     	"bSearchable": false,
                     	"bSortable": true,
-                    	"mDataProp": "Status", "sTitle": "Status<span></span>", "sWidth": "10%",
+                    	"mDataProp": "Status", "sTitle": "Status<span></span>", "sClass": "hasSpan", "sWidth": "10%",
                     	"fnRender": function (oObj) {
 							if (oObj.aData["IsCanceled"]) {
                     			return 'Canceled';

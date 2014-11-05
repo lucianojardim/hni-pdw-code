@@ -76,7 +76,8 @@ Image Content: @Html.DropDownList( "ImageContent", ProductDataWarehouse.Controll
         	"aoColumnDefs": [
                     { "sName": "Thumbnail", "sTitle": "", "aTargets": [0], "mDataProp": "Thumbnail", "sWidth": "50px",
                     	"fnRender": function (oObj) {
-                    		return '<img src="/Images/Paoli ' + oObj.aData["Name"] + '_s1to1.jpg" width="50px"/>';
+                    		var noCache = new Date().getTime();
+                    		return '<img src="/Images/Paoli ' + oObj.aData["Name"] + '_s1to1.jpg?' + noCache + '" width="50px"/>';
                     	}
                     },
                     { "sName": "Name", "sTitle": "Image Name", "aTargets": [1], "mDataProp": "Name", "sWidth": "100px" },
