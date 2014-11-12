@@ -16,6 +16,7 @@ namespace PDWModels.Companies
 		public string City { get; set; }
 		public string State { get; set; }
 		public string PaoliContact { get; set; }
+		public string PSRContact { get; set; }
 		public string TierGroup { get; set; }
 		public string EditButtons { get; set; }
 		public bool CanDelete { get; set; }

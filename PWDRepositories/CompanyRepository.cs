@@ -28,6 +28,7 @@ namespace PWDRepositories
 				City = c.City,
 				State = c.State,
 				PaoliContact = c.PaoliMemberID.HasValue ? c.PaoliMember.FullName : "",
+				PSRContact = c.PaoliSalesRepMemberID.HasValue ? c.PaoliSalesRepMember.FullName : "",
 				TierGroup = c.TierGroup,
 				UserCount = c.Users.Where( u => u.IsActive && u.Enabled ).Count(),
 				CanDelete = !c.Users.Any() && !c.SpecRequests.Any() && !c.SpecRequests1.Any() && !c.CollateralOrders.Any() && !c.CollateralOrders1.Any() &&
@@ -375,6 +376,16 @@ namespace PWDRepositories
 						filteredAndSorted = companyList.OrderByDescending( v => v.PaoliMember.FirstName ).ThenByDescending( v => v.PaoliMember.LastName );
 					}
 					break;
+				case "psrcontact":
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = companyList.OrderBy( v => v.PaoliSalesRepMember.FirstName ).ThenBy( v => v.PaoliSalesRepMember.LastName );
+					}
+					else
+					{
+						filteredAndSorted = companyList.OrderByDescending( v => v.PaoliSalesRepMember.FirstName ).ThenByDescending( v => v.PaoliSalesRepMember.LastName );
+					}
+					break;
 				case "tiergroup":
 					if( param.sSortDir_0.ToLower() == "asc" )
 					{
@@ -394,6 +405,7 @@ namespace PWDRepositories
 
 			return filteredAndSorted
 				.Include( c => c.PaoliMember )
+				.Include( c => c.PaoliSalesRepMember )
 				.Include( c => c.Users )
 				.Include( c => c.SpecRequests )
 				.Include( c => c.SpecRequests1 )
