@@ -608,8 +608,8 @@ hr.margin20 { border:0; width:100%; background-color:#eaeaea; color:#eaeaea; hei
 .territory-companyProfile hr {margin:20px 0 40px 0;}
 .territory-companyProfile h2 {font-size:35px; color:#669933;}
 .territory-companyProfile h4 {font-size:25px;padding:5px 0 10px 0;}
-.territory-companyProfile .addrssColmn { width:217px; font-size:20px; color:#999; margin:10px 20px 0 0; float:left; }
-.territory-companyProfile .phneFaxWebLblColmn { width:60px; margin:10px 20px 0 0; float:left;}
+.territory-companyProfile .addrssColmn { width:227px; font-size:20px; color:#999; margin:10px 20px 0 0; float:left; }
+.territory-companyProfile .phneFaxWebLblColmn { width:50px; margin:10px 20px 0 0; float:left;}
 .territory-companyProfile .phneFaxWebInfoColmn { width:125px; margin:10px 0 0 0; float:left;}
 .territory-companyProfile table.userTable, .territory-companyProfile table.dealerTable {border-collapse:collapse;border-spacing:0; margin-bottom:40px;}
 .territory-companyProfile table.userTable th,.territory-companyProfile table.userTable td {width:250px; padding:15px 0;}
