@@ -68,7 +68,7 @@
 }
 
 <!-- SET: WRAPPER -->
-<div class="wrapperNew">
+<div class="wrapperNew @if( ViewBag.BlankWrapper ?? false ) { <text>blank</text> }">
             <!-- SET: HEADER -->
             	<header>
 					@{Html.RenderPartial( "PrimaryHeader" );}

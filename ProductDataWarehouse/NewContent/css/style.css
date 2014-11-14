@@ -34,6 +34,7 @@ div, p, a, li, td { -webkit-text-size-adjust:none; }
 /* ----------------------- layout ----------*/
 /*ERIN MOD TO FIX BUTTONS*/
 .wrapperNew									{margin:0 auto; position:relative; min-height:100%; height: auto !important; height:100%; padding-bottom:110px; background:#c7c8cd;  background:url(../images/main_bg.jpg) repeat center top;}
+.wrapperNew.blank							{ background:#ffffff !important; background:url(../images/transparent.png) repeat center top !important; }
 
 /*-------------------------------------------*/
 .poly_top_lt                              { width:318px; float:left; display:block; padding-left:20px; border-right:1px solid #b5b5b5; padding-bottom:23px; padding-top:23px;}
@@ -62,6 +63,7 @@ div, p, a, li, td { -webkit-text-size-adjust:none; }
 
 /* ------------------------ MIAN CONTENT HERE --------------*/
 .main                                     { padding-top:20px; padding-bottom:30px;}
+.blank .main							  { padding-top:0px; }
 .main_lt                                  { width:601px; float:left; display:block; padding:18px; background:#FFF;  -moz-box-shadow: 4px 4px 5px -2px #a6a6a9; -webkit-box-shadow: 4px 4px 5px -2px #a6a6a9; box-shadow: 4px 4px 5px -2px #a6a6a9;}
 .main_lt h3                               { font-size:20px; color:#367ca8; font-family: "HelveticaNeue-Bold", "Helvetica Neue Bold", Helvetica, Arial, sans-serif; font-weight: bold; line-height:28px; padding-top:10px;}
 .main_lt h3 a                             {  color:#367ca8; text-decoration:none;}

@@ -1,10 +1,13 @@
 ﻿
 /* ------------------------- HEADER HERE -------------------*/
 header                                     { width:100%; margin:0 auto; }
-header .header_top                         { width:100%;  margin:0 auto; background:#FFF; -moz-box-shadow:0 1px 2px 1px #AFAFAF;; -webkit-box-shadow:0 1px 2px 1px #AFAFAF;; box-shadow:0 1px 2px 1px #AFAFAF;; position:relative; z-index:9;}
-header .header_top.blue                   { background:url(../images/blue_bg.jpg) repeat-y center top;}
+header .header_top                         { width:100%;  margin:0 auto; background:#FFF; position:relative; z-index:9;}
+header .header_top.blue                   { background:url(../images/blue_bg.jpg) repeat-y center top; -moz-box-shadow:0 1px 2px 1px #AFAFAF;; -webkit-box-shadow:0 1px 2px 1px #AFAFAF;; box-shadow:0 1px 2px 1px #AFAFAF;; }
 header .header_top.blue .container        { background:#FFF; min-height:76px; position:relative;}
 header .header_top.blue .logo             { width:192px; float:left; display:block; background:#313b6c; height:58px; padding-top:18px;}
+header .header_top.blank                   { background:url(../images/transparent.png) repeat-y center top;}
+header .header_top.blank .container        { background:#FFF; min-height:76px; position:relative;}
+header .header_top.blank .logo             { width:192px; float:left; display:block; background:#FFF; height:58px; padding-top:18px;}
 .header_right                             { width:225px; float:left; display:block; position:relative; padding-top:30px; margin-left:27px;}
 .header_right input                       { width:175px; padding:5px; vertical-align:middle; display:inline-block; font-size:12px; color:#454545; margin-left:27px; border:none;font-family: 'Conv_Helvetica-Light'; }
 .header_right span                        { position:absolute; top:32px; left:0}

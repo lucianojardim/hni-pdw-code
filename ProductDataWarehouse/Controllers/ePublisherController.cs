@@ -7,6 +7,9 @@ using PDWInfrastructure.Attributes;
 using PWDRepositories;
 using PDWModels.eCollateral;
 using PDWInfrastructure;
+using System.Configuration;
+using System.IO;
+using HiQPdf;
 
 namespace ProductDataWarehouse.Controllers
 {
@@ -179,6 +182,119 @@ namespace ProductDataWarehouse.Controllers
 				eRepository.ConfirmLayout( id, PaoliWebUser.CurrentUser.UserId );
 
 				return RedirectToAction( "ViewLayout", new { id = id } );
+			}
+		}
+
+		public ActionResult GeneratePDF( string id )
+		{
+			using( ECollateralRepository eRepository = new ECollateralRepository() )
+			{
+				ViewBag.BlankWrapper = true;
+				return View( "~/Views/Info/Index.cshtml", eRepository.GetItemDetails( id ) );
+			}
+		}
+
+		[PaoliAuthorize( "CanManageECollateral" )]
+		[TempPasswordCheck]
+		public FileResult DownloadPDF( int id )
+		{
+			using( var eRepository = new ECollateralRepository() )
+			{
+				var data = eRepository.GetItemInformation( id );
+/*
+				var pdfEXE = ConfigurationManager.AppSettings["ePubPDFTool"];
+				var fileName = Path.Combine( ConfigurationManager.AppSettings["ePubPDFLocation"], Guid.NewGuid() + ".pdf" );
+				var customUrl = MyPaoliURLLocal() + "/info/" + data.Settings.CustomURL;
+
+				var process = System.Diagnostics.Process.Start( pdfEXE, string.Format( "\"{0}\" \"{1}\"", customUrl, fileName ) );
+
+				while( !process.HasExited )
+				{
+					System.Threading.Thread.Sleep( 500 );
+				}
+
+				return File( fileName, "application/pdf", string.Format( data.Settings.CustomURL + ".pdf" ) );*/
+
+				// create the HTML to PDF converter
+				HtmlToPdf htmlToPdfConverter = new HtmlToPdf();
+
+				// set PDF page size and orientation
+				htmlToPdfConverter.Document.PageSize = PdfPageSize.Letter;
+				htmlToPdfConverter.Document.PageOrientation = PdfPageOrientation.Portrait;
+				htmlToPdfConverter.BrowserWidth = 1000;
+
+				// set PDF page margins
+				htmlToPdfConverter.Document.Margins = new PdfMargins( 10 );
+
+				// enable header
+				htmlToPdfConverter.Document.Header.Enabled = true;
+				htmlToPdfConverter.Document.Header.Height = 25;
+
+				// enable footer
+				htmlToPdfConverter.Document.Footer.Enabled = true;
+				
+				// set footer height
+				htmlToPdfConverter.Document.Footer.Height = 30;
+
+				// set footer background color
+				htmlToPdfConverter.Document.Footer.BackgroundColor = System.Drawing.Color.White;
+
+				float pdfPageWidth = htmlToPdfConverter.Document.PageOrientation == PdfPageOrientation.Portrait ?
+											htmlToPdfConverter.Document.PageSize.Width : htmlToPdfConverter.Document.PageSize.Height;
+
+				float footerWidth = pdfPageWidth - htmlToPdfConverter.Document.Margins.Left - htmlToPdfConverter.Document.Margins.Right;
+				float footerHeight = htmlToPdfConverter.Document.Footer.Height;
+
+				// layout HTML in footer
+/*				PdfHtml footerHtml = new PdfHtml( 5, 5, @"View this version online at [URL]", null );
+				footerHtml.FitDestHeight = true;
+				htmlToPdfConverter.Document.Footer.Layout( footerHtml );
+				*/
+				// add page numbering
+				System.Drawing.Font pageNumberingFont = new System.Drawing.Font( new System.Drawing.FontFamily( "Helvetica" ),
+											8, System.Drawing.GraphicsUnit.Pixel );
+
+				PdfLine footerLine = new PdfLine( new System.Drawing.PointF( 0, 0 ), new System.Drawing.PointF( footerWidth - 1, 0 ) );
+				footerLine.ForeColor = new PdfColor( 0xAF, 0xAF, 0xAF );
+				footerLine.LineStyle.LineWidth = 1.0f;
+				htmlToPdfConverter.Document.Footer.Layout( footerLine );
+
+				var customUrl = MyPaoliURL() + "/info/" + data.Settings.CustomURL;
+				PdfText urlFooterText = new PdfText( 25, footerHeight - 25, "View online at " + customUrl, pageNumberingFont );
+				urlFooterText.HorizontalAlign = PdfTextHAlign.Left;
+				urlFooterText.EmbedSystemFont = true;
+				urlFooterText.ForeColor = new PdfColor( 102, 102, 102 );
+				htmlToPdfConverter.Document.Footer.Layout( urlFooterText );
+
+				PdfText pageNumberingText = new PdfText( 5, footerHeight - 25, "Page {CrtPage} of {PageCount}" + new string( ' ', 15 ), pageNumberingFont );
+				pageNumberingText.HorizontalAlign = PdfTextHAlign.Right;
+				pageNumberingText.EmbedSystemFont = true;
+				pageNumberingText.ForeColor = new PdfColor( 102, 102, 102 );
+				htmlToPdfConverter.Document.Footer.Layout( pageNumberingText );
+
+				htmlToPdfConverter.PageCreatingEvent += new PdfPageCreatingDelegate( htmlToPdfConverter_PageCreatingEvent );
+
+				// convert HTML to PDF
+				byte[] pdfBuffer = null;
+
+				// convert URL to a PDF memory buffer
+				string url = MyPaoliURLLocal() + "/ePublisher/GeneratePDF/" + data.Settings.CustomURL;
+
+				pdfBuffer = htmlToPdfConverter.ConvertUrlToMemory( url );
+
+				return File( pdfBuffer, "application/pdf", data.Settings.CustomURL + ".pdf" );
+			}
+
+		}
+
+		private void htmlToPdfConverter_PageCreatingEvent( PdfPageCreatingParams eventParams )
+		{
+			PdfPage pdfPage = eventParams.PdfPage;
+			int pdfPageNumber = eventParams.PdfPageNumber;
+
+			if( pdfPageNumber == 1 )
+			{
+				pdfPage.DisplayHeader = false;
 			}
 		}
 

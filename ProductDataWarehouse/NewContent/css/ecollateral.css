@@ -24,6 +24,7 @@ img {
     -ms-interpolation-mode: bicubic; /* 2 */
 	max-width:100%;
 	height:auto;
+	page-break-inside:avoid;
 }
 a {
 	outline:none;
@@ -113,6 +114,10 @@ nav.mainmenu ul li:hover ul {
 	max-width:970px;
 	margin:20px auto 0;
 	background:#FFF;
+}
+.blank .content 
+{
+	margin:0px auto 0;
 }
 .content h1 {
 	font-family: Helvetica, Arial, sans-serif;

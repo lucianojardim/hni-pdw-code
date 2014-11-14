@@ -124,6 +124,12 @@
             <span class="emphasis">Live Page Link</span>
             <b><a href="/info/@Html.DisplayFor( m => m.Settings.CustomURL )" target="_blank">http://my.paoli.com/info/@Html.DisplayFor( m => m.Settings.CustomURL )</a></b>
             <div class="clr"></div>
+			@if( CurrentUser.IsSuperAdmin )
+   {
+            <span>&nbsp;</span>
+            <b><a href="@Url.Action( "DownloadPDF", new { id = Model.Settings.ItemID } )" target="_blank">Download as PDF</a></b>
+            <div class="clr"></div>
+   }
         </div>
         
         <div class="line"></div>
