@@ -619,7 +619,16 @@ hr.margin20 { border:0; width:100%; background-color:#eaeaea; color:#eaeaea; hei
 .territory-companyProfile table.dealerTable th,.territory-companyProfile table.dealerTable td {width:165px; padding:15px 0;}
 .territory-companyProfile table.dealerTable th {border-bottom:1px solid #eaeaea;}
 .territory-companyProfile .ordering{font-size:10px; }
-
+.territory-companyProfile .dataTable select {
+    background: url('../img/ascendingDropdownArrow.jpg') no-repeat scroll right center #FFF;
+    padding: 5px;
+    border: 1px solid #EAEAEA;
+    border-radius: 0px;
+    height: 28px;
+    font-family: "HelveticaNeue-Light","Helvetica Neue Light",Helvetica,Arial,sans-serif;
+    font-size: 12px;
+    width: 100%;
+}
 .incentiveImg {margin-top:50px;}
 
 .contentCentered {margin:0 auto; text-align:center;}

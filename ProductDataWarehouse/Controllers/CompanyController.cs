@@ -43,6 +43,22 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanViewMyTerritory" )]
 		[TempPasswordCheck]
+		public JsonResult UpdateSalesRepForDealer( int companyId, int psrContact )
+		{
+			using( var cRepository = new CompanyRepository() )
+			{
+				bool bSuccess = cRepository.UpdateSalesRepForDealer( companyId, psrContact );
+
+				return Json( new
+				{
+					success = bSuccess
+				},
+					JsonRequestBehavior.AllowGet );
+			}
+		}
+
+		[PaoliAuthorize( "CanViewMyTerritory" )]
+		[TempPasswordCheck]
 		public JsonResult DealerForTerritoryCompanyList( CompanyTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;

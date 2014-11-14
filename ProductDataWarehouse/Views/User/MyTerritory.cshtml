@@ -59,9 +59,20 @@
 </div>
 
 <script type="text/javascript">
+	var psrContactList = null;
 	$(document).ready(function () {
 		loadUsers();
-		loadCompanies();
+
+    	makeAjaxCall('/User/GetPaoliSalesRepListForCompany',
+    		{ companyId: @Model.CompanyID, enabledOnly: true },
+    		function (data, textStatus, jqXHR) {
+				psrContactList = data.theList;
+				loadCompanies();
+    		},
+    		function (jqXHR, textStatus, errorThrown) {    			
+    		}
+    	);
+
 	});
 
 	var uTable = null;
@@ -129,6 +140,19 @@
 					aoData,
 					function (data, textStatus, jqXHR) {
 						fnCallback(data, textStatus, jqXHR);
+
+						$('.psrContact').on('change', function() {
+							var ddList = $(this);
+    						makeAjaxCall('/Company/UpdateSalesRepForDealer',
+    							{ companyId: $(this).data('companyid'), psrContact: $(this).val() },
+    							function (data, textStatus, jqXHR) {
+									console.log($(this));
+									ddList.find('option[value=""]').remove();
+    							},
+    							function (jqXHR, textStatus, errorThrown) {    			
+    							}
+    						);
+						});
 					},
 					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Companies:' + errorThrown) }
 				);
@@ -148,7 +172,24 @@
                     { "sName": "State", "sTitle": "State<span></span>", "sClass": "hasSpan", "aTargets": [2], "mDataProp": "State" },
                     { "sName": "UserCount", "sTitle": "# of Users<span></span>", "sClass": "hasSpan", "aTargets": [3], "mDataProp": "UserCount", "sType": "numeric" },
                     { "sName": "PaoliContact", "sTitle": "Paoli Contact<span></span>", "sClass": "hasSpan", "aTargets": [4], "mDataProp": "PaoliContact" },
-                    { "sName": "PSRContact", "sTitle": "Sales Rep Contact<span></span>", "sClass": "hasSpan", "aTargets": [5], "mDataProp": "PSRContact" }
+                    { "sName": "PSRContact", "sTitle": "Sales Rep Contact<span></span>", "sClass": "hasSpan", "aTargets": [5], "mDataProp": "PSRContact",
+                    	"fnRender": function (oObj) {
+                    		var s;
+                    		s = '<select class="psrContact" data-companyid="' + oObj.aData["CompanyID"] + '">';
+							if( oObj.aData["PSRContactID"] == null ) {
+								s += '<option value=""></option>';
+							}
+							$.each(psrContactList, function(i, item) { 
+								s += '<option value="' + item.UserID + '"';
+								if( item.UserID == oObj.aData["PSRContactID"] ) {
+									s += ' selected';
+								}
+								s += '>' + item.FullName + '</option>';
+							});
+							s += '</select>';
+                    		return s;
+                    	}
+					}
                 ]
 		});
 	}

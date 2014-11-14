@@ -17,6 +17,7 @@ namespace PDWModels.Companies
 		public string State { get; set; }
 		public string PaoliContact { get; set; }
 		public string PSRContact { get; set; }
+		public int? PSRContactID { get; set; }
 		public string TierGroup { get; set; }
 		public string EditButtons { get; set; }
 		public bool CanDelete { get; set; }

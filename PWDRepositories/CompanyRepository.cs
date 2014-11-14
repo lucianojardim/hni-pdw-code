@@ -28,6 +28,7 @@ namespace PWDRepositories
 				City = c.City,
 				State = c.State,
 				PaoliContact = c.PaoliMemberID.HasValue ? c.PaoliMember.FullName : "",
+				PSRContactID = c.PaoliSalesRepMemberID,
 				PSRContact = c.PaoliSalesRepMemberID.HasValue ? c.PaoliSalesRepMember.FullName : "",
 				TierGroup = c.TierGroup,
 				UserCount = c.Users.Where( u => u.IsActive && u.Enabled ).Count(),
@@ -656,6 +657,30 @@ namespace PWDRepositories
 				FaxNumber = thisUser.Company.FAX,
 				WebSite = thisUser.Company.WebSite
 			};
+		}
+
+		public bool UpdateSalesRepForDealer( int companyId, int psrContact )
+		{
+			var company = database.Companies.FirstOrDefault( c => c.CompanyID == companyId );
+
+			if( company != null )
+			{
+				var user = database.Users.First( u => u.UserID == psrContact );
+
+				if( user != null )
+				{
+					if( user.CompanyID == company.Territory.SalesRepCompanyID )
+					{
+						company.PaoliSalesRepMember = user;
+
+						database.SaveChanges();
+
+						return true;
+					}
+				}
+			}
+
+			return false;
 		}
 	}
 }
