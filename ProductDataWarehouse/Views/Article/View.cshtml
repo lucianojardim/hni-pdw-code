@@ -2,7 +2,18 @@
 @{
 	ViewBag.Title = Model.Headline;
 	Layout = "~/Views/Shared/NewLayout.cshtml";
-	ViewBag.HeaderArea = "TheScoop";
+	switch( Model.ArticleType )
+    {
+	   case PDWModels.Articles.ArticleInformation.ArticleTypes.Scoop:
+		   ViewBag.HeaderArea = "TheScoop";
+		   break;
+	   case PDWModels.Articles.ArticleInformation.ArticleTypes.NewsAndUpdates:
+		   ViewBag.HeaderArea = "NewsUpdates";
+		   break;
+	   case PDWModels.Articles.ArticleInformation.ArticleTypes.Internal:
+		   ViewBag.HeaderArea = "InternalNews";
+		   break;
+	}
 }
 
 <div class="container">
