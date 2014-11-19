@@ -1154,8 +1154,27 @@ namespace PWDRepositories
 				specTeamNotes = finalNotes
 			};
 
+			DateTime? reopenedDate = null;
+			var reopenedEvent = request.SpecRequestEvents
+				.OrderByDescending( e => e.EventDate )
+				.Where( e => e.EventType == SpecRequest.SpecRequestEventType.ReOpened )
+				.FirstOrDefault();
+			if( reopenedEvent != null )
+				reopenedDate = reopenedEvent.EventDate;
+
 			summary.fullFileList = request.SpecRequestFiles
 				.Where( f => f.IsSpecTeam )
+				.Where( f => f.UploadDate >= reopenedDate || reopenedDate == null )
+				.Select( srf => new EmailSender.FileDetail()
+				{
+					fileName = srf.Name,
+					filePath = request.Name + "/" + ( srf.Extension.Any() ? ( srf.Extension + "/" ) : "" ) + srf.VersionNumber.ToString()
+				} )
+				.ToList();
+
+			summary.oldFileList = request.SpecRequestFiles
+				.Where( f => f.IsSpecTeam )
+				.Where( f => f.UploadDate < reopenedDate && reopenedDate != null )
 				.Select( srf => new EmailSender.FileDetail()
 				{
 					fileName = srf.Name,

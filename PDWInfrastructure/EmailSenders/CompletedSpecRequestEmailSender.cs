@@ -17,6 +17,7 @@ namespace PDWInfrastructure.EmailSenders
 			public string projectName { get; set; }
 			public string specTeamNotes { get; set; }
 			public List<FileDetail> fullFileList { get; set; }
+			public List<FileDetail> oldFileList { get; set; }
 		}
 
 		public bool SubmitCompletedRequestEmail(
@@ -61,6 +62,21 @@ namespace PDWInfrastructure.EmailSenders
 										f.fileName, f.filePath ) ) ) );
 						}
 						template.Replace( "[{FinalFileListArea}]", fullFileTextString );
+					}
+
+					{
+						string pattern = Regex.Escape( "[{OldFileListTemplate}]" ) + "(.*?)" + Regex.Escape( "[{/OldFileListTemplate}]" );
+						var matching = Regex.Match( template.ToString(), pattern, RegexOptions.Multiline );
+
+						string fullFileTextString = string.Empty;
+						if( matching.Success && summary.oldFileList.Any() )
+						{
+							fullFileTextString = matching.Groups[1].ToString()
+								.Replace( "[{OldFinalFileList}]", string.Join( "", summary.oldFileList
+									.Select( f => string.Format( "<li><a href=\"http://my.paoli.com/Documents/Typicals/{1}/{0}\">{0}</a></li>",
+										f.fileName, f.filePath ) ) ) );
+						}
+						template.Replace( "[{OldFileListArea}]", fullFileTextString );
 					}
 
 					PerformFromAreaChanges( template, fromDetails );
