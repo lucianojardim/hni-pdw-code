@@ -2,9 +2,9 @@
 /* ------------------------- HEADER HERE -------------------*/
 header                                     { width:100%; margin:0 auto; }
 header .header_top                         { width:100%;  margin:0 auto; background:#FFF; position:relative; z-index:9;}
-header .header_top.blue                   { background:url(../images/blue_bg.jpg) repeat-y center top; -moz-box-shadow:0 1px 2px 1px #AFAFAF;; -webkit-box-shadow:0 1px 2px 1px #AFAFAF;; box-shadow:0 1px 2px 1px #AFAFAF;; }
-header .header_top.blue .container        { background:#FFF; min-height:76px; position:relative;}
-header .header_top.blue .logo             { width:192px; float:left; display:block; background:#313b6c; height:58px; padding-top:18px;}
+header .header_top.blue                   { background:#293e6b; -moz-box-shadow:0 1px 2px 1px #AFAFAF;; -webkit-box-shadow:0 1px 2px 1px #AFAFAF;; box-shadow:0 1px 2px 1px #AFAFAF;; }
+header .header_top.blue .container        { background:#293e6b; min-height:76px; position:relative;}
+header .header_top.blue .logo             { width:192px; float:left; display:block; background:#293e6b; height:58px; padding-top:18px;}
 header .header_top.blank                   { background:url(../images/transparent.png) repeat-y center top;}
 header .header_top.blank .container        { background:#FFF; min-height:76px; position:relative;}
 header .header_top.blank .logo             { width:192px; float:left; display:block; background:#FFF; height:58px; padding-top:18px;}
@@ -28,7 +28,7 @@ header .header_btm                        { width:100%; background:url(../images
 	background:url(../img/left-menu-shadow.png) repeat-y left top;
 	width:25px;
 	height:100%;
-	position:absolute;
+	position: absolute;
 	top:0px;
 	right:0px;
 	}
@@ -74,11 +74,11 @@ header .header_btm                        { width:100%; background:url(../images
 	top:0px;
 	right:-480px;
 	z-index:500;
+	overflow-y: scroll;
 	}
 .right-menu-shadow {
 	width:15px;
 	height:100%;
-	position:absolute;
 	top:0px;
 	left:0px;
 	}

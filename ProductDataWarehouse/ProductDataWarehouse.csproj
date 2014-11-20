@@ -553,6 +553,7 @@
     <Content Include="NewContent\images\mypaoli_index_smallleft_temp.jpg" />
     <Content Include="NewContent\images\mypaoli_index_smallright_temp.jpg" />
     <Content Include="NewContent\images\my_account.png" />
+    <Content Include="NewContent\images\narrow-nav-icon-rev.png" />
     <Content Include="NewContent\images\narrow-nav-icon.jpg" />
     <Content Include="NewContent\images\news-and-updates.png" />
     <Content Include="NewContent\images\noorder_arrow.jpg" />
