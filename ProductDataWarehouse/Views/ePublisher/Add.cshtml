@@ -110,7 +110,7 @@
 		var thisCompany = ProductDataWarehouse.Controllers.CompanyController.GetThisCompanyAsDDItem( includeTerritory: true );
 				<text>
     				emptyDropDownList($('#DealershipID'));
-					$('#DealershipID').append('<option value="@(thisCompany.First().Value)">@(thisCompany.First().Text.Replace( "'", "''" ))</option>")';
+					$('#DealershipID').append('<option value="@(thisCompany.First().Value)">@(thisCompany.First().Text.Replace( "'", "''" ))</option>');
 
     				reloadDealerSalesRepList();
 				</text>
@@ -159,7 +159,7 @@
     	}
 
 		function showHideDealerPOC() {
-    		if ($('#DealershipPOCID').val() == '0' && $('#IsTemplate').val() == 'false') {
+    		if ($('#DealershipPOCID').val() == '0' && $('#IsTemplate').val().toLowerCase() == 'false') {
     			$('.DSRPOCCell').show();
 				$('#DealershipPOCName').removeClass('noValidate');
    			} else {
@@ -178,6 +178,7 @@
 	else if( PaoliWebUser.CurrentUser.IsDealerUser )
 	{
 		GetSalesRepList = CompanyController.GetSalesRepForDealerDDItem;
+		Model.PaoliSalesRepGroupID = Convert.ToInt32( CompanyController.GetSalesRepForDealerDDItem().First().Value );
 	}
 	var isTemplateList = new List<SelectListItem>() { new SelectListItem() { Text = "No", Value = "false" } };
 	if( PaoliWebUser.CurrentUser.CanAddECTemplate )
