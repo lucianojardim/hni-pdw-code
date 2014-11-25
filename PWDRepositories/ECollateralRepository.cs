@@ -97,7 +97,7 @@ namespace PWDRepositories
 					"&lt;h2&gt;Type A Headline Here&lt;/h2&gt;  &lt;h4&gt;Type a subheadline here or delete it if you don't want one.&lt;/h4&gt;  &lt;p&gt;Your supporting paragraph or bullet points can go here. If you do not want this text box to appear on your published page, simply delete all of the text and leave this blank.&lt;/p&gt;",
 					"&lt;h3&gt;Useful Links&lt;/h3&gt;  &lt;ul&gt;  &lt;li&gt;Link one&lt;/li&gt;  &lt;li&gt;Link two&lt;/li&gt;  &lt;li&gt;Link three&lt;/li&gt;  &lt;li&gt;Link four&lt;/li&gt;  &lt;/ul&gt;",
 					"&lt;h3&gt;More Information&lt;/h3&gt;  &lt;ul&gt;  &lt;li&gt;List item one&lt;/li&gt;  &lt;li&gt;List item two&lt;/li&gt;  &lt;li&gt;List item three&lt;/li&gt;  &lt;li&gt;List item four&lt;/li&gt;  &lt;/ul&gt;",
-					"&lt;h3&gt;Contact me&lt;/h3&gt;  &lt;p&gt;Name&lt;br /&gt;Address&lt;br /&gt;City, ST ZIP&lt;/p&gt;  &lt;p&gt;(317) 555-1234&lt;/p&gt;  &lt;p&gt;Email me at jane.doe@email.com&lt;/p&gt;  &lt;p&gt;www.paoli.com&lt;/p&gt;"
+					"&lt;h3&gt;Contact me&lt;/h3&gt;  &lt;p&gt;{0}&lt;br /&gt;{1}&lt;br /&gt;{2}, {3} {4}&lt;/p&gt;  &lt;p&gt;{5}&lt;/p&gt;  &lt;p&gt;Email me at {6}&lt;/p&gt;  &lt;p&gt;www.paoli.com&lt;/p&gt;"
 				} },
 				{ Layout13ColumnSidebar, new List<string>() {
 					"&lt;h1&gt;Type A Headline Here&lt;/h1&gt;  &lt;h2&gt;Type a subheadline here or delete it if you don't want one.&lt;/h2&gt;  &lt;p&gt;Your supporting paragraph or bullet points can go here. If you do not want this text box to appear on your published page, simply delete all of the text and leave this blank.&lt;/p&gt;",
@@ -109,7 +109,7 @@ namespace PWDRepositories
 					"&lt;h2&gt;Type A Headline Here&lt;/h2&gt;  &lt;h4&gt;Type a subheadline here or delete it if you don't want one.&lt;/h4&gt;  &lt;p&gt;Your supporting paragraph or bullet points can go here. If you do not want this text box to appear on your published page, simply delete all of the text and leave this blank.&lt;/p&gt;",
 					"&lt;h3&gt;Useful Links&lt;/h3&gt;  &lt;ul&gt;  &lt;li&gt;Link one&lt;/li&gt;  &lt;li&gt;Link two&lt;/li&gt;  &lt;li&gt;Link three&lt;/li&gt;  &lt;li&gt;Link four&lt;/li&gt;  &lt;/ul&gt;",
 					"&lt;h3&gt;More Information&lt;/h3&gt;  &lt;ul&gt;  &lt;li&gt;List item one&lt;/li&gt;  &lt;li&gt;List item two&lt;/li&gt;  &lt;li&gt;List item three&lt;/li&gt;  &lt;li&gt;List item four&lt;/li&gt;  &lt;/ul&gt;",
-					"&lt;h3&gt;Contact me&lt;/h3&gt;  &lt;p&gt;Name&lt;br /&gt;Address&lt;br /&gt;City, ST ZIP&lt;/p&gt;  &lt;p&gt;(317) 555-1234&lt;/p&gt;  &lt;p&gt;Email me at jane.doe@email.com&lt;/p&gt;  &lt;p&gt;www.paoli.com&lt;/p&gt;"
+					"&lt;h3&gt;Contact me&lt;/h3&gt;  &lt;p&gt;{0}&lt;br /&gt;{1}&lt;br /&gt;{2}, {3} {4}&lt;/p&gt;  &lt;p&gt;{5}&lt;/p&gt;  &lt;p&gt;Email me at {6}&lt;/p&gt;  &lt;p&gt;www.paoli.com&lt;/p&gt;"
 				} },
 				{ Layout12LeftDetailSidebar, new List<string>() {
 					"&lt;h1&gt;Type A Headline Here&lt;/h1&gt;  &lt;h2&gt;Type a subheadline here or delete it if you don't want one.&lt;/h2&gt;  &lt;p&gt;Your supporting paragraph or bullet points can go here. If you do not want this text box to appear on your published page, simply delete all of the text and leave this blank.&lt;/p&gt;",
@@ -119,7 +119,7 @@ namespace PWDRepositories
 					"&lt;h2&gt;Type A Headline Here&lt;/h2&gt;  &lt;h4&gt;Type a subheadline here or delete it if you don't want one.&lt;/h4&gt;  &lt;p&gt;Your supporting paragraph or bullet points can go here. If you do not want this text box to appear on your published page, simply delete all of the text and leave this blank.&lt;/p&gt;",
 					"&lt;h3&gt;Useful Links&lt;/h3&gt;  &lt;ul&gt;  &lt;li&gt;Link one&lt;/li&gt;  &lt;li&gt;Link two&lt;/li&gt;  &lt;li&gt;Link three&lt;/li&gt;  &lt;li&gt;Link four&lt;/li&gt;  &lt;/ul&gt;",
 					"&lt;h3&gt;More Information&lt;/h3&gt;  &lt;ul&gt;  &lt;li&gt;List item one&lt;/li&gt;  &lt;li&gt;List item two&lt;/li&gt;  &lt;li&gt;List item three&lt;/li&gt;  &lt;li&gt;List item four&lt;/li&gt;  &lt;/ul&gt;",
-					"&lt;h3&gt;Contact me&lt;/h3&gt;  &lt;p&gt;Name&lt;br /&gt;Address&lt;br /&gt;City, ST ZIP&lt;/p&gt;  &lt;p&gt;(317) 555-1234&lt;/p&gt;  &lt;p&gt;Email me at jane.doe@email.com&lt;/p&gt;  &lt;p&gt;www.paoli.com&lt;/p&gt;"
+					"&lt;h3&gt;Contact me&lt;/h3&gt;  &lt;p&gt;{0}&lt;br /&gt;{1}&lt;br /&gt;{2}, {3} {4}&lt;/p&gt;  &lt;p&gt;{5}&lt;/p&gt;  &lt;p&gt;Email me at {6}&lt;/p&gt;  &lt;p&gt;www.paoli.com&lt;/p&gt;"
 				} },
 			};
 
@@ -273,6 +273,8 @@ namespace PWDRepositories
 
 		public bool SetLayout( ECollateralLayout layoutInfo, int userId )
 		{
+			var dbUser = database.Users.FirstOrDefault( u => u.UserID == userId );
+
 			var dbItem = database.eCollateralItems.FirstOrDefault( i => i.ItemID == layoutInfo.ItemID );
 			if( dbItem != null )
 			{
@@ -299,7 +301,9 @@ namespace PWDRepositories
 					for( int i = 0; i < defaultList.Count; i++ )
 					{
 						var dbSection = new eCollateralSection();
-						dbSection.Content = defaultList[i];
+						dbSection.Content = string.Format( defaultList[i], dbUser.FullName.DefaultString( "Name" ), dbUser.Address1.DefaultString( "Address" ),
+							dbUser.City.DefaultString( "City" ), dbUser.State.DefaultString( "ST" ), dbUser.Zip.DefaultString( "ZIP" ), dbUser.BusinessPhone.DefaultString( "(317) 555-1234" ),
+							dbUser.Email );
 						dbSection.Sequence = i;
 
 						dbItem.eCollateralSections.Add( dbSection );

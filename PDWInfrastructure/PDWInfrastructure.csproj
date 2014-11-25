@@ -100,6 +100,7 @@
     <Compile Include="ImageTableParams.cs" />
     <Compile Include="Attributes\MatchAttribute.cs" />
     <Compile Include="Attributes\PaoliAuthorizeAttribute.cs" />
+    <Compile Include="ObjectExtensions.cs" />
     <Compile Include="PaoliEncryption.cs" />
     <Compile Include="Attributes\PaoliPasswordAttribute.cs" />
     <Compile Include="PaoliWebUser.cs" />
