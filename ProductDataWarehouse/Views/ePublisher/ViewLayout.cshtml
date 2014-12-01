@@ -9,6 +9,9 @@
 {
 	string JSSafe( string input )
 	{
+		if( !( input ?? "" ).Any() )
+			return "";
+		
 		return input.Replace( "'", "''" );
 	}
 }
