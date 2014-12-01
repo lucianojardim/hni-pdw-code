@@ -34,7 +34,10 @@ namespace PDWInfrastructure.EmailSenders
 					var formList = "";
 					foreach( var key in formData )
 					{
-						formList += string.Format( "<li>{0}: {1}</li>", key, string.Join( ", ", formData.GetValues( key.ToString() ) ) );
+						if( key.ToString().ToLower() != "password" )
+						{
+							formList += string.Format( "<li>{0}: {1}</li>", key, string.Join( ", ", formData.GetValues( key.ToString() ) ) );
+						}
 					}
 					if( !formList.Any() )
 					{
