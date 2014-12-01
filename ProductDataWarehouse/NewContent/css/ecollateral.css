@@ -377,6 +377,9 @@ nav.mainmenu ul li:hover ul {
 	width:226px;
 	line-height:32px;
 }
+.filesettinglist label.short {
+	width:100px;
+}
 .filesettinglist b {
 	display:block;
 	float:left;
@@ -431,6 +434,9 @@ form.form input[type=text] {
 	font-size:16px;
 	color:#454545;
 	font-weight:100;
+}
+form.form input[type=text].short {
+	width:590px;
 }
 form.form select, .newLookDDL {
 	border:2px solid #bababa;

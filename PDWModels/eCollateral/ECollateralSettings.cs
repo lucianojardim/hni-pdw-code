@@ -40,5 +40,6 @@ namespace PDWModels.eCollateral
 		public string DealershipPOCAcctTypeName { get; set; }
 		public string Status { get; set; }
 		public int UpdateStatus { get; set; }
+		public string CreatedByUserName { get; set; }
 	}
 }

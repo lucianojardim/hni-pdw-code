@@ -128,7 +128,8 @@ namespace PDWInfrastructure
 			#endregion
 		}
 
-		public PaoliWebUser( string email, string authType, int userId, string firstName, string lastName, int role, bool hasTempPassword, DateTime? previousLogin )
+		public PaoliWebUser( string email, string authType, int userId, string firstName, string lastName, int role, 
+			bool hasTempPassword, DateTime? previousLogin, string companyName, string phoneNumber )
         {
 			_identity = new PaoliWebIdentity( email, authType );
             UserId = userId;
@@ -138,6 +139,8 @@ namespace PDWInfrastructure
 			LastName = lastName;
 			_hasTempPassword = hasTempPassword;
 			_previousLogin = previousLogin;
+			CompanyName = companyName;
+			PhoneNumber = phoneNumber;
         }
 
 		private PaoliWebIdentity _identity { get; set; }
@@ -148,6 +151,8 @@ namespace PDWInfrastructure
 		private string UserRole { get; set; }
 		private int AccountType { get; set; }
 		private bool _hasTempPassword { get; set; }
+		public string CompanyName { get; private set; }
+		public string PhoneNumber { get; private set; }
 		public string PreviousLogin
 		{
 			get

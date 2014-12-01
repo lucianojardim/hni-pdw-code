@@ -10,6 +10,7 @@ using PDWInfrastructure;
 using System.Configuration;
 using System.IO;
 using HiQPdf;
+using PDWInfrastructure.EmailSenders;
 
 namespace ProductDataWarehouse.Controllers
 {
@@ -305,6 +306,22 @@ namespace ProductDataWarehouse.Controllers
 			using( var eRepository = new ECollateralRepository() )
 			{
 				return View( eRepository.GetItemInformation( id ) );
+			}
+		}
+
+		[PaoliAuthorize( "CanManageECollateral" )]
+		[TempPasswordCheck]
+		public JsonResult ShareViaEmail( ShareEPublisherEmailSender.ShareEPublisherDetails details )
+		{
+			using( var eRepository = new ECollateralRepository() )
+			{
+				bool bSuccess = ( new ShareEPublisherEmailSender() ).SubmitShareEmail( details );
+
+				return Json( new
+				{
+					success = bSuccess
+				},
+					JsonRequestBehavior.AllowGet );
 			}
 		}
 

@@ -325,7 +325,8 @@ namespace PWDRepositories
 				FileName = dbItem.FileName,
 				Status = StatusTypes.StatusList[dbItem.Status],
 				UpdateStatus = dbItem.Status,
-				CustomURL = dbItem.URLText
+				CustomURL = dbItem.URLText,
+				CreatedByUserName = dbItem.CreatedByUser.FullName
 			};
 
 			if( !dbItem.IsTemplate )

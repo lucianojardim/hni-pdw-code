@@ -4,7 +4,15 @@
 	Layout = "~/Views/Shared/NewLayout.cshtml";
 	ViewBag.HeaderArea = "ePublisher";
 	var CurrentUser = PDWInfrastructure.PaoliWebUser.CurrentUser;
+	}
+@functions
+{
+	string JSSafe( string input )
+	{
+		return input.Replace( "'", "''" );
+	}
 }
+    <script src="@Url.Content( "~/Content/tiny_mce/tiny_mce.js" )" type="text/javascript"></script>
 <script type="text/javascript">
 	$(document).ready(function () {
 		$('#Settings_UpdateStatus').on('change', function (e) {
@@ -19,7 +27,90 @@
 				);
 			}
 		});
+
+		$.data($('#theForm')[0], 'validator').settings.ignore = '.noValidate';
+		console.log($.data($('#theForm')[0], 'validator').settings);
+    	$.validator.addMethod(
+				"regex",
+				function (value, element, regexp) {
+					var re = new RegExp(regexp);
+					return this.optional(element) || re.test(value);
+				},
+				"Please check your input."
+			);
+
+    	$("#ToList").rules("add", { required: true, regex: "^(([A-Za-z0-9](([_\\.\\-\\+]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})(?:\\s*(;|,)\\s*|\\s*$))*)$", 
+			messages: { required: "Please provide at least one email address.", regex: "To must contain a set of valid Email Addresses."} });
+    	$("#Subject").rules("add", { required: true, 
+			messages: { required: "Please provide a Subject for the email."} });
+    	$("#EmailBody").rules("add", { required: true, 
+			messages: { required: "Please provide a Body for the email."} });
+
+		$('#shareViaEmailLink').on('click', function() {
+			var ed = tinyMCE.get('EmailBody');
+			ed.setContent('<p>Hello,</p>' +
+'<p>@JSSafe( CurrentUser.FullName ) at @JSSafe( CurrentUser.CompanyName ) asked us to forward you the link to a page they have created on Paoli.com.</p>' +
+'<p><a href="http://my.paoli.com/info/@Html.DisplayFor( m => m.Settings.CustomURL )">http://my.paoli.com/info/@Html.DisplayFor( m => m.Settings.CustomURL )</a></p>' +
+'<p>This page was created by @JSSafe( Model.Settings.CreatedByUserName ) to provide you more information about @JSSafe( Model.Settings.ProjectName ). If you have questions or want to chat, please connect with @JSSafe( CurrentUser.FirstName ) via:</p>' +
+'<p>@CurrentUser.EmailAddress @((CurrentUser.PhoneNumber ?? "").Any() ? " or " + CurrentUser.PhoneNumber : "")</p>' +
+'<p>Thank you,</p>' +
+'<p>Paoli</p>' +
+'<p>Paoli.com Helpdesk</p>');
+
+			$('#shareViaEmailSection').show();
+		});
+
+    	makeTextAreaTinyMCE('EmailBody', 'sendEmailLink');
+
+		$('#btnCancelEmail').on('click', function() {
+			$('#shareViaEmailSection').hide();
+		});
+
+		$('#sendEmailLink').on('click', function() {
+			if($('#theForm').valid()){
+				makeAjaxCall('/ePublisher/ShareViaEmail',
+					{ 
+						toList: $('#ToList').val(),
+						subject: $('#Subject').val(),
+						emailBody: $('#EmailBody').val()
+					},
+					function (data, textStatus, jqXHR) {
+						alert('You\'re email has been sent.');
+						$('#shareViaEmailSection').hide();
+					},
+					function (jqXHR, textStatus, errorThrown) {
+						alert('An error has occurred while sending your email.  Please try again later.');
+					}
+				);
+			}
+		});
 	});
+
+    function makeTextAreaTinyMCE(elementName, submitBtn) {
+    	tinyMCE.init({
+    		theme: "advanced",
+    		theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,formatselect,|,hr,|,sub,sup",
+    		theme_advanced_buttons2: "cut,copy,paste,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,code",
+    		theme_advanced_toolbar_location: "top",
+    		theme_advanced_toolbar_align: "left",
+    		theme_advanced_statusbar_location: "bottom",
+    		theme_advanced_resizing: true,
+    		encoding: "xml",
+    		mode: "exact",
+    		elements: elementName,
+    		width: "590",
+    		height: "390",
+    		setup: function (ed) {
+    			ed.onSaveContent.add(function (i, o) {
+    				o.content = o.content.replace(/&#39/g, "&apos");
+    			});
+    		}
+    	});
+
+    	$('#' + submitBtn).click(function () {
+    		tinyMCE.triggerSave();
+    	});
+    }
 </script>
 
 <div class="content">
@@ -130,12 +221,43 @@
             <b><a href="@Url.Action( "DownloadPDF", new { id = Model.Settings.ItemID } )" target="_blank">Download as PDF</a></b>
             <div class="clr"></div>
    }
+            <span>&nbsp;</span>
+            <b><a href="javascript:void(0)" id="shareViaEmailLink">Share via Email</a></b>
+            <div class="clr"></div>
         </div>
         
+	<div id="shareViaEmailSection" style="display:none">
+		<form class="form" id="theForm">
+			<div class="filesettinglist">
+                <label for="FileName">To</label>
+                @Html.TextBox( "ToList", "", new { @class = "short" } )
+                <div class="clr"></div>
+				<span class="field-validation-error" data-valmsg-for="ToList" data-valmsg-replace="true"></span>
+                <div class="clr"></div>
+
+                <label for="FileName">Subject</label>
+                @Html.TextBox( "Subject", string.Format( "{0} wants to share this Paoli furniture detail with you", CurrentUser.FullName ), new { @class = "short" } )
+                <div class="clr"></div>
+				<span class="field-validation-error" data-valmsg-for="Subject" data-valmsg-replace="true"></span>
+                <div class="clr"></div>
+
+                <label for="FileName">Body</label>
+                @Html.TextArea( "EmailBody" )
+                <div class="clr"></div>
+				<span class="field-validation-error" data-valmsg-for="EmailBody" data-valmsg-replace="true"></span>
+                <div class="clr"></div>
+
+				<footer class="mainfooter">
+					<div class="rightdiv"><a href="javascript:void(0)" class="" id="btnCancelEmail">Cancel</a><a href="javascript:void(0)" class="publish submitBtn" id="sendEmailLink">Send</a></div>
+				</footer>
+			</div>
+		</form>
+	</div>
+
         <div class="line"></div>
         
         <h2>Page Preview</h2>
-        <br>
+        <br />
         
 			<div class="">
 		@Html.Partial( partialViewName: Model.DetailInfo.DisplayViewName, model: Model.DetailInfo )
@@ -149,3 +271,6 @@
 <footer class="mainfooter">
     <div class="rightdiv"><a href="@Url.Action( "EditLayout", "ePublisher", new { id = Model.Settings.ItemID } )" class="previous editBtn">Edit</a><a href="@Url.Action( "Manage" )" class="publish submitBtn">Done Return to Dashboard</a></div>
 </footer>
+
+<div style="display:none;">
+</div>
