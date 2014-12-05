@@ -7,10 +7,10 @@
 	}
 @functions
 {
-	string JSSafe( string input )
+	string JSSafe( string input, string defReturn = "" )
 	{
 		if( !( input ?? "" ).Any() )
-			return "";
+			return defReturn;
 		
 		return input.Replace( "'", "''" );
 	}
@@ -54,7 +54,7 @@
 			ed.setContent('<p>Hello,</p>' +
 '<p>@JSSafe( CurrentUser.FullName ) at @JSSafe( CurrentUser.CompanyName ) asked us to forward you the link to a page they have created on Paoli.com.</p>' +
 '<p><a href="http://my.paoli.com/info/@Html.DisplayFor( m => m.Settings.CustomURL )">http://my.paoli.com/info/@Html.DisplayFor( m => m.Settings.CustomURL )</a></p>' +
-'<p>This page was created by @JSSafe( Model.Settings.CreatedByUserName ) to provide you more information about @JSSafe( Model.Settings.ProjectName ). If you have questions or want to chat, please connect with @JSSafe( CurrentUser.FirstName ) via:</p>' +
+'<p>This page was created by @JSSafe( Model.Settings.CreatedByUserName ) to provide you more information about @JSSafe( Model.Settings.ProjectName, "Paoli" ). If you have questions or want to chat, please connect with @JSSafe( CurrentUser.FirstName ) via:</p>' +
 '<p>@CurrentUser.EmailAddress @((CurrentUser.PhoneNumber ?? "").Any() ? " or " + CurrentUser.PhoneNumber : "")</p>' +
 '<p>Thank you,</p>' +
 '<p>Paoli</p>' +
@@ -218,12 +218,11 @@
             <span class="emphasis">Live Page Link</span>
             <b><a href="/info/@Html.DisplayFor( m => m.Settings.CustomURL )" target="_blank">http://my.paoli.com/info/@Html.DisplayFor( m => m.Settings.CustomURL )</a></b>
             <div class="clr"></div>
-			@if( CurrentUser.IsSuperAdmin )
-   {
-            <span>&nbsp;</span>
+
+			<span>&nbsp;</span>
             <b><a href="@Url.Action( "DownloadPDF", new { id = Model.Settings.ItemID } )" target="_blank">Download as PDF</a></b>
             <div class="clr"></div>
-   }
+
             <span>&nbsp;</span>
             <b><a href="javascript:void(0)" id="shareViaEmailLink">Share via Email</a></b>
             <div class="clr"></div>

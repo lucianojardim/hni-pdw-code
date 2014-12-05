@@ -219,6 +219,8 @@ namespace ProductDataWarehouse.Controllers
 				// create the HTML to PDF converter
 				HtmlToPdf htmlToPdfConverter = new HtmlToPdf();
 
+				htmlToPdfConverter.SerialNumber = "iMDh2djs-7sTh6vrp-+vGwprio-uai6qLC9-vai7uaa5-uqaxsbGx";
+
 				// set PDF page size and orientation
 				htmlToPdfConverter.Document.PageSize = PdfPageSize.Letter;
 				htmlToPdfConverter.Document.PageOrientation = PdfPageOrientation.Portrait;
