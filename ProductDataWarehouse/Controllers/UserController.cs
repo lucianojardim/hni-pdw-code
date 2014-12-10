@@ -236,6 +236,23 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
+		[PaoliAuthorize( "CanChangeMyCompanyUserImage" )]
+		[HttpPost]
+		public ActionResult MyCompanyImage( int CompanyID, HttpPostedFileBase CompanyImage )
+		{
+			using( var cRepository = new CompanyRepository() )
+			{
+				cRepository.UpdateImage( CompanyID, CompanyImage != null ? CompanyImage.InputStream : null, CompanyImage != null ? CompanyImage.FileName : null );
+
+				if( PaoliWebUser.CurrentUser.CanViewMyTerritory )
+				{
+					return RedirectToAction( "MyCompanyInfo", new { id = CompanyID } );
+				}
+
+				return RedirectToAction( "MyCompany" );
+			}
+		}
+
 		[PaoliAuthorize( "CanBeLoggedIn" )]
 		public ActionResult ChangePW()
 		{

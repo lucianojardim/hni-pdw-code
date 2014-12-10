@@ -7,6 +7,9 @@ using PDWModels.Companies;
 using PDWInfrastructure;
 using PDWModels;
 using System.Data.Entity;
+using System.IO;
+using System.Configuration;
+using System.Drawing;
 
 namespace PWDRepositories
 {
@@ -631,7 +634,8 @@ namespace PWDRepositories
 				PhoneNumber = thisCompany.Phone,
 				FaxNumber = thisCompany.FAX,
 				WebSite = thisCompany.WebSite,
-				IsTripIncentive = thisCompany.SignedUpForTrip
+				IsTripIncentive = thisCompany.SignedUpForTrip,
+				ImageFileName = thisCompany.ImageFileName
 			};
 		}
 
@@ -681,6 +685,25 @@ namespace PWDRepositories
 			}
 
 			return false;
+		}
+
+		public void UpdateImage( int companyID, Stream imgStream, string fileName )
+		{
+			var dbCompany = database.Companies.FirstOrDefault( c => c.CompanyID == companyID );
+
+			if( dbCompany != null )
+			{
+				if( imgStream != null )
+				{
+					dbCompany.ImageFileName = Guid.NewGuid().ToString() + Path.GetExtension( fileName );
+
+					Image fullSizeImg = Image.FromStream( imgStream );
+					fullSizeImg.Save( Path.Combine( ConfigurationManager.AppSettings["ImageFileLocation"],
+						dbCompany.ImageFileName ) );
+
+					database.SaveChanges();
+				}
+			}
 		}
 	}
 }

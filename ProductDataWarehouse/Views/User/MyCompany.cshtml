@@ -39,7 +39,9 @@
 			<!--//END left Column -->
 			<!--right Column -->
 			<div class="main_inner2_btm_2Col_Col">
-				<!--<img src="img/victoryOffice-FPO.png" alt="" width="447" height="192" />-->
+			<a href="#changeCompanyImage" id="changeCompanyImageLink">
+				<img src="@(Model.ImageFileName == null ? "/NewContent/images/company-logo-placeholder.png" : ("/images/" + Model.ImageFileName))" alt="" style="max-width:450px;max-height:175px;" />
+			</a>
 			</div>
 			<div class="clear"></div>
 			<!--//END right Column -->
@@ -56,9 +58,51 @@
 	</div>
 </div>
 
+<div style="display:none;">
+	<div id="changeCompanyImage">
+    @using( Html.BeginForm( "MyCompanyImage", "User", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
+	{
+		@Html.AntiForgeryToken()
+		@Html.HiddenFor( m => m.CompanyID )
+		<div class="main_inner2_btm"> 
+			<div class="main_inner2_btm_mid_myacct">   
+				<h4 class="bold">Update Company Image</h4> 
+				<ul>
+					<li>
+						<div class="colmn3-1">Change Company Image</div>
+						<div class="colmn3filebrowser"><input id="CompanyImage" name="CompanyImage" accept=".jpg,.png,.gif,.bmp" type="file"/></div>
+					</li>              
+				</ul>
+				<div class="clear"></div>
+				<div class="colmn1">Maximum file size is 450x175.</div>
+			</div>
+			<div class="clear"></div>
+			<span class="btn7 cancelCIBtn">CANCEL</span> <span class="btn8 submitCIBtn">SAVE</span> 
+		</div>
+	}
+	</div>
+</div>
 <script type="text/javascript">
 	$(document).ready(function () {
 		loadUsers();
+
+		$('#changeCompanyImageLink').fancybox({
+			'autoDimensions': false,
+			'width': 972,
+			'height': 220,
+			'padding': 20,
+			'margin': 0,
+			'scrolling': 'auto',
+			'titleShow': false
+		});
+
+		$('.submitCIBtn').click(function (e) {
+			$('#theForm').submit();
+		});
+
+		$('.cancelCIBtn').on('click', function() {
+			$.fancybox.close();
+		});
 	});
 
 	var uTable = null;

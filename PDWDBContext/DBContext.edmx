@@ -565,6 +565,7 @@
           <Property Name="SignedUpForTrip" Type="bit" Nullable="false" />
           <Property Name="TripGroup" Type="nvarchar" MaxLength="50" />
           <Property Name="TierGroup" Type="nvarchar" MaxLength="50" />
+          <Property Name="ImageFileName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="DealerFeaturedProducts">
           <Key>
@@ -3164,6 +3165,7 @@
           <Property Type="Boolean" Name="SignedUpForTrip" Nullable="false" />
           <Property Type="String" Name="TripGroup" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="TierGroup" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ImageFileName" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SpecRequestFile">
           <Key>
@@ -4422,6 +4424,7 @@
           <EntitySetMapping Name="Companies">
             <EntityTypeMapping TypeName="PaoliPDWModel.Company">
               <MappingFragment StoreEntitySet="Companies">
+                <ScalarProperty Name="ImageFileName" ColumnName="ImageFileName" />
                 <ScalarProperty Name="TierGroup" ColumnName="TierGroup" />
                 <ScalarProperty Name="TripGroup" ColumnName="TripGroup" />
                 <ScalarProperty Name="SignedUpForTrip" ColumnName="SignedUpForTrip" />

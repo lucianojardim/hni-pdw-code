@@ -59,6 +59,7 @@ namespace PDWDBContext
         public bool SignedUpForTrip { get; set; }
         public string TripGroup { get; set; }
         public string TierGroup { get; set; }
+        public string ImageFileName { get; set; }
     
         public virtual ICollection<SpecRequest> SpecRequests { get; set; }
         public virtual ICollection<SpecRequest> SpecRequests1 { get; set; }
