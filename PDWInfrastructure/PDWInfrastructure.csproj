@@ -93,6 +93,7 @@
     <Compile Include="EmailSenders\NewDealerUserEmailSender.cs" />
     <Compile Include="EmailSenders\NewSpecRequestEmailSender.cs" />
     <Compile Include="EmailSenders\RequestChangeSpecRequestEmailSender.cs" />
+    <Compile Include="EmailSenders\RequestDeactivationEmailSender.cs" />
     <Compile Include="EmailSenders\ResetPasswordEmailSender.cs" />
     <Compile Include="EmailSenders\ShareEPublisherEmailSender.cs" />
     <Compile Include="EncryptionConfiguration.cs" />

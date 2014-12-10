@@ -10,6 +10,7 @@ using System.Data.Entity;
 using System.IO;
 using System.Configuration;
 using System.Drawing;
+using PDWInfrastructure.EmailSenders;
 
 namespace PWDRepositories
 {
@@ -704,6 +705,18 @@ namespace PWDRepositories
 					database.SaveChanges();
 				}
 			}
+		}
+
+		public bool RequestCompanyDeactiviation( string userName, int companyId, string reason )
+		{
+			var dbCompany = database.Companies.FirstOrDefault( c => c.CompanyID == companyId );
+
+			if( dbCompany != null )
+			{
+				( new RequestDeactivationEmailSender() ).SubmitRequestEmail( userName, dbCompany.Name, reason );
+			}
+
+			return false;
 		}
 	}
 }
