@@ -261,7 +261,7 @@ namespace PDWInfrastructure
 					PaoliWebRole.PaoliMemberSales ); } }
 		public bool CanViewSpecRequests { get { return CanManageTypicals || IsDealerUser || OneOfRoles( PaoliWebRole.PaoliSalesRep ); } }
 		public bool CanAddSpecRequests { get { return CanManageTypicals || IsDealerUser || OneOfRoles( PaoliWebRole.PaoliSalesRep ); } }
-		public bool CanReOpenSpecRequests { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ); } }
+		public bool CanReOpenSpecRequests { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ) || IsDealerUser; } }
 
 		public bool CanManageSearchLog { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin, PaoliWebRole.PaoliMemberMarketing ); } }
 
