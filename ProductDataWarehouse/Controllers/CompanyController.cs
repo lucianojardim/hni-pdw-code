@@ -43,6 +43,18 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanViewMyTerritory" )]
 		[TempPasswordCheck]
+		public ActionResult DealershipContact( MyCompanyInfo cInfo )
+		{
+			using( var cRepository = new CompanyRepository() )
+			{
+				cRepository.UpdateCompany( cInfo );
+
+				return RedirectToAction( "MyCompanyInfo", "User", new { id = cInfo.CompanyID } );
+			}
+		}
+
+		[PaoliAuthorize( "CanViewMyTerritory" )]
+		[TempPasswordCheck]
 		public JsonResult UpdateSalesRepForDealer( int companyId, int psrContact )
 		{
 			using( var cRepository = new CompanyRepository() )

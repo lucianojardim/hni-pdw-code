@@ -17,6 +17,7 @@ namespace PDWModels.Companies
 		public string PhoneNumber { get; set; }
 		public string FaxNumber { get; set; }
 		public string WebSite { get; set; }
+		public string ContactEmail { get; set; }
 		public bool IsTripIncentive { get; set; }
 		public string ImageFileName { get; set; }
 	}

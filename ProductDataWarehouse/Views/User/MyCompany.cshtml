@@ -35,12 +35,17 @@
 	{
 				<img src="/NewContent/images/incentiveFPO.jpg" alt="" width="455" height="207" class="incentiveImg" />
 	}
+	@if( PDWInfrastructure.PaoliWebUser.CurrentUser.CanViewMyTerritory )
+ {
+	 <div class="clear"></div>
+	 <span class="btn7" id="editContactBtn">EDIT</span>
+ }
 			</div>
 			<!--//END left Column -->
 			<!--right Column -->
 			<div class="main_inner2_btm_2Col_Col">
 			<a href="#changeCompanyImage" id="changeCompanyImageLink">
-				<img src="@(Model.ImageFileName == null ? "/NewContent/images/company-logo-placeholder.png" : ("/images/" + Model.ImageFileName))" alt="" style="max-width:450px;max-height:175px;" />
+				<img src="@(Model.ImageFileName == null ? "/NewContent/images/company-logo-placeholder.png" : ( "/images/" + Model.ImageFileName ))" alt="" style="max-width:450px;max-height:175px;" />
 			</a>
 			</div>
 			<div class="clear"></div>
@@ -100,6 +105,64 @@
 			<span class="btn7 cancelDDBtn">CANCEL</span> <span class="btn8 submitDDBtn">SAVE</span> 
 		</div>
 	</div>
+
+	<a href="#editDealerContactInfo" id="mainEditContactBtn"></a>
+	<div id="editDealerContactInfo">
+	<div class="main_inner2_btm">
+    @using( Html.BeginForm( "DealershipContact", "Company", FormMethod.Post, new { id = "theContactForm", name = "theContactForm", enctype = "multipart/form-data" } ) )
+	{
+		@Html.AntiForgeryToken()
+		@Html.HiddenFor( m => m.CompanyID )
+		<div class="main_inner2_btm_mid_myacct">
+    		<h4 class="bold">Edit Dealership Contact Information</h4>
+			<ul>
+        		<li>
+            		<div class="colmn1">Name@(Html.ValidationMessageFor( m => m.CompanyName ))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.CompanyName )</div>
+				</li>
+        		<li>
+            		<div class="colmn1">Address 1@(Html.ValidationMessageFor(m => m.Address1))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.Address1 )</div>
+				</li>
+        		<li>
+            		<div class="colmn1">Address 2@(Html.ValidationMessageFor(m => m.Address2))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.Address2 )</div>
+				</li>
+        		<li>
+            		<div class="colmn1">City@(Html.ValidationMessageFor(m => m.City))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.City )</div>
+				</li>
+				<li>
+            		<div class="colmn1">State@(Html.ValidationMessageFor(m => m.State))</div>
+					<div class="colmn3single"><div class="styled-select">@Html.DropDownListFor( m => m.State, ProductDataWarehouse.Controllers.UserController.GetStateDDList() )</div></div>
+				</li>
+				<li>
+            		<div class="colmn1">Zip@(Html.ValidationMessageFor(m => m.Zip))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.Zip )</div>
+				</li>
+				<li>
+            		<div class="colmn1">Phone@(Html.ValidationMessageFor( m => m.PhoneNumber ))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.PhoneNumber )</div>
+				</li>
+				<li>
+            		<div class="colmn1">Fax@(Html.ValidationMessageFor( m => m.FaxNumber ))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.FaxNumber )</div>
+				</li>                       
+				<li>
+            		<div class="colmn1">Contact Email@(Html.ValidationMessageFor( m => m.ContactEmail ))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.ContactEmail )</div>
+				</li>
+				<li>
+            		<div class="colmn1">Web Site@(Html.ValidationMessageFor( m => m.WebSite ))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.WebSite )</div>
+				</li>
+			</ul>
+			<div class="clear"></div>
+			<span class="btn7 cancelContactBtn">CANCEL</span> <span class="btn8 submitContactBtn">SAVE</span> 
+		</div>	
+	}
+	</div>
+	</div>
 </div>
 
 <script type="text/javascript">
@@ -135,27 +198,51 @@
 		});
 
 		$('.submitDDBtn').click(function (e) {
-			makeAjaxCall('/User/RequestDeactiviation',
-				{ userId: $('#DUserID').val(), reason: $('#Reason').val() },
-				function(data, textStatus, jqXHR) {
-					alert('Thank you for your request.  We\'ll process it shortly.');
-					$.fancybox.close();
-				},
-    			function (jqXHR, textStatus, errorThrown) {    			
-    			}
-    		);
+			if( $('#Reason').val() != null && $('#Reason').val() != '' ) {
+				makeAjaxCall('/User/RequestDeactiviation',
+					{ userId: $('#DUserID').val(), reason: $('#Reason').val() },
+					function(data, textStatus, jqXHR) {
+						alert('Thank you for your request.  We\'ll process it shortly.');
+						$.fancybox.close();
+					},
+    				function (jqXHR, textStatus, errorThrown) {    			
+    				}
+    			);
+			}
 		});
 
 		$('.cancelDDBtn').on('click', function() {
 			$.fancybox.close();
 		});
 
+		$('#editContactBtn').on('click', function() {
+			$('#mainEditContactBtn').trigger('click');
+		});
+
+		$('#mainEditContactBtn').fancybox({
+			'autoDimensions': false,
+			'width': 1000,
+			'height': 700,
+			'padding': 20,
+			'margin': 0,
+			'scrolling': 'auto',
+			'titleShow': false
+		});
+
+		$('.submitContactBtn').click(function (e) {
+			$('#theContactForm').submit();
+		});
+
+		$('.cancelContactBtn').on('click', function() {
+			$.fancybox.close();
+		});
+
 		@if( ViewBag.ImageTooBig ?? false )
-		{
+  {
 		<text>
 		alert('The image provided was too large.  Please use an image less than 500Kb.');
 		</text>
-		}
+  }
 	});
 
 	var uTable = null;
@@ -201,7 +288,7 @@
                     { "sName": "Title", "sTitle": "Title<span></span>", "sClass": "hasSpan", "aTargets": [2], "mDataProp": "Title", "sWidth": "25%" },
                     { "sName": "Role", "sTitle": "Role<span></span>", "sClass": "hasSpan", "aTargets": [3], "mDataProp": "Role", "sWidth": "25%", "bSortable": false }
 					@if( PDWInfrastructure.PaoliWebUser.CurrentUser.CanViewMyTerritory )
-					{
+	 {
 					<text>
 					,{ "sName": "EditButtons", "sTitle": "", "sClass": "hasSpan", "aTargets": [4], "mDataProp": "EditButtons", "bSortable": false, "sWidth": "5%",
 						"fnRender": function(oObj) {

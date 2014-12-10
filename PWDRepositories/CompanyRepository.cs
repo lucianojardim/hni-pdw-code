@@ -270,6 +270,28 @@ namespace PWDRepositories
 			return database.SaveChanges() > 0;
 		}
 
+		public bool UpdateCompany( MyCompanyInfo cInfo )
+		{
+			var eCompany = database.Companies.FirstOrDefault( u => u.CompanyID == cInfo.CompanyID );
+			if( eCompany == null )
+			{
+				throw new Exception( "Unable to find company." );
+			}
+
+			eCompany.Name = cInfo.CompanyName;
+			eCompany.Address1 = cInfo.Address1;
+			eCompany.Address2 = cInfo.Address2;
+			eCompany.City = cInfo.City;
+			eCompany.State = cInfo.State;
+			eCompany.Zip = cInfo.Zip;
+			eCompany.Phone = cInfo.PhoneNumber;
+			eCompany.FAX = cInfo.FaxNumber;
+			eCompany.ContactEmail = cInfo.ContactEmail;
+			eCompany.WebSite = cInfo.WebSite;
+
+			return database.SaveChanges() > 0;
+		}
+
 		public bool DeleteCompany( int id )
 		{
 			var eCompany = database.Companies.FirstOrDefault( u => u.CompanyID == id );
@@ -636,7 +658,8 @@ namespace PWDRepositories
 				FaxNumber = thisCompany.FAX,
 				WebSite = thisCompany.WebSite,
 				IsTripIncentive = thisCompany.SignedUpForTrip,
-				ImageFileName = thisCompany.ImageFileName
+				ImageFileName = thisCompany.ImageFileName,
+				ContactEmail = thisCompany.ContactEmail
 			};
 		}
 
