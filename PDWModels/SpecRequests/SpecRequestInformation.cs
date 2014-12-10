@@ -143,6 +143,7 @@ namespace PDWModels.SpecRequests
 		public bool IsGoodForWeb { get; set; }
 		[DisplayName( "Send Email Update To Dealers and Sales Reps?" )]
 		public bool SendCompleteEmail { get; set; }
+		public bool SendInProgressEmail { get; set; }
 		[DisplayName( "Footprint" )]
 		[StringLength( 100 )]
 		public string Footprint { get; set; }

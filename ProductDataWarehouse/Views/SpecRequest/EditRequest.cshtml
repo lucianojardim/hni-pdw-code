@@ -118,6 +118,7 @@
 				}
 				else
 				{
+					$('#SendInProgressEmail').val(confirm('Would you like to send an email update to the Dealers and Reps regarding this request? It will include any comments or notes shown.'));
 					$('#theForm').submit();
 				}
 			});
@@ -391,6 +392,7 @@
 	{
 		@Html.AntiForgeryToken()
 		@Html.HiddenFor( m => m.RequestID )
+		@Html.HiddenFor( m => m.SendInProgressEmail )
 		<div>
 		<div class="left">
 			<h2>Edit A Spec Quote Request - @Model.Name</h2>

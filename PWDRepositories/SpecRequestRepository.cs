@@ -1011,6 +1011,7 @@ namespace PWDRepositories
 			specInfo.SPLQuote = sInfo.SPLQuote;
 			specInfo.IsGoodForWeb = sInfo.IsCompleted && sInfo.IsGoodForWeb;
 			bool bDoCompleteEmail = sInfo.IsCompleted && !specInfo.IsCompleted && sInfo.SendCompleteEmail;
+			bool bDoInProgressEmail = !sInfo.IsCompleted && !specInfo.IsCompleted && sInfo.SendInProgressEmail;
 			if( sInfo.IsCompleted && !specInfo.IsCompleted )
 			{
 				specInfo.SpecRequestEvents.Add( SpecRequestEvent.CompletedEvent( PaoliWebUser.CurrentUser.UserId ) );
@@ -1026,6 +1027,7 @@ namespace PWDRepositories
 			specInfo.InternalNotes = sInfo.InternalNotes;
 
 			var rootLocation = Path.Combine( ConfigurationManager.AppSettings["SpecRequestDocumentLocation"], specInfo.Name );
+			var nowDate = DateTime.UtcNow;
 
 			foreach( var fileStream in sInfo.addlFiles )
 			{
@@ -1063,7 +1065,7 @@ namespace PWDRepositories
 
 			if( database.SaveChanges() > 0 )
 			{
-				if( bDoCompleteEmail )
+				if( bDoCompleteEmail || bDoInProgressEmail )
 				{
 					var reloadRequest = database.SpecRequests
 						.Include( s => s.SpecRequestEvents )
@@ -1132,11 +1134,23 @@ namespace PWDRepositories
 							} ) );
 					}
 
-					foreach( var emailTarget in emailAddresses )
+					if( bDoCompleteEmail )
 					{
-						( new CompletedSpecRequestEmailSender() ).SubmitCompletedRequestEmail( emailTarget.EmailAddress,
-							ToEmailCompleteSpecRequestSummary( reloadRequest, emailTarget, sInfo.SpecTeamNotes ),
-							emailTarget.FromDetails );
+						foreach( var emailTarget in emailAddresses )
+						{
+							( new CompletedSpecRequestEmailSender() ).SubmitCompletedRequestEmail( emailTarget.EmailAddress,
+								ToEmailCompleteSpecRequestSummary( reloadRequest, emailTarget, sInfo.SpecTeamNotes ),
+								emailTarget.FromDetails );
+						}
+					}
+					else if( bDoInProgressEmail )
+					{
+						foreach( var emailTarget in emailAddresses )
+						{
+							( new CompletedSpecRequestEmailSender() ).SubmitInProgressRequestEmail( emailTarget.EmailAddress,
+								ToEmailCompleteSpecRequestSummary( reloadRequest, emailTarget, sInfo.SpecTeamNotes, nowDate ),
+								emailTarget.FromDetails );
+						}
 					}
 				}
 
@@ -1145,7 +1159,8 @@ namespace PWDRepositories
 			return false;
 		}
 
-		private CompletedSpecRequestEmailSender.EmailCompleteSpecRequestSummary ToEmailCompleteSpecRequestSummary( SpecRequest request, EmailSender.EmailTarget target, string finalNotes )
+		private CompletedSpecRequestEmailSender.EmailCompleteSpecRequestSummary ToEmailCompleteSpecRequestSummary( 
+			SpecRequest request, EmailSender.EmailTarget target, string finalNotes, DateTime? updateDate = null )
 		{
 			var summary = new CompletedSpecRequestEmailSender.EmailCompleteSpecRequestSummary()
 			{
@@ -1159,17 +1174,19 @@ namespace PWDRepositories
 				specTeamNotes = finalNotes
 			};
 
-			DateTime? reopenedDate = null;
-			var reopenedEvent = request.SpecRequestEvents
-				.OrderByDescending( e => e.EventDate )
-				.Where( e => e.EventType == SpecRequest.SpecRequestEventType.ReOpened )
-				.FirstOrDefault();
-			if( reopenedEvent != null )
-				reopenedDate = reopenedEvent.EventDate;
+			DateTime? recentFileDate = null;
+			if( !updateDate.HasValue )
+			{
+				recentFileDate = request.ReOpenedOnDate;
+			}
+			else
+			{
+				recentFileDate = updateDate.Value;
+			}
 
 			summary.fullFileList = request.SpecRequestFiles
 				.Where( f => f.IsSpecTeam )
-				.Where( f => f.UploadDate >= reopenedDate || reopenedDate == null )
+				.Where( f => f.UploadDate >= recentFileDate || recentFileDate == null )
 				.Select( srf => new EmailSender.FileDetail()
 				{
 					fileName = srf.Name,
@@ -1179,7 +1196,7 @@ namespace PWDRepositories
 
 			summary.oldFileList = request.SpecRequestFiles
 				.Where( f => f.IsSpecTeam )
-				.Where( f => f.UploadDate < reopenedDate && reopenedDate != null )
+				.Where( f => f.UploadDate < recentFileDate && recentFileDate != null )
 				.Select( srf => new EmailSender.FileDetail()
 				{
 					fileName = srf.Name,
