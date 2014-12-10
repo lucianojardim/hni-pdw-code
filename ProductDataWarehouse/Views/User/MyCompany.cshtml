@@ -74,7 +74,7 @@
 					</li>              
 				</ul>
 				<div class="clear"></div>
-				<div class="colmn1">Maximum file size is 450x175.</div>
+				<div class="colmn1">Maximum dimensions are 450x175 and file must be less than 500Kb.</div>
 			</div>
 			<div class="clear"></div>
 			<span class="btn7 cancelCIBtn">CANCEL</span> <span class="btn8 submitCIBtn">SAVE</span> 
@@ -103,6 +103,13 @@
 		$('.cancelCIBtn').on('click', function() {
 			$.fancybox.close();
 		});
+
+		@if( ViewBag.ImageTooBig ?? false )
+		{
+		<text>
+		alert('The image provided was too large.  Please use an image less than 500Kb.');
+		</text>
+		}
 	});
 
 	var uTable = null;

@@ -242,14 +242,24 @@ namespace ProductDataWarehouse.Controllers
 		{
 			using( var cRepository = new CompanyRepository() )
 			{
-				cRepository.UpdateImage( CompanyID, CompanyImage != null ? CompanyImage.InputStream : null, CompanyImage != null ? CompanyImage.FileName : null );
+				if( CompanyImage != null )
+				{
+					if( CompanyImage.ContentLength <= 500 * 1024 )
+					{
+						cRepository.UpdateImage( CompanyID, CompanyImage != null ? CompanyImage.InputStream : null, CompanyImage != null ? CompanyImage.FileName : null );
+					}
+					else
+					{
+						ViewBag.ImageTooBig = true;
+					}
+				}
 
 				if( PaoliWebUser.CurrentUser.CanViewMyTerritory )
 				{
-					return RedirectToAction( "MyCompanyInfo", new { id = CompanyID } );
+					return MyCompanyInfo( CompanyID );
 				}
 
-				return RedirectToAction( "MyCompany" );
+				return MyCompany();
 			}
 		}
 
