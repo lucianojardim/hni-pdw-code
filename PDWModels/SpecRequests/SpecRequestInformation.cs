@@ -181,6 +181,14 @@ namespace PDWModels.SpecRequests
 		public string CreatedByUserPhone { get; set; }
 		public string CreatedByUserEmail { get; set; }
 
+		[DisplayName( "This quote request was re-opened" )]
+		public DateTime? ReOpenedDate { get; set; }
+		[DisplayName( "by" )]
+		public string ReOpenedByUser { get; set; }
+		public string ReOpenedByUserCompany { get; set; }
+		public string ReOpenedByUserPhone { get; set; }
+		public string ReOpenedByUserEmail { get; set; }
+
 		[DisplayName( "This quote request was canceled" )]
 		public DateTime? CanceledDate { get; set; }
 		[DisplayName( "by" )]

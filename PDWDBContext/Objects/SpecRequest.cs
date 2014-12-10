@@ -221,5 +221,85 @@ namespace PDWDBContext
 					.Count( e => e.EventType == SpecRequestEventType.ReOpened );
 			}
 		}
+
+		public DateTime? ReOpenedOnDate
+		{
+			get
+			{
+				var reopened = SpecRequestEvents
+					.OrderByDescending( e => e.EventDate )
+					.FirstOrDefault( e => e.EventType == SpecRequestEventType.ReOpened );
+				if( reopened != null )
+				{
+					return reopened.EventDate;
+				}
+
+				return null;
+			}
+		}
+
+		public string ReOpenedByUserName
+		{
+			get
+			{
+				var reopened = SpecRequestEvents
+					.OrderByDescending( e => e.EventDate )
+					.FirstOrDefault( e => e.EventType == SpecRequestEventType.ReOpened );
+				if( reopened != null )
+				{
+					return reopened.User.FullName;
+				}
+
+				return null;
+			}
+		}
+
+		public string ReOpenedByCompany
+		{
+			get
+			{
+				var reopened = SpecRequestEvents
+					.OrderByDescending( e => e.EventDate )
+					.FirstOrDefault( e => e.EventType == SpecRequestEventType.ReOpened );
+				if( reopened != null )
+				{
+					return reopened.User.Company.Name;
+				}
+
+				return null;
+			}
+		}
+
+		public string ReOpenedByUserPhone
+		{
+			get
+			{
+				var reopened = SpecRequestEvents
+					.OrderByDescending( e => e.EventDate )
+					.FirstOrDefault( e => e.EventType == SpecRequestEventType.ReOpened );
+				if( reopened != null )
+				{
+					return reopened.User.BusinessPhone;
+				}
+
+				return null;
+			}
+		}
+
+		public string ReOpenedByUserEmail
+		{
+			get
+			{
+				var reopened = SpecRequestEvents
+					.OrderByDescending( e => e.EventDate )
+					.FirstOrDefault( e => e.EventType == SpecRequestEventType.ReOpened );
+				if( reopened != null )
+				{
+					return reopened.User.Email;
+				}
+
+				return null;
+			}
+		}
 	}
 }

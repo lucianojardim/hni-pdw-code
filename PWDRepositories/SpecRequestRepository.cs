@@ -707,7 +707,12 @@ namespace PWDRepositories
 				CreatedByUserPhone = sInfo.CreatedByUserPhone,
 				CreatedByUserEmail = sInfo.CreatedByUserEmail,
 				CanceledDate = sInfo.CanceledOnDate,
-				CanceledByUser = sInfo.CanceledByUserName
+				CanceledByUser = sInfo.CanceledByUserName,
+				ReOpenedDate = sInfo.ReOpenedOnDate,
+				ReOpenedByUser = sInfo.ReOpenedByUserName,
+				ReOpenedByUserCompany = sInfo.ReOpenedByCompany,
+				ReOpenedByUserPhone = sInfo.ReOpenedByUserPhone,
+				ReOpenedByUserEmail = sInfo.ReOpenedByUserEmail,
 	
 			};
 		}

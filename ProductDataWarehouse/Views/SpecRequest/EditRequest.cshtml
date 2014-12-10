@@ -39,6 +39,12 @@
 				$('#canceledDate').text(getLocalDateTime('@Model.CanceledDate.Value.ToString()'));
 			</text>
 			}
+			@if( Model.ReOpenedDate.HasValue )
+   {
+			<text>
+                $('#reopenedDate').text(getLocalDateTime('@Model.ReOpenedDate.Value.ToString()'));
+			</text>
+   }
 
     		$('.cancelBtn').click(function (e) {
     			window.location.href = '@Url.Action( "Manage" )';
@@ -403,6 +409,24 @@
 	  {
 	   <br /><span>@Html.DisplayFor( m => m.CreatedByUserEmail )</span>
 	  }
+  }
+  @if( Model.ReOpenedByUser != null )
+  {
+	  <br /><br />
+		@Html.MJLabelFor( m => m.ReOpenedDate, true ) <span id="reopenedDate"></span>
+		if( Model.ReOpenedByUser != null )
+  {
+		@Html.MJLabelFor( m => m.ReOpenedByUser, true )<br /> <span>@Html.DisplayFor( m => m.ReOpenedByUser )</span>
+	   <br /><span>@Html.DisplayFor( m => m.ReOpenedByUserCompany )</span>
+	  if( Model.ReOpenedByUserPhone != null )
+	  {
+	   <br /><span>@Html.DisplayFor( m => m.ReOpenedByUserPhone )</span>
+	  }
+	  if( Model.ReOpenedByUserEmail != null )
+	  {
+	   <br /><span>@Html.DisplayFor( m => m.ReOpenedByUserEmail )</span>
+	  }
+  }
   }
 		@if( !Model.IsCanceled )
   {
