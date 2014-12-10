@@ -81,7 +81,27 @@
 		</div>
 	}
 	</div>
+
+	<a href="#deactivateRequest" id="mainDeactivateBtn"></a>
+	<div id="deactivateRequest">
+		<div class="main_inner9_btm"> 
+			<div class="main_inner9_btm_top">
+				<div class="main_inner8_rt_msg">
+					<h5>
+						Reason</h5>
+					<textarea class="msg1" cols="20" id="Reason" name="Reason" rows="2"></textarea>
+					<input type="hidden" id="DUserID" value="" />
+					<p>
+						Please provide any additional information you may have regarding why this user is no longer needed.</p>
+				</div>
+				<i class="clear_0"></i>
+			</div>
+			<div class="clear"></div>
+			<span class="btn7 cancelDDBtn">CANCEL</span> <span class="btn8 submitDDBtn">SAVE</span> 
+		</div>
+	</div>
 </div>
+
 <script type="text/javascript">
 	$(document).ready(function () {
 		loadUsers();
@@ -101,6 +121,32 @@
 		});
 
 		$('.cancelCIBtn').on('click', function() {
+			$.fancybox.close();
+		});
+
+		$('#mainDeactivateBtn').fancybox({
+			'autoDimensions': false,
+			'width': 972,
+			'height': 260,
+			'padding': 20,
+			'margin': 0,
+			'scrolling': 'auto',
+			'titleShow': false
+		});
+
+		$('.submitDDBtn').click(function (e) {
+			makeAjaxCall('/User/RequestDeactiviation',
+				{ userId: $('#DUserID').val(), reason: $('#Reason').val() },
+				function(data, textStatus, jqXHR) {
+					alert('Thank you for your request.  We\'ll process it shortly.');
+					$.fancybox.close();
+				},
+    			function (jqXHR, textStatus, errorThrown) {    			
+    			}
+    		);
+		});
+
+		$('.cancelDDBtn').on('click', function() {
 			$.fancybox.close();
 		});
 
@@ -136,6 +182,12 @@
 					aoData,
 					function (data, textStatus, jqXHR) {
 						fnCallback(data, textStatus, jqXHR);
+
+						$('.deactivateBtn').on('click', function() {
+							$('#DUserID').val($(this).data('id'));
+
+							$('#mainDeactivateBtn').trigger('click');
+						});
 					},
 					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Users:' + errorThrown) }
 				);
@@ -148,6 +200,15 @@
                     { "sName": "LastName", "sTitle": "Last Name<span></span>", "sClass": "hasSpan", "aTargets": [1], "mDataProp": "LastName", "sWidth": "25%" },
                     { "sName": "Title", "sTitle": "Title<span></span>", "sClass": "hasSpan", "aTargets": [2], "mDataProp": "Title", "sWidth": "25%" },
                     { "sName": "Role", "sTitle": "Role<span></span>", "sClass": "hasSpan", "aTargets": [3], "mDataProp": "Role", "sWidth": "25%", "bSortable": false }
+					@if( PDWInfrastructure.PaoliWebUser.CurrentUser.CanViewMyTerritory )
+					{
+					<text>
+					,{ "sName": "EditButtons", "sTitle": "", "sClass": "hasSpan", "aTargets": [4], "mDataProp": "EditButtons", "bSortable": false, "sWidth": "5%",
+						"fnRender": function(oObj) {
+							return '<span class="btn13 deactivateBtn" data-id="' + oObj.aData["UserID"] + '" title="Request Deactivation">X</span>';
+						}
+					}					</text>
+					}
                 ]
 		});
 	}

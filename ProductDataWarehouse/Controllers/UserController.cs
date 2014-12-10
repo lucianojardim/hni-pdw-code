@@ -263,6 +263,21 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
+		[PaoliAuthorize( "CanViewMyTerritory" )]
+		public JsonResult RequestDeactiviation( int userId, string reason )
+		{
+			using( var aRepository = new UserRepository() )
+			{
+				bool bSuccess = aRepository.RequestUserDeactiviation( PaoliWebUser.CurrentUser.UserId, userId, reason );
+
+				return Json( new
+				{
+					success = bSuccess
+				},
+					JsonRequestBehavior.AllowGet );
+			}
+		}
+
 		[PaoliAuthorize( "CanBeLoggedIn" )]
 		public ActionResult ChangePW()
 		{

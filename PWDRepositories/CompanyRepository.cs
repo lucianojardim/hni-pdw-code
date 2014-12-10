@@ -706,17 +706,5 @@ namespace PWDRepositories
 				}
 			}
 		}
-
-		public bool RequestCompanyDeactiviation( string userName, int companyId, string reason )
-		{
-			var dbCompany = database.Companies.FirstOrDefault( c => c.CompanyID == companyId );
-
-			if( dbCompany != null )
-			{
-				( new RequestDeactivationEmailSender() ).SubmitRequestEmail( userName, dbCompany.Name, reason );
-			}
-
-			return false;
-		}
 	}
 }

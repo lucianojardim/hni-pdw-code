@@ -10,6 +10,10 @@ namespace PDWInfrastructure.EmailSenders
 	{
 		public bool SubmitRequestEmail(
 			string requestingUserName,
+			string requestingUserCompany,
+			string requestingUserEmail,
+			int userId,
+			string userName,
 			string companyName,
 			string reason )
 		{
@@ -19,20 +23,13 @@ namespace PDWInfrastructure.EmailSenders
 				if( ReadEmailTemplate( "RequestDeactivation", out template ) )
 				{
 					// perform substitutions
-					template.Replace( "[{UserName}]", requestingUserName );
+					template.Replace( "[{RequestingUser}]", requestingUserName );
+					template.Replace( "[{RequestingUserCompany}]", requestingUserCompany );
+					template.Replace( "[{RequestingUserEmail}]", requestingUserEmail );
+					template.Replace( "[{UserID}]", userId.ToString() );
+					template.Replace( "[{UserName}]", userName );
 					template.Replace( "[{CompanyName}]", companyName );
-
-					{
-						string pattern = Regex.Escape( "[{ReasonTemplate}]" ) + "(.*?)" + Regex.Escape( "[{/ReasonTemplate}]" );
-						var matching = Regex.Match( template.ToString(), pattern, RegexOptions.Multiline );
-
-						string fullReason = string.Empty;
-						if( matching.Success && ( reason ?? "" ).Any() )
-						{
-							fullReason = matching.Groups[1].ToString().Replace( "[{Reasons}]", reason );
-						}
-						template.Replace( "[{ReasonText}]", fullReason );
-					}
+					template.Replace( "[{Reasons}]", reason );
 
 					return SubmitEmail( new List<string>() { "mypaoli@paoli.com", "paoli@getvitaminj.com" }, null, null, GetSubject( template ), template );
 				}

@@ -816,5 +816,19 @@ namespace PWDRepositories
 					UTCDateTime = a.LoginDate
 				} );
 		}
+
+		public bool RequestUserDeactiviation( int reqUserId, int userId, string reason )
+		{
+			var dbUser = database.Users.FirstOrDefault( c => c.UserID == userId );
+			var dbReqUser = database.Users.FirstOrDefault( u => u.UserID == reqUserId );
+
+			if( dbUser != null && dbReqUser != null )
+			{
+				( new RequestDeactivationEmailSender() ).SubmitRequestEmail( dbReqUser.FullName, dbReqUser.Company.Name, dbReqUser.Email, 
+					userId, dbUser.FullName, dbUser.Company.Name, reason );
+			}
+
+			return false;
+		}
 	}
 }
