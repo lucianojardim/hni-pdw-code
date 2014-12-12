@@ -41,7 +41,7 @@ namespace PWDRepositories
 			};
 		}
 
-		public bool AddCompany( CompanyInformation cInfo )
+		public bool AddCompany( CompanyInformation cInfo, Stream imgStream, string fileName )
 		{
 			if( PaoliWebUser.PaoliCompanyType.HasTerritory.Contains( cInfo.CompanyType ) && 
 				!cInfo.TerritoryID.HasValue )
@@ -114,6 +114,15 @@ namespace PWDRepositories
 				}
 			}
 
+			if( imgStream != null )
+			{
+				newCompany.ImageFileName = Guid.NewGuid().ToString() + Path.GetExtension( fileName );
+
+				Image fullSizeImg = Image.FromStream( imgStream );
+				fullSizeImg.Save( Path.Combine( ConfigurationManager.AppSettings["ImageFileLocation"],
+					newCompany.ImageFileName ) );
+			}
+
 			database.Companies.Add( newCompany );
 
 			return database.SaveChanges() > 0;
@@ -162,6 +171,7 @@ namespace PWDRepositories
 				SignedUpForTrip = eCompany.SignedUpForTrip,
 				TripGroup = eCompany.TripGroup,
 				TierGroup = eCompany.TierGroup,
+				ImageFileName = eCompany.ImageFileName,
 
 				HasShowroom = eCompany.Showroom != null,
 				ShowroomDisplayName = eCompany.Showroom != null ? eCompany.Showroom.DisplayName : null,
@@ -180,7 +190,7 @@ namespace PWDRepositories
 			};
 		}
 
-		public bool UpdateCompany( CompanyInformation cInfo )
+		public bool UpdateCompany( CompanyInformation cInfo, Stream imgStream, string fileName )
 		{
 			if( PaoliWebUser.PaoliCompanyType.HasTerritory.Contains( cInfo.CompanyType ) &&
 				!cInfo.TerritoryID.HasValue )
@@ -265,6 +275,15 @@ namespace PWDRepositories
 			else if( eCompany.Showroom != null )
 			{
 				database.Showrooms.Remove( eCompany.Showroom );
+			}
+
+			if( imgStream != null )
+			{
+				eCompany.ImageFileName = Guid.NewGuid().ToString() + Path.GetExtension( fileName );
+
+				Image fullSizeImg = Image.FromStream( imgStream );
+				fullSizeImg.Save( Path.Combine( ConfigurationManager.AppSettings["ImageFileLocation"],
+					eCompany.ImageFileName ) );
 			}
 
 			return database.SaveChanges() > 0;

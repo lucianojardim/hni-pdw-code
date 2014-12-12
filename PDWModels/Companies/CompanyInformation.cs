@@ -42,6 +42,8 @@ namespace PDWModels.Companies
 		public string ContactEmail { get; set; }
 		[DisplayName( "Web Site URL" )]
 		public string WebSite { get; set; }
+		[DisplayName( "Image" )]
+		public string ImageFileName { get; set; }
 
 		[DisplayName( "Display Name As" )]
 		public string PublicDisplayName { get; set; }

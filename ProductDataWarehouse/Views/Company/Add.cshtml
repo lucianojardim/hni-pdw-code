@@ -174,7 +174,9 @@
         <tr>
 		<td>@Html.MJLabelFor( m => m.Zip, true )</td><td>@Html.TextBoxFor( m => m.Zip, new { tabindex = 6 } )</td>
 		</tr>
-		
+		<tr>
+		<td>@Html.MJLabelFor( m => m.ImageFileName, true )</td><td><input type="file" id="CompanyImage" name="CompanyImage" accept=".jpg,.png,.gif,.bmp" /></td>
+		</tr>
 		<tr><td class="padr30 padl30" colspan="4"><hr /></td></tr>
 		<tr>
 		<td  colspan="4"><h3>Account Information</h3></td>

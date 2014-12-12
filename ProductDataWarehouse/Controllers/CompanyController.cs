@@ -102,13 +102,23 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Add( CompanyInformation uInfo )
+		public ActionResult Add( CompanyInformation uInfo, HttpPostedFileBase CompanyImage )
 		{
 			if( ModelState.IsValid )
 			{
+				if( CompanyImage != null )
+				{
+					if( CompanyImage.ContentLength > 500 * 1024 )
+					{
+						ModelState.AddModelError( "CompanyImage", "Image must be less than 500Kb." );
+
+						return View( uInfo );
+					}
+				}
+
 				using( var cRepository = new CompanyRepository() )
 				{
-					cRepository.AddCompany( uInfo );
+					cRepository.AddCompany( uInfo, CompanyImage != null ? CompanyImage.InputStream : null, CompanyImage != null ? CompanyImage.FileName : null );
 
 					return RedirectToAction( "Manage" );
 				}
@@ -133,13 +143,23 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit( CompanyInformation uInfo )
+		public ActionResult Edit( CompanyInformation uInfo, HttpPostedFileBase CompanyImage )
 		{
 			if( ModelState.IsValid )
 			{
+				if( CompanyImage != null )
+				{
+					if( CompanyImage.ContentLength > 500 * 1024 )
+					{
+						ModelState.AddModelError( "CompanyImage", "Image must be less than 500Kb." );
+
+						return View( uInfo );
+					}
+				}
+
 				using( var cRepository = new CompanyRepository() )
 				{
-					cRepository.UpdateCompany( uInfo );
+					cRepository.UpdateCompany( uInfo, CompanyImage != null ? CompanyImage.InputStream : null, CompanyImage != null ? CompanyImage.FileName : null );
 
 					return RedirectToAction( "Manage" );
 				}
