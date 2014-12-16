@@ -232,7 +232,7 @@ namespace ProductDataWarehouse.Controllers
 		{
 			using( var cRepository = new CompanyRepository() )
 			{
-				return View( cRepository.GetMyCompanyInfo( userId: PaoliWebUser.CurrentUser.UserId ) );
+				return View( "MyCompany", cRepository.GetMyCompanyInfo( userId: PaoliWebUser.CurrentUser.UserId ) );
 			}
 		}
 

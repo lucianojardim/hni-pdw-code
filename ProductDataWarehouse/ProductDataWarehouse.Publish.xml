@@ -77,7 +77,7 @@
     <file relUrl="Content/tiny_mce/plugins/template/css/template.css" publishTime="06/19/2012 14:13:52" />
     <file relUrl="NewContent/css/fonts/Helvetica-Bold.ttf" publishTime="04/12/2014 09:37:52" />
     <file relUrl="Scripts/MicrosoftAjax.js" publishTime="11/27/2012 16:02:14" />
-    <file relUrl="Views/Collateral/EditOrder.cshtml" publishTime="09/12/2014 11:49:05" />
+    <file relUrl="Content/tiny_mce/plugins/visualchars/editor_plugin_src.js" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Content/tiny_mce/plugins/emotions/img/smiley-wink.gif" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Content/tiny_mce/plugins/xhtmlxtras/abbr.htm" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Views/User/Add.cshtml" publishTime="10/28/2014 14:03:59" />
@@ -408,6 +408,7 @@
     <file relUrl="Views/Shared/DisplayTemplates/DetailItemNoImage.cshtml" publishTime="08/04/2014 14:29:40" />
     <file relUrl="NewContent/images/search.jpg" publishTime="04/12/2014 09:23:48" />
     <file relUrl="Views/Collateral/NewAddOrder.cshtml" publishTime="09/12/2014 11:49:05" />
+    <file relUrl="NewContent/fancybox/fancy_shadow_ne.png" publishTime="04/12/2014 12:35:00" />
     <file relUrl="Views/Import/EditDealer.cshtml" publishTime="03/13/2014 12:00:24" />
     <file relUrl="Content/tiny_mce/themes/advanced/skins/default/img/items.gif" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Content/tiny_mce/plugins/template/langs/en_dlg.js" publishTime="06/19/2012 14:13:52" />
@@ -426,7 +427,7 @@
     <file relUrl="NewContent/js/jquery.custom.input.js" publishTime="04/26/2014 21:25:03" />
     <file relUrl="Content/tiny_mce/plugins/advhr/rule.htm" publishTime="06/19/2012 14:13:52" />
     <file relUrl="NewContent/images/collateral_img.jpg" publishTime="04/12/2014 09:23:48" />
-    <file relUrl="NewContent/fancybox/fancy_shadow_ne.png" publishTime="04/12/2014 12:35:00" />
+    <file relUrl="Views/Collateral/EditOrder.cshtml" publishTime="09/12/2014 11:49:05" />
     <file relUrl="Content/Email Templates/NewCollateralOrderPartialShipment.htm" publishTime="10/06/2014 08:13:02" />
     <file relUrl="Content/tiny_mce/plugins/spellchecker/editor_plugin_src.js" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Content/tiny_mce/plugins/example/dialog.htm" publishTime="06/19/2012 14:13:52" />
@@ -537,7 +538,6 @@
     <file relUrl="Content/jquery.tagit.css" publishTime="10/12/2013 01:44:54" />
     <file relUrl="Content/tiny_mce/plugins/paste/editor_plugin_src.js" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Content/themes/base/images/ui-icons_222222_256x240.png" publishTime="11/27/2012 16:02:24" />
-    <file relUrl="Content/tiny_mce/plugins/visualchars/editor_plugin_src.js" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Content/images/divider.png" publishTime="01/03/2013 11:54:08" />
     <file relUrl="NewContent/images/blue_bg.jpg" publishTime="04/12/2014 09:41:28" />
     <file relUrl="Views/ePublisher/Manage.cshtml" publishTime="09/12/2014 11:49:04" />
@@ -734,7 +734,7 @@
     <file relUrl="Content/tiny_mce/plugins/nonbreaking/editor_plugin_src.js" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Views/Import/AddDealerVideo.cshtml" publishTime="03/04/2014 10:16:07" />
     <file relUrl="NewContent/css/fonts/Helvetica-Light.ttf" publishTime="04/12/2014 09:38:06" />
-    <file relUrl="Scripts/jquery.dataTables.js" publishTime="02/28/2012 15:04:54" />
+    <file relUrl="Content/tiny_mce/themes/advanced/img/trans.gif" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Content/tiny_mce/themes/advanced/skins/default/img/progress.gif" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Scripts/MicrosoftMvcAjax.debug.js" publishTime="11/27/2012 16:02:14" />
     <file relUrl="Content/tiny_mce/plugins/emotions/js/emotions.js" publishTime="06/19/2012 14:13:52" />
@@ -743,6 +743,7 @@
     <file relUrl="Scripts/MicrosoftAjax.debug.js" publishTime="11/27/2012 16:02:14" />
     <file relUrl="Content/tiny_mce/plugins/emotions/img/smiley-frown.gif" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Content/Email Templates/NewCollateralOrderRequestedBy.htm" publishTime="10/06/2014 08:13:02" />
+    <file relUrl="Views/Info/Index.cshtml" publishTime="09/16/2014 13:27:06" />
     <file relUrl="NewContent/images/narrow-nav-icon-rev.png" publishTime="11/20/2014 14:32:31" />
     <file relUrl="Content/tiny_mce/utils/validate.js" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Content/tiny_mce/plugins/template/css/template.css" publishTime="06/19/2012 14:13:52" />
@@ -799,6 +800,7 @@
     <file relUrl="Content/fancybox/fancy_title_right.png" publishTime="02/28/2012 15:04:52" />
     <file relUrl="Content/themes/base/jquery.ui.slider.css" publishTime="11/27/2012 16:02:24" />
     <file relUrl="Views/Import/EditPrintMaterial.cshtml" publishTime="03/04/2014 10:16:07" />
+    <file relUrl="Content/tiny_mce/plugins/xhtmlxtras/editor_plugin_src.js" publishTime="06/19/2012 14:13:52" />
     <file relUrl="NewContent/fancybox/fancybox-x.png" publishTime="04/12/2014 12:35:00" />
     <file relUrl="Content/themes/base/images/ui-bg_highlight-soft_75_cccccc_1x100.png" publishTime="11/27/2012 16:02:24" />
     <file relUrl="Content/tiny_mce/plugins/inlinepopups/skins/clearlooks2/img/confirm.gif" publishTime="06/19/2012 14:13:52" />
@@ -854,7 +856,7 @@
     <file relUrl="Content/tiny_mce/themes/advanced/js/color_picker.js" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Content/themes/base/jquery.ui.datepicker.css" publishTime="11/27/2012 16:02:24" />
     <file relUrl="Content/Fonts/adellesans_regular-webfont.eot" publishTime="01/03/2013 11:52:58" />
-    <file relUrl="Content/tiny_mce/themes/advanced/img/trans.gif" publishTime="06/19/2012 14:13:52" />
+    <file relUrl="NewContent/css/fonts.css" publishTime="07/17/2014 16:22:11" />
     <file relUrl="Content/Fonts/adellesans_bold-webfont.ttf" publishTime="01/03/2013 11:52:58" />
     <file relUrl="Views/Collateral/AddOrder.cshtml" publishTime="09/12/2014 11:49:05" />
     <file relUrl="Content/tiny_mce/themes/simple/editor_template_src.js" publishTime="06/19/2012 14:13:52" />
@@ -916,7 +918,7 @@
     <file relUrl="Content/images/baprogress.gif" publishTime="03/27/2012 11:47:00" />
     <file relUrl="Content/tiny_mce/themes/advanced/source_editor.htm" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Views/User/MyTerritory.cshtml" publishTime="12/10/2014 14:47:06" />
-    <file relUrl="Views/Home/NewIndex.cshtml" publishTime="09/12/2014 11:49:04" />
+    <file relUrl="Views/Home/NewIndex.cshtml" publishTime="12/15/2014 07:20:15" />
     <file relUrl="Content/themes/base/jquery.ui.button.css" publishTime="11/27/2012 16:02:24" />
     <file relUrl="Views/Report/Index.cshtml" publishTime="08/25/2014 15:00:48" />
     <file relUrl="Views/Collateral/AddShipment.cshtml" publishTime="07/17/2014 15:56:50" />
@@ -934,7 +936,6 @@
     <file relUrl="Content/Fonts/adellesans_semibold-webfont.woff" publishTime="01/03/2013 11:52:58" />
     <file relUrl="Content/tiny_mce/plugins/emotions/img/smiley-sealed.gif" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Content/tiny_mce/plugins/example_dependency/editor_plugin_src.js" publishTime="06/19/2012 14:13:52" />
-    <file relUrl="NewContent/css/fonts/Helvetica-Bold.woff" publishTime="04/12/2014 09:37:31" />
     <file relUrl="NewContent/fancybox/fancy_shadow_s.png" publishTime="04/12/2014 12:35:00" />
     <file relUrl="Content/Email Templates/CompletedSpecRequest.htm" publishTime="11/19/2014 08:30:52" />
     <file relUrl="Views/Shared/DisplayTemplates/YesNo.cshtml" publishTime="01/23/2014 09:10:16" />
@@ -963,10 +964,9 @@
     <file relUrl="NewContent/images/left-detail.png" publishTime="08/04/2014 08:16:40" />
     <file relUrl="Content/Email Templates/InProgressSpecRequest.htm" publishTime="12/10/2014 14:01:14" />
     <file relUrl="Content/Email Templates/NewCollateralOrderShipment.htm" publishTime="10/06/2014 08:13:02" />
-    <file relUrl="bin/ProductDataWarehouse.dll" publishTime="12/12/2014 08:37:07" />
+    <file relUrl="bin/ProductDataWarehouse.dll" publishTime="12/16/2014 08:09:02" />
     <file relUrl="Content/tiny_mce/themes/advanced/img/quicktime.gif" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Views/Company/Manage.cshtml" publishTime="09/12/2014 11:49:04" />
-    <file relUrl="Content/tiny_mce/plugins/example/editor_plugin.js" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Views/Import/ManageDealers.cshtml" publishTime="09/12/2014 11:49:04" />
     <file relUrl="NewContent/css/shCore.css" publishTime="04/12/2014 09:24:58" />
     <file relUrl="Views/Collateral/Add.cshtml" publishTime="07/17/2014 15:56:50" />
@@ -991,7 +991,7 @@
     <file relUrl="Content/tiny_mce/plugins/inlinepopups/skins/clearlooks2/img/vertical.gif" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Views/ePublisher/Layout12LeftDetailSidebar.cshtml" publishTime="08/04/2014 15:37:16" />
     <file relUrl="Content/tiny_mce/plugins/media/moxieplayer.swf" publishTime="06/19/2012 14:13:52" />
-    <file relUrl="Content/tiny_mce/themes/simple/skins/o2k7/ui.css" publishTime="06/19/2012 14:13:52" />
+    <file relUrl="Content/tiny_mce/plugins/example/editor_plugin.js" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Scripts/MicrosoftMvcValidation.debug.js" publishTime="11/27/2012 16:02:14" />
     <file relUrl="Content/tiny_mce/plugins/template/js/template.js" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Views/Import/ManageVideos.cshtml" publishTime="09/12/2014 11:49:04" />
@@ -1022,7 +1022,7 @@
     <file relUrl="Content/tiny_mce/plugins/preview/preview.html" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Content/tiny_mce/plugins/autosave/editor_plugin.js" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Content/tiny_mce/plugins/xhtmlxtras/js/element_common.js" publishTime="06/19/2012 14:13:52" />
-    <file relUrl="Content/tiny_mce/plugins/xhtmlxtras/editor_plugin_src.js" publishTime="06/19/2012 14:13:52" />
+    <file relUrl="NewContent/css/fonts/Helvetica-Bold.woff" publishTime="04/12/2014 09:37:31" />
     <file relUrl="Content/tiny_mce/plugins/inlinepopups/editor_plugin.js" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Content/tiny_mce/plugins/save/editor_plugin_src.js" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Content/fancybox/jquery.fancybox-1.3.4.js" publishTime="02/28/2012 15:04:52" />
@@ -1088,7 +1088,6 @@
     <file relUrl="Views/Import/EditDealer.cshtml" publishTime="03/13/2014 12:00:24" />
     <file relUrl="NewContent/images/noorder_arrow.jpg" publishTime="11/05/2014 08:31:13" />
     <file relUrl="Content/tiny_mce/themes/advanced/skins/default/img/items.gif" publishTime="06/19/2012 14:13:52" />
-    <file relUrl="NewContent/css/fonts.css" publishTime="07/17/2014 16:22:11" />
     <file relUrl="Content/tiny_mce/plugins/template/langs/en_dlg.js" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Global.asax" publishTime="11/27/2012 16:02:14" />
     <file relUrl="Content/fancybox/fancy_shadow_w.png" publishTime="02/28/2012 15:04:52" />
@@ -1170,6 +1169,7 @@
     <file relUrl="NewContent/fancybox/jquery.fancybox-1.3.4.css" publishTime="04/12/2014 12:35:00" />
     <file relUrl="Content/tiny_mce/plugins/print/editor_plugin.js" publishTime="06/19/2012 14:13:52" />
     <file relUrl="NewContent/fancybox/jquery.fancybox-1.3.4.js" publishTime="04/12/2014 12:35:00" />
+    <file relUrl="Scripts/jquery.dataTables.js" publishTime="02/28/2012 15:04:54" />
     <file relUrl="Views/Shared/EditorTemplates/DetailItemNoImage.cshtml" publishTime="08/04/2014 14:29:40" />
     <file relUrl="Content/tiny_mce/plugins/template/template.htm" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Content/tiny_mce/plugins/insertdatetime/editor_plugin.js" publishTime="06/19/2012 14:13:52" />
@@ -1196,7 +1196,7 @@
     <file relUrl="Content/tiny_mce/plugins/advimage/editor_plugin.js" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Content/Fonts/adellesans_italic-webfont.ttf" publishTime="01/03/2013 11:52:58" />
     <file relUrl="Content/tiny_mce/plugins/fullscreen/editor_plugin.js" publishTime="06/19/2012 14:13:52" />
-    <file relUrl="bin/ProductDataWarehouse.pdb" publishTime="12/12/2014 08:37:07" />
+    <file relUrl="bin/ProductDataWarehouse.pdb" publishTime="12/16/2014 08:09:02" />
     <file relUrl="Content/tiny_mce/plugins/media/css/media.css" publishTime="06/19/2012 14:13:52" />
     <file relUrl="NewContent/fancybox/fancy_shadow_e.png" publishTime="04/12/2014 12:35:00" />
     <file relUrl="Content/Fonts/adellesans_semibold-webfont.eot" publishTime="01/03/2013 11:52:58" />
@@ -1208,7 +1208,6 @@
     <file relUrl="Content/tiny_mce/plugins/emotions/img/smiley-kiss.gif" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Content/fancybox/fancy_title_main.png" publishTime="02/28/2012 15:04:52" />
     <file relUrl="Views/SpecRequest/Manage.cshtml" publishTime="09/12/2014 11:02:33" />
-    <file relUrl="bin/PDWModels.pdb" publishTime="12/12/2014 08:34:30" />
     <file relUrl="bin/System.Web.Helpers.dll" publishTime="10/16/2014 10:36:55" />
     <file relUrl="Content/images/divider_left_top.jpg" publishTime="01/03/2013 11:54:08" />
     <file relUrl="Content/Email Templates/ResetPassword.htm" publishTime="03/11/2014 12:10:16" />
@@ -1313,7 +1312,7 @@
     <file relUrl="Content/tiny_mce/plugins/advimage/js/image.js" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Content/jquery.dataTables.css" publishTime="12/06/2012 15:55:59" />
     <file relUrl="Content/themes/base/images/ui-icons_454545_256x240.png" publishTime="11/27/2012 16:02:24" />
-    <file relUrl="Views/Info/Index.cshtml" publishTime="09/16/2014 13:27:06" />
+    <file relUrl="bin/PDWModels.pdb" publishTime="12/12/2014 08:34:30" />
     <file relUrl="Content/tiny_mce/themes/advanced/link.htm" publishTime="06/19/2012 14:13:52" />
     <file relUrl="NewContent/images/zoom_icon.png" publishTime="01/04/2013 09:54:46" />
     <file relUrl="Content/images/sort_asc_disabled.png" publishTime="02/01/2012 14:08:00" />
@@ -1322,6 +1321,7 @@
     <file relUrl="Content/tiny_mce/plugins/advhr/css/advhr.css" publishTime="06/19/2012 14:13:52" />
     <file relUrl="NewContent/images/transparent_blue.png" publishTime="01/03/2013 11:54:12" />
     <file relUrl="Views/Home/SubscriptionsAndAlerts.cshtml" publishTime="01/07/2014 16:02:04" />
+    <file relUrl="Content/tiny_mce/themes/simple/skins/o2k7/ui.css" publishTime="06/19/2012 14:13:52" />
     <file relUrl="Views/Shared/DisplayTemplates/DateOnly.cshtml" publishTime="01/30/2014 07:05:46" />
     <file relUrl="Views/Collateral/AddGroup.cshtml" publishTime="07/17/2014 15:56:50" />
     <file relUrl="NewContent/images/headline_img.jpg" publishTime="04/12/2014 09:23:48" />
