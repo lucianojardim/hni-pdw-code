@@ -92,12 +92,10 @@
 		<div class="main_inner9_btm"> 
 			<div class="main_inner9_btm_top">
 				<div class="main_inner8_rt_msg">
-					<h5>
-						Reason</h5>
+					<h2 class="bold">Request Deactivation</h2>
+					<h5>Please provide a reason for My.Paoli Admin to deactivate.</h5>
 					<textarea class="msg1" cols="20" id="Reason" name="Reason" rows="2"></textarea>
 					<input type="hidden" id="DUserID" value="" />
-					<p>
-						Please provide any additional information you may have regarding why this user is no longer needed.</p>
 				</div>
 				<i class="clear_0"></i>
 			</div>
@@ -290,7 +288,7 @@
 					@if( PDWInfrastructure.PaoliWebUser.CurrentUser.CanViewMyTerritory )
 	 {
 					<text>
-					,{ "sName": "EditButtons", "sTitle": "", "sClass": "hasSpan", "aTargets": [4], "mDataProp": "EditButtons", "bSortable": false, "sWidth": "5%",
+					,{ "sName": "EditButtons", "sTitle": "Deactivate", "sClass": "hasSpan", "aTargets": [4], "mDataProp": "EditButtons", "bSortable": false, "sWidth": "5%",
 						"fnRender": function(oObj) {
 							return '<span class="btn13 deactivateBtn" data-id="' + oObj.aData["UserID"] + '" title="Request Deactivation">X</span>';
 						}
