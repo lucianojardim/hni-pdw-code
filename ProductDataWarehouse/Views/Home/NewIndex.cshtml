@@ -147,11 +147,7 @@
        <i class="clear_0"></i>                                 
    }
    <div class="main_lt_btm">
-   @if( CurrentUser.IsPaoliUser )
-   {
-   <a href="@Url.Action( "ViewAllInternal", "Article" )">view all</a>
-   }
-   else if( CurrentUser.CanSeeTheScoop )
+   @if( CurrentUser.CanSeeTheScoop )
    {
    <a href="@Url.Action( "ViewAllScoop", "Article" )">view all</a>
    }
