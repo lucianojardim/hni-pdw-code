@@ -168,7 +168,7 @@ namespace PWDRepositories
 					aoi.FinishType = img.FinishType ?? 0;
 					aoi.LaminatePattern = ( img.FinishType == (int)PDWModels.Images.ImageInformation.FinishTypes.Laminate ) ? ( img.LaminatePattern ?? 0 ) : 0;
 					aoi.LaminateIsHPL = ( img.FinishType == (int)PDWModels.Images.ImageInformation.FinishTypes.Laminate ) ? ( img.LaminateIsHPL ) : false;
-					aoi.LaminateIsLPL = ( img.FinishType == (int)PDWModels.Images.ImageInformation.FinishTypes.Laminate ) ? ( img.LaminateIsLPL ) : false;
+					aoi.LaminateIsTFL = ( img.FinishType == (int)PDWModels.Images.ImageInformation.FinishTypes.Laminate ) ? ( img.LaminateIsTFL ) : false;
 					aoi.VeneerGrade = ( img.FinishType == (int)PDWModels.Images.ImageInformation.FinishTypes.Veneer ) ? ( img.VeneerGrade ?? 0 ) : 0;
 					aoi.VeneerSpecies = ( img.FinishType == (int)PDWModels.Images.ImageInformation.FinishTypes.Veneer ) ? ( img.VeneerSpecies ?? 0 ) : 0;
 					aoi.SeatingGrade = ( img.FinishType == (int)PDWModels.Images.ImageInformation.FinishTypes.Seating ) ? ( img.SeatingGrade ?? 0 ) : 0;

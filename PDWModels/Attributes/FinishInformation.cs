@@ -11,7 +11,7 @@ namespace PDWModels.Attributes
 		public string Name { get; set; }
 		public int FinishType { get; set; }
 		public int LaminatePattern { get; set; }
-		public bool LaminateIsLPL { get; set; }
+		public bool LaminateIsTFL { get; set; }
 		public bool LaminateIsHPL { get; set; }
 		public int VeneerGrade { get; set; }
 		public int VeneerSpecies { get; set; }

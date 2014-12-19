@@ -660,7 +660,7 @@
 					<br />
 					@Html.MJLabelFor( m => m.LaminatePreference, true, new { @class = "laminatePreference" } ) @Html.DropDownListFor( m => m.LaminatePreference, new List<SelectListItem>() { 
 	new SelectListItem(),
-	new SelectListItem() { Value = "LPL", Text = "LPL - Low Pressure Laminate" },
+	new SelectListItem() { Value = "TFL", Text = "TFL - Thermally Fused Laminate" },
 	new SelectListItem() { Value = "HPL", Text = "HPL - High Pressure Laminate" } }, new { @class = "laminatePreference" } )<br class="laminatePreference" />
 		 @Html.TextBoxFor( m => m.OtherFinishDetails )
 	<span class="littleHelp">Please specify if you there is a combination of finishes required by top vs. base, etc. Please include all appropriate detail of the user preference.</span>

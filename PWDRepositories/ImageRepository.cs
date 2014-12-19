@@ -68,7 +68,7 @@ namespace PWDRepositories
 				FinishType = img.FinishType,
 				FinishCode = img.FinishCode,
 				LaminatePattern = img.LaminatePattern,
-				LaminateIsLPL = img.LaminateIsLPL,
+				LaminateIsTFL = img.LaminateIsTFL,
 				LaminateIsHPL = img.LaminateIsHPL,
 				VeneerGrade = img.VeneerGrade,
 				VeneerSpecies = img.VeneerSpecies,
@@ -765,7 +765,7 @@ namespace PWDRepositories
 			imgData.FinishType = imgInfo.FinishType;
 			imgData.FinishCode = imgInfo.FinishCode;
 			imgData.LaminatePattern = imgInfo.LaminatePattern;
-			imgData.LaminateIsLPL = imgInfo.LaminateIsLPL;
+			imgData.LaminateIsTFL = imgInfo.LaminateIsTFL;
 			imgData.LaminateIsHPL = imgInfo.LaminateIsHPL;
 			imgData.VeneerGrade = imgInfo.VeneerGrade;
 			imgData.VeneerSpecies = imgInfo.VeneerSpecies;
@@ -803,7 +803,7 @@ namespace PWDRepositories
 			imgData.FinishType = imgInfo.FinishType;
 			imgData.FinishCode = imgInfo.FinishCode;
 			imgData.LaminatePattern = imgInfo.LaminatePattern;
-			imgData.LaminateIsLPL = imgInfo.LaminateIsLPL;
+			imgData.LaminateIsTFL = imgInfo.LaminateIsTFL;
 			imgData.LaminateIsHPL = imgInfo.LaminateIsHPL;
 			imgData.VeneerGrade = imgInfo.VeneerGrade;
 			imgData.VeneerSpecies = imgInfo.VeneerSpecies;

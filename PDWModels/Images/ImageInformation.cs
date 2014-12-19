@@ -89,8 +89,8 @@ namespace PDWModels.Images
 		public string FinishCode { get; set; }
 		[DisplayName( "Laminate Pattern" )]
 		public int? LaminatePattern { get; set; }
-		[DisplayName( "Is LPL Available?" )]
-		public bool LaminateIsLPL { get; set; }
+		[DisplayName( "Is TFL Available?" )]
+		public bool LaminateIsTFL { get; set; }
 		[DisplayName( "Is HPL Available?" )]
 		public bool LaminateIsHPL { get; set; }
 		[DisplayName( "Veneer Grade" )]

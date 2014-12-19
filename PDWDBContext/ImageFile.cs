@@ -48,9 +48,9 @@ namespace PDWDBContext
         public Nullable<int> VeneerGrade { get; set; }
         public Nullable<int> VeneerSpecies { get; set; }
         public bool LaminateIsHPL { get; set; }
-        public bool LaminateIsLPL { get; set; }
         public string FinishCode { get; set; }
         public Nullable<int> SeatingGrade { get; set; }
+        public bool LaminateIsTFL { get; set; }
     
         public virtual ICollection<SeriesImageFile> SeriesImageFiles { get; set; }
         public virtual ICollection<TypicalImageFile> TypicalImageFiles { get; set; }
