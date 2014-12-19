@@ -38,6 +38,7 @@ namespace PDWDBContext
         public string DealershipPOCPhone { get; set; }
         public Nullable<int> DealershipPOCAcctType { get; set; }
         public Nullable<int> ContentType { get; set; }
+        public bool IncludeDealerImage { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual User CreatedByUser { get; set; }

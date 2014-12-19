@@ -627,6 +627,7 @@
           <Property Name="LayoutID" Type="int" />
           <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="ContentType" Type="int" />
+          <Property Name="IncludeDealerImage" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="eCollateralSections">
           <Key>
@@ -3966,6 +3967,7 @@
           <Property Type="String" Name="DealershipPOCPhone" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="DealershipPOCAcctType" />
           <Property Type="Int32" Name="ContentType" />
+          <Property Type="Boolean" Name="IncludeDealerImage" Nullable="false" />
         </EntityType>
         <EntityType Name="eCollateralSection">
           <Key>
@@ -4779,6 +4781,7 @@
           <EntitySetMapping Name="eCollateralItems">
             <EntityTypeMapping TypeName="PaoliPDWModel.eCollateralItem">
               <MappingFragment StoreEntitySet="eCollateralItems">
+                <ScalarProperty Name="IncludeDealerImage" ColumnName="IncludeDealerImage" />
                 <ScalarProperty Name="ContentType" ColumnName="ContentType" />
                 <ScalarProperty Name="DealershipPOCAcctType" ColumnName="DealershipPOCAcctType" />
                 <ScalarProperty Name="DealershipPOCPhone" ColumnName="DealershipPOCPhone" />

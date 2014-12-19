@@ -29,5 +29,7 @@ namespace PDWModels.eCollateral
 		public string EditViewName { get; set; }
 		public string DisplayViewName { get; set; }
 		public List<DetailItem> Details { get; set; }
+		public bool AddDealerImage { get; set; }
+		public string DealerImageName { get; set; }
 	}
 }

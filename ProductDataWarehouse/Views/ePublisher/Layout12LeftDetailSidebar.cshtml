@@ -25,6 +25,12 @@
 		<div class="onecolthreebkl">
 @Html.EditorFor( m => m.Details[6], templateName: "DetailItemNoImage", additionalViewData: new { index = 6 } )
 		</div>
+			@if( !string.IsNullOrEmpty( Model.DealerImageName ) )
+   {
+		<div class="onecolthreebkl">
+			@Html.CheckBoxFor( m => m.AddDealerImage ) Include Dealer Image
+		</div>
+   }
 		<div class="onecolthreebkl">
 @Html.EditorFor( m => m.Details[7], templateName: "DetailItemNoImage", additionalViewData: new { index = 7 } )
 		</div>

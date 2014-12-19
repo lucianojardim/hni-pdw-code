@@ -32,6 +32,12 @@
 		<div class="onecolthreebkl">
 		@Html.DisplayFor( m => m.Details[8], templateName: "DetailItemNoImage", additionalViewData: new { index = 8 } )
 		</div>
+			@if( !string.IsNullOrEmpty( Model.DealerImageName ) && Model.AddDealerImage )
+   {
+		<div class="onecolthreebkl">
+			<img src="@("/images/" + Model.DealerImageName)" />
+		</div>
+   }
 		<div class="onecolthreebkl">
 		@Html.DisplayFor( m => m.Details[9], templateName: "DetailItemNoImage", additionalViewData: new { index = 9 } )
 		</div>

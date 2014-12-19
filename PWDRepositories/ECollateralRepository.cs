@@ -197,6 +197,8 @@ namespace PWDRepositories
 			}
 			newItem.CustomerName = settings.CustomerName;
 			newItem.ProjectName = settings.ProjectName;
+			
+			newItem.IncludeDealerImage = false;
 
 			newItem.Status = StatusTypes.Incomplete;
 
@@ -358,6 +360,16 @@ namespace PWDRepositories
 			dInfo.EditViewName = Layouts.LayoutEditViews[dbItem.LayoutID.Value];
 			dInfo.DisplayViewName = Layouts.LayoutDisplayViews[dbItem.LayoutID.Value];
 			dInfo.Details = new List<ECollateralDetails.DetailItem>();
+			if( dbItem.DealershipID.HasValue )
+			{
+				dInfo.AddDealerImage = dbItem.IncludeDealerImage && !string.IsNullOrEmpty( dbItem.Company.ImageFileName );
+				dInfo.DealerImageName = dbItem.Company.ImageFileName;
+			}
+			else
+			{
+				dInfo.AddDealerImage = false;
+				dInfo.DealerImageName = null;
+			}
 
 			for( int i = 0; i < Layouts.LayoutSections[dbItem.LayoutID.Value]; i++ )
 			{
@@ -442,6 +454,8 @@ namespace PWDRepositories
 			{
 				dbItem.LastModifiedByDateTime = DateTime.UtcNow;
 				dbItem.LastModifiedByUserID = userId;
+
+				dbItem.IncludeDealerImage = sectionInfo.AddDealerImage && dbItem.DealershipID.HasValue && !string.IsNullOrEmpty( dbItem.Company.ImageFileName );
 
 				for( int i = 0; i < Layouts.LayoutSections[dbItem.LayoutID.Value]; i++ )
 				{
@@ -528,6 +542,8 @@ namespace PWDRepositories
 				newItem.ProjectName = dbItem.ProjectName;
 				newItem.LayoutID = dbItem.LayoutID;
 				newItem.ContentType = dbItem.ContentType;
+
+				newItem.IncludeDealerImage = dbItem.IncludeDealerImage;
 
 				newItem.Status = StatusTypes.Incomplete;
 
