@@ -748,5 +748,19 @@ namespace PWDRepositories
 				}
 			}
 		}
+
+		public bool RequestCompanyDeactiviation( int reqUserId, int companyId, string reason )
+		{
+			var dbCompany = database.Companies.FirstOrDefault( c => c.CompanyID == companyId );
+			var dbReqUser = database.Users.FirstOrDefault( u => u.UserID == reqUserId );
+
+			if( dbCompany != null )
+			{
+				( new RequestDeactivationEmailSender() ).SubmitCompanyRequestEmail( dbReqUser.FullName, dbReqUser.Company.Name, dbReqUser.Email,
+					companyId, dbCompany.Name, reason );
+			}
+
+			return false;
+		}
 	}
 }

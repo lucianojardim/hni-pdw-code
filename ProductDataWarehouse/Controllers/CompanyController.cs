@@ -184,6 +184,21 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
+		[PaoliAuthorize( "CanViewMyTerritory" )]
+		public JsonResult RequestDeactiviation( int companyId, string reason )
+		{
+			using( var cRepository = new CompanyRepository() )
+			{
+				bool bSuccess = cRepository.RequestCompanyDeactiviation( PaoliWebUser.CurrentUser.UserId, companyId, reason );
+
+				return Json( new
+				{
+					success = bSuccess
+				},
+					JsonRequestBehavior.AllowGet );
+			}
+		}
+
 		public JsonResult GetTypeListForCompany( int companyId )
 		{
 			using( var cRepository = new CompanyRepository() )

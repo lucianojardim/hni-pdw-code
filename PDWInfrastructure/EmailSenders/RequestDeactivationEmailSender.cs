@@ -41,5 +41,37 @@ namespace PDWInfrastructure.EmailSenders
 
 			return false;
 		}
+
+		public bool SubmitCompanyRequestEmail(
+			string requestingUserName,
+			string requestingUserCompany,
+			string requestingUserEmail,
+			int companyId,
+			string companyName,
+			string reason )
+		{
+			try
+			{
+				StringBuilder template;
+				if( ReadEmailTemplate( "RequestCompanyDeactivation", out template ) )
+				{
+					// perform substitutions
+					template.Replace( "[{RequestingUser}]", requestingUserName );
+					template.Replace( "[{RequestingUserCompany}]", requestingUserCompany );
+					template.Replace( "[{RequestingUserEmail}]", requestingUserEmail );
+					template.Replace( "[{CompanyID}]", companyId.ToString() );
+					template.Replace( "[{CompanyName}]", companyName );
+					template.Replace( "[{Reasons}]", reason );
+
+					return SubmitEmail( new List<string>() { "mypaoli@paoli.com", "paoli@getvitaminj.com" }, null, null, GetSubject( template ), template );
+				}
+			}
+			catch( Exception ex )
+			{
+				System.Diagnostics.Debug.WriteLine( "Unable to send email: {0}", ex.Message );
+			}
+
+			return false;
+		}
 	}
 }

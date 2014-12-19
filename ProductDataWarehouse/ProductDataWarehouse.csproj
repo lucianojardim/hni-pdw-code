@@ -134,6 +134,7 @@
     <Content Include="Content\Email Templates\NewCollateralOrderShipment.htm" />
     <Content Include="Content\Email Templates\NewSpecRequest.htm" />
     <Content Include="Content\Email Templates\NewSpecRequestSpecTeam.htm" />
+    <Content Include="Content\Email Templates\RequestCompanyDeactivation.htm" />
     <Content Include="Content\Email Templates\RequestDeactivation.htm" />
     <Content Include="Content\Email Templates\ResetPassword.htm" />
     <Content Include="Content\Email Templates\ShareEPublisher.htm" />
