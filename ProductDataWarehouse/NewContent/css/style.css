@@ -425,6 +425,7 @@ span.btn11                                 { padding:6px 15px; color:#FFFFFF; cu
 .main_inner8_rt_msg p                      { color:#454545; font-size:10px;font-family: Helvetica, Arial, sans-serif; padding-top:4px;}
 .main_inner8_rt_msg img                    { display:block; }
 .msg1                                      { width:920px; min-height:108px; background:#FFF; padding:6px; resize:none; border:1px solid #eaeaea;}
+.main_inner8_rt_msg .msg2   { width:286px; border:1px solid #eaeaea; padding:6px; vertical-align:middle; display:inline-block; height:12px;  font-size:14px; color:#454545; font-family: "HelveticaNeue-Light", "Helvetica Neue Light", Helvetica, Arial, sans-serif;}
 
 
 

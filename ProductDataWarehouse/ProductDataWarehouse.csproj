@@ -136,6 +136,7 @@
     <Content Include="Content\Email Templates\NewSpecRequestSpecTeam.htm" />
     <Content Include="Content\Email Templates\RequestCompanyDeactivation.htm" />
     <Content Include="Content\Email Templates\RequestDeactivation.htm" />
+    <Content Include="Content\Email Templates\RequestEmailChange.htm" />
     <Content Include="Content\Email Templates\ResetPassword.htm" />
     <Content Include="Content\Email Templates\ShareEPublisher.htm" />
     <Content Include="Content\fancybox\blank.gif" />

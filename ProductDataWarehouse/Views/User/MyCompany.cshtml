@@ -104,6 +104,23 @@
 		</div>
 	</div>
 
+	<a href="#emailChangeRequest" id="mainChangeEmailBtn"></a>
+	<div id="emailChangeRequest">
+		<div class="main_inner9_btm"> 
+			<div class="main_inner9_btm_top">
+				<div class="main_inner8_rt_msg">
+					<h2 class="bold">Request Email Address Change</h2>
+					<h5>Please provide the new email address for this user.</h5>
+					<input class="msg2" id="NewAddress" name="NewAddress" />
+					<input type="hidden" id="EUserID" value="" />
+				</div>
+				<i class="clear_0"></i>
+			</div>
+			<div class="clear"></div>
+			<span class="btn7 cancelECBtn">CANCEL</span> <span class="btn8 submitECBtn">SAVE</span> 
+		</div>
+	</div>
+
 	<a href="#editDealerContactInfo" id="mainEditContactBtn"></a>
 	<div id="editDealerContactInfo">
 	<div class="main_inner2_btm">
@@ -201,6 +218,7 @@
 					{ userId: $('#DUserID').val(), reason: $('#Reason').val() },
 					function(data, textStatus, jqXHR) {
 						alert('Thank you for your request.  We\'ll process it shortly.');
+						$('#Reason').val('');
 						$.fancybox.close();
 					},
     				function (jqXHR, textStatus, errorThrown) {    			
@@ -210,6 +228,45 @@
 		});
 
 		$('.cancelDDBtn').on('click', function() {
+			$.fancybox.close();
+		});
+
+		$('#mainChangeEmailBtn').fancybox({
+			'autoDimensions': false,
+			'width': 972,
+			'height': 170,
+			'padding': 20,
+			'margin': 0,
+			'scrolling': 'auto',
+			'titleShow': false
+		});
+
+		function isValidEmailAddress(emailAddress) {
+			var pattern = new RegExp('^[A-Za-z0-9](([_\\.\\-\\+]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$');
+			return pattern.test(emailAddress);
+		};
+
+		$('.submitECBtn').click(function (e) {
+			if( $('#NewAddress').val() != null && $('#NewAddress').val() != '' ) {
+				if( !isValidEmailAddress( $('#NewAddress').val() ) ) {
+					alert( 'Please provide a valid email address' );
+					return;
+				}
+
+				makeAjaxCall('/User/RequestEmailChange',
+					{ userId: $('#EUserID').val(), emailAddress: $('#NewAddress').val() },
+					function(data, textStatus, jqXHR) {
+						alert('Thank you for your request.  We\'ll process it shortly.');
+						$('#NewAddress').val('');
+						$.fancybox.close();
+					},
+    				function (jqXHR, textStatus, errorThrown) {    			
+    				}
+    			);
+			}
+		});
+
+		$('.cancelECBtn').on('click', function() {
 			$.fancybox.close();
 		});
 
@@ -273,6 +330,12 @@
 
 							$('#mainDeactivateBtn').trigger('click');
 						});
+
+						$('.changeEmailBtn').on('click', function() {
+							$('#EUserID').val($(this).data('id'));
+
+							$('#mainChangeEmailBtn').trigger('click');
+						});
 					},
 					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Users:' + errorThrown) }
 				);
@@ -288,9 +351,13 @@
 					@if( PDWInfrastructure.PaoliWebUser.CurrentUser.CanViewMyTerritory )
 	 {
 					<text>
-					,{ "sName": "EditButtons", "sTitle": "Deactivate", "sClass": "hasSpan", "aTargets": [4], "mDataProp": "EditButtons", "bSortable": false, "sWidth": "5%",
+					,{ "sName": "EditButtons", "sTitle": "Actions", "sClass": "hasSpan", "aTargets": [4], "mDataProp": "EditButtons", "bSortable": false, "sWidth": "5%",
 						"fnRender": function(oObj) {
-							return '<span class="btn13 deactivateBtn" data-id="' + oObj.aData["UserID"] + '" title="Request Deactivation">X</span>';
+							var s = '';
+							s += '<span class="btn13 deactivateBtn" data-id="' + oObj.aData["UserID"] + '" title="Request Deactivation">X</span>';
+							s += '&nbsp;';
+							s += '<span class="btn13 changeEmailBtn" data-id="' + oObj.aData["UserID"] + '" title="Request Email Change"><i class="fa fa-envelope-o"></i></span>';
+							return s;
 						}
 					}					</text>
 					}

@@ -108,6 +108,7 @@
 					{ companyId: $('#DCompanyID').val(), reason: $('#Reason').val() },
 					function(data, textStatus, jqXHR) {
 						alert('Thank you for your request.  We\'ll process it shortly.');
+						$('#Reason').val('');
 						$.fancybox.close();
 					},
     				function (jqXHR, textStatus, errorThrown) {    			

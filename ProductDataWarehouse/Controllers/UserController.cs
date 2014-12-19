@@ -264,6 +264,21 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanViewMyTerritory" )]
+		public JsonResult RequestEmailChange( int userId, string emailAddress )
+		{
+			using( var aRepository = new UserRepository() )
+			{
+				bool bSuccess = aRepository.RequestUserEmailChange( PaoliWebUser.CurrentUser.UserId, userId, emailAddress );
+
+				return Json( new
+				{
+					success = bSuccess
+				},
+					JsonRequestBehavior.AllowGet );
+			}
+		}
+
+		[PaoliAuthorize( "CanViewMyTerritory" )]
 		public JsonResult RequestDeactiviation( int userId, string reason )
 		{
 			using( var aRepository = new UserRepository() )
