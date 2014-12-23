@@ -640,26 +640,33 @@ namespace PWDRepositories
 				var reloadedOrder = database.CollateralOrders
 					.Include( c => c.CreatedByUser )
 					.Include( c => c.CreatedByUser.Company )
+					.Include( c => c.CreatedByUser.UserNotification )
 					.Include( c => c.PaoliMember )
 					.Include( c => c.PaoliMember.Company )
+					.Include( c => c.PaoliMember.UserNotification )
 					.Include( c => c.PaoliSalesRepMember )
 					.Include( c => c.PaoliSalesRepMember.Company )
+					.Include( c => c.PaoliSalesRepMember.UserNotification )
 					.Include( c => c.DealerMember )
 					.Include( c => c.DealerMember.Company )
+					.Include( c => c.DealerMember.UserNotification )
 					.Include( c => c.Dealer )
 					.Include( c => c.SPPaoliMember )
 					.Include( c => c.SPPaoliMember.Company )
+					.Include( c => c.SPPaoliMember.UserNotification )
 					.Include( c => c.SPPaoliSalesRepMember )
 					.Include( c => c.SPPaoliSalesRepMember.Company )
+					.Include( c => c.SPPaoliSalesRepMember.UserNotification )
 					.Include( c => c.SPDealerMember )
 					.Include( c => c.SPDealerMember.Company )
+					.Include( c => c.SPDealerMember.UserNotification )
 					.Include( c => c.SPDealer )
 					.FirstOrDefault( c => c.OrderID == newOrder.OrderID );
 
 				EmailSender.EmailTarget createdByEmail = null;
 				List<EmailSender.EmailTarget> salesRepEmails = new List<EmailSender.EmailTarget>(), requestedForEmails = new List<EmailSender.EmailTarget>();
 
-				GetEmailList( reloadedOrder, out createdByEmail, salesRepEmails, requestedForEmails );
+				GetEmailList( reloadedOrder, "NewCollateralOrder", "NewCollateralOrderTerritory", out createdByEmail, salesRepEmails, requestedForEmails );
 
 				( new NewCollateralOrderEmailSender( "NewCollateralOrderCreatedBy" ) ).SubmitNewOrderEmail( createdByEmail.EmailAddress,
 					ToEmailOrderSummary( createdByEmail, reloadedOrder ), createdByEmail.FromDetails );
@@ -776,12 +783,12 @@ namespace PWDRepositories
 			return summary;
 		}
 
-		private List<EmailSender.EmailTarget> GetEmailList( CollateralOrder orderInfo )
+		private List<EmailSender.EmailTarget> GetEmailList( CollateralOrder orderInfo, string permissionName, string permissionNameTerritory )
 		{
 			EmailSender.EmailTarget createdByEmail = null;
 			List<EmailSender.EmailTarget> salesRepEmails = new List<EmailSender.EmailTarget>(), requestedForEmails = new List<EmailSender.EmailTarget>();
 
-			GetEmailList( orderInfo, out createdByEmail, salesRepEmails, requestedForEmails );
+			GetEmailList( orderInfo, permissionName, permissionNameTerritory, out createdByEmail, salesRepEmails, requestedForEmails );
 
 			return salesRepEmails.Union( requestedForEmails )
 				.Union( new List<EmailSender.EmailTarget>() { createdByEmail } )
@@ -789,22 +796,26 @@ namespace PWDRepositories
 				.ToList();
 		}
 
-		private void GetEmailList( CollateralOrder orderInfo, out EmailSender.EmailTarget createdByEmail, 
+		private void GetEmailList( CollateralOrder orderInfo, string permissionName, string permissionNameTerritory, out EmailSender.EmailTarget createdByEmail, 
 			List<EmailSender.EmailTarget> extraSalesRepEmails, List<EmailSender.EmailTarget> requestedForEmails )
 		{
-			createdByEmail = new EmailSender.EmailTarget()
+			createdByEmail = null;
+			if( orderInfo.CreatedByUser.UserNotification.PermissionByName( permissionName ) )
 			{
-				EmailAddress = orderInfo.CreatedByUser.Email,
-				FirstName = orderInfo.CreatedByUser.FirstName,
-				FromDetails = GetPaoliMemberFromDetails( orderInfo.CreatedByUser.Company )
-			};
+				createdByEmail = new EmailSender.EmailTarget()
+				{
+					EmailAddress = orderInfo.CreatedByUser.Email,
+					FirstName = orderInfo.CreatedByUser.FirstName,
+					FromDetails = GetPaoliMemberFromDetails( orderInfo.CreatedByUser.Company )
+				};
+			}
 
 			switch( orderInfo.RequestingParty )
 			{
 				case NewOrderInformation.RPPaoliMember:
 					if( orderInfo.PaoliMember != null )
 					{
-						if( orderInfo.PaoliMember.Enabled || EmailSender.EmailDisabledUsers )
+						if( (orderInfo.PaoliMember.Enabled || EmailSender.EmailDisabledUsers) && orderInfo.PaoliMember.UserNotification.PermissionByName( permissionName ) )
 						{
 							requestedForEmails.Add( new EmailSender.EmailTarget()
 							{
@@ -818,7 +829,7 @@ namespace PWDRepositories
 				case NewOrderInformation.RPPaoliRepresentative:
 					if( orderInfo.PaoliSalesRepMember != null )
 					{
-						if( orderInfo.PaoliSalesRepMember.Enabled || EmailSender.EmailDisabledUsers )
+						if( ( orderInfo.PaoliSalesRepMember.Enabled || EmailSender.EmailDisabledUsers ) && orderInfo.PaoliSalesRepMember.UserNotification.PermissionByName( permissionName ) )
 						{
 							requestedForEmails.Add( new EmailSender.EmailTarget()
 							{
@@ -832,7 +843,7 @@ namespace PWDRepositories
 				case NewOrderInformation.RPDealer:
 					if( orderInfo.DealerMember != null )
 					{
-						if( orderInfo.DealerMember.Enabled || EmailSender.EmailDisabledUsers )
+						if( ( orderInfo.DealerMember.Enabled || EmailSender.EmailDisabledUsers ) && orderInfo.DealerMember.UserNotification.PermissionByName( permissionName ) )
 						{
 							requestedForEmails.Add( new EmailSender.EmailTarget()
 							{
@@ -846,8 +857,8 @@ namespace PWDRepositories
 					{
 						extraSalesRepEmails.AddRange( database.Companies.Where( c => c.TerritoryID == orderInfo.Dealer.TerritoryID && c.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup )
 							.SelectMany( srg => srg.Users )
-							.Where( u => u.Enabled || EmailSender.EmailDisabledUsers )
 							.ToList()
+							.Where( u => ( u.Enabled || EmailSender.EmailDisabledUsers ) && u.UserNotification.PermissionByName( permissionNameTerritory ) )
 							.Select( srgm => new EmailSender.EmailTarget()
 							{
 								EmailAddress = srgm.Email,
@@ -866,7 +877,7 @@ namespace PWDRepositories
 				case NewOrderInformation.RPPaoliMember:
 					if( orderInfo.SPPaoliMember != null )
 					{
-						if( orderInfo.SPPaoliMember.Enabled || EmailSender.EmailDisabledUsers )
+						if( ( orderInfo.SPPaoliMember.Enabled || EmailSender.EmailDisabledUsers ) && orderInfo.SPPaoliMember.UserNotification.PermissionByName( permissionName ) )
 						{
 							requestedForEmails.Add( new EmailSender.EmailTarget()
 							{
@@ -880,7 +891,7 @@ namespace PWDRepositories
 				case NewOrderInformation.RPPaoliRepresentative:
 					if( orderInfo.SPPaoliSalesRepMember != null )
 					{
-						if( orderInfo.SPPaoliSalesRepMember.Enabled || EmailSender.EmailDisabledUsers )
+						if( ( orderInfo.SPPaoliSalesRepMember.Enabled || EmailSender.EmailDisabledUsers ) && orderInfo.SPPaoliSalesRepMember.UserNotification.PermissionByName( permissionName ) )
 						{
 							requestedForEmails.Add( new EmailSender.EmailTarget()
 							{
@@ -894,7 +905,7 @@ namespace PWDRepositories
 				case NewOrderInformation.RPDealer:
 					if( orderInfo.SPDealerMember != null )
 					{
-						if( orderInfo.SPDealerMember.Enabled || EmailSender.EmailDisabledUsers )
+						if( ( orderInfo.SPDealerMember.Enabled || EmailSender.EmailDisabledUsers ) && orderInfo.SPDealerMember.UserNotification.PermissionByName( permissionName ) )
 						{
 							requestedForEmails.Add( new EmailSender.EmailTarget()
 							{
@@ -908,8 +919,8 @@ namespace PWDRepositories
 					{
 						extraSalesRepEmails.AddRange( database.Companies.Where( c => c.TerritoryID == orderInfo.SPDealer.TerritoryID && c.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup )
 							.SelectMany( srg => srg.Users )
-							.Where( u => u.Enabled || EmailSender.EmailDisabledUsers )
 							.ToList()
+							.Where( u => ( u.Enabled || EmailSender.EmailDisabledUsers ) && u.UserNotification.PermissionByName( permissionNameTerritory ) )
 							.Select( srgm => new EmailSender.EmailTarget()
 							{
 								EmailAddress = srgm.Email,
@@ -1717,19 +1728,26 @@ namespace PWDRepositories
 			var dbOrder = database.CollateralOrders
 				.Include( c => c.CreatedByUser )
 				.Include( c => c.CreatedByUser.Company )
+				.Include( c => c.CreatedByUser.UserNotification )
 				.Include( c => c.PaoliMember )
 				.Include( c => c.PaoliMember.Company )
+				.Include( c => c.PaoliMember.UserNotification )
 				.Include( c => c.PaoliSalesRepMember )
 				.Include( c => c.PaoliSalesRepMember.Company )
+				.Include( c => c.PaoliSalesRepMember.UserNotification )
 				.Include( c => c.DealerMember )
 				.Include( c => c.DealerMember.Company )
+				.Include( c => c.DealerMember.UserNotification )
 				.Include( c => c.Dealer )
 				.Include( c => c.SPPaoliMember )
 				.Include( c => c.SPPaoliMember.Company )
+				.Include( c => c.SPPaoliMember.UserNotification )
 				.Include( c => c.SPPaoliSalesRepMember )
 				.Include( c => c.SPPaoliSalesRepMember.Company )
+				.Include( c => c.SPPaoliSalesRepMember.UserNotification )
 				.Include( c => c.SPDealerMember )
 				.Include( c => c.SPDealerMember.Company )
+				.Include( c => c.SPDealerMember.UserNotification )
 				.Include( c => c.SPDealer )
 				.Include( c => c.CollateralOrderDetails )
 				.FirstOrDefault( c => c.OrderID == orderID );
@@ -1780,7 +1798,7 @@ namespace PWDRepositories
 
 			if( database.SaveChanges() > 0 )
 			{
-				foreach( var emailTarget in GetEmailList( dbOrder ) )
+				foreach( var emailTarget in GetEmailList( dbOrder, "NewCollateralOrderShipment", "NewCollateralOrderShipmentTerritory" ) )
 				{
 					var summary = ToEmailShipmentSummary( emailTarget, dbShipment );
 					if( dbOrder.Status == NewOrderInformation.SPartial )

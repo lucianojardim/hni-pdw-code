@@ -179,6 +179,22 @@ namespace PWDRepositories
 					newUser.ImageFileName ) );
 			}
 
+			newUser.UserNotification = new UserNotification()
+			{
+				NewCollateralOrder = true,
+				NewCollateralOrderTerritory = true,
+				NewCollateralOrderShipment = true,
+				NewCollateralOrderShipmentTerritory = true,
+				NewSpecRequest = true,
+				NewSpecRequestTerritory = true,
+				CompleteSpecRequest = true,
+				CompleteSpecRequestTerritory = true,
+				UpdateSpecRequest = true,
+				UpdateSpecRequestTerritory = true,
+				ReOpenSpecRequest = true,
+				ReOpenSpecRequestTerritory = true
+			};
+
 			database.Users.Add( newUser );
 
 			if( database.SaveChanges() > 0 )
@@ -598,7 +614,7 @@ namespace PWDRepositories
 
 		public UserSubscriptionSummary GetUserSubscriptionSummary( int userId )
 		{
-			var eUser = database.UserSubscriptions.FirstOrDefault( u => u.UserID == userId );
+			var eUser = database.UserNotifications.FirstOrDefault( u => u.UserID == userId );
 			if( eUser == null )
 			{
 				return new UserSubscriptionSummary()
@@ -610,40 +626,43 @@ namespace PWDRepositories
 			return new UserSubscriptionSummary()
 			{
 				UserID = userId,
-				ProductIntroductions = eUser.ProductIntroductions,
-				BehindTheScenes = eUser.BehindTheScenes,
-				MeetOurMembers = eUser.MeetOurMembers,
-				ProgramChanges = eUser.ProgramChanges,
-				PricelistUpdates = eUser.PricelistUpdates,
-				QuoteRequests = eUser.QuoteRequests,
-				SMSAlerts = eUser.SMSAlerts,
-				SMSPhoneNumber = eUser.SMSAlerts ? eUser.SMSPhoneNumber : eUser.User.CellPhone
+				NewCollateralOrder = eUser.NewCollateralOrder,
+				NewCollateralOrderTerritory = eUser.NewCollateralOrderTerritory,
+				NewCollateralOrderShipment = eUser.NewCollateralOrderShipment,
+				NewCollateralOrderShipmentTerritory = eUser.NewCollateralOrderShipmentTerritory,
+				NewSpecRequest = eUser.NewSpecRequest,
+				NewSpecRequestTerritory = eUser.NewSpecRequestTerritory,
+				CompleteSpecRequest = eUser.CompleteSpecRequest,
+				CompleteSpecRequestTerritory = eUser.CompleteSpecRequestTerritory,
+				UpdateSpecRequest = eUser.UpdateSpecRequest,
+				UpdateSpecRequestTerritory = eUser.UpdateSpecRequestTerritory,
+				ReOpenSpecRequest = eUser.ReOpenSpecRequest,
+				ReOpenSpecRequestTerritory = eUser.ReOpenSpecRequestTerritory,
 			};
 		}
 
 		public void UpdateUserSubscriptions( UserSubscriptionSummary uSummary )
 		{
-			var eUser = database.UserSubscriptions.FirstOrDefault( u => u.UserID == uSummary.UserID );
+			var eUser = database.UserNotifications.FirstOrDefault( u => u.UserID == uSummary.UserID );
 			if( eUser == null )
 			{
-				eUser = new UserSubscription();
+				eUser = new UserNotification();
 				eUser.UserID = uSummary.UserID;
-				database.UserSubscriptions.Add( eUser );
+				database.UserNotifications.Add( eUser );
 			}
 
-			if( uSummary.SMSAlerts && uSummary.SMSPhoneNumber == null )
-			{
-				throw new ApplicationException( "Please provide a phone number in order to receive SMS Alerts" );
-			}
-
-			eUser.ProductIntroductions = uSummary.ProductIntroductions;
-			eUser.BehindTheScenes = uSummary.BehindTheScenes;
-			eUser.MeetOurMembers = uSummary.MeetOurMembers;
-			eUser.ProgramChanges = uSummary.ProgramChanges;
-			eUser.PricelistUpdates = uSummary.PricelistUpdates;
-			eUser.QuoteRequests = uSummary.QuoteRequests;
-			eUser.SMSAlerts = uSummary.SMSAlerts;
-			eUser.SMSPhoneNumber = uSummary.SMSAlerts ? uSummary.SMSPhoneNumber : null;
+			eUser.NewCollateralOrder = uSummary.NewCollateralOrder;
+			eUser.NewCollateralOrderTerritory = uSummary.NewCollateralOrderTerritory;
+			eUser.NewCollateralOrderShipment = uSummary.NewCollateralOrderShipment;
+			eUser.NewCollateralOrderShipmentTerritory = uSummary.NewCollateralOrderShipmentTerritory;
+			eUser.NewSpecRequest = uSummary.NewSpecRequest;
+			eUser.NewSpecRequestTerritory = uSummary.NewSpecRequestTerritory;
+			eUser.CompleteSpecRequest = uSummary.CompleteSpecRequest;
+			eUser.CompleteSpecRequestTerritory = uSummary.CompleteSpecRequestTerritory;
+			eUser.UpdateSpecRequest = uSummary.UpdateSpecRequest;
+			eUser.UpdateSpecRequestTerritory = uSummary.UpdateSpecRequestTerritory;
+			eUser.ReOpenSpecRequest = uSummary.ReOpenSpecRequest;
+			eUser.ReOpenSpecRequestTerritory = uSummary.ReOpenSpecRequestTerritory;
 
 			database.SaveChanges();
 		}

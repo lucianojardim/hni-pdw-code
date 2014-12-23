@@ -53,6 +53,7 @@
 			@if( !CurrentUser.HasTempPassword )
    {
                             <li><a href="@Url.Action( "MyAccount", "User" )">My Profile</a></li>
+                            <li><a href="@Url.Action( "Notifications", "User" )">My Notifications</a></li>
 	   if( CurrentUser.CanViewMyTerritory )
 	   {
                             <li><a href="@Url.Action( "MyTerritory", "User" )">My Territory</a></li>

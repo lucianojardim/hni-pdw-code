@@ -328,7 +328,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanBeLoggedIn" )]
 		[TempPasswordCheck]
-		public ActionResult Subscriptions()
+		public ActionResult Notifications()
 		{
 			using( var uRepository = new UserRepository() )
 			{
@@ -340,7 +340,7 @@ namespace ProductDataWarehouse.Controllers
 		[TempPasswordCheck]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Subscriptions( UserSubscriptionSummary uSummary )
+		public ActionResult Notifications( UserSubscriptionSummary uSummary )
 		{
 			if( ModelState.IsValid )
 			{
@@ -350,7 +350,10 @@ namespace ProductDataWarehouse.Controllers
 					{
 						uRepository.UpdateUserSubscriptions( uSummary );
 
-						return Redirect( PaoliWebUser.CurrentUser.HomePage );
+						ViewBag.AccountUpdateSuccess = true;
+
+						// yes, do this - it forces the account to be retrieved from the database again, but keeps the viewbag entry
+						return Notifications();
 					}
 				}
 				catch( ApplicationException e )

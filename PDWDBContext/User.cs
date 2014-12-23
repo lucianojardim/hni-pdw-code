@@ -75,7 +75,6 @@ namespace PDWDBContext
         public virtual ICollection<SpecRequest> SpecRequests { get; set; }
         public virtual ICollection<SpecRequest> SpecRequests1 { get; set; }
         public virtual Company Company { get; set; }
-        public virtual UserSubscription UserSubscription { get; set; }
         public virtual ICollection<SpecRequest> SpecRequests2 { get; set; }
         public virtual ICollection<CollateralOrder> CollateralOrders { get; set; }
         public virtual ICollection<CollateralOrder> CollateralOrders1 { get; set; }
@@ -94,6 +93,7 @@ namespace PDWDBContext
         public virtual ICollection<eCollateralItem> eCollateralItems2 { get; set; }
         public virtual ICollection<SpecRequestEvent> SpecRequestEvents { get; set; }
         public virtual ICollection<LeadTimeDetail> LeadTimeDetails { get; set; }
+        public virtual UserNotification UserNotification { get; set; }
     }
     
 }

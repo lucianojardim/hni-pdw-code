@@ -533,7 +533,8 @@ namespace PWDRepositories
 			{
 				summary.specTeamMember = dbInfo.SpecTeamMember.FullName;
 				summary.recipients.Add( dbInfo.SpecTeamMember.FullName );
-				if( dbInfo.SpecTeamMember.Enabled || EmailSender.EmailDisabledUsers )
+				if( (dbInfo.SpecTeamMember.Enabled || EmailSender.EmailDisabledUsers) && 
+					dbInfo.SpecTeamMember.UserNotification.ReOpenSpecRequest )
 				{
 					// spec team member
 					emailTargets.Add( new EmailSender.EmailTarget()
@@ -552,7 +553,8 @@ namespace PWDRepositories
 				if( dbInfo.PrimaryCompany.PaoliMemberID.HasValue )
 				{
 					summary.recipients.Add( dbInfo.PrimaryCompany.PaoliMember.FullName );
-					if( dbInfo.PrimaryCompany.PaoliMember.Enabled || EmailSender.EmailDisabledUsers )
+					if( (dbInfo.PrimaryCompany.PaoliMember.Enabled || EmailSender.EmailDisabledUsers) &&
+						dbInfo.PrimaryCompany.PaoliMember.UserNotification.ReOpenSpecRequest )
 					{
 						// customer service for dealership
 						emailTargets.Add( new EmailSender.EmailTarget()
@@ -569,7 +571,8 @@ namespace PWDRepositories
 			if( dbInfo.PaoliSalesRepMemberID.HasValue )
 			{
 				summary.recipients.Add( dbInfo.PaoliSalesRepMember.FullName );
-				if( dbInfo.PaoliSalesRepMember.Enabled || EmailSender.EmailDisabledUsers )
+				if( (dbInfo.PaoliSalesRepMember.Enabled || EmailSender.EmailDisabledUsers) &&
+					dbInfo.PaoliSalesRepMember.UserNotification.ReOpenSpecRequest )
 				{
 					// sales rep member
 					emailTargets.Add( new EmailSender.EmailTarget()
@@ -586,7 +589,8 @@ namespace PWDRepositories
 			{
 				summary.dealerPOCName = dbInfo.DealerSalesRep.FullName;
 				summary.recipients.Add( summary.dealerPOCName );
-				if( dbInfo.DealerSalesRep.Enabled || EmailSender.EmailDisabledUsers )
+				if( ( dbInfo.DealerSalesRep.Enabled || EmailSender.EmailDisabledUsers ) &&
+					dbInfo.DealerSalesRep.UserNotification.ReOpenSpecRequest )
 				{
 					// dealer poc
 					emailTargets.Add( new EmailSender.EmailTarget()
@@ -803,10 +807,12 @@ namespace PWDRepositories
 						.Include( s => s.SpecRequestEvents.Select( e => e.User.Company.PaoliMember ) )
 						.Include( s => s.PaoliSalesRepMember )
 						.Include( s => s.PaoliSalesRepMember.Company )
+						.Include( s => s.PaoliSalesRepMember.UserNotification )
 						.Include( s => s.PaoliSalesRepMember.Company.PaoliMember )
 						.Include( s => s.PaoliSalesRepGroup )
 						.Include( s => s.PaoliSalesRepGroup.Users )
 						.Include( s => s.PaoliSalesRepGroup.Users.Select( u => u.Company ) )
+						.Include( s => s.PaoliSalesRepGroup.Users.Select( u => u.UserNotification ) )
 						.Include( s => s.PaoliSalesRepGroup.Users.Select( u => u.Company.PaoliMember ) )
 						.Include( s => s.DealerSalesRep )
 						.Include( s => s.DealerSalesRep.Company )
@@ -819,17 +825,26 @@ namespace PWDRepositories
 
 					//( new NewSpecRequestEmailSender( "NewSpecRequestSpecTeam" ) ).SubmitNewRequestEmail( "PAOProjectSpecTeam@paoli.com", ToEmailSpecRequestSummary( newSpec, new EmailSender.EmailTarget() ) );
 
-					( new NewSpecRequestEmailSender( "NewSpecRequest" ) ).SubmitNewRequestEmail( reloadRequest.CreatedByUserEmail,
-						ToEmailSpecRequestSummary( reloadRequest, new EmailSender.EmailTarget()
+					var cUserNotifications = database.UserNotifications.FirstOrDefault( n => n.UserID == reloadRequest.CreatedByUserID );
+					if( cUserNotifications != null )
+					{
+						if( cUserNotifications.NewSpecRequest )
 						{
-							EmailAddress = reloadRequest.CreatedByUserEmail,
-							FirstName = reloadRequest.CreatedByUserFirstName
-						} ),
-						GetPaoliMemberFromDetails( reloadRequest.CreatedByCompanyDetails ) );
+							( new NewSpecRequestEmailSender( "NewSpecRequest" ) ).SubmitNewRequestEmail( reloadRequest.CreatedByUserEmail,
+								ToEmailSpecRequestSummary( reloadRequest, new EmailSender.EmailTarget()
+								{
+									EmailAddress = reloadRequest.CreatedByUserEmail,
+									FirstName = reloadRequest.CreatedByUserFirstName
+								} ),
+								GetPaoliMemberFromDetails( reloadRequest.CreatedByCompanyDetails ) );
+						}
+					}
 
 					if( reloadRequest.PaoliSalesRepMemberID.HasValue )
 					{
-						if( reloadRequest.PaoliSalesRepMemberID.Value != reloadRequest.CreatedByUserID.Value && ( reloadRequest.PaoliSalesRepMember.Enabled || EmailSender.EmailDisabledUsers ) )
+						if( reloadRequest.PaoliSalesRepMemberID.Value != reloadRequest.CreatedByUserID.Value && 
+							( reloadRequest.PaoliSalesRepMember.Enabled || EmailSender.EmailDisabledUsers ) &&
+							reloadRequest.PaoliSalesRepMember.UserNotification.NewSpecRequest )
 						{
 							( new NewSpecRequestEmailSender( "NewSpecRequestSalesRep" ) ).SubmitNewRequestEmail( reloadRequest.PaoliSalesRepMember.Email,
 								ToEmailSpecRequestSummary( reloadRequest, new EmailSender.EmailTarget() { EmailAddress = reloadRequest.PaoliSalesRepMember.Email, FirstName = reloadRequest.PaoliSalesRepMember.FirstName } ),
@@ -840,7 +855,9 @@ namespace PWDRepositories
 					{
 						foreach( var salesRepUser in reloadRequest.PaoliSalesRepGroup.Users )
 						{
-							if( salesRepUser.UserID != reloadRequest.CreatedByUserID.Value && ( salesRepUser.Enabled || EmailSender.EmailDisabledUsers ) )
+							if( salesRepUser.UserID != reloadRequest.CreatedByUserID.Value && 
+								( salesRepUser.Enabled || EmailSender.EmailDisabledUsers ) &&
+								salesRepUser.UserNotification.NewSpecRequestTerritory )
 							{
 								( new NewSpecRequestEmailSender( "NewSpecRequestSalesRep" ) ).SubmitNewRequestEmail( salesRepUser.Email,
 									ToEmailSpecRequestSummary( reloadRequest, new EmailSender.EmailTarget() { EmailAddress = salesRepUser.Email, FirstName = salesRepUser.FirstName } ),
@@ -1074,13 +1091,16 @@ namespace PWDRepositories
 						.Include( s => s.SpecRequestEvents.Select( e => e.User.Company.PaoliMember ) )
 						.Include( s => s.PaoliSalesRepMember )
 						.Include( s => s.PaoliSalesRepMember.Company )
+						.Include( s => s.PaoliSalesRepMember.UserNotification )
 						.Include( s => s.PaoliSalesRepMember.Company.PaoliMember )
 						.Include( s => s.PaoliSalesRepGroup )
 						.Include( s => s.PaoliSalesRepGroup.Users )
 						.Include( s => s.PaoliSalesRepGroup.Users.Select( u => u.Company ) )
+						.Include( s => s.PaoliSalesRepGroup.Users.Select( u => u.UserNotification ) )
 						.Include( s => s.PaoliSalesRepGroup.Users.Select( u => u.Company.PaoliMember ) )
 						.Include( s => s.DealerSalesRep )
 						.Include( s => s.DealerSalesRep.Company )
+						.Include( s => s.DealerSalesRep.UserNotification )
 						.Include( s => s.PrimaryCompany )
 						.Include( s => s.DealerSalesRep.Company.Territory )
 						.Include( s => s.PrimaryCompany.Territory )
@@ -1091,16 +1111,25 @@ namespace PWDRepositories
 					List<EmailSender.EmailTarget> emailAddresses = new List<EmailSender.EmailTarget>();
 					if( reloadRequest.CreatedByUserEmail != null )
 					{
-						emailAddresses.Add( new EmailSender.EmailTarget()
+						var cUserNotifications = database.UserNotifications.FirstOrDefault( n => n.UserID == reloadRequest.CreatedByUserID );
+						if( cUserNotifications != null )
 						{
-							EmailAddress = reloadRequest.CreatedByUserEmail,
-							FirstName = reloadRequest.CreatedByUserFirstName,
-							FromDetails = GetPaoliMemberFromDetails( reloadRequest.CreatedByCompanyDetails )
-						} );
+							if( cUserNotifications.PermissionByName( bDoCompleteEmail ? "CompleteSpecRequest" : "UpdateSpecRequest" ) )
+							{
+								emailAddresses.Add( new EmailSender.EmailTarget()
+								{
+									EmailAddress = reloadRequest.CreatedByUserEmail,
+									FirstName = reloadRequest.CreatedByUserFirstName,
+									FromDetails = GetPaoliMemberFromDetails( reloadRequest.CreatedByCompanyDetails )
+								} );
+							}
+						}
 					}
 					if( reloadRequest.DealerSalesRep != null )
 					{
-						if( reloadRequest.DealerSalesRepID != reloadRequest.CreatedByUserID && ( reloadRequest.DealerSalesRep.Enabled || EmailSender.EmailDisabledUsers ) )
+						if( reloadRequest.DealerSalesRepID != reloadRequest.CreatedByUserID && 
+							( reloadRequest.DealerSalesRep.Enabled || EmailSender.EmailDisabledUsers ) &&
+							reloadRequest.DealerSalesRep.UserNotification.PermissionByName( bDoCompleteEmail ? "CompleteSpecRequest" : "UpdateSpecRequest" ) )
 						{
 							emailAddresses.Add( new EmailSender.EmailTarget()
 							{
@@ -1112,7 +1141,9 @@ namespace PWDRepositories
 					}
 					if( reloadRequest.PaoliSalesRepMember != null )
 					{
-						if( reloadRequest.PaoliSalesRepMemberID != reloadRequest.CreatedByUserID && ( reloadRequest.PaoliSalesRepMember.Enabled || EmailSender.EmailDisabledUsers ) )
+						if( reloadRequest.PaoliSalesRepMemberID != reloadRequest.CreatedByUserID &&
+							( reloadRequest.PaoliSalesRepMember.Enabled || EmailSender.EmailDisabledUsers ) &&
+							reloadRequest.PaoliSalesRepMember.UserNotification.PermissionByName( bDoCompleteEmail ? "CompleteSpecRequest" : "UpdateSpecRequest" ) )
 						{
 							emailAddresses.Add( new EmailSender.EmailTarget()
 							{
@@ -1125,7 +1156,9 @@ namespace PWDRepositories
 					else if( reloadRequest.PaoliSalesRepGroup != null )
 					{
 						emailAddresses.AddRange( reloadRequest.PaoliSalesRepGroup.Users
-							.Where( u => u.UserID != reloadRequest.CreatedByUserID && ( u.Enabled || EmailSender.EmailDisabledUsers ) )
+							.Where( u => u.UserID != reloadRequest.CreatedByUserID &&
+								( u.Enabled || EmailSender.EmailDisabledUsers ) &&
+								u.UserNotification.PermissionByName( bDoCompleteEmail ? "CompleteSpecRequestTerritory" : "UpdateSpecRequestTerritory" ) )
 							.Select( u => new EmailSender.EmailTarget()
 							{
 								EmailAddress = u.Email,

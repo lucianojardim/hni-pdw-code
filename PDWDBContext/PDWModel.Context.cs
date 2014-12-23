@@ -55,7 +55,6 @@ namespace PDWDBContext
         public DbSet<SpecRequestFile> SpecRequestFiles { get; set; }
         public DbSet<SpecRequest> SpecRequests { get; set; }
         public DbSet<Territory> Territories { get; set; }
-        public DbSet<UserSubscription> UserSubscriptions { get; set; }
         public DbSet<Showroom> Showrooms { get; set; }
         public DbSet<ZipCodeInfo> ZipCodeInfoes { get; set; }
         public DbSet<CollateralItem> CollateralItems { get; set; }
@@ -73,6 +72,7 @@ namespace PDWDBContext
         public DbSet<eCollateralSection> eCollateralSections { get; set; }
         public DbSet<SpecRequestEvent> SpecRequestEvents { get; set; }
         public DbSet<LeadTimeDetail> LeadTimeDetails { get; set; }
+        public DbSet<UserNotification> UserNotifications { get; set; }
     
         public virtual ObjectResult<Showroom> ClosestShowroom(Nullable<double> lat, Nullable<double> @long)
         {

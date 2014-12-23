@@ -119,6 +119,7 @@
     <Compile Include="Objects\Territory.cs" />
     <Compile Include="Objects\Typical.cs" />
     <Compile Include="Objects\User.cs" />
+    <Compile Include="Objects\UserNotification.cs" />
     <Compile Include="PageLink.cs">
       <DependentUpon>PDWModel.tt</DependentUpon>
     </Compile>
@@ -205,7 +206,7 @@
     <Compile Include="UserLogin.cs">
       <DependentUpon>PDWModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="UserSubscription.cs">
+    <Compile Include="UserNotification.cs">
       <DependentUpon>PDWModel.tt</DependentUpon>
     </Compile>
     <Compile Include="VideoLink.cs">
