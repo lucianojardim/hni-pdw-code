@@ -264,6 +264,28 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanViewMyTerritory" )]
+		public JsonResult GetDealerContactInfo( int userId )
+		{
+			using( var aRepository = new UserRepository() )
+			{
+				return Json( aRepository.GetDealerContactInfo( userId ),
+					JsonRequestBehavior.AllowGet );
+			}
+		}
+
+		[PaoliAuthorize( "CanViewMyTerritory" )]
+		[TempPasswordCheck]
+		public ActionResult DealershipContact( DealerContactInfo uInfo )
+		{
+			using( var aRepository = new UserRepository() )
+			{
+				aRepository.UpdateDealerContact( PaoliWebUser.CurrentUser.UserId, uInfo );
+
+				return RedirectToAction( "MyCompanyInfo", "User", new { id = uInfo.UserCompanyID } );
+			}
+		}
+
+		[PaoliAuthorize( "CanViewMyTerritory" )]
 		public JsonResult RequestEmailChange( int userId, string emailAddress )
 		{
 			using( var aRepository = new UserRepository() )

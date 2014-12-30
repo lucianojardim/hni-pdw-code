@@ -862,5 +862,82 @@ namespace PWDRepositories
 
 			return false;
 		}
+
+		public DealerContactInfo GetDealerContactInfo( int userId )
+		{
+			var eUser = database.Users.FirstOrDefault( u => u.UserID == userId );
+			if( eUser == null )
+			{
+				throw new Exception( "Unable to find user." );
+			}
+
+			return new DealerContactInfo()
+			{
+				UserID = eUser.UserID,
+				UserCompanyID = eUser.CompanyID,
+
+				FirstName = eUser.FirstName,
+				LastName = eUser.LastName,
+				Title = eUser.Title,
+
+				BusinessAddress1 = eUser.Address1,
+				BusinessAddress2 = eUser.Address2,
+				BusinessCity = eUser.City,
+				BusinessState = eUser.State,
+				BusinessZip = eUser.Zip,
+				BusinessPhone = eUser.BusinessPhone,
+				CellPhone = eUser.CellPhone,
+				FaxNumber = eUser.FAX,
+				Extension = eUser.Extension,
+
+				HomeAddress1 = eUser.HomeAddress1,
+				HomeAddress2 = eUser.HomeAddress2,
+				HomeCity = eUser.HomeCity,
+				HomeState = eUser.HomeState,
+				HomeZip = eUser.HomeZip,
+				HomePhone = eUser.HomePhone,
+				PersonalCellPhone = eUser.PersonalCellPhone
+			};
+		}
+
+		public void UpdateDealerContact( int reqUserId, DealerContactInfo uInfo )
+		{
+			var eUser = database.Users.FirstOrDefault( u => u.UserID == uInfo.UserID );
+			var dbReqUser = database.Users.FirstOrDefault( u => u.UserID == reqUserId );
+			if( eUser == null )
+			{
+				throw new Exception( "Unable to find user." );
+			}
+
+			eUser.FirstName = uInfo.FirstName;
+			eUser.LastName = uInfo.LastName;
+			eUser.Title = uInfo.Title;
+
+			eUser.Address1 = uInfo.BusinessAddress1;
+			eUser.Address2 = uInfo.BusinessAddress2;
+			eUser.City = uInfo.BusinessCity;
+			eUser.State = uInfo.BusinessState;
+			eUser.Zip = uInfo.BusinessZip;
+			eUser.BusinessPhone = uInfo.BusinessPhone;
+			eUser.CellPhone = uInfo.CellPhone;
+			eUser.FAX = uInfo.FaxNumber;
+			eUser.Extension = uInfo.Extension;
+
+			eUser.HomeAddress1 = uInfo.HomeAddress1;
+			eUser.HomeAddress2 = uInfo.HomeAddress2;
+			eUser.HomeCity = uInfo.HomeCity;
+			eUser.HomeState = uInfo.HomeState;
+			eUser.HomeZip = uInfo.HomeZip;
+			eUser.HomePhone = uInfo.HomePhone;
+			eUser.PersonalCellPhone = uInfo.PersonalCellPhone;
+
+			database.SaveChanges();
+
+			new ChangeDealerUserInfoEmailSender().SubmitRequestEmail( dbReqUser.FullName, dbReqUser.Company.Name, uInfo.UserID, eUser.Company.Name, 
+				uInfo.FirstName, uInfo.LastName, uInfo.Title,
+				uInfo.BusinessAddress1, uInfo.BusinessAddress2, uInfo.BusinessCity, uInfo.BusinessState, uInfo.BusinessZip, uInfo.BusinessPhone,
+				uInfo.CellPhone, uInfo.Extension, uInfo.FaxNumber, 
+				uInfo.HomeAddress1, uInfo.HomeAddress2, uInfo.HomeCity, uInfo.HomeState, uInfo.HomeZip, uInfo.HomePhone, uInfo.PersonalCellPhone );
+		}
 	}
 }

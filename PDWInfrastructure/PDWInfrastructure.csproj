@@ -84,6 +84,8 @@
     <Compile Include="DealerPageTableParams.cs" />
     <Compile Include="DealerTableParams.cs" />
     <Compile Include="Attributes\EmailAttribute.cs" />
+    <Compile Include="EmailSenders\ChangeDealerInfoEmailSender.cs" />
+    <Compile Include="EmailSenders\ChangeDealerUserInfoEmailSender.cs" />
     <Compile Include="EmailSenders\CompletedSpecRequestEmailSender.cs" />
     <Compile Include="EmailSenders\EmailSender.cs" />
     <Compile Include="EmailSenders\ErrorEmailSender.cs" />

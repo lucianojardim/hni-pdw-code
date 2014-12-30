@@ -47,7 +47,7 @@ namespace ProductDataWarehouse.Controllers
 		{
 			using( var cRepository = new CompanyRepository() )
 			{
-				cRepository.UpdateCompany( cInfo );
+				cRepository.UpdateCompany( PaoliWebUser.CurrentUser.UserId, cInfo );
 
 				return RedirectToAction( "MyCompanyInfo", "User", new { id = cInfo.CompanyID } );
 			}

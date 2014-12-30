@@ -289,9 +289,10 @@ namespace PWDRepositories
 			return database.SaveChanges() > 0;
 		}
 
-		public bool UpdateCompany( MyCompanyInfo cInfo )
+		public void UpdateCompany( int reqUserId, MyCompanyInfo cInfo )
 		{
 			var eCompany = database.Companies.FirstOrDefault( u => u.CompanyID == cInfo.CompanyID );
+			var dbReqUser = database.Users.FirstOrDefault( u => u.UserID == reqUserId );
 			if( eCompany == null )
 			{
 				throw new Exception( "Unable to find company." );
@@ -308,7 +309,10 @@ namespace PWDRepositories
 			eCompany.ContactEmail = cInfo.ContactEmail;
 			eCompany.WebSite = cInfo.WebSite;
 
-			return database.SaveChanges() > 0;
+			database.SaveChanges();
+
+			new ChangeDealerInfoEmailSender().SubmitRequestEmail( dbReqUser.FullName, dbReqUser.Company.Name, cInfo.CompanyID, cInfo.CompanyName, cInfo.Address1, cInfo.Address2,
+				cInfo.City, cInfo.State, cInfo.Zip, cInfo.PhoneNumber, cInfo.FaxNumber, cInfo.ContactEmail, cInfo.WebSite );
 		}
 
 		public bool DeleteCompany( int id )

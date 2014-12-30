@@ -119,6 +119,7 @@
     <Compile Include="Typicals\TypicalListData.cs" />
     <Compile Include="Typicals\TypicalListGallery.cs" />
     <Compile Include="Users\ChangePWDetail.cs" />
+    <Compile Include="Users\DealerContactInfo.cs" />
     <Compile Include="Users\MyAccountInfo.cs" />
     <Compile Include="Users\UserActivityExport.cs" />
     <Compile Include="Users\UserContactInfo.cs" />

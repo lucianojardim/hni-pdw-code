@@ -557,7 +557,7 @@ hr { border:0; width:100%; background-color:#eaeaea; color:#eaeaea; height:1px; 
 
 /*EI new styles for user form redux*/
 .fieldLabel {padding-right:7px; font-family:"HelveticaNeue-Light","Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif; color:#454545; font-size: 12px; }
-.main_inner1 .main_inner2_btm ul li { padding-bottom:20px;}
+.main_inner1 .main_inner2_btm ul li, .needRowPadding .main_inner2_btm ul li { padding-bottom:20px;}
 
 
 /*EI New styles for bootstrap form
@@ -603,7 +603,7 @@ hr.margin20 { border:0; width:100%; background-color:#eaeaea; color:#eaeaea; hei
 .main_inner2_btm_2Col_Col ul li .colmn3single .dd .ddChild li.selected{background-color:#919191f; color:#000;}
 
 /* for the dropdown on user-profile.html page */
-.styled-select select {background: #fff url(../img/ascendingDropdownArrow.jpg) no-repeat right; width: 294px; padding:5px; border: 1px solid #eaeaea; border-radius:0; height: 28px; -webkit-appearance: none;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", Helvetica, Arial, sans-serif;font-size:12px;}
+.styled-select select {background: #fff url(../images/ascendingDropdownArrow.jpg) no-repeat right; width: 294px; padding:5px; border: 1px solid #eaeaea; border-radius:0; height: 28px; -webkit-appearance: none;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", Helvetica, Arial, sans-serif;font-size:12px;}
 /* //END for the dropdown on user-profile.html page */
 
 .territory-companyProfile {font-size:14px; color:#333333; font-family: "HelveticaNeue-Light", "Helvetica Neue Light", Helvetica, Arial, sans-serif;}
@@ -622,7 +622,7 @@ hr.margin20 { border:0; width:100%; background-color:#eaeaea; color:#eaeaea; hei
 .territory-companyProfile table.dealerTable th {border-bottom:1px solid #eaeaea;}
 .territory-companyProfile .ordering{font-size:10px; }
 .territory-companyProfile .dataTable select {
-    background: url('../img/ascendingDropdownArrow.jpg') no-repeat scroll right center #FFF;
+    background: url('../images/ascendingDropdownArrow.jpg') no-repeat scroll right center #FFF;
     padding: 5px;
     border: 1px solid #EAEAEA;
     border-radius: 0px;

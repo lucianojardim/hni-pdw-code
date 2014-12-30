@@ -117,6 +117,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Email Templates\ChangeDealerInfo.htm" />
+    <Content Include="Content\Email Templates\ChangeDealerUserInfo.htm" />
     <Content Include="Content\Email Templates\ChangeSpecRequestDealer.htm" />
     <Content Include="Content\Email Templates\ChangeSpecRequestService.htm" />
     <Content Include="Content\Email Templates\ChangeSpecRequestSpecTeam.htm" />
@@ -529,6 +531,7 @@
     <Content Include="NewContent\images\admin.jpg" />
     <Content Include="NewContent\images\aprill.jpg" />
     <Content Include="NewContent\images\arrow_next.jpg" />
+    <Content Include="NewContent\images\ascendingDropdownArrow.jpg" />
     <Content Include="NewContent\images\banner.jpg" />
     <Content Include="NewContent\images\big-browse.png" />
     <Content Include="NewContent\images\blue_bg.jpg" />
