@@ -1028,6 +1028,12 @@
           <Property Name="UpdateSpecRequestTerritory" Type="bit" Nullable="false" />
           <Property Name="ReOpenSpecRequest" Type="bit" Nullable="false" />
           <Property Name="ReOpenSpecRequestTerritory" Type="bit" Nullable="false" />
+          <Property Name="NewCollateralOrderMyDealers" Type="bit" Nullable="false" />
+          <Property Name="NewCollateralOrderShipmentMyDealers" Type="bit" Nullable="false" />
+          <Property Name="NewSpecRequestMyDealers" Type="bit" Nullable="false" />
+          <Property Name="CompleteSpecRequestMyDealers" Type="bit" Nullable="false" />
+          <Property Name="UpdateSpecRequestMyDealers" Type="bit" Nullable="false" />
+          <Property Name="ReOpenSpecRequestMyDealers" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -4108,6 +4114,12 @@
           <Property Type="Boolean" Name="ReOpenSpecRequest" Nullable="false" />
           <Property Type="Boolean" Name="ReOpenSpecRequestTerritory" Nullable="false" />
           <NavigationProperty Name="User" Relationship="PaoliPDWModel.FK_User_Notifications" FromRole="UserNotification" ToRole="User" />
+          <Property Type="Boolean" Name="NewCollateralOrderMyDealers" Nullable="false" />
+          <Property Type="Boolean" Name="NewCollateralOrderShipmentMyDealers" Nullable="false" />
+          <Property Type="Boolean" Name="NewSpecRequestMyDealers" Nullable="false" />
+          <Property Type="Boolean" Name="CompleteSpecRequestMyDealers" Nullable="false" />
+          <Property Type="Boolean" Name="UpdateSpecRequestMyDealers" Nullable="false" />
+          <Property Type="Boolean" Name="ReOpenSpecRequestMyDealers" Nullable="false" />
         </EntityType>
         <Association Name="FK_User_Notifications">
           <End Type="PaoliPDWModel.User" Role="User" Multiplicity="1" />
@@ -4834,6 +4846,12 @@
           <EntitySetMapping Name="UserNotifications">
             <EntityTypeMapping TypeName="PaoliPDWModel.UserNotification">
               <MappingFragment StoreEntitySet="UserNotifications">
+                <ScalarProperty Name="ReOpenSpecRequestMyDealers" ColumnName="ReOpenSpecRequestMyDealers" />
+                <ScalarProperty Name="UpdateSpecRequestMyDealers" ColumnName="UpdateSpecRequestMyDealers" />
+                <ScalarProperty Name="CompleteSpecRequestMyDealers" ColumnName="CompleteSpecRequestMyDealers" />
+                <ScalarProperty Name="NewSpecRequestMyDealers" ColumnName="NewSpecRequestMyDealers" />
+                <ScalarProperty Name="NewCollateralOrderShipmentMyDealers" ColumnName="NewCollateralOrderShipmentMyDealers" />
+                <ScalarProperty Name="NewCollateralOrderMyDealers" ColumnName="NewCollateralOrderMyDealers" />
                 <ScalarProperty Name="ReOpenSpecRequestTerritory" ColumnName="ReOpenSpecRequestTerritory" />
                 <ScalarProperty Name="ReOpenSpecRequest" ColumnName="ReOpenSpecRequest" />
                 <ScalarProperty Name="UpdateSpecRequestTerritory" ColumnName="UpdateSpecRequestTerritory" />

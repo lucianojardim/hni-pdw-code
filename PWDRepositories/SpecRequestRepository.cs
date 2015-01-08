@@ -857,7 +857,8 @@ namespace PWDRepositories
 						{
 							if( salesRepUser.UserID != reloadRequest.CreatedByUserID.Value && 
 								( salesRepUser.Enabled || EmailSender.EmailDisabledUsers ) &&
-								salesRepUser.UserNotification.NewSpecRequestTerritory )
+								( salesRepUser.UserNotification.NewSpecRequestTerritory ||
+									( salesRepUser.UserNotification.NewSpecRequestMyDealers && reloadRequest.PrimaryCompany != null && salesRepUser.UserID == reloadRequest.PrimaryCompany.PaoliSalesRepMemberID ) ) )
 							{
 								( new NewSpecRequestEmailSender( "NewSpecRequestSalesRep" ) ).SubmitNewRequestEmail( salesRepUser.Email,
 									ToEmailSpecRequestSummary( reloadRequest, new EmailSender.EmailTarget() { EmailAddress = salesRepUser.Email, FirstName = salesRepUser.FirstName } ),
@@ -1158,7 +1159,8 @@ namespace PWDRepositories
 						emailAddresses.AddRange( reloadRequest.PaoliSalesRepGroup.Users
 							.Where( u => u.UserID != reloadRequest.CreatedByUserID &&
 								( u.Enabled || EmailSender.EmailDisabledUsers ) &&
-								u.UserNotification.PermissionByName( bDoCompleteEmail ? "CompleteSpecRequestTerritory" : "UpdateSpecRequestTerritory" ) )
+								( u.UserNotification.PermissionByName( bDoCompleteEmail ? "CompleteSpecRequestTerritory" : "UpdateSpecRequestTerritory" ) ||
+									( u.UserNotification.PermissionByName( bDoCompleteEmail ? "CompleteSpecRequestMyDealers" : "UpdateSpecRequestMyDealers" ) && reloadRequest.PrimaryCompany != null && reloadRequest.PrimaryCompany.PaoliSalesRepMemberID == u.UserID ) ) )
 							.Select( u => new EmailSender.EmailTarget()
 							{
 								EmailAddress = u.Email,

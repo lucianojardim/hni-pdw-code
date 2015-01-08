@@ -628,16 +628,22 @@ namespace PWDRepositories
 				UserID = userId,
 				NewCollateralOrder = eUser.NewCollateralOrder,
 				NewCollateralOrderTerritory = eUser.NewCollateralOrderTerritory,
+				NewCollateralOrderMyDealers = eUser.NewCollateralOrderMyDealers,
 				NewCollateralOrderShipment = eUser.NewCollateralOrderShipment,
 				NewCollateralOrderShipmentTerritory = eUser.NewCollateralOrderShipmentTerritory,
+				NewCollateralOrderShipmentMyDealers = eUser.NewCollateralOrderShipmentMyDealers,
 				NewSpecRequest = eUser.NewSpecRequest,
 				NewSpecRequestTerritory = eUser.NewSpecRequestTerritory,
+				NewSpecRequestMyDealers = eUser.NewSpecRequestMyDealers,
 				CompleteSpecRequest = eUser.CompleteSpecRequest,
 				CompleteSpecRequestTerritory = eUser.CompleteSpecRequestTerritory,
+				CompleteSpecRequestMyDealers = eUser.CompleteSpecRequestMyDealers,
 				UpdateSpecRequest = eUser.UpdateSpecRequest,
 				UpdateSpecRequestTerritory = eUser.UpdateSpecRequestTerritory,
+				UpdateSpecRequestMyDealers = eUser.UpdateSpecRequestMyDealers,
 				ReOpenSpecRequest = eUser.ReOpenSpecRequest,
 				ReOpenSpecRequestTerritory = eUser.ReOpenSpecRequestTerritory,
+				ReOpenSpecRequestMyDealers = eUser.ReOpenSpecRequestMyDealers,
 			};
 		}
 
@@ -653,16 +659,22 @@ namespace PWDRepositories
 
 			eUser.NewCollateralOrder = uSummary.NewCollateralOrder;
 			eUser.NewCollateralOrderTerritory = uSummary.NewCollateralOrderTerritory;
+			eUser.NewCollateralOrderMyDealers = uSummary.NewCollateralOrderMyDealers;
 			eUser.NewCollateralOrderShipment = uSummary.NewCollateralOrderShipment;
 			eUser.NewCollateralOrderShipmentTerritory = uSummary.NewCollateralOrderShipmentTerritory;
+			eUser.NewCollateralOrderShipmentMyDealers = uSummary.NewCollateralOrderShipmentMyDealers;
 			eUser.NewSpecRequest = uSummary.NewSpecRequest;
 			eUser.NewSpecRequestTerritory = uSummary.NewSpecRequestTerritory;
+			eUser.NewSpecRequestMyDealers = uSummary.NewSpecRequestMyDealers;
 			eUser.CompleteSpecRequest = uSummary.CompleteSpecRequest;
 			eUser.CompleteSpecRequestTerritory = uSummary.CompleteSpecRequestTerritory;
+			eUser.CompleteSpecRequestMyDealers = uSummary.CompleteSpecRequestMyDealers;
 			eUser.UpdateSpecRequest = uSummary.UpdateSpecRequest;
 			eUser.UpdateSpecRequestTerritory = uSummary.UpdateSpecRequestTerritory;
+			eUser.UpdateSpecRequestMyDealers = uSummary.UpdateSpecRequestMyDealers;
 			eUser.ReOpenSpecRequest = uSummary.ReOpenSpecRequest;
 			eUser.ReOpenSpecRequestTerritory = uSummary.ReOpenSpecRequestTerritory;
+			eUser.ReOpenSpecRequestMyDealers = uSummary.ReOpenSpecRequestMyDealers;
 
 			database.SaveChanges();
 		}

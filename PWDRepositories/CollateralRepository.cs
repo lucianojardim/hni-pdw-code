@@ -666,7 +666,7 @@ namespace PWDRepositories
 				EmailSender.EmailTarget createdByEmail = null;
 				List<EmailSender.EmailTarget> salesRepEmails = new List<EmailSender.EmailTarget>(), requestedForEmails = new List<EmailSender.EmailTarget>();
 
-				GetEmailList( reloadedOrder, "NewCollateralOrder", "NewCollateralOrderTerritory", out createdByEmail, salesRepEmails, requestedForEmails );
+				GetEmailList( reloadedOrder, "NewCollateralOrder", "NewCollateralOrderTerritory", "NewCollateralOrderMyDealers", out createdByEmail, salesRepEmails, requestedForEmails );
 
 				( new NewCollateralOrderEmailSender( "NewCollateralOrderCreatedBy" ) ).SubmitNewOrderEmail( createdByEmail.EmailAddress,
 					ToEmailOrderSummary( createdByEmail, reloadedOrder ), createdByEmail.FromDetails );
@@ -783,12 +783,12 @@ namespace PWDRepositories
 			return summary;
 		}
 
-		private List<EmailSender.EmailTarget> GetEmailList( CollateralOrder orderInfo, string permissionName, string permissionNameTerritory )
+		private List<EmailSender.EmailTarget> GetEmailList( CollateralOrder orderInfo, string permissionName, string permissionNameTerritory, string permissionNameMyDealers )
 		{
 			EmailSender.EmailTarget createdByEmail = null;
 			List<EmailSender.EmailTarget> salesRepEmails = new List<EmailSender.EmailTarget>(), requestedForEmails = new List<EmailSender.EmailTarget>();
 
-			GetEmailList( orderInfo, permissionName, permissionNameTerritory, out createdByEmail, salesRepEmails, requestedForEmails );
+			GetEmailList( orderInfo, permissionName, permissionNameTerritory, permissionNameMyDealers, out createdByEmail, salesRepEmails, requestedForEmails );
 
 			return salesRepEmails.Union( requestedForEmails )
 				.Union( new List<EmailSender.EmailTarget>() { createdByEmail } )
@@ -796,7 +796,7 @@ namespace PWDRepositories
 				.ToList();
 		}
 
-		private void GetEmailList( CollateralOrder orderInfo, string permissionName, string permissionNameTerritory, out EmailSender.EmailTarget createdByEmail, 
+		private void GetEmailList( CollateralOrder orderInfo, string permissionName, string permissionNameTerritory, string permissionNameMyDealers, out EmailSender.EmailTarget createdByEmail, 
 			List<EmailSender.EmailTarget> extraSalesRepEmails, List<EmailSender.EmailTarget> requestedForEmails )
 		{
 			createdByEmail = null;
@@ -858,7 +858,8 @@ namespace PWDRepositories
 						extraSalesRepEmails.AddRange( database.Companies.Where( c => c.TerritoryID == orderInfo.Dealer.TerritoryID && c.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup )
 							.SelectMany( srg => srg.Users )
 							.ToList()
-							.Where( u => ( u.Enabled || EmailSender.EmailDisabledUsers ) && u.UserNotification.PermissionByName( permissionNameTerritory ) )
+							.Where( u => ( u.Enabled || EmailSender.EmailDisabledUsers ) &&
+								( u.UserNotification.PermissionByName( permissionNameTerritory ) || ( u.UserID == orderInfo.Dealer.PaoliSalesRepMemberID && u.UserNotification.PermissionByName( permissionNameMyDealers ) ) ) )
 							.Select( srgm => new EmailSender.EmailTarget()
 							{
 								EmailAddress = srgm.Email,
@@ -920,7 +921,8 @@ namespace PWDRepositories
 						extraSalesRepEmails.AddRange( database.Companies.Where( c => c.TerritoryID == orderInfo.SPDealer.TerritoryID && c.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup )
 							.SelectMany( srg => srg.Users )
 							.ToList()
-							.Where( u => ( u.Enabled || EmailSender.EmailDisabledUsers ) && u.UserNotification.PermissionByName( permissionNameTerritory ) )
+							.Where( u => ( u.Enabled || EmailSender.EmailDisabledUsers ) &&
+								( u.UserNotification.PermissionByName( permissionNameTerritory ) || ( u.UserID == orderInfo.SPDealer.PaoliSalesRepMemberID && u.UserNotification.PermissionByName( permissionNameMyDealers ) ) ) )
 							.Select( srgm => new EmailSender.EmailTarget()
 							{
 								EmailAddress = srgm.Email,
@@ -1798,7 +1800,7 @@ namespace PWDRepositories
 
 			if( database.SaveChanges() > 0 )
 			{
-				foreach( var emailTarget in GetEmailList( dbOrder, "NewCollateralOrderShipment", "NewCollateralOrderShipmentTerritory" ) )
+				foreach( var emailTarget in GetEmailList( dbOrder, "NewCollateralOrderShipment", "NewCollateralOrderShipmentTerritory", "NewCollateralOrderShipmentMyDealers" ) )
 				{
 					var summary = ToEmailShipmentSummary( emailTarget, dbShipment );
 					if( dbOrder.Status == NewOrderInformation.SPartial )

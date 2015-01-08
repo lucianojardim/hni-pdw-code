@@ -27,6 +27,12 @@ namespace PDWDBContext
         public bool UpdateSpecRequestTerritory { get; set; }
         public bool ReOpenSpecRequest { get; set; }
         public bool ReOpenSpecRequestTerritory { get; set; }
+        public bool NewCollateralOrderMyDealers { get; set; }
+        public bool NewCollateralOrderShipmentMyDealers { get; set; }
+        public bool NewSpecRequestMyDealers { get; set; }
+        public bool CompleteSpecRequestMyDealers { get; set; }
+        public bool UpdateSpecRequestMyDealers { get; set; }
+        public bool ReOpenSpecRequestMyDealers { get; set; }
     
         public virtual User User { get; set; }
     }
