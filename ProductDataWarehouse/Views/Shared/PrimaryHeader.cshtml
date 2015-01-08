@@ -17,7 +17,7 @@
 						var bShowing = false;
 						var sessionEnd = null;
 						function resetSessionEnd() {
-							sessionEnd = new Date(Date.now() + @FormsAuthentication.Timeout.TotalMilliseconds);
+							sessionEnd = new Date((new Date()).valueOf() + @FormsAuthentication.Timeout.TotalMilliseconds);
 						}
 
 						$(document).ready(function () {
@@ -47,11 +47,11 @@
 							resetSessionEnd();
 
 							setInterval(function() {
-								if( Date.now() > sessionEnd ) {
+								if( (new Date()) > sessionEnd ) {
 									window.location.href = '@Url.Action( "Logout", "Import" )';
 									return;
-								} else if( Date.now() + (5 * 60 * 1000) > sessionEnd ) {
-									$('#sessionTimeoutWarning span').html(getIntervalFromMilliseconds(sessionEnd - Date.now()));
+								} else if( (new Date()).valueOf() + (5 * 60 * 1000) > sessionEnd ) {
+									$('#sessionTimeoutWarning span').html(getIntervalFromMilliseconds(sessionEnd - (new Date())));
 									if( $('#fancybox-content:visible').length == 0 ) {
 										// only if fancybox not already showing
 										if( !bShowing ) {
