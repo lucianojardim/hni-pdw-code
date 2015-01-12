@@ -195,8 +195,7 @@ namespace PWDRepositories
 					newItem.DealershipPOCAcctType = settings.DealershipPOCAcctType;
 				}
 			}
-			newItem.CustomerName = settings.CustomerName;
-			newItem.ProjectName = settings.ProjectName;
+			newItem.ProjectID = settings.ProjectID;
 			
 			newItem.IncludeDealerImage = false;
 
@@ -263,8 +262,7 @@ namespace PWDRepositories
 					dbItem.DealershipPOCPhone = null;
 					dbItem.DealershipPOCAcctType = null;
 				}
-				dbItem.CustomerName = settings.CustomerName;
-				dbItem.ProjectName = settings.ProjectName;
+				dbItem.ProjectID = settings.ProjectID;
 
 				dbItem.Status = (dbItem.Status == StatusTypes.Incomplete) ? dbItem.Status : StatusTypes.New;
 
@@ -340,8 +338,9 @@ namespace PWDRepositories
 				retItem.DealershipPOCEmail = dbItem.DealershipPOCEmail;
 				retItem.DealershipPOCPhone = dbItem.DealershipPOCPhone;
 				retItem.DealershipPOCAcctType = dbItem.DealershipPOCAcctType;
-				retItem.CustomerName = dbItem.CustomerName;
-				retItem.ProjectName = dbItem.ProjectName;
+				retItem.ProjectID = dbItem.ProjectID;
+				retItem.CustomerName = dbItem.ProjectID.HasValue ? dbItem.Project.EndCustomer : null;
+				retItem.RealProjectName = dbItem.ProjectID.HasValue ? dbItem.Project.ProjectName : null;
 				retItem.PaoliSalesRepGroupName = dbItem.DealershipID.HasValue ? dbItem.Company.Territory.SalesRepCompanyName : null;
 				retItem.DealershipName = dbItem.DealershipID.HasValue ? dbItem.Company.Name : null;
 				retItem.DealershipPOCMember = dbItem.DealershipPOCID.HasValue ? dbItem.DealershipPOC.FullName : null;
@@ -538,8 +537,7 @@ namespace PWDRepositories
 					newItem.DealershipPOCPhone = dbItem.DealershipPOCPhone;
 					newItem.DealershipPOCAcctType = dbItem.DealershipPOCAcctType;
 				}
-				newItem.CustomerName = dbItem.CustomerName;
-				newItem.ProjectName = dbItem.ProjectName;
+				newItem.ProjectID = dbItem.ProjectID;
 				newItem.LayoutID = dbItem.LayoutID;
 				newItem.ContentType = dbItem.ContentType;
 
@@ -620,8 +618,8 @@ namespace PWDRepositories
 				AuthorName = dbItem.CreatedByUser.FullName,
 				AuthorImage = dbItem.CreatedByUser.ImageFileName,
 				Dealership = !dbItem.IsTemplate && dbItem.DealershipID.HasValue ? dbItem.Company.Name : null,
-				CustomerName = !dbItem.IsTemplate ? dbItem.CustomerName : null,
-				ProjectName = !dbItem.IsTemplate ? dbItem.ProjectName : null,
+				CustomerName = !dbItem.IsTemplate ? (dbItem.ProjectID.HasValue ? dbItem.Project.EndCustomer : null) : null,
+				ProjectName = !dbItem.IsTemplate ? (dbItem.ProjectID.HasValue ? dbItem.Project.ProjectName : null) : null,
 				ContentType = dbItem.ContentType.HasValue ? LayoutTypes.LayoutTypeList[dbItem.ContentType.Value] : "None",
 				LayoutImage = dbItem.LayoutID.HasValue ? Layouts.LayoutImages[dbItem.LayoutID.Value] : "transparent.png",
 				LayoutName = dbItem.LayoutID.HasValue ? Layouts.LayoutTitles[dbItem.LayoutID.Value] : "None",
@@ -636,6 +634,7 @@ namespace PWDRepositories
 		public IEnumerable<ECollateralSummary> GetMyPagesList( int skipItems, string filterText, int userId )
 		{
 			var theList = database.eCollateralItems
+				.Include( i => i.Project )
 				.Where( i => i.CreatedByUserID == userId )
 				.Where( i => !i.IsTemplate )
 				.Where( i => i.FileName.Contains( filterText ) || i.URLText.Contains( filterText ) )
@@ -653,6 +652,7 @@ namespace PWDRepositories
 		public IEnumerable<ECollateralSummary> GetTemplateList( int skipItems, string filterText, bool showIncomplete )
 		{
 			var theList = database.eCollateralItems
+				.Include( i => i.Project )
 				.Where( i => i.Status == StatusTypes.Approved || (showIncomplete && (i.Status == StatusTypes.Incomplete)) )
 				.Where( i => i.IsTemplate )
 				.Where( i => i.FileName.Contains( filterText ) || i.URLText.Contains( filterText ) )
@@ -670,6 +670,7 @@ namespace PWDRepositories
 		public IEnumerable<ECollateralSummary> GetAllItemsList( int skipItems, string filterText )
 		{
 			var theList = database.eCollateralItems
+				.Include( i => i.Project )
 				.Where( i => i.FileName.Contains( filterText ) || i.URLText.Contains( filterText ) )
 				.OrderByDescending( i => i.LastModifiedByDateTime );
 
@@ -685,6 +686,7 @@ namespace PWDRepositories
 		public IEnumerable<ECollateralSummary> GetReviewItemsList( int skipItems, string filterText )
 		{
 			var theList = database.eCollateralItems
+				.Include( i => i.Project )
 				.Where( i => i.Status == StatusTypes.New || i.Status == StatusTypes.Unapproved )
 				.Where( i => !i.IsTemplate )
 				.Where( i => i.FileName.Contains( filterText ) || i.URLText.Contains( filterText ) )

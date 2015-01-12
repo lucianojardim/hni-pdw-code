@@ -16,13 +16,13 @@ namespace PDWDBContext
     {
         public GSAContract()
         {
-            this.SpecRequests = new HashSet<SpecRequest>();
+            this.Projects = new HashSet<Project>();
         }
     
         public int ContractID { get; set; }
         public string Name { get; set; }
     
-        public virtual ICollection<SpecRequest> SpecRequests { get; set; }
+        public virtual ICollection<Project> Projects { get; set; }
     }
     
 }

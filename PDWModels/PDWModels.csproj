@@ -108,6 +108,12 @@
     <Compile Include="Series\SeriesInformation.cs" />
     <Compile Include="Series\SeriesListData.cs" />
     <Compile Include="Series\SeriesSearchResult.cs" />
+    <Compile Include="SpecRequests\NewProjectInformation.cs" />
+    <Compile Include="SpecRequests\ProjectInformation.cs" />
+    <Compile Include="SpecRequests\ProjectSeriesInformation.cs" />
+    <Compile Include="SpecRequests\ProjectStatus.cs" />
+    <Compile Include="SpecRequests\ProjectSuccess.cs" />
+    <Compile Include="SpecRequests\ProjectSummary.cs" />
     <Compile Include="SpecRequests\ReOpenRequestInformation.cs" />
     <Compile Include="SpecRequests\SpecRequestExport.cs" />
     <Compile Include="SpecRequests\SpecRequestInformation.cs" />

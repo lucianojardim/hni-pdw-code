@@ -35,6 +35,7 @@
     		$('#PaoliSalesRepGroupID').on('change', reloadPaoliSalesRepList);
     		$('#DealershipID').on('change', reloadDealerSalesRepList);
     		$('#DealershipPOCID').on('change', showHideDealerPOC);
+			$('#CustomerName').on('change', reloadProjectList);
 
     		$('.submitBtn').click(function (e) {
     			$('#theForm').submit();
@@ -46,7 +47,63 @@
 
 			showHideProjectInfo();
     		ValidateURL($('#CustomURL').val());
-    		reloadPaoliSalesRepList(@(Model.DealershipID ?? 0), @(Model.DealershipPOCID ?? 0));
+    		reloadPaoliSalesRepList(@(Model.DealershipID ?? 0), @(Model.DealershipPOCID ?? 0), @(Model.ProjectID ?? 0), '@((Model.CustomerName ?? "").Any() ? Model.CustomerName : "")');
+
+			$('.addECBtn').fancybox({
+				'autoDimensions': false,
+				'width': 972,
+				'height': 210,
+				'padding': 20,
+				'margin': 0,
+				'scrolling': 'auto',
+				'titleShow': false
+			});
+
+			$('.submitNewECBtn').on('click', function() {
+				if( $('#NewEndCustomer').val() != '' && $('#NewEndCustomer').val() != null ) {
+					$('#CustomerName').append('<option value="' + $('#NewEndCustomer').val() + '">' + $('#NewEndCustomer').val() + '</option>")');
+					$('#CustomerName').val($('#NewEndCustomer').val());
+					reloadProjectList();
+					$('#NewEndCustomer').val('');
+					$.fancybox.close();
+				}
+			});
+
+			$('.cancelNewECBtn').on('click', function() {
+				$.fancybox.close();
+			});
+
+			$('.addProjBtn').fancybox({
+				'autoDimensions': false,
+				'width': 972,
+				'height': 210,
+				'padding': 20,
+				'margin': 0,
+				'scrolling': 'auto',
+				'titleShow': false
+			});
+
+			$('.submitNewProjBtn').on('click', function() {
+				if( $('#NewProject').val() != '' && $('#NewProject').val() != null ) {
+					// add the new project, then reload the list
+					makeAjaxCall('/SpecRequest/CreateNewProject',
+						{ 
+							projectName: $('#NewProject').val(),
+							customer: $('#CustomerName').val(),
+							dealer: $('#DealershipID').val() 
+						}, 
+						function(data) {
+							reloadProjectList(data.projectId);
+							$('#NewProject').val('');
+							$.fancybox.close();
+						}
+					);
+				}
+			});
+
+			$('.cancelNewProjBtn').on('click', function() {
+				$.fancybox.close();
+			});
     	});
 
 		function showHideProjectInfo() {
@@ -84,6 +141,17 @@
 			ddList.empty();
     	}
 
+		function reloadDropDownStringList(ddListID, data, bNeedOther) {
+    		var ddList = $(ddListID);
+    		emptyDropDownList(ddList);
+			if( bNeedOther ) {
+				ddList.append('<option value=""></option>")');
+			}
+    		$.each(data.theList, function (idx, item) {
+				ddList.append('<option value="' + item + '">' + item + '</option>")');
+    		});
+    	}
+
     	function reloadDropDownUserList(ddListID, data, bNeedOther) {
     		var ddList = $(ddListID);
     		emptyDropDownList(ddList);
@@ -103,7 +171,7 @@
     		});
     	}
 
-    	function reloadPaoliSalesRepList(initDealer, initPOC) {
+    	function reloadPaoliSalesRepList(initDealer, initPOC, initProjectID, initECName) {
     		if ($('#PaoliSalesRepGroupID').val() != null && $('#PaoliSalesRepGroupID').val() != '' && $('#PaoliSalesRepGroupID').val() != '0') {
 				@if( PDWInfrastructure.PaoliWebUser.CurrentUser.IsDealerUser )
 	{
@@ -112,7 +180,7 @@
     				emptyDropDownList($('#DealershipID'));
 					$('#DealershipID').append('<option value="@(thisCompany.First().Value)">@(thisCompany.First().Text.Replace( "'", "''" ))</option>');
 
-    				reloadDealerSalesRepList();
+    				reloadDealerSalesRepList(initPOC, initProjectID, initECName);
 				</text>
 	}
 	else
@@ -125,7 +193,7 @@
 						if( initDealer != null ) {
 							$('#DealershipID').val(initDealer);
 						}
-    					reloadDealerSalesRepList(initPOC);
+    					reloadDealerSalesRepList(initPOC, initProjectID, initECName);
     				},
     				function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting Dealer list:' + errorThrown)
@@ -139,10 +207,11 @@
     			emptyDropDownList($("#DealershipPOCID"));
 				$('#DealershipPOCName').addClass('noValidate');
 				$('.DSRPOCCell').hide();
+    			$('.EndCustomerCell').hide();
     		}
 		}
 
-    	function reloadDealerSalesRepList(initPOC) {
+    	function reloadDealerSalesRepList(initPOC, initProjectID, initECName) {
     		if ($('#DealershipID').val() != null && $('#DealershipID').val() != '' && $('#DealershipID').val() != '0') {
     			makeAjaxCall('/User/GetDealerSalesRepListForCompany',
     				{ companyId: $('#DealershipID').val(), enabledOnly: true },
@@ -157,10 +226,47 @@
     					alert('Error getting Dealer Sales Rep list:' + errorThrown)
     				}
     			);
+
+    			makeAjaxCall('/SpecRequest/GetEndCustomerListForDealer',
+    				{ companyId: $('#DealershipID').val() },
+    				function (data, textStatus, jqXHR) {
+						reloadDropDownStringList('#CustomerName', data, true);
+						if( initECName != null && initECName != '' ) {
+							$('#CustomerName').val(initECName);
+						}
+						reloadProjectList(initProjectID);
+		    			$('.EndCustomerCell').show();
+    				},
+    				function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting End Customer list:' + errorThrown)
+    				}
+    			);
     		} else {
     			emptyDropDownList($("#DealershipPOCID"));
 				$('#DealershipPOCName').addClass('noValidate');
 				$('.DSRPOCCell').hide();
+    			$('.EndCustomerCell').hide();
+    		}
+    	}
+
+    	function reloadProjectList(initId) {
+    		if ($('#CustomerName').val() != null && $('#CustomerName').val() != '') {
+    			makeAjaxCall('/SpecRequest/GetProjectForCustomer',
+    				{ customer: $('#CustomerName').val() },
+    				function (data, textStatus, jqXHR) {
+						reloadDropDownCompanyList('#ProjectID', data.theList, true);
+						if( initId != null ) {
+							$('#ProjectID').val(initId);
+						}
+    					$('.ProjectCell').show();
+    				},
+    				function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Project list:' + errorThrown)
+    				}
+    			);
+    		} else {
+				emptyDropDownList($("#ProjectID"));
+    			$('.ProjectCell').hide();
     		}
     	}
 
@@ -308,21 +414,22 @@
 
                 
 				<div class="projectInfo">
+                <div class="EndCustomerCell">
+				<div class="">
                 <label for="CustomerName">Customer Name</label>
-                @Html.TextBoxFor( m => m.CustomerName )
-                <em>Who is the end user?</em>
+                @Html.DropDownListFor( m => m.CustomerName, new List<SelectListItem>() )<a class="btn7 addECBtn" style="margin-top:inherit;" href="#newEndCustomer">+</a>
                 <div class="clr"></div>
 				@Html.ValidationMessageFor( m => m.CustomerName )
                 <div class="clr"></div>
 				</div>
-                
-				<div class="projectInfo">
+                <div class="ProjectCell">
                 <label for="ProjectName">Project Name</label>
-                @Html.TextBoxFor( m => m.ProjectName )
-                <em>What project is this for?</em>
+                @Html.DropDownListFor( m => m.ProjectID, new List<SelectListItem>() )<a class="btn7 addProjBtn" style="margin-top:inherit;" href="#newProject">+</a>
                 <div class="clr"></div>
-				@Html.ValidationMessageFor( m => m.ProjectName )
+				@Html.ValidationMessageFor( m => m.ProjectID )
                 <div class="clr"></div>
+				</div>
+				</div>
 				</div>
 
                 <div class="clr"></div>
@@ -338,3 +445,39 @@
 	<div class="leftdiv"><a href="@Url.Action( "Manage", "ePublisher" )" class="cancelBtn">Cancel</a></div>
     <div class="rightdiv"><a href="javascript:void(0);" class="publish submitBtn">Save and Continue</a></div>
 </footer>
+
+
+	 <div style="display:none">
+	<div id="newEndCustomer" class="needRowPadding">
+		<div class="main_inner2_btm"> 
+    	<h2 class="bold">Add End Customer</h2>
+			<div class="main_inner2_btm_mid_myacct">
+				<ul>
+        			<li>
+            			<div class="colmn1">Customer Name</div>
+						<div class="colmn3single"><input class="msg2" id="NewEndCustomer" name="NewEndCustomer" /></div>
+					</li>
+				</ul>
+			</div>
+			<div class="clear"></div>
+			<span class="btn7 cancelNewECBtn">CANCEL</span> <span class="btn8 submitNewECBtn">SAVE</span> 
+		</div>
+	</div>
+
+	<div id="newProject" class="needRowPadding">
+		<div class="main_inner2_btm"> 
+    	<h2 class="bold">Add Project</h2>
+			<div class="main_inner2_btm_mid_myacct">
+				<ul>
+        			<li>
+            			<div class="colmn1">Project Name</div>
+						<div class="colmn3single"><input class="msg2" id="NewProject" name="NewProject" /></div>
+					</li>
+				</ul>
+			</div>
+			<div class="clear"></div>
+			<span class="btn7 cancelNewProjBtn">CANCEL</span> <span class="btn8 submitNewProjBtn">SAVE</span> 
+		</div>
+	</div>
+
+	 </div>

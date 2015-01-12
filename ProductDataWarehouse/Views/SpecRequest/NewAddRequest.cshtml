@@ -30,6 +30,7 @@
 			$('#PaoliSalesRepGroupID').on('change', reloadPaoliSalesRepList);
 			$('#DealerID').on('change', reloadDealerSalesRepList);
 			$('#DealerMemberID').on('change', showHideDealerPOC);
+			$('#EndCustomer').on('change', reloadProjectList);
 
 			$('input').addClass('noValidate');
 			$('select').addClass('noValidate');
@@ -38,6 +39,7 @@
 
 			reloadDealerSalesRepList();
 			reloadPaoliSalesRepList();
+			reloadProjectList();
 
 			$('.nextBtn').click(function (e) {
 				e.preventDefault();
@@ -81,11 +83,6 @@
 				} else {
 					$('.grommetDetails').hide();
 				}
-			});
-
-			showHideContractInfo();
-			$('.fakeIsGSA').click(function(e) {
-				showHideContractInfo();
 			});
 
 			showHideDrawerOptions();
@@ -142,18 +139,62 @@
 				$('#fileContainer input[type="file"]').attr('name', 'addlFiles');
 			}
 
-		});
+			$('.addECBtn').fancybox({
+				'autoDimensions': false,
+				'width': 972,
+				'height': 210,
+				'padding': 20,
+				'margin': 0,
+				'scrolling': 'auto',
+				'titleShow': false
+			});
 
-		function showHideContractInfo() {
-			if ($('#IsGSA:checked').length > 0) {
-				$('.gsaOnly').show();
-//				$('#ContractID_msdd').show();
-			} else {
-				$('.gsaOnly').hide();
-//				$('#ContractID_msdd').hide();
-			}			
-			
-		}
+			$('.submitNewECBtn').on('click', function() {
+				if( $('#NewEndCustomer').val() != '' && $('#NewEndCustomer').val() != null ) {
+					$('#EndCustomer').append('<option value="' + $('#NewEndCustomer').val() + '">' + $('#NewEndCustomer').val() + '</option>")');
+					$('#EndCustomer').val($('#NewEndCustomer').val());
+					reloadProjectList();
+					$('#NewEndCustomer').val('');
+					$.fancybox.close();
+				}
+			});
+
+			$('.cancelNewECBtn').on('click', function() {
+				$.fancybox.close();
+			});
+
+			$('.addProjBtn').fancybox({
+				'autoDimensions': false,
+				'width': 972,
+				'height': 210,
+				'padding': 20,
+				'margin': 0,
+				'scrolling': 'auto',
+				'titleShow': false
+			});
+
+			$('.submitNewProjBtn').on('click', function() {
+				if( $('#NewProject').val() != '' && $('#NewProject').val() != null ) {
+					// add the new project, then reload the list
+					makeAjaxCall('/SpecRequest/CreateNewProject',
+						{ 
+							projectName: $('#NewProject').val(),
+							customer: $('#EndCustomer').val(),
+							dealer: $('#DealerID').val() 
+						}, 
+						function(data) {
+							reloadProjectList(data.projectId);
+							$('#NewProject').val('');
+							$.fancybox.close();
+						}
+					);
+				}
+			});
+
+			$('.cancelNewProjBtn').on('click', function() {
+				$.fancybox.close();
+			});
+		});
 
 		function showHideLaminatePreference() {
 			if ($('.chkRealFinish:checked[value="Laminate"]').length > 0) {
@@ -287,20 +328,14 @@
 				$('#requestorList1 .coln3').append('<h5>Who is the end customer?</h5>');
 				$('#requestorList1 .coln4').append('<h5>' + $('#EndCustomer').val() + '</h5>');
     		}
-    		if ($('#ProjectName').val() != null && $('#ProjectName').val() != '') {
+    		if ($('#ProjectID').val() != null && $('#ProjectID').val() != '') {
 				$('#requestorList1 .coln3').append('<h5>What will we call this project?</h5>');
-				$('#requestorList1 .coln4').append('<h5>' + $('#ProjectName').val() + '</h5>');
+				$('#requestorList1 .coln4').append('<h5>' + $("#ProjectID option[value='" + $('#ProjectID').val() + "']").text() + '</h5>');
     		}
     		if ($('#ProjectSize').val() != null && $('#ProjectSize').val() != '') {
 				$('#requestorList2 .coln3').append('<h5>What is the size and scope of this project?</h5>');
 				$('#requestorList2 .coln4').append('<h5>' + $('#ProjectSize').val() + '</h5>');
     		}
-			if ($('#IsGSA').is(':checked')) {
-				$('#requestorList2 .coln3').append('<h5>GSA</h5>');
-				$('#requestorList2 .coln4').append('<h5>Yes</h5>');
-				$('#requestorList2 .coln3').append('<h5>To which contract does this relate?</h5>');
-				$('#requestorList2 .coln4').append('<h5>' + $('#ContractID option:selected').text() + '</h5>');
-			}
 			if ($('#AvailableForIn2').is(':checked')) {
 				$('#requestorList2 .coln3').append('<h5>in2 Quick Ship</h5>');
 				$('#requestorList2 .coln4').append('<h5>Yes</h5>');
@@ -448,6 +483,17 @@
 			ddList.empty();
 		}
 
+		function reloadDropDownStringList(ddListID, data, bNeedOther) {
+    		var ddList = $(ddListID);
+    		emptyDropDownList(ddList);
+			if( bNeedOther ) {
+				ddList.append('<option value=""></option>")');
+			}
+    		$.each(data.theList, function (idx, item) {
+				ddList.append('<option value="' + item + '">' + item + '</option>")');
+    		});
+		}
+
 		function reloadDropDownUserList(ddListID, data, bNeedOther) {
     		var ddList = $(ddListID);
     		emptyDropDownList(ddList);
@@ -489,13 +535,47 @@
     					alert('Error getting Dealer Sales Rep list:' + errorThrown)
     				}
     			);
+
+    			makeAjaxCall('/SpecRequest/GetEndCustomerListForDealer',
+    				{ companyId: $('#DealerID').val() },
+    				function (data, textStatus, jqXHR) {
+						reloadDropDownStringList('#EndCustomer', data, true);
+						reloadProjectList();
+    					$('.EndCustomerCell').show();
+    				},
+    				function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting End Customer list:' + errorThrown)
+    				}
+    			);
+
     		} else {
 				emptyDropDownList($("#DealerMemberID"));
     			$('#DealerPointOfContact').val('');
 				$('#DealerPointOfContact').addClass('noValidate');
     			$('.DSRCell').hide();
-//    			$('#DealerMemberID_msdd').hide();
 				$('.DSRPOCCell').hide();
+				$('.EndCustomerCell').hide();
+    		}
+    	}
+
+    	function reloadProjectList(initId) {
+    		if ($('#EndCustomer').val() != null && $('#EndCustomer').val() != '') {
+    			makeAjaxCall('/SpecRequest/GetProjectForCustomer',
+    				{ customer: $('#EndCustomer').val() },
+    				function (data, textStatus, jqXHR) {
+						reloadDropDownCompanyList('#ProjectID', data.theList, true);
+						if( initId != null ) {
+							$('#ProjectID').val(initId);
+						}
+    					$('.ProjectCell').show();
+    				},
+    				function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Project list:' + errorThrown)
+    				}
+    			);
+    		} else {
+				emptyDropDownList($("#ProjectID"));
+				$('.ProjectCell').hide();
     		}
     	}
 
@@ -654,20 +734,17 @@
 					 About This Project</h5>
 				 <ul>
 					 <li>
-						 <div class="box2">
+						 <div class="box2 EndCustomerCell">
 							 <label>
 								 Who is the end customer?</label>
 							 <div class="colmn1">
-								 @Html.TextBoxFor( m => m.EndCustomer )<span>Provide the end user company name.</span>
+								 @Html.DropDownListFor( m => m.EndCustomer, new List<SelectListItem>() )<a class="btn7 addECBtn" href="#newEndCustomer">+</a>
 							 </div>
-							 <div class="colmn2">
-								 What will we call this project?
-								 @Html.ValidationMessageFor( m => m.ProjectName )</div>
-							 <div class="colmn1">
-								 @Html.TextBoxFor( m => m.ProjectName )
-								 <span>Provide a short project name that will<br>
-									 help us identify this project such as<br>
-									 project name, facility, etc.</span>
+							 <div class="colmn2 ProjectCell">
+								 What project is this for?
+								 @Html.ValidationMessageFor( m => m.ProjectID )</div>
+							 <div class="colmn1 ProjectCell">
+								 @Html.DropDownListFor( m => m.ProjectID, new List<SelectListItem>() )<a class="btn7 addProjBtn" href="#newProject">+</a>
 							 </div>
 						 </div>
 					 </li>
@@ -682,20 +759,11 @@
 							 </div>
 							 <div class="colmn4">
 								 <div class="colmn4_lt">
-									 <div class="checkbox fakeIsGSA">
-										 @Html.CheckBoxFor( m => m.IsGSA )
-										 <span>GSA</span>
-									 </div>
-								 </div>
-								 <div class="colmn3_rt">
 									 <div class="checkbox">
 										 @Html.CheckBoxFor( m => m.AvailableForIn2 )
 										 <span>in2 Quick Ship</span>
 									 </div>
 								 </div>
-								 <h6 class="gsaOnly">
-									 To which contract does this relate?</h6>
-								 @Html.DropDownListFor( m => m.ContractID, SpecRequestController.GSAContractList( true ), new { @class = "gsaOnly" } )
 							 </div>
 						 </div>
 					 </li>
@@ -1124,19 +1192,11 @@
 								 <h5>
 									 What is the size and scope of this project?</h5>
 								 <h5>
-									 GSA</h5>
-								 <h5>
-									 To which contract does this relate?</h5>
-								 <h5>
 									 in2 Quick Ship</h5>
 							 </div>
 							 <div class="coln4">
 								 <h5>
 									 13 offices, 2 conf rooms</h5>
-								 <h5>
-									 Yes</h5>
-								 <h5>
-									 F28 Contract</h5>
 								 <h5>
 									 No</h5>
 							 </div>
@@ -1298,4 +1358,39 @@
 </div>
 	<!--@Html.ValidationSummary()-->
 	 }
+	 </div>
+
+	 <div style="display:none">
+	<div id="newEndCustomer" class="needRowPadding">
+		<div class="main_inner2_btm"> 
+    	<h2 class="bold">Add End Customer</h2>
+			<div class="main_inner2_btm_mid_myacct">
+				<ul>
+        			<li>
+            			<div class="colmn1">Customer Name</div>
+						<div class="colmn3single"><input class="msg2" id="NewEndCustomer" name="NewEndCustomer" /></div>
+					</li>
+				</ul>
+			</div>
+			<div class="clear"></div>
+			<span class="btn7 cancelNewECBtn">CANCEL</span> <span class="btn8 submitNewECBtn">SAVE</span> 
+		</div>
+	</div>
+
+	<div id="newProject" class="needRowPadding">
+		<div class="main_inner2_btm"> 
+    	<h2 class="bold">Add Project</h2>
+			<div class="main_inner2_btm_mid_myacct">
+				<ul>
+        			<li>
+            			<div class="colmn1">Project Name</div>
+						<div class="colmn3single"><input class="msg2" id="NewProject" name="NewProject" /></div>
+					</li>
+				</ul>
+			</div>
+			<div class="clear"></div>
+			<span class="btn7 cancelNewProjBtn">CANCEL</span> <span class="btn8 submitNewProjBtn">SAVE</span> 
+		</div>
+	</div>
+
 	 </div>

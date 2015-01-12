@@ -54,7 +54,7 @@
 			ed.setContent('<p>Hello,</p>' +
 '<p>@JSSafe( CurrentUser.FullName ) at @JSSafe( CurrentUser.CompanyName ) asked us to forward you the link to a page they have created on Paoli.com.</p>' +
 '<p><a href="http://my.paoli.com/info/@Html.DisplayFor( m => m.Settings.CustomURL )">http://my.paoli.com/info/@Html.DisplayFor( m => m.Settings.CustomURL )</a></p>' +
-'<p>This page was created by @JSSafe( Model.Settings.CreatedByUserName ) to provide you more information about @JSSafe( Model.Settings.ProjectName, "Paoli" ). If you have questions or want to chat, please connect with @JSSafe( CurrentUser.FirstName ) via:</p>' +
+'<p>This page was created by @JSSafe( Model.Settings.CreatedByUserName ) to provide you more information about @JSSafe( Model.Settings.RealProjectName, "Paoli" ). If you have questions or want to chat, please connect with @JSSafe( CurrentUser.FirstName ) via:</p>' +
 '<p>@CurrentUser.EmailAddress @((CurrentUser.PhoneNumber ?? "").Any() ? " or " + CurrentUser.PhoneNumber : "")</p>' +
 '<p>Thank you,</p>' +
 '<p>Paoli</p>' +
@@ -186,11 +186,11 @@
             <b>@Html.DisplayFor( m => m.Settings.CustomerName )</b>
             <div class="clr"></div>
    }
-            
-		 if( ( Model.Settings.ProjectName ?? "" ).Any() )
+
+		 if( ( Model.Settings.RealProjectName ?? "" ).Any() )
    {
             <span>Project Name</span>
-            <b>@Html.DisplayFor( m => m.Settings.ProjectName )</b>
+            <b>@Html.DisplayFor( m => m.Settings.RealProjectName )</b>
             <div class="clr"></div>
    }
 

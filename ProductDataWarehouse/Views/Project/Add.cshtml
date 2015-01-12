@@ -1,0 +1,484 @@
+﻿@model PDWModels.SpecRequests.ProjectInformation
+@{
+	ViewBag.Title = "NewAddRequest";
+	Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.HeaderArea = "Projects";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+@using PDWInfrastructure
+
+    <script type="text/javascript">
+		var fileCount = 1;
+		$(document).ready(function () {
+			$('.cancelBtn').click(function (e) {
+				window.location.href = '@Url.Action( "Manage" )';
+			});
+
+			$('.submitBtn').click(function(e) {
+				$('#theForm').submit();
+			});
+
+			showHideContractInfo();
+			$('.fakeIsGSA').click(function(e) {
+				showHideContractInfo();
+			});
+
+			showHideADFirmInfo();
+			$('.fakeHasADFirm').click(function (e) {
+				showHideADFirmInfo();
+			});
+
+			$(".radio").dgStyle();
+			$(".checkbox").dgStyle();
+
+			$('#AnticipatedOrderDate').datepicker(
+				{
+        			dateFormat: "mm/dd/yy",
+        			changeMonth: true,
+        			changeYear: true
+				});
+        	$('#AnticipatedShipDate').datepicker(
+				{
+        			dateFormat: "mm/dd/yy",
+        			changeMonth: true,
+        			changeYear: true
+				});
+
+			//Default Action
+			$(".tab_content1").hide(); //Hide all content
+			$("ul.tabs1 li:first").addClass("active").show(); //Activate first tab
+			$(".tab_content1:first").show(); //Show first tab content
+
+			//On Click Event
+			$("ul.tabs1 li").click(function () {
+				$("ul.tabs1 li").removeClass("active"); //Remove any "active" class
+				$(this).addClass("active"); //Add "active" class to selected tab
+				$(".tab_content1").hide(); //Hide all tab content
+				var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
+				$(activeTab).fadeIn(); //Fade in the active content
+				return false;
+			});
+
+		});
+
+		function showHideContractInfo() {
+			if ($('#IsGSA:checked').length > 0) {
+				$('.gsaOnly').show();
+			} else {
+				$('.gsaOnly').hide();
+			}			
+		}
+
+		function showHideADFirmInfo() {
+			if ($('#HasADFirm:checked').length > 0) {
+				$('.adFirmOnly').show();
+			} else {
+				$('.adFirmOnly').hide();
+			}
+		}
+
+		function emptyDropDownList(ddList) {
+			ddList.empty();
+		}
+
+		function reloadDropDownUserList(ddListID, data, bNeedOther) {
+    		var ddList = $(ddListID);
+    		emptyDropDownList(ddList);
+    		$.each(data.theList, function (idx, item) {
+				ddList.append('<option value="' + item.UserID + '">' + item.FullName + '</option>")');
+    		});
+			if( bNeedOther ) {
+				ddList.append('<option value="0">Other</option>")');
+			}
+		}
+
+		function reloadDropDownCompanyList(ddListID, data) {
+    		var ddList = $(ddListID);
+    		emptyDropDownList(ddList);
+    		$.each(data, function (idx, item) {
+				ddList.append('<option value="' + item.ID + '">' + item.Text + '</option>")');
+    		});
+		}
+
+		function setDropDownListToMatch(ddListID, ddSourceID) {
+			var ddList = $(ddListID);
+			emptyDropDownList(ddList);
+			var ddSource = $(ddSourceID);
+			ddList.append('<option value="' + ddSource.attr('value') + '">' + ddSource.find('option:selected').text() + '</option>")');
+			ddList.attr('value', ddSource.get('value'));
+		}
+
+    	function reloadDealerSalesRepList() {
+    		if ($('#DealerID').val() != null && $('#DealerID').val() != '' && $('#DealerID').val() != '0') {
+    			makeAjaxCall('/User/GetDealerSalesRepListForCompany',
+    				{ companyId: $('#DealerID').val(), enabledOnly: true },
+    				function (data, textStatus, jqXHR) {
+						reloadDropDownUserList('#DealerMemberID', data, true);
+    					$('.DSRCell').show();
+//		    			$('#DealerMemberID_msdd').show();
+						showHideDealerPOC();
+    				},
+    				function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Dealer Sales Rep list:' + errorThrown)
+    				}
+    			);
+    		} else {
+				emptyDropDownList($("#DealerMemberID"));
+    			$('#DealerPointOfContact').val('');
+				$('#DealerPointOfContact').addClass('noValidate');
+    			$('.DSRCell').hide();
+//    			$('#DealerMemberID_msdd').hide();
+				$('.DSRPOCCell').hide();
+    		}
+    	}
+
+	</script>
+@{
+	CompanyController.GetCompanyListFunction GetDealerList = CompanyController.GetCompanyDDList;
+	if( PaoliWebUser.CurrentUser.IsDealerUser )
+	{
+		GetDealerList = CompanyController.GetThisCompanyAsDDItem;
+	}
+	else if( PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
+	{
+		GetDealerList = CompanyController.GetDealerForSalesRepDDList;
+	}
+	var imageList = SpecRequestController.GetFeatureImageList();
+}
+
+                     <div class="container2">
+     @using( Html.BeginForm( "Add", "Project", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
+	 {
+		 @Html.AntiForgeryToken()
+		 <div class="main_inner1 activeSection requestPanel">
+			 <h3>
+				 Project Overview</h3>
+			 <div class="main_inner6_btm">
+				 <ul>
+					 <li>
+						 <div class="box2">
+							 <label>
+								 Name</label>
+							 <div class="colmn1">
+							 @Html.TextBoxFor( m => m.ProjectName )
+							 </div>
+							 <cite>Dealership</cite>
+							 @Html.DropDownListFor( m => m.DealerID, GetDealerList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer ) )
+						 </div>
+					 </li>
+					 <li>
+						 <div class="box2">
+							 <label>
+								 End Customer</label>
+							 <div class="colmn1">
+							 @Html.TextBoxFor( m => m.EndCustomer )
+							 </div>
+							 <div class="colmn4">
+								 <div class="colmn4_lt">
+									 <div class="checkbox fakeIsGSA">
+										 @Html.CheckBoxFor( m => m.IsGSA )
+										 <span>GSA</span>
+									 </div>
+								 </div>
+								 <h6 class="gsaOnly">
+									 To which contract does this relate?</h6>
+								 @Html.DropDownListFor( m => m.ContractID, SpecRequestController.GSAContractList( true ), new { @class = "gsaOnly" } )
+							 </div>
+						 </div>
+					 </li>
+					 
+				 </ul>
+				 <i class="clear_0"></i>
+			 </div>
+		 </div>    
+
+		 <div class="main_inner1 activeSection requestPanel">
+			 <h3>
+				 Project Details</h3>
+			 <div class="main_inner6_btm">
+				<ul>
+					<li>
+						 <div class="box2">
+							 <label>
+								 Initial Anticipated Order Date</label>
+							 <div class="colmn1">
+							 @Html.TextBoxFor( m => m.AnticipatedOrderDate )
+							 </div>
+							 <div class="colmn4">
+								 <div class="colmn4_lt">
+									 <div class="checkbox fakeHasADFirm">
+										 @Html.CheckBoxFor( m => m.HasADFirm )
+										 <span>A&D Firm Involved</span>
+									 </div>
+								 </div>
+								 <h6 class="adFirmOnly">
+									 Which A&D Firm?</h6>
+								 @Html.TextBoxFor( m => m.ADFirm, new { @class = "adFirmOnly" } )
+							 </div>
+						 </div>
+					 </li>
+					 <li>
+						 <div class="box2">
+							 <label>
+								 Anticipated Ship Date</label>
+							 <div class="colmn1">
+							 @Html.TextBoxFor( m => m.AnticipatedShipDate )
+							 </div>
+							 <div class="colmn4">
+								 <div class="colmn4_lt">
+									 <div class="checkbox">
+										 @Html.CheckBoxFor( m => m.SPADone )
+										 <span>SPA Done</span>
+									 </div>
+								 </div>
+							 </div>
+						 </div>
+					 </li>
+					 <li>
+						 <div class="box2">
+							 <label>
+								 Probability of Success</label>
+							 <div class="colmn1">
+							 @Html.TextBoxFor( m => m.Probability )
+							 </div>
+							 <cite>Competing Brand</cite>
+							 @Html.DropDownListFor( m => m.PrimaryCompetitor, new List<SelectListItem>() )
+						 </div>
+					 </li>
+					 <li>
+						 <div class="box2">
+							 <label>Pipeline Status</label>
+							 <div class="colmn1">
+							 @Html.DropDownListFor( m => m.PipelineStatus, ProjectController.GetProjectStatusList() )
+							 </div>
+							 <cite>Project Success</cite>
+							 @Html.DropDownListFor( m => m.ProjectSuccess, ProjectController.GetProjectSuccessList() )
+						 </div>
+					 </li>
+
+				 </ul>
+				 <i class="clear_0"></i>
+			 </div>
+		 </div>    
+		 <div class="main_inner1 activeSection requestPanel">
+			 <h3>
+				 Product Options</h3>
+			 <div class="main_inner9_btm">
+				 <div class="main_inner9_btm_top">
+					 <ul class="tabs1">
+						 <li class="box1"><a href="#tab1">Veneer Casegoods</a></li>
+						 <li class="box1"><a href="#tab4">Laminate Casegoods</a></li>
+						 <li class="box2"><a href="#tab2">Conferencing</a></li>
+						 <li class="box3"><a href="#tab3">Seating</a></li>
+					 </ul>
+					 <i class="clear_0"></i>
+				 </div>
+				 <div class="tab_container1">
+					 <div style="display: block;" id="tab1" class="tab_content1">
+						 <ul>
+				@{
+		 var startTR = "<li>";
+		 var endTR = "</li>";
+	  }
+					@for( int i = 0; i < ViewBag.BlankInformation.VeneerCasegoods.Count; i++ )
+	 {
+		 if( i % 2 == 0 )
+		 {
+				<text>@Html.Raw( startTR )</text>
+		 }
+		 
+								 <div class="tab_lt @(i % 2 == 1 ? "last" : "")">
+									 <div class="colmn_lt">
+									 <input type="hidden" name="VeneerCasegoods.Index" value="@i" />
+										 <div class="checkbox chkCasegoods">
+											 <input type="checkbox" class="chkRealCasegoods" name="VeneerCasegoods[@i]" value="@ViewBag.BlankInformation.VeneerCasegoods[i]" />
+										 </div>
+										 <img class="seriesImage" src="@(imageList.Keys.Contains( ViewBag.BlankInformation.VeneerCasegoods[i] ) ? ( "/images/" + imageList[ViewBag.BlankInformation.VeneerCasegoods[i]] ) : "/NewContent/images/productNoImage.png")" alt="img"/>
+									 </div>
+									 <div class="colmn_rt">
+										 <h3>
+											 @ViewBag.BlankInformation.VeneerCasegoods[i]</h3>
+										 <p></p>
+									 </div>
+								 </div>
+			
+			 
+		 if( i % 2 == 1 )
+		 {
+				<text>@Html.Raw( endTR )</text>
+		 }
+	 }
+	 					 <li class="full">
+						 <div class="box2">
+							 <label>
+								 Net Profit</label>
+							 <div class="colmn1">
+							 @Html.TextBoxFor( m => m.NetVeneerCasegoods )
+							 </div>
+						 </div>
+					 </li>
+
+						 </ul>
+						 <i class="clear_0"></i>
+					 </div>
+				 </div>
+				 <div class="tab_container1">
+					 <div style="display: block;" id="tab4" class="tab_content1">
+						 <ul>
+					@for( int i = 0; i < ViewBag.BlankInformation.LaminateCasegoods.Count; i++ )
+	 {
+		 if( i % 2 == 0 )
+		 {
+				<text>@Html.Raw( startTR )</text>
+		 }
+		 
+								 <div class="tab_lt @(i % 2 == 1 ? "last" : "")">
+									 <div class="colmn_lt">
+									 <input type="hidden" name="LaminateCasegoods.Index" value="@i" />
+										 <div class="checkbox chkCasegoods">
+											 <input type="checkbox" class="chkRealCasegoods" name="LaminateCasegoods[@i]" value="@ViewBag.BlankInformation.LaminateCasegoods[i]" />
+										 </div>
+										 <img class="seriesImage" src="@(imageList.Keys.Contains( ViewBag.BlankInformation.LaminateCasegoods[i] ) ? ( "/images/" + imageList[ViewBag.BlankInformation.LaminateCasegoods[i]] ) : "/NewContent/images/productNoImage.png")" alt="img"/>
+									 </div>
+									 <div class="colmn_rt">
+										 <h3>
+											 @ViewBag.BlankInformation.LaminateCasegoods[i]</h3>
+										 <p></p>
+									 </div>
+								 </div>
+			
+			 
+		 if( i % 2 == 1 )
+		 {
+				<text>@Html.Raw( endTR )</text>
+		 }
+	 }
+	 					 <li class="full">
+						 <div class="box2">
+							 <label>
+								 Net Profit</label>
+							 <div class="colmn1">
+							 @Html.TextBoxFor( m => m.NetLaminateCasegoods )
+							 </div>
+						 </div>
+					 </li>
+
+						 </ul>
+						 <i class="clear_0"></i>
+					 </div>
+				 </div>
+				 <div class="tab_container1">
+					 <div style="display: block;" id="tab2" class="tab_content1">
+						 <ul>
+					@for( int i = 0; i < ViewBag.BlankInformation.Conferencing.Count; i++ )
+	 {
+		 if( i % 2 == 0 )
+		 {
+				<text>@Html.Raw( startTR )</text>
+		 }
+		 
+								 <div class="tab_lt @(i % 2 == 1 ? "last" : "")">
+									 <div class="colmn_lt">
+										 <input type="hidden" name="Conferencing.Index" value="@i" />
+										 <div class="checkbox chkConferencing">
+											 <input type="checkbox" class="chkRealConferencing" name="Conferencing[@i]" value="@ViewBag.BlankInformation.Conferencing[i]" />
+										 </div>
+										 <img class="seriesImage" src="@(imageList.Keys.Contains( ViewBag.BlankInformation.Conferencing[i] ) ? ( "/images/" + imageList[ViewBag.BlankInformation.Conferencing[i]] ) : "/NewContent/images/productNoImage.png")" alt="img"/>
+									 </div>
+									 <div class="colmn_rt">
+										 <h3>
+											 @ViewBag.BlankInformation.Conferencing[i]</h3>
+										 <p></p>
+									 </div>
+								 </div>
+			
+			 
+		 if( i % 2 == 1 )
+		 {
+				<text>@Html.Raw( endTR )</text>
+		 }
+	 }
+	 					 <li class="full">
+						 <div class="box2">
+							 <label>
+								 Net Profit</label>
+							 <div class="colmn1">
+							 @Html.TextBoxFor( m => m.NetConferencing )
+							 </div>
+						 </div>
+					 </li>
+
+						 </ul>
+						 <i class="clear_0"></i>
+					 </div>
+				 </div>
+				 <div class="tab_container1">
+					 <div style="display: block;" id="tab3" class="tab_content1">
+						 <ul>
+					@for( int i = 0; i < ViewBag.BlankInformation.Seating.Count; i++ )
+	 {
+		 if( i % 2 == 0 )
+		 {
+				<text>@Html.Raw( startTR )</text>
+		 }
+		 
+								 <div class="tab_lt @(i % 2 == 1 ? "last" : "")">
+									 <div class="colmn_lt">
+										 <input type="hidden" name="Seating.Index" value="@i" />
+										 <div class="checkbox chkSeating">
+											 <input type="checkbox" class="chkRealSeating" name="Seating[@i]" value="@ViewBag.BlankInformation.Seating[i]" />
+										 </div>
+										 <img class="seriesImage" src="@(imageList.Keys.Contains( ViewBag.BlankInformation.Seating[i] ) ? ( "/images/" + imageList[ViewBag.BlankInformation.Seating[i]] ) : "/NewContent/images/productNoImage.png")" alt="img"/>
+									 </div>
+									 <div class="colmn_rt">
+										 <h3>
+											 @ViewBag.BlankInformation.Seating[i]</h3>
+										 <p></p>
+									 </div>
+								 </div>
+			
+			 
+		 if( i % 2 == 1 )
+		 {
+				<text>@Html.Raw( endTR )</text>
+		 }
+	 }
+	 	 					 <li class="full">
+						 <div class="box2">
+							 <label>
+								 Net Profit</label>
+							 <div class="colmn1">
+							 @Html.TextBoxFor( m => m.NetSeating )
+							 </div>
+						 </div>
+					 </li>
+
+						 </ul>
+						 <i class="clear_0"></i>
+					 </div>
+				 </div>
+			 </div>
+			 <!-- END: main -->
+		 </div>  
+		 <div class="main_inner1 activeSection requestPanel">
+			 <h3>
+				 Comments</h3>
+			 <div class="main_inner9_btm">
+				 <div class="main_inner9_btm_top">
+					 <div class="main_inner8_rt_msg">
+						 @Html.TextAreaFor( m => m.Comments, new { @class = "msg1" } )
+						 
+					 </div>
+					 <i class="clear_0"></i>
+				 </div>
+			 </div>
+			 <!-- END: main -->
+		 </div>  
+<div class="btnAlt">
+<span class="btn7 cancelBtn">CANCEL</span>
+<span class="btn11 submitBtn">SUBMIT</span>
+</div>
+	<!--@Html.ValidationSummary()-->
+	 }
+	 </div>

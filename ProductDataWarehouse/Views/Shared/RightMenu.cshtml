@@ -102,11 +102,15 @@
 	{
                             <li><a href="@Url.Action( "ViewAll", "SpecRequest" )">Specifications</a></li>
 	}
+	@if( CurrentUser.CanManageProjects )
+ {
+	 <li><a href="@Url.Action( "Manage", "Project" )">Projects</a></li>
+ }
 						</ul>
                     </li>
 
-	if( CurrentUser.HasAdminLink )
-	{
+ if( CurrentUser.HasAdminLink )
+ {
                     <li><a href="#"><img src="/newcontent/images/admin.jpg" width="35" height="35" alt="img"/>Admin</a>
                         <ul>
 	   @if( CurrentUser.CanManageUsers )
@@ -139,7 +143,7 @@
 						   }
                         </ul>
                     </li>
-	}
+ }
                     <li><a href="#"><img src="/newcontent/images/news-and-updates.png" width="35" height="35" alt="img"/>News & Updates</a>
                         <ul>
                            @if( CurrentUser.CanSeeTheScoop )

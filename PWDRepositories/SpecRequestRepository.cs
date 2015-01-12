@@ -28,7 +28,7 @@ namespace PWDRepositories
 				Name = sRequest.Name,
 				Dealer = sRequest.PrimaryCompanyID.HasValue ? sRequest.PrimaryCompany.FullName : "",
 				DealerMember = sRequest.DealerSalesRepID.HasValue ? sRequest.DealerSalesRep.FullName : sRequest.DealerPOCText,
-				ProjectName = sRequest.ProjectName,
+				ProjectName = sRequest.ProjectID.HasValue ? sRequest.Project.ProjectName : "",
 				SpecTeamMember = sRequest.PaoliSpecTeamMemberID.HasValue ? sRequest.SpecTeamMember.LastName : "",
 				SalesRepGroup = sRequest.PaoliSalesRepGroupID.HasValue ? sRequest.PaoliSalesRepGroup.FullName : "",
 				IsRecommended = sRequest.IsGoodForWeb ?? false,
@@ -52,6 +52,7 @@ namespace PWDRepositories
 				.Include( s => s.PaoliSalesRepGroup )
 				.Include( s => s.Typicals )
 				.Include( s => s.SpecRequestEvents )
+				.Include( s => s.Project )
 				.AsQueryable();
 
 			if( PaoliWebUser.CurrentUser.IsDealerUser )
@@ -83,10 +84,10 @@ namespace PWDRepositories
 			return new SpecRequestExport()
 			{
 				Name = sInfo.Name,
-				ProjectName = sInfo.ProjectName,
+				ProjectName = sInfo.ProjectID.HasValue ? sInfo.Project.ProjectName : "",
 				DealerPointOfContact = sInfo.DealerPOCText,
-				IsGSA = sInfo.IsGSA ?? false,
-				ContractName = sInfo.ContractID.HasValue ? sInfo.GSAContract.Name : "",
+				IsGSA = sInfo.ProjectID.HasValue ? (sInfo.Project.IsGSA ?? false) : false,
+				ContractName = sInfo.ProjectID.HasValue ? (sInfo.Project.ContractID.HasValue ? sInfo.Project.GSAContract.Name : "") : "",
 				ListPrice = sInfo.ListPrice,
 				Received = sInfo.Received ?? false,
 				SPLQuote = sInfo.SPLQuote,
@@ -109,7 +110,7 @@ namespace PWDRepositories
 				DealerSalesRepName = sInfo.DealerSalesRepID.HasValue ? sInfo.DealerSalesRep.FullName : "None",
 				DealerSalesRepContact = sInfo.DealerSalesRepID.HasValue ? sInfo.DealerSalesRep.ContactInfo : "",
 				SpecTeamMemberName = sInfo.PaoliSpecTeamMemberID.HasValue ? sInfo.SpecTeamMember.FullName : "Not Assigned",
-				EndCustomer = sInfo.EndCustomer,
+				EndCustomer = sInfo.ProjectID.HasValue ? sInfo.Project.EndCustomer : "",
 				ProjectSize = sInfo.ProjectSize,
 				NeedFloorplanSpecs = sInfo.NeedFloorplanSpecs,
 				NeedValueEng = sInfo.NeedValueEng,
@@ -153,6 +154,7 @@ namespace PWDRepositories
 				.Include( s => s.PaoliSalesRepGroup )
 				.Include( s => s.Typicals )
 				.Include( s => s.SpecRequestEvents )
+				.Include( s => s.Project )
 				.AsQueryable();
 
 			if( PaoliWebUser.CurrentUser.IsDealerUser )
@@ -183,7 +185,7 @@ namespace PWDRepositories
 					i.PrimaryCompany.BusinessUnitName.Contains( paramDetails.sSearch ) ||
 					i.PaoliSalesRepGroup.Name.Contains( paramDetails.sSearch ) ||
 					i.PaoliSalesRepGroup.BusinessUnitName.Contains( paramDetails.sSearch ) ||
-					i.ProjectName.Contains( paramDetails.sSearch ) ||
+					i.Project.ProjectName.Contains( paramDetails.sSearch ) ||
 					i.SpecTeamMember.FirstName.Contains( paramDetails.sSearch ) ||
 					i.SpecTeamMember.LastName.Contains( paramDetails.sSearch ) );
 			}
@@ -223,11 +225,11 @@ namespace PWDRepositories
 				case "projectname":
 					if( paramDetails.sSortDir_0.ToLower() == "asc" )
 					{
-						filteredAndSorted = requestList.OrderBy( v => v.ProjectName );
+						filteredAndSorted = requestList.OrderBy( v => v.Project.ProjectName );
 					}
 					else
 					{
-						filteredAndSorted = requestList.OrderByDescending( v => v.ProjectName );
+						filteredAndSorted = requestList.OrderByDescending( v => v.Project.ProjectName );
 					}
 					break;
 				case "specteammember":
@@ -285,6 +287,7 @@ namespace PWDRepositories
 				.Include( s => s.PaoliSalesRepGroup )
 				.Include( s => s.Typicals )
 				.Include( s => s.SpecRequestEvents )
+				.Include( s => s.Project )
 				.AsQueryable();
 
 			totalRecords = requestList.Count();
@@ -297,7 +300,7 @@ namespace PWDRepositories
 					i.PrimaryCompany.BusinessUnitName.Contains( paramDetails.sSearch ) ||
 					i.PaoliSalesRepGroup.Name.Contains( paramDetails.sSearch ) ||
 					i.PaoliSalesRepGroup.BusinessUnitName.Contains( paramDetails.sSearch ) ||
-					i.ProjectName.Contains( paramDetails.sSearch ) ||
+					i.Project.ProjectName.Contains( paramDetails.sSearch ) ||
 					i.SpecTeamMember.FirstName.Contains( paramDetails.sSearch ) ||
 					i.SpecTeamMember.LastName.Contains( paramDetails.sSearch ) );
 			}
@@ -321,7 +324,7 @@ namespace PWDRepositories
 			}
 			if( paramDetails.showGSAOnly )
 			{
-				requestList = requestList.Where( i => i.IsGSA ?? false );
+				requestList = requestList.Where( i => i.Project.IsGSA ?? false );
 			}
 			if( paramDetails.companyId.HasValue )
 			{
@@ -366,11 +369,11 @@ namespace PWDRepositories
 				case "projectname":
 					if( paramDetails.sSortDir_0.ToLower() == "asc" )
 					{
-						filteredAndSorted = requestList.OrderBy( v => v.ProjectName );
+						filteredAndSorted = requestList.OrderBy( v => v.Project.ProjectName );
 					}
 					else
 					{
-						filteredAndSorted = requestList.OrderByDescending( v => v.ProjectName );
+						filteredAndSorted = requestList.OrderByDescending( v => v.Project.ProjectName );
 					}
 					break;
 				case "specteammember":
@@ -481,6 +484,7 @@ namespace PWDRepositories
 				.Include( s => s.PaoliSalesRepMember.Company.Territory )
 				.Include( s => s.PaoliSalesRepGroup.Territory )
 				.Include( s => s.SpecRequestFiles )
+				.Include( s => s.Project )
 				.FirstOrDefault( s => s.RequestID == sInfo.RequestID );
 			if( dbInfo == null )
 			{
@@ -525,7 +529,7 @@ namespace PWDRepositories
 			summary.requestId = dbInfo.RequestID;
 			summary.requestName = dbInfo.Name;
 			summary.reOpenedByName = PaoliWebUser.CurrentUser.FullName;
-			summary.projectName = dbInfo.ProjectName;
+			summary.projectName = dbInfo.ProjectID.HasValue ? dbInfo.Project.ProjectName : "";
 			summary.newNotes = notes;
 			summary.newFiles.AddRange( files );
 
@@ -641,7 +645,8 @@ namespace PWDRepositories
 			{
 				RequestID = sInfo.RequestID,
 				Name = sInfo.Name,
-				ProjectName = sInfo.ProjectName,
+				ProjectID = sInfo.ProjectID,
+				RealProjectName = sInfo.ProjectID.HasValue ? sInfo.Project.ProjectName : "",
 				PaoliSalesRepGroupID = sInfo.PaoliSalesRepGroupID,
 				PaoliSalesRepMemberID = sInfo.PaoliSalesRepMemberID,
 				DealerID = sInfo.PrimaryCompanyID,
@@ -651,9 +656,6 @@ namespace PWDRepositories
 				DealerPointOfContactPhone = sInfo.DealerPOCPhone,
 				DealerPointOfContactAcctType = sInfo.DealerPOCAcctType,
 				DealerPointOfContactAcctTypeName = sInfo.DealerPOCAcctType.HasValue ? PaoliWebUser.PaoliWebRole.RoleList[sInfo.DealerPOCAcctType.Value] : "",
-				IsGSA = sInfo.IsGSA ?? false,
-				ContractID = sInfo.ContractID,
-				ContractName = sInfo.ContractID.HasValue ? sInfo.GSAContract.Name : "",
 				SavedLocation = sInfo.SavedLocation,
 				ListPrice = sInfo.ListPrice,
 				Received = sInfo.Received ?? false,
@@ -682,7 +684,7 @@ namespace PWDRepositories
 				DealerSalesRepName = sInfo.DealerSalesRepID.HasValue ? sInfo.DealerSalesRep.FullName : "None",
 				DealerSalesRepContact = sInfo.DealerSalesRepID.HasValue ? sInfo.DealerSalesRep.ContactInfo : "",
 				SpecTeamMemberName = sInfo.PaoliSpecTeamMemberID.HasValue ? sInfo.SpecTeamMember.FullName : "Not Assigned",
-				EndCustomer = sInfo.EndCustomer,
+				EndCustomer = sInfo.ProjectID.HasValue ? sInfo.Project.EndCustomer : "",
 				ProjectSize = sInfo.ProjectSize,
 				NeedFloorplanSpecs = sInfo.NeedFloorplanSpecs,
 				NeedValueEng = sInfo.NeedValueEng,
@@ -725,7 +727,7 @@ namespace PWDRepositories
 		{
 			SpecRequest newSpec = new SpecRequest();
 
-			newSpec.ProjectName = sInfo.ProjectName;
+			newSpec.ProjectID = sInfo.ProjectID;
 			newSpec.PaoliSalesRepGroupID = ( sInfo.PaoliSalesRepGroupID ?? 0 ) > 0 ? sInfo.PaoliSalesRepGroupID : null;
 			newSpec.PaoliSalesRepMemberID = ( sInfo.PaoliSalesRepMemberID ?? 0 ) > 0 ? sInfo.PaoliSalesRepMemberID : null;
 			newSpec.PrimaryCompanyID = ( sInfo.DealerID ?? 0 ) > 0 ? sInfo.DealerID : null;
@@ -734,8 +736,6 @@ namespace PWDRepositories
 			newSpec.DealerPOCEmail = !newSpec.DealerSalesRepID.HasValue ? sInfo.DealerPointOfContactEmail : null;
 			newSpec.DealerPOCPhone = !newSpec.DealerSalesRepID.HasValue ? sInfo.DealerPointOfContactPhone : null;
 			newSpec.DealerPOCAcctType = !newSpec.DealerSalesRepID.HasValue ? sInfo.DealerPointOfContactAcctType : null;
-			newSpec.IsGSA = sInfo.IsGSA;
-			newSpec.ContractID = sInfo.ContractID;
 			newSpec.AvailableForIn2 = sInfo.AvailableForIn2;
 			newSpec.PaoliSpecTeamMemberID = ( sInfo.PaoliSpecTeamMember ?? 0 ) > 0 ? sInfo.PaoliSpecTeamMember : null;
 			newSpec.LastModifiedDate = DateTime.UtcNow;
@@ -745,7 +745,6 @@ namespace PWDRepositories
 			newSpec.NeedSIFFiles = sInfo.NeedSIFFiles;
 			newSpec.NeedXLSFiles = sInfo.NeedXLSFiles;
 			newSpec.NeedPDFFiles = sInfo.NeedPDFFiles;
-			newSpec.EndCustomer = sInfo.EndCustomer;
 			newSpec.ProjectSize = sInfo.ProjectSize;
 			newSpec.NeedFloorplanSpecs = sInfo.NeedFloorplanSpecs;
 			newSpec.NeedValueEng = sInfo.NeedValueEng;
@@ -821,6 +820,7 @@ namespace PWDRepositories
 						.Include( s => s.PrimaryCompany.Territory )
 						.Include( s => s.PaoliSalesRepMember.Company.Territory )
 						.Include( s => s.PaoliSalesRepGroup.Territory )
+						.Include( s => s.Project )
 						.FirstOrDefault( s => s.RequestID == newSpec.RequestID );
 
 					//( new NewSpecRequestEmailSender( "NewSpecRequestSpecTeam" ) ).SubmitNewRequestEmail( "PAOProjectSpecTeam@paoli.com", ToEmailSpecRequestSummary( newSpec, new EmailSender.EmailTarget() ) );
@@ -867,11 +867,14 @@ namespace PWDRepositories
 						}
 					}
 
-					if( reloadRequest.IsGSA ?? false )
+					if( reloadRequest.ProjectID.HasValue )
 					{
-						( new NewSpecRequestEmailSender( "NewSpecRequestGSA" ) ).SubmitNewRequestEmail( "gsa@paoli.com",
-							ToEmailSpecRequestSummary( reloadRequest, new EmailSender.EmailTarget() { EmailAddress = "gsa@paoli.com", FirstName = "" } ), 
-							GetPaoliMemberFromDetails( null ) );
+						if( reloadRequest.Project.IsGSA ?? false )
+						{
+							( new NewSpecRequestEmailSender( "NewSpecRequestGSA" ) ).SubmitNewRequestEmail( "gsa@paoli.com",
+								ToEmailSpecRequestSummary( reloadRequest, new EmailSender.EmailTarget() { EmailAddress = "gsa@paoli.com", FirstName = "" } ),
+								GetPaoliMemberFromDetails( null ) );
+						}
 					}
 
 					return true;
@@ -888,8 +891,8 @@ namespace PWDRepositories
 				requestId = request.RequestID,
 				requestName = request.Name,
 				firstName = target.FirstName,
-				companyName = request.EndCustomer,
-				projectName = request.ProjectName,
+				companyName = request.ProjectID.HasValue ? request.Project.EndCustomer : "",
+				projectName = request.ProjectID.HasValue ? request.Project.ProjectName : "",
 				scopeDescription = request.ProjectSize,
 				createdBy = request.CreatedByUserName
 			};
@@ -983,7 +986,7 @@ namespace PWDRepositories
 				throw new Exception( "Unable to find Spec Request" );
 			}
 
-			specInfo.ProjectName = sInfo.ProjectName;
+			specInfo.ProjectID = sInfo.ProjectID;
 			specInfo.PaoliSalesRepGroupID = ( sInfo.PaoliSalesRepGroupID ?? 0 ) > 0 ? sInfo.PaoliSalesRepGroupID : null;
 			specInfo.PaoliSalesRepMemberID = ( sInfo.PaoliSalesRepMemberID ?? 0 ) > 0 ? sInfo.PaoliSalesRepMemberID : null;
 			specInfo.PrimaryCompanyID = ( sInfo.DealerID ?? 0 ) > 0 ? sInfo.DealerID : null;
@@ -992,8 +995,6 @@ namespace PWDRepositories
 			specInfo.DealerPOCEmail = !specInfo.DealerSalesRepID.HasValue ? sInfo.DealerPointOfContactEmail : null;
 			specInfo.DealerPOCPhone = !specInfo.DealerSalesRepID.HasValue ? sInfo.DealerPointOfContactPhone : null;
 			specInfo.DealerPOCAcctType = !specInfo.DealerSalesRepID.HasValue ? sInfo.DealerPointOfContactAcctType : null;
-			specInfo.IsGSA = sInfo.IsGSA;
-			specInfo.ContractID = sInfo.ContractID;
 			specInfo.AvailableForIn2 = sInfo.AvailableForIn2;
 			specInfo.PaoliSpecTeamMemberID = ( sInfo.PaoliSpecTeamMember ?? 0 ) > 0 ? sInfo.PaoliSpecTeamMember : null;
 			specInfo.LastModifiedDate = DateTime.UtcNow;
@@ -1003,7 +1004,6 @@ namespace PWDRepositories
 			specInfo.NeedSIFFiles = sInfo.NeedSIFFiles;
 			specInfo.NeedXLSFiles = sInfo.NeedXLSFiles;
 			specInfo.NeedPDFFiles = sInfo.NeedPDFFiles;
-			specInfo.EndCustomer = sInfo.EndCustomer;
 			specInfo.ProjectSize = sInfo.ProjectSize;
 			specInfo.NeedFloorplanSpecs = sInfo.NeedFloorplanSpecs;
 			specInfo.NeedValueEng = sInfo.NeedValueEng;
@@ -1107,6 +1107,7 @@ namespace PWDRepositories
 						.Include( s => s.PrimaryCompany.Territory )
 						.Include( s => s.PaoliSalesRepMember.Company.Territory )
 						.Include( s => s.PaoliSalesRepGroup.Territory )
+						.Include( s => s.Project )
 						.FirstOrDefault( s => s.RequestID == specInfo.RequestID );
 
 					List<EmailSender.EmailTarget> emailAddresses = new List<EmailSender.EmailTarget>();
@@ -1202,7 +1203,7 @@ namespace PWDRepositories
 				requestId = request.RequestID,
 				requestName = request.Name,
 				firstName = target.FirstName,
-				projectName = request.ProjectName,
+				projectName = request.ProjectID.HasValue ? request.Project.ProjectName : "",
 				specTeamMember =
 					( request.CompletedByUserName != null ) ? request.CompletedByUserName :
 						((request.SpecTeamMember != null) ? request.SpecTeamMember.FullName : "a member of our team"),
@@ -1814,6 +1815,7 @@ namespace PWDRepositories
 				.Include( s => s.PrimaryCompany.Territory )
 				.Include( s => s.PaoliSalesRepMember.Company.Territory )
 				.Include( s => s.PaoliSalesRepGroup.Territory )
+				.Include( s => s.Project )
 				.FirstOrDefault( s => s.RequestID == requestId );
 			if( specInfo == null )
 			{
@@ -1832,6 +1834,291 @@ namespace PWDRepositories
 			}
 
 			return false;
+		}
+
+
+		public IEnumerable<ProjectSummary> GetUserProjectList( ProjectTableParams paramDetails, out int totalRecords, out int displayedRecords )
+		{
+			totalRecords = 0;
+			displayedRecords = 0;
+
+			var requestList = database.Projects
+				.Include( p => p.Company )
+				.AsQueryable();
+
+			var dbUser = database.Users.FirstOrDefault( u => u.UserID == PaoliWebUser.CurrentUser.UserId );
+
+			if( PaoliWebUser.CurrentUser.IsDealerUser )
+			{
+				requestList = requestList.Where( s => s.DealerID == dbUser.CompanyID );
+			}
+			else if( PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
+			{
+				requestList = requestList.Where( s => s.Company.TerritoryID == dbUser.Company.TerritoryID );
+			}
+
+			totalRecords = requestList.Count();
+
+			if( !string.IsNullOrEmpty( paramDetails.sSearch ) )
+			{
+				requestList = requestList.Where( i =>
+					i.ProjectName.Contains( paramDetails.sSearch ) ||
+					i.EndCustomer.Contains( paramDetails.sSearch ) ||
+					i.Company.Name.Contains( paramDetails.sSearch ) );
+			}
+
+			string sortCol = paramDetails.sColumns.Split( ',' )[paramDetails.iSortCol_0];
+
+			IQueryable<Project> filteredAndSorted = null;
+			switch( sortCol.ToLower() )
+			{
+				case "projectname":
+				default:
+					if( paramDetails.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = requestList.OrderBy( v => v.ProjectName );
+					}
+					else
+					{
+						filteredAndSorted = requestList.OrderByDescending( v => v.ProjectName );
+					}
+					break;
+				case "customername":
+					if( paramDetails.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = requestList.OrderBy( v => v.EndCustomer );
+					}
+					else
+					{
+						filteredAndSorted = requestList.OrderByDescending( v => v.EndCustomer );
+					}
+					break;
+				case "dealershipname":
+					if( paramDetails.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = requestList.OrderBy( v => v.Company.Name );
+					}
+					else
+					{
+						filteredAndSorted = requestList.OrderByDescending( v => v.Company.Name );
+					}
+					break;
+				case "pipelinestatus":
+					if( paramDetails.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = requestList.OrderBy( v => v.PipelineStatus );
+					}
+					else
+					{
+						filteredAndSorted = requestList.OrderByDescending( v => v.PipelineStatus );
+					}
+					break;
+			}
+
+			displayedRecords = requestList.Count();
+
+			if( ( displayedRecords > paramDetails.iDisplayLength ) && ( paramDetails.iDisplayLength > 0 ) )
+			{
+				filteredAndSorted = filteredAndSorted.Skip( paramDetails.iDisplayStart ).Take( paramDetails.iDisplayLength );
+			}
+
+			return filteredAndSorted.ToList().Select( v => ToProjectSummary( v ) );
+		}
+
+		private ProjectSummary ToProjectSummary( Project dbProject )
+		{			
+			return new ProjectSummary()
+			{
+				ProjectID = dbProject.ProjectID,
+				ProjectName = dbProject.ProjectName,
+				CustomerName = dbProject.EndCustomer,
+				DealershipName = dbProject.Company.Name,
+				PipelineStatus = ProjectStatus.GetDisplayString( dbProject.PipelineStatus )
+			};
+		}
+
+		public ProjectSeriesInformation GetProjectSeriesInformation()
+		{
+			return new ProjectSeriesInformation()
+			{
+				VeneerCasegoods = database.Serieses.Where( s => s.Category.Name == "Casegood" )
+					.Where( s => database.ImageFiles.Any( sif => sif.FinishType == (int)( PDWModels.Images.ImageInformation.FinishTypes.Veneer ) && 
+						s.SeriesOptionAttributes.Where( soa => soa.Attribute.Name == "Finish" ).Any( soa => soa.AttributeOption.Name == sif.FeaturedFinish ) ) )
+					.Select( s => s.Name ).ToList(),
+				LaminateCasegoods = database.Serieses.Where( s => s.Category.Name == "Casegood" )
+					.Where( s => database.ImageFiles.Any( sif => sif.FinishType == (int)( PDWModels.Images.ImageInformation.FinishTypes.Laminate ) &&
+						s.SeriesOptionAttributes.Where( soa => soa.Attribute.Name == "Finish" ).Any( soa => soa.AttributeOption.Name == sif.FeaturedFinish ) ) )
+					.Select( s => s.Name ).ToList(),
+				Seating = database.Serieses.Where( s => s.Category.Name == "Seating" ).Select( s => s.Name ).ToList(),
+				Conferencing = database.Serieses.Where( s => s.Category.Name == "Tables" ).Select( s => s.Name ).ToList()
+			};
+		}
+
+		public void Add( ProjectInformation pInfo )
+		{
+			var newProject = new Project()
+			{
+				ProjectName = pInfo.ProjectName,
+				DealerID = pInfo.DealerID,
+				EndCustomer = pInfo.EndCustomer,
+
+				IsGSA = pInfo.IsGSA,
+				ContractID = pInfo.IsGSA ? pInfo.ContractID : (int?)null,
+
+				HasADFirm = pInfo.HasADFirm,
+				ADFirm = pInfo.HasADFirm ? pInfo.ADFirm : null,
+
+				AnticipatedOrderDate = pInfo.AnticipatedOrderDate,
+				AnticipatedShipDate = pInfo.AnticipatedShipDate,
+
+				VeneerCasegoods = pInfo.VeneerCasegoods != null ? string.Join( ",", pInfo.VeneerCasegoods ) : "",
+				NetVeneerCasegoods = pInfo.NetVeneerCasegoods,
+				LaminateCasegoods = pInfo.LaminateCasegoods != null ? string.Join( ",", pInfo.LaminateCasegoods ) : "",
+				NetLaminateCasegoods = pInfo.NetLaminateCasegoods,
+				Conferencing = pInfo.Conferencing != null ? string.Join( ",", pInfo.Conferencing ) : "",
+				NetConferencing = pInfo.NetConferencing,
+				Seating = pInfo.Seating != null ? string.Join( ",", pInfo.Seating ) : "",
+				NetSeating = pInfo.NetSeating,
+
+				SPADone = pInfo.SPADone,
+				Probability = pInfo.Probability,
+
+				PrimaryCompetitor = pInfo.PrimaryCompetitor,
+				Comments = pInfo.Comments,
+
+				PipelineStatus = pInfo.PipelineStatus,
+				ProjectSuccess = pInfo.ProjectSuccess
+			};
+
+			database.Projects.Add( newProject );
+
+			database.SaveChanges();
+		}
+
+		public int Add( NewProjectInformation pInfo )
+		{
+			var newProject = new Project()
+			{
+				ProjectName = pInfo.projectName,
+				DealerID = pInfo.dealer,
+				EndCustomer = pInfo.customer,
+
+				IsGSA = false,
+				HasADFirm = false,
+				SPADone = false,
+				PipelineStatus = ProjectStatus.Step1,
+				ProjectSuccess = ProjectSuccess.Pending
+			};
+
+			database.Projects.Add( newProject );
+
+			database.SaveChanges();
+
+			database.Entry( newProject ).Reload();
+
+			return newProject.ProjectID;
+		}
+
+		public ProjectInformation GetProject( int projectId )
+		{
+			var dbProject = database.Projects.FirstOrDefault( p => p.ProjectID == projectId );
+			if( dbProject == null )
+			{
+				throw new Exception( "Unable to find project" );
+			}
+
+			return new ProjectInformation()
+			{
+				ProjectID = dbProject.ProjectID,
+				ProjectName = dbProject.ProjectName,
+				DealerID = dbProject.DealerID.Value,
+				EndCustomer = dbProject.EndCustomer,
+
+				IsGSA = dbProject.IsGSA ?? false,
+				ContractID = dbProject.ContractID,
+
+				HasADFirm = dbProject.HasADFirm,
+				ADFirm = dbProject.ADFirm,
+
+				AnticipatedOrderDate = dbProject.AnticipatedOrderDate,
+				AnticipatedShipDate = dbProject.AnticipatedShipDate,
+
+				VeneerCasegoods = ( dbProject.VeneerCasegoods ?? "" ).Split( ',' ).ToList(),
+				NetVeneerCasegoods = dbProject.NetVeneerCasegoods,
+				LaminateCasegoods = ( dbProject.LaminateCasegoods ?? "" ).Split( ',' ).ToList(),
+				NetLaminateCasegoods = dbProject.NetLaminateCasegoods,
+				Conferencing = ( dbProject.Conferencing ?? "" ).Split( ',' ).ToList(),
+				NetConferencing = dbProject.NetConferencing,
+				Seating = ( dbProject.Seating ?? "" ).Split( ',' ).ToList(),
+				NetSeating = dbProject.NetSeating,
+
+				SPADone = dbProject.SPADone,
+				Probability = dbProject.Probability,
+
+				PrimaryCompetitor = dbProject.PrimaryCompetitor,
+				Comments = dbProject.Comments,
+
+				PipelineStatus = dbProject.PipelineStatus,
+				ProjectSuccess = dbProject.ProjectSuccess
+			};
+		}
+
+		public void Update( ProjectInformation pInfo )
+		{
+			var dbProject = database.Projects.FirstOrDefault( p => p.ProjectID == pInfo.ProjectID );
+			if( dbProject == null )
+			{
+				throw new Exception( "Unable to find project" );
+			}
+
+			dbProject.ProjectName = pInfo.ProjectName;
+			dbProject.DealerID = pInfo.DealerID;
+			dbProject.EndCustomer = pInfo.EndCustomer;
+
+			dbProject.IsGSA = pInfo.IsGSA;
+			dbProject.ContractID = pInfo.IsGSA ? pInfo.ContractID : (int?)null;
+
+			dbProject.HasADFirm = pInfo.HasADFirm;
+			dbProject.ADFirm = pInfo.HasADFirm ? pInfo.ADFirm : null;
+
+			dbProject.AnticipatedOrderDate = pInfo.AnticipatedOrderDate;
+			dbProject.AnticipatedShipDate = pInfo.AnticipatedShipDate;
+
+			dbProject.VeneerCasegoods = pInfo.VeneerCasegoods != null ? string.Join( ",", pInfo.VeneerCasegoods ) : "";
+			dbProject.NetVeneerCasegoods = pInfo.NetVeneerCasegoods;
+			dbProject.LaminateCasegoods = pInfo.LaminateCasegoods != null ? string.Join( ",", pInfo.LaminateCasegoods ) : "";
+			dbProject.NetLaminateCasegoods = pInfo.NetLaminateCasegoods;
+			dbProject.Conferencing = pInfo.Conferencing != null ? string.Join( ",", pInfo.Conferencing ) : "";
+			dbProject.NetConferencing = pInfo.NetConferencing;
+			dbProject.Seating = pInfo.Seating != null ? string.Join( ",", pInfo.Seating ) : "";
+			dbProject.NetSeating = pInfo.NetSeating;
+
+			dbProject.SPADone = pInfo.SPADone;
+			dbProject.Probability = pInfo.Probability;
+
+			dbProject.PrimaryCompetitor = pInfo.PrimaryCompetitor;
+			dbProject.Comments = pInfo.Comments;
+
+			dbProject.PipelineStatus = pInfo.PipelineStatus;
+			dbProject.ProjectSuccess = pInfo.ProjectSuccess;
+
+			database.SaveChanges();
+		}
+
+		public IEnumerable<string> GetEndCustomerListForDealer( int dealerId )
+		{
+			return database.Projects
+				.Where( p => p.DealerID == dealerId )
+				.Select( p => p.EndCustomer )
+				.ToList();
+		}
+
+		public IEnumerable<IDToTextItem> GetProjectForCustomer( string customer )
+		{
+			return database.Projects
+				.Where( p => p.EndCustomer == customer )
+				.Select( p => new IDToTextItem() { ID = p.ProjectID, Text = p.ProjectName } )
+				.ToList();
 		}
 	}
 }

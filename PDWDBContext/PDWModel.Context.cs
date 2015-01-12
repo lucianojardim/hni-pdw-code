@@ -73,6 +73,7 @@ namespace PDWDBContext
         public DbSet<SpecRequestEvent> SpecRequestEvents { get; set; }
         public DbSet<LeadTimeDetail> LeadTimeDetails { get; set; }
         public DbSet<UserNotification> UserNotifications { get; set; }
+        public DbSet<Project> Projects { get; set; }
     
         public virtual ObjectResult<Showroom> ClosestShowroom(Nullable<double> lat, Nullable<double> @long)
         {

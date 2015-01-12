@@ -168,6 +168,7 @@ span.btn8                                 {padding:6px 20px 6px 10px; color:#FFF
 span.btn12                                 {padding:6px 20px 6px 10px; color:#FFFFFF; cursor:pointer;  font-family: Helvetica, Arial, sans-serif; font-size:12px; color:#FFFFFF; background:#263f6a url(../images/arrow_next.jpg) no-repeat 49px 13px ; -moz-box-shadow:2px 2px 2px 0px #cbcdcd; -webkit-box-shadow:2px 2px 2px 0px #cbcdcd; box-shadow:2px 2px 2px 0px #cbcdcd; position:relative; z-index:1; border:none;  float:right; display:inline-block; margin-top:28px; margin-left:9px;}
 .span.btn6                                 { padding:7px 15px; color:#FFFFFF; cursor:pointer;  font-family: Helvetica, Arial, sans-serif; font-size:12px; color:#FFFFFF; background:#263f6a url(../images/prev_arrow.jpg) no-repeat 5px 14px ; -moz-box-shadow:2px 2px 2px 0px #cbcdcd; -webkit-box-shadow:2px 2px 2px 0px #cbcdcd; box-shadow:2px 2px 2px 0px #cbcdcd; position:relative; z-index:1; border:none;  float:right; display:inline-block; margin-top:28px; margin-left:9px;}
 span.btn7                                  { padding:6px 7px; color:#FFFFFF; cursor:pointer;  font-family: Helvetica, Arial, sans-serif; font-size:12px; color:#FFFFFF; background:#263f6a; -moz-box-shadow:2px 2px 2px 0px #cbcdcd; -webkit-box-shadow:2px 2px 2px 0px #cbcdcd; box-shadow:2px 2px 2px 0px #cbcdcd; position:relative; z-index:1; border:none; display:inline-block; margin-top:8px;} 
+a.btn7                                  { padding:6px 5px; color:#FFFFFF; cursor:pointer;  font-family: Helvetica, Arial, sans-serif; font-size:12px; color:#FFFFFF; background:#263f6a; -moz-box-shadow:2px 2px 2px 0px #cbcdcd; -webkit-box-shadow:2px 2px 2px 0px #cbcdcd; box-shadow:2px 2px 2px 0px #cbcdcd; position:relative; z-index:1; border:none; display:inline-block; margin-top:8px;} 
 span.btn9                                { padding:6px 10px 6px 20px; color:#FFFFFF; cursor:pointer;  font-family: Helvetica, Arial, sans-serif; font-size:12px; color:#FFFFFF; background:#263f6a url(../images/prev_arrow.jpg) no-repeat 8px 13px ; -moz-box-shadow:2px 2px 2px 0px #cbcdcd; -webkit-box-shadow:2px 2px 2px 0px #cbcdcd; box-shadow:2px 2px 2px 0px #cbcdcd; position:relative; z-index:1; border:none;  float:right; display:inline-block; margin-top:8px; margin-left:9px;}
 span.btn13                                  { padding:6px 7px; color:#FFFFFF; cursor:pointer;  font-family: Helvetica, Arial, sans-serif; font-size:12px; color:#FFFFFF; background:#263f6a; -moz-box-shadow:2px 2px 2px 0px #cbcdcd; -webkit-box-shadow:2px 2px 2px 0px #cbcdcd; box-shadow:2px 2px 2px 0px #cbcdcd; position:relative; z-index:1; border:none; display:inline-block; float: right; } 
  
@@ -418,7 +419,12 @@ span.btn11                                 { padding:6px 15px; color:#FFFFFF; cu
 .main_inner9_bottom .box9_rt .colmn .checkbox input 	    { display:none;}
 .main_inner9_bottom .box9_rt .colmn .checkbox input.show    { display:inline;}
 .main_inner9_bottom .box9_rt input          { background:#FFFFFF; width:184px; height:11px;border: 1px solid #EAEAEA !important; padding:5px;} 
- 
+
+.main_inner9_btm ul li .box2              { width:100%; float:left; display:block;}
+.main_inner9_btm ul li .box2  input[type="text"] { width:178px; border:1px solid #eaeaea; padding:6px; vertical-align:middle; display:inline-block; height:12px;  font-size:14px; color:#454545; font-family: Helvetica, Arial, sans-serif;}
+.main_inner9_btm ul li .box2 label        { width:251px; float:left; display:block; font-size:14px; color:#454545; font-family: Helvetica, Arial, sans-serif; padding-top:6px;}
+.main_inner9_btm ul li.full               { width:100%; }
+
 /*-------------------inner9----------------------*/
 .main_inner8_rt_msg                        { display:block; width:932px; margin:0 auto;}
 .main_inner8_rt_msg h5                     { color:#454545; font-size:14px;font-family: Helvetica, Arial, sans-serif; padding-bottom:2px; padding-top:28px;}

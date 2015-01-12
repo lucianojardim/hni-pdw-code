@@ -23,12 +23,10 @@ namespace PDWDBContext
     
         public int RequestID { get; set; }
         public string Name { get; set; }
-        public string ProjectName { get; set; }
         public Nullable<int> PaoliSalesRepGroupID { get; set; }
         public Nullable<int> PrimaryCompanyID { get; set; }
         public Nullable<int> DealerSalesRepID { get; set; }
         public Nullable<int> PaoliSpecTeamMemberID { get; set; }
-        public Nullable<bool> IsGSA { get; set; }
         public string SavedLocation { get; set; }
         public Nullable<int> ListPrice { get; set; }
         public string FeaturedSeries { get; set; }
@@ -44,7 +42,6 @@ namespace PDWDBContext
         public string Notes { get; set; }
         public bool IsCompleted { get; set; }
         public Nullable<int> PaoliSalesRepMemberID { get; set; }
-        public string EndCustomer { get; set; }
         public string ProjectSize { get; set; }
         public bool NeedFloorplanSpecs { get; set; }
         public bool Need3DDrawing { get; set; }
@@ -72,13 +69,17 @@ namespace PDWDBContext
         public bool NeedPDFFiles { get; set; }
         public string GrommetPosition { get; set; }
         public string SpecTeamNotes { get; set; }
-        public Nullable<int> ContractID { get; set; }
         public bool IsCanceled { get; set; }
         public string DealerPOCEmail { get; set; }
         public string DealerPOCPhone { get; set; }
         public Nullable<int> DealerPOCAcctType { get; set; }
         public string InternalNotes { get; set; }
         public bool IsOnHold { get; set; }
+        public Nullable<int> ProjectID { get; set; }
+        public string OldProjectName { get; set; }
+        public string OldEndCustomer { get; set; }
+        public Nullable<bool> OldIsGSA { get; set; }
+        public Nullable<int> OldContractID { get; set; }
     
         public virtual Company PrimaryCompany { get; set; }
         public virtual Company PaoliSalesRepGroup { get; set; }
@@ -87,8 +88,8 @@ namespace PDWDBContext
         public virtual User SpecTeamMember { get; set; }
         public virtual ICollection<Typical> Typicals { get; set; }
         public virtual User PaoliSalesRepMember { get; set; }
-        public virtual GSAContract GSAContract { get; set; }
         public virtual ICollection<SpecRequestEvent> SpecRequestEvents { get; set; }
+        public virtual Project Project { get; set; }
     }
     
 }

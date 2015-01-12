@@ -79,13 +79,13 @@
 								 <h5>
 									 Who is the end customer?</h5>
 								 <h5>
-									 What will we call this project?</h5>
+									 What project is this for?</h5>
 							 </div>
 							 <div class="coln4">
 								 <h5>
 									 @Html.DisplayFor( m => m.EndCustomer )</h5>
 								 <h5>
-									 @Html.DisplayFor( m => m.ProjectName )</h5>
+									 @Html.DisplayFor( m => m.RealProjectName )</h5>
 							 </div>
 							 <i class="clear_0"></i></li>
 						 <li id="requestorList2" class="requestorList">
@@ -115,25 +115,11 @@
 								 <h5>
 									 What is the size and scope of this project?</h5>
 								 <h5>
-									 GSA</h5>
-									 @if( Model.IsGSA )
-		  {
-								 <h5>
-									 To which contract does this relate?</h5>
-		  }
-								 <h5>
 									 in2 Quick Ship</h5>
 							 </div>
 							 <div class="coln4">
 								 <h5>
 									 @Html.DisplayFor( m => m.ProjectSize )</h5>
-								 <h5>
-									 @Html.DisplayFor( m => m.IsGSA, templateName: "YesNo" )</h5>
-									 @if( Model.IsGSA )
-		  {
-								 <h5>
-									 @Html.DisplayFor( m => m.ContractName )</h5>
-		  }
 								 <h5>
 									 @Html.DisplayFor( m => m.AvailableForIn2, templateName: "YesNo" )</h5>
 							 </div>

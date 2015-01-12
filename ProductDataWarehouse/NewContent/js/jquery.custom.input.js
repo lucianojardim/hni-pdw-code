@@ -28,15 +28,15 @@ jQuery.fn.extend({
 		$(this).mouseup(function () { $(this).dgHandle(); });
 	},
 	dgClear: function () {
-		if ($(this).data("checked") == true) {
-			$(this).css("backgroundPosition", "left -" + (elmHeight * 0) + "px");
+		if ($(this).data("checked") == "checked") {
+			$(this).css("backgroundPosition", "left -" + (elmHeight * 2) + "px");
 		} else {
 			$(this).css("backgroundPosition", "left 0");
 		}
 	},
 	dgEffect: function () {
 		if (!($(this).data("disabled") == true)) {
-			if ($(this).data("checked") == true)
+			if ($(this).data("checked") == "checked")
 				$(this).css({ backgroundPosition: "left -" + (elmHeight * 2) + "px" });
 			else
 				$(this).css({ backgroundPosition: "left -" + (elmHeight * 2) + "px" });
@@ -45,7 +45,7 @@ jQuery.fn.extend({
 	dgHandle: function () {
 		if (!($(this).data("disabled") == true)) {
 			var elm = $(this).children().get(0);
-			if ($(this).data("checked") != true)
+			if ($(this).data("checked") != "checked")
 				$(elm).dgCheck(this);
 			else if ($(this).data('type') != 'radio')
 				$(elm).dgUncheck(this);
@@ -59,8 +59,8 @@ jQuery.fn.extend({
 		}
 	},
 	dgCheck: function (div) {
-		$(this).attr("checked", true);
-		$(div).data('checked', true).css({ backgroundPosition: "left -" + (elmHeight * 2) + "px" });
+		$(this).attr("checked", "checked");
+		$(div).data('checked', "checked").css({ backgroundPosition: "left -" + (elmHeight * 2) + "px" });
 	},
 	dgUncheck: function (div) {
 		$(this).attr("checked", false);

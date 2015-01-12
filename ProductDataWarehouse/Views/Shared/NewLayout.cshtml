@@ -21,6 +21,7 @@
 <link href="/NewContent/css/rightmenu.css" rel="stylesheet" type="text/css" />
 <link href="/NewContent/css/ecollateral.css" rel="stylesheet" type="text/css"/>
 <link href="@Url.Content( "~/Content/jquery.datatables.css" )" rel="stylesheet" type="text/css" />
+<link href="@Url.Content( "~/Content/themes/base/jquery.ui.all.css" )" rel="stylesheet" type="text/css" />
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 <!-- END: STYLESHEET -->
 
@@ -81,63 +82,66 @@
                               <div class="poly_top_lt">
 							  @switch( ( (string)ViewBag.HeaderArea ?? "" ) )
 		 {
+			 case "Projects":
+                            <h2><a href="@Url.Action( "Manage", "Project" )"><img src="/newcontent/images/request.png" alt="img">Projects</a></h2>
+									break;
 			 case "SpecRequests":
-				 if( CurrentUser.CanManageTypicals )
-				 {
+									if( CurrentUser.CanManageTypicals )
+									{
                             <h2><a href="@Url.Action( "Manage", "SpecRequest" )"><img src="/newcontent/images/request.png" alt="img">Specification Requests</a></h2>
-				 }
-				 else if( CurrentUser.CanViewSpecRequests )
-				 {
+									}
+									else if( CurrentUser.CanViewSpecRequests )
+									{
                             <h2><a href="@Url.Action( "ViewAll", "SpecRequest" )"><img src="/newcontent/images/request.png" alt="img">Specification Requests</a></h2>
-				 }
-				 break;
+									}
+									break;
 			 case "Users":
 	<h2><img src="/newcontent/images/my_account.png" alt="img" height="50" width="57"/> My Account</h2>
-				 break;
+									break;
 			 case "CollateralOrders":
-				 if( CurrentUser.CanManageOrders )
-				 {
+									if( CurrentUser.CanManageOrders )
+									{
 <h2><a href="@Url.Action( "Orders", "Collateral" )"><img src="/newcontent/images/store_img.png" alt="img" height="55" width="46"/> Collateral Store</a></h2>
-				 }
-				 else if( CurrentUser.CanAddOrders )
-				 {
+									}
+									else if( CurrentUser.CanAddOrders )
+									{
 <h2><a href="@Url.Action( "ViewOrders", "Collateral" )"><img src="/newcontent/images/store_img.png" alt="img" height="55" width="46"/> Collateral Store</a></h2>
-				 }
+									}
 
-				 break;
+									break;
 			 case "TheScoop":
 	<h2><a href="@Url.Action( "ViewAllScoop", "Article" )"><img src="/newcontent/images/scoop-icon.png" alt="img" height="50" width="50"/> The Scoop</a></h2>
-				 break;
+		 break;
 			 case "NewsUpdates":
 	<h2><a href="@Url.Action( "ViewAllNewsAndUpdates", "Article" )"><img src="/newcontent/images/scoop-icon.png" alt="img" height="50" width="50"/> News and Updates</a></h2>
 		 break;
 			 case "InternalNews":
 	<h2><a href="@Url.Action( "ViewAllInternal", "Article" )"><img src="/newcontent/images/scoop-icon.png" alt="img" height="50" width="50"/> Paoli News</a></h2>
 		 break;
-		 case "ePublisher":
+			 case "ePublisher":
 	<h2><a href="@Url.Action( "Manage", "ePublisher" )"><img src="/newcontent/images/publisher.png" alt="img" height="50" width="50"/> ePublisher</a></h2>
 		 break;
-		 case "Reports":
+			 case "Reports":
 	<h2><a href="@Url.Action( "Index", "Report" )"><img src="/newcontent/images/reporting-icon.png" alt="img" height="50" width="50"/> Reports</a></h2>
 		 break;
-		 case "LeadTimes":
+			 case "LeadTimes":
 	<h2><a href="@Url.Action( "LeadTimes", "Home" )"><img src="/newcontent/images/leadtimes.png" alt="img" height="50" width="50"/> Lead Times</a></h2>
 		 break;
-		 default:
-			if(  HttpContext.Current.User.Identity.IsAuthenticated )
-			{
+			 default:
+		 if( HttpContext.Current.User.Identity.IsAuthenticated )
+		 {
                                    <h3 id="welcomeHeading"><span>@CurrentUser.FirstName!</span></h3>
                                    <h4>@if( CurrentUser.PreviousLogin.Any() )
 									   { <text>You last visited<span>@CurrentUser.PreviousLogin ago</span></text>}
 									   else
 									   {<text>&nbsp;</text>}</h4>
-			}
-									   break;
+		 }
+		 break;
 		 }
                               </div>
                               <div class="poly_top_rt">
-			@if(  HttpContext.Current.User.Identity.IsAuthenticated )
-			{
+			@if( HttpContext.Current.User.Identity.IsAuthenticated )
+   {
                                  <h3>How Can We <span>Help?</span></h3>
                                  <ul>
 								 @{var contactList = ProductDataWarehouse.Controllers.HomeController.GetHomeContacts();}
@@ -159,7 +163,7 @@
                                     </li>
 		 }
                                  </ul>
-	   }
+   }
                               </div>
                          <i class="clear_0"></i>
                          

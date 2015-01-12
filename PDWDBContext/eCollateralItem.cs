@@ -29,8 +29,6 @@ namespace PDWDBContext
         public string URLText { get; set; }
         public Nullable<int> DealershipID { get; set; }
         public Nullable<int> DealershipPOCID { get; set; }
-        public string CustomerName { get; set; }
-        public string ProjectName { get; set; }
         public Nullable<int> LayoutID { get; set; }
         public int Status { get; set; }
         public string DealershipPOCName { get; set; }
@@ -39,12 +37,16 @@ namespace PDWDBContext
         public Nullable<int> DealershipPOCAcctType { get; set; }
         public Nullable<int> ContentType { get; set; }
         public bool IncludeDealerImage { get; set; }
+        public Nullable<int> ProjectID { get; set; }
+        public string OldProjectName { get; set; }
+        public string OldEndCustomer { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual User CreatedByUser { get; set; }
         public virtual User DealershipPOC { get; set; }
         public virtual User ModifiedByUser { get; set; }
         public virtual ICollection<eCollateralSection> eCollateralSections { get; set; }
+        public virtual Project Project { get; set; }
     }
     
 }

@@ -375,5 +375,35 @@ namespace ProductDataWarehouse.Controllers
 				return sRepository.GetFeatureImageList();
 			}
 		}
+
+		[PaoliAuthorize( "CanBeLoggedIn" )]
+		public JsonResult GetEndCustomerListForDealer( int companyId )
+		{
+			using( var sRepository = new SpecRequestRepository() )
+			{
+				return Json( new { theList = sRepository.GetEndCustomerListForDealer( companyId ) },
+					JsonRequestBehavior.AllowGet );
+			}
+		}
+
+		[PaoliAuthorize( "CanBeLoggedIn" )]
+		public JsonResult GetProjectForCustomer( string customer )
+		{
+			using( var sRepository = new SpecRequestRepository() )
+			{
+				return Json( new { theList = sRepository.GetProjectForCustomer( customer ) },
+					JsonRequestBehavior.AllowGet );
+			}
+		}
+
+		[PaoliAuthorize( "CanManageProjects" )]
+		public JsonResult CreateNewProject( NewProjectInformation pInfo )
+		{
+			using( var sRepository = new SpecRequestRepository() )
+			{
+				return Json( new { projectId = sRepository.Add( pInfo ) },
+					JsonRequestBehavior.AllowGet );
+			}
+		}
     }
 }

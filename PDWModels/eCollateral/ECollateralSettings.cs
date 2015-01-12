@@ -32,7 +32,8 @@ namespace PDWModels.eCollateral
 		[DisplayName( "Customer Name" )]
 		public string CustomerName { get; set; }
 		[DisplayName( "Project Name" )]
-		public string ProjectName { get; set; }
+		public int? ProjectID { get; set; }
+		public string RealProjectName { get; set; }
 
 		public string PaoliSalesRepGroupName { get; set; }
 		public string DealershipName { get; set; }

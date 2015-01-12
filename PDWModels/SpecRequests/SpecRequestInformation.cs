@@ -53,18 +53,12 @@ namespace PDWModels.SpecRequests
 		[DisplayName( "Who is the end customer?" )]
 		[StringLength( 100 )]
 		public string EndCustomer { get; set; }
-		[DisplayName( "What will we call this project?" )]
-		[StringLength( 50 )]
-		[Required]
-		public string ProjectName { get; set; }
+		[DisplayName( "What project is this for?" )]
+		public int? ProjectID { get; set; }
+		public string RealProjectName { get; set; }
 		[DisplayName( "What is the size and scope of the project?" )]
 		[StringLength( 100 )]
 		public string ProjectSize { get; set; }
-		[DisplayName( "Is GSA?" )]
-		public bool IsGSA { get; set; }
-		[DisplayName( "Which contract does this relate to?" )]
-		public int? ContractID { get; set; }
-		public string ContractName { get; set; }
 		[DisplayName( "Is in2?" )]
 		public bool AvailableForIn2 { get; set; }
 
