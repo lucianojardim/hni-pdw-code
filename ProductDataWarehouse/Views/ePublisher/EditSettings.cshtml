@@ -207,7 +207,6 @@
     			emptyDropDownList($("#DealershipPOCID"));
 				$('#DealershipPOCName').addClass('noValidate');
 				$('.DSRPOCCell').hide();
-    			$('.EndCustomerCell').hide();
     		}
 		}
 
@@ -227,32 +226,19 @@
     				}
     			);
 
-    			makeAjaxCall('/SpecRequest/GetEndCustomerListForDealer',
-    				{ companyId: $('#DealershipID').val() },
-    				function (data, textStatus, jqXHR) {
-						reloadDropDownStringList('#CustomerName', data, true);
-						if( initECName != null && initECName != '' ) {
-							$('#CustomerName').val(initECName);
-						}
-						reloadProjectList(initProjectID);
-		    			$('.EndCustomerCell').show();
-    				},
-    				function (jqXHR, textStatus, errorThrown) {
-    					alert('Error getting End Customer list:' + errorThrown)
-    				}
-    			);
+				reloadProjectList(initProjectID);
     		} else {
     			emptyDropDownList($("#DealershipPOCID"));
 				$('#DealershipPOCName').addClass('noValidate');
 				$('.DSRPOCCell').hide();
-    			$('.EndCustomerCell').hide();
     		}
     	}
 
     	function reloadProjectList(initId) {
-    		if ($('#CustomerName').val() != null && $('#CustomerName').val() != '') {
+    		if ($('#CustomerName').val() != null && $('#CustomerName').val() != '' &&
+				$('#DealershipID').val() != null && $('#DealershipID').val() != '' && $('#DealershipID').val() != '0') {
     			makeAjaxCall('/SpecRequest/GetProjectForCustomer',
-    				{ customer: $('#CustomerName').val() },
+    				{ customer: $('#CustomerName').val(), dealer: $('#DealershipID').val() },
     				function (data, textStatus, jqXHR) {
 						reloadDropDownCompanyList('#ProjectID', data.theList, true);
 						if( initId != null ) {
@@ -417,7 +403,7 @@
                 <div class="EndCustomerCell">
 				<div class="">
                 <label for="CustomerName">Customer Name</label>
-                @Html.DropDownListFor( m => m.CustomerName, new List<SelectListItem>() )<a class="btn7 addECBtn" style="margin-top:inherit;" href="#newEndCustomer">+</a>
+                @Html.DropDownListFor( m => m.CustomerName, ProjectController.GetFullEndCustomerList() )<a class="btn7 addECBtn" style="margin-top:inherit;" href="#newEndCustomer">+</a>
                 <div class="clr"></div>
 				@Html.ValidationMessageFor( m => m.CustomerName )
                 <div class="clr"></div>

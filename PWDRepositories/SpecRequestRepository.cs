@@ -2105,18 +2105,28 @@ namespace PWDRepositories
 			database.SaveChanges();
 		}
 
+		public IEnumerable<string> GetEndCustomerList()
+		{
+			return database.Projects
+				.Select( p => p.EndCustomer )
+				.Distinct()
+				.ToList();
+		}
+
 		public IEnumerable<string> GetEndCustomerListForDealer( int dealerId )
 		{
 			return database.Projects
 				.Where( p => p.DealerID == dealerId )
 				.Select( p => p.EndCustomer )
+				.Distinct()
 				.ToList();
 		}
 
-		public IEnumerable<IDToTextItem> GetProjectForCustomer( string customer )
+		public IEnumerable<IDToTextItem> GetProjectForCustomer( string customer, int dealerId )
 		{
 			return database.Projects
 				.Where( p => p.EndCustomer == customer )
+				.Where( p => p.DealerID == dealerId )
 				.Select( p => new IDToTextItem() { ID = p.ProjectID, Text = p.ProjectName } )
 				.ToList();
 		}

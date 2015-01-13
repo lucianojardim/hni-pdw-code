@@ -36,7 +36,7 @@ create table [Projects] (
 go
 
 insert into Projects ([ProjectName], [DealerID], [EndCustomer], ProjectSuccess, HasADFirm, SPADone, PipelineStatus) 
-	(select ProjectName, PrimaryCompanyID, EndCustomer, 0, 0, 0, 1 from SpecRequests where PrimaryCompanyID is not null and EndCustomer is not null and ProjectName is not null)
+	(select ProjectName, PrimaryCompanyID, ltrim(rtrim(EndCustomer)), 0, 0, 0, 1 from SpecRequests where PrimaryCompanyID is not null and EndCustomer is not null and ProjectName is not null)
 go
 
 alter table [SpecRequests] add 
@@ -68,7 +68,7 @@ go
 
 
 insert into Projects ([ProjectName], [DealerID], [EndCustomer], ProjectSuccess, HasADFirm, SPADone, PipelineStatus) 
-	(select ProjectName, DealershipID, CustomerName, 0, 0, 0, 1 from eCollateralItems where DealershipID is not null and CustomerName is not null and ProjectName is not null)
+	(select ProjectName, DealershipID, ltrim(rtrim(CustomerName)), 0, 0, 0, 1 from eCollateralItems where DealershipID is not null and CustomerName is not null and ProjectName is not null)
 go
 
 alter table [eCollateralItems] add 

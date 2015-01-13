@@ -172,7 +172,7 @@
 							 <label>
 								 End Customer</label>
 							 <div class="colmn1">
-							 @Html.TextBoxFor( m => m.EndCustomer )
+							 @Html.DropDownListFor( m => m.EndCustomer, ProjectController.GetFullEndCustomerList() )
 							 </div>
 							 <div class="colmn4">
 								 <div class="colmn4_lt">
@@ -243,7 +243,7 @@
 							 @Html.TextBoxFor( m => m.Probability )
 							 </div>
 							 <cite>Competing Brand</cite>
-							 @Html.DropDownListFor( m => m.PrimaryCompetitor, new List<SelectListItem>() )
+							 @Html.DropDownListFor( m => m.PrimaryCompetitor, ProjectController.GetProjectCompetitorList() )
 						 </div>
 					 </li>
 					 <li>

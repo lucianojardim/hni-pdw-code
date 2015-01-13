@@ -536,32 +536,21 @@
     				}
     			);
 
-    			makeAjaxCall('/SpecRequest/GetEndCustomerListForDealer',
-    				{ companyId: $('#DealerID').val() },
-    				function (data, textStatus, jqXHR) {
-						reloadDropDownStringList('#EndCustomer', data, true);
-						reloadProjectList();
-    					$('.EndCustomerCell').show();
-    				},
-    				function (jqXHR, textStatus, errorThrown) {
-    					alert('Error getting End Customer list:' + errorThrown)
-    				}
-    			);
-
+				reloadProjectList();
     		} else {
 				emptyDropDownList($("#DealerMemberID"));
     			$('#DealerPointOfContact').val('');
 				$('#DealerPointOfContact').addClass('noValidate');
     			$('.DSRCell').hide();
 				$('.DSRPOCCell').hide();
-				$('.EndCustomerCell').hide();
     		}
     	}
 
     	function reloadProjectList(initId) {
-    		if ($('#EndCustomer').val() != null && $('#EndCustomer').val() != '') {
+    		if ($('#EndCustomer').val() != null && $('#EndCustomer').val() != '' &&
+				$('#DealerID').val() != null && $('#DealerID').val() != '' && $('#DealerID').val() != '0') {
     			makeAjaxCall('/SpecRequest/GetProjectForCustomer',
-    				{ customer: $('#EndCustomer').val() },
+    				{ customer: $('#EndCustomer').val(), dealer: $('#DealerID').val() },
     				function (data, textStatus, jqXHR) {
 						reloadDropDownCompanyList('#ProjectID', data.theList, true);
 						if( initId != null ) {
@@ -738,7 +727,7 @@
 							 <label>
 								 Who is the end customer?</label>
 							 <div class="colmn1">
-								 @Html.DropDownListFor( m => m.EndCustomer, new List<SelectListItem>() )<a class="btn7 addECBtn" href="#newEndCustomer">+</a>
+								 @Html.DropDownListFor( m => m.EndCustomer, ProjectController.GetFullEndCustomerList() )<a class="btn7 addECBtn" href="#newEndCustomer">+</a>
 							 </div>
 							 <div class="colmn2 ProjectCell">
 								 What project is this for?

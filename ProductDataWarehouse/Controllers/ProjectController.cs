@@ -22,6 +22,39 @@ namespace ProductDataWarehouse.Controllers
 			return ProjectSuccess.List.Select( i => new SelectListItem() { Value = i.ID.ToString(), Text = i.Text } );
 		}
 
+		public static IEnumerable<SelectListItem> GetProjectCompetitorList()
+		{
+			return new List<SelectListItem>()
+			{
+				new SelectListItem() { Text = "9 to 5 Seating" },
+				new SelectListItem() { Text = "Allsteel" },
+				new SelectListItem() { Text = "Coalesse" },
+				new SelectListItem() { Text = "Community" },
+				new SelectListItem() { Text = "Gunlocke" },
+				new SelectListItem() { Text = "Hayworth" },
+				new SelectListItem() { Text = "Herman Miller" },
+				new SelectListItem() { Text = "HON" },
+				new SelectListItem() { Text = "Indiana Furniture" },
+				new SelectListItem() { Text = "JSI (Jasper)" },
+				new SelectListItem() { Text = "JOFCO" },
+				new SelectListItem() { Text = "Kimball Office" },
+				new SelectListItem() { Text = "Knoll" },
+				new SelectListItem() { Text = "National" },
+				new SelectListItem() { Text = "OFS" },
+				new SelectListItem() { Text = "Sitonit" },
+				new SelectListItem() { Text = "Steelcase" },
+				new SelectListItem() { Text = "Teknion﻿" },
+			};
+		}
+
+		public static IEnumerable<SelectListItem> GetFullEndCustomerList()
+		{
+			using( var sRepo = new SpecRequestRepository() )
+			{
+				return sRepo.GetEndCustomerList().Select( i => new SelectListItem() { Value = i, Text = i } );
+			}
+		}
+
 		[PaoliAuthorize( "CanManageProjects" )]
 		[TempPasswordCheck]
 		public ActionResult Manage()

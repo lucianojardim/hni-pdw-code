@@ -300,26 +300,12 @@
     				}
     			);
 
-    			makeAjaxCall('/SpecRequest/GetEndCustomerListForDealer',
-    				{ companyId: $('#DealerID').val() },
-    				function (data, textStatus, jqXHR) {
-						reloadDropDownStringList('#EndCustomer', data, true);
-						if( initECName != null && initECName != '' ) {
-							$('#EndCustomer').val(initECName);
-						}
-						reloadProjectList(initProjectID);
-    					$('.EndCustomerCell').show();
-    				},
-    				function (jqXHR, textStatus, errorThrown) {
-    					alert('Error getting End Customer list:' + errorThrown)
-    				}
-    			);
+				reloadProjectList(initProjectID);
     		} else {
     			$('#DealerMemberID').empty();
     			$('#DealerPointOfContact').val('');
     			$('.DSRCell').hide();
 				$('.DSRPOCCell').hide();
-				$('.EndCustomerCell').hide();
     		}
     	}
 
@@ -427,9 +413,10 @@
     	}
 
     	function reloadProjectList(initId) {
-    		if ($('#EndCustomer').val() != null && $('#EndCustomer').val() != '') {
+    		if ($('#EndCustomer').val() != null && $('#EndCustomer').val() != '' &&
+				$('#DealerID').val() != null && $('#DealerID').val() != '' && $('#DealerID').val() != '0') {
     			makeAjaxCall('/SpecRequest/GetProjectForCustomer',
-    				{ customer: $('#EndCustomer').val() },
+    				{ customer: $('#EndCustomer').val(), dealer: $('#DealerID').val() },
     				function (data, textStatus, jqXHR) {
 						reloadDropDownCompanyList('#ProjectID', data.theList, true);
 						if( initId != null ) {
@@ -585,7 +572,7 @@
 			<h3>About This Project</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr class="EndCustomerCell">
-					<td>@Html.MJLabelFor( m => m.EndCustomer, false )</td><td>@Html.DropDownListFor( m => m.EndCustomer, new List<SelectListItem>() )</td>
+					<td>@Html.MJLabelFor( m => m.EndCustomer, false )</td><td>@Html.DropDownListFor( m => m.EndCustomer, ProjectController.GetFullEndCustomerList() )</td>
 					<td class="ProjectCell">@Html.MJLabelFor( m => m.ProjectID, false )</td><td class="ProjectCell">@Html.DropDownListFor( m => m.ProjectID, new List<SelectListItem>() )</td>
 				</tr>
 				<tr>

@@ -387,11 +387,11 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanBeLoggedIn" )]
-		public JsonResult GetProjectForCustomer( string customer )
+		public JsonResult GetProjectForCustomer( string customer, int dealer )
 		{
 			using( var sRepository = new SpecRequestRepository() )
 			{
-				return Json( new { theList = sRepository.GetProjectForCustomer( customer ) },
+				return Json( new { theList = sRepository.GetProjectForCustomer( customer, dealer ) },
 					JsonRequestBehavior.AllowGet );
 			}
 		}
