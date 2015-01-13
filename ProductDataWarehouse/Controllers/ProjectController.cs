@@ -26,6 +26,7 @@ namespace ProductDataWarehouse.Controllers
 		{
 			return new List<SelectListItem>()
 			{
+				new SelectListItem() { Text = "" },
 				new SelectListItem() { Text = "9 to 5 Seating" },
 				new SelectListItem() { Text = "Allsteel" },
 				new SelectListItem() { Text = "Coalesse" },
