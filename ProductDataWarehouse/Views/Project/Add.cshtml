@@ -271,12 +271,12 @@
 					 </li>
 					 <li>
 						 <div class="box2">
-							 <label>Pipeline Status</label>
+							 <label>Project Status</label>
 							 <div class="colmn1">
-							 @Html.DropDownListFor( m => m.PipelineStatus, ProjectController.GetProjectStatusList() )
-							 </div>
-							 <cite>Project Success</cite>
 							 @Html.DropDownListFor( m => m.ProjectSuccess, ProjectController.GetProjectSuccessList() )
+							 </div>
+							 <cite style="display:none;">Pipeline Status</cite>
+							 @Html.DropDownListFor( m => m.PipelineStatus, ProjectController.GetProjectStatusList(), new { style = "display:none;" } )
 						 </div>
 					 </li>
 
@@ -334,8 +334,8 @@
 	 }
 	 					 <li class="full">
 						 <div class="box2">
-							 <label>
-								 Net Profit</label>
+						 <h4>Projected Revenue</h4>
+							 <label>Net Value</label>
 							 <div class="colmn1">
 							 @Html.TextBoxFor( m => m.NetVeneerCasegoods )
 							 </div>
@@ -379,8 +379,8 @@
 	 }
 	 					 <li class="full">
 						 <div class="box2">
-							 <label>
-								 Net Profit</label>
+						 <h4>Projected Revenue</h4>
+							 <label>Net Value</label>
 							 <div class="colmn1">
 							 @Html.TextBoxFor( m => m.NetLaminateCasegoods )
 							 </div>
@@ -424,8 +424,8 @@
 	 }
 	 					 <li class="full">
 						 <div class="box2">
-							 <label>
-								 Net Profit</label>
+						 <h4>Projected Revenue</h4>
+							 <label>Net Value</label>
 							 <div class="colmn1">
 							 @Html.TextBoxFor( m => m.NetConferencing )
 							 </div>
@@ -469,8 +469,8 @@
 	 }
 	 	 					 <li class="full">
 						 <div class="box2">
-							 <label>
-								 Net Profit</label>
+						 <h4>Projected Revenue</h4>
+							 <label>Net Value</label>
 							 <div class="colmn1">
 							 @Html.TextBoxFor( m => m.NetSeating )
 							 </div>

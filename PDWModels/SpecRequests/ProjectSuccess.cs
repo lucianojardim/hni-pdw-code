@@ -10,6 +10,7 @@ namespace PDWModels.SpecRequests
 		public const int Pending = 1;
 		public const int Won = 2;
 		public const int Lost = 3;
+		public const int Canceled = 4;
 
 		public static string GetDisplayString( int success )
 		{
@@ -21,6 +22,8 @@ namespace PDWModels.SpecRequests
 					return "Won";
 				case Lost:
 					return "Lost";
+				case Canceled:
+					return "Canceled";
 			}
 
 			return "";
@@ -34,7 +37,8 @@ namespace PDWModels.SpecRequests
 				{
 					new IDToTextItem() { ID = Pending, Text = GetDisplayString( Pending ) },
 					new IDToTextItem() { ID = Won, Text = GetDisplayString( Won ) },
-					new IDToTextItem() { ID = Lost, Text = GetDisplayString( Lost ) }
+					new IDToTextItem() { ID = Lost, Text = GetDisplayString( Lost ) },
+					new IDToTextItem() { ID = Canceled, Text = GetDisplayString( Canceled ) }
 				};
 			}
 		}

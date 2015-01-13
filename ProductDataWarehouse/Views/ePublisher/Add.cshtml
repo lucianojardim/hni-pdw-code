@@ -77,7 +77,7 @@
 			$('.addProjBtn').fancybox({
 				'autoDimensions': false,
 				'width': 972,
-				'height': 210,
+				'height': 310,
 				'padding': 20,
 				'margin': 0,
 				'scrolling': 'auto',
@@ -91,11 +91,16 @@
 						{ 
 							projectName: $('#NewProject').val(),
 							customer: $('#CustomerName').val(),
-							dealer: $('#DealershipID').val() 
+							dealer: $('#DealershipID').val(),
+							isGSA:  $('#NewIsGSA:checked').length > 0,
+							contractId: $('#NewContractID').val()
 						}, 
 						function(data) {
 							reloadProjectList(data.projectId);
 							$('#NewProject').val('');
+							$('#NewIsGSA').attr('checked', 'false');
+							$('#NewContractID').val('');
+							showHideContractInfo();
 							$.fancybox.close();
 						}
 					);
@@ -105,7 +110,21 @@
 			$('.cancelNewProjBtn').on('click', function() {
 				$.fancybox.close();
 			});
+
+			showHideContractInfo();
+			$('.fakeIsGSA').click(function(e) {
+				showHideContractInfo();
+			});
     	});
+
+		function showHideContractInfo() {
+			if ($('#NewIsGSA:checked').length > 0) {
+				$('.gsaOnly').show();
+			} else {
+				$('.gsaOnly').hide();
+			}			
+			
+		}
 
 		function showHideProjectInfo() {
 			if ($('#IsTemplate').val() == 'true') {
@@ -451,6 +470,18 @@
         			<li>
             			<div class="colmn1">Project Name</div>
 						<div class="colmn3single"><input class="msg2" id="NewProject" name="NewProject" /></div>
+					</li>
+					<li>
+						<div class="colmn1">
+							<div class="checkbox fakeIsGSA">
+								@Html.CheckBox( "NewIsGSA" )
+							</div>
+							GSA
+						</div>
+					</li>
+					<li class="gsaOnly">
+						<div class="colmn1">To which contract does this relate?</div>
+						<div class="colmn3single">@Html.DropDownList( "NewContractID", SpecRequestController.GSAContractList( true ), new { @class = "gsaOnly" } )</div>
 					</li>
 				</ul>
 			</div>

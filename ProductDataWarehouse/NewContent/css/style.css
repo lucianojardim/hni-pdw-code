@@ -424,6 +424,7 @@ span.btn11                                 { padding:6px 15px; color:#FFFFFF; cu
 .main_inner9_btm ul li .box2  input[type="text"] { width:178px; border:1px solid #eaeaea; padding:6px; vertical-align:middle; display:inline-block; height:12px;  font-size:14px; color:#454545; font-family: Helvetica, Arial, sans-serif;}
 .main_inner9_btm ul li .box2 label        { width:251px; float:left; display:block; font-size:14px; color:#454545; font-family: Helvetica, Arial, sans-serif; padding-top:6px;}
 .main_inner9_btm ul li.full               { width:100%; }
+.main_inner9_btm h4                       { color:#454545; font-size:14px; font-family: "HelveticaNeue-Bold", "Helvetica Neue Bold", Helvetica, Arial, sans-serif; font-weight: bold; padding-bottom:5px;}
 
 /*-------------------inner9----------------------*/
 .main_inner8_rt_msg                        { display:block; width:932px; margin:0 auto;}

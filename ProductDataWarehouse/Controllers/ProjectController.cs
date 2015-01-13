@@ -31,6 +31,7 @@ namespace ProductDataWarehouse.Controllers
 				new SelectListItem() { Text = "Allsteel" },
 				new SelectListItem() { Text = "Coalesse" },
 				new SelectListItem() { Text = "Community" },
+				new SelectListItem() { Text = "Global" },
 				new SelectListItem() { Text = "Gunlocke" },
 				new SelectListItem() { Text = "Hayworth" },
 				new SelectListItem() { Text = "Herman Miller" },

@@ -324,6 +324,7 @@ img.fnone{float:none !important}
 .main_inner2_btm_mid_myacct ul li .colmn3 .dd .ddChild li.optgroup ul li{padding:5px 5px 5px 15px}
 .main_inner2_btm_mid_myacct ul li .colmn3 .dd .ddChild li.selected{background-color:#919191f; color:#000;}
  
+.main_inner2_btm_mid_myacct ul li .colmn3single select {width:178px !important; border:1px solid #eaeaea !important; height:35px !important; padding-left:5px; padding-right:8px; position:relative; top:0px;}
 .main_inner2_btm_mid_myacct ul li .colmn3single .ddcommon .ddTitle{padding:0; position:relative; display:inline-block; width:100% ; }
 .main_inner2_btm_mid_myacct ul li .colmn3single .ddcommon .ddTitle .ddTitleText{display:block;}
 .main_inner2_btm_mid_myacct ul li .colmn3single .dd{width:178px !important; background:#FFF url(../images/select_arrow.jpg) no-repeat 175px 11px; border:1px solid #eaeaea !important; height:25px !important; padding-left:5px; padding-right:8px; position:relative; top:0px;}
@@ -345,3 +346,4 @@ img.fnone{float:none !important}
 .main_inner2_btm_mid_myacct ul li .colmn3single .dd .ddChild li.optgroup .optgroupTitle{padding:0 5px; font-weight:bold; font-style:italic}
 .main_inner2_btm_mid_myacct ul li .colmn3single .dd .ddChild li.optgroup ul li{padding:5px 5px 5px 15px}
 .main_inner2_btm_mid_myacct ul li .colmn3single .dd .ddChild li.selected{background-color:#919191f; color:#000;}
+

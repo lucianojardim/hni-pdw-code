@@ -2003,7 +2003,8 @@ namespace PWDRepositories
 				DealerID = pInfo.dealer,
 				EndCustomer = pInfo.customer,
 
-				IsGSA = false,
+				IsGSA = pInfo.isGSA,
+				ContractID = pInfo.isGSA ? pInfo.contractId : null,
 				HasADFirm = false,
 				SPADone = false,
 				PipelineStatus = ProjectStatus.Step1,
@@ -2107,10 +2108,15 @@ namespace PWDRepositories
 
 		public IEnumerable<string> GetEndCustomerList()
 		{
-			return database.Projects
+			var theList = database.Projects
 				.Select( p => p.EndCustomer )
+				.Where( s => s.Length > 0 )
 				.Distinct()
 				.ToList();
+
+			theList.Insert( 0, "" );
+
+			return theList;
 		}
 
 		public IEnumerable<string> GetEndCustomerListForDealer( int dealerId )
