@@ -28,7 +28,7 @@ namespace ProductDataWarehouse.Controllers
 			using( var uRepository = new UserRepository() )
 			{
 				var results = uRepository.GetFullUserList(
-					param, out totalCount, out filteredCount );
+					param, true, out totalCount, out filteredCount );
 
 				return Json( new
 				{
@@ -50,7 +50,7 @@ namespace ProductDataWarehouse.Controllers
 			using( var uRepository = new UserRepository() )
 			{
 				var results = uRepository.GetFullUserList(
-					param, out totalCount, out filteredCount );
+					param, false, out totalCount, out filteredCount );
 
 				return Json( new
 				{
@@ -72,7 +72,7 @@ namespace ProductDataWarehouse.Controllers
 			using( var uRepository = new UserRepository() )
 			{
 				var results = uRepository.GetFullUserList(
-					param, out totalCount, out filteredCount );
+					param, false, out totalCount, out filteredCount );
 
 				return Json( new
 				{

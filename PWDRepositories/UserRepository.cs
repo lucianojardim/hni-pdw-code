@@ -437,12 +437,14 @@ namespace PWDRepositories
 			return false;
 		}
 
-		public IEnumerable<UserSummary> GetFullUserList( UserTableParams param, out int totalRecords, out int displayedRecords )
+		public IEnumerable<UserSummary> GetFullUserList( UserTableParams param, bool showInactive, out int totalRecords, out int displayedRecords )
 		{
 			totalRecords = 0;
 			displayedRecords = 0;
 
-			var userList = database.Users.AsQueryable();
+			var userList = database.Users
+				.Where( u => u.Enabled || showInactive )
+				.AsQueryable();
 
 			totalRecords = userList.Count();
 
