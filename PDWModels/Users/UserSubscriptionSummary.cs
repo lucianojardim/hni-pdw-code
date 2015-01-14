@@ -34,41 +34,41 @@ namespace PDWModels.Users
 
 		public int UserID { get; set; }
 
-		[DisplayName( "New Collateral Order" )]
+		[DisplayName( "My orders" )]
 		public bool NewCollateralOrder { get; set; }
-		[DisplayName( "New Collateral Order in My Territory" )]
+		[DisplayName( "All orders for my territory" )]
 		public bool NewCollateralOrderTerritory { get; set; }
-		[DisplayName( "New Collateral Order for My Dealerships" )]
+		[DisplayName( "All orders for dealerships that I am the POC" )]
 		public bool NewCollateralOrderMyDealers { get; set; }
-		[DisplayName( "New Collateral Order Shipment" )]
+		[DisplayName( "My shipments" )]
 		public bool NewCollateralOrderShipment { get; set; }
-		[DisplayName( "New Collateral Order Shipment in My Territory" )]
+		[DisplayName( "All shipments for my territory" )]
 		public bool NewCollateralOrderShipmentTerritory { get; set; }
-		[DisplayName( "New Collateral Order Shipment for My Dealerships" )]
+		[DisplayName( "All shipments for dealership that I am the POC" )]
 		public bool NewCollateralOrderShipmentMyDealers { get; set; }
 
-		[DisplayName( "New Specification Request" )]
+		[DisplayName( "New Spec Requests" )]
 		public bool NewSpecRequest { get; set; }
 		[DisplayName( "New Specification Request in My Territory" )]
 		public bool NewSpecRequestTerritory { get; set; }
 		[DisplayName( "New Specification Request for My Dealerships" )]
 		public bool NewSpecRequestMyDealers { get; set; }
 
-		[DisplayName( "Completed Specification Request" )]
+		[DisplayName( "Completed Spec Requests" )]
 		public bool CompleteSpecRequest { get; set; }
 		[DisplayName( "Completed Specification Request in My Territory" )]
 		public bool CompleteSpecRequestTerritory { get; set; }
 		[DisplayName( "Completed Specification Request for My Dealerships" )]
 		public bool CompleteSpecRequestMyDealers { get; set; }
 
-		[DisplayName( "Updated Specification Request" )]
+		[DisplayName( "Updates On Pending Spec Requests" )]
 		public bool UpdateSpecRequest { get; set; }
 		[DisplayName( "Updated Specification Request in My Territory" )]
 		public bool UpdateSpecRequestTerritory { get; set; }
 		[DisplayName( "Updated Specification Request for My Dealerships" )]
 		public bool UpdateSpecRequestMyDealers { get; set; }
 
-		[DisplayName( "Re-Opened Specification Request" )]
+		[DisplayName( "Re-Opened Spec Requests" )]
 		public bool ReOpenSpecRequest { get; set; }
 		[DisplayName( "Re-Opened Specification Request in My Territory" )]
 		public bool ReOpenSpecRequestTerritory { get; set; }

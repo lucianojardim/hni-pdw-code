@@ -11,6 +11,6 @@ namespace PDWModels.SpecRequests
 		public string ProjectName { get; set; }
 		public string CustomerName { get; set; }
 		public string DealershipName { get; set; }
-		public string PipelineStatus { get; set; }
+		public string ProjectStatus { get; set; }
 	}
 }

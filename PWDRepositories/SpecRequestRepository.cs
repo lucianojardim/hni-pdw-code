@@ -1903,14 +1903,14 @@ namespace PWDRepositories
 						filteredAndSorted = requestList.OrderByDescending( v => v.Company.Name );
 					}
 					break;
-				case "pipelinestatus":
+				case "projectstatus":
 					if( paramDetails.sSortDir_0.ToLower() == "asc" )
 					{
-						filteredAndSorted = requestList.OrderBy( v => v.PipelineStatus );
+						filteredAndSorted = requestList.OrderBy( v => v.ProjectSuccess );
 					}
 					else
 					{
-						filteredAndSorted = requestList.OrderByDescending( v => v.PipelineStatus );
+						filteredAndSorted = requestList.OrderByDescending( v => v.ProjectSuccess );
 					}
 					break;
 			}
@@ -1933,7 +1933,7 @@ namespace PWDRepositories
 				ProjectName = dbProject.ProjectName,
 				CustomerName = dbProject.EndCustomer,
 				DealershipName = dbProject.Company.Name,
-				PipelineStatus = ProjectStatus.GetDisplayString( dbProject.PipelineStatus )
+				ProjectStatus = ProjectSuccess.GetDisplayString( dbProject.ProjectSuccess )
 			};
 		}
 

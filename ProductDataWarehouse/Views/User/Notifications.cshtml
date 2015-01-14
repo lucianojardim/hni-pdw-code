@@ -86,7 +86,7 @@
 						<div class="colmn1">@Html.LabelFor( m => m.NewSpecRequest )</div>
 						<div class="colmn3single">@Html.CheckBoxFor( m => m.NewSpecRequest )</div>
 					</li>
-					@if( isSalesRepUser )
+					@if( isSalesRepUser && false )
 	 {
 					<li>
 						<div class="colmn1">@Html.LabelFor( m => m.NewSpecRequestTerritory )</div>
@@ -98,25 +98,10 @@
 					</li>
 	 }
 					<li>
-						<div class="colmn1">@Html.LabelFor( m => m.CompleteSpecRequest )</div>
-						<div class="colmn3single">@Html.CheckBoxFor( m => m.CompleteSpecRequest )</div>
-					</li>
-					@if( isSalesRepUser )
-	 {
-					<li>
-						<div class="colmn1">@Html.LabelFor( m => m.CompleteSpecRequestTerritory )</div>
-						<div class="colmn3single">@Html.CheckBoxFor( m => m.CompleteSpecRequestTerritory )</div>
-					</li>
-	 					<li>
-						<div class="colmn1">@Html.LabelFor( m => m.CompleteSpecRequestMyDealers )</div>
-						<div class="colmn3single">@Html.CheckBoxFor( m => m.CompleteSpecRequestMyDealers )</div>
-					</li>
-	 }
-					<li>
 						<div class="colmn1">@Html.LabelFor( m => m.UpdateSpecRequest )</div>
 						<div class="colmn3single">@Html.CheckBoxFor( m => m.UpdateSpecRequest )</div>
 					</li>
-					@if( isSalesRepUser )
+					@if( isSalesRepUser && false )
 	 {
 					<li>
 						<div class="colmn1">@Html.LabelFor( m => m.UpdateSpecRequestTerritory )</div>
@@ -128,10 +113,25 @@
 					</li>
 	 }
 					<li>
+						<div class="colmn1">@Html.LabelFor( m => m.CompleteSpecRequest )</div>
+						<div class="colmn3single">@Html.CheckBoxFor( m => m.CompleteSpecRequest )</div>
+					</li>
+					@if( isSalesRepUser && false )
+	 {
+					<li>
+						<div class="colmn1">@Html.LabelFor( m => m.CompleteSpecRequestTerritory )</div>
+						<div class="colmn3single">@Html.CheckBoxFor( m => m.CompleteSpecRequestTerritory )</div>
+					</li>
+	 					<li>
+						<div class="colmn1">@Html.LabelFor( m => m.CompleteSpecRequestMyDealers )</div>
+						<div class="colmn3single">@Html.CheckBoxFor( m => m.CompleteSpecRequestMyDealers )</div>
+					</li>
+	 }
+					<li>
 						<div class="colmn1">@Html.LabelFor( m => m.ReOpenSpecRequest )</div>
 						<div class="colmn3single">@Html.CheckBoxFor( m => m.ReOpenSpecRequest )</div>
 					</li>
-					@if( isSalesRepUser )
+					@if( isSalesRepUser && false )
 	 {
 					<li>
 						<div class="colmn1">@Html.LabelFor( m => m.ReOpenSpecRequestTerritory )</div>
