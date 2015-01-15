@@ -396,7 +396,7 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
-		[PaoliAuthorize( "CanManageProjects" )]
+		[PaoliAuthorize( "CanInLineAddProjects" )]
 		public JsonResult CreateNewProject( NewProjectInformation pInfo )
 		{
 			using( var sRepository = new SpecRequestRepository() )

@@ -298,7 +298,8 @@ namespace PDWInfrastructure
 		public bool CanViewMyCompanyUserList { get { return CanViewMyCompany || CanViewMyTerritory; } }
 		public bool CanChangeMyCompanyUserImage { get { return CanViewMyCompany || CanViewMyTerritory; } }
 
-		public bool CanManageProjects { get { return IsPaoliUser || IsDealerUser || OneOfRoles( PaoliWebRole.PaoliSalesRep ); } }
+		public bool CanInLineAddProjects { get { return IsPaoliUser || IsDealerUser || OneOfRoles( PaoliWebRole.PaoliSalesRep ); } }
+		public bool CanManageProjects { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin ); } }
 
 		public string ProductsHomePage
 		{
