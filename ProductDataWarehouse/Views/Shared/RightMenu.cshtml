@@ -52,16 +52,8 @@
                         <ul>
 			@if( !CurrentUser.HasTempPassword )
    {
-                            <li><a href="@Url.Action( "MyAccount", "User" )">My Profile</a></li>
-                            <li><a href="@Url.Action( "Notifications", "User" )">My Notifications</a></li>
-	   if( CurrentUser.CanViewMyTerritory )
-	   {
-                            <li><a href="@Url.Action( "MyTerritory", "User" )">My Territory</a></li>
-	   }
-	   if( CurrentUser.CanViewMyCompany )
-	   {
-                            <li><a href="@Url.Action( "MyCompany", "User" )">My Company</a></li>
-	   }
+                            <li><a href="@Url.Action( "MyAccount", "User" )">Profile</a></li>
+                            <li><a href="@Url.Action( "Notifications", "User" )">Notifications</a></li>
    }
                             <li><a href="@Url.Action( "ChangePW", "User" )">Password</a></li>
 			@if( !CurrentUser.HasTempPassword )
@@ -73,6 +65,38 @@
                     </li>
 					@if( !CurrentUser.HasTempPassword )
 	 {
+		 if( CurrentUser.IsDealerUser )
+		 {
+                    <li>
+						<a href="#"><img src="/newcontent/images/tools.jpg" width="35" height="35" alt="img"/>My Dealership</a>
+						<ul>
+	   @if( CurrentUser.CanViewMyCompany )
+	{
+                            <li><a href="@Url.Action( "MyCompany", "User" )">Company</a></li>
+	}
+	@if( CurrentUser.CanManageProjects )
+ {
+	 <li><a href="@Url.Action( "Manage", "Project" )">Projects & Opportunities</a></li>
+ }
+						</ul>
+					</li>
+		 }
+		 if( CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
+		 {
+                    <li>
+						<a href="#"><img src="/newcontent/images/tools.jpg" width="35" height="35" alt="img"/>My Territory</a>
+						<ul>
+	   @if( CurrentUser.CanViewMyTerritory )
+	   {
+                            <li><a href="@Url.Action( "MyTerritory", "User" )">Company</a></li>
+	   }
+	@if( CurrentUser.CanManageProjects )
+ {
+	 <li><a href="@Url.Action( "Manage", "Project" )">Projects & Opportunities</a></li>
+ }
+						</ul>
+					</li>
+		 }
                     <li class="dcjq-current-parent"><a href="#"><img src="/newcontent/images/tools.jpg" width="35" height="35" alt="img"/>Tools</a>
                         <ul>
 	   @if( CurrentUser.CanManageOrders )
@@ -83,7 +107,6 @@
 	{
                             <li><a href="@Url.Action( "ViewOrders", "Collateral" )">Collateral Store</a></li>
 	}
-                            <li><a href="http://www.paoliconnect.com">eOrder</a></li>
 	@if( CurrentUser.CanManageECollateral )
  {
                             <li><a href="@Url.Action( "Manage", "ePublisher" )">ePublisher</a></li>
@@ -92,8 +115,6 @@
  {
 	 <li><a href="@Url.Action( "LeadTimes", "Home" )">Lead Times</a></li>
  }
-                            <li><a href="http://www.paoliconnect.com">Order Status</a></li>
-                            <li><a href="http://www.paoliconnect.com">Smart Quote</a></li>
 	   @if( CurrentUser.CanManageTypicals )
 	{
                             <li><a href="@Url.Action( "Manage", "SpecRequest" )">Specifications</a></li>
@@ -102,10 +123,13 @@
 	{
                             <li><a href="@Url.Action( "ViewAll", "SpecRequest" )">Specifications</a></li>
 	}
-	@if( CurrentUser.CanManageProjects )
+	@if( CurrentUser.CanManageProjects && !CurrentUser.IsDealerUser && !CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
  {
-	 <li><a href="@Url.Action( "Manage", "Project" )">Projects</a></li>
+	 <li><a href="@Url.Action( "Manage", "Project" )">Projects & Opportunities</a></li>
  }
+                            <li><a href="http://www.paoliconnect.com">eOrder</a></li>
+                            <li><a href="http://www.paoliconnect.com">Order Status</a></li>
+                            <li><a href="http://www.paoliconnect.com">Smart Quote</a></li>
 						</ul>
                     </li>
 
