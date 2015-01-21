@@ -51,7 +51,7 @@
 			<!--//END right Column -->
 			<hr>
 			<!-- registered user tablature data --->
-			<!--<span class="flt_Rt"><img src="img/addPlusSig.jpg" width="15" height="15" />New User</span>-->
+			<a href="javascript:void(0)" id="newUserLink" class="flt_Rt"><img src="/NewContent/images/addPlusSig.jpg" width="15" height="15" />New User</a>
 			<h4>Registered Users</h4>
 			<table class="userTable" id="userList">
 			</table>
@@ -178,114 +178,18 @@
 	</div>
 	</div>
 
-	<a href="#editDealerUserContactInfo" id="mainEditUserContactBtn"></a>
-	<div id="editDealerUserContactInfo" class="needRowPadding">
-	<div class="main_inner2_btm">
-    @using( Html.BeginForm( "DealershipContact", "User", FormMethod.Post, new { id = "theContactUserForm", name = "theContactUserForm", enctype = "multipart/form-data" } ) )
-	{
-		@Html.AntiForgeryToken()
-		@Html.Hidden( "UserID" )
-		@Html.Hidden( "UserCompanyID" )
-    	<h2 class="bold">Edit Dealership User Contact Information</h2>
-		<div class="main_inner2_btm_mid_myacct">
-			<ul>
-        		<li>
-            		<div class="colmn1">First Name@(Html.ValidationMessage( "FirstName" ))</div>
-					<div class="colmn3single">@Html.TextBox( "FirstName" )</div>
-				</li>
-        		<li>
-            		<div class="colmn1">Last Name@(Html.ValidationMessage( "LastName" ))</div>
-					<div class="colmn3single">@Html.TextBox( "LastName" )</div>
-				</li>
-        		<li>
-            		<div class="colmn1">Title@(Html.ValidationMessage( "Title" ))</div>
-					<div class="colmn3single">@Html.TextBox( "Title" )</div>
-				</li>
-			</ul>
-		</div>	
-		<div class="clear"></div>
-		<div class="main_inner2_btm_2Col_Col">
-    		<h4 class="bold">Business Address</h4>
-			<ul>
-        		<li>
-            		<div class="colmn1">Address 1@(Html.ValidationMessage( "BusinessAddress1" ))</div>
-					<div class="colmn3single">@Html.TextBox( "BusinessAddress1" )</div>
-				</li>
-        		<li>
-            		<div class="colmn1">Address 2@(Html.ValidationMessage( "BusinessAddress2" ))</div>
-					<div class="colmn3single">@Html.TextBox( "BusinessAddress2" )</div>
-				</li>
-        		<li>
-            		<div class="colmn1">City@(Html.ValidationMessage( "BusinessCity" ))</div>
-					<div class="colmn3single">@Html.TextBox( "BusinessCity" )</div>
-				</li>
-				<li>
-            		<div class="colmn1">State@(Html.ValidationMessage( "BusinessState" ))</div>
-					<div class="colmn3single"><div class="styled-select">@Html.DropDownList( "BusinessState", ProductDataWarehouse.Controllers.UserController.GetStateDDList() )</div></div>
-				</li>
-				<li>
-            		<div class="colmn1">Zip@(Html.ValidationMessage( "BusinessZip" ))</div>
-					<div class="colmn3single">@Html.TextBox( "BusinessZip" )</div>
-				</li>
-				<li>
-            		<div class="colmn1">Business Phone@(Html.ValidationMessage( "BusinessPhone" ))</div>
-					<div class="colmn3single">@Html.TextBox( "BusinessPhone" )</div>
-				</li>
-				<li>
-            		<div class="colmn1">Extension@(Html.ValidationMessage( "Extension" ))</div>
-					<div class="colmn3single">@Html.TextBox( "Extension", null, new { @class = "ext" } )</div>
-				</li>
-				<li>
-            		<div class="colmn1">Work Mobile@(Html.ValidationMessage( "CellPhone" ))</div>
-					<div class="colmn3single">@Html.TextBox( "CellPhone" )</div>
-				</li>
-				<li>
-            		<div class="colmn1">Fax@(Html.ValidationMessage( "FaxNumber" ))</div>
-					<div class="colmn3single">@Html.TextBox( "FaxNumber" )</div>
-				</li>                       
-			</ul>
-		</div> 
-		<div class="main_inner2_btm_2Col_Col">
-    		<h4 class="bold">Home Address</h4>
-	<ul>
-        		<li>
-            		<div class="colmn1">Address 1@(Html.ValidationMessage( "HomeAddress1" ))</div>
-					<div class="colmn3single">@Html.TextBox( "HomeAddress1" )</div>
-				</li>
-        		<li>
-            		<div class="colmn1">Address 2@(Html.ValidationMessage( "HomeAddress2" ))</div>
-					<div class="colmn3single">@Html.TextBox( "HomeAddress2" )</div>
-				</li>
-        		<li>
-            		<div class="colmn1">City@(Html.ValidationMessage( "HomeCity" ))</div>
-					<div class="colmn3single">@Html.TextBox( "HomeCity" )</div>
-				</li>
-				<li>
-            		<div class="colmn1">State@(Html.ValidationMessage( "HomeState" ))</div>
-					<div class="colmn3single"><div class="styled-select">@Html.DropDownList( "HomeState", ProductDataWarehouse.Controllers.UserController.GetStateDDList() )</div></div>
-				</li>
-				<li>
-            		<div class="colmn1">Zip@(Html.ValidationMessage( "HomeZip" ))</div>
-					<div class="colmn3single">@Html.TextBox( "HomeZip" )</div>
-				</li>
-				<li>
-            		<div class="colmn1">Home Phone@(Html.ValidationMessage( "HomePhone" ))</div>
-					<div class="colmn3single">@Html.TextBox( "HomePhone" )</div>
-				</li>
-				<li>
-            		<div class="colmn1">Personal Mobile@(Html.ValidationMessage( "PersonalCellPhone" ))</div>
-					<div class="colmn3single">@Html.TextBox( "PersonalCellPhone" )</div>
-				</li>                  
-			</ul>        
-		</div> 
-		<div class="clear"></div>
-		<span class="btn7 cancelUserContactBtn">CANCEL</span> <span class="btn8 submitUserContactBtn">SAVE</span> 
-	}
-	</div>
-	</div>
+	@{Html.RenderPartial( "RequestNewUser" );}
 </div>
 
 <script type="text/javascript">
+	function getNewUserCompanyID() {
+		return '@(Model.CompanyID)';
+	}
+
+	function addEditUserCallback() {
+		loadUsers();
+	}
+
 	$(document).ready(function () {
 		loadUsers();
 
@@ -297,6 +201,14 @@
 			'margin': 0,
 			'scrolling': 'auto',
 			'titleShow': false
+		});
+
+		$('#newUserLink').click(function(e) {
+			$('.addOnly').show();
+			$('.addOnly input').removeClass('noValidate');
+			$('.addOnly select').removeClass('noValidate');
+			$('#theContactUserForm h2').text('Add Dealership User');
+			$('#mainEditUserContactBtn').trigger('click');
 		});
 
 		$('.submitCIBtn').click(function (e) {
@@ -389,29 +301,11 @@
 			'titleShow': false
 		});
 
-		$('#mainEditUserContactBtn').fancybox({
-			'autoDimensions': false,
-			'width': 1020,
-			'height': 800,
-			'padding': 20,
-			'margin': 0,
-			'scrolling': 'auto',
-			'titleShow': false
-		});
-
 		$('.submitContactBtn').click(function (e) {
 			$('#theContactForm').submit();
 		});
 
 		$('.cancelContactBtn').on('click', function() {
-			$.fancybox.close();
-		});
-
-		$('.submitUserContactBtn').click(function (e) {
-			$('#theContactUserForm').submit();
-		});
-
-		$('.cancelUserContactBtn').on('click', function() {
 			$.fancybox.close();
 		});
 
@@ -480,6 +374,11 @@
 												break;
 										}
 									});
+
+									$('.addOnly').hide();
+									$('.addOnly input').addClass('noValidate');
+									$('.addOnly select').addClass('noValidate');
+									$('#theContactUserForm h2').text('Edit Dealership User Contact Information');
 
 									$('#mainEditUserContactBtn').trigger('click');
 								},

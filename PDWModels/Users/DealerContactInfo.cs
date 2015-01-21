@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel.DataAnnotations;
 
 namespace PDWModels.Users
 {
@@ -10,9 +11,12 @@ namespace PDWModels.Users
 		public int UserID { get; set; }
 		public int UserCompanyID { get; set; }
 
+		[Required]
+		public string EmailAddress { get; set; }
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
 		public string Title { get; set; }
+		public int AccountType { get; set; }
 
 		public string BusinessAddress1 { get; set; }
 		public string BusinessAddress2 { get; set; }

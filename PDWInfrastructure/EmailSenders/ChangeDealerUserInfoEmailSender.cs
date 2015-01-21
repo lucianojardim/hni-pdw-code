@@ -7,12 +7,20 @@ namespace PDWInfrastructure.EmailSenders
 {
 	public class ChangeDealerUserInfoEmailSender : EmailSender
 	{
+		private readonly string templateName = "";
+
+		public ChangeDealerUserInfoEmailSender( string template )
+		{
+			templateName = template;
+		}
+
 		public bool SubmitRequestEmail(
 			string requestingUserName,
 			string requestingUserCompany,
 			int userID,
 			string companyName,
 
+			string emailAddress,
 			string firstName,
 			string lastName,
 			string title,
@@ -33,17 +41,20 @@ namespace PDWInfrastructure.EmailSenders
 			string homeState,
 			string homeZip,
 			string homePhone,
-			string personalCellPhone )
+			string personalCellPhone,
+			string accountType )
 		{
 			try
 			{
 				StringBuilder template;
-				if( ReadEmailTemplate( "ChangeDealerUserInfo", out template ) )
+				if( ReadEmailTemplate( templateName, out template ) )
 				{
 					// perform substitutions
 					template.Replace( "[{RequestingUser}]", requestingUserName );
 					template.Replace( "[{RequestingUserCompany}]", requestingUserCompany );
 					template.Replace( "[{UserID}]", userID.ToString() );
+					template.Replace( "[{AccountType}]", accountType );
+					template.Replace( "[{EmailAddress}]", emailAddress );
 					template.Replace( "[{CompanyName}]", companyName );
 					template.Replace( "[{FirstName}]", firstName );
 					template.Replace( "[{LastName}]", lastName );

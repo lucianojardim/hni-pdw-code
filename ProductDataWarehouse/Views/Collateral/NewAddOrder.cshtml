@@ -1,6 +1,5 @@
 ﻿@model PDWModels.Collateral.NewOrderInformation
 @{
-    ViewBag.Title = "NewAddOrder";
     Layout = "~/Views/Shared/NewLayout.cshtml";
 	ViewBag.HeaderArea = "CollateralOrders";
 }
@@ -152,7 +151,32 @@
 
 			$(".radio").dgStyle();
 
+			$('#newRPUserLink').click(function(e) {
+				bAddRequestingDealerMember = true;
+				$('#AccountType option[value!="@(PaoliWebUser.PaoliWebRole.DealerSalesRep)"]').remove();
+				$('#mainEditUserContactBtn').trigger('click');
+			});
+
+			$('#newSPUserLink').click(function(e) {
+				bAddRequestingDealerMember = false;
+				$('#AccountType option[value!="@(PaoliWebUser.PaoliWebRole.DealerSalesRep)"]').remove();
+				$('#mainEditUserContactBtn').trigger('click');
+			});
+
     	});
+
+		var bAddRequestingDealerMember = false;
+		function getNewUserCompanyID() {
+			if( bAddRequestingDealerMember ) {
+				return $('#DealerID').val();
+			}
+			return $('#SPDealerID').val();
+		}
+
+		function addEditUserCallback() {
+			reloadDealerSalesRepList();
+			reloadSPDealerSalesRepList();
+		}
 
     	function changeShippingType() {
 			$('.fedexAccount input').addClass('noValidate');
@@ -443,6 +467,7 @@
 					{ companyId: $('#DealerID').val(), enabledOnly: true },
 					function (data, textStatus, jqXHR) {
 						reloadDropDownUserList('#DealerMemberID', data);
+						$('#newRPUserLink').show();
 					},
 					function (jqXHR, textStatus, errorThrown) {
 						alert('Error getting Dealer Sales Rep list:' + errorThrown)
@@ -450,6 +475,7 @@
 				);
 			} else {
 				emptyDropDownList($('#DealerMemberID'));
+				$('#newRPUserLink').hide();
 			}
     	}
 
@@ -471,6 +497,7 @@
     				{ companyId: $('#SPDealerID').val(), enabledOnly: true },
     				function (data, textStatus, jqXHR) {
     					reloadDropDownUserList('#SPDealerMemberID', data);
+						$('#newSPUserLink').show();
     				},
     				function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting SP Dealer Sales Rep list:' + errorThrown)
@@ -478,6 +505,7 @@
     			);
     		} else {
 				emptyDropDownList($('#SPDealerMemberID'));
+				$('#newSPUserLink').hide();
     		}
     	}
 
@@ -675,7 +703,7 @@
 					@Html.MJLabelFor( m => m.DealerID, false )
 					@Html.DropDownListFor( m => m.DealerID, GetDealerList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer, true ) )
 					@Html.MJCiteFor( m => m.DealerMemberID, false )
-					@Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>() )
+					@Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>() )<a class="btn7 DSRCell" id="newRPUserLink" style="display:none;">+</a>
 					@Html.ValidationMessageFor( m => m.DealerID )
 				</div>
 				<div class="box1 RPEndUser RPControlArea">
@@ -721,7 +749,7 @@
 					@Html.MJLabelFor( m => m.SPDealerID, false )
 					@Html.DropDownListFor( m => m.SPDealerID, GetDealerList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer, true ) )
 					@Html.MJCiteFor( m => m.SPDealerMemberID, false )
-					@Html.DropDownListFor( m => m.SPDealerMemberID, new List<SelectListItem>() )
+					@Html.DropDownListFor( m => m.SPDealerMemberID, new List<SelectListItem>() )<a class="btn7" id="newSPUserLink" style="display:none;">+</a>
 					@Html.ValidationMessageFor( m => m.SPDealerID )
 				</div>
 				<div class="box1 SPEndUser SPControlArea">
@@ -1043,3 +1071,9 @@
 <!--	@Html.ValidationSummary()-->
 	</div>
 	}
+
+<div style="display:none">
+
+	@{Html.RenderPartial( "RequestNewUser" );}
+
+</div>

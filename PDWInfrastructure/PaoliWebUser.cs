@@ -10,6 +10,28 @@ namespace PDWInfrastructure
 {
     public class PaoliWebUser : IPrincipal
     {
+		public static class PaoliTierGroup
+		{
+			public const string Diamond = "Diamond";
+			public const string Ruby = "Ruby";
+			public const string Emerald = "Emerald";
+			public const string CubicZirconia = "Cubic Zirconia";
+
+			public static List<string> TierGroupList
+			{
+				get
+				{
+					return new List<string>()
+					{
+						Diamond,
+						Ruby,
+						Emerald,
+						CubicZirconia
+					};
+				}
+			}
+		}
+
 		public static class PaoliCompanyType
 		{
 			public const int Paoli = 1;

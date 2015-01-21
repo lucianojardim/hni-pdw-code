@@ -273,15 +273,19 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
-		[PaoliAuthorize( "CanViewMyTerritory" )]
+		[PaoliAuthorize( "CanBeLoggedIn" )]
 		[TempPasswordCheck]
-		public ActionResult DealershipContact( DealerContactInfo uInfo )
+		public JsonResult DealershipContact( DealerContactInfo uInfo )
 		{
 			using( var aRepository = new UserRepository() )
 			{
 				aRepository.UpdateDealerContact( PaoliWebUser.CurrentUser.UserId, uInfo );
 
-				return RedirectToAction( "MyCompanyInfo", "User", new { id = uInfo.UserCompanyID } );
+				return Json( new
+				{
+					success = true
+				},
+									JsonRequestBehavior.AllowGet );
 			}
 		}
 
@@ -447,12 +451,8 @@ namespace ProductDataWarehouse.Controllers
 
 		public static IEnumerable<SelectListItem> GetTierGroupDDList()
 		{
-			return new List<SelectListItem>() {
-				new SelectListItem() { Text = "Diamond", Value = "Diamond" },
-				new SelectListItem() { Text = "Ruby", Value = "Ruby" },
-				new SelectListItem() { Text = "Emerald", Value = "Emerald" },
-				new SelectListItem() { Text = "Cubic Zirconia", Value = "Cubic Zirconia" }
-			};
+			return PaoliWebUser.PaoliTierGroup.TierGroupList
+				.Select( tg => new SelectListItem() { Text = tg, Value = tg } );
 		}
 
 		public static IEnumerable<SelectListItem> GetUserRoleDDList()

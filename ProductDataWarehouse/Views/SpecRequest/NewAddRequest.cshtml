@@ -1,6 +1,5 @@
 ﻿@model PDWModels.SpecRequests.SpecRequestInformation
 @{
-	ViewBag.Title = "NewAddRequest";
 	Layout = "~/Views/Shared/NewLayout.cshtml";
 	ViewBag.HeaderArea = "SpecRequests";
 }
@@ -9,6 +8,14 @@
 @using PDWInfrastructure
 
     <script type="text/javascript">
+		function getNewUserCompanyID() {
+			return $('#DealerID').val();
+		}
+
+		function addEditUserCallback() {
+			reloadDealerSalesRepList();
+		}
+
 		var fileCount = 1;
 		$(document).ready(function () {
 			$.data($('#theForm')[0], 'validator').settings.ignore = '.noValidate';
@@ -22,14 +29,10 @@
 					"Please check your input."
 				);
 
-    		$('#DealerPointOfContact').rules("add", { required: true, messages: { required: "Dealership Point of Contact Name is required."} });
     		$('#LaminatePreference').rules("add", { required: true, messages: { required: "Laminate Preference is required."} });
-    		$("#DealerPointOfContactPhone").rules("add", { regex: "^[2-9]\\d{2}-\\d{3}-\\d{4}$", messages: { regex: "Phone Number must be in the format ###-###-####."} });
-    		$("#DealerPointOfContactEmail").rules("add", { regex: "^[A-Za-z0-9](([_\\.\\-\\+]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$", messages: { regex: "Email must be a valid Email Address."} });
 
 			$('#PaoliSalesRepGroupID').on('change', reloadPaoliSalesRepList);
 			$('#DealerID').on('change', reloadDealerSalesRepList);
-			$('#DealerMemberID').on('change', showHideDealerPOC);
 			$('#EndCustomer').on('change', reloadProjectList);
 
 			$('input').addClass('noValidate');
@@ -205,6 +208,11 @@
 				showHideContractInfo();
 			});
 
+			$('#newUserLink').click(function(e) {
+				$('#AccountType option[value!="@(PaoliWebUser.PaoliWebRole.DealerSalesRep)"]').remove();
+				$('#mainEditUserContactBtn').trigger('click');
+			});
+
 		});
 
 		function showHideContractInfo() {
@@ -323,24 +331,7 @@
 							$('#requestorList2 .coln1').append('<h5>Dealership Point of Contact</h5>');
 							$('#requestorList2 .coln2').append('<h5>' + $('#DealerMemberID option:selected').text() + '</h5>');
     					}
-    				} else {
-    					if ($('#DealerPointOfContact').val() != '') {
-							$('#requestorList2 .coln1').append('<h5>Dealership Point of Contact</h5>');
-							$('#requestorList2 .coln2').append('<h5>' + $('#DealerPointOfContact').val() + '</h5>');
-    					}
-    					if ($('#DealerPointOfContactEmail').val() != '') {
-							$('#requestorList2 .coln1').append('<h5>Email</h5>');
-							$('#requestorList2 .coln2').append('<h5>' + $('#DealerPointOfContactEmail').val() + '</h5>');
-    					}
-    					if ($('#DealerPointOfContactPhone').val() != '') {
-							$('#requestorList2 .coln1').append('<h5>Phone</h5>');
-							$('#requestorList2 .coln2').append('<h5>' + $('#DealerPointOfContactPhone').val() + '</h5>');
-    					}
-    					if ($('#DealerPointOfContactAcctType').val() != null && $('#DealerPointOfContactAcctType').val() != '' && $('#DealerPointOfContactAcctType').val() != '0') {
-							$('#requestorList2 .coln1').append('<h5>User Type</h5>');
-							$('#requestorList2 .coln2').append('<h5>' + $('#DealerPointOfContactAcctType option:selected').text() + '</h5>');
-						}
-    				}
+    				} 
     			}
     		}
 
@@ -546,10 +537,8 @@
     			makeAjaxCall('/User/GetDealerSalesRepListForCompany',
     				{ companyId: $('#DealerID').val(), enabledOnly: true },
     				function (data, textStatus, jqXHR) {
-						reloadDropDownUserList('#DealerMemberID', data, true);
+						reloadDropDownUserList('#DealerMemberID', data, false);
     					$('.DSRCell').show();
-//		    			$('#DealerMemberID_msdd').show();
-						showHideDealerPOC();
     				},
     				function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting Dealer Sales Rep list:' + errorThrown)
@@ -559,10 +548,7 @@
 				reloadProjectList();
     		} else {
 				emptyDropDownList($("#DealerMemberID"));
-    			$('#DealerPointOfContact').val('');
-				$('#DealerPointOfContact').addClass('noValidate');
     			$('.DSRCell').hide();
-				$('.DSRPOCCell').hide();
     		}
     	}
 
@@ -587,16 +573,6 @@
 				$('.ProjectCell').hide();
     		}
     	}
-
-		function showHideDealerPOC() {
-    		if ($('#DealerMemberID').val() == '0') {
-    			$('.DSRPOCCell').show();
-				$('#DealerPointOfContact').removeClass('noValidate');
-    		} else {
-    			$('.DSRPOCCell').hide();
-				$('#DealerPointOfContact').addClass('noValidate');
-    		}
-		}
 
     	function reloadPaoliSalesRepList() {
     		if ($('#PaoliSalesRepGroupID').val() != null && $('#PaoliSalesRepGroupID').val() != '' && $('#PaoliSalesRepGroupID').val() != '0') {
@@ -654,8 +630,6 @@
     			$('.PSRCell').hide();
 //				$('#PaoliSalesRepMemberID_msdd').hide();
     			$('.DealerRow').hide();
-				$('.DSRPOCCell').hide();
-				$('#DealerPointOfContact').addClass('noValidate');
     		}
     	}
 	</script>
@@ -700,39 +674,8 @@
 								 Dealership</label>
 							 @Html.DropDownListFor( m => m.DealerID, new List<SelectListItem>() )
 							 <cite class="DSRCell">Dealership Point of Contact</cite>
-							 @Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>(), new { @class = "DSRCell" } )
+							 @Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>(), new { @class = "DSRCell" } )<a class="btn7 DSRCell" id="newUserLink">+</a>
 						 </div>
-					 </li>
-					 <li class="DSRPOCCell">
-						<div class="box2">
-						<div style="width:444px;float:left;">&nbsp;</div>
-							 <cite class="DSRCell">Name
-							 @Html.ValidationMessageFor( m => m.DealerPointOfContact )</cite>
-							 @Html.TextBoxFor( m => m.DealerPointOfContact )
-						</div>
-					 </li>
-					 <li class="DSRPOCCell">
-						<div class="box2">
-						<div style="width:444px;float:left;">&nbsp;</div>
-							 <cite class="DSRCell">Email
-							 @Html.ValidationMessageFor( m => m.DealerPointOfContactEmail )</cite>
-							 @Html.TextBoxFor( m => m.DealerPointOfContactEmail )
-						</div>
-					 </li>
-					 <li class="DSRPOCCell">
-						<div class="box2">
-						<div style="width:444px;float:left;">&nbsp;</div>
-							 <cite class="DSRCell">Phone
-							 @Html.ValidationMessageFor( m => m.DealerPointOfContactPhone )</cite>
-							 @Html.TextBoxFor( m => m.DealerPointOfContactPhone )
-						</div>
-					 </li>
-					 <li class="DSRPOCCell">
-						<div class="box2">
-						<div style="width:444px;float:left;">&nbsp;</div>
-							 <cite class="DSRCell">User Type</cite>
-							 @Html.DropDownListFor( m => m.DealerPointOfContactAcctType, UserController.GetDealerUserRoleDDList() )
-						</div>
 					 </li>
 					 
 				 </ul>
@@ -1413,5 +1356,7 @@
 			<span class="btn7 cancelNewProjBtn">CANCEL</span> <span class="btn8 submitNewProjBtn">SAVE</span> 
 		</div>
 	</div>
+
+	@{Html.RenderPartial( "RequestNewUser" );}
 
 	 </div>

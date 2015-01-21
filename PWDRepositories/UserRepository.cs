@@ -889,10 +889,12 @@ namespace PWDRepositories
 			{
 				UserID = eUser.UserID,
 				UserCompanyID = eUser.CompanyID,
-
+				
+				EmailAddress = eUser.Email,
 				FirstName = eUser.FirstName,
 				LastName = eUser.LastName,
 				Title = eUser.Title,
+				AccountType = eUser.AccountType,
 
 				BusinessAddress1 = eUser.Address1,
 				BusinessAddress2 = eUser.Address2,
@@ -916,42 +918,118 @@ namespace PWDRepositories
 
 		public void UpdateDealerContact( int reqUserId, DealerContactInfo uInfo )
 		{
-			var eUser = database.Users.FirstOrDefault( u => u.UserID == uInfo.UserID );
 			var dbReqUser = database.Users.FirstOrDefault( u => u.UserID == reqUserId );
-			if( eUser == null )
+			var companyName = "";
+			var accountType = 0;
+			if( uInfo.UserID > 0 )
 			{
-				throw new Exception( "Unable to find user." );
+				var eUser = database.Users.FirstOrDefault( u => u.UserID == uInfo.UserID );
+				if( eUser == null )
+				{
+					throw new Exception( "Unable to find user." );
+				}
+
+				companyName = eUser.Company.Name;
+
+				eUser.FirstName = uInfo.FirstName;
+				eUser.LastName = uInfo.LastName;
+				eUser.Title = uInfo.Title;
+
+				eUser.Address1 = uInfo.BusinessAddress1;
+				eUser.Address2 = uInfo.BusinessAddress2;
+				eUser.City = uInfo.BusinessCity;
+				eUser.State = uInfo.BusinessState;
+				eUser.Zip = uInfo.BusinessZip;
+				eUser.BusinessPhone = uInfo.BusinessPhone;
+				eUser.CellPhone = uInfo.CellPhone;
+				eUser.FAX = uInfo.FaxNumber;
+				eUser.Extension = uInfo.Extension;
+
+				eUser.HomeAddress1 = uInfo.HomeAddress1;
+				eUser.HomeAddress2 = uInfo.HomeAddress2;
+				eUser.HomeCity = uInfo.HomeCity;
+				eUser.HomeState = uInfo.HomeState;
+				eUser.HomeZip = uInfo.HomeZip;
+				eUser.HomePhone = uInfo.HomePhone;
+				eUser.PersonalCellPhone = uInfo.PersonalCellPhone;
+				accountType = eUser.AccountType;
 			}
+			else
+			{
+				if( database.Users.Any( u => u.Email == uInfo.EmailAddress ) )
+				{
+					throw new Exception( "Unable to add user - Email address already exists." );
+				}
 
-			eUser.FirstName = uInfo.FirstName;
-			eUser.LastName = uInfo.LastName;
-			eUser.Title = uInfo.Title;
+				var dbCompany = database.Companies.FirstOrDefault( c => c.CompanyID == uInfo.UserCompanyID );
+				companyName = dbCompany.Name;
+				accountType = uInfo.AccountType;
 
-			eUser.Address1 = uInfo.BusinessAddress1;
-			eUser.Address2 = uInfo.BusinessAddress2;
-			eUser.City = uInfo.BusinessCity;
-			eUser.State = uInfo.BusinessState;
-			eUser.Zip = uInfo.BusinessZip;
-			eUser.BusinessPhone = uInfo.BusinessPhone;
-			eUser.CellPhone = uInfo.CellPhone;
-			eUser.FAX = uInfo.FaxNumber;
-			eUser.Extension = uInfo.Extension;
+				User newUser = new User();
 
-			eUser.HomeAddress1 = uInfo.HomeAddress1;
-			eUser.HomeAddress2 = uInfo.HomeAddress2;
-			eUser.HomeCity = uInfo.HomeCity;
-			eUser.HomeState = uInfo.HomeState;
-			eUser.HomeZip = uInfo.HomeZip;
-			eUser.HomePhone = uInfo.HomePhone;
-			eUser.PersonalCellPhone = uInfo.PersonalCellPhone;
+				newUser.Email = uInfo.EmailAddress;
+				newUser.FirstName = uInfo.FirstName;
+				newUser.LastName = uInfo.LastName;
+				newUser.CompanyID = uInfo.UserCompanyID;
+				newUser.Address1 = uInfo.BusinessAddress1;
+				newUser.Address2 = uInfo.BusinessAddress2;
+				newUser.City = uInfo.BusinessCity;
+				newUser.State = uInfo.BusinessState;
+				newUser.Zip = uInfo.BusinessZip;
+				newUser.BusinessPhone = uInfo.BusinessPhone;
+				newUser.CellPhone = uInfo.CellPhone;
+				newUser.HomeAddress1 = uInfo.HomeAddress1;
+				newUser.HomeAddress2 = uInfo.HomeAddress2;
+				newUser.HomeCity = uInfo.HomeCity;
+				newUser.HomeState = uInfo.HomeState;
+				newUser.HomeZip = uInfo.HomeZip;
+				newUser.HomePhone = uInfo.HomePhone;
+				newUser.PersonalCellPhone = uInfo.PersonalCellPhone;
+				newUser.FAX = uInfo.FaxNumber;
+				newUser.Extension = uInfo.Extension;
+				newUser.Title = uInfo.Title;
+				newUser.AccountType = uInfo.AccountType;
+				newUser.Enabled = true;
+				newUser.RecWelcomeEmail = false;
+				newUser.IsActive = true;
+				newUser.AuthorCredit = null;
+				newUser.DefaultShippingAddress = AddressTypes.Home;
+				newUser.ViewPerfData = false;
+				newUser.TierGroup = PaoliWebUser.PaoliTierGroup.Diamond;
+
+				string password = GenerateNewPassword();
+				PaoliEncryption enc = new PaoliEncryption( PaoliEncryption.DataPassPhrase );
+				newUser.Password = enc.Encrypt( password );
+				newUser.IsTempPassword = true;
+
+				newUser.UserNotification = new UserNotification()
+				{
+					NewCollateralOrder = true,
+					NewCollateralOrderTerritory = true,
+					NewCollateralOrderShipment = true,
+					NewCollateralOrderShipmentTerritory = true,
+					NewSpecRequest = true,
+					NewSpecRequestTerritory = true,
+					CompleteSpecRequest = true,
+					CompleteSpecRequestTerritory = true,
+					UpdateSpecRequest = true,
+					UpdateSpecRequestTerritory = true,
+					ReOpenSpecRequest = true,
+					ReOpenSpecRequestTerritory = true
+				};
+
+				database.Users.Add( newUser );
+			}
 
 			database.SaveChanges();
 
-			new ChangeDealerUserInfoEmailSender().SubmitRequestEmail( dbReqUser.FullName, dbReqUser.Company.Name, uInfo.UserID, eUser.Company.Name, 
-				uInfo.FirstName, uInfo.LastName, uInfo.Title,
+			new ChangeDealerUserInfoEmailSender( uInfo.UserID > 0 ? "ChangeDealerUserInfo" : "AddDealerUserInfo" ).SubmitRequestEmail( 
+				dbReqUser.FullName, dbReqUser.Company.Name, uInfo.UserID, companyName, 
+				uInfo.EmailAddress, uInfo.FirstName, uInfo.LastName, uInfo.Title,
 				uInfo.BusinessAddress1, uInfo.BusinessAddress2, uInfo.BusinessCity, uInfo.BusinessState, uInfo.BusinessZip, uInfo.BusinessPhone,
 				uInfo.CellPhone, uInfo.Extension, uInfo.FaxNumber, 
-				uInfo.HomeAddress1, uInfo.HomeAddress2, uInfo.HomeCity, uInfo.HomeState, uInfo.HomeZip, uInfo.HomePhone, uInfo.PersonalCellPhone );
+				uInfo.HomeAddress1, uInfo.HomeAddress2, uInfo.HomeCity, uInfo.HomeState, uInfo.HomeZip, uInfo.HomePhone, uInfo.PersonalCellPhone,
+				PaoliWebUser.PaoliWebRole.RoleList[accountType] );
 		}
 	}
 }

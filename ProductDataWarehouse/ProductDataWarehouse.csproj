@@ -118,6 +118,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Email Templates\AddDealerUserInfo.htm" />
     <Content Include="Content\Email Templates\ChangeDealerInfo.htm" />
     <Content Include="Content\Email Templates\ChangeDealerUserInfo.htm" />
     <Content Include="Content\Email Templates\ChangeSpecRequestDealer.htm" />
@@ -817,6 +818,7 @@
     <Content Include="Views\Project\Manage.cshtml" />
     <Content Include="Views\Project\Add.cshtml" />
     <Content Include="Views\Project\Edit.cshtml" />
+    <Content Include="Views\Shared\RequestNewUser.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
