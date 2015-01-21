@@ -300,7 +300,7 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
-		[PaoliAuthorize( "CanViewMyTerritory" )]
+		[PaoliAuthorize( "CanBeLoggedIn" )]
 		public JsonResult RequestDeactiviation( int userId, string reason )
 		{
 			using( var aRepository = new UserRepository() )

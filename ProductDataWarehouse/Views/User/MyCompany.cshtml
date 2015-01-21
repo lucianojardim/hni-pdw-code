@@ -498,22 +498,23 @@
                     { "sName": "FirstName", "sTitle": "First Name<span></span>", "sClass": "hasSpan", "aTargets": [0], "mDataProp": "FirstName", "sWidth": "25%" },
                     { "sName": "LastName", "sTitle": "Last Name<span></span>", "sClass": "hasSpan", "aTargets": [1], "mDataProp": "LastName", "sWidth": "25%" },
                     { "sName": "Title", "sTitle": "Title<span></span>", "sClass": "hasSpan", "aTargets": [2], "mDataProp": "Title", "sWidth": "25%" },
-                    { "sName": "Role", "sTitle": "Role<span></span>", "sClass": "hasSpan", "aTargets": [3], "mDataProp": "Role", "sWidth": "15%", "bSortable": false }
-					@if( PDWInfrastructure.PaoliWebUser.CurrentUser.CanViewMyTerritory )
-	 {
-					<text>
-					,{ "sName": "EditButtons", "sTitle": "Actions", "sClass": "hasSpan", "aTargets": [4], "mDataProp": "EditButtons", "bSortable": false, "sWidth": "10%",
+                    { "sName": "Role", "sTitle": "Role<span></span>", "sClass": "hasSpan", "aTargets": [3], "mDataProp": "Role", "sWidth": "15%", "bSortable": false },
+					{ "sName": "EditButtons", "sTitle": "Actions", "sClass": "hasSpan", "aTargets": [4], "mDataProp": "EditButtons", "bSortable": false, "sWidth": "10%",
 						"fnRender": function(oObj) {
 							var s = '';
 							s += '<span class="btn13 deactivateBtn" data-id="' + oObj.aData["UserID"] + '" title="Request Deactivation">X</span>';
+					@if( PDWInfrastructure.PaoliWebUser.CurrentUser.CanViewMyTerritory )
+	 {
+		 <text>
 							s += '&nbsp;';
 							s += '<span class="btn13 changeEmailBtn" data-id="' + oObj.aData["UserID"] + '" title="Request Email Change"><i class="fa fa-envelope-o"></i></span>';
 							s += '&nbsp;';
 							s += '<span class="btn13 editUserContactBtn" data-id="' + oObj.aData["UserID"] + '" title="Edit Contact Information"><i class="fa fa-edit"></i></span>';
+		</text>
+	 }
 							return s;
 						}
-					}					</text>
-	 }
+					}
                 ]
 		});
 	}
