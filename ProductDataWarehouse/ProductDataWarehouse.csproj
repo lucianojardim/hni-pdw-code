@@ -118,6 +118,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Email Templates\AddDealerInfo.htm" />
     <Content Include="Content\Email Templates\AddDealerUserInfo.htm" />
     <Content Include="Content\Email Templates\ChangeDealerInfo.htm" />
     <Content Include="Content\Email Templates\ChangeDealerUserInfo.htm" />
@@ -530,6 +531,7 @@
     <Content Include="NewContent\images\3col-sm.png" />
     <Content Include="NewContent\images\3col.png" />
     <Content Include="NewContent\images\account.jpg" />
+    <Content Include="NewContent\images\addPlusSig.jpg" />
     <Content Include="NewContent\images\admin.jpg" />
     <Content Include="NewContent\images\aprill.jpg" />
     <Content Include="NewContent\images\arrow_next.jpg" />
@@ -819,6 +821,7 @@
     <Content Include="Views\Project\Add.cshtml" />
     <Content Include="Views\Project\Edit.cshtml" />
     <Content Include="Views\Shared\RequestNewUser.cshtml" />
+    <Content Include="Views\Shared\RequestNewCompany.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

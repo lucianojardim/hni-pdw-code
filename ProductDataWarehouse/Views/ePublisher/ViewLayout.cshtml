@@ -150,36 +150,7 @@
             <b>@Html.DisplayFor( m => m.Settings.DealershipPOCMember )</b>
             <div class="clr"></div>
    }
-   else
-   {
-		 if( ( Model.Settings.DealershipPOCName ?? "" ).Any() )
-   {
-            <span>Name</span>
-            <b>@Html.DisplayFor( m => m.Settings.DealershipPOCName )</b>
-            <div class="clr"></div>
-   }
-		 
-		 if( ( Model.Settings.DealershipPOCEmail ?? "" ).Any() )
-   {
-            <span>Email</span>
-            <b>@Html.DisplayFor( m => m.Settings.DealershipPOCEmail )</b>
-            <div class="clr"></div>
-   }
-		 
-		 if( ( Model.Settings.DealershipPOCPhone ?? "" ).Any() )
-   {
-            <span>Phone</span>
-            <b>@Html.DisplayFor( m => m.Settings.DealershipPOCPhone )</b>
-            <div class="clr"></div>
-   }
-		 
-		 if( ( Model.Settings.DealershipPOCAcctTypeName ?? "" ).Any() )
-   {
-            <span>User Type</span>
-            <b>@Html.DisplayFor( m => m.Settings.DealershipPOCAcctTypeName )</b>
-            <div class="clr"></div>
-   }
-   }
+   
 		 if( ( Model.Settings.CustomerName ?? "" ).Any() )
    {
             <span>End Customer</span>

@@ -41,15 +41,19 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
-		[PaoliAuthorize( "CanViewMyTerritory" )]
+		[PaoliAuthorize( "CanBeLoggedIn" )]
 		[TempPasswordCheck]
-		public ActionResult DealershipContact( MyCompanyInfo cInfo )
+		public JsonResult DealershipContact( MyCompanyInfo cInfo )
 		{
 			using( var cRepository = new CompanyRepository() )
 			{
 				cRepository.UpdateCompany( PaoliWebUser.CurrentUser.UserId, cInfo );
 
-				return RedirectToAction( "MyCompanyInfo", "User", new { id = cInfo.CompanyID } );
+				return Json( new
+				{
+					success = true
+				},
+					JsonRequestBehavior.AllowGet );
 			}
 		}
 
@@ -376,6 +380,16 @@ namespace ProductDataWarehouse.Controllers
 				new SelectListItem() { Text = "Aloha", Value = "Aloha" },
 				new SelectListItem() { Text = "Mahalo", Value = "Mahalo" }
 			};
+		}
+
+		public static int GetMyTerritoryID()
+		{
+			using( var cRepo = new CompanyRepository() )
+			{
+				var info = cRepo.GetMyTerritoryInfo( PaoliWebUser.CurrentUser.UserId );
+
+				return info.TerritoryID;
+			}
 		}
 	}
 }

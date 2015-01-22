@@ -1,12 +1,45 @@
 ﻿@model PDWModels.eCollateral.ECollateralSettings
 @{
-    ViewBag.Title = "Add";
     Layout = "~/Views/Shared/NewLayout.cshtml";
 	ViewBag.HeaderArea = "ePublisher";
 }
 @using ProductDataWarehouse.Controllers
 @using PDWInfrastructure
     <script type="text/javascript">
+		function getNewUserCompanyID() {
+			return $('#DealershipID').val();
+		}
+
+		function addEditUserCallback() {
+			reloadDealerSalesRepList();
+		}
+
+		function getNewTerritoryID() {
+			@if( PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) || PaoliWebUser.CurrentUser.IsDealerUser )
+			{
+			<text>
+			return '@(CompanyController.GetMyTerritoryID())';
+			</text>
+			}
+
+			var group = $('#PaoliSalesRepGroupID option:selected').text();
+
+			return group.substring(0, 4);
+		}
+
+		function getNewCompanyType() {
+			return '@(PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer)';
+		}
+
+		function addEditCompanyCallback() {
+		@if( !PaoliWebUser.CurrentUser.IsDealerUser )
+	{
+	<text>
+			reloadPaoliSalesRepList();
+			</text>
+  }
+		}
+
     	$(document).ready(function () {
 			$.data($('#theForm')[0], 'validator').settings.ignore = '.noValidate';
 
@@ -28,14 +61,26 @@
 				);
 
     		$('#CustomURL').rules("add", { isunique: true, messages: { required: "URL must be valid and unique in the system."} });
-    		$("#DealershipPOCPhone").rules("add", { regex: "^[2-9]\\d{2}-\\d{3}-\\d{4}$", messages: { regex: "Phone Number must be in the format ###-###-####."} });
-    		$("#DealershipPOCEmail").rules("add", { regex: "^[A-Za-z0-9](([_\\.\\-\\+]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$", messages: { regex: "Email must be a valid Email Address."} });
 
     		$('#IsTemplate').on('change', showHideProjectInfo);
     		$('#PaoliSalesRepGroupID').on('change', reloadPaoliSalesRepList);
     		$('#DealershipID').on('change', reloadDealerSalesRepList);
-    		$('#DealershipPOCID').on('change', showHideDealerPOC);
 			$('#CustomerName').on('change', reloadProjectList);
+
+			$('#newCompanyLink').click(function(e) {
+	    		if ($('#PaoliSalesRepGroupID').val() != null && $('#PaoliSalesRepGroupID').val() != '' && $('#PaoliSalesRepGroupID').val() != '0') {
+					clearNewCompanyForm();
+					$('#theContactForm h4').text('Add Dealership');
+					$('#mainEditContactBtn').trigger('click');
+				}
+			});
+
+			$('#newUserLink').click(function(e) {
+	    		if ($('#DealershipID').val() != null && $('#DealershipID').val() != '' && $('#DealershipID').val() != '0') {
+					$('#AccountType option[value!="@(PaoliWebUser.PaoliWebRole.DealerSalesRep)"]').remove();
+					$('#mainEditUserContactBtn').trigger('click');
+				}
+			});
 
     		$('.submitBtn').click(function (e) {
     			$('#theForm').submit();
@@ -136,7 +181,6 @@
 				$('.projectInfo input').removeClass('noValidate');
 				$('.projectInfo select').removeClass('noValidate');
 			}
-			showHideDealerPOC();
 		}
 
     	function ValidateURL(urlValue) {
@@ -222,8 +266,6 @@
     		} else {
     			emptyDropDownList($('#DealershipID'));
     			emptyDropDownList($("#DealershipPOCID"));
-				$('#DealershipPOCName').addClass('noValidate');
-				$('.DSRPOCCell').hide();
     		}
 		}
 
@@ -232,8 +274,7 @@
     			makeAjaxCall('/User/GetDealerSalesRepListForCompany',
     				{ companyId: $('#DealershipID').val(), enabledOnly: true },
     				function (data, textStatus, jqXHR) {
-    					reloadDropDownUserList('#DealershipPOCID', data, true);
-						showHideDealerPOC();
+    					reloadDropDownUserList('#DealershipPOCID', data, false);
     				},
     				function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting Dealer Sales Rep list:' + errorThrown)
@@ -243,8 +284,6 @@
 				reloadProjectList();
     		} else {
     			emptyDropDownList($("#DealershipPOCID"));
-				$('#DealershipPOCName').addClass('noValidate');
-				$('.DSRPOCCell').hide();
     		}
     	}
 
@@ -269,16 +308,6 @@
     			$('.ProjectCell').hide();
     		}
     	}
-
-		function showHideDealerPOC() {
-    		if ($('#DealershipPOCID').val() == '0' && $('#IsTemplate').val().toLowerCase() == 'false') {
-    			$('.DSRPOCCell').show();
-				$('#DealershipPOCName').removeClass('noValidate');
-   			} else {
-    			$('.DSRPOCCell').hide();
- 				$('#DealershipPOCName').addClass('noValidate');
-   			}
-		}
 
 	</script>
 @{
@@ -358,7 +387,8 @@
                 
 				<div class="projectInfo">
                 <label for="DealershipID">Dealership</label>
-                @Html.DropDownListFor( m => m.DealershipID, new List<SelectListItem>() )
+                @Html.DropDownListFor( m => m.DealershipID, new List<SelectListItem>() )@if( !PaoliWebUser.CurrentUser.IsDealerUser )
+																						{<a class="btn7 left" style="margin-top:inherit;" id="newCompanyLink">+</a>}
                 <em>Select your dealership from the drop down</em>
                 <div class="clr"></div>
 				@Html.ValidationMessageFor( m => m.DealershipID )
@@ -368,46 +398,10 @@
                 
 				<div class="projectInfo">
                 <label for="DealershipPOCID">Dealership Point of Contact</label>
-                @Html.DropDownListFor( m => m.DealershipPOCID, new List<SelectListItem>() )
+                @Html.DropDownListFor( m => m.DealershipPOCID, new List<SelectListItem>() )<a class="btn7 left" style="margin-top:inherit;" id="newUserLink">+</a>
                 <em>Select your dealership point of contact from the drop down</em>
                 <div class="clr"></div>
 				@Html.ValidationMessageFor( m => m.DealershipPOCID )
-                <div class="clr"></div>
-				</div>
-
-                
-				<div class="DSRPOCCell">
-                <label for="CustomerName">Name</label>
-                @Html.TextBoxFor( m => m.DealershipPOCName )
-                <div class="clr"></div>
-				@Html.ValidationMessageFor( m => m.DealershipPOCName )
-                <div class="clr"></div>
-				</div>
-
-                
-				<div class="DSRPOCCell">
-                <label for="CustomerName">Email</label>
-                @Html.TextBoxFor( m => m.DealershipPOCEmail )
-                <div class="clr"></div>
-				@Html.ValidationMessageFor( m => m.DealershipPOCEmail )
-                <div class="clr"></div>
-				</div>
-
-                
-				<div class="DSRPOCCell">
-                <label for="CustomerName">Phone</label>
-                @Html.TextBoxFor( m => m.DealershipPOCPhone )
-                <div class="clr"></div>
-				@Html.ValidationMessageFor( m => m.DealershipPOCPhone )
-                <div class="clr"></div>
-				</div>
-
-                
-				<div class="DSRPOCCell">
-                <label for="CustomerName">User Type</label>
-                @Html.DropDownListFor( m => m.DealershipPOCAcctType, UserController.GetDealerUserRoleDDList() )
-                <div class="clr"></div>
-				@Html.ValidationMessageFor( m => m.DealershipPOCAcctType )
                 <div class="clr"></div>
 				</div>
 
@@ -489,5 +483,9 @@
 			<span class="btn7 cancelNewProjBtn">CANCEL</span> <span class="btn8 submitNewProjBtn">SAVE</span> 
 		</div>
 	</div>
+
+	@{Html.RenderPartial( "RequestNewUser" );}
+
+	@{Html.RenderPartial( "RequestNewCompany" );}
 
 	 </div>

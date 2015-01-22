@@ -631,10 +631,10 @@
           <Property Name="URLText" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="DealershipID" Type="int" />
           <Property Name="DealershipPOCID" Type="int" />
-          <Property Name="DealershipPOCName" Type="nvarchar" MaxLength="200" />
-          <Property Name="DealershipPOCEmail" Type="nvarchar" MaxLength="200" />
-          <Property Name="DealershipPOCPhone" Type="nvarchar" MaxLength="20" />
-          <Property Name="DealershipPOCAcctType" Type="int" />
+          <Property Name="OldDealershipPOCName" Type="nvarchar" MaxLength="200" />
+          <Property Name="OldDealershipPOCEmail" Type="nvarchar" MaxLength="200" />
+          <Property Name="OldDealershipPOCPhone" Type="nvarchar" MaxLength="20" />
+          <Property Name="OldDealershipPOCAcctType" Type="int" />
           <Property Name="LayoutID" Type="int" />
           <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="ContentType" Type="int" />
@@ -4026,16 +4026,16 @@
           <NavigationProperty Name="DealershipPOC" Relationship="PaoliPDWModel.fkeCollateral_DealerUser" FromRole="eCollateralItem" ToRole="User" />
           <NavigationProperty Name="ModifiedByUser" Relationship="PaoliPDWModel.fkeCollateral_ModifiedUser" FromRole="eCollateralItem" ToRole="User" />
           <NavigationProperty Name="eCollateralSections" Relationship="PaoliPDWModel.fkeCSection_Item" FromRole="eCollateralItem" ToRole="eCollateralSection" />
-          <Property Type="String" Name="DealershipPOCName" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="DealershipPOCEmail" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="DealershipPOCPhone" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="DealershipPOCAcctType" />
           <Property Type="Int32" Name="ContentType" />
           <Property Type="Boolean" Name="IncludeDealerImage" Nullable="false" />
           <Property Type="Int32" Name="ProjectID" />
           <Property Type="String" Name="OldProjectName" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="OldEndCustomer" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Project" Relationship="PaoliPDWModel.fkECollateral_Project" FromRole="eCollateralItem" ToRole="Project" />
+          <Property Type="String" Name="OldDealershipPOCName" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="OldDealershipPOCEmail" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="OldDealershipPOCPhone" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="OldDealershipPOCAcctType" />
         </EntityType>
         <EntityType Name="eCollateralSection">
           <Key>
@@ -4953,15 +4953,15 @@
           <EntitySetMapping Name="eCollateralItems">
             <EntityTypeMapping TypeName="PaoliPDWModel.eCollateralItem">
               <MappingFragment StoreEntitySet="eCollateralItems">
+                <ScalarProperty Name="OldDealershipPOCAcctType" ColumnName="OldDealershipPOCAcctType" />
+                <ScalarProperty Name="OldDealershipPOCPhone" ColumnName="OldDealershipPOCPhone" />
+                <ScalarProperty Name="OldDealershipPOCEmail" ColumnName="OldDealershipPOCEmail" />
+                <ScalarProperty Name="OldDealershipPOCName" ColumnName="OldDealershipPOCName" />
                 <ScalarProperty Name="OldEndCustomer" ColumnName="OldEndCustomer" />
                 <ScalarProperty Name="OldProjectName" ColumnName="OldProjectName" />
                 <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
                 <ScalarProperty Name="IncludeDealerImage" ColumnName="IncludeDealerImage" />
                 <ScalarProperty Name="ContentType" ColumnName="ContentType" />
-                <ScalarProperty Name="DealershipPOCAcctType" ColumnName="DealershipPOCAcctType" />
-                <ScalarProperty Name="DealershipPOCPhone" ColumnName="DealershipPOCPhone" />
-                <ScalarProperty Name="DealershipPOCEmail" ColumnName="DealershipPOCEmail" />
-                <ScalarProperty Name="DealershipPOCName" ColumnName="DealershipPOCName" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="LayoutID" ColumnName="LayoutID" />
                 <ScalarProperty Name="DealershipPOCID" ColumnName="DealershipPOCID" />
@@ -5263,8 +5263,8 @@
           <ConnectorPoint PointX="10" PointY="6.4953206380208286" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.fkST_Typical" >
-          <ConnectorPoint PointX="3.4794298203125003" PointY="10.25" />
-          <ConnectorPoint PointX="3.4794298203125003" PointY="9.1710009765625" />
+          <ConnectorPoint PointX="3.4792314550781254" PointY="10.25" />
+          <ConnectorPoint PointX="3.4792314550781254" PointY="9.1710009765625" />
           <ConnectorPoint PointX="5.875" PointY="9.1710009765625" />
           <ConnectorPoint PointX="5.875" PointY="6.25" />
           <ConnectorPoint PointX="6.6119771666666667" PointY="6.2499999999999991" />
@@ -5713,10 +5713,10 @@
           <ConnectorPoint PointX="21.125" PointY="10.15625" />
         </AssociationConnector>
         <AssociationConnector Association="PaoliPDWModel.FK_Events_Users" >
-          <ConnectorPoint PointX="12.875" PointY="8.9457491116494037" />
-          <ConnectorPoint PointX="13.229166666666666" PointY="8.9457491116494037" />
-          <ConnectorPoint PointX="13.395833333333334" PointY="8.9457491116494037" />
-          <ConnectorPoint PointX="13.5" PointY="8.9457491116494037" />
+          <ConnectorPoint PointX="12.875" PointY="8.986884686712683" />
+          <ConnectorPoint PointX="13.229166666666666" PointY="8.986884686712683" />
+          <ConnectorPoint PointX="13.395833333333334" PointY="8.986884686712683" />
+          <ConnectorPoint PointX="13.5" PointY="8.986884686712683" />
           <ConnectorPoint PointX="13.5" PointY="9.6592415364583335" />
           <ConnectorPoint PointX="14.291666666666666" PointY="9.6592415364583335" />
           <ConnectorPoint PointX="14.458333333333334" PointY="9.6592415364583335" />

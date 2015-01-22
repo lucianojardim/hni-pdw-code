@@ -187,13 +187,6 @@ namespace PWDRepositories
 				{
 					newItem.DealershipPOCID = settings.DealershipPOCID;
 				}
-				else
-				{
-					newItem.DealershipPOCName = settings.DealershipPOCName;
-					newItem.DealershipPOCEmail = settings.DealershipPOCEmail;
-					newItem.DealershipPOCPhone = settings.DealershipPOCPhone;
-					newItem.DealershipPOCAcctType = settings.DealershipPOCAcctType;
-				}
 			}
 			newItem.ProjectID = settings.ProjectID;
 			
@@ -237,19 +230,9 @@ namespace PWDRepositories
 					if( settings.DealershipPOCID != 0 )
 					{
 						dbItem.DealershipPOCID = settings.DealershipPOCID;
-
-						dbItem.DealershipPOCName = null;
-						dbItem.DealershipPOCEmail = null;
-						dbItem.DealershipPOCPhone = null;
-						dbItem.DealershipPOCAcctType = null;
 					}
 					else
 					{
-						dbItem.DealershipPOCName = settings.DealershipPOCName;
-						dbItem.DealershipPOCEmail = settings.DealershipPOCEmail;
-						dbItem.DealershipPOCPhone = settings.DealershipPOCPhone;
-						dbItem.DealershipPOCAcctType = settings.DealershipPOCAcctType;
-
 						dbItem.DealershipPOCID = null;
 					}
 				}
@@ -257,10 +240,6 @@ namespace PWDRepositories
 				{
 					dbItem.DealershipID = null;
 					dbItem.DealershipPOCID = null;
-					dbItem.DealershipPOCName = null;
-					dbItem.DealershipPOCEmail = null;
-					dbItem.DealershipPOCPhone = null;
-					dbItem.DealershipPOCAcctType = null;
 				}
 				dbItem.ProjectID = settings.ProjectID;
 
@@ -334,17 +313,12 @@ namespace PWDRepositories
 				retItem.PaoliSalesRepGroupID = dbItem.DealershipID.HasValue ? dbItem.Company.Territory.SalesRepCompanyID : null;
 				retItem.DealershipID = dbItem.DealershipID;
 				retItem.DealershipPOCID = dbItem.DealershipPOCID;
-				retItem.DealershipPOCName = dbItem.DealershipPOCName;
-				retItem.DealershipPOCEmail = dbItem.DealershipPOCEmail;
-				retItem.DealershipPOCPhone = dbItem.DealershipPOCPhone;
-				retItem.DealershipPOCAcctType = dbItem.DealershipPOCAcctType;
 				retItem.ProjectID = dbItem.ProjectID;
 				retItem.CustomerName = dbItem.ProjectID.HasValue ? dbItem.Project.EndCustomer : null;
 				retItem.RealProjectName = dbItem.ProjectID.HasValue ? dbItem.Project.ProjectName : null;
 				retItem.PaoliSalesRepGroupName = dbItem.DealershipID.HasValue ? dbItem.Company.Territory.SalesRepCompanyName : null;
 				retItem.DealershipName = dbItem.DealershipID.HasValue ? dbItem.Company.Name : null;
 				retItem.DealershipPOCMember = dbItem.DealershipPOCID.HasValue ? dbItem.DealershipPOC.FullName : null;
-				retItem.DealershipPOCAcctTypeName = dbItem.DealershipPOCAcctType.HasValue ? PaoliWebUser.PaoliWebRole.RoleList[dbItem.DealershipPOCAcctType.Value] : null;
 			}
 
 			return retItem;
@@ -526,17 +500,7 @@ namespace PWDRepositories
 				newItem.FileName = dbItem.FileName;
 				newItem.URLText = "";
 				newItem.DealershipID = dbItem.DealershipID;
-				if( dbItem.DealershipPOCID.HasValue )
-				{
-					newItem.DealershipPOCID = dbItem.DealershipPOCID;
-				}
-				else
-				{
-					newItem.DealershipPOCName = dbItem.DealershipPOCName;
-					newItem.DealershipPOCEmail = dbItem.DealershipPOCEmail;
-					newItem.DealershipPOCPhone = dbItem.DealershipPOCPhone;
-					newItem.DealershipPOCAcctType = dbItem.DealershipPOCAcctType;
-				}
+				newItem.DealershipPOCID = dbItem.DealershipPOCID;
 				newItem.ProjectID = dbItem.ProjectID;
 				newItem.LayoutID = dbItem.LayoutID;
 				newItem.ContentType = dbItem.ContentType;

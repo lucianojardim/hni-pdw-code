@@ -24,11 +24,6 @@ namespace PDWModels.eCollateral
 		public int? DealershipID { get; set; }
 		[DisplayName( "Dealership Point of Contact" )]
 		public int? DealershipPOCID { get; set; }
-		[DisplayName( "Name" )]
-		public string DealershipPOCName { get; set; }
-		public string DealershipPOCEmail { get; set; }
-		public string DealershipPOCPhone { get; set; }
-		public int? DealershipPOCAcctType { get; set; }
 		[DisplayName( "Customer Name" )]
 		public string CustomerName { get; set; }
 		[DisplayName( "Project Name" )]
@@ -38,7 +33,6 @@ namespace PDWModels.eCollateral
 		public string PaoliSalesRepGroupName { get; set; }
 		public string DealershipName { get; set; }
 		public string DealershipPOCMember { get; set; }
-		public string DealershipPOCAcctTypeName { get; set; }
 		public string Status { get; set; }
 		public int UpdateStatus { get; set; }
 		public string CreatedByUserName { get; set; }

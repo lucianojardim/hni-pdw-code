@@ -48,6 +48,7 @@
 			</table>
 			<!-- //END registered user tablature data --->
 			<!-- dealership tablature data --->
+			<a href="javascript:void(0)" id="newCompanyLink" class="flt_Rt"><img src="/NewContent/images/addPlusSig.jpg" width="15" height="15" />New Dealership</a>
 			<h4>Dealerships In My Territory</h4>
 			<table class="dealerTable" id="dealerList">
 			</table>
@@ -74,10 +75,24 @@
 			<span class="btn7 cancelDDBtn">CANCEL</span> <span class="btn8 submitDDBtn">SAVE</span> 
 		</div>
 	</div>
+
+	@{Html.RenderPartial( "RequestNewCompany" );}
 </div>
 
 
 <script type="text/javascript">
+	function getNewTerritoryID() {
+		return '@(Model.TerritoryID)';
+	}
+
+	function getNewCompanyType() {
+		return '@(PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer)';
+	}
+
+	function addEditCompanyCallback() {
+		loadCompanies();
+	}
+
 	var psrContactList = null;
 	$(document).ready(function () {
 		loadUsers();
@@ -91,6 +106,12 @@
     		function (jqXHR, textStatus, errorThrown) {    			
     		}
     	);
+
+		$('#newCompanyLink').click(function(e) {
+			clearNewCompanyForm();
+			$('#theContactForm h4').text('Add Dealership');
+			$('#mainEditContactBtn').trigger('click');
+		});
 
 		$('#mainDeactivateBtn').fancybox({
 			'autoDimensions': false,

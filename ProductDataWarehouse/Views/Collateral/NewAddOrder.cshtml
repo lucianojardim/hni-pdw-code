@@ -8,6 +8,40 @@
 @using PDWInfrastructure
 
     <script type="text/javascript">
+		var bAddRequestingDealer = false;
+		function getNewTerritoryID() {
+			@if( PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
+			{
+			<text>
+			return '@(CompanyController.GetMyTerritoryID())';
+			</text>
+			}
+
+			return null;
+		}
+
+		function getNewCompanyType() {
+			return '@(PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer)';
+		}
+
+		function addEditCompanyCallback() {
+			loadDealerList();
+			loadSPDealerList();
+		}
+
+		var bAddRequestingDealerMember = false;
+		function getNewUserCompanyID() {
+			if( bAddRequestingDealerMember ) {
+				return $('#DealerID').val();
+			}
+			return $('#SPDealerID').val();
+		}
+
+		function addEditUserCallback() {
+			reloadDealerSalesRepList();
+			reloadSPDealerSalesRepList();
+		}
+
     	$(document).ready(function () {
     		$.data($('#theForm')[0], 'validator').settings.ignore = '.noValidate';
     		$.validator.addMethod(
@@ -163,20 +197,21 @@
 				$('#mainEditUserContactBtn').trigger('click');
 			});
 
+			$('#newRPCompanyLink').click(function(e) {
+				bAddRequestingDealer = true;
+				clearNewCompanyForm();
+				$('#theContactForm h4').text('Add Dealership');
+				$('#mainEditContactBtn').trigger('click');
+			});
+
+			$('#newSPCompanyLink').click(function(e) {
+				bAddRequestingDealer = false;
+				clearNewCompanyForm();
+				$('#theContactForm h4').text('Add Dealership');
+				$('#mainEditContactBtn').trigger('click');
+			});
+
     	});
-
-		var bAddRequestingDealerMember = false;
-		function getNewUserCompanyID() {
-			if( bAddRequestingDealerMember ) {
-				return $('#DealerID').val();
-			}
-			return $('#SPDealerID').val();
-		}
-
-		function addEditUserCallback() {
-			reloadDealerSalesRepList();
-			reloadSPDealerSalesRepList();
-		}
 
     	function changeShippingType() {
 			$('.fedexAccount input').addClass('noValidate');
@@ -406,6 +441,41 @@
 			var ddSource = $(ddSourceID);
 			ddList.append('<option value="' + ddSource.attr('value') + '">' + ddSource.find('option:selected').text() + '</option>")');
 			ddList.attr('value', ddSource.get('value'));
+		}
+
+		function loadDealerList() {
+		@if( PaoliWebUser.CurrentUser.IsDealerUser )
+		{
+		} 
+		else
+		{
+			if( PaoliWebUser.CurrentUser.IsPaoliUser )
+			{
+				<text>
+			var theUrl = '/Company/GetDealerList';
+			var dataSet = { includeBlank: 'true' };
+				</text>
+			}
+			else
+			{
+				<text>
+			theUrl = '/Company/GetDealerListForSalesRep';
+			dataSet = { salesRepCompanyId: $('#PaoliRepGroupID').val(), includeBlank: 'true' };
+				</text>
+			}
+				<text>
+			makeAjaxCall(theUrl,
+				dataSet,
+				function (data, textStatus, jqXHR) {
+					reloadDropDownCompanyList('#DealerID', data);
+					reloadDealerSalesRepList();
+				},
+				function (jqXHR, textStatus, errorThrown) {
+					alert('Error getting Dealer list:' + errorThrown)
+				}
+			);
+				</text>
+		}
 		}
 
 		function loadSPDealerList() {
@@ -701,8 +771,9 @@
 				</div>
 				<div class="box1 RPDealer RPControlArea">
 					@Html.MJLabelFor( m => m.DealerID, false )
-					@Html.DropDownListFor( m => m.DealerID, GetDealerList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer, true ) )
-					@Html.MJCiteFor( m => m.DealerMemberID, false )
+					@Html.DropDownListFor( m => m.DealerID, GetDealerList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer, true ) )@if( !PaoliWebUser.CurrentUser.IsDealerUser )
+																															{<a class="btn7" id="newRPCompanyLink">+</a>}
+					@Html.MJCiteFor( m => m.DealerMemberID, false, new { @class = !PaoliWebUser.CurrentUser.IsDealerUser ? "thin" : "" } )
 					@Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>() )<a class="btn7 DSRCell" id="newRPUserLink" style="display:none;">+</a>
 					@Html.ValidationMessageFor( m => m.DealerID )
 				</div>
@@ -747,8 +818,9 @@
 				</div>
 				<div class="box1 SPDealer SPControlArea">
 					@Html.MJLabelFor( m => m.SPDealerID, false )
-					@Html.DropDownListFor( m => m.SPDealerID, GetDealerList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer, true ) )
-					@Html.MJCiteFor( m => m.SPDealerMemberID, false )
+					@Html.DropDownListFor( m => m.SPDealerID, GetDealerList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer, true ) )@if( !PaoliWebUser.CurrentUser.IsDealerUser )
+																															  {<a class="btn7" id="newSPCompanyLink">+</a>}
+					@Html.MJCiteFor( m => m.SPDealerMemberID, false, new { @class = !PaoliWebUser.CurrentUser.IsDealerUser ? "thin" : "" } )
 					@Html.DropDownListFor( m => m.SPDealerMemberID, new List<SelectListItem>() )<a class="btn7" id="newSPUserLink" style="display:none;">+</a>
 					@Html.ValidationMessageFor( m => m.SPDealerID )
 				</div>
@@ -788,9 +860,9 @@
 					<i class="clear_0"></i>
 				</div>
 				@{
-				var itemNum = 0;
-				var startTR = "<li>";
-				var endTR = "</li>";
+  var itemNum = 0;
+  var startTR = "<li>";
+  var endTR = "</li>";
 	  }
 		@foreach( var collateralType in collTypeList )
   {
@@ -800,7 +872,7 @@
 					<div style="display: block;" id="tab@(collateralType.Value)" class="tab_content1">
 						<ul>
 				@{
-				itemNum = 0;
+		  itemNum = 0;
 				}
 				@for( int i = 0; i < Model.OrderDetails.Count; i++ )
 	{
@@ -1075,5 +1147,7 @@
 <div style="display:none">
 
 	@{Html.RenderPartial( "RequestNewUser" );}
+
+	@{Html.RenderPartial( "RequestNewCompany" );}
 
 </div>

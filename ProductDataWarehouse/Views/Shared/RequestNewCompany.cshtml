@@ -1,0 +1,126 @@
+﻿	<a href="#editDealerContactInfo" id="mainEditContactBtn"></a>
+	<div id="editDealerContactInfo">
+	<div class="main_inner2_btm">
+    @using( Html.BeginForm( "DealershipContact", "Company", FormMethod.Post, new { id = "theContactForm", name = "theContactForm", enctype = "multipart/form-data" } ) )
+	{
+		@Html.AntiForgeryToken()
+		@Html.Hidden( "TheCompanyID" )
+		@Html.Hidden( "CompanyType" )
+		<div class="main_inner2_btm_mid_myacct">
+    		<h4 class="bold">Edit Dealership Contact Information</h4>
+			<ul>
+        		<li>
+            		<div class="colmn1">Name@(Html.ValidationMessage( "CompanyName" ))</div>
+					<div class="colmn3single">@Html.TextBox( "CompanyName" )</div>
+				</li>
+        		<li>
+            		<div class="colmn1">Address 1@(Html.ValidationMessage( "Address1" ))</div>
+					<div class="colmn3single">@Html.TextBox( "Address1" )</div>
+				</li>
+        		<li>
+            		<div class="colmn1">Address 2@(Html.ValidationMessage( "Address2" ))</div>
+					<div class="colmn3single">@Html.TextBox( "Address2" )</div>
+				</li>
+        		<li>
+            		<div class="colmn1">City@(Html.ValidationMessage( "City" ))</div>
+					<div class="colmn3single">@Html.TextBox( "City" )</div>
+				</li>
+				<li>
+            		<div class="colmn1">State@(Html.ValidationMessage( "State" ))</div>
+					<div class="colmn3single"><div class="styled-select">@Html.DropDownList( "State", ProductDataWarehouse.Controllers.UserController.GetStateDDList() )</div></div>
+				</li>
+				<li>
+            		<div class="colmn1">Zip@(Html.ValidationMessage( "Zip" ))</div>
+					<div class="colmn3single">@Html.TextBox( "Zip" )</div>
+				</li>
+				<li>
+            		<div class="colmn1">Phone@(Html.ValidationMessage( "PhoneNumber" ))</div>
+					<div class="colmn3single">@Html.TextBox( "PhoneNumber" )</div>
+				</li>
+				<li>
+            		<div class="colmn1">Fax@(Html.ValidationMessage( "FaxNumber" ))</div>
+					<div class="colmn3single">@Html.TextBox( "FaxNumber" )</div>
+				</li>                       
+				<li>
+            		<div class="colmn1">Contact Email@(Html.ValidationMessage( "ContactEmail" ))</div>
+					<div class="colmn3single">@Html.TextBox( "ContactEmail" )</div>
+				</li>
+				<li>
+            		<div class="colmn1">Web Site@(Html.ValidationMessage( "WebSite" ))</div>
+					<div class="colmn3single">@Html.TextBox( "WebSite" )</div>
+				</li>
+				<li>
+            		<div class="colmn1">Territory@(Html.ValidationMessage( "TerritoryID" ))</div>
+					<div class="colmn3single"><div class="styled-select">@Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.CompanyController.GetTerritoryDDList( true ) )</div></div>
+				</li>
+			</ul>
+			<div class="clear"></div>
+			<span class="btn7 cancelContactBtn">CANCEL</span> <span class="btn8 submitContactBtn">SAVE</span> 
+		</div>	
+	}
+	</div>
+	</div>
+
+<script type="text/javascript">
+	function clearNewCompanyForm(bControls) {
+		if (bControls == null ? true : bControls) {
+			$('#theContactForm input').val('');
+			$('#theContactForm select').val('');
+		}
+
+		var territory = getNewTerritoryID();
+		if (territory != null) {
+			$('#TerritoryID option[value!="' + territory + '"]').hide();
+			$('#TerritoryID').val(territory);
+		}
+
+	}
+
+	$(document).ready(function () {
+		$('#mainEditContactBtn').fancybox({
+			'autoDimensions': false,
+			'width': 1000,
+			'height': 700,
+			'padding': 20,
+			'margin': 0,
+			'scrolling': 'auto',
+			'titleShow': false
+		});
+
+		$('#CompanyName').rules("add", { required: true, messages: { required: "Name is required."} });
+		$('#TerritoryID').rules("add", { required: true, messages: { required: "Territory is required."} });
+
+		$('.submitContactBtn').click(function (e) {
+			$('#CompanyType').val(getNewCompanyType());
+
+			if ($('#theContactForm').valid()) {
+				makeAjaxCall('/Company/DealershipContact', $('#theContactForm').serialize(),
+					function (data) {
+						if (data.success) {
+							if ($('#TheCompanyID').val() != 0) {
+								alert('Thank you. Your updates have been applied to the company account.');
+							} else {
+								alert('Thank you. We have added the company you requested to the system.');
+							}
+							$('#theContactForm')[0].reset();
+							$('#TheCompanyID').val('0');
+							$.fancybox.close();
+
+							if (addEditCompanyCallback != null) {
+								addEditCompanyCallback();
+							}
+						} else {
+							alert('We are unable to process your request at this time.');
+						}
+					}, function () {
+						alert('We are unable to process your request at this time.');
+					});
+			}
+		});
+
+		$('.cancelContactBtn').on('click', function () {
+			$.fancybox.close();
+		});
+
+	});
+</script>

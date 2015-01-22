@@ -7,7 +7,7 @@ namespace PDWModels.Companies
 {
 	public class MyCompanyInfo
 	{
-		public int CompanyID { get; set; }
+		public int TheCompanyID { get; set; }
 		public string CompanyName { get; set; }
 		public string Address1 { get; set; }
 		public string Address2 { get; set; }
@@ -20,5 +20,7 @@ namespace PDWModels.Companies
 		public string ContactEmail { get; set; }
 		public bool IsTripIncentive { get; set; }
 		public string ImageFileName { get; set; }
+		public int? TerritoryID { get; set; }
+		public int CompanyType { get; set; }
 	}
 }

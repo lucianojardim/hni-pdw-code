@@ -31,15 +31,15 @@ namespace PDWDBContext
         public Nullable<int> DealershipPOCID { get; set; }
         public Nullable<int> LayoutID { get; set; }
         public int Status { get; set; }
-        public string DealershipPOCName { get; set; }
-        public string DealershipPOCEmail { get; set; }
-        public string DealershipPOCPhone { get; set; }
-        public Nullable<int> DealershipPOCAcctType { get; set; }
         public Nullable<int> ContentType { get; set; }
         public bool IncludeDealerImage { get; set; }
         public Nullable<int> ProjectID { get; set; }
         public string OldProjectName { get; set; }
         public string OldEndCustomer { get; set; }
+        public string OldDealershipPOCName { get; set; }
+        public string OldDealershipPOCEmail { get; set; }
+        public string OldDealershipPOCPhone { get; set; }
+        public Nullable<int> OldDealershipPOCAcctType { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual User CreatedByUser { get; set; }

@@ -16,6 +16,25 @@
 			reloadDealerSalesRepList();
 		}
 
+		function getNewTerritoryID() {
+			var group = $('#PaoliSalesRepGroupID option:selected').text();
+
+			return group.substring(0, 4);
+		}
+
+		function getNewCompanyType() {
+			return '@(PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer)';
+		}
+
+		function addEditCompanyCallback() {
+		@if( !PaoliWebUser.CurrentUser.IsDealerUser )
+	{
+	<text>
+			reloadDealerList();
+			</text>
+  }
+		}
+
 		var fileCount = 1;
 		$(document).ready(function () {
 			$.data($('#theForm')[0], 'validator').settings.ignore = '.noValidate';
@@ -39,6 +58,12 @@
 			$('select').addClass('noValidate');
 			$('.activeSection input').removeClass('noValidate');
 			$('.activeSection select').removeClass('noValidate');
+
+			$('#newCompanyLink').click(function(e) {
+				clearNewCompanyForm();
+				$('#theContactForm h4').text('Add Dealership');
+				$('#mainEditContactBtn').trigger('click');
+			});
 
 			reloadDealerSalesRepList();
 			reloadPaoliSalesRepList();
@@ -498,10 +523,10 @@
     		var ddList = $(ddListID);
     		emptyDropDownList(ddList);
 			if( bNeedOther ) {
-				ddList.append('<option value=""></option>")');
+				ddList.append('<option value=""></option>');
 			}
     		$.each(data.theList, function (idx, item) {
-				ddList.append('<option value="' + item + '">' + item + '</option>")');
+				ddList.append('<option value="' + item + '">' + item + '</option>');
     		});
 		}
 
@@ -509,10 +534,10 @@
     		var ddList = $(ddListID);
     		emptyDropDownList(ddList);
     		$.each(data.theList, function (idx, item) {
-				ddList.append('<option value="' + item.UserID + '">' + item.FullName + '</option>")');
+				ddList.append('<option value="' + item.UserID + '">' + item.FullName + '</option>');
     		});
 			if( bNeedOther ) {
-				ddList.append('<option value="0">Other</option>")');
+				ddList.append('<option value="0">Other</option>');
 			}
 		}
 
@@ -520,7 +545,7 @@
     		var ddList = $(ddListID);
     		emptyDropDownList(ddList);
     		$.each(data, function (idx, item) {
-				ddList.append('<option value="' + item.ID + '">' + item.Text + '</option>")');
+				ddList.append('<option value="' + item.ID + '">' + item.Text + '</option>');
     		});
 		}
 
@@ -528,7 +553,7 @@
 			var ddList = $(ddListID);
 			emptyDropDownList(ddList);
 			var ddSource = $(ddSourceID);
-			ddList.append('<option value="' + ddSource.attr('value') + '">' + ddSource.find('option:selected').text() + '</option>")');
+			ddList.append('<option value="' + ddSource.attr('value') + '">' + ddSource.find('option:selected').text() + '</option>');
 			ddList.attr('value', ddSource.get('value'));
 		}
 
@@ -606,21 +631,7 @@
 	else
 	{
 				<text>
-    			makeAjaxCall('/Company/GetDealerListForSalesRep',
-    				{ salesRepCompanyId: $('#PaoliSalesRepGroupID').val(), includeTerritory: true },
-    				function (data, textStatus, jqXHR) {
-    					$('.DealerRow').hide();
-						reloadDropDownCompanyList('#DealerID', data);
-    					if( $('#DealerID option').length > 0 ) {
-    						$('.DealerRow').show();
-    					}
-
-    					reloadDealerSalesRepList();
-    				},
-    				function (jqXHR, textStatus, errorThrown) {
-    					alert('Error getting Dealer list:' + errorThrown)
-    				}
-    			);
+				reloadDealerList();
 				</text>
 	}
 
@@ -632,6 +643,25 @@
     			$('.DealerRow').hide();
     		}
     	}
+
+		function reloadDealerList() {
+    		makeAjaxCall('/Company/GetDealerListForSalesRep',
+    			{ salesRepCompanyId: $('#PaoliSalesRepGroupID').val(), includeTerritory: true },
+    			function (data, textStatus, jqXHR) {
+    				$('.DealerRow').hide();
+					reloadDropDownCompanyList('#DealerID', data);
+    				if( $('#DealerID option').length > 0 ) {
+    					$('.DealerRow').show();
+    				}
+
+    				reloadDealerSalesRepList();
+    			},
+    			function (jqXHR, textStatus, errorThrown) {
+    				alert('Error getting Dealer list:' + errorThrown)
+    			}
+    		);
+
+		}
 	</script>
 @{
 	var stepCount = 7;
@@ -672,8 +702,9 @@
 						 <div class="box2">
 							 <label>
 								 Dealership</label>
-							 @Html.DropDownListFor( m => m.DealerID, new List<SelectListItem>() )
-							 <cite class="DSRCell">Dealership Point of Contact</cite>
+							 @Html.DropDownListFor( m => m.DealerID, new List<SelectListItem>() )@if( !PaoliWebUser.CurrentUser.IsDealerUser )
+																			{<a class="btn7" id="newCompanyLink">+</a>}
+							 <cite class="DSRCell @if( !PaoliWebUser.CurrentUser.IsDealerUser ){<text>thin</text>}">Dealership Point of Contact</cite>
 							 @Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>(), new { @class = "DSRCell" } )<a class="btn7 DSRCell" id="newUserLink">+</a>
 						 </div>
 					 </li>
@@ -863,15 +894,15 @@
 					 <div style="display: block;" id="tab1" class="tab_content1">
 						 <ul>
 				@{
-				var startTR = "<li>";
-				var endTR = "</li>";
+																			var startTR = "<li>";
+																			var endTR = "</li>";
 	  }
 					@for( int i = 0; i < ViewBag.BlankInformation.Casegoods.Count; i++ )
+	 {
+		 if( i % 2 == 0 )
 		 {
-			if( i % 2 == 0 )
-			{
 				<text>@Html.Raw( startTR )</text>
-			}
+		 }
 		 
 								 <div class="tab_lt @(i % 2 == 1 ? "last" : "")">
 									 <div class="colmn_lt">
@@ -889,11 +920,11 @@
 								 </div>
 			
 			 
-			if( i % 2 == 1 )
-			{
+		 if( i % 2 == 1 )
+		 {
 				<text>@Html.Raw( endTR )</text>
-			}
 		 }
+	 }
 
 						 </ul>
 						 <i class="clear_0"></i>
@@ -903,11 +934,11 @@
 					 <div style="display: block;" id="tab2" class="tab_content1">
 						 <ul>
 					@for( int i = 0; i < ViewBag.BlankInformation.Conferencing.Count; i++ )
+	 {
+		 if( i % 2 == 0 )
 		 {
-			if( i % 2 == 0 )
-			{
 				<text>@Html.Raw( startTR )</text>
-			}
+		 }
 		 
 								 <div class="tab_lt @(i % 2 == 1 ? "last" : "")">
 									 <div class="colmn_lt">
@@ -925,11 +956,11 @@
 								 </div>
 			
 			 
-			if( i % 2 == 1 )
-			{
+		 if( i % 2 == 1 )
+		 {
 				<text>@Html.Raw( endTR )</text>
-			}
 		 }
+	 }
 						 </ul>
 						 <i class="clear_0"></i>
 					 </div>
@@ -938,11 +969,11 @@
 					 <div style="display: block;" id="tab3" class="tab_content1">
 						 <ul>
 					@for( int i = 0; i < ViewBag.BlankInformation.Seating.Count; i++ )
+	 {
+		 if( i % 2 == 0 )
 		 {
-			if( i % 2 == 0 )
-			{
 				<text>@Html.Raw( startTR )</text>
-			}
+		 }
 		 
 								 <div class="tab_lt @(i % 2 == 1 ? "last" : "")">
 									 <div class="colmn_lt">
@@ -960,11 +991,11 @@
 								 </div>
 			
 			 
-			if( i % 2 == 1 )
-			{
+		 if( i % 2 == 1 )
+		 {
 				<text>@Html.Raw( endTR )</text>
-			}
 		 }
+	 }
 						 </ul>
 						 <i class="clear_0"></i>
 					 </div>
@@ -1006,14 +1037,14 @@
 								 </div>
 								 <div class="box9_rt">
 								 @for( int i = 0; i < ViewBag.BlankInformation.Finishes.Count; i++ )
-	 {
+		 {
 									 <div class="colmn @(i == ViewBag.BlankInformation.Finishes.Count - 1 ? "last" : "")">
 			 <input type="hidden" name="Finishes.Index" value="@i" />
 										 <div class="checkbox chkFinish">
 											 <input type="checkbox" name="Finishes[@i]" value="@ViewBag.BlankInformation.Finishes[i]" class="chkRealFinish" /><em>@ViewBag.BlankInformation.Finishes[i]</em>
 										 </div>
 									 </div>
-	 }
+		 }
 								 </div>
 							 </div>
 							 <div class="box9 cgcsOnly">
@@ -1358,5 +1389,7 @@
 	</div>
 
 	@{Html.RenderPartial( "RequestNewUser" );}
+
+	@{Html.RenderPartial( "RequestNewCompany" );}
 
 	 </div>

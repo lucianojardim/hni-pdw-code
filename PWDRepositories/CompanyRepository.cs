@@ -291,28 +291,64 @@ namespace PWDRepositories
 
 		public void UpdateCompany( int reqUserId, MyCompanyInfo cInfo )
 		{
-			var eCompany = database.Companies.FirstOrDefault( u => u.CompanyID == cInfo.CompanyID );
 			var dbReqUser = database.Users.FirstOrDefault( u => u.UserID == reqUserId );
-			if( eCompany == null )
+			if( cInfo.TheCompanyID != 0 )
 			{
-				throw new Exception( "Unable to find company." );
-			}
+				var eCompany = database.Companies.FirstOrDefault( u => u.CompanyID == cInfo.TheCompanyID );
+				if( eCompany == null )
+				{
+					throw new Exception( "Unable to find company." );
+				}
 
-			eCompany.Name = cInfo.CompanyName;
-			eCompany.Address1 = cInfo.Address1;
-			eCompany.Address2 = cInfo.Address2;
-			eCompany.City = cInfo.City;
-			eCompany.State = cInfo.State;
-			eCompany.Zip = cInfo.Zip;
-			eCompany.Phone = cInfo.PhoneNumber;
-			eCompany.FAX = cInfo.FaxNumber;
-			eCompany.ContactEmail = cInfo.ContactEmail;
-			eCompany.WebSite = cInfo.WebSite;
+				eCompany.Name = cInfo.CompanyName;
+				eCompany.Address1 = cInfo.Address1;
+				eCompany.Address2 = cInfo.Address2;
+				eCompany.City = cInfo.City;
+				eCompany.State = cInfo.State;
+				eCompany.Zip = cInfo.Zip;
+				eCompany.Phone = cInfo.PhoneNumber;
+				eCompany.FAX = cInfo.FaxNumber;
+				eCompany.ContactEmail = cInfo.ContactEmail;
+				eCompany.WebSite = cInfo.WebSite;
+
+				cInfo.CompanyType = eCompany.CompanyType;
+			}
+			else
+			{
+				if( PaoliWebUser.PaoliCompanyType.HasTerritory.Contains( cInfo.CompanyType ) &&
+					!cInfo.TerritoryID.HasValue )
+				{
+					throw new Exception( "Territory ID is a required field" );
+				}
+
+				Company newCompany = new Company();
+
+				newCompany.Name = cInfo.CompanyName;
+				newCompany.Address1 = cInfo.Address1;
+				newCompany.Address2 = cInfo.Address2;
+				newCompany.City = cInfo.City;
+				newCompany.State = cInfo.State;
+				newCompany.Zip = cInfo.Zip;
+				newCompany.Phone = cInfo.PhoneNumber;
+				newCompany.FAX = cInfo.FaxNumber;
+				newCompany.TripIncentive = false;
+				newCompany.CompanyType = cInfo.CompanyType;
+				newCompany.TerritoryID = PaoliWebUser.PaoliCompanyType.HasTerritory.Contains( cInfo.CompanyType ) ? cInfo.TerritoryID : null;
+				newCompany.PaoliMemberID = null;
+				newCompany.PaoliSalesRepMemberID = null;
+				newCompany.ContactEmail = cInfo.ContactEmail;
+				newCompany.WebSite = cInfo.WebSite;
+				newCompany.SignedUpForTrip = false;
+				newCompany.TripGroup = null;
+				newCompany.TierGroup = cInfo.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ? PaoliWebUser.PaoliTierGroup.Diamond : null;
+
+				database.Companies.Add( newCompany );
+			}
 
 			database.SaveChanges();
 
-			new ChangeDealerInfoEmailSender().SubmitRequestEmail( dbReqUser.FullName, dbReqUser.Company.Name, cInfo.CompanyID, cInfo.CompanyName, cInfo.Address1, cInfo.Address2,
-				cInfo.City, cInfo.State, cInfo.Zip, cInfo.PhoneNumber, cInfo.FaxNumber, cInfo.ContactEmail, cInfo.WebSite );
+			new ChangeDealerInfoEmailSender( cInfo.TheCompanyID == 0 ? "AddDealerInfo" : "ChangeDealerInfo" ).SubmitRequestEmail( dbReqUser.FullName, dbReqUser.Company.Name, cInfo.TheCompanyID, cInfo.CompanyName, cInfo.Address1, cInfo.Address2,
+				cInfo.City, cInfo.State, cInfo.Zip, cInfo.PhoneNumber, cInfo.FaxNumber, cInfo.ContactEmail, cInfo.WebSite, PaoliWebUser.PaoliCompanyType.CompanyTypeList[cInfo.CompanyType] );
 		}
 
 		public bool DeleteCompany( int id )
@@ -670,7 +706,7 @@ namespace PWDRepositories
 
 			return new MyCompanyInfo()
 			{
-				CompanyID = thisCompany.CompanyID,
+				TheCompanyID = thisCompany.CompanyID,
 				CompanyName = thisCompany.Name,
 				Address1 = thisCompany.Address1,
 				Address2 = thisCompany.Address2,
@@ -682,7 +718,9 @@ namespace PWDRepositories
 				WebSite = thisCompany.WebSite,
 				IsTripIncentive = thisCompany.SignedUpForTrip,
 				ImageFileName = thisCompany.ImageFileName,
-				ContactEmail = thisCompany.ContactEmail
+				ContactEmail = thisCompany.ContactEmail,
+				TerritoryID = thisCompany.TerritoryID,
+				CompanyType = thisCompany.CompanyType
 			};
 		}
 
