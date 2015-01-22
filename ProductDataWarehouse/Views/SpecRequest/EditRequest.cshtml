@@ -86,8 +86,9 @@
     		reloadPaoliSalesRepList( @(Model.PaoliSalesRepMemberID.HasValue ? Model.PaoliSalesRepMemberID.Value.ToString() : "null"), 
 				@(Model.DealerID.HasValue ? Model.DealerID.Value.ToString() : "null"), 
 				@(Model.DealerMemberID.HasValue ? Model.DealerMemberID.Value.ToString() : "null"),
-				'@(JSSafe( Model.EndCustomer ))',
+				@(Model.EndCustomerID.HasValue ? Model.EndCustomerID.Value.ToString() : "null"),
 				@(Model.ProjectID.HasValue ? Model.ProjectID.Value.ToString() : "null") );
+			reloadEndCustomerList(@(Model.EndCustomerID.HasValue ? Model.EndCustomerID.Value.ToString() : "null"));
 
     		$('#PaoliSalesRepGroupID').change(function () {
     			reloadPaoliSalesRepList();
@@ -102,7 +103,7 @@
 				showHideDealerPOC();
 			});
 
-			$('#EndCustomer').change(reloadProjectList);
+			$('#EndCustomerID').change(reloadProjectList);
 
     		changeGrommets($('#Grommets'));
     		$('#Grommets').change(function (e) {
@@ -413,10 +414,10 @@
     	}
 
     	function reloadProjectList(initId) {
-    		if ($('#EndCustomer').val() != null && $('#EndCustomer').val() != '' &&
+    		if ($('#EndCustomerID').val() != null && $('#EndCustomerID').val() != '' && $('#EndCustomerID').val() != '0' &&
 				$('#DealerID').val() != null && $('#DealerID').val() != '' && $('#DealerID').val() != '0') {
     			makeAjaxCall('/SpecRequest/GetProjectForCustomer',
-    				{ customer: $('#EndCustomer').val(), dealer: $('#DealerID').val() },
+    				{ customer: $('#EndCustomerID').val(), dealer: $('#DealerID').val() },
     				function (data, textStatus, jqXHR) {
 						reloadDropDownCompanyList('#ProjectID', data.theList, true);
 						if( initId != null ) {
@@ -432,6 +433,21 @@
 				emptyDropDownList($("#ProjectID"));
 				$('.ProjectCell').hide();
     		}
+    	}
+
+    	function reloadEndCustomerList(initId) {
+    		makeAjaxCall('/Project/GetFullEndCustomerList',
+    			null,
+    			function (data, textStatus, jqXHR) {
+    				reloadDropDownCompanyList('#EndCustomerID', data, true);
+					if( initId != null ) {
+						$('#EndCustomerID').val(initId);
+					}
+    			},
+    			function (jqXHR, textStatus, errorThrown) {
+    				alert('Error getting End Customer list:' + errorThrown)
+    			}
+    		);
     	}
 
 	</script>
@@ -572,7 +588,7 @@
 			<h3>About This Project</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr class="EndCustomerCell">
-					<td>@Html.MJLabelFor( m => m.EndCustomer, false )</td><td>@Html.DropDownListFor( m => m.EndCustomer, ProjectController.GetFullEndCustomerList() )</td>
+					<td>@Html.MJLabelFor( m => m.EndCustomerID, false )</td><td>@Html.DropDownListFor( m => m.EndCustomerID, new List<SelectListItem>() )</td>
 					<td class="ProjectCell">@Html.MJLabelFor( m => m.ProjectID, false )</td><td class="ProjectCell">@Html.DropDownListFor( m => m.ProjectID, new List<SelectListItem>() )</td>
 				</tr>
 				<tr>

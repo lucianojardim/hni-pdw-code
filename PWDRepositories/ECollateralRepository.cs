@@ -314,7 +314,7 @@ namespace PWDRepositories
 				retItem.DealershipID = dbItem.DealershipID;
 				retItem.DealershipPOCID = dbItem.DealershipPOCID;
 				retItem.ProjectID = dbItem.ProjectID;
-				retItem.CustomerName = dbItem.ProjectID.HasValue ? dbItem.Project.EndCustomer : null;
+				retItem.CustomerID = dbItem.ProjectID.HasValue ? dbItem.Project.EndCustomerID : null;
 				retItem.RealProjectName = dbItem.ProjectID.HasValue ? dbItem.Project.ProjectName : null;
 				retItem.PaoliSalesRepGroupName = dbItem.DealershipID.HasValue ? dbItem.Company.Territory.SalesRepCompanyName : null;
 				retItem.DealershipName = dbItem.DealershipID.HasValue ? dbItem.Company.Name : null;
@@ -582,7 +582,7 @@ namespace PWDRepositories
 				AuthorName = dbItem.CreatedByUser.FullName,
 				AuthorImage = dbItem.CreatedByUser.ImageFileName,
 				Dealership = !dbItem.IsTemplate && dbItem.DealershipID.HasValue ? dbItem.Company.Name : null,
-				CustomerName = !dbItem.IsTemplate ? (dbItem.ProjectID.HasValue ? dbItem.Project.EndCustomer : null) : null,
+				CustomerName = !dbItem.IsTemplate ? (dbItem.ProjectID.HasValue ? (dbItem.Project.EndCustomerID.HasValue ? dbItem.Project.EndCustomerCompany.Name : null) : null) : null,
 				ProjectName = !dbItem.IsTemplate ? (dbItem.ProjectID.HasValue ? dbItem.Project.ProjectName : null) : null,
 				ContentType = dbItem.ContentType.HasValue ? LayoutTypes.LayoutTypeList[dbItem.ContentType.Value] : "None",
 				LayoutImage = dbItem.LayoutID.HasValue ? Layouts.LayoutImages[dbItem.LayoutID.Value] : "transparent.png",

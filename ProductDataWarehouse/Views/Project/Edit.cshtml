@@ -9,8 +9,22 @@
 @using PDWInfrastructure
 
     <script type="text/javascript">
+    	function getNewTerritoryID() {
+    		return null;
+    	}
+
+    	function getNewCompanyType() {
+    		return '@(PDWInfrastructure.PaoliWebUser.PaoliCompanyType.EndUser)';
+    	}
+
+    	function addEditCompanyCallback() {
+    		reloadEndCustomerList();
+    	}
+
     	var fileCount = 1;
     	$(document).ready(function () {
+    		reloadEndCustomerList('@Model.EndCustomerID');
+
     		$('.cancelBtn').click(function (e) {
     			window.location.href = '@Url.Action( "Manage" )';
     		});
@@ -60,27 +74,12 @@
     			return false;
     		});
 
-    		$('.addECBtn').fancybox({
-    			'autoDimensions': false,
-    			'width': 972,
-    			'height': 210,
-    			'padding': 20,
-    			'margin': 0,
-    			'scrolling': 'auto',
-    			'titleShow': false
-    		});
-
-    		$('.submitNewECBtn').on('click', function () {
-    			if ($('#NewEndCustomer').val() != '' && $('#NewEndCustomer').val() != null) {
-    				$('#EndCustomer').append('<option value="' + $('#NewEndCustomer').val() + '">' + $('#NewEndCustomer').val() + '</option>")');
-    				$('#EndCustomer').val($('#NewEndCustomer').val());
-    				$('#NewEndCustomer').val('');
-    				$.fancybox.close();
-    			}
-    		});
-
-    		$('.cancelNewECBtn').on('click', function () {
-    			$.fancybox.close();
+    		$('.addECBtn').on('click', function () {
+    			clearNewCompanyForm();
+    			$('.needTerritory').hide();
+    			$('#TerritoryID').addClass('noValidate');
+    			$('#theContactForm h4').text('Add End Customer');
+    			$('#mainEditContactBtn').trigger('click');
     		});
 
     	});
@@ -132,26 +131,17 @@
     		ddList.attr('value', ddSource.get('value'));
     	}
 
-    	function reloadDealerSalesRepList() {
-    		if ($('#DealerID').val() != null && $('#DealerID').val() != '' && $('#DealerID').val() != '0') {
-    			makeAjaxCall('/User/GetDealerSalesRepListForCompany',
-    				{ companyId: $('#DealerID').val(), enabledOnly: true },
-    				function (data, textStatus, jqXHR) {
-    					reloadDropDownUserList('#DealerMemberID', data, true);
-    					$('.DSRCell').show();
-    					showHideDealerPOC();
-    				},
-    				function (jqXHR, textStatus, errorThrown) {
-    					alert('Error getting Dealer Sales Rep list:' + errorThrown)
-    				}
-    			);
-    		} else {
-    			emptyDropDownList($("#DealerMemberID"));
-    			$('#DealerPointOfContact').val('');
-    			$('#DealerPointOfContact').addClass('noValidate');
-    			$('.DSRCell').hide();
-    			$('.DSRPOCCell').hide();
-    		}
+    	function reloadEndCustomerList(initValue) {
+    		makeAjaxCall('/Project/GetFullEndCustomerList',
+    			null,
+    			function (data, textStatus, jqXHR) {
+    				reloadDropDownCompanyList('#EndCustomerID', data, true);
+					$('#EndCustomerID').val(initValue);
+    			},
+    			function (jqXHR, textStatus, errorThrown) {
+    				alert('Error getting End Customer list:' + errorThrown)
+    			}
+    		);
     	}
 
 	</script>
@@ -194,7 +184,7 @@
 							 <label>
 								 End Customer</label>
 							 <div class="colmn1">
-							 @Html.DropDownListFor( m => m.EndCustomer, ProjectController.GetFullEndCustomerList() )<a class="btn7 addECBtn" href="#newEndCustomer">+</a>
+							 @Html.DropDownListFor( m => m.EndCustomerID, new List<SelectListItem>() )<a class="btn7 addECBtn" href="javascript:void(0)">+</a>
 							 </div>
 							 <div class="colmn4">
 								 <div class="colmn4_lt">
@@ -509,19 +499,7 @@
 	 </div>
 
 <div style="display:none">
-	<div id="newEndCustomer" class="needRowPadding">
-		<div class="main_inner2_btm"> 
-    	<h2 class="bold">Add End Customer</h2>
-			<div class="main_inner2_btm_mid_myacct">
-				<ul>
-        			<li>
-            			<div class="colmn1">Customer Name</div>
-						<div class="colmn3single"><input class="msg2" id="NewEndCustomer" name="NewEndCustomer" /></div>
-					</li>
-				</ul>
-			</div>
-			<div class="clear"></div>
-			<span class="btn7 cancelNewECBtn">CANCEL</span> <span class="btn8 submitNewECBtn">SAVE</span> 
-		</div>
-	</div>
+
+	@{Html.RenderPartial( "RequestNewCompany" );}
+
 </div>

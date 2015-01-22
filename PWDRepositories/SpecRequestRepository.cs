@@ -110,7 +110,7 @@ namespace PWDRepositories
 				DealerSalesRepName = sInfo.DealerSalesRepID.HasValue ? sInfo.DealerSalesRep.FullName : "None",
 				DealerSalesRepContact = sInfo.DealerSalesRepID.HasValue ? sInfo.DealerSalesRep.ContactInfo : "",
 				SpecTeamMemberName = sInfo.PaoliSpecTeamMemberID.HasValue ? sInfo.SpecTeamMember.FullName : "Not Assigned",
-				EndCustomer = sInfo.ProjectID.HasValue ? sInfo.Project.EndCustomer : "",
+				EndCustomer = sInfo.ProjectID.HasValue ? (sInfo.Project.EndCustomerID.HasValue ? sInfo.Project.EndCustomerCompany.Name : "") : "",
 				ProjectSize = sInfo.ProjectSize,
 				NeedFloorplanSpecs = sInfo.NeedFloorplanSpecs,
 				NeedValueEng = sInfo.NeedValueEng,
@@ -647,6 +647,7 @@ namespace PWDRepositories
 				Name = sInfo.Name,
 				ProjectID = sInfo.ProjectID,
 				RealProjectName = sInfo.ProjectID.HasValue ? sInfo.Project.ProjectName : "",
+				RealEndCustomer = sInfo.ProjectID.HasValue ? (sInfo.Project.EndCustomerID.HasValue ? sInfo.Project.EndCustomerCompany.Name : "") : "",
 				PaoliSalesRepGroupID = sInfo.PaoliSalesRepGroupID,
 				PaoliSalesRepMemberID = sInfo.PaoliSalesRepMemberID,
 				DealerID = sInfo.PrimaryCompanyID,
@@ -684,7 +685,7 @@ namespace PWDRepositories
 				DealerSalesRepName = sInfo.DealerSalesRepID.HasValue ? sInfo.DealerSalesRep.FullName : "None",
 				DealerSalesRepContact = sInfo.DealerSalesRepID.HasValue ? sInfo.DealerSalesRep.ContactInfo : "",
 				SpecTeamMemberName = sInfo.PaoliSpecTeamMemberID.HasValue ? sInfo.SpecTeamMember.FullName : "Not Assigned",
-				EndCustomer = sInfo.ProjectID.HasValue ? sInfo.Project.EndCustomer : "",
+				EndCustomerID = sInfo.ProjectID.HasValue ? sInfo.Project.EndCustomerID : null,
 				ProjectSize = sInfo.ProjectSize,
 				NeedFloorplanSpecs = sInfo.NeedFloorplanSpecs,
 				NeedValueEng = sInfo.NeedValueEng,
@@ -821,6 +822,7 @@ namespace PWDRepositories
 						.Include( s => s.PaoliSalesRepMember.Company.Territory )
 						.Include( s => s.PaoliSalesRepGroup.Territory )
 						.Include( s => s.Project )
+						.Include( s => s.Project.EndCustomerCompany )
 						.FirstOrDefault( s => s.RequestID == newSpec.RequestID );
 
 					//( new NewSpecRequestEmailSender( "NewSpecRequestSpecTeam" ) ).SubmitNewRequestEmail( "PAOProjectSpecTeam@paoli.com", ToEmailSpecRequestSummary( newSpec, new EmailSender.EmailTarget() ) );
@@ -891,7 +893,7 @@ namespace PWDRepositories
 				requestId = request.RequestID,
 				requestName = request.Name,
 				firstName = target.FirstName,
-				companyName = request.ProjectID.HasValue ? request.Project.EndCustomer : "",
+				companyName = request.ProjectID.HasValue ? (request.Project.EndCustomerID.HasValue ? request.Project.EndCustomerCompany.Name : "") : "",
 				projectName = request.ProjectID.HasValue ? request.Project.ProjectName : "",
 				scopeDescription = request.ProjectSize,
 				createdBy = request.CreatedByUserName
@@ -1844,6 +1846,7 @@ namespace PWDRepositories
 
 			var requestList = database.Projects
 				.Include( p => p.Company )
+				.Include( p => p.EndCustomerCompany )
 				.AsQueryable();
 
 			var dbUser = database.Users.FirstOrDefault( u => u.UserID == PaoliWebUser.CurrentUser.UserId );
@@ -1863,7 +1866,7 @@ namespace PWDRepositories
 			{
 				requestList = requestList.Where( i =>
 					i.ProjectName.Contains( paramDetails.sSearch ) ||
-					i.EndCustomer.Contains( paramDetails.sSearch ) ||
+					i.EndCustomerCompany.Name.Contains( paramDetails.sSearch ) ||
 					i.Company.Name.Contains( paramDetails.sSearch ) );
 			}
 
@@ -1886,11 +1889,11 @@ namespace PWDRepositories
 				case "customername":
 					if( paramDetails.sSortDir_0.ToLower() == "asc" )
 					{
-						filteredAndSorted = requestList.OrderBy( v => v.EndCustomer );
+						filteredAndSorted = requestList.OrderBy( v => v.EndCustomerCompany.Name );
 					}
 					else
 					{
-						filteredAndSorted = requestList.OrderByDescending( v => v.EndCustomer );
+						filteredAndSorted = requestList.OrderByDescending( v => v.EndCustomerCompany.Name );
 					}
 					break;
 				case "dealershipname":
@@ -1931,7 +1934,7 @@ namespace PWDRepositories
 			{
 				ProjectID = dbProject.ProjectID,
 				ProjectName = dbProject.ProjectName,
-				CustomerName = dbProject.EndCustomer,
+				CustomerName = dbProject.EndCustomerID.HasValue ? dbProject.EndCustomerCompany.Name : null,
 				DealershipName = dbProject.Company.Name,
 				ProjectStatus = ProjectSuccess.GetDisplayString( dbProject.ProjectSuccess )
 			};
@@ -1960,7 +1963,7 @@ namespace PWDRepositories
 			{
 				ProjectName = pInfo.ProjectName,
 				DealerID = pInfo.DealerID,
-				EndCustomer = pInfo.EndCustomer,
+				EndCustomerID = pInfo.EndCustomerID.HasValue ? (pInfo.EndCustomerID.Value > 0 ? pInfo.EndCustomerID : null) : null,
 
 				IsGSA = pInfo.IsGSA,
 				ContractID = pInfo.IsGSA ? pInfo.ContractID : (int?)null,
@@ -2001,7 +2004,7 @@ namespace PWDRepositories
 			{
 				ProjectName = pInfo.projectName,
 				DealerID = pInfo.dealer,
-				EndCustomer = pInfo.customer,
+				EndCustomerID = pInfo.customer,
 
 				IsGSA = pInfo.isGSA,
 				ContractID = pInfo.isGSA ? pInfo.contractId : null,
@@ -2033,7 +2036,7 @@ namespace PWDRepositories
 				ProjectID = dbProject.ProjectID,
 				ProjectName = dbProject.ProjectName,
 				DealerID = dbProject.DealerID.Value,
-				EndCustomer = dbProject.EndCustomer,
+				EndCustomerID = dbProject.EndCustomerID,
 
 				IsGSA = dbProject.IsGSA ?? false,
 				ContractID = dbProject.ContractID,
@@ -2074,7 +2077,7 @@ namespace PWDRepositories
 
 			dbProject.ProjectName = pInfo.ProjectName;
 			dbProject.DealerID = pInfo.DealerID;
-			dbProject.EndCustomer = pInfo.EndCustomer;
+			dbProject.EndCustomerID = pInfo.EndCustomerID.HasValue ? ( pInfo.EndCustomerID.Value > 0 ? pInfo.EndCustomerID : null ) : null;
 
 			dbProject.IsGSA = pInfo.IsGSA;
 			dbProject.ContractID = pInfo.IsGSA ? pInfo.ContractID : (int?)null;
@@ -2106,32 +2109,22 @@ namespace PWDRepositories
 			database.SaveChanges();
 		}
 
-		public IEnumerable<string> GetEndCustomerList()
+		public IEnumerable<IDToTextItem> GetEndCustomerList()
 		{
-			var theList = database.Projects
-				.Select( p => p.EndCustomer )
-				.Where( s => s.Length > 0 )
-				.Distinct()
+			var theList = database.Companies
+				.Where( c => c.CompanyType == PaoliWebUser.PaoliCompanyType.EndUser )
+				.Select( p => new IDToTextItem() { ID = p.CompanyID, Text = p.Name } )
 				.ToList();
 
-			theList.Insert( 0, "" );
+			theList.Insert( 0, new IDToTextItem() { ID = 0, Text = "" } );
 
-			return theList;
+			return theList.OrderBy( i => i.Text );
 		}
 
-		public IEnumerable<string> GetEndCustomerListForDealer( int dealerId )
+		public IEnumerable<IDToTextItem> GetProjectForCustomer( int customerId, int dealerId )
 		{
 			return database.Projects
-				.Where( p => p.DealerID == dealerId )
-				.Select( p => p.EndCustomer )
-				.Distinct()
-				.ToList();
-		}
-
-		public IEnumerable<IDToTextItem> GetProjectForCustomer( string customer, int dealerId )
-		{
-			return database.Projects
-				.Where( p => p.EndCustomer == customer )
+				.Where( p => p.EndCustomerID == customerId )
 				.Where( p => p.DealerID == dealerId )
 				.Select( p => new IDToTextItem() { ID = p.ProjectID, Text = p.ProjectName } )
 				.ToList();

@@ -51,8 +51,8 @@ namespace PDWModels.SpecRequests
 		public int? PaoliSpecTeamMember { get; set; }
 
 		[DisplayName( "Who is the end customer?" )]
-		[StringLength( 100 )]
-		public string EndCustomer { get; set; }
+		public int? EndCustomerID { get; set; }
+		public string RealEndCustomer { get; set; }
 		[DisplayName( "What project is this for?" )]
 		public int? ProjectID { get; set; }
 		public string RealProjectName { get; set; }

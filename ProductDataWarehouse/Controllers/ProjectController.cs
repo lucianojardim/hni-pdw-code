@@ -49,11 +49,14 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
-		public static IEnumerable<SelectListItem> GetFullEndCustomerList()
+		[PaoliAuthorize( "CanBeLoggedIn" )]
+		public JsonResult GetFullEndCustomerList()
 		{
 			using( var sRepo = new SpecRequestRepository() )
 			{
-				return sRepo.GetEndCustomerList().Select( i => new SelectListItem() { Value = i, Text = i } );
+				var results = sRepo.GetEndCustomerList();
+
+				return Json( results, JsonRequestBehavior.AllowGet );
 			}
 		}
 

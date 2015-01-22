@@ -37,7 +37,7 @@ namespace PWDRepositories
 				TierGroup = c.TierGroup,
 				UserCount = c.Users.Where( u => u.IsActive && u.Enabled ).Count(),
 				CanDelete = !c.Users.Any() && !c.SpecRequests.Any() && !c.SpecRequests1.Any() && !c.CollateralOrders.Any() && !c.CollateralOrders1.Any() &&
-					!c.CollateralOrders2.Any() && !c.CollateralOrders3.Any()
+					!c.CollateralOrders2.Any() && !c.CollateralOrders3.Any() && !c.Projects.Any() && !c.Projects1.Any()
 			};
 		}
 

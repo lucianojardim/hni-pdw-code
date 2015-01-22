@@ -23,7 +23,6 @@ namespace PDWDBContext
         public int ProjectID { get; set; }
         public string ProjectName { get; set; }
         public Nullable<int> DealerID { get; set; }
-        public string EndCustomer { get; set; }
         public Nullable<bool> IsGSA { get; set; }
         public Nullable<int> ContractID { get; set; }
         public bool HasADFirm { get; set; }
@@ -44,11 +43,13 @@ namespace PDWDBContext
         public string Comments { get; set; }
         public int PipelineStatus { get; set; }
         public int ProjectSuccess { get; set; }
+        public Nullable<int> EndCustomerID { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual GSAContract GSAContract { get; set; }
         public virtual ICollection<SpecRequest> SpecRequests { get; set; }
         public virtual ICollection<eCollateralItem> eCollateralItems { get; set; }
+        public virtual Company EndCustomerCompany { get; set; }
     }
     
 }

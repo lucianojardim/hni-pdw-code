@@ -9,81 +9,80 @@
 @using PDWInfrastructure
 
     <script type="text/javascript">
-		var fileCount = 1;
-		$(document).ready(function () {
-			$('.cancelBtn').click(function (e) {
-				window.location.href = '@Url.Action( "Manage" )';
-			});
+    	function getNewTerritoryID() {
+    		return null;
+    	}
 
-			$('.submitBtn').click(function(e) {
-				$('#theForm').submit();
-			});
+    	function getNewCompanyType() {
+    		return '@(PDWInfrastructure.PaoliWebUser.PaoliCompanyType.EndUser)';
+    	}
 
-			showHideContractInfo();
-			$('.fakeIsGSA').click(function(e) {
-				showHideContractInfo();
-			});
+    	function addEditCompanyCallback() {
+    		reloadEndCustomerList();
+    	}
 
-			showHideADFirmInfo();
-			$('.fakeHasADFirm').click(function (e) {
-				showHideADFirmInfo();
-			});
+    	var fileCount = 1;
+    	$(document).ready(function () {
+    		reloadEndCustomerList();
 
-			$(".radio").dgStyle();
-			$(".checkbox").dgStyle();
+    		$('.cancelBtn').click(function (e) {
+    			window.location.href = '@Url.Action( "Manage" )';
+    		});
 
-			$('#AnticipatedOrderDate').datepicker(
+    		$('.submitBtn').click(function (e) {
+    			$('#theForm').submit();
+    		});
+
+    		showHideContractInfo();
+    		$('.fakeIsGSA').click(function (e) {
+    			showHideContractInfo();
+    		});
+
+    		showHideADFirmInfo();
+    		$('.fakeHasADFirm').click(function (e) {
+    			showHideADFirmInfo();
+    		});
+
+    		$(".radio").dgStyle();
+    		$(".checkbox").dgStyle();
+
+    		$('#AnticipatedOrderDate').datepicker(
 				{
-        			dateFormat: "mm/dd/yy",
-        			changeMonth: true,
-        			changeYear: true
+					dateFormat: "mm/dd/yy",
+					changeMonth: true,
+					changeYear: true
 				});
-        	$('#AnticipatedShipDate').datepicker(
+    		$('#AnticipatedShipDate').datepicker(
 				{
-        			dateFormat: "mm/dd/yy",
-        			changeMonth: true,
-        			changeYear: true
+					dateFormat: "mm/dd/yy",
+					changeMonth: true,
+					changeYear: true
 				});
 
-			//Default Action
-			$(".tab_content1").hide(); //Hide all content
-			$("ul.tabs1 li:first").addClass("active").show(); //Activate first tab
-			$(".tab_content1:first").show(); //Show first tab content
+    		//Default Action
+    		$(".tab_content1").hide(); //Hide all content
+    		$("ul.tabs1 li:first").addClass("active").show(); //Activate first tab
+    		$(".tab_content1:first").show(); //Show first tab content
 
-			//On Click Event
-			$("ul.tabs1 li").click(function () {
-				$("ul.tabs1 li").removeClass("active"); //Remove any "active" class
-				$(this).addClass("active"); //Add "active" class to selected tab
-				$(".tab_content1").hide(); //Hide all tab content
-				var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
-				$(activeTab).fadeIn(); //Fade in the active content
-				return false;
-			});
+    		//On Click Event
+    		$("ul.tabs1 li").click(function () {
+    			$("ul.tabs1 li").removeClass("active"); //Remove any "active" class
+    			$(this).addClass("active"); //Add "active" class to selected tab
+    			$(".tab_content1").hide(); //Hide all tab content
+    			var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
+    			$(activeTab).fadeIn(); //Fade in the active content
+    			return false;
+    		});
 
-			$('.addECBtn').fancybox({
-				'autoDimensions': false,
-				'width': 972,
-				'height': 210,
-				'padding': 20,
-				'margin': 0,
-				'scrolling': 'auto',
-				'titleShow': false
-			});
+    		$('.addECBtn').on('click', function () {
+    			clearNewCompanyForm();
+    			$('.needTerritory').hide();
+    			$('#TerritoryID').addClass('noValidate');
+    			$('#theContactForm h4').text('Add End Customer');
+    			$('#mainEditContactBtn').trigger('click');
+    		});
 
-			$('.submitNewECBtn').on('click', function () {
-				if ($('#NewEndCustomer').val() != '' && $('#NewEndCustomer').val() != null) {
-					$('#EndCustomer').append('<option value="' + $('#NewEndCustomer').val() + '">' + $('#NewEndCustomer').val() + '</option>")');
-					$('#EndCustomer').val($('#NewEndCustomer').val());
-					$('#NewEndCustomer').val('');
-					$.fancybox.close();
-				}
-			});
-
-			$('.cancelNewECBtn').on('click', function () {
-				$.fancybox.close();
-			});
-
-		});
+    	});
 
 		function showHideContractInfo() {
 			if ($('#IsGSA:checked').length > 0) {
@@ -132,28 +131,16 @@
 			ddList.attr('value', ddSource.get('value'));
 		}
 
-    	function reloadDealerSalesRepList() {
-    		if ($('#DealerID').val() != null && $('#DealerID').val() != '' && $('#DealerID').val() != '0') {
-    			makeAjaxCall('/User/GetDealerSalesRepListForCompany',
-    				{ companyId: $('#DealerID').val(), enabledOnly: true },
-    				function (data, textStatus, jqXHR) {
-						reloadDropDownUserList('#DealerMemberID', data, true);
-    					$('.DSRCell').show();
-//		    			$('#DealerMemberID_msdd').show();
-						showHideDealerPOC();
-    				},
-    				function (jqXHR, textStatus, errorThrown) {
-    					alert('Error getting Dealer Sales Rep list:' + errorThrown)
-    				}
-    			);
-    		} else {
-				emptyDropDownList($("#DealerMemberID"));
-    			$('#DealerPointOfContact').val('');
-				$('#DealerPointOfContact').addClass('noValidate');
-    			$('.DSRCell').hide();
-//    			$('#DealerMemberID_msdd').hide();
-				$('.DSRPOCCell').hide();
-    		}
+    	function reloadEndCustomerList() {
+    		makeAjaxCall('/Project/GetFullEndCustomerList',
+    			null,
+    			function (data, textStatus, jqXHR) {
+    				reloadDropDownCompanyList('#EndCustomerID', data, true);
+    			},
+    			function (jqXHR, textStatus, errorThrown) {
+    				alert('Error getting End Customer list:' + errorThrown)
+    			}
+    		);
     	}
 
 	</script>
@@ -182,11 +169,11 @@
 					 <li>
 						 <div class="box2">
 							 <label>
-								 Name</label>
+								 Name @Html.ValidationMessageFor( m => m.ProjectName )</label>
 							 <div class="colmn1">
 							 @Html.TextBoxFor( m => m.ProjectName )
 							 </div>
-							 <cite>Dealership</cite>
+							 <cite>Dealership @Html.ValidationMessageFor( m => m.DealerID )</cite>
 							 @Html.DropDownListFor( m => m.DealerID, GetDealerList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer ) )
 						 </div>
 					 </li>
@@ -195,7 +182,7 @@
 							 <label>
 								 End Customer</label>
 							 <div class="colmn1">
-							 @Html.DropDownListFor( m => m.EndCustomer, ProjectController.GetFullEndCustomerList() )<a class="btn7 addECBtn" href="#newEndCustomer">+</a>
+							 @Html.DropDownListFor( m => m.EndCustomerID, new List<SelectListItem>() )<a class="btn7 addECBtn" href="javascript:void(0)">+</a>
 							 </div>
 							 <div class="colmn4">
 								 <div class="colmn4_lt">
@@ -507,19 +494,7 @@
 	 </div>
 
 <div style="display:none">
-	<div id="newEndCustomer" class="needRowPadding">
-		<div class="main_inner2_btm"> 
-    	<h2 class="bold">Add End Customer</h2>
-			<div class="main_inner2_btm_mid_myacct">
-				<ul>
-        			<li>
-            			<div class="colmn1">Customer Name</div>
-						<div class="colmn3single"><input class="msg2" id="NewEndCustomer" name="NewEndCustomer" /></div>
-					</li>
-				</ul>
-			</div>
-			<div class="clear"></div>
-			<span class="btn7 cancelNewECBtn">CANCEL</span> <span class="btn8 submitNewECBtn">SAVE</span> 
-		</div>
-	</div>
+
+	@{Html.RenderPartial( "RequestNewCompany" );}
+
 </div>

@@ -16,23 +16,36 @@
 			reloadDealerSalesRepList();
 		}
 
+		var addDealerForm = false;
 		function getNewTerritoryID() {
-			var group = $('#PaoliSalesRepGroupID option:selected').text();
+			if( addDealerForm ) {
+				var group = $('#PaoliSalesRepGroupID option:selected').text();
 
-			return group.substring(0, 4);
+				return group.substring(0, 4);
+			}
+
+			return null;
 		}
 
 		function getNewCompanyType() {
-			return '@(PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer)';
+			if( addDealerForm ) {
+				return '@(PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer)';
+			}
+			return '@(PDWInfrastructure.PaoliWebUser.PaoliCompanyType.EndUser)';
 		}
 
 		function addEditCompanyCallback() {
+			if( addDealerForm ) {
 		@if( !PaoliWebUser.CurrentUser.IsDealerUser )
 	{
 	<text>
 			reloadDealerList();
 			</text>
   }
+				return;
+			}
+
+			reloadEndCustomerList();
 		}
 
 		var fileCount = 1;
@@ -52,7 +65,7 @@
 
 			$('#PaoliSalesRepGroupID').on('change', reloadPaoliSalesRepList);
 			$('#DealerID').on('change', reloadDealerSalesRepList);
-			$('#EndCustomer').on('change', reloadProjectList);
+			$('#EndCustomerID').on('change', reloadProjectList);
 
 			$('input').addClass('noValidate');
 			$('select').addClass('noValidate');
@@ -60,13 +73,17 @@
 			$('.activeSection select').removeClass('noValidate');
 
 			$('#newCompanyLink').click(function(e) {
+				addDealerForm = true;
 				clearNewCompanyForm();
+    			$('.needTerritory').show();
+    			$('#TerritoryID').removeClass('noValidate');
 				$('#theContactForm h4').text('Add Dealership');
 				$('#mainEditContactBtn').trigger('click');
 			});
 
 			reloadDealerSalesRepList();
 			reloadPaoliSalesRepList();
+			reloadEndCustomerList();
 			reloadProjectList();
 
 			$('.nextBtn').click(function (e) {
@@ -167,28 +184,13 @@
 				$('#fileContainer input[type="file"]').attr('name', 'addlFiles');
 			}
 
-			$('.addECBtn').fancybox({
-				'autoDimensions': false,
-				'width': 972,
-				'height': 210,
-				'padding': 20,
-				'margin': 0,
-				'scrolling': 'auto',
-				'titleShow': false
-			});
-
-			$('.submitNewECBtn').on('click', function() {
-				if( $('#NewEndCustomer').val() != '' && $('#NewEndCustomer').val() != null ) {
-					$('#EndCustomer').append('<option value="' + $('#NewEndCustomer').val() + '">' + $('#NewEndCustomer').val() + '</option>")');
-					$('#EndCustomer').val($('#NewEndCustomer').val());
-					reloadProjectList();
-					$('#NewEndCustomer').val('');
-					$.fancybox.close();
-				}
-			});
-
-			$('.cancelNewECBtn').on('click', function() {
-				$.fancybox.close();
+			$('.addECBtn').on('click', function(){
+				addDealerForm = false;
+    			clearNewCompanyForm();
+    			$('.needTerritory').hide();
+    			$('#TerritoryID').addClass('noValidate');
+    			$('#theContactForm h4').text('Add End Customer');
+    			$('#mainEditContactBtn').trigger('click');
 			});
 
 			$('.addProjBtn').fancybox({
@@ -207,7 +209,7 @@
 					makeAjaxCall('/SpecRequest/CreateNewProject',
 						{ 
 							projectName: $('#NewProject').val(),
-							customer: $('#EndCustomer').val(),
+							customer: $('#EndCustomerID').val(),
 							dealer: $('#DealerID').val(),
 							isGSA:  $('#NewIsGSA:checked').length > 0,
 							contractId: $('#NewContractID').val()
@@ -360,9 +362,9 @@
     			}
     		}
 
-    		if ($('#EndCustomer').val() != null && $('#EndCustomer').val() != '') {
+    		if ($('#EndCustomerID').val() != null && $('#EndCustomerID').val() != '') {
 				$('#requestorList1 .coln3').append('<h5>Who is the end customer?</h5>');
-				$('#requestorList1 .coln4').append('<h5>' + $('#EndCustomer').val() + '</h5>');
+				$('#requestorList1 .coln4').append('<h5>' + $('#EndCustomerID option[value="' + $('#EndCustomerID').val() + '"]').text() + '</h5>');
     		}
     		if ($('#ProjectID').val() != null && $('#ProjectID').val() != '') {
 				$('#requestorList1 .coln3').append('<h5>What will we call this project?</h5>');
@@ -578,10 +580,10 @@
     	}
 
     	function reloadProjectList(initId) {
-    		if ($('#EndCustomer').val() != null && $('#EndCustomer').val() != '' &&
+    		if ($('#EndCustomerID').val() != null && $('#EndCustomerID').val() != '' && $('#EndCustomerID').val() != '0' &&
 				$('#DealerID').val() != null && $('#DealerID').val() != '' && $('#DealerID').val() != '0') {
     			makeAjaxCall('/SpecRequest/GetProjectForCustomer',
-    				{ customer: $('#EndCustomer').val(), dealer: $('#DealerID').val() },
+    				{ customer: $('#EndCustomerID').val(), dealer: $('#DealerID').val() },
     				function (data, textStatus, jqXHR) {
 						reloadDropDownCompanyList('#ProjectID', data.theList, true);
 						if( initId != null ) {
@@ -662,6 +664,19 @@
     		);
 
 		}
+
+    	function reloadEndCustomerList() {
+    		makeAjaxCall('/Project/GetFullEndCustomerList',
+    			null,
+    			function (data, textStatus, jqXHR) {
+    				reloadDropDownCompanyList('#EndCustomerID', data, true);
+    			},
+    			function (jqXHR, textStatus, errorThrown) {
+    				alert('Error getting End Customer list:' + errorThrown)
+    			}
+    		);
+    	}
+
 	</script>
 @{
 	var stepCount = 7;
@@ -721,7 +736,7 @@
 							 <label>
 								 Who is the end customer?</label>
 							 <div class="colmn1">
-								 @Html.DropDownListFor( m => m.EndCustomer, ProjectController.GetFullEndCustomerList() )<a class="btn7 addECBtn" href="#newEndCustomer">+</a>
+								 @Html.DropDownListFor( m => m.EndCustomerID, new List<SelectListItem>() )<a class="btn7 addECBtn" href="javascript:void(0)">+</a>
 							 </div>
 							 <div class="colmn2 ProjectCell">
 								 What project is this for?
@@ -1344,21 +1359,6 @@
 	 </div>
 
 	 <div style="display:none">
-	<div id="newEndCustomer" class="needRowPadding">
-		<div class="main_inner2_btm"> 
-    	<h2 class="bold">Add End Customer</h2>
-			<div class="main_inner2_btm_mid_myacct">
-				<ul>
-        			<li>
-            			<div class="colmn1">Customer Name</div>
-						<div class="colmn3single"><input class="msg2" id="NewEndCustomer" name="NewEndCustomer" /></div>
-					</li>
-				</ul>
-			</div>
-			<div class="clear"></div>
-			<span class="btn7 cancelNewECBtn">CANCEL</span> <span class="btn8 submitNewECBtn">SAVE</span> 
-		</div>
-	</div>
 
 	<div id="newProject" class="needRowPadding">
 		<div class="main_inner2_btm"> 

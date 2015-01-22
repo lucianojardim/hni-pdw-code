@@ -26,6 +26,7 @@ namespace PDWDBContext
             this.CollateralOrders3 = new HashSet<CollateralOrder>();
             this.eCollateralItems = new HashSet<eCollateralItem>();
             this.Projects = new HashSet<Project>();
+            this.Projects1 = new HashSet<Project>();
         }
     
         public int CompanyID { get; set; }
@@ -76,6 +77,7 @@ namespace PDWDBContext
         public virtual User PaoliSalesRepMember { get; set; }
         public virtual ICollection<eCollateralItem> eCollateralItems { get; set; }
         public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<Project> Projects1 { get; set; }
     }
     
 }
