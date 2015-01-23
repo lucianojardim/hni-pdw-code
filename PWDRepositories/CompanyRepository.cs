@@ -37,7 +37,7 @@ namespace PWDRepositories
 				TierGroup = c.TierGroup,
 				UserCount = c.Users.Where( u => u.IsActive && u.Enabled ).Count(),
 				CanDelete = !c.Users.Any() && !c.SpecRequests.Any() && !c.SpecRequests1.Any() && !c.CollateralOrders.Any() && !c.CollateralOrders1.Any() &&
-					!c.CollateralOrders2.Any() && !c.CollateralOrders3.Any() && !c.Projects.Any() && !c.Projects1.Any()
+					!c.CollateralOrders2.Any() && !c.CollateralOrders3.Any() && !c.Projects.Any() && !c.Projects1.Any() && !c.eCollateralItems.Any()
 			};
 		}
 
@@ -162,7 +162,8 @@ namespace PWDRepositories
 				PaoliMemberID = eCompany.PaoliMemberID,
 				PaoliSalesRepMemberID = eCompany.PaoliSalesRepMemberID,
 				BusinessUnitName = eCompany.BusinessUnitName,
-				LockCompanyType = eCompany.Users.Any() || eCompany.SpecRequests.Any() || eCompany.SpecRequests1.Any() || eCompany.CollateralOrders.Any() || eCompany.CollateralOrders1.Any(),
+				LockCompanyType = eCompany.Users.Any() || eCompany.SpecRequests.Any() || eCompany.SpecRequests1.Any() || eCompany.CollateralOrders.Any() || eCompany.CollateralOrders1.Any() ||
+					eCompany.CollateralOrders2.Any() || eCompany.CollateralOrders3.Any() || eCompany.Projects.Any() || eCompany.Projects1.Any() || eCompany.eCollateralItems.Any(),
 				ContactEmail = eCompany.ContactEmail,
 				WebSite = eCompany.WebSite,
 				PublicContactEmail = eCompany.PublicContactEmail,
@@ -499,6 +500,9 @@ namespace PWDRepositories
 				.Include( c => c.CollateralOrders1 )
 				.Include( c => c.CollateralOrders2 )
 				.Include( c => c.CollateralOrders3 )
+				.Include( c => c.Projects )
+				.Include( c => c.Projects1 )
+				.Include( c => c.eCollateralItems )
 				.ToList()
 				.Select( v => ToCompanySummary( v ) );
 		}

@@ -258,7 +258,7 @@ namespace PDWInfrastructure
 		}
 
 		public bool IsNewLayout { get { return true; } }
-		public bool HasAdminLink { get { return CanManageUsers || CanManageCompanies || CanManageImages || CanManageImport || CanManageSearchLog; } }
+		public bool HasAdminLink { get { return CanManageUsers || CanManageCompanies || CanManageImages || CanManageImport || CanManageSearchLog || CanViewReports; } }
 
 		public bool IsSuperAdmin { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
 		public bool IsDealerUser { get { return OneOfRoles( PaoliWebRole.DealerAdmin, PaoliWebRole.DealerDesigner, 

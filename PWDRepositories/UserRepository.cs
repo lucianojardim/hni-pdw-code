@@ -275,7 +275,11 @@ namespace PWDRepositories
 				Enabled = eUser.Enabled,
 				IsActive = eUser.IsActive,
 				SendWelcomeEmail = eUser.RecWelcomeEmail,
-				LockAccountType = eUser.SpecRequests.Any() || eUser.SpecRequests1.Any() || eUser.CompaniesAsPaoliMember.Any() || eUser.CompaniesAsPaoliSalesRep.Any(),
+				LockAccountType = eUser.SpecRequests.Any() || eUser.SpecRequests1.Any() || eUser.SpecRequests2.Any() ||
+					eUser.CollateralOrders.Any() || eUser.CollateralOrders1.Any() || eUser.CollateralOrders1_1.Any() || eUser.CollateralOrders_1.Any() ||
+					eUser.CollateralOrders_2.Any() || eUser.CollateralOrders5.Any() || eUser.CollateralOrders6.Any() || eUser.CollateralOrders7.Any() ||
+					eUser.eCollateralItems.Any() || eUser.eCollateralItems1.Any() || eUser.eCollateralItems2.Any() ||
+					eUser.CompaniesAsPaoliMember.Any() || eUser.CompaniesAsPaoliSalesRep.Any(),
 				UserImageFileName = eUser.ImageFileName,
 				AuthorCredit = eUser.AuthorCredit,
 				DefaultShippingAddress = eUser.DefaultShippingAddress,

@@ -161,7 +161,7 @@
 	{
                             <li><a href="@Url.Action( "SearchLog", "Import" )">Search Log</a></li>
 	}
-                           @if( CurrentUser.IsPaoliUser )
+                           @if( CurrentUser.CanViewReports )
 						   {
                             <li><a href="@Url.Action( "Index", "Report" )">Reports</a></li>
 						   }
