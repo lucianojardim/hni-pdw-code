@@ -608,6 +608,7 @@ namespace PWDRepositories
 				.Include( i => i.CreatedByUser )
 				.Include( i => i.Company )
 				.Include( i => i.eCollateralSections )
+				.Include( i => i.Project.EndCustomerCompany )
 				.Skip( skipItems ).Take( 30 )
 				.ToList()
 				.Select( i => ToECollateralSummary( i ) );
@@ -626,6 +627,7 @@ namespace PWDRepositories
 				.Include( i => i.CreatedByUser )
 				.Include( i => i.Company )
 				.Include( i => i.eCollateralSections )
+				.Include( i => i.Project.EndCustomerCompany )
 				.Skip( skipItems ).Take( 30 )
 				.ToList()
 				.Select( i => ToECollateralSummary( i ) );
@@ -642,6 +644,7 @@ namespace PWDRepositories
 				.Include( i => i.CreatedByUser )
 				.Include( i => i.Company )
 				.Include( i => i.eCollateralSections )
+				.Include( i => i.Project.EndCustomerCompany )
 				.Skip( skipItems ).Take( 30 )
 				.ToList()
 				.Select( i => ToECollateralSummary( i ) );
@@ -660,6 +663,7 @@ namespace PWDRepositories
 				.Include( i => i.CreatedByUser )
 				.Include( i => i.Company )
 				.Include( i => i.eCollateralSections )
+				.Include( i => i.Project.EndCustomerCompany )
 				.Skip( skipItems ).Take( 30 )
 				.ToList()
 				.Select( i => ToECollateralSummary( i ) );
