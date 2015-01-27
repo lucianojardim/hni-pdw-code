@@ -993,7 +993,7 @@ namespace PWDRepositories
 				newUser.Extension = uInfo.Extension;
 				newUser.Title = uInfo.Title;
 				newUser.AccountType = uInfo.AccountType;
-				newUser.Enabled = true;
+				newUser.Enabled = false;
 				newUser.RecWelcomeEmail = false;
 				newUser.IsActive = true;
 				newUser.AuthorCredit = null;
