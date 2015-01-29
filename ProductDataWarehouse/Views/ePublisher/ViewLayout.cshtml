@@ -150,11 +150,11 @@
             <b>@Html.DisplayFor( m => m.Settings.DealershipPOCMember )</b>
             <div class="clr"></div>
    }
-   
-		 if( ( Model.Settings.CustomerName ?? "" ).Any() )
+
+		 if( ( Model.Settings.RealCustomerName ?? "" ).Any() )
    {
             <span>End Customer</span>
-            <b>@Html.DisplayFor( m => m.Settings.CustomerName )</b>
+            <b>@Html.DisplayFor( m => m.Settings.RealCustomerName )</b>
             <div class="clr"></div>
    }
 

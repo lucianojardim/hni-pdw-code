@@ -315,6 +315,7 @@ namespace PWDRepositories
 				retItem.DealershipPOCID = dbItem.DealershipPOCID;
 				retItem.ProjectID = dbItem.ProjectID;
 				retItem.CustomerID = dbItem.ProjectID.HasValue ? dbItem.Project.EndCustomerID : null;
+				retItem.RealCustomerName = dbItem.ProjectID.HasValue ? ( dbItem.Project.EndCustomerID.HasValue ? dbItem.Project.EndCustomerCompany.Name : null ) : null;
 				retItem.RealProjectName = dbItem.ProjectID.HasValue ? dbItem.Project.ProjectName : null;
 				retItem.PaoliSalesRepGroupName = dbItem.DealershipID.HasValue ? dbItem.Company.Territory.SalesRepCompanyName : null;
 				retItem.DealershipName = dbItem.DealershipID.HasValue ? dbItem.Company.Name : null;

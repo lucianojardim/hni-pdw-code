@@ -26,6 +26,7 @@ namespace PDWModels.eCollateral
 		public int? DealershipPOCID { get; set; }
 		[DisplayName( "Customer" )]
 		public int? CustomerID { get; set; }
+		public string RealCustomerName { get; set; }
 		[DisplayName( "Project Name" )]
 		public int? ProjectID { get; set; }
 		public string RealProjectName { get; set; }
