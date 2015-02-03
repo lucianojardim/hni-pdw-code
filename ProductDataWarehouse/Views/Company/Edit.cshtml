@@ -214,9 +214,6 @@
         <tr>
 		<td>@Html.MJLabelFor( m => m.BusinessUnitName, true )</td><td>@Html.TextBoxFor( m => m.BusinessUnitName, new { tabindex = 14 } )</td>
 		</tr>
-        <tr>
-		<td style="height:31px;">@Html.MJLabelFor( m => m.TripIncentive, true )</td><td>@Html.CheckBoxFor( m => m.TripIncentive, new { tabindex = 15 } )</td>
-		</tr>
         <tr class="dealerRow">
 		<td style="height:31px;">@Html.MJLabelFor( m => m.SignedUpForTrip, true )</td><td>@Html.RadioButtonFor( m => m.SignedUpForTrip, true, new { tabindex = 16 } ) Yes @Html.RadioButtonFor( m => m.SignedUpForTrip, false, new { tabindex = 17 } ) No </td>
 		<td class="tripGroupRow">@Html.MJLabelFor( m => m.TripGroup, true )</td><td class="tripGroupRow">@Html.DropDownListFor( m => m.TripGroup, CompanyController.GetTripGroupDDList(), new { tabindex = 18 } )</td>

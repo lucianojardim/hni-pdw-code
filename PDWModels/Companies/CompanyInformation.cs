@@ -79,8 +79,6 @@ namespace PDWModels.Companies
 		[DisplayName( "Customer Base Number" )]
 		[StringLength( 200 )]
 		public string SubCompanyIDs { get; set; }
-		[DisplayName( "Trip Incentive" )]
-		public bool TripIncentive { get; set; }
 		[DisplayName( "Company Type" )]
 		[Required]
 		public int CompanyType { get; set; }
@@ -93,7 +91,7 @@ namespace PDWModels.Companies
 		public int? PaoliMemberID { get; set; }
 		[DisplayName( "Primary Sales Rep" )]
 		public int? PaoliSalesRepMemberID { get; set; }
-		[DisplayName( "Is business unit signed up for trip?" )]
+		[DisplayName( "Dealership Participating In Trip Promotion" )]
 		[Required]
 		public bool SignedUpForTrip { get; set; }
 		[DisplayName( "Trip group" )]

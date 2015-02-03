@@ -23,7 +23,7 @@ namespace PDWModels.Users
 		public bool IsActive { get; set; }
 		[DisplayName( "Author Credit" )]
 		public string AuthorCredit { get; set; }
-		[DisplayName( "View Performance Data" )]
+		[DisplayName( "View Trip Performance Data" )]
 		public bool ViewPerfData { get; set; }
 
 		public bool LockAccountType { get; set; }

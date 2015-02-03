@@ -61,7 +61,6 @@ namespace PWDRepositories
 			newCompany.FAX = cInfo.FAX;
 			newCompany.MasterID = cInfo.MasterID;
 			newCompany.SubCompanyIDs = cInfo.SubCompanyIDs;
-			newCompany.TripIncentive = cInfo.TripIncentive;
 			newCompany.CompanyType = cInfo.CompanyType;
 			newCompany.TerritoryID = PaoliWebUser.PaoliCompanyType.HasTerritory.Contains( cInfo.CompanyType ) ? cInfo.TerritoryID : null;
 			newCompany.PaoliMemberID = PaoliWebUser.PaoliCompanyType.HasTerritory.Contains( cInfo.CompanyType ) ? cInfo.PaoliMemberID : null;
@@ -156,7 +155,6 @@ namespace PWDRepositories
 				PublicFAX = eCompany.PublicFAX,
 				MasterID = eCompany.MasterID,
 				SubCompanyIDs = eCompany.SubCompanyIDs,
-				TripIncentive = eCompany.TripIncentive,
 				CompanyType = eCompany.CompanyType,
 				TerritoryID = eCompany.TerritoryID,
 				PaoliMemberID = eCompany.PaoliMemberID,
@@ -215,7 +213,6 @@ namespace PWDRepositories
 			eCompany.FAX = cInfo.FAX;
 			eCompany.MasterID = cInfo.MasterID;
 			eCompany.SubCompanyIDs = cInfo.SubCompanyIDs;
-			eCompany.TripIncentive = cInfo.TripIncentive;
 			eCompany.CompanyType = cInfo.CompanyType;
 			eCompany.TerritoryID = PaoliWebUser.PaoliCompanyType.HasTerritory.Contains( cInfo.CompanyType ) ? cInfo.TerritoryID : null;
 			eCompany.PaoliMemberID = PaoliWebUser.PaoliCompanyType.HasTerritory.Contains( cInfo.CompanyType ) ? cInfo.PaoliMemberID : null;
@@ -335,7 +332,6 @@ namespace PWDRepositories
 				newCompany.Zip = cInfo.Zip;
 				newCompany.Phone = cInfo.PhoneNumber;
 				newCompany.FAX = cInfo.FaxNumber;
-				newCompany.TripIncentive = false;
 				newCompany.CompanyType = cInfo.CompanyType;
 				newCompany.TerritoryID = PaoliWebUser.PaoliCompanyType.HasTerritory.Contains( cInfo.CompanyType ) ? cInfo.TerritoryID : null;
 				newCompany.PaoliMemberID = null;

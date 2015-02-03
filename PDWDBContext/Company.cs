@@ -40,7 +40,6 @@ namespace PDWDBContext
         public string FAX { get; set; }
         public string MasterID { get; set; }
         public string SubCompanyIDs { get; set; }
-        public bool TripIncentive { get; set; }
         public int CompanyType { get; set; }
         public Nullable<int> TerritoryID { get; set; }
         public string PublicAddress1 { get; set; }
