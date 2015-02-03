@@ -91,7 +91,7 @@ namespace ProductDataWarehouse.Controllers
 		{
 			using( var sRepository = new SpecRequestRepository() )
 			{
-				ViewBag.BlankInformation = sRepository.NewSpecRequest();
+				ViewBag.BlankInformation = sRepository.NewSpecRequest( true );
 
 				return View( viewName: "NewAddRequest" );
 			}
@@ -116,7 +116,7 @@ namespace ProductDataWarehouse.Controllers
 					}
 					return RedirectToAction( "ViewAll" );
 				}
-				ViewBag.BlankInformation = sRepository.NewSpecRequest();
+				ViewBag.BlankInformation = sRepository.NewSpecRequest( true );
 			}
 
 			return View( viewName: "NewAddRequest", model: sInfo );
@@ -280,7 +280,7 @@ namespace ProductDataWarehouse.Controllers
 		{
 			using( var sRepository = new SpecRequestRepository() )
 			{
-				ViewBag.BlankInformation = sRepository.NewSpecRequest();
+				ViewBag.BlankInformation = sRepository.NewSpecRequest( false );
 
 				return View( sRepository.GetSpecRequest( id ) );
 			}
@@ -301,7 +301,7 @@ namespace ProductDataWarehouse.Controllers
 
 					return RedirectToAction( "Manage" );
 				}
-				ViewBag.BlankInformation = sRepository.NewSpecRequest();
+				ViewBag.BlankInformation = sRepository.NewSpecRequest( false );
 			}
 
 			return View( sInfo );
