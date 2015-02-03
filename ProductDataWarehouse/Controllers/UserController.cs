@@ -338,9 +338,7 @@ namespace ProductDataWarehouse.Controllers
 					{
 						uRepository.ChangePassword( pwDetail );
 
-						ViewBag.ChangePWSuccess = true;
-
-						return ChangePW();
+						return RedirectToAction( "Index", "Home" );
 					}
 				}
 				catch( ApplicationException ex )
