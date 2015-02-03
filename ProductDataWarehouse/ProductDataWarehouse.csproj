@@ -13,7 +13,7 @@
     <RootNamespace>ProductDataWarehouse</RootNamespace>
     <AssemblyName>ProductDataWarehouse</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <MvcBuildViews>false</MvcBuildViews>
+    <MvcBuildViews>true</MvcBuildViews>
     <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -706,8 +706,6 @@
     <Content Include="Views\Import\PrintMaterialImages.cshtml" />
     <Content Include="Views\Shared\HeaderLayout.cshtml" />
     <Content Include="Views\Import\ManageDealers.cshtml" />
-    <Content Include="Views\Import\AddDealer.cshtml" />
-    <Content Include="Views\Import\EditDealer.cshtml" />
     <Content Include="Views\Dealer\Index.cshtml" />
     <Content Include="Views\Shared\DealerLayout.cshtml" />
     <Content Include="Views\Import\ManageVideos.cshtml" />
@@ -733,22 +731,17 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\NewsRSSFeed.cshtml" />
     <Content Include="Views\Home\ScoopRSSFeed.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\SubscriptionInfo.cshtml" />
-    <Content Include="Views\User\Subscriptions.cshtml" />
     <Content Include="Views\Home\SubscriptionsAndAlerts.cshtml" />
     <Content Include="Views\Home\MyContactList.cshtml" />
     <Content Include="Views\Shared\MySpecList.cshtml" />
     <Content Include="Views\SpecRequest\ViewAll.cshtml" />
-    <Content Include="Views\Shared\DisplayTemplates\FileListing.cshtml" />
     <Content Include="Views\Collateral\Manage.cshtml" />
     <Content Include="Views\Collateral\Add.cshtml" />
     <Content Include="Views\Collateral\Edit.cshtml" />
     <Content Include="Views\Collateral\AddShipment.cshtml" />
     <Content Include="Views\Collateral\AddGroup.cshtml" />
     <Content Include="Views\Collateral\EditGroup.cshtml" />
-    <Content Include="Views\SpecRequest\AddRequest.cshtml" />
     <Content Include="Views\SpecRequest\EditRequest.cshtml" />
-    <Content Include="Views\SpecRequest\ViewRequest.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\YesNo.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\StringList.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DateOnly.cshtml" />
