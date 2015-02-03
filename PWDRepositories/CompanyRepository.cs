@@ -394,6 +394,10 @@ namespace PWDRepositories
 			{
 				companyList = companyList.Where( c => c.TerritoryID == param.territoryId.Value );
 			}
+			if( param.tripOnly )
+			{
+				companyList = companyList.Where( c => c.SignedUpForTrip );
+			}
 
 			displayedRecords = companyList.Count();
 
