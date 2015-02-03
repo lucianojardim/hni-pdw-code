@@ -293,6 +293,7 @@ namespace PWDRepositories
 		public void UpdateCompany( int reqUserId, MyCompanyInfo cInfo )
 		{
 			var dbReqUser = database.Users.FirstOrDefault( u => u.UserID == reqUserId );
+			string masterNumber = "", baseNumber = "";
 			if( cInfo.TheCompanyID != 0 )
 			{
 				var eCompany = database.Companies.FirstOrDefault( u => u.CompanyID == cInfo.TheCompanyID );
@@ -313,6 +314,8 @@ namespace PWDRepositories
 				eCompany.WebSite = cInfo.WebSite;
 
 				cInfo.CompanyType = eCompany.CompanyType;
+				masterNumber = eCompany.MasterID;
+				baseNumber = eCompany.SubCompanyIDs;
 			}
 			else
 			{
@@ -349,7 +352,8 @@ namespace PWDRepositories
 			database.SaveChanges();
 
 			new ChangeDealerInfoEmailSender( cInfo.TheCompanyID == 0 ? "AddDealerInfo" : "ChangeDealerInfo" ).SubmitRequestEmail( dbReqUser.FullName, dbReqUser.Company.Name, cInfo.TheCompanyID, cInfo.CompanyName, cInfo.Address1, cInfo.Address2,
-				cInfo.City, cInfo.State, cInfo.Zip, cInfo.PhoneNumber, cInfo.FaxNumber, cInfo.ContactEmail, cInfo.WebSite, PaoliWebUser.PaoliCompanyType.CompanyTypeList[cInfo.CompanyType] );
+				cInfo.City, cInfo.State, cInfo.Zip, cInfo.PhoneNumber, cInfo.FaxNumber, cInfo.ContactEmail, cInfo.WebSite, 
+				PaoliWebUser.PaoliCompanyType.CompanyTypeList[cInfo.CompanyType], masterNumber, baseNumber );
 		}
 
 		public bool DeleteCompany( int id )
@@ -807,7 +811,7 @@ namespace PWDRepositories
 			if( dbCompany != null )
 			{
 				( new RequestDeactivationEmailSender() ).SubmitCompanyRequestEmail( dbReqUser.FullName, dbReqUser.Company.Name, dbReqUser.Email,
-					companyId, dbCompany.Name, reason );
+					companyId, dbCompany.Name, reason, dbCompany.MasterID, dbCompany.SubCompanyIDs );
 			}
 
 			return false;

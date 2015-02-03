@@ -28,7 +28,9 @@ namespace PDWInfrastructure.EmailSenders
 			string fax,
 			string contactEmail,
 			string webSite,
-			string companyType )
+			string companyType,
+			string masterNumber,
+			string baseNumber )
 		{
 			try
 			{
@@ -50,6 +52,8 @@ namespace PDWInfrastructure.EmailSenders
 					template.Replace( "[{ContactEmail}]", contactEmail );
 					template.Replace( "[{WebSite}]", webSite );
 					template.Replace( "[{CompanyType}]", companyType );
+					template.Replace( "[{MasterNumber}]", masterNumber );
+					template.Replace( "[{BaseNumber}]", baseNumber );
 
 					return SubmitEmail( new List<string>() { "mypaoli@paoli.com", "paoli@getvitaminj.com" }, null, null, GetSubject( template ), template );
 				}

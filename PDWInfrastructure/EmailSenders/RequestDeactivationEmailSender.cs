@@ -48,7 +48,9 @@ namespace PDWInfrastructure.EmailSenders
 			string requestingUserEmail,
 			int companyId,
 			string companyName,
-			string reason )
+			string reason,
+			string masterNumber,
+			string baseNumber )
 		{
 			try
 			{
@@ -62,6 +64,8 @@ namespace PDWInfrastructure.EmailSenders
 					template.Replace( "[{CompanyID}]", companyId.ToString() );
 					template.Replace( "[{CompanyName}]", companyName );
 					template.Replace( "[{Reasons}]", reason );
+					template.Replace( "[{MasterNumber}]", masterNumber );
+					template.Replace( "[{BaseNumber}]", baseNumber );
 
 					return SubmitEmail( new List<string>() { "mypaoli@paoli.com", "paoli@getvitaminj.com" }, null, null, GetSubject( template ), template );
 				}
