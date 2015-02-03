@@ -31,7 +31,7 @@ namespace PWDRepositories
 				BaseNumber = c.SubCompanyIDs,
 				City = c.City,
 				State = c.State,
-				PaoliContact = c.PaoliMemberID.HasValue ? c.PaoliMember.FullName : "",
+				TripGroupInfo = c.SignedUpForTrip ? ("Yes - " + c.TripGroup) : "No",
 				PSRContactID = c.PaoliSalesRepMemberID,
 				PSRContact = c.PaoliSalesRepMemberID.HasValue ? c.PaoliSalesRepMember.FullName : "",
 				TierGroup = c.TierGroup,
@@ -457,14 +457,14 @@ namespace PWDRepositories
 						filteredAndSorted = companyList.OrderByDescending( v => v.Users.Where( u => u.IsActive && u.Enabled ).Count() );
 					}
 					break;
-				case "paolicontact":
+				case "tripgroupinfo":
 					if( param.sSortDir_0.ToLower() == "asc" )
 					{
-						filteredAndSorted = companyList.OrderBy( v => v.PaoliMember.FirstName ).ThenBy( v => v.PaoliMember.LastName );
+						filteredAndSorted = companyList.OrderBy( v => v.SignedUpForTrip ).ThenBy( v => v.TripGroup );
 					}
 					else
 					{
-						filteredAndSorted = companyList.OrderByDescending( v => v.PaoliMember.FirstName ).ThenByDescending( v => v.PaoliMember.LastName );
+						filteredAndSorted = companyList.OrderByDescending( v => v.SignedUpForTrip ).ThenByDescending( v => v.TripGroup );
 					}
 					break;
 				case "psrcontact":

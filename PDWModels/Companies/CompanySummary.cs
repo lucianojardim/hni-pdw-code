@@ -15,7 +15,7 @@ namespace PDWModels.Companies
 		public int UserCount { get; set; }
 		public string City { get; set; }
 		public string State { get; set; }
-		public string PaoliContact { get; set; }
+		public string TripGroupInfo { get; set; }
 		public string PSRContact { get; set; }
 		public int? PSRContactID { get; set; }
 		public string TierGroup { get; set; }
