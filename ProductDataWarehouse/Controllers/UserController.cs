@@ -238,7 +238,7 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "CanChangeMyCompanyUserImage" )]
 		[HttpPost]
-		public ActionResult MyCompanyImage( int CompanyID, HttpPostedFileBase CompanyImage )
+		public ActionResult MyCompanyImage( int TheCompanyID, HttpPostedFileBase CompanyImage )
 		{
 			using( var cRepository = new CompanyRepository() )
 			{
@@ -246,7 +246,7 @@ namespace ProductDataWarehouse.Controllers
 				{
 					if( CompanyImage.ContentLength <= 500 * 1024 )
 					{
-						cRepository.UpdateImage( CompanyID, CompanyImage != null ? CompanyImage.InputStream : null, CompanyImage != null ? CompanyImage.FileName : null );
+						cRepository.UpdateImage( TheCompanyID, CompanyImage != null ? CompanyImage.InputStream : null, CompanyImage != null ? CompanyImage.FileName : null );
 					}
 					else
 					{
@@ -256,7 +256,7 @@ namespace ProductDataWarehouse.Controllers
 
 				if( PaoliWebUser.CurrentUser.CanViewMyTerritory )
 				{
-					return MyCompanyInfo( CompanyID );
+					return MyCompanyInfo( TheCompanyID );
 				}
 
 				return MyCompany();
