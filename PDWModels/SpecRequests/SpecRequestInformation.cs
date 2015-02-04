@@ -61,6 +61,8 @@ namespace PDWModels.SpecRequests
 		public string ProjectSize { get; set; }
 		[DisplayName( "Is in2?" )]
 		public bool AvailableForIn2 { get; set; }
+		public bool RealIsGSA { get; set; }
+		public string RealContractName { get; set; }
 
 		[DisplayName( "Floorplan Specifications" )]
 		public bool NeedFloorplanSpecs { get; set; }

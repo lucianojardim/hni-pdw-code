@@ -840,6 +840,21 @@ namespace PWDRepositories
 			throw new Exception( "Unable to find current user" );
 		}
 
+		public IDToTextItem GetCurrentTerritoryInfo( bool includeCompany )
+		{
+			var user = database.Users.FirstOrDefault( u => u.UserID == PaoliWebUser.CurrentUser.UserId );
+			if( user != null )
+			{
+				var tInfo = database.Territories
+					.Include( t => t.Companies )
+					.First( t => t.TerritoryID == user.Company.TerritoryID );
+
+				return new IDToTextItem() { ID = tInfo.TerritoryID, Text = includeCompany ? (tInfo.TerritoryID.ToString() + " - " + tInfo.SalesRepCompanyName) : tInfo.Name };
+			}
+
+			throw new Exception( "Unable to find current user" );
+		}
+
 		public IEnumerable<UserActivityExport> GetExportList()
 		{
 			return database.UserLogins

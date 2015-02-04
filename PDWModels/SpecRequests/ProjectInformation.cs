@@ -12,12 +12,14 @@ namespace PDWModels.SpecRequests
 		[Required]
 		public string ProjectName { get; set; }
 		[Required]
-		public int DealerID { get; set; }
+		public int? TerritoryID { get; set; }
+		public int? DealerID { get; set; }
+		[Required]
 		public int? EndCustomerID { get; set; }
 
 		public bool IsGSA { get; set; }
 		public int? ContractID { get; set; }
-
+		public string ContractName { get; set; }
 		public bool HasADFirm { get; set; }
 		public string ADFirm { get; set; }
 

@@ -288,6 +288,21 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
+		public JsonResult GetDealerListForTerritory( int territoryId, bool includeBlank = true, bool includeTerritory = false )
+		{
+			using( var cRepository = new CompanyRepository() )
+			{
+				var theList = cRepository.GetDealerListForTerritory( territoryId, includeTerritory ).ToList();
+
+				if( includeBlank )
+				{
+					theList.Insert( 0, new PDWModels.IDToTextItem() { ID = 0, Text = "" } );
+				}
+
+				return Json( theList, JsonRequestBehavior.AllowGet );
+			}
+		}
+
 		public JsonResult GetDealerListForUser( bool includeBlank = true )
 		{
 			using( var cRepository = new CompanyRepository() )
@@ -363,12 +378,24 @@ namespace ProductDataWarehouse.Controllers
 			return new List<SelectListItem>() { new SelectListItem() { Text = "All", Value = "0", Selected = true } }.Union( GetCompanyTypeDDList() );
 		}
 
+		public delegate IEnumerable<SelectListItem> GetTerritoryListFunction( bool addCompany = false );
+
 		public static IEnumerable<SelectListItem> GetTerritoryDDList( bool addCompany = false )
 		{
 			using( var cRepository = new CompanyRepository() )
 			{
 				return new List<SelectListItem>() { new SelectListItem() { Text = "", Value = "", Selected = true } }
 					.Union( cRepository.GetTerritoryList().Select( t => new SelectListItem() { Value = t.TerritoryID.ToString(), Text = t.Name + ( addCompany ? ( " - " + t.SalesRepCompany ) : "" ) } ) );
+			}
+		}
+
+		public static IEnumerable<SelectListItem> GetThisTerritoryAsDDItem( bool addCompany = false )
+		{
+			using( var uRepository = new UserRepository() )
+			{
+				var cInfo = uRepository.GetCurrentTerritoryInfo( addCompany );
+
+				return new List<SelectListItem>() { new SelectListItem() { Value = cInfo.ID.ToString(), Text = cInfo.Text } };
 			}
 		}
 

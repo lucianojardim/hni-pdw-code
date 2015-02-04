@@ -18,6 +18,7 @@ namespace PDWDBContext
         {
             this.Companies = new HashSet<Company>();
             this.ZipCodeInfoes = new HashSet<ZipCodeInfo>();
+            this.Projects = new HashSet<Project>();
         }
     
         public int TerritoryID { get; set; }
@@ -25,6 +26,7 @@ namespace PDWDBContext
     
         public virtual ICollection<Company> Companies { get; set; }
         public virtual ICollection<ZipCodeInfo> ZipCodeInfoes { get; set; }
+        public virtual ICollection<Project> Projects { get; set; }
     }
     
 }

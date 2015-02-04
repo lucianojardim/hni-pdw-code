@@ -63,5 +63,32 @@ namespace ProductDataWarehouse.Models
 			return MvcHtmlString.Create( tag.ToString( TagRenderMode.Normal ) );
 		}
 
+		public static string NameFor<TModel, TProperty>(
+			this HtmlHelper<TModel> html,
+			Expression<Func<TModel, TProperty>> expression )
+		{
+			var partialName = ExpressionHelper.GetExpressionText( expression );
+			return html
+				.ViewContext
+				.ViewData
+				.TemplateInfo
+				// You could do the same with GetFullHtmlFieldId
+				// if you were interested in the id of the element
+				.GetFullHtmlFieldName( partialName );
+		}
+
+		public static string IdFor<TModel, TProperty>(
+			this HtmlHelper<TModel> html,
+			Expression<Func<TModel, TProperty>> expression )
+		{
+			var partialName = ExpressionHelper.GetExpressionText( expression );
+			return html
+				.ViewContext
+				.ViewData
+				.TemplateInfo
+				// You could do the same with GetFullHtmlFieldId
+				// if you were interested in the id of the element
+				.GetFullHtmlFieldName( partialName );
+		}
 	}
 }

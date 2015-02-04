@@ -293,6 +293,7 @@ span.btn11                                 { padding:6px 15px; color:#FFFFFF; cu
 .main_inner6_btm ul li .box2              { width:100%; float:left; display:block;}
 .main_inner6_btm ul li .box2  input[type="text"] { width:178px; border:1px solid #eaeaea; padding:6px; vertical-align:middle; display:inline-block; height:12px;  font-size:14px; color:#454545; font-family: Helvetica, Arial, sans-serif;}
 .main_inner6_btm ul li .box2 label        { width:251px; float:left; display:block; font-size:14px; color:#454545; font-family: Helvetica, Arial, sans-serif; padding-top:6px;}
+.main_inner6_btm ul li .box2 label .field-validation-error { width:251px; float:left; display:block; font-size:12px; color:#cc0000; padding-top:10px; }
 .main_inner6_btm ul li .box2 .colmn1      { width:195px; float:left; display:block}
 .main_inner6_btm ul li .box2 .colmn2      { width:251px; float:left; display:block; font-size:14px; color:#454545; font-family:  Helvetica, Arial, sans-serif; padding-top:6px; padding-left:40px;}
 .main_inner6_btm ul li .box2 .colmn2 .field-validation-error { width:251px; float:left; display:block; font-size:12px; color:#cc0000; padding-top:10px; }

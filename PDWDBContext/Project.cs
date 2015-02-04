@@ -44,12 +44,14 @@ namespace PDWDBContext
         public int PipelineStatus { get; set; }
         public int ProjectSuccess { get; set; }
         public Nullable<int> EndCustomerID { get; set; }
+        public Nullable<int> TerritoryID { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual GSAContract GSAContract { get; set; }
         public virtual ICollection<SpecRequest> SpecRequests { get; set; }
         public virtual ICollection<eCollateralItem> eCollateralItems { get; set; }
         public virtual Company EndCustomerCompany { get; set; }
+        public virtual Territory Territory { get; set; }
     }
     
 }

@@ -86,9 +86,11 @@
     		reloadPaoliSalesRepList( @(Model.PaoliSalesRepMemberID.HasValue ? Model.PaoliSalesRepMemberID.Value.ToString() : "null"), 
 				@(Model.DealerID.HasValue ? Model.DealerID.Value.ToString() : "null"), 
 				@(Model.DealerMemberID.HasValue ? Model.DealerMemberID.Value.ToString() : "null"),
-				@(Model.EndCustomerID.HasValue ? Model.EndCustomerID.Value.ToString() : "null"),
 				@(Model.ProjectID.HasValue ? Model.ProjectID.Value.ToString() : "null") );
-			reloadEndCustomerList(@(Model.EndCustomerID.HasValue ? Model.EndCustomerID.Value.ToString() : "null"));
+			reloadEndCustomerList(@(Model.EndCustomerID.HasValue ? Model.EndCustomerID.Value.ToString() : "null"),
+				@(Model.ProjectID.HasValue ? Model.ProjectID.Value.ToString() : "null"), 
+				@(Model.DealerID.HasValue ? Model.DealerID.Value.ToString() : "null"), 
+				@(Model.DealerMemberID.HasValue ? Model.DealerMemberID.Value.ToString() : "null"));
 
     		$('#PaoliSalesRepGroupID').change(function () {
     			reloadPaoliSalesRepList();
@@ -104,6 +106,7 @@
 			});
 
 			$('#EndCustomerID').change(reloadProjectList);
+			$('#ProjectID').change(changeProject);
 
     		changeGrommets($('#Grommets'));
     		$('#Grommets').change(function (e) {
@@ -193,6 +196,12 @@
 			}
     	});
 
+		function getTerritoryForRepGroup() {
+			var group = $('#PaoliSalesRepGroupID option:selected').text();
+
+			return group.substring(0, 4);
+		}
+
 		function showHideLaminatePreference() {
 			if ($('.chkFinish:checked[value="Laminate"]').length > 0) {
 				$('.laminatePreference').show();
@@ -279,7 +288,7 @@
     		}
     	}
 
-    	function reloadDealerSalesRepList( dsrMemberID, initECName, initProjectID ) {
+    	function reloadDealerSalesRepList( dsrMemberID ) {
     		if ($('#DealerID').val() != null && $('#DealerID').val() != '' && $('#DealerID').val() != '0') {
     			makeAjaxCall('/User/GetDealerSalesRepListForCompany',
     				{ companyId: $('#DealerID').val(), enabledOnly: false },
@@ -300,8 +309,6 @@
     					alert('Error getting Dealer Sales Rep list:' + errorThrown)
     				}
     			);
-
-				reloadProjectList(initProjectID);
     		} else {
     			$('#DealerMemberID').empty();
     			$('#DealerPointOfContact').val('');
@@ -359,15 +366,18 @@
     		});
 		}
 
-		function reloadDropDownCompanyList(ddListID, data) {
+		function reloadDropDownCompanyList(ddListID, data, bNeedEmpty) {
     		var ddList = $(ddListID);
     		emptyDropDownList(ddList);
+			if( bNeedEmpty ) {
+				ddList.append('<option value=""></option>');
+			}
     		$.each(data, function (idx, item) {
-				ddList.append('<option value="' + item.ID + '">' + item.Text + '</option>")');
+				ddList.append('<option value="' + (item.ID > 0 ? item.ID : '') + '" data-extra="' + item.Extra + '">' + item.Text + '</option>")');
     		});
 		}
 
-    	function reloadPaoliSalesRepList( psrMemberID, dealerID, dsrMemberID, initECName, initProjectID ) {
+    	function reloadPaoliSalesRepList( psrMemberID, dealerID, dsrMemberID, initProjectID ) {
     		if ($('#PaoliSalesRepGroupID').val() != null && $('#PaoliSalesRepGroupID').val() != '' && $('#PaoliSalesRepGroupID').val() != '0') {
     			makeAjaxCall('/User/GetPaoliSalesRepListForCompany',
     				{ companyId: $('#PaoliSalesRepGroupID').val(), enabledOnly: false },
@@ -388,42 +398,69 @@
     				}
     			);
 
-    			makeAjaxCall('/Company/GetDealerListForSalesRep',
-    				{ salesRepCompanyId: $('#PaoliSalesRepGroupID').val(), includeTerritory: true },
-    				function (data, textStatus, jqXHR) {
-    					$('#DealerID').empty();
-    					$('.DealerRow').hide();
-    					$.each(data, function (idx, item) {
-    						$('#DealerID').append('<option value="' + item.ID + '" ' + (item.ID == dealerID ? 'selected' : '') + '>' + item.Text + '</option>');
-    						$('.DealerRow').show();
-    					});
-    					reloadDealerSalesRepList(dsrMemberID, initECName, initProjectID);
-    				},
-    				function (jqXHR, textStatus, errorThrown) {
-    					alert('Error getting Dealer list:' + errorThrown)
-    				}
-    			);
-
+				reloadProjectList(initProjectID, dealerID, dsrMemberID);
     		} else {
     			$('#PaoliSalesRepMemberID').empty();
     			$('#DealerID').empty();
     			$('.PSRCell').hide();
     			$('.DealerRow').hide();
+				$('.DSRCell').hide();
 				$('.DSRPOCCell').hide();
     		}
     	}
 
-    	function reloadProjectList(initId) {
+		function reloadDealerList(dealerID, dsrMemberID, forceDealer) {
+    		makeAjaxCall('/Company/GetDealerListForSalesRep',
+    			{ salesRepCompanyId: $('#PaoliSalesRepGroupID').val(), includeTerritory: true },
+    			function (data, textStatus, jqXHR) {
+    				$('#DealerID').empty();
+    				$('.DealerRow').hide();
+    				$.each(data, function (idx, item) {
+						if( forceDealer == null || forceDealer == '' || item.ID == forceDealer ) {
+    						$('#DealerID').append('<option value="' + item.ID + '" ' + (item.ID == dealerID ? 'selected' : '') + '>' + item.Text + '</option>');
+	    					$('.DealerRow').show();
+						}
+    				});
+    				reloadDealerSalesRepList(dsrMemberID);
+    			},
+    			function (jqXHR, textStatus, errorThrown) {
+    				alert('Error getting Dealer list:' + errorThrown)
+    			}
+    		);
+		}
+
+		function changeProject(dealerID, dsrMemberID) {
+			var forceDealer = null;
+			if( $('#ProjectID option:selected').length > 0 ) {
+				forceDealer = $('#ProjectID option:selected').first().data('extra');
+    			makeAjaxCall('/SpecRequest/GetProjectInfo',
+    				{ id: $('#ProjectID').val() },
+    				function (data, textStatus, jqXHR) {
+						$('#gsaInfo').text(data.IsGSA ? "Yes" : "No");
+						$('#contractInfo').text(data.IsGSA ? (data.ContractName != null ? data.ContractName : 'N/A') : 'N/A');
+    				},
+    				function (jqXHR, textStatus, errorThrown) {
+    				});
+			} else {
+				$('#gsaInfo').text('N/A');
+				$('#contractInfo').text('N/A');
+			}
+			reloadDealerList(dealerID, dsrMemberID, forceDealer);
+		}
+
+    	function reloadProjectList(initId, dealerID, dsrMemberID) {
     		if ($('#EndCustomerID').val() != null && $('#EndCustomerID').val() != '' && $('#EndCustomerID').val() != '0' &&
-				$('#DealerID').val() != null && $('#DealerID').val() != '' && $('#DealerID').val() != '0') {
+				getTerritoryForRepGroup() != null && getTerritoryForRepGroup() != '') {
     			makeAjaxCall('/SpecRequest/GetProjectForCustomer',
-    				{ customer: $('#EndCustomerID').val(), dealer: $('#DealerID').val() },
+    				{ customer: $('#EndCustomerID').val(), territory: getTerritoryForRepGroup() },
     				function (data, textStatus, jqXHR) {
 						reloadDropDownCompanyList('#ProjectID', data.theList, true);
 						if( initId != null ) {
 							$('#ProjectID').val(initId);
 						}
     					$('.ProjectCell').show();
+
+						changeProject(dealerID, dsrMemberID);
     				},
     				function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting Project list:' + errorThrown)
@@ -432,16 +469,24 @@
     		} else {
 				emptyDropDownList($("#ProjectID"));
 				$('.ProjectCell').hide();
+
+    			emptyDropDownList($('#DealerID'));
+    			$('.DealerRow').hide();
+    			$('.DSRCell').hide();
+
     		}
     	}
 
-    	function reloadEndCustomerList(initId) {
+    	function reloadEndCustomerList(initId, initProject, dealerID, dsrMemberID) {
     		makeAjaxCall('/Project/GetFullEndCustomerList',
     			null,
     			function (data, textStatus, jqXHR) {
     				reloadDropDownCompanyList('#EndCustomerID', data, true);
 					if( initId != null ) {
 						$('#EndCustomerID').val(initId);
+						if( initProject != null ) {
+							reloadProjectList(initProject, dealerID, dsrMemberID);
+						}
 					}
     			},
     			function (jqXHR, textStatus, errorThrown) {
@@ -517,27 +562,27 @@
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
 					<td>@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )</td><td>@Html.DropDownListFor( m => m.PaoliSalesRepGroupID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, includeTerritory: true ) )</td>
-					<td class="PSRCell">@Html.MJLabelFor( m => m.PaoliSalesRepMemberID, true )</td><td class="PSRCell">@Html.DropDownListFor( m => m.PaoliSalesRepMemberID, new List<SelectListItem>() )<span class="littleHelp" id="psrContactInfo"></span></td>
+					<td class="DealerRow">@Html.MJLabelFor( m => m.DealerID, false )</td><td class="DealerRow">@Html.DropDownListFor( m => m.DealerID, new List<SelectListItem>() )</td>
 				</tr>
-				<tr class="DealerRow">
-					<td>@Html.MJLabelFor( m => m.DealerID, false )</td><td>@Html.DropDownListFor( m => m.DealerID, new List<SelectListItem>() )</td>
+				<tr>
+					<td class="PSRCell">@Html.MJLabelFor( m => m.PaoliSalesRepMemberID, true )</td><td class="PSRCell">@Html.DropDownListFor( m => m.PaoliSalesRepMemberID, new List<SelectListItem>() )<span class="littleHelp" id="psrContactInfo"></span></td>
 					<td class="DSRCell">@Html.MJLabelFor( m => m.DealerMemberID, true )</td><td class="DSRCell">@Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>() )<span class="littleHelp" id="dsrContactInfo"></span></td>
 				</tr>
-				<tr class="DSRPOCCell">
-					<td></td><td></td>
-					<td>Name:</td><td>@Html.TextBoxFor( m => m.DealerPointOfContact )</td>
+				<tr>
+					<td>@Html.MJLabelFor( m => m.EndCustomerID, false )</td><td>@Html.DropDownListFor( m => m.EndCustomerID, new List<SelectListItem>() )</td>
+					<td class="DSRPOCCell">Name:</td><td class="DSRPOCCell">@Html.TextBoxFor( m => m.DealerPointOfContact )</td>
 				</tr>
-				<tr class="DSRPOCCell">
-					<td></td><td></td>
-					<td>Email:</td><td>@Html.TextBoxFor( m => m.DealerPointOfContactEmail )</td>
+				<tr>
+					<td>@Html.MJLabelFor( m => m.ProjectID, false, new { @class = "ProjectCell" } )</td><td>@Html.DropDownListFor( m => m.ProjectID, new List<SelectListItem>(), new { @class = "ProjectCell" } )</td>
+					<td class="DSRPOCCell">Email:</td><td class="DSRPOCCell">@Html.TextBoxFor( m => m.DealerPointOfContactEmail )</td>
 				</tr>
-				<tr class="DSRPOCCell">
-					<td></td><td></td>
-					<td>Phone:</td><td>@Html.TextBoxFor( m => m.DealerPointOfContactPhone )</td>
+				<tr>
+					<td>This project qualifies for GSA or other contract. </td><td id="gsaInfo">@(Model.RealIsGSA ? "Yes" : "No")</td>
+					<td class="DSRPOCCell">Phone:</td><td class="DSRPOCCell">@Html.TextBoxFor( m => m.DealerPointOfContactPhone )</td>
  				</tr>
-				<tr class="DSRPOCCell">
-					<td></td><td></td>
-					<td>User Type:</td><td>@Html.DropDownListFor( m => m.DealerPointOfContactAcctType, UserController.GetDealerUserRoleDDList() )</td>
+				<tr>
+					<td>Contract</td><td id="contractInfo">@if( Model.RealIsGSA ) { <text> @(Model.RealContractName) </text> }</td>
+					<td class="DSRPOCCell">User Type:</td><td class="DSRPOCCell">@Html.DropDownListFor( m => m.DealerPointOfContactAcctType, UserController.GetDealerUserRoleDDList() )</td>
  				</tr>
 			</table>
 		</div>
@@ -587,20 +632,14 @@
 		<div class="requestPanel">
 			<h3>About This Project</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
-				<tr class="EndCustomerCell">
-					<td>@Html.MJLabelFor( m => m.EndCustomerID, false )</td><td>@Html.DropDownListFor( m => m.EndCustomerID, new List<SelectListItem>() )</td>
-					<td class="ProjectCell">@Html.MJLabelFor( m => m.ProjectID, false )</td><td class="ProjectCell">@Html.DropDownListFor( m => m.ProjectID, new List<SelectListItem>() )</td>
-				</tr>
 				<tr>
 					<td>@Html.MJLabelFor( m => m.ProjectSize, false )</td><td>@Html.TextBoxFor( m => m.ProjectSize )</td>
 				</tr>
 				<tr>
 					<td></td><td><span class="littleHelp">Need number of private offices and/or meeting spaces</span></td>
-					<td></td><td><span class="littleHelp"></span></td>
 				</tr>
 				<tr>
 					<td colspan="2">@Html.CheckBoxFor( m => m.AvailableForIn2 ) @Html.MJLabelFor( m => m.AvailableForIn2, false )</td>
-					<td colspan="2"></td>
 				</tr>
 			</table>
 		</div>

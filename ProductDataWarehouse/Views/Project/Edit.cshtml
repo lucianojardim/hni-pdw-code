@@ -23,7 +23,10 @@
 
     	var fileCount = 1;
     	$(document).ready(function () {
+    		$('#TerritoryID').on('change', reloadDealerList);
+
     		reloadEndCustomerList('@Model.EndCustomerID');
+    		reloadDealerList('@Model.DealerID');
 
     		$('.cancelBtn').click(function (e) {
     			window.location.href = '@Url.Action( "Manage" )';
@@ -83,6 +86,27 @@
     		});
 
     	});
+
+    	function reloadDealerList(initValue) {
+    		if ($('#TerritoryID').val() != null && $('#TerritoryID').val() != '' && $('#TerritoryID').val() != '0') {
+    			makeAjaxCall('/Company/GetDealerListForTerritory',
+    				{ territoryId: $('#TerritoryID').val() },
+    				function (data, textStatus, jqXHR) {
+    					$('.DealerRow').hide();
+    					reloadDropDownCompanyList('#DealerID', data);
+    					if ($('#DealerID option').length > 0) {
+    						$('.DealerRow').show();
+    						$('#DealerID').val(initValue);
+    					}
+    				},
+    				function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Dealer list:' + errorThrown)
+    				}
+    			);
+    		} else {
+    			$('.DealerRow').hide();
+    		}
+    	}
 
     	function showHideContractInfo() {
     		if ($('#IsGSA:checked').length > 0) {
@@ -147,13 +171,16 @@
 	</script>
 @{
 	CompanyController.GetCompanyListFunction GetDealerList = CompanyController.GetCompanyDDList;
+	CompanyController.GetTerritoryListFunction GetTerritoryList = CompanyController.GetTerritoryDDList;
 	if( PaoliWebUser.CurrentUser.IsDealerUser )
 	{
 		GetDealerList = CompanyController.GetThisCompanyAsDDItem;
+		GetTerritoryList = CompanyController.GetThisTerritoryAsDDItem;
 	}
 	else if( PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
 	{
 		GetDealerList = CompanyController.GetDealerForSalesRepDDList;
+		GetTerritoryList = CompanyController.GetThisTerritoryAsDDItem;
 	}
 	var imageList = SpecRequestController.GetFeatureImageList();
 }
@@ -175,7 +202,15 @@
 							 <div class="colmn1">
 							 @Html.TextBoxFor( m => m.ProjectName )
 							 </div>
-							 <cite>Dealership</cite>
+							 <cite>Territory @Html.ValidationMessageFor( m => m.TerritoryID )</cite>
+							 @Html.DropDownListFor( m => m.TerritoryID, GetTerritoryList( true ) )
+						 </div>
+					 </li>
+					 <li class="DealerRow">
+						 <div class="box2">
+							 <label>&nbsp;</label>
+							 <div class="colmn1">&nbsp;</div>
+							 <cite>Dealership @Html.ValidationMessageFor( m => m.DealerID )</cite>
 							 @Html.DropDownListFor( m => m.DealerID, GetDealerList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer ) )
 						 </div>
 					 </li>

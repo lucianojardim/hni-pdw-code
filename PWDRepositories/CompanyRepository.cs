@@ -633,14 +633,19 @@ namespace PWDRepositories
 			var salesRep = database.Companies.FirstOrDefault( c => c.CompanyID == salesRepCompanyId );
 			if( salesRep != null )
 			{
-				return database.Companies
-					.Where( c => c.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer && c.TerritoryID == salesRep.TerritoryID )
-					.OrderBy( c => c.Name )
-					.ToList()
-					.Select( c => new IDToTextItem() { ID = c.CompanyID, Text = includeTerritory ? c.FullNameWithTerritory : c.FullName } );
+				return GetDealerListForTerritory( salesRep.TerritoryID.Value, includeTerritory );
 			}
 
 			return new List<IDToTextItem>();
+		}
+
+		public IEnumerable<IDToTextItem> GetDealerListForTerritory( int territoryId, bool includeTerritory = false )
+		{
+			return database.Companies
+				.Where( c => c.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer && c.TerritoryID == territoryId )
+				.OrderBy( c => c.Name )
+				.ToList()
+				.Select( c => new IDToTextItem() { ID = c.CompanyID, Text = includeTerritory ? c.FullNameWithTerritory : c.FullName } );
 		}
 
 		public ShippingAddress GetCompanyAddress( int companyId )

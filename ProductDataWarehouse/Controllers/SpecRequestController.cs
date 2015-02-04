@@ -377,11 +377,11 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanBeLoggedIn" )]
-		public JsonResult GetProjectForCustomer( int customer, int dealer )
+		public JsonResult GetProjectForCustomer( int customer, int? dealer, int territory )
 		{
 			using( var sRepository = new SpecRequestRepository() )
 			{
-				return Json( new { theList = sRepository.GetProjectForCustomer( customer, dealer ) },
+				return Json( new { theList = sRepository.GetProjectForCustomer( customer, dealer, territory ) },
 					JsonRequestBehavior.AllowGet );
 			}
 		}
@@ -393,6 +393,15 @@ namespace ProductDataWarehouse.Controllers
 			{
 				return Json( new { projectId = sRepository.Add( pInfo ) },
 					JsonRequestBehavior.AllowGet );
+			}
+		}
+
+		[PaoliAuthorize( "CanManageTypicals" )]
+		public JsonResult GetProjectInfo( int id )
+		{
+			using( var sRepo = new SpecRequestRepository() )
+			{
+				return Json( sRepo.GetProject( id ), JsonRequestBehavior.AllowGet );
 			}
 		}
     }

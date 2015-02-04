@@ -19,12 +19,16 @@
 		var addDealerForm = false;
 		function getNewTerritoryID() {
 			if( addDealerForm ) {
-				var group = $('#PaoliSalesRepGroupID option:selected').text();
-
-				return group.substring(0, 4);
+				return getTerritoryForRepGroup();
 			}
 
 			return null;
+		}
+
+		function getTerritoryForRepGroup() {
+			var group = $('#PaoliSalesRepGroupID option:selected').text();
+
+			return group.substring(0, 4);
 		}
 
 		function getNewCompanyType() {
@@ -62,10 +66,15 @@
 				);
 
     		$('#LaminatePreference').rules("add", { required: true, messages: { required: "Laminate Preference is required."} });
+    		$('#ProjectID').rules("add", { required: true, messages: { required: "Project is required."} });
+    		$('#PaoliSalesRepGroupID').rules("add", { required: true, messages: { required: "Sales Rep Territory is required."} });
+    		$('#EndCustomerID').rules("add", { required: true, messages: { required: "End Customer is required."} });
+			$('#DealerMemberID').rules("add", { required: true, messages: { required: "Dealership Point of Contact is required."} });
 
 			$('#PaoliSalesRepGroupID').on('change', reloadPaoliSalesRepList);
 			$('#DealerID').on('change', reloadDealerSalesRepList);
 			$('#EndCustomerID').on('change', reloadProjectList);
+			$('#ProjectID').on('change', changeProject);
 
 			$('input').addClass('noValidate');
 			$('select').addClass('noValidate');
@@ -196,7 +205,7 @@
 			$('.addProjBtn').fancybox({
 				'autoDimensions': false,
 				'width': 972,
-				'height': 310,
+				'height': 400,
 				'padding': 20,
 				'margin': 0,
 				'scrolling': 'auto',
@@ -210,14 +219,15 @@
 						{ 
 							projectName: $('#NewProject').val(),
 							customer: $('#EndCustomerID').val(),
-							dealer: $('#DealerID').val(),
+							territory: getTerritoryForRepGroup(),
+							dealer: $('#ProjectDealerID').val(),
 							isGSA:  $('#NewIsGSA:checked').length > 0,
 							contractId: $('#NewContractID').val()
 						}, 
 						function(data) {
 							reloadProjectList(data.projectId);
 							$('#NewProject').val('');
-							$('#NewIsGSA').attr('checked', 'false');
+							$('#NewIsGSA').removeAttr('checked');
 							$('#NewContractID').val('');
 							showHideContractInfo();
 							$.fancybox.close();
@@ -311,7 +321,6 @@
     	function setPanel(offset) {
     		var curIdx = $('#theForm div.activeSection').index('#theForm div.requestPanel');
     		var divCount = $('#theForm div.requestPanel').length;
-//    		console.log('curIdx: ' + curIdx + ' divCount: ' + divCount + ' offset: ' + offset);
 			$('input').addClass('noValidate');
 			$('select').addClass('noValidate');
     		if (offset == -1 && curIdx > 0) {
@@ -543,11 +552,14 @@
 			}
 		}
 
-		function reloadDropDownCompanyList(ddListID, data) {
+		function reloadDropDownCompanyList(ddListID, data, bNeedEmpty) {
     		var ddList = $(ddListID);
     		emptyDropDownList(ddList);
+			if( bNeedEmpty ) {
+				ddList.append('<option value=""></option>');
+			}
     		$.each(data, function (idx, item) {
-				ddList.append('<option value="' + item.ID + '">' + item.Text + '</option>');
+				ddList.append('<option value="' + (item.ID > 0 ? item.ID : '') + '" data-extra="' + item.Extra + '">' + item.Text + '</option>');
     		});
 		}
 
@@ -566,30 +578,61 @@
     				function (data, textStatus, jqXHR) {
 						reloadDropDownUserList('#DealerMemberID', data, false);
     					$('.DSRCell').show();
+						$("#DealerMemberID").removeClass('noValidate');
     				},
     				function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting Dealer Sales Rep list:' + errorThrown)
     				}
     			);
-
-				reloadProjectList();
     		} else {
 				emptyDropDownList($("#DealerMemberID"));
+				$("#DealerMemberID").addClass('noValidate');
     			$('.DSRCell').hide();
     		}
     	}
 
+		function changeProject() {
+@if( !PaoliWebUser.CurrentUser.IsDealerUser )
+{
+			<text>
+			var forceDealer = null;
+			if( $('#ProjectID option:selected').length > 0 ) {
+				forceDealer = $('#ProjectID option:selected').first().data('extra');
+			}
+			reloadDealerList(forceDealer);
+			</text>
+}
+		}
+
     	function reloadProjectList(initId) {
     		if ($('#EndCustomerID').val() != null && $('#EndCustomerID').val() != '' && $('#EndCustomerID').val() != '0' &&
-				$('#DealerID').val() != null && $('#DealerID').val() != '' && $('#DealerID').val() != '0') {
+				getTerritoryForRepGroup() != null && getTerritoryForRepGroup() != '' ) {
     			makeAjaxCall('/SpecRequest/GetProjectForCustomer',
-    				{ customer: $('#EndCustomerID').val(), dealer: $('#DealerID').val() },
+		@if( !PaoliWebUser.CurrentUser.IsDealerUser )
+	{
+	<text>
+    				{ customer: $('#EndCustomerID').val(), territory: getTerritoryForRepGroup() },
+			</text>
+  }
+  else
+  {
+	<text>
+    				{ customer: $('#EndCustomerID').val(), dealer: $('#DealerID').val(), territory: getTerritoryForRepGroup() },
+			</text>
+  }
     				function (data, textStatus, jqXHR) {
 						reloadDropDownCompanyList('#ProjectID', data.theList, true);
 						if( initId != null ) {
 							$('#ProjectID').val(initId);
 						}
     					$('.ProjectCell').show();
+
+						@if( !PaoliWebUser.CurrentUser.IsDealerUser )
+						{
+						<text>
+						changeProject();
+						</text>
+						}
     				},
     				function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting Project list:' + errorThrown)
@@ -598,6 +641,14 @@
     		} else {
 				emptyDropDownList($("#ProjectID"));
 				$('.ProjectCell').hide();
+
+						@if( !PaoliWebUser.CurrentUser.IsDealerUser )
+						{
+						<text>
+    			emptyDropDownList($('#DealerID'));
+    			$('.DealerRow').hide();
+						</text>
+						}
     		}
     	}
 
@@ -607,11 +658,9 @@
     				{ companyId: $('#PaoliSalesRepGroupID').val(), enabledOnly: true },
     				function (data, textStatus, jqXHR) {
     					$('.PSRCell').hide();
-//						$('#PaoliSalesRepMemberID_msdd').hide();
 						reloadDropDownUserList('#PaoliSalesRepMemberID', data);
     					if( $('#PaoliSalesRepMemberID option').length > 0 ) {
     						$('.PSRCell').show();
-//							$('#PaoliSalesRepMemberID_msdd').show();
     					}
     				},
     				function (jqXHR, textStatus, errorThrown) {
@@ -626,32 +675,44 @@
 				<text>
     				emptyDropDownList($('#DealerID'));
 					$('#DealerID').append('<option value="@(thisCompany.First().Value)">@(thisCompany.First().Text.Replace( "'", "''" ))</option>');
-
+					$('#ProjectDealerID').append('<option value="@(thisCompany.First().Value)">@(thisCompany.First().Text.Replace( "'", "''" ))</option>');
     				reloadDealerSalesRepList();
 				</text>
 	}
-	else
-	{
-				<text>
-				reloadDealerList();
-				</text>
-	}
-
+				reloadProjectList();
     		} else {
     			emptyDropDownList($('#PaoliSalesRepMemberID'));
     			emptyDropDownList($('#DealerID'));
+				emptyDropDownList($('#ProjectDealerID'));
     			$('.PSRCell').hide();
-//				$('#PaoliSalesRepMemberID_msdd').hide();
     			$('.DealerRow').hide();
+				$('.DSRCell').hide();
+				$("#DealerMemberID").addClass('noValidate');
     		}
     	}
 
-		function reloadDealerList() {
+		function reloadDealerList(forceDealer) {
     		makeAjaxCall('/Company/GetDealerListForSalesRep',
     			{ salesRepCompanyId: $('#PaoliSalesRepGroupID').val(), includeTerritory: true },
     			function (data, textStatus, jqXHR) {
     				$('.DealerRow').hide();
-					reloadDropDownCompanyList('#DealerID', data);
+					$('.DSRCell').hide();
+					$("#DealerMemberID").addClass('noValidate');
+
+					if( forceDealer != null && forceDealer != '' ) {
+						emptyDropDownList($('#DealerID'));
+						$.each(data, function(i, d) {
+							if( d.ID == forceDealer ) {
+								reloadDropDownCompanyList('#DealerID', [d]);
+								return false;
+							}
+						});
+					} else {
+						reloadDropDownCompanyList('#DealerID', data);
+					}
+
+					reloadDropDownCompanyList('#ProjectDealerID', data);
+
     				if( $('#DealerID option').length > 0 ) {
     					$('.DealerRow').show();
     				}
@@ -669,7 +730,7 @@
     		makeAjaxCall('/Project/GetFullEndCustomerList',
     			null,
     			function (data, textStatus, jqXHR) {
-    				reloadDropDownCompanyList('#EndCustomerID', data, true);
+    				reloadDropDownCompanyList('#EndCustomerID', data);
     			},
     			function (jqXHR, textStatus, errorThrown) {
     				alert('Error getting End Customer list:' + errorThrown)
@@ -707,20 +768,38 @@
 					 <li>
 						 <div class="box2">
 							 <label>
-								 Sales Rep Territory</label>
+								 Sales Rep Territory
+								 @Html.ValidationMessageFor( m => m.PaoliSalesRepGroupID )</label>
 							 @Html.DropDownListFor( m => m.PaoliSalesRepGroupID, GetSalesRepList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, includeTerritory: true ) )
-							 <cite class="PSRCell">Sales Rep Point of Contact</cite>
-							 @Html.DropDownListFor( m => m.PaoliSalesRepMemberID, new List<SelectListItem>(), new { @class = "PSRCell" } )
+							 <cite class="DealerRow">
+								 Dealership</cite>
+							 @Html.DropDownListFor( m => m.DealerID, new List<SelectListItem>(), new { @class = "DealerRow" } )@if( !PaoliWebUser.CurrentUser.IsDealerUser )
+																			{<a class="btn7 DealerRow" id="newCompanyLink">+</a>}
 						 </div>
 					 </li>
-					 <li class="DealerRow">
+					 <li>
 						 <div class="box2">
-							 <label>
-								 Dealership</label>
-							 @Html.DropDownListFor( m => m.DealerID, new List<SelectListItem>() )@if( !PaoliWebUser.CurrentUser.IsDealerUser )
-																			{<a class="btn7" id="newCompanyLink">+</a>}
-							 <cite class="DSRCell @if( !PaoliWebUser.CurrentUser.IsDealerUser ){<text>thin</text>}">Dealership Point of Contact</cite>
+							 <label class="PSRCell">Sales Rep Point of Contact</label>
+							 @Html.DropDownListFor( m => m.PaoliSalesRepMemberID, new List<SelectListItem>(), new { @class = "PSRCell" } )
+							 <cite class="DSRCell">Dealership Point of Contact
+							 @Html.ValidationMessageFor( m => m.DealerMemberID )</cite>
 							 @Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>(), new { @class = "DSRCell" } )<a class="btn7 DSRCell" id="newUserLink">+</a>
+						 </div>
+					 </li>
+					 <li>
+						 <div class="box2 EndCustomerCell">
+							 <label>
+								 Who is the end customer?
+								 @Html.ValidationMessageFor( m => m.EndCustomerID )</label>
+								 @Html.DropDownListFor( m => m.EndCustomerID, new List<SelectListItem>() )<a class="btn7 addECBtn" href="javascript:void(0)">+</a>
+						</div>
+					</li>
+					<li>
+						<div class="box2 ProjectCell">
+							 <label>
+								 What project is this for?
+								 @Html.ValidationMessageFor( m => m.ProjectID )</label>
+								 @Html.DropDownListFor( m => m.ProjectID, new List<SelectListItem>() )<a class="btn7 addProjBtn" href="#newProject">+</a>
 						 </div>
 					 </li>
 					 
@@ -731,21 +810,6 @@
 				 <h5>
 					 About This Project</h5>
 				 <ul>
-					 <li>
-						 <div class="box2 EndCustomerCell">
-							 <label>
-								 Who is the end customer?</label>
-							 <div class="colmn1">
-								 @Html.DropDownListFor( m => m.EndCustomerID, new List<SelectListItem>() )<a class="btn7 addECBtn" href="javascript:void(0)">+</a>
-							 </div>
-							 <div class="colmn2 ProjectCell">
-								 What project is this for?
-								 @Html.ValidationMessageFor( m => m.ProjectID )</div>
-							 <div class="colmn1 ProjectCell">
-								 @Html.DropDownListFor( m => m.ProjectID, new List<SelectListItem>() )<a class="btn7 addProjBtn" href="#newProject">+</a>
-							 </div>
-						 </div>
-					 </li>
 					 <li>
 						 <div class="box2">
 							 <label>
@@ -1369,12 +1433,16 @@
             			<div class="colmn1">Project Name</div>
 						<div class="colmn3single"><input class="msg2" id="NewProject" name="NewProject" /></div>
 					</li>
+        			<li>
+            			<div class="colmn1">Dealership</div>
+						<div class="colmn3single">@Html.DropDownList( "ProjectDealerID", new List<SelectListItem>() )</div>
+					</li>
 					<li>
 						<div class="colmn1">
 							<div class="checkbox fakeIsGSA">
 								@Html.CheckBox( "NewIsGSA" )
 							</div>
-							GSA
+							This project qualifies for GSA or other contract.
 						</div>
 					</li>
 					<li class="gsaOnly">

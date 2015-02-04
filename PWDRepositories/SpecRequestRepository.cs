@@ -648,6 +648,8 @@ namespace PWDRepositories
 				ProjectID = sInfo.ProjectID,
 				RealProjectName = sInfo.ProjectID.HasValue ? sInfo.Project.ProjectName : "",
 				RealEndCustomer = sInfo.ProjectID.HasValue ? (sInfo.Project.EndCustomerID.HasValue ? sInfo.Project.EndCustomerCompany.Name : "") : "",
+				RealIsGSA = sInfo.ProjectID.HasValue ? (sInfo.Project.IsGSA ?? false) : false,
+				RealContractName = sInfo.ProjectID.HasValue ? (sInfo.Project.ContractID.HasValue ? sInfo.Project.GSAContract.Name : null) : null,
 				PaoliSalesRepGroupID = sInfo.PaoliSalesRepGroupID,
 				PaoliSalesRepMemberID = sInfo.PaoliSalesRepMemberID,
 				DealerID = sInfo.PrimaryCompanyID,
@@ -1857,7 +1859,7 @@ namespace PWDRepositories
 			}
 			else if( PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
 			{
-				requestList = requestList.Where( s => s.Company.TerritoryID == dbUser.Company.TerritoryID );
+				requestList = requestList.Where( s => s.TerritoryID == dbUser.Company.TerritoryID );
 			}
 
 			totalRecords = requestList.Count();
@@ -1935,7 +1937,7 @@ namespace PWDRepositories
 				ProjectID = dbProject.ProjectID,
 				ProjectName = dbProject.ProjectName,
 				CustomerName = dbProject.EndCustomerID.HasValue ? dbProject.EndCustomerCompany.Name : null,
-				DealershipName = dbProject.Company.Name,
+				DealershipName = dbProject.DealerID.HasValue ? dbProject.Company.Name : null,
 				ProjectStatus = ProjectSuccess.GetDisplayString( dbProject.ProjectSuccess )
 			};
 		}
@@ -1962,8 +1964,9 @@ namespace PWDRepositories
 			var newProject = new Project()
 			{
 				ProjectName = pInfo.ProjectName,
-				DealerID = pInfo.DealerID,
+				DealerID = pInfo.DealerID.HasValue ? (pInfo.DealerID.Value > 0 ? pInfo.DealerID : null) : null,
 				EndCustomerID = pInfo.EndCustomerID.HasValue ? (pInfo.EndCustomerID.Value > 0 ? pInfo.EndCustomerID : null) : null,
+				TerritoryID = pInfo.TerritoryID,
 
 				IsGSA = pInfo.IsGSA,
 				ContractID = pInfo.IsGSA ? pInfo.ContractID : (int?)null,
@@ -2003,8 +2006,9 @@ namespace PWDRepositories
 			var newProject = new Project()
 			{
 				ProjectName = pInfo.projectName,
-				DealerID = pInfo.dealer,
+				DealerID = pInfo.dealer.HasValue ? ( pInfo.dealer.Value > 0 ? pInfo.dealer : null ) : null,
 				EndCustomerID = pInfo.customer,
+				TerritoryID = pInfo.territory,
 
 				IsGSA = pInfo.isGSA,
 				ContractID = pInfo.isGSA ? pInfo.contractId : null,
@@ -2035,12 +2039,13 @@ namespace PWDRepositories
 			{
 				ProjectID = dbProject.ProjectID,
 				ProjectName = dbProject.ProjectName,
-				DealerID = dbProject.DealerID.Value,
+				DealerID = dbProject.DealerID,
 				EndCustomerID = dbProject.EndCustomerID,
+				TerritoryID = dbProject.TerritoryID,
 
 				IsGSA = dbProject.IsGSA ?? false,
 				ContractID = dbProject.ContractID,
-
+				ContractName  = (dbProject.IsGSA ?? false) ? (dbProject.ContractID.HasValue ? dbProject.GSAContract.Name : null) : null,
 				HasADFirm = dbProject.HasADFirm,
 				ADFirm = dbProject.ADFirm,
 
@@ -2076,8 +2081,9 @@ namespace PWDRepositories
 			}
 
 			dbProject.ProjectName = pInfo.ProjectName;
-			dbProject.DealerID = pInfo.DealerID;
+			dbProject.DealerID = pInfo.DealerID.HasValue ? ( pInfo.DealerID.Value > 0 ? pInfo.DealerID : null ) : null;
 			dbProject.EndCustomerID = pInfo.EndCustomerID.HasValue ? ( pInfo.EndCustomerID.Value > 0 ? pInfo.EndCustomerID : null ) : null;
+			dbProject.TerritoryID = pInfo.TerritoryID;
 
 			dbProject.IsGSA = pInfo.IsGSA;
 			dbProject.ContractID = pInfo.IsGSA ? pInfo.ContractID : (int?)null;
@@ -2121,12 +2127,14 @@ namespace PWDRepositories
 			return theList.OrderBy( i => i.Text );
 		}
 
-		public IEnumerable<IDToTextItem> GetProjectForCustomer( int customerId, int dealerId )
+		public IEnumerable<IDToTextItemExtra> GetProjectForCustomer( int customerId, int? dealerId, int territoryId )
 		{
 			return database.Projects
 				.Where( p => p.EndCustomerID == customerId )
-				.Where( p => p.DealerID == dealerId )
-				.Select( p => new IDToTextItem() { ID = p.ProjectID, Text = p.ProjectName } )
+				.Where( p => p.TerritoryID == territoryId )
+				.Where( p => p.DealerID == dealerId || !dealerId.HasValue || dealerId == 0 )
+				.ToList()
+				.Select( p => new IDToTextItemExtra() { ID = p.ProjectID, Text = p.ProjectName, Extra = p.DealerID.HasValue ? p.DealerID.ToString() : "" } )
 				.ToList();
 		}
 	}
