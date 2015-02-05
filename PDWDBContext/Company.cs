@@ -77,6 +77,7 @@ namespace PDWDBContext
         public virtual ICollection<eCollateralItem> eCollateralItems { get; set; }
         public virtual ICollection<Project> Projects { get; set; }
         public virtual ICollection<Project> Projects1 { get; set; }
+        public virtual CompanyTripData CompanyTripData { get; set; }
     }
     
 }

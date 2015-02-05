@@ -150,8 +150,8 @@ namespace PDWInfrastructure
 			#endregion
 		}
 
-		public PaoliWebUser( string email, string authType, int userId, string firstName, string lastName, int role, 
-			bool hasTempPassword, DateTime? previousLogin, string companyName, string phoneNumber )
+		public PaoliWebUser( string email, string authType, int userId, string firstName, string lastName, int role,
+			bool hasTempPassword, DateTime? previousLogin, string companyName, string phoneNumber, bool isTripIncentive )
         {
 			_identity = new PaoliWebIdentity( email, authType );
             UserId = userId;
@@ -163,6 +163,7 @@ namespace PDWInfrastructure
 			_previousLogin = previousLogin;
 			CompanyName = companyName;
 			PhoneNumber = phoneNumber;
+			IsTripIncentive = isTripIncentive;
         }
 
 		private PaoliWebIdentity _identity { get; set; }
@@ -175,6 +176,7 @@ namespace PDWInfrastructure
 		private bool _hasTempPassword { get; set; }
 		public string CompanyName { get; private set; }
 		public string PhoneNumber { get; private set; }
+		public bool IsTripIncentive { get; private set; }
 		public string PreviousLogin
 		{
 			get

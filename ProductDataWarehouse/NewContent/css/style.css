@@ -550,7 +550,7 @@ hr { border:0; width:100%; background-color:#eaeaea; color:#eaeaea; height:1px; 
 
 .btnAlt { width:932px; margin:0 auto; padding:28px 18px 27px 22px; background:#f7f9f9; }
 
-.LdTm_PromoBox               { width:270px;  float:left; display:block; background:#f7f9f9; -moz-box-shadow:3px 3px 3px 0  #a8aaad; -webkit-box-shadow:3px 3px 3px 0  #a8aaad; box-shadow:3px 3px 3px 0  #a8aaafffd; position:relative; z-index:1; padding:20px;}
+.LdTm_PromoBox               { width:270px;  float:left; display:block; background:#f7f9f9; -moz-box-shadow:3px 3px 3px 0  #a8aaad; -webkit-box-shadow:3px 3px 3px 0  #a8aaad; box-shadow:3px 3px 3px 0  #a8aaafffd; position:relative; z-index:1; padding:20px; margin-bottom:20px;}
 .LdTm_PromoHeadline { font-family: "HelveticaNeue-Light","Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif; color:#454545; font-size: 22px;}
 .LdTm_PromoText {font-family: "HelveticaNeue-Light","Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif; color:#454545; font-size: 14px; padding-top: 10px; line-height:150%;}
 .LdTm_Contact_Left { width:55px; padding-right:15px; float:left; }
@@ -563,7 +563,17 @@ hr { border:0; width:100%; background-color:#eaeaea; color:#eaeaea; height:1px; 
 .LdTm_Main_Right {padding: 20px 20px 0 10px;}
 .LdTm_Main_Left table, .LdTm_Main_Right table {width:270px;margin-bottom:25px;}
 .LdTm_Main_Left th, .LdTm_Main_Right th {width:50%; border-bottom:#dadada solid 1px; font-family:"HelveticaNeue-Light","Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif; color:#454545; font-size: 18px; padding-bottom:12px;}
-.LdTm_Main_Left td, .LdTm_Main_Right td {font-family:"HelveticaNeue-Light","Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif; color:#454545; font-size: 12px; padding-top:15px;}
+.LdTm_Main_Left td, .LdTm_Main_Right td, .LdTm_Full_Width td {font-family:"HelveticaNeue-Light","Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif; color:#454545; font-size: 12px; padding-top:15px;}
+
+.LdTm_Full_Width {padding:20px 20px 50px 20px;}
+.LdTm_Full_Width h1 {font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif; color: #454545;font-size:22px; margin-top: 30px;}
+.LdTm_Full_Width p {font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif; color: #454545;font-size:12px; padding-top: 10px; line-height: 175%;}
+.LdTm_Full_Width table {width:100%; margin-top:10px;}
+.LdTm_Full_Width td:nth-child(even) {text-align:right;}
+/*.LdTm_Full_Width td:first-child + td { padding-left:7px; text-align:right;}*/
+.LdTm_Full_Width hr {size:1px; margin:30px 0;}
+.LdTm_Full_Width td {width:38% 12% 38% 12%; padding-right:20px;}
+.LdTm_Full_Width .LdTm_Full_Width_Promo { font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif; color: #454545;font-size:22px; margin-top: 30px; text-align:center;}
 
 /*EI new styles for user form redux*/
 .fieldLabel {padding-right:7px; font-family:"HelveticaNeue-Light","Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif; color:#454545; font-size: 12px; }

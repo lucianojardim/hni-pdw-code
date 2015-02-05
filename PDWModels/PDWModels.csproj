@@ -66,6 +66,7 @@
     <Compile Include="Companies\CompanySummary.cs" />
     <Compile Include="Companies\MyCompanyInfo.cs" />
     <Compile Include="Companies\MyTerritoryInfo.cs" />
+    <Compile Include="Companies\MyTripInfo.cs" />
     <Compile Include="Companies\ShippingAddress.cs" />
     <Compile Include="Companies\TerritorySummary.cs" />
     <Compile Include="Dealers\DealerDetail.cs" />

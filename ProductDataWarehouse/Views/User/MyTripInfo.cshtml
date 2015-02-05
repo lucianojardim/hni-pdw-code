@@ -1,0 +1,99 @@
+﻿@model PDWModels.Companies.MyTripInfo
+@{
+    Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.HeaderArea = "TripInfo";
+}
+
+                     <div class="container">
+<div class="main_inner1_content ">
+	<div class="main_inner1_content_lt">
+    	<!-- LEAD TIME MODULE CUSTOMER SVC PROMO -->
+		<div class="LdTm_PromoBox">
+			<div class="LdTm_PromoHeadline">Lorem headline ipsum?</div>
+            <div class="LdTm_PromoText">Contact your XYZ Manager for lorem ipsum dolor sit amet, consectetuer adipiscing elit.</div>
+            <div class="LdTm_Contact_Left"><!--This image is placeholder Person--><img src="https://my.paoli.com/images/ac681178-6ed1-42ac-afdc-52b46fbab56c.jpg" alt="img"/></div>
+            <div class="LdTm_Contact_Right">
+            	<div class="LdTm_Contact_Name">Stan King</div>
+            	<div class="LdTm_Contact_Info"><a href="mailto:stan-king@paoli.com">stan-king@paoli.com</a></div>
+            	<div class="LdTm_Contact_Info">812-865-7007</div>          
+            </div>   
+		</div>
+        
+        <div class="LdTm_PromoBox">
+			<div class="LdTm_PromoHeadline">Lorem headline ipsum?</div>
+            <div class="LdTm_PromoText">Contact your XYZ Manager for lorem ipsum dolor sit amet, consectetuer adipiscing elit.</div>
+            <div class="LdTm_Contact_Left"><!--This image is placeholder Person--><img src="https://my.paoli.com/images/ac681178-6ed1-42ac-afdc-52b46fbab56c.jpg" alt="img"/></div>
+            <div class="LdTm_Contact_Right">
+            	<div class="LdTm_Contact_Name">Stan King</div>
+            	<div class="LdTm_Contact_Info"><a href="mailto:stan-king@paoli.com">stan-king@paoli.com</a></div>
+            	<div class="LdTm_Contact_Info">812-865-7007</div>          
+            </div>   
+		</div>
+        
+        <div class="LdTm_PromoBox">
+			<div class="LdTm_PromoHeadline">Lorem headline ipsum?</div>
+            <div class="LdTm_PromoText">Contact your XYZ Manager for lorem ipsum dolor sit amet, consectetuer adipiscing elit.</div>
+            <div class="LdTm_Contact_Left"><!--This image is placeholder Person--><img src="https://my.paoli.com/images/ac681178-6ed1-42ac-afdc-52b46fbab56c.jpg" alt="img"/></div>
+            <div class="LdTm_Contact_Right">
+            	<div class="LdTm_Contact_Name">Stan King</div>
+            	<div class="LdTm_Contact_Info"><a href="mailto:stan-king@paoli.com">stan-king@paoli.com</a></div>
+            	<div class="LdTm_Contact_Info">812-865-7007</div>          
+            </div>   
+		</div>
+	</div>
+	<div class="main_inner1_content_rt">
+    
+    	<div class="LdTm_Full_Width">
+			<div><img src="/newcontent/images/Paoli-Maui-Hero.png" alt=""/></div>
+			@if( Model.CanSeePerfData )
+   {
+            <h1>Your current trip incentive stats</h1>
+            <!-- FULL WIDTH - 2 COL TABLE BEGIN -->
+            <table border="0">
+				<tr>
+					<td width="75%">Year-to-date (YTD) sales</td>
+					<td>@Model.YTDSales</td>
+				</tr>
+                <tr>
+					<td width="75%">Number of trips earned</td>
+					<td>@Model.TripEarned</td>
+				</tr>
+                <tr>
+					<td width="75%">Sales to next trip</td>
+					<td>@Model.SalesToNextTrip</td>
+				</tr>
+                
+			</table>
+            <!-- FULL WIDTH - 2 COL TABLE END -->
+            <hr/>
+            <h1>Looking for more ways to win?</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tellus neque, iaculis quis erat a, sagittis faucibus ante. Fusce et felis at sem fringilla tempor. Quisque suscipit aliquet facilisis. Curabitur et laoreet nisi, nec vulputate enim. Vestibulum et bibendum dui, id convallis ante. </p>
+            <hr/>
+            <div class="LdTm_Full_Width_Promo">You're part of the <strong>@Model.TripGroup Group</strong> with <strong>@(Model.TripGroupCount - 1)</strong> other dealerships</div>
+            <hr/>
+            <h1>Your Current Stats</h1>
+            <!-- FULL WIDTH - 4 COL TABLE BEGIN -->
+            <table border="0">
+				<tr>
+					<td>Actual Net Sales Growth YTD</td>
+					<td>@Model.NetGrowth</td>
+                    <td>Actual Net Sales Growth Rank</td>
+					<td>@Model.NetGrowthRank of @Model.TripGroupCount</td>
+				</tr>
+                <tr>
+					<td>% Net Sales Growth YTD</td>
+					<td>@Model.PercNetGrowth</td>
+                    <td>% Net Sales Growth Rank</td>
+					<td>@Model.PercNetGrowthRank of @Model.TripGroupCount</td>
+				</tr>
+
+                
+			</table>
+            <!-- FULL WIDTH - 4 COL TABLE END -->
+   }
+        </div>
+        
+	</div>
+	<i class="clear_0"></i>
+</div>
+</div>

@@ -572,6 +572,7 @@
     <Content Include="NewContent\images\news-and-updates.png" />
     <Content Include="NewContent\images\noorder_arrow.jpg" />
     <Content Include="NewContent\images\order_arrow.jpg" />
+    <Content Include="NewContent\images\Paoli-Maui-Hero.png" />
     <Content Include="NewContent\images\Paoli_BlueRGB.png" />
     <Content Include="NewContent\images\plus.jpg" />
     <Content Include="NewContent\images\prev_arrow.jpg" />
@@ -815,6 +816,8 @@
     <Content Include="Views\Project\Edit.cshtml" />
     <Content Include="Views\Shared\RequestNewUser.cshtml" />
     <Content Include="Views\Shared\RequestNewCompany.cshtml" />
+    <Content Include="Views\Company\ImportTripData.cshtml" />
+    <Content Include="Views\User\MyTripInfo.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

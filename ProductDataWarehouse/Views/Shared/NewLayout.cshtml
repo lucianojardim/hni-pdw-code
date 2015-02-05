@@ -127,7 +127,10 @@
 			 case "LeadTimes":
 	<h2><a href="@Url.Action( "LeadTimes", "Home" )"><img src="/newcontent/images/leadtimes.png" alt="img" height="50" width="50"/> Lead Times</a></h2>
 		 break;
-			 default:
+		 case "TripInfo":
+	<h2><a href="@Url.Action( "MyTripInfo", "User" )"><img src="/newcontent/images/leadtimes.png" alt="img" height="50" width="50"/> Trip Incentive</a></h2>
+		 break;
+		 default:
 		 if( HttpContext.Current.User.Identity.IsAuthenticated )
 		 {
                                    <h3 id="welcomeHeading"><span>@CurrentUser.FirstName!</span></h3>

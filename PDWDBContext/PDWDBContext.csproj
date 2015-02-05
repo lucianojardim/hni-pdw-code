@@ -80,6 +80,9 @@
     <Compile Include="Company.cs">
       <DependentUpon>PDWModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="CompanyTripData.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBContext.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

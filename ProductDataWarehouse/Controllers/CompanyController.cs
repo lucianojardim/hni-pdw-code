@@ -20,6 +20,34 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageCompanies" )]
+		public ActionResult ImportTripData()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		[PaoliAuthorize( "CanManageImages" )]
+		[TempPasswordCheck]
+		[ValidateInput( false )]
+		public ActionResult ImportTripData( HttpPostedFileBase dataFile )
+		{
+			using( var cRepo = new CompanyRepository() )
+			{
+				var errors = new List<string>();
+
+				ViewBag.CloseFancyBox = cRepo.ImportTripData( dataFile.InputStream, errors );
+
+				foreach( var e in errors )
+				{
+					ModelState.AddModelError( "", e );
+				}
+			}
+
+			return View();
+		}
+
+		[PaoliAuthorize( "CanManageCompanies" )]
 		[TempPasswordCheck]
 		public JsonResult FullCompanyList( CompanyTableParams param )
 		{
@@ -219,6 +247,7 @@ namespace ProductDataWarehouse.Controllers
 				return Json( new
 				{
 					companyType = uInfo.CompanyType,
+					isTrip = uInfo.SignedUpForTrip,
 					theList = theList
 				},
 					JsonRequestBehavior.AllowGet );

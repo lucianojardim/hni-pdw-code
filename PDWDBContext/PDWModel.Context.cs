@@ -74,6 +74,7 @@ namespace PDWDBContext
         public DbSet<LeadTimeDetail> LeadTimeDetails { get; set; }
         public DbSet<UserNotification> UserNotifications { get; set; }
         public DbSet<Project> Projects { get; set; }
+        public DbSet<CompanyTripData> CompanyTripDatas { get; set; }
     
         public virtual ObjectResult<Showroom> ClosestShowroom(Nullable<double> lat, Nullable<double> @long)
         {

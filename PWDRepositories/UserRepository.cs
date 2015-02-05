@@ -52,7 +52,8 @@ namespace PWDRepositories
 				return new PaoliWebUser( user.Email, authType, user.UserID, 
 					user.FirstName, user.LastName, 
 					user.AccountType, user.IsTempPassword, user.PreviousLogin,
-					user.Company.Name, user.BusinessPhone );
+					user.Company.Name, user.BusinessPhone, 
+					user.Company.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer && user.Company.SignedUpForTrip );
 			}
 
 			return null;

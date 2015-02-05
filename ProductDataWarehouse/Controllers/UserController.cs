@@ -236,6 +236,15 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
+		[PaoliAuthorize( "IsTripIncentive" )]
+		public ActionResult MyTripInfo()
+		{
+			using( var cRepo = new CompanyRepository() )
+			{
+				return View( cRepo.GetMyCompanyTripInfo( PaoliWebUser.CurrentUser.UserId ) );
+			}
+		}
+
 		[PaoliAuthorize( "CanChangeMyCompanyUserImage" )]
 		[HttpPost]
 		public ActionResult MyCompanyImage( int TheCompanyID, HttpPostedFileBase CompanyImage )

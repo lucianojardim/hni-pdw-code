@@ -11,6 +11,7 @@ using System.IO;
 using System.Configuration;
 using System.Drawing;
 using PDWInfrastructure.EmailSenders;
+using LumenWorks.Framework.IO.Csv;
 
 namespace PWDRepositories
 {
@@ -816,6 +817,225 @@ namespace PWDRepositories
 			}
 
 			return false;
+		}
+
+		public bool ImportTripData( Stream fStream, List<string> errors )
+		{
+			var csvReader = new CsvReader( new StreamReader( fStream ), true );
+			bool bRet = true;
+			var companyIds = new List<int>();
+
+			var moneyValues = new List<string>() { "Total Sales YTD", "Sales To Next Trip", "Shaka - Threshold", "Shaka - Percent Growth YTD", "Shaka - Dollar Growth YTD", "Aloha - Threshold", "Aloha - Percent Growth YTD", "Aloha - Dollar Growth YTD", "Mahalo - Threshold", "Mahalo - Percent Growth YTD", "Mahalo - Dollar Growth YTD" };
+			var rankValues = new List<string>() { "Total Trips YTD", "Shaka - Percent Growth Rank", "Shaka - Dollar Growth Rank", "Aloha - Percent Growth Rank", "Aloha - Dollar Growth Rank", "Mahalo - Percent Growth Rank", "Mahalo - Dollar Growth Rank" };
+
+			while( csvReader.ReadNextRecord() )
+			{
+				// Dealership Name,Territory ID,Master Consolidated Number,Base Number,Trip Group,Total Sales YTD,Total Trips YTD,Sales To Next Trip,Shaka - Threshold,Shaka - Percent Growth YTD,Shaka - Percent Growth Rank,Shaka - Dollar Growth YTD,Shaka - Dollar Growth Rank,Aloha - Threshold,Aloha - Percent Growth YTD,Aloha - Percent Growth Rank,Aloha - Dollar Growth YTD,Aloha - Dollar Growth Rank,Mahalo - Threshold,Mahalo - Percent Growth YTD,Mahalo - Percent Growth Rank,Mahalo - Dollar Growth YTD,Mahalo - Dollar Growth Rank
+
+				var masterNumber = csvReader["Master Consolidated Number"];
+				var baseNumber = csvReader["Base Number"];
+
+				var dbCompany = database.Companies.FirstOrDefault( c => c.MasterID == masterNumber && c.SubCompanyIDs == baseNumber );
+
+				if( dbCompany == null )
+				{
+					bRet = false;
+					errors.Add( string.Format( "Unable to find company - Master#: {0} Base#: {1}", masterNumber, baseNumber ) );
+					continue;
+				}
+
+				companyIds.Add( dbCompany.CompanyID );
+
+				if( !dbCompany.SignedUpForTrip )
+				{
+					bRet = false;
+					errors.Add( string.Format( "Company is not signed up for Trip Group - Master#: {0} Base#: {1}", masterNumber, baseNumber ) );
+					continue;
+				}
+
+				var tripGroup = csvReader["Trip Group"];
+				if( dbCompany.TripGroup.ToLower() != tripGroup.ToLower() )
+				{
+					bRet = false;
+					errors.Add( string.Format( "Trip Group does not match for company - Master#: {0} Base#: {1} - {2} <> {3}", masterNumber, baseNumber, dbCompany.TripGroup, tripGroup ) );
+					continue;
+				}
+
+				if( dbCompany.CompanyTripData == null )
+				{
+					dbCompany.CompanyTripData = new CompanyTripData();
+				}
+
+				foreach( var money in moneyValues )
+				{
+					decimal? d = null;
+					if( !GetDecimalValue( csvReader, money, out d ) )
+					{
+						bRet = false;
+						errors.Add( string.Format( "Field does not contain valid data - Master#: {0} Base#: {1} - {2}", masterNumber, baseNumber, money ) );
+					}
+				}
+
+				foreach( var rank in rankValues )
+				{
+					int? d = null;
+					if( !GetIntValue( csvReader, rank, out d ) )
+					{
+						bRet = false;
+						errors.Add( string.Format( "Field does not contain valid data - Master#: {0} Base#: {1} - {2}", masterNumber, baseNumber, rank ) );
+					}
+				}
+
+				if( bRet )
+				{
+					dbCompany.CompanyTripData.TotalSalesYTD = GetDecimalValue( csvReader, "Total Sales YTD" );
+					dbCompany.CompanyTripData.TotalTripsYTD = GetIntValue( csvReader, "Total Trips YTD" );
+					dbCompany.CompanyTripData.SalesToNextTrip = GetDecimalValue( csvReader, "Sales To Next Trip" );
+
+					switch( dbCompany.TripGroup.ToLower() )
+					{
+						case "ohana":
+							break;
+						case "shaka":
+							dbCompany.CompanyTripData.ShakaThreshold = GetDecimalValue( csvReader, "Shaka - Threshold" );
+							dbCompany.CompanyTripData.ShakaPercentGrowthYTD = GetDecimalValue( csvReader, "Shaka - Percent Growth YTD" );
+							dbCompany.CompanyTripData.ShakaPercentGrowthRank = GetIntValue( csvReader, "Shaka - Percent Growth Rank" );
+							dbCompany.CompanyTripData.ShakaDollarGrowthYTD = GetDecimalValue( csvReader, "Shaka - Dollar Growth YTD" );
+							dbCompany.CompanyTripData.ShakaDollarGrowthRank = GetIntValue( csvReader, "Shaka - Dollar Growth Rank" );
+							break;
+						case "aloha":
+							dbCompany.CompanyTripData.AlohaThreshold = GetDecimalValue( csvReader, "Aloha - Threshold" );
+							dbCompany.CompanyTripData.AlohaPercentGrowthYTD = GetDecimalValue( csvReader, "Aloha - Percent Growth YTD" );
+							dbCompany.CompanyTripData.AlohaPercentGrowthRank = GetIntValue( csvReader, "Aloha - Percent Growth Rank" );
+							dbCompany.CompanyTripData.AlohaDollarGrowthYTD = GetDecimalValue( csvReader, "Aloha - Dollar Growth YTD" );
+							dbCompany.CompanyTripData.AlohaDollarGrowthRank = GetIntValue( csvReader, "Aloha - Dollar Growth Rank" );
+							break;
+						case "mahalo":
+							dbCompany.CompanyTripData.MahaloThreshold = GetDecimalValue( csvReader, "Mahalo - Threshold" );
+							dbCompany.CompanyTripData.MahaloPercentGrowthYTD = GetDecimalValue( csvReader, "Mahalo - Percent Growth YTD" );
+							dbCompany.CompanyTripData.MahaloPercentGrowthRank = GetIntValue( csvReader, "Mahalo - Percent Growth Rank" );
+							dbCompany.CompanyTripData.MahaloDollarGrowthYTD = GetDecimalValue( csvReader, "Mahalo - Dollar Growth YTD" );
+							dbCompany.CompanyTripData.MahaloDollarGrowthRank = GetIntValue( csvReader, "Mahalo - Dollar Growth Rank" );
+							break;
+					}
+				}
+			}
+
+			if( bRet )
+			{
+				foreach( var oldCompany in database.CompanyTripDatas.Where( c => !companyIds.Contains( c.CompanyID ) ).ToList() )
+				{
+					database.CompanyTripDatas.Remove( oldCompany );
+				}
+
+				database.SaveChanges();
+			}
+
+			return bRet;
+		}
+
+		private decimal? GetDecimalValue( CsvReader csvReader, string column )
+		{
+			decimal? d = null;
+
+			GetDecimalValue( csvReader, column, out d );
+
+			return d;
+		}
+
+		private bool GetDecimalValue( CsvReader csvReader, string column, out decimal? retVal )
+		{
+			retVal = null;
+
+			if( string.IsNullOrEmpty( csvReader[column] ) )
+			{
+				return true;
+			}
+
+			decimal d = 0.0M;
+
+			if( decimal.TryParse( csvReader[column], out d ) )
+			{
+				retVal = d;
+				return true;
+			}
+
+			return false;
+		}
+
+		private int? GetIntValue( CsvReader csvReader, string column )
+		{
+			int? d = null;
+
+			GetIntValue( csvReader, column, out d );
+
+			return d;
+		}
+
+		private bool GetIntValue( CsvReader csvReader, string column, out int? retVal )
+		{
+			retVal = null;
+
+			if( string.IsNullOrEmpty( csvReader[column] ) )
+			{
+				return true;
+			}
+
+			int d = 0;
+
+			if( int.TryParse( csvReader[column], out d ) )
+			{
+				retVal = d;
+				return true;
+			}
+
+			return false;
+		}
+
+		public object GetMyCompanyTripInfo( int userId )
+		{
+			var dbUser = database.Users.FirstOrDefault( u => u.UserID == userId );
+
+			if( dbUser != null )
+			{
+				var tripInfo = new MyTripInfo()
+				{
+					CanSeePerfData = dbUser.ViewPerfData,
+					YTDSales = (dbUser.Company.CompanyTripData.TotalSalesYTD ?? 0.0M).ToString( "C0" ), 
+					TripEarned = dbUser.Company.CompanyTripData.TotalTripsYTD ?? 0,
+					SalesToNextTrip = (dbUser.Company.CompanyTripData.SalesToNextTrip ?? 0.0M).ToString( "C0" ),
+
+					TripGroup = dbUser.Company.TripGroup,
+					TripGroupCount = database.Companies.Count( c => c.TripGroup == dbUser.Company.TripGroup )
+
+				};
+
+				switch( tripInfo.TripGroup )
+				{
+					case "Aloha":
+						tripInfo.NetGrowth = ( dbUser.Company.CompanyTripData.AlohaDollarGrowthYTD ?? 0.0M ).ToString( "C0" );
+						tripInfo.PercNetGrowth = ( ( dbUser.Company.CompanyTripData.AlohaPercentGrowthYTD ?? 0.0M ) / 100 ).ToString( "P" );
+						tripInfo.NetGrowthRank = dbUser.Company.CompanyTripData.AlohaDollarGrowthRank ?? 0;
+						tripInfo.PercNetGrowthRank = dbUser.Company.CompanyTripData.AlohaPercentGrowthRank ?? 0;
+						break;
+					case "Shaka":
+						tripInfo.NetGrowth = ( dbUser.Company.CompanyTripData.ShakaDollarGrowthYTD ?? 0.0M ).ToString( "C0" );
+						tripInfo.PercNetGrowth = ( ( dbUser.Company.CompanyTripData.ShakaPercentGrowthYTD ?? 0.0M ) / 100 ).ToString( "P" );
+						tripInfo.NetGrowthRank = dbUser.Company.CompanyTripData.ShakaDollarGrowthRank ?? 0;
+						tripInfo.PercNetGrowthRank = dbUser.Company.CompanyTripData.ShakaPercentGrowthRank ?? 0;
+						break;
+					case "Mahalo":
+						tripInfo.NetGrowth = ( dbUser.Company.CompanyTripData.MahaloDollarGrowthYTD ?? 0.0M ).ToString( "C0" );
+						tripInfo.PercNetGrowth = ( ( dbUser.Company.CompanyTripData.MahaloPercentGrowthYTD ?? 0.0M ) / 100 ).ToString( "P" );
+						tripInfo.NetGrowthRank = dbUser.Company.CompanyTripData.MahaloDollarGrowthRank ?? 0;
+						tripInfo.PercNetGrowthRank = dbUser.Company.CompanyTripData.MahaloPercentGrowthRank ?? 0;
+						break;
+				}
+
+				return tripInfo;
+			}
+
+			throw new NotImplementedException();
 		}
 	}
 }

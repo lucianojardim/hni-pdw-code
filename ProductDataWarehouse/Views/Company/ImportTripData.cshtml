@@ -1,0 +1,31 @@
+﻿@model PDWModels.Images.ImageInformation
+@{
+	ViewBag.Title = "AddImage";
+}
+@using ProductDataWarehouse.Controllers
+@using ProductDataWarehouse.Models
+
+    <h2 class="mart0">Import Trip Data</h2>
+
+@if( ViewBag.CloseFancyBox ?? false )
+{
+        <div style='color:#008000;font-weight:bold;'>
+            <ul>
+                <li>Congrats! You have successfully uploaded your data.</li>
+            </ul>
+        </div>            
+}
+else
+{
+	using( Html.BeginForm( "ImportTripData", "Company", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
+	{
+		@Html.AntiForgeryToken()
+		<span class="dataRow"><input type="file" name="dataFile" data-val-required="Please browse for and select a file." data-val="true" /><br /></span>
+
+@Html.ValidationSummary()
+        <input type="submit" class="btn_type1" value="Import" onclick="$('#inProgress').show();" />
+	}
+    <div style="display:none;margin-top:25px;" id="inProgress">
+        <img src="@Url.Content( "~/Content/Images/baprogress.gif" )" alt="" style="display:inline;"/>&nbsp;<span>Uploading...</span>
+    </div>
+}

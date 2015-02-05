@@ -74,6 +74,10 @@
 	{
                             <li><a href="@Url.Action( "MyCompany", "User" )">Settings</a></li>
 	}
+	@if( CurrentUser.IsTripIncentive )
+ {
+	 <li><a href="@Url.Action( "MyTripInfo", "User" )">Trip Incentive</a></li>
+ }
 	@if( CurrentUser.CanManageProjects )
  {
 	 <li><a href="@Url.Action( "Manage", "Project" )">Projects & Opportunities</a></li>
