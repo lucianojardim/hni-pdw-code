@@ -33,6 +33,7 @@ namespace PDWDBContext
         public Nullable<int> MahaloPercentGrowthRank { get; set; }
         public Nullable<decimal> MahaloDollarGrowthYTD { get; set; }
         public Nullable<int> MahaloDollarGrowthRank { get; set; }
+        public System.DateTime ImportDate { get; set; }
     
         public virtual Company Company { get; set; }
     }

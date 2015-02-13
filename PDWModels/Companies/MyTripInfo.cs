@@ -19,6 +19,7 @@ namespace PDWModels.Companies
 		public string PercNetGrowth { get; set; }
 		public int NetGrowthRank { get; set; }
 		public int PercNetGrowthRank { get; set; }
-		
+
+		public DateTime ImportDate { get; set; }
 	}
 }

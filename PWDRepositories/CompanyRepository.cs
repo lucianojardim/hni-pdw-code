@@ -866,6 +866,8 @@ namespace PWDRepositories
 					dbCompany.CompanyTripData = new CompanyTripData();
 				}
 
+				dbCompany.CompanyTripData.ImportDate = DateTime.Now;
+
 				foreach( var money in moneyValues )
 				{
 					decimal? d = null;
@@ -1006,7 +1008,9 @@ namespace PWDRepositories
 					SalesToNextTrip = (dbUser.Company.CompanyTripData.SalesToNextTrip ?? 0.0M).ToString( "C0" ),
 
 					TripGroup = dbUser.Company.TripGroup,
-					TripGroupCount = database.Companies.Count( c => c.TripGroup == dbUser.Company.TripGroup )
+					TripGroupCount = database.Companies.Count( c => c.TripGroup == dbUser.Company.TripGroup ),
+
+					ImportDate = dbUser.Company.CompanyTripData.ImportDate
 
 				};
 

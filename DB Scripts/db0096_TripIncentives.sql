@@ -29,6 +29,7 @@ create table [CompanyTripData] (
 	[MahaloPercentGrowthRank] [int] null,
 	[MahaloDollarGrowthYTD] [money] null,
 	[MahaloDollarGrowthRank] [int] null,
+	[ImportDate] [datetime] not null,
 	constraint [pkCompanyTripData] primary key clustered ([CompanyID])	
 ) on [primary]
 go

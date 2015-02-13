@@ -615,6 +615,7 @@
           <Property Name="MahaloPercentGrowthRank" Type="int" />
           <Property Name="MahaloDollarGrowthYTD" Type="money" />
           <Property Name="MahaloDollarGrowthRank" Type="int" />
+          <Property Name="ImportDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="DealerFeaturedProducts">
           <Key>
@@ -4438,6 +4439,7 @@
           <Property Type="Decimal" Name="MahaloDollarGrowthYTD" Precision="19" Scale="4" />
           <Property Type="Int32" Name="MahaloDollarGrowthRank" />
           <NavigationProperty Name="Company" Relationship="PaoliPDWModel.fkTripData_Company" FromRole="CompanyTripData" ToRole="Company" />
+          <Property Type="DateTime" Name="ImportDate" Nullable="false" />
         </EntityType>
         <Association Name="fkTripData_Company">
           <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="1" />
@@ -5221,6 +5223,7 @@
           <EntitySetMapping Name="CompanyTripDatas">
             <EntityTypeMapping TypeName="PaoliPDWModel.CompanyTripData">
               <MappingFragment StoreEntitySet="CompanyTripData">
+                <ScalarProperty Name="ImportDate" ColumnName="ImportDate" />
                 <ScalarProperty Name="MahaloDollarGrowthRank" ColumnName="MahaloDollarGrowthRank" />
                 <ScalarProperty Name="MahaloDollarGrowthYTD" ColumnName="MahaloDollarGrowthYTD" />
                 <ScalarProperty Name="MahaloPercentGrowthRank" ColumnName="MahaloPercentGrowthRank" />

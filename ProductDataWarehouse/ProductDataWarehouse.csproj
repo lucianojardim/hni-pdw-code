@@ -596,6 +596,7 @@
     <Content Include="NewContent\images\tools.jpg" />
     <Content Include="NewContent\images\transparent.png" />
     <Content Include="NewContent\images\transparent_blue.png" />
+    <Content Include="NewContent\images\trip-incentive-icon.png" />
     <Content Include="NewContent\images\youniversity.png" />
     <Content Include="NewContent\images\zoom_icon.png" />
     <Content Include="NewContent\js\jquery-filestyle.js" />

@@ -124,6 +124,32 @@
 									 @Html.DisplayFor( m => m.AvailableForIn2, templateName: "YesNo" )</h5>
 							 </div>
 							 <i class="clear_0"></i></li>
+						 <li id="requestorList3" class="requestorList">
+							 <div class="coln1">
+							 <h5>&nbsp;</h5>
+							 </div>
+							 <div class="coln2">
+							 <h5>&nbsp;</h5>
+							 </div>
+							 <div class="coln3">
+								 <h5>
+									 This project qualifies for GSA/other contract.</h5>
+									 @if( Model.RealIsGSA )
+		  {
+								 <h5>
+									 Contract</h5>
+		  }
+							 </div>
+							 <div class="coln4">
+								 <h5>
+									 @Html.DisplayFor( m => m.RealIsGSA, templateName: "YesNo" )</h5>
+									 @if( Model.RealIsGSA )
+		  {
+								 <h5>
+									 @Html.DisplayFor( m => m.RealContractName )</h5>
+		  }
+							 </div>
+							 <i class="clear_0"></i></li>
 					 </ul>
 					 <i class="clear_0"></i>
 				 </div>
