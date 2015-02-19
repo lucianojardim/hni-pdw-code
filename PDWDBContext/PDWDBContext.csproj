@@ -191,6 +191,9 @@
     <Compile Include="Territory.cs">
       <DependentUpon>PDWModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="TerritoryTripData.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Typical.cs">
       <DependentUpon>PDWModel.tt</DependentUpon>
     </Compile>

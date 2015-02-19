@@ -64,11 +64,13 @@
     <Compile Include="Companies\ClosestRepInfo.cs" />
     <Compile Include="Companies\CompanyInformation.cs" />
     <Compile Include="Companies\CompanySummary.cs" />
+    <Compile Include="Companies\DealerTripSummary.cs" />
     <Compile Include="Companies\MyCompanyInfo.cs" />
     <Compile Include="Companies\MyTerritoryInfo.cs" />
     <Compile Include="Companies\MyTripInfo.cs" />
     <Compile Include="Companies\ShippingAddress.cs" />
     <Compile Include="Companies\TerritorySummary.cs" />
+    <Compile Include="Companies\TerritoryTripInfo.cs" />
     <Compile Include="Dealers\DealerDetail.cs" />
     <Compile Include="Dealers\DealerInformation.cs" />
     <Compile Include="Dealers\DealerPageInformation.cs" />

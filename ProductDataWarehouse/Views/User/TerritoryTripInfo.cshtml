@@ -1,0 +1,131 @@
+﻿@model PDWModels.Companies.TerritoryTripInfo
+@{
+    Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.HeaderArea = "TripInfo";
+}
+
+                     <div class="container">
+<div class="main_inner1_content ">
+	<div class="main_inner1_content_lt">
+    	<!-- LEAD TIME MODULE CUSTOMER SVC PROMO -->
+		<div class="LdTm_PromoBox">
+			<div class="LdTm_PromoHeadline">Earn Double Points!</div>
+            <div class="LdTm_PromoText">Now through the end of the 1st Quarter, every time you sell CO|HO, Share Space Seating or a premium finish casegood, you earn double the dollar value toward your sales goal to earn a trip for your dealership for those product sales!</div>
+		</div>
+		<div class="LdTm_PromoBox">
+			<div class="LdTm_PromoHeadline">Questions? We're here to help!</div>
+            <div class="LdTm_PromoText">The sales performance data you see on this page was last updated on @Model.ImportDate.ToShortDateString() and reflects all confirmed orders received by noon the preceding day. <br />
+			<br />
+If you have questions about the stats, scoring or rank data provided here or feel that the information presented does not accurately reflect your dealerships sales performance, please contact me today.</div>
+            <div class="LdTm_Contact_Left"><!--This image is placeholder Person--><img src="/images/13fbad33-25e7-467a-8ed3-1c8786367d58.jpg" alt="img"/></div>
+            <div class="LdTm_Contact_Right">
+            	<div class="LdTm_Contact_Name">Leslea Kerby</div>
+            	<div class="LdTm_Contact_Info"><a href="mailto:leslea-kerby@paoli.com">leslea-kerby@paoli.com</a></div>
+            	<div class="LdTm_Contact_Info">800-457-7415﻿</div>          
+            </div>   
+		</div>
+ 	</div>
+	<div class="main_inner1_content_rt">
+    
+    	<div class="LdTm_Full_Width">
+			<div><a href="http://www.paoli.com/maui"><img src="/newcontent/images/Paoli-Maui-Hero.png" alt=""/></a></div>
+            <h1>Your current trip incentive stats</h1>
+            <!-- FULL WIDTH - 2 COL TABLE BEGIN -->
+            <table class="dataColumns" border="0">
+				<tr>
+					<td width="75%">Current Territory Vol</td><td>@Model.CurrentTerritoryVol</td>
+				</tr>
+                <tr>
+					<td width="75%">Total Trip Points</td><td>@Model.TotalTripPoints</td>
+				</tr>
+                <tr>
+					<td width="75%">New Product Points</td><td>@Model.NewProductPoints</td>
+				</tr>
+                <tr>
+					<td width="75%">Focus Dealer Points</td><td>@Model.FocusDealerPoints</td>
+				</tr>
+                <tr>
+					<td width="75%">Territory Points</td><td>@Model.TerritoryPoints</td>
+				</tr>
+                <tr>
+					<td width="75%">Dealer Trip Points</td><td>@Model.DealerTripPoints</td>
+				</tr>
+                <tr>
+					<td width="75%"># of Dealers Trips Awarded</td><td>@Model.NumDealerTripsAwarded</td>
+				</tr>
+                <tr>
+					<td width="75%">Education Points</td><td>@Model.EducationPoints</td>
+				</tr>
+                
+			</table>
+            <!-- FULL WIDTH - 2 COL TABLE END -->
+            <hr/>
+            <h1>Bonus Ways To Win A Trip</h1>
+            <p>Lorem Ipsum...</p>
+
+            <p>Lorem Ipsum...</p>
+            <hr/>
+            <h1>Your Dealerships</h1>
+            <!-- FULL WIDTH - 4 COL TABLE BEGIN -->
+			<table class="dealerTable" id="dealerList">
+			</table>
+            <!-- FULL WIDTH - 4 COL TABLE END -->
+        </div>
+        
+	</div>
+	<i class="clear_0"></i>
+</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		loadCompanies();
+	});
+
+	var oTable = null;
+	function loadCompanies() {
+		if (oTable != null) {
+			oTable.fnDraw();
+			return;
+		}
+
+		oTable = $('#dealerList').dataTable({
+			"bServerSide": true,
+			"bAutoWidth": false,
+			"bFilter": true,
+			"bLengthChange": false, // don't show dropdown for #items per page
+			"bPaginate": false,
+			"bInfo": true,
+			"sAjaxSource": '@Url.Action( "TripDataForTerritoryCompanyList", "Company" )',
+			"fnServerParams": function (aoData) {
+				aoData.push({ "name": "territoryId", "value": @(Model.TerritoryID) });
+			},
+			"iDisplayLength": 100,
+			"fnServerData": function (sSource, aoData, fnCallback) {
+				makeAjaxCall(sSource,
+					aoData,
+					function (data, textStatus, jqXHR) {
+						fnCallback(data, textStatus, jqXHR);
+					},
+					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Dealerships:' + errorThrown) }
+				);
+			},
+			"bProcessing": false, // don't want to use the default progress indicator at this time
+			"aaSorting": [[0, "asc"]],
+			"asStripeClasses": [],
+			"aoColumnDefs": [
+                    { "sName": "Name", "sTitle": "Dealership Name<span></span>", "sClass": "hasSpan", "aTargets": [0], "mDataProp": "Name",
+                    	"fnRender": function (oObj) {
+                    		var s;
+                    		s = '<a href=\"@Url.Action( "DealerTripInfo", "User" )/' + oObj.aData["CompanyID"] + '">' + oObj.aData["Name"] + '</a>';
+                    		return s;
+                    	}
+                    },
+                    { "sName": "GroupName", "sTitle": "Group Name﻿<span></span>", "sClass": "hasSpan", "aTargets": [1], "mDataProp": "GroupName" },
+                    { "sName": "NumTrips", "sTitle": "# of trips earned<span></span>", "sClass": "hasSpan", "aTargets": [2], "mDataProp": "NumTrips", "sType": "numeric" },
+                    { "sName": "TotalSales", "sTitle": "Total Sales<span></span>", "sClass": "hasSpan", "aTargets": [3], "mDataProp": "TotalSales", "sType": "numeric" }
+                ]
+		});
+	}
+
+</script>

@@ -49,11 +49,12 @@ namespace PWDRepositories
 			User user = database.Users.FirstOrDefault( u => u.Email == email );
 			if( user != null )
 			{
-				return new PaoliWebUser( user.Email, authType, user.UserID, 
-					user.FirstName, user.LastName, 
+				return new PaoliWebUser( user.Email, authType, user.UserID,
+					user.FirstName, user.LastName,
 					user.AccountType, user.IsTempPassword, user.PreviousLogin,
-					user.Company.Name, user.BusinessPhone, 
-					(user.Company.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer) && user.Company.SignedUpForTrip && (user.Company.CompanyTripData != null) );
+					user.Company.Name, user.BusinessPhone,
+					( ( user.Company.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ) && user.Company.SignedUpForTrip && ( user.Company.CompanyTripData != null ) ) ||
+					( ( user.Company.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup ) && ( user.Company.TerritoryTripData != null ) ) );
 			}
 
 			return null;

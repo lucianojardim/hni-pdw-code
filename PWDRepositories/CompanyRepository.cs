@@ -366,6 +366,14 @@ namespace PWDRepositories
 			{
 				database.Showrooms.Remove( eCompany.Showroom );
 			}
+			if( eCompany.CompanyTripData != null )
+			{
+				database.CompanyTripDatas.Remove( eCompany.CompanyTripData );
+			}
+			if( eCompany.TerritoryTripData != null )
+			{
+				database.TerritoryTripDatas.Remove( eCompany.TerritoryTripData );
+			}
 			database.Companies.Remove( eCompany );
 
 			return database.SaveChanges() > 0;
@@ -811,6 +819,75 @@ namespace PWDRepositories
 			return false;
 		}
 
+		public bool ImportTripTerritoryData( Stream fStream, List<string> errors )
+		{
+			var csvReader = new CsvReader( new StreamReader( fStream ), true );
+			bool bRet = true;
+			var companyIds = new List<int>();
+			var columns = new List<string>() { "New Product Points", "Focus Dealer Points", "Current Territory Vol", "Territory Points", "# of Dealer Trips Awarded", "Dealer Trip Points", "Education Points", "Total Trip Points" };
+			while( csvReader.ReadNextRecord() )
+			{
+				//Rep Territory #	Rep Territory Description	New Product Points	Focus Dealer Points	Current Territory Vol	Territory Points	# of Dealer Trips Awarded	Dealer Trip Points 	Education Points 	Total Trip Points 
+
+				var territoryName = csvReader["Rep Territory #"];
+				var companyName = csvReader["Rep Territory Description"];
+				int territoryId = 0;
+				int.TryParse( territoryName, out territoryId );
+
+				var dbCompany = database.Companies.FirstOrDefault( c => c.TerritoryID == territoryId && c.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup );
+
+				if( dbCompany == null )
+				{
+					bRet = false;
+					errors.Add( string.Format( "Unable to find company - Territory: {0} Name: {1}", territoryName, companyName ) );
+					continue;
+				}
+
+				companyIds.Add( dbCompany.CompanyID );
+
+				if( dbCompany.TerritoryTripData == null )
+				{
+					dbCompany.TerritoryTripData = new TerritoryTripData();
+				}
+
+				dbCompany.TerritoryTripData.ImportDate = DateTime.Now;
+
+				foreach( var col in columns )
+				{
+					int? d = null;
+					if( !GetIntValue( csvReader, col, out d ) )
+					{
+						bRet = false;
+						errors.Add( string.Format( "Field does not contain valid data - Territory: {0} Name: {1} - {2}", territoryName, companyName, col ) );
+					}
+				}
+
+				if( bRet )
+				{
+					dbCompany.TerritoryTripData.NewProductPoints = GetIntValue( csvReader, "New Product Points" ) ?? 0;
+					dbCompany.TerritoryTripData.FocusDealerPoints = GetIntValue( csvReader, "Focus Dealer Points" ) ?? 0;
+					dbCompany.TerritoryTripData.CurrentTerritoryVol = GetIntValue( csvReader, "Current Territory Vol" ) ?? 0;
+					dbCompany.TerritoryTripData.TerritoryPoints = GetIntValue( csvReader, "Territory Points" ) ?? 0;
+					dbCompany.TerritoryTripData.NumDealerTripsAwarded = GetIntValue( csvReader, "# of Dealer Trips Awarded" ) ?? 0;
+					dbCompany.TerritoryTripData.DealerTripPoints = GetIntValue( csvReader, "Dealer Trip Points" ) ?? 0;
+					dbCompany.TerritoryTripData.EducationPoints = GetIntValue( csvReader, "Education Points" ) ?? 0;
+					dbCompany.TerritoryTripData.TotalTripPoints = GetIntValue( csvReader, "Total Trip Points" ) ?? 0;
+				}
+			}
+
+			if( bRet )
+			{
+				foreach( var oldCompany in database.TerritoryTripDatas.Where( c => !companyIds.Contains( c.CompanyID ) ).ToList() )
+				{
+					database.TerritoryTripDatas.Remove( oldCompany );
+				}
+
+				database.SaveChanges();
+			}
+
+			return bRet;
+		}
+
 		public bool ImportTripData( Stream fStream, List<string> errors )
 		{
 			var csvReader = new CsvReader( new StreamReader( fStream ), true );
@@ -988,6 +1065,11 @@ namespace PWDRepositories
 
 		private MyTripInfo GetCompanyTripInfo( Company company, bool canSeePerfData )
 		{
+			if( company.CompanyTripData == null )
+			{
+				return new MyTripInfo() { CanSeePerfData = false };
+			}
+
 			var tripInfo = new MyTripInfo()
 			{
 				CanSeePerfData = canSeePerfData,
@@ -1049,6 +1131,108 @@ namespace PWDRepositories
 			}
 
 			throw new NotImplementedException();
+		}
+
+		public TerritoryTripInfo GetTerritoryTripInfo( int userId )
+		{
+			var dbUser = database.Users.FirstOrDefault( u => u.UserID == userId );
+
+			if( dbUser != null )
+			{
+				if( dbUser.Company.TerritoryTripData != null )
+				{
+					return new TerritoryTripInfo()
+					{
+						TerritoryID = dbUser.Company.TerritoryID ?? 0,
+						NewProductPoints = dbUser.Company.TerritoryTripData.NewProductPoints,
+						FocusDealerPoints = dbUser.Company.TerritoryTripData.FocusDealerPoints,
+						CurrentTerritoryVol = dbUser.Company.TerritoryTripData.CurrentTerritoryVol,
+						TerritoryPoints = dbUser.Company.TerritoryTripData.TerritoryPoints,
+						NumDealerTripsAwarded = dbUser.Company.TerritoryTripData.NumDealerTripsAwarded,
+						DealerTripPoints = dbUser.Company.TerritoryTripData.DealerTripPoints,
+						EducationPoints = dbUser.Company.TerritoryTripData.EducationPoints,
+						TotalTripPoints = dbUser.Company.TerritoryTripData.TotalTripPoints,
+						ImportDate = dbUser.Company.TerritoryTripData.ImportDate
+					};
+				}
+			}
+
+			throw new NotImplementedException();
+		}
+
+		public IEnumerable<DealerTripSummary> GetCompanyTripList( CompanyTableParams param, out int totalRecords, out int displayedRecords )
+		{
+			totalRecords = 0;
+			displayedRecords = 0;
+
+			var companyList = database.Companies
+				.Where( c => c.TerritoryID == param.territoryId )
+				.Where( c => c.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer )
+				.Where( c => c.SignedUpForTrip && c.CompanyTripData != null )
+				.AsQueryable();
+
+			totalRecords = companyList.Count();
+			displayedRecords = totalRecords;
+
+			string sortCol = param.sColumns.Split( ',' )[param.iSortCol_0];
+
+			IQueryable<Company> filteredAndSorted = null;
+			switch( sortCol.ToLower() )
+			{
+				case "name":
+				default:
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = companyList.OrderBy( v => v.Name );
+					}
+					else
+					{
+						filteredAndSorted = companyList.OrderByDescending( v => v.Name );
+					}
+					break;
+				case "groupname":
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = companyList.OrderBy( v => v.TripGroup );
+					}
+					else
+					{
+						filteredAndSorted = companyList.OrderByDescending( v => v.TripGroup );
+					}
+					break;
+				case "numtrips":
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = companyList.OrderBy( v => v.CompanyTripData.TotalTripsYTD );
+					}
+					else
+					{
+						filteredAndSorted = companyList.OrderByDescending( v => v.CompanyTripData.TotalTripsYTD );
+					}
+					break;
+				case "totalsales":
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = companyList.OrderBy( v => v.CompanyTripData.TotalSalesYTD );
+					}
+					else
+					{
+						filteredAndSorted = companyList.OrderByDescending( v => v.CompanyTripData.TotalSalesYTD );
+					}
+					break;
+			}
+
+			return filteredAndSorted
+				.Include( c => c.CompanyTripData )
+				.ToList()
+				.Select( v => new DealerTripSummary()
+				{
+					CompanyID = v.CompanyID,
+					Name = v.Name,
+					GroupName = v.TripGroup,
+					NumTrips = v.CompanyTripData.TotalTripsYTD ?? 0,
+					TotalSales = (v.CompanyTripData.TotalSalesYTD ?? 0.0M).ToString( "C" )
+				} );
 		}
 	}
 }

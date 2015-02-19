@@ -79,6 +79,7 @@ namespace PDWDBContext
         public virtual ICollection<Project> Projects { get; set; }
         public virtual ICollection<Project> Projects1 { get; set; }
         public virtual CompanyTripData CompanyTripData { get; set; }
+        public virtual TerritoryTripData TerritoryTripData { get; set; }
     }
     
 }

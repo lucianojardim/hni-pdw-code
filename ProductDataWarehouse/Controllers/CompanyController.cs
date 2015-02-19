@@ -25,9 +25,15 @@ namespace ProductDataWarehouse.Controllers
 			return View();
 		}
 
+		[PaoliAuthorize( "CanManageCompanies" )]
+		public ActionResult ImportTerritoryTripData()
+		{
+			return View();
+		}
+
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		[PaoliAuthorize( "CanManageImages" )]
+		[PaoliAuthorize( "CanManageCompanies" )]
 		[TempPasswordCheck]
 		[ValidateInput( false )]
 		public ActionResult ImportTripData( HttpPostedFileBase dataFile )
@@ -37,6 +43,28 @@ namespace ProductDataWarehouse.Controllers
 				var errors = new List<string>();
 
 				ViewBag.CloseFancyBox = cRepo.ImportTripData( dataFile.InputStream, errors );
+
+				foreach( var e in errors )
+				{
+					ModelState.AddModelError( "", e );
+				}
+			}
+
+			return View();
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		[PaoliAuthorize( "CanManageCompanies" )]
+		[TempPasswordCheck]
+		[ValidateInput( false )]
+		public ActionResult ImportTerritoryTripData( HttpPostedFileBase dataFile )
+		{
+			using( var cRepo = new CompanyRepository() )
+			{
+				var errors = new List<string>();
+
+				ViewBag.CloseFancyBox = cRepo.ImportTripTerritoryData( dataFile.InputStream, errors );
 
 				foreach( var e in errors )
 				{
@@ -96,6 +124,28 @@ namespace ProductDataWarehouse.Controllers
 				return Json( new
 				{
 					success = bSuccess
+				},
+					JsonRequestBehavior.AllowGet );
+			}
+		}
+
+		[PaoliAuthorize( "CanViewMyTerritory" )]
+		[TempPasswordCheck]
+		public JsonResult TripDataForTerritoryCompanyList( CompanyTableParams param )
+		{
+			int totalCount = 0, filteredCount = 0;
+
+			using( var cRepository = new CompanyRepository() )
+			{
+				var results = cRepository.GetCompanyTripList(
+					param, out totalCount, out filteredCount );
+
+				return Json( new
+				{
+					sEcho = param.sEcho,
+					iTotalRecords = totalCount,
+					iTotalDisplayRecords = filteredCount,
+					aaData = results
 				},
 					JsonRequestBehavior.AllowGet );
 			}

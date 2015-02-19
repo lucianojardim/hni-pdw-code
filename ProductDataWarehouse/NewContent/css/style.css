@@ -569,10 +569,10 @@ hr { border:0; width:100%; background-color:#eaeaea; color:#eaeaea; height:1px; 
 .LdTm_Full_Width h1 {font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif; color: #454545;font-size:22px; margin-top: 30px;}
 .LdTm_Full_Width p {font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif; color: #454545;font-size:12px; padding-top: 10px; line-height: 175%;}
 .LdTm_Full_Width table {width:100%; margin-top:10px;}
-.LdTm_Full_Width td:nth-child(even) {text-align:right;}
+.LdTm_Full_Width table.dataColumns td:nth-child(even) {text-align:right;}
 /*.LdTm_Full_Width td:first-child + td { padding-left:7px; text-align:right;}*/
 .LdTm_Full_Width hr {size:1px; margin:30px 0;}
-.LdTm_Full_Width td {width:38% 12% 38% 12%; padding-right:20px;}
+.LdTm_Full_Width table.dataColumns td {width:38% 12% 38% 12%; padding-right:20px;}
 .LdTm_Full_Width .LdTm_Full_Width_Promo { font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif; color: #454545;font-size:22px; margin-top: 30px; text-align:center;}
 
 /*EI new styles for user form redux*/
@@ -640,6 +640,8 @@ hr.margin20 { border:0; width:100%; background-color:#eaeaea; color:#eaeaea; hei
 .territory-companyProfile table.userTable th {border-bottom:1px solid #eaeaea;}
 .territory-companyProfile table.dealerTable th,.territory-companyProfile table.dealerTable td {width:165px; padding:15px 0;}
 .territory-companyProfile table.dealerTable th {border-bottom:1px solid #eaeaea;}
+.LdTm_Full_Width table.dealerTable th,.LdTm_Full_Width table.dealerTable td {width:165px; padding:15px 0;}
+.LdTm_Full_Width table.dealerTable th {border-bottom:1px solid #eaeaea;}
 .territory-companyProfile .ordering{font-size:10px; }
 .territory-companyProfile .dataTable select {
     background: url('../images/ascendingDropdownArrow.jpg') no-repeat scroll right center #FFF;
