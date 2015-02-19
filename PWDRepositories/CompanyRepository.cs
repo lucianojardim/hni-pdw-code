@@ -38,8 +38,7 @@ namespace PWDRepositories
 				PSRContact = c.PaoliSalesRepMemberID.HasValue ? c.PaoliSalesRepMember.FullName : "",
 				TierGroup = c.TierGroup,
 				UserCount = c.Users.Where( u => u.IsActive && u.Enabled ).Count(),
-				CanDelete = !c.Users.Any() && !c.SpecRequests.Any() && !c.SpecRequests1.Any() && !c.CollateralOrders.Any() && !c.CollateralOrders1.Any() &&
-					!c.CollateralOrders2.Any() && !c.CollateralOrders3.Any() && !c.Projects.Any() && !c.Projects1.Any() && !c.eCollateralItems.Any()
+				CanDelete = c.CanDelete > 0
 			};
 		}
 
@@ -498,18 +497,8 @@ namespace PWDRepositories
 			}
 
 			return filteredAndSorted
-				.Include( c => c.PaoliMember )
 				.Include( c => c.PaoliSalesRepMember )
 				.Include( c => c.Users )
-				.Include( c => c.SpecRequests )
-				.Include( c => c.SpecRequests1 )
-				.Include( c => c.CollateralOrders )
-				.Include( c => c.CollateralOrders1 )
-				.Include( c => c.CollateralOrders2 )
-				.Include( c => c.CollateralOrders3 )
-				.Include( c => c.Projects )
-				.Include( c => c.Projects1 )
-				.Include( c => c.eCollateralItems )
 				.Include( c => c.CompanyTripData )
 				.ToList()
 				.Select( v => ToCompanySummary( v ) );

@@ -591,6 +591,7 @@
           <Property Name="TripGroup" Type="nvarchar" MaxLength="50" />
           <Property Name="TierGroup" Type="nvarchar" MaxLength="50" />
           <Property Name="ImageFileName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CanDelete" Type="int" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="CompanyTripData">
           <Key>
@@ -3359,6 +3360,7 @@
           <NavigationProperty Name="Projects" Relationship="PaoliPDWModel.fkProject_Company" FromRole="Company" ToRole="Project" />
           <NavigationProperty Name="Projects1" Relationship="PaoliPDWModel.fkProject_EndCustomer" FromRole="Company" ToRole="Project" />
           <NavigationProperty Name="CompanyTripData" Relationship="PaoliPDWModel.fkTripData_Company" FromRole="Company" ToRole="CompanyTripData" />
+          <Property Type="Int32" Name="CanDelete" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="SpecRequestFile">
           <Key>
@@ -4766,6 +4768,7 @@
           <EntitySetMapping Name="Companies">
             <EntityTypeMapping TypeName="PaoliPDWModel.Company">
               <MappingFragment StoreEntitySet="Companies">
+                <ScalarProperty Name="CanDelete" ColumnName="CanDelete" />
                 <ScalarProperty Name="ImageFileName" ColumnName="ImageFileName" />
                 <ScalarProperty Name="TierGroup" ColumnName="TierGroup" />
                 <ScalarProperty Name="TripGroup" ColumnName="TripGroup" />
