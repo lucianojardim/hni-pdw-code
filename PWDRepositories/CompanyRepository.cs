@@ -834,7 +834,7 @@ namespace PWDRepositories
 				int territoryId = 0;
 				int.TryParse( territoryName, out territoryId );
 
-				var dbCompany = database.Companies.FirstOrDefault( c => c.TerritoryID == territoryId && c.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup );
+				var dbCompany = database.Companies.FirstOrDefault( c => c.TerritoryID == territoryId && c.Name == companyName && c.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup );
 
 				if( dbCompany == null )
 				{
