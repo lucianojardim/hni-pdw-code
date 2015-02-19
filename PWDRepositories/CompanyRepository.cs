@@ -341,7 +341,7 @@ namespace PWDRepositories
 				newCompany.WebSite = cInfo.WebSite;
 				newCompany.SignedUpForTrip = false;
 				newCompany.TripGroup = null;
-				newCompany.TierGroup = cInfo.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ? PaoliWebUser.PaoliTierGroup.Diamond : null;
+				newCompany.TierGroup = cInfo.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ? PaoliWebUser.PaoliTierGroup.General : null;
 
 				database.Companies.Add( newCompany );
 			}

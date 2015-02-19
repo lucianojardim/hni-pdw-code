@@ -33,3 +33,6 @@ create table [TerritoryTripData] (
 	constraint [pkTerritoryTripData] primary key clustered ([CompanyID])	
 ) on [primary]
 go
+
+update [Companies] set [TierGroup] = 'General' where [CompanyType] = 3
+go

@@ -1020,7 +1020,7 @@ namespace PWDRepositories
 				newUser.AuthorCredit = null;
 				newUser.DefaultShippingAddress = AddressTypes.Home;
 				newUser.ViewPerfData = false;
-				newUser.TierGroup = PaoliWebUser.PaoliTierGroup.Diamond;
+				newUser.TierGroup = PaoliWebUser.PaoliTierGroup.General;
 
 				string password = GenerateNewPassword();
 				PaoliEncryption enc = new PaoliEncryption( PaoliEncryption.DataPassPhrase );

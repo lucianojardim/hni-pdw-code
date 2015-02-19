@@ -13,9 +13,9 @@ namespace PDWInfrastructure
 		public static class PaoliTierGroup
 		{
 			public const string Diamond = "Diamond";
-			public const string Ruby = "Ruby";
-			public const string Emerald = "Emerald";
-			public const string CubicZirconia = "Cubic Zirconia";
+			public const string DiamondElite = "Diamond Elite";
+			public const string Focus = "Focus";
+			public const string General = "General";
 
 			public static List<string> TierGroupList
 			{
@@ -24,9 +24,9 @@ namespace PDWInfrastructure
 					return new List<string>()
 					{
 						Diamond,
-						Ruby,
-						Emerald,
-						CubicZirconia
+						DiamondElite,
+						Focus,
+						General
 					};
 				}
 			}
