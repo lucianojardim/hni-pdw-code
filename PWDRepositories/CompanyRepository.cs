@@ -386,7 +386,8 @@ namespace PWDRepositories
 				companyList = companyList.Where( i =>
 					i.Name.Contains( param.sSearch ) ||
 					i.BusinessUnitName.Contains( param.sSearch ) ||
-					i.MasterID.Contains( param.sSearch ) );
+					i.MasterID.Contains( param.sSearch ) ||
+					i.SubCompanyIDs.Contains( param.sSearch ) );
 			}
 			if( param.companyType != 0 )
 			{
