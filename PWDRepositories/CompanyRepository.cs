@@ -32,7 +32,8 @@ namespace PWDRepositories
 				BaseNumber = c.SubCompanyIDs,
 				City = c.City,
 				State = c.State,
-				TripGroupInfo = c.SignedUpForTrip ? ("Yes - " + c.TripGroup) : "No",
+				SignedUpForTrip = c.SignedUpForTrip && ( c.CompanyTripData != null ),
+				TripGroupInfo = c.SignedUpForTrip && ( c.CompanyTripData != null ) ? ( "Yes - " + c.TripGroup ) : "No",
 				PSRContactID = c.PaoliSalesRepMemberID,
 				PSRContact = c.PaoliSalesRepMemberID.HasValue ? c.PaoliSalesRepMember.FullName : "",
 				TierGroup = c.TierGroup,
@@ -508,6 +509,7 @@ namespace PWDRepositories
 				.Include( c => c.Projects )
 				.Include( c => c.Projects1 )
 				.Include( c => c.eCollateralItems )
+				.Include( c => c.CompanyTripData )
 				.ToList()
 				.Select( v => ToCompanySummary( v ) );
 		}
@@ -994,49 +996,66 @@ namespace PWDRepositories
 			return false;
 		}
 
-		public object GetMyCompanyTripInfo( int userId )
+		private MyTripInfo GetCompanyTripInfo( Company company, bool canSeePerfData )
+		{
+			var tripInfo = new MyTripInfo()
+			{
+				CanSeePerfData = canSeePerfData,
+				YTDSales = ( company.CompanyTripData.TotalSalesYTD ?? 0.0M ).ToString( "C0" ),
+				TripEarned = company.CompanyTripData.TotalTripsYTD ?? 0,
+				SalesToNextTrip = ( company.CompanyTripData.SalesToNextTrip ?? 0.0M ).ToString( "C0" ),
+
+				TripGroup = company.TripGroup,
+				TripGroupCount = database.Companies.Count( c => c.TripGroup == company.TripGroup ),
+
+				ImportDate = company.CompanyTripData.ImportDate
+
+			};
+
+			switch( tripInfo.TripGroup )
+			{
+				case "Aloha":
+					tripInfo.NetGrowth = ( company.CompanyTripData.AlohaDollarGrowthYTD ?? 0.0M ).ToString( "C0" );
+					tripInfo.PercNetGrowth = ( ( company.CompanyTripData.AlohaPercentGrowthYTD ?? 0.0M ) / 100 ).ToString( "P" );
+					tripInfo.NetGrowthRank = company.CompanyTripData.AlohaDollarGrowthRank ?? 0;
+					tripInfo.PercNetGrowthRank = company.CompanyTripData.AlohaPercentGrowthRank ?? 0;
+					break;
+				case "Shaka":
+					tripInfo.NetGrowth = ( company.CompanyTripData.ShakaDollarGrowthYTD ?? 0.0M ).ToString( "C0" );
+					tripInfo.PercNetGrowth = ( ( company.CompanyTripData.ShakaPercentGrowthYTD ?? 0.0M ) / 100 ).ToString( "P" );
+					tripInfo.NetGrowthRank = company.CompanyTripData.ShakaDollarGrowthRank ?? 0;
+					tripInfo.PercNetGrowthRank = company.CompanyTripData.ShakaPercentGrowthRank ?? 0;
+					break;
+				case "Mahalo":
+					tripInfo.NetGrowth = ( company.CompanyTripData.MahaloDollarGrowthYTD ?? 0.0M ).ToString( "C0" );
+					tripInfo.PercNetGrowth = ( ( company.CompanyTripData.MahaloPercentGrowthYTD ?? 0.0M ) / 100 ).ToString( "P" );
+					tripInfo.NetGrowthRank = company.CompanyTripData.MahaloDollarGrowthRank ?? 0;
+					tripInfo.PercNetGrowthRank = company.CompanyTripData.MahaloPercentGrowthRank ?? 0;
+					break;
+			}
+
+			return tripInfo;
+		}
+
+		public MyTripInfo GetCompanyTripInfo( int companyId )
+		{
+			var dbCompany = database.Companies.FirstOrDefault( u => u.CompanyID == companyId );
+
+			if( dbCompany != null )
+			{
+				return GetCompanyTripInfo( dbCompany, true );
+			}
+
+			throw new NotImplementedException();
+		}
+
+		public MyTripInfo GetMyCompanyTripInfo( int userId )
 		{
 			var dbUser = database.Users.FirstOrDefault( u => u.UserID == userId );
 
 			if( dbUser != null )
 			{
-				var tripInfo = new MyTripInfo()
-				{
-					CanSeePerfData = dbUser.ViewPerfData,
-					YTDSales = (dbUser.Company.CompanyTripData.TotalSalesYTD ?? 0.0M).ToString( "C0" ), 
-					TripEarned = dbUser.Company.CompanyTripData.TotalTripsYTD ?? 0,
-					SalesToNextTrip = (dbUser.Company.CompanyTripData.SalesToNextTrip ?? 0.0M).ToString( "C0" ),
-
-					TripGroup = dbUser.Company.TripGroup,
-					TripGroupCount = database.Companies.Count( c => c.TripGroup == dbUser.Company.TripGroup ),
-
-					ImportDate = dbUser.Company.CompanyTripData.ImportDate
-
-				};
-
-				switch( tripInfo.TripGroup )
-				{
-					case "Aloha":
-						tripInfo.NetGrowth = ( dbUser.Company.CompanyTripData.AlohaDollarGrowthYTD ?? 0.0M ).ToString( "C0" );
-						tripInfo.PercNetGrowth = ( ( dbUser.Company.CompanyTripData.AlohaPercentGrowthYTD ?? 0.0M ) / 100 ).ToString( "P" );
-						tripInfo.NetGrowthRank = dbUser.Company.CompanyTripData.AlohaDollarGrowthRank ?? 0;
-						tripInfo.PercNetGrowthRank = dbUser.Company.CompanyTripData.AlohaPercentGrowthRank ?? 0;
-						break;
-					case "Shaka":
-						tripInfo.NetGrowth = ( dbUser.Company.CompanyTripData.ShakaDollarGrowthYTD ?? 0.0M ).ToString( "C0" );
-						tripInfo.PercNetGrowth = ( ( dbUser.Company.CompanyTripData.ShakaPercentGrowthYTD ?? 0.0M ) / 100 ).ToString( "P" );
-						tripInfo.NetGrowthRank = dbUser.Company.CompanyTripData.ShakaDollarGrowthRank ?? 0;
-						tripInfo.PercNetGrowthRank = dbUser.Company.CompanyTripData.ShakaPercentGrowthRank ?? 0;
-						break;
-					case "Mahalo":
-						tripInfo.NetGrowth = ( dbUser.Company.CompanyTripData.MahaloDollarGrowthYTD ?? 0.0M ).ToString( "C0" );
-						tripInfo.PercNetGrowth = ( ( dbUser.Company.CompanyTripData.MahaloPercentGrowthYTD ?? 0.0M ) / 100 ).ToString( "P" );
-						tripInfo.NetGrowthRank = dbUser.Company.CompanyTripData.MahaloDollarGrowthRank ?? 0;
-						tripInfo.PercNetGrowthRank = dbUser.Company.CompanyTripData.MahaloPercentGrowthRank ?? 0;
-						break;
-				}
-
-				return tripInfo;
+				return GetCompanyTripInfo( dbUser.Company, dbUser.ViewPerfData );
 			}
 
 			throw new NotImplementedException();

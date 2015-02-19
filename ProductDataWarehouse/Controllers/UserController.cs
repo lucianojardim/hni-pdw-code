@@ -236,6 +236,15 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
+		[PaoliAuthorize( "CanViewMyTerritory" )]
+		public ActionResult DealerTripInfo( int id )
+		{
+			using( var cRepo = new CompanyRepository() )
+			{
+				return View( "MyTripInfo", cRepo.GetCompanyTripInfo( id ) );
+			}
+		}
+
 		[PaoliAuthorize( "IsTripIncentive" )]
 		public ActionResult MyTripInfo()
 		{

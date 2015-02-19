@@ -228,6 +228,10 @@
 
 							$('#mainDeactivateBtn').trigger('click');
 						});
+
+						$('.viewTripBtn').on('click', function() {
+							window.location = '@Url.Action( "DealerTripInfo", "User" )/' + $(this).data('id');
+						});
 					},
 					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Companies:' + errorThrown) }
 				);
@@ -267,7 +271,13 @@
 					},
 					{ "sName": "EditButtons", "sTitle": "Deactivate", "sClass": "hasSpan", "aTargets": [6], "mDataProp": "EditButtons", "bSortable": false, "sWidth": "5%",
 						"fnRender": function(oObj) {
-							return '<span class="btn13 deactivateBtn" data-id="' + oObj.aData["CompanyID"] + '" title="Request Deactivation">X</span>';
+							var s = '';
+							s += '<span class="btn13 deactivateBtn" data-id="' + oObj.aData["CompanyID"] + '" title="Request Deactivation">X</span>';
+							if( oObj.aData["SignedUpForTrip"] ) {
+								s += '&nbsp;';
+								s += '<span class="btn13 viewTripBtn" data-id="' + oObj.aData["CompanyID"] + '" title="View Trip Information"><i class="fa fa-usd"></i></span>';
+							}
+							return s;
 						}
 					}
                 ]
