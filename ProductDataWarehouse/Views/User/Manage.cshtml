@@ -9,7 +9,8 @@
 
 <a href="@Url.Action( "Add", "User" )" id="addNewUser">Add New</a><br />
 Account Type: @Html.DropDownList( "AccountType", ProductDataWarehouse.Controllers.UserController.GetUserRoleFilterList() )<br />
-Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.CompanyController.GetTerritoryDDList( true ) )
+Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.CompanyController.GetTerritoryDDList( true ) )<br />
+@Html.CheckBox( "DisabledUsers" ) Disabled Users<br />
 <div>
     <table id="userList">
     <thead></thead>
@@ -21,6 +22,7 @@ Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.C
 	$(document).ready(function () {
 		$('#AccountType').change(loadUsers);
 		$('#TerritoryID').change(loadUsers);
+		$('#DisabledUsers').click(loadUsers);
 
 		loadUsers();
 	});
@@ -73,6 +75,7 @@ Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.C
 			"fnServerParams": function (aoData) {
 				aoData.push({ "name": "accountType", "value": $('#AccountType').val() });
 				aoData.push({ "name": "territoryId", "value": $('#TerritoryID').val() });
+				aoData.push({ "name": "disabledUsers", "value": $('#DisabledUsers:checked').length > 0 });
 			},
 			"iDisplayLength": 100,
 			"fnServerData": function (sSource, aoData, fnCallback) {

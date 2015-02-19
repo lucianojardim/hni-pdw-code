@@ -479,6 +479,10 @@ namespace PWDRepositories
 				userList = userList.Where( u => u.CompanyID == param.companyId.Value );
 				totalRecords = userList.Count();
 			}
+			if( param.disabledUsers ?? false )
+			{
+				userList = userList.Where( u => !u.Enabled );
+			}
 
 			displayedRecords = userList.Count();
 
