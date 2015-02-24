@@ -482,7 +482,7 @@ namespace PWDRepositories
 			}
 			if( param.disabledUsers ?? false )
 			{
-				userList = userList.Where( u => !u.Enabled );
+				userList = userList.Where( u => !u.Enabled && u.IsActive );
 			}
 
 			displayedRecords = userList.Count();

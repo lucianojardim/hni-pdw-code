@@ -7,7 +7,7 @@
 
 <h2>Company List</h2>
 
-<a href="@Url.Action( "Add", "Company" )" id="addNewCompany">Add New</a> | <a href="@Url.Action( "ImportTripData", "Company" )?iframe" id="importTripData">Import Trip Data</a> | <a href="@Url.Action( "ImportTerritoryTripData", "Company" )?iframe" id="importTerritoryTripData">Import Territory Trip Data</a><br />
+<a href="@Url.Action( "Add", "Company" )" id="addNewCompany">Add New</a> | <a href="@Url.Action( "ImportTripData", "Company" )?iframe" id="importTripData">Import Dealer Trip Data</a> | <a href="@Url.Action( "ImportTerritoryTripData", "Company" )?iframe" id="importTerritoryTripData">Import Territory Trip Data</a><br />
 Company Type: @Html.DropDownList( "CompanyType", ProductDataWarehouse.Controllers.CompanyController.GetCompanyTypeFilterList() )<br />
 Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.CompanyController.GetTerritoryDDList( true ) )<br />
 @Html.CheckBox( "TripOnly" ) Participating in Trip<br />
