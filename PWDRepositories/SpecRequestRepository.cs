@@ -444,7 +444,7 @@ namespace PWDRepositories
 				Casegoods = database.Serieses.Where( s => s.Category.Name == "Casegood" && (s.IsActive || !activeOnly) ).Select( s => s.Name ).ToList(),
 				Seating = database.Serieses.Where( s => s.Category.Name == "Seating" && ( s.IsActive || !activeOnly ) ).Select( s => s.Name ).ToList(),
 				Conferencing = database.Serieses.Where( s => s.Category.Name == "Tables" && ( s.IsActive || !activeOnly ) ).Select( s => s.Name ).ToList(),
-				Finishes = new List<string>() { "Laminate", "Veneer" }
+				Finishes = new List<string>() { "Laminate", "Veneer", "Mixed Materials" }
 			};
 		}
 
