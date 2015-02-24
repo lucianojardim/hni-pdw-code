@@ -103,11 +103,12 @@ namespace ProductDataWarehouse.Controllers
 		{
 			using( var cRepository = new CompanyRepository() )
 			{
-				cRepository.UpdateCompany( PaoliWebUser.CurrentUser.UserId, cInfo );
+				var companyId = cRepository.UpdateCompany( PaoliWebUser.CurrentUser.UserId, cInfo );
 
 				return Json( new
 				{
-					success = true
+					success = true,
+					companyId = companyId
 				},
 					JsonRequestBehavior.AllowGet );
 			}

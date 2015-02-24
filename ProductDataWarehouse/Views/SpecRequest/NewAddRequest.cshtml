@@ -38,18 +38,18 @@
 			return '@(PDWInfrastructure.PaoliWebUser.PaoliCompanyType.EndUser)';
 		}
 
-		function addEditCompanyCallback() {
+		function addEditCompanyCallback(cId) {
 			if( addDealerForm ) {
 		@if( !PaoliWebUser.CurrentUser.IsDealerUser )
 	{
 	<text>
-			reloadDealerList();
+			reloadDealerList(null, cId);
 			</text>
   }
 				return;
 			}
 
-			reloadEndCustomerList();
+			reloadEndCustomerList(cId);
 		}
 
 		var fileCount = 1;
@@ -691,7 +691,7 @@
     		}
     	}
 
-		function reloadDealerList(forceDealer) {
+		function reloadDealerList(forceDealer, cId) {
     		makeAjaxCall('/Company/GetDealerListForSalesRep',
     			{ salesRepCompanyId: $('#PaoliSalesRepGroupID').val(), includeTerritory: true },
     			function (data, textStatus, jqXHR) {
@@ -709,6 +709,7 @@
 						});
 					} else {
 						reloadDropDownCompanyList('#DealerID', data);
+						$('#DealerID').val(cId);
 					}
 
 					reloadDropDownCompanyList('#ProjectDealerID', data);
@@ -726,11 +727,12 @@
 
 		}
 
-    	function reloadEndCustomerList() {
+    	function reloadEndCustomerList(cId) {
     		makeAjaxCall('/Project/GetFullEndCustomerList',
     			null,
     			function (data, textStatus, jqXHR) {
     				reloadDropDownCompanyList('#EndCustomerID', data);
+					$('#EndCustomerID').val(cId);
     			},
     			function (jqXHR, textStatus, errorThrown) {
     				alert('Error getting End Customer list:' + errorThrown)
