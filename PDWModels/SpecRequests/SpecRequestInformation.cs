@@ -10,6 +10,12 @@ namespace PDWModels.SpecRequests
 {
 	public class SpecRequestInformation
 	{
+		public class TempFileDetail
+		{
+			public string TempFile { get; set; }
+			public string OriginalFile { get; set; }
+		}
+
 		public class FileInformation
 		{
 			public int FileID { get; set; }
@@ -80,6 +86,7 @@ namespace PDWModels.SpecRequests
 		public bool NeedAuditSpecs { get; set; }
 		[DisplayName( "Related Drawings or Notes" )]
 		public List<HttpPostedFileBase> addlFiles { get; set; }
+		public List<TempFileDetail> tempFiles { get; set; }
 
 		[DisplayName( "Notes and Directions for Spec Team" )]
 		public string Notes { get; set; }
