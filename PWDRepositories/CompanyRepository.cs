@@ -289,10 +289,9 @@ namespace PWDRepositories
 			return database.SaveChanges() > 0;
 		}
 
-		public void UpdateCompany( int reqUserId, MyCompanyInfo cInfo )
+		public int UpdateCompany( int reqUserId, MyCompanyInfo cInfo )
 		{
 			var dbReqUser = database.Users.FirstOrDefault( u => u.UserID == reqUserId );
-			string masterNumber = "", baseNumber = "";
 			if( cInfo.TheCompanyID != 0 )
 			{
 				var eCompany = database.Companies.FirstOrDefault( u => u.CompanyID == cInfo.TheCompanyID );
@@ -313,8 +312,14 @@ namespace PWDRepositories
 				eCompany.WebSite = cInfo.WebSite;
 
 				cInfo.CompanyType = eCompany.CompanyType;
-				masterNumber = eCompany.MasterID;
-				baseNumber = eCompany.SubCompanyIDs;
+
+				database.SaveChanges();
+
+				new ChangeDealerInfoEmailSender( "ChangeDealerInfo" ).SubmitRequestEmail( dbReqUser.FullName, dbReqUser.Company.Name, cInfo.TheCompanyID, cInfo.CompanyName, cInfo.Address1, cInfo.Address2,
+					cInfo.City, cInfo.State, cInfo.Zip, cInfo.PhoneNumber, cInfo.FaxNumber, cInfo.ContactEmail, cInfo.WebSite,
+					PaoliWebUser.PaoliCompanyType.CompanyTypeList[cInfo.CompanyType], eCompany.MasterID, eCompany.SubCompanyIDs );
+
+				return eCompany.CompanyID;
 			}
 			else
 			{
@@ -345,13 +350,17 @@ namespace PWDRepositories
 				newCompany.TierGroup = cInfo.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ? PaoliWebUser.PaoliTierGroup.General : null;
 
 				database.Companies.Add( newCompany );
+
+				database.SaveChanges();
+
+				new ChangeDealerInfoEmailSender( "AddDealerInfo" ).SubmitRequestEmail( dbReqUser.FullName, dbReqUser.Company.Name, cInfo.TheCompanyID, cInfo.CompanyName, cInfo.Address1, cInfo.Address2,
+					cInfo.City, cInfo.State, cInfo.Zip, cInfo.PhoneNumber, cInfo.FaxNumber, cInfo.ContactEmail, cInfo.WebSite,
+					PaoliWebUser.PaoliCompanyType.CompanyTypeList[cInfo.CompanyType], "", "" );
+
+				database.Entry( newCompany ).Reload();
+
+				return newCompany.CompanyID;
 			}
-
-			database.SaveChanges();
-
-			new ChangeDealerInfoEmailSender( cInfo.TheCompanyID == 0 ? "AddDealerInfo" : "ChangeDealerInfo" ).SubmitRequestEmail( dbReqUser.FullName, dbReqUser.Company.Name, cInfo.TheCompanyID, cInfo.CompanyName, cInfo.Address1, cInfo.Address2,
-				cInfo.City, cInfo.State, cInfo.Zip, cInfo.PhoneNumber, cInfo.FaxNumber, cInfo.ContactEmail, cInfo.WebSite, 
-				PaoliWebUser.PaoliCompanyType.CompanyTypeList[cInfo.CompanyType], masterNumber, baseNumber );
 		}
 
 		public bool DeleteCompany( int id )

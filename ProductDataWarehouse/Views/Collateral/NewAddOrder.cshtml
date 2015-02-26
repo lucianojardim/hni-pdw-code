@@ -24,9 +24,9 @@
 			return '@(PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer)';
 		}
 
-		function addEditCompanyCallback() {
-			loadDealerList();
-			loadSPDealerList();
+		function addEditCompanyCallback(cId) {
+			loadDealerList(cId);
+			loadSPDealerList(cId);
 		}
 
 		var bAddRequestingDealerMember = false;
@@ -443,7 +443,7 @@
 			ddList.attr('value', ddSource.get('value'));
 		}
 
-		function loadDealerList() {
+		function loadDealerList(cId) {
 		@if( PaoliWebUser.CurrentUser.IsDealerUser )
 		{
 		} 
@@ -468,6 +468,7 @@
 				dataSet,
 				function (data, textStatus, jqXHR) {
 					reloadDropDownCompanyList('#DealerID', data);
+					$('#DealerID').val(cId);
 					reloadDealerSalesRepList();
 				},
 				function (jqXHR, textStatus, errorThrown) {
@@ -478,7 +479,7 @@
 		}
 		}
 
-		function loadSPDealerList() {
+		function loadSPDealerList(cId) {
 			var theUrl = '/Company/GetDealerList';
 			var dataSet = { includeBlank: 'true' };
 			if ($('.RPRepGroup:hidden').length == 0) {
@@ -500,6 +501,7 @@
 				dataSet,
 				function (data, textStatus, jqXHR) {
 					reloadDropDownCompanyList('#SPDealerID', data);
+					$('#SPDealerID').val(cId);
 					reloadSPDealerSalesRepList();
 				},
 				function (jqXHR, textStatus, errorThrown) {

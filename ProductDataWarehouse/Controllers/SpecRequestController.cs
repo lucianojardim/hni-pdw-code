@@ -7,6 +7,7 @@ using PDWInfrastructure;
 using PWDRepositories;
 using PDWModels.SpecRequests;
 using PDWInfrastructure.Attributes;
+using System.Configuration;
 
 namespace ProductDataWarehouse.Controllers
 {
@@ -82,6 +83,17 @@ namespace ProductDataWarehouse.Controllers
 					aaData = results
 				},
 					JsonRequestBehavior.AllowGet );
+			}
+		}
+
+		[PaoliAuthorize( "CanBeLoggedIn" )]
+		public JsonResult UploadNewFiles()
+		{
+			using( var sRepository = new SpecRequestRepository() )
+			{
+				var tempFileList = sRepository.SaveTempFiles( Request.Files, ConfigurationManager.AppSettings["SpecRequestDocumentLocation"] );
+
+				return Json( new { success = true, fileList = tempFileList }, JsonRequestBehavior.AllowGet );
 			}
 		}
 

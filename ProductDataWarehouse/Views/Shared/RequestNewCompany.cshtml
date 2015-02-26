@@ -109,7 +109,7 @@
 							$.fancybox.close();
 
 							if (addEditCompanyCallback != null) {
-								addEditCompanyCallback();
+								addEditCompanyCallback(data.companyId);
 							}
 						} else {
 							alert('We are unable to process your request at this time.');

@@ -444,7 +444,7 @@ namespace PWDRepositories
 				Casegoods = database.Serieses.Where( s => s.Category.Name == "Casegood" && (s.IsActive || !activeOnly) ).Select( s => s.Name ).ToList(),
 				Seating = database.Serieses.Where( s => s.Category.Name == "Seating" && ( s.IsActive || !activeOnly ) ).Select( s => s.Name ).ToList(),
 				Conferencing = database.Serieses.Where( s => s.Category.Name == "Tables" && ( s.IsActive || !activeOnly ) ).Select( s => s.Name ).ToList(),
-				Finishes = new List<string>() { "Laminate", "Veneer" }
+				Finishes = new List<string>() { "Laminate", "Veneer", "Mixed Materials" }
 			};
 		}
 
@@ -789,7 +789,14 @@ namespace PWDRepositories
 
 				var rootLocation = Path.Combine( ConfigurationManager.AppSettings["SpecRequestDocumentLocation"], newSpec.Name );
 
-				if( sInfo.addlFiles != null )
+				if( sInfo.tempFiles != null )
+				{
+					foreach( var tempFile in sInfo.tempFiles )
+					{
+						CopyNewFileVersion( newSpec, ConfigurationManager.AppSettings["SpecRequestDocumentLocation"], newSpec.Name, Path.GetExtension( tempFile.OriginalFile ).Trim( '.' ), tempFile.TempFile, tempFile.OriginalFile, false );
+					}
+				}
+				else if( sInfo.addlFiles != null )
 				{
 					foreach( var fileStream in sInfo.addlFiles )
 					{
@@ -1280,6 +1287,44 @@ namespace PWDRepositories
 			{
 				inputStream.CopyTo( fileStream );
 			}
+
+			var newFile = new SpecRequestFile();
+
+			newFile.Extension = fileType;
+			newFile.Name = fileName;
+			newFile.VersionNumber = existingCount;
+			newFile.UploadDate = DateTime.UtcNow;
+			newFile.IsSpecTeam = isSpecTeam;
+
+			sRequest.SpecRequestFiles.Add( newFile );
+
+			return new EmailSender.FileDetail()
+			{
+				fileName = newFile.Name,
+				filePath = sRequest.Name + "/" + ( newFile.Extension.Any() ? ( newFile.Extension + "/" ) : "" ) + newFile.VersionNumber.ToString()
+			};
+		}
+
+		private EmailSender.FileDetail CopyNewFileVersion( SpecRequest sRequest, string rootLocation, string specName, string fileType, string tempFileName, string fileName, bool isSpecTeam )
+		{
+			var existingCount = sRequest.SpecRequestFiles.Count( f => f.Extension == fileType );
+			existingCount++;
+
+			var fileLocation = Path.Combine( rootLocation, specName, fileType, existingCount.ToString() );
+
+			if( !Directory.Exists( fileLocation ) )
+			{
+				Directory.CreateDirectory( fileLocation );
+			}
+
+			fileName = fileName.Replace( "&", "and" );
+			fileName = Path.GetFileName( fileName );
+
+			fileLocation = Path.Combine( fileLocation, fileName );
+
+			var tempLocation = Path.Combine( rootLocation, "TempFiles", tempFileName );
+
+			File.Move( tempLocation, fileLocation );
 
 			var newFile = new SpecRequestFile();
 
@@ -2136,6 +2181,34 @@ namespace PWDRepositories
 				.ToList()
 				.Select( p => new IDToTextItemExtra() { ID = p.ProjectID, Text = p.ProjectName, Extra = p.DealerID.HasValue ? p.DealerID.ToString() : "" } )
 				.ToList();
+		}
+
+		public List<Tuple<string, string>> SaveTempFiles( System.Web.HttpFileCollectionBase httpFileCollectionBase, string rootLocation )
+		{
+			var retList = new List<Tuple<string, string>>();
+
+			rootLocation = Path.Combine( rootLocation, "TempFiles" );
+
+			if( !Directory.Exists( rootLocation ) )
+			{
+				Directory.CreateDirectory( rootLocation );
+			}
+
+			for( int i = 0; i < httpFileCollectionBase.Count; i++ )
+			{
+				var newFile = Guid.NewGuid().ToString();
+
+				var fileLocation = Path.Combine( rootLocation, newFile );
+
+				using( var fileStream = File.Create( fileLocation ) )
+				{
+					httpFileCollectionBase[i].InputStream.CopyTo( fileStream );
+				}
+
+				retList.Add( new Tuple<string, string>( newFile, httpFileCollectionBase[i].FileName ) );
+			}
+
+			return retList;
 		}
 	}
 }

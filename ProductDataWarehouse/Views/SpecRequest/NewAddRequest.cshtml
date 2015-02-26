@@ -38,18 +38,18 @@
 			return '@(PDWInfrastructure.PaoliWebUser.PaoliCompanyType.EndUser)';
 		}
 
-		function addEditCompanyCallback() {
+		function addEditCompanyCallback(cId) {
 			if( addDealerForm ) {
 		@if( !PaoliWebUser.CurrentUser.IsDealerUser )
 	{
 	<text>
-			reloadDealerList();
+			reloadDealerList(null, cId);
 			</text>
   }
 				return;
 			}
 
-			reloadEndCustomerList();
+			reloadEndCustomerList(cId);
 		}
 
 		var fileCount = 1;
@@ -182,17 +182,6 @@
 				return false;
 			});
 
-			var doesMultipleFiles = false;
-    		$('#fileContainer input[type="file"]').each(function (i, fc) {
-    			if (fc.files != null) {
-    				doesMultipleFiles = true;
-    			}
-    		});
-			if( doesMultipleFiles ) {
-				$('.addlFilesIndex').remove();
-				$('#fileContainer input[type="file"]').attr('name', 'addlFiles');
-			}
-
 			$('.addECBtn').on('click', function(){
 				addDealerForm = false;
     			clearNewCompanyForm();
@@ -250,6 +239,19 @@
 				$('#mainEditUserContactBtn').trigger('click');
 			});
 
+			var doesMultipleFiles = false;
+    		$('#fileContainer input[type="file"]').each(function (i, fc) {
+    			if (fc.files != null) {
+    				doesMultipleFiles = true;
+    			}
+    		});
+			if( doesMultipleFiles ) {
+				$('.addlSingleFiles').remove();
+			} else {
+				$('#addlMultipleFiles').remove();
+			}
+
+			$('#addlMultipleFiles').on('change', multipleFileChanged);
 		});
 
 		function showHideContractInfo() {
@@ -303,7 +305,7 @@
 			}
 		}
 
-		function fileChanged() {
+		function singleFileChanged() {
     		var doInsert = true;
     		$('#fileContainer input[type="file"]').each(function (i, fc) {
     			if (fc.value == null || fc.value == '' || fc.files != null) {
@@ -312,10 +314,59 @@
     			}
     		});
     		if (doInsert) {
-    			$('#fileContainer').append('<div><input type="file" id="addlFiles' + fileCount + '" name="addlFiles[' + fileCount + ']" class="jfilestyle addlFiles" onchange="fileChanged()" data-buttontext="Choose File"/><input type="hidden" name="addlFiles.Index" value="' + fileCount + '" /></div>');
-//				$('#addlFiles' + fileCount + '').jfilestyle({buttonText: "Choose a file"});
+    			$('#fileContainer').append('<div><input type="file" id="addlFiles' + fileCount + '" name="addlFiles[' + fileCount + ']" class="jfilestyle" onchange="singleFileChanged()" data-buttontext="Choose File"/><input type="hidden" name="addlFiles.Index" value="' + fileCount + '" /></div>');
     			fileCount++;
     		}		
+		}
+
+		function multipleFileChanged(event) {
+			var data = new FormData();
+			$.each(event.target.files, function(key, value)
+			{
+				data.append(key, value);
+			});
+
+			$('#btnFormSubmissionInProgress').click();
+
+			$.ajax({
+				url: '@Url.Action("UploadNewFiles", "SpecRequest")',
+				type: 'POST',
+				data: data,
+				cache: false,
+				dataType: 'json',
+				processData: false, // Don't process the files
+				contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+				success: function(data, textStatus, jqXHR) {
+					if( data.success ) {
+						$.each(data.fileList, function(i, f) {
+							$('#fileContainer').append('<input type="hidden" name="tempFiles[' + fileCount + '].TempFile" value="' + f.Item1 + '"/>' + 
+								'<input type="hidden" name="tempFiles[' + fileCount + '].OriginalFile" value="' + f.Item2 + '"/>' + 
+								'<input type="hidden" name="tempFiles.Index" value="' + fileCount + '" />');
+							fileCount++;
+						});
+						$.each(event.target.files, function(i, f) {
+							$('#fileContainer').append('<div class="addlFileNames">' + f.name + '</div>');
+						});
+
+						$('#addlMultipleFiles').remove();
+						$('#fileContainer').prepend('<div><input type="file" id="addlMultipleFiles" name="addlMultipleFiles" class="jfilestyle" multiple data-buttontext="Choose File"/></div>');
+						$('#addlMultipleFiles').on('change', multipleFileChanged);
+
+					} else {
+						alert('An Error has occurred uploading your files');
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					// Handle errors here
+					alert('An Error has occurred uploading your files');
+					// STOP LOADING SPINNER
+				},
+				complete: function(jqXHR, textStatus) {
+					setTimeout(function() {
+						$.fancybox.close();
+					}, 500);
+				}
+			});
     	}
 
     	function setPanel(offset) {
@@ -408,6 +459,9 @@
 				} else if (fc.value != null) {
 					fileList.push(fc.value);
 				}
+			});
+			$('.addlFileNames').each(function( i, fc ) {
+				fileList.push(fc.textContent);
 			});
 			if (fileList.length != 0) {
 				$('#confirmAddlServiceInfo .coln1').append('<h5>Related Drawings or Notes</h5>');
@@ -691,7 +745,7 @@
     		}
     	}
 
-		function reloadDealerList(forceDealer) {
+		function reloadDealerList(forceDealer, cId) {
     		makeAjaxCall('/Company/GetDealerListForSalesRep',
     			{ salesRepCompanyId: $('#PaoliSalesRepGroupID').val(), includeTerritory: true },
     			function (data, textStatus, jqXHR) {
@@ -709,6 +763,7 @@
 						});
 					} else {
 						reloadDropDownCompanyList('#DealerID', data);
+						$('#DealerID').val(cId);
 					}
 
 					reloadDropDownCompanyList('#ProjectDealerID', data);
@@ -726,11 +781,12 @@
 
 		}
 
-    	function reloadEndCustomerList() {
+    	function reloadEndCustomerList(cId) {
     		makeAjaxCall('/Project/GetFullEndCustomerList',
     			null,
     			function (data, textStatus, jqXHR) {
     				reloadDropDownCompanyList('#EndCustomerID', data);
+					$('#EndCustomerID').val(cId);
     			},
     			function (jqXHR, textStatus, errorThrown) {
     				alert('Error getting End Customer list:' + errorThrown)
@@ -910,7 +966,8 @@
 								 this request.</p>
 							 <div class="box4" id="fileContainer">
 							 <div>
-								 <input type="file" id="addlFiles0" name="addlFiles[0]" class="jfilestyle addlFiles" onchange="fileChanged()" multiple data-buttontext="Choose File"/><input type="hidden" name="addlFiles.Index" value="0" class="addlFilesIndex" />
+								 <input type="file" id="addlMultipleFiles" name="addlMultipleFiles" class="jfilestyle" multiple data-buttontext="Choose File"/>
+								 <input type="file" id="addlFiles0" name="addlFiles[0]" class="jfilestyle addlSingleFiles" onchange="singleFileChanged()" data-buttontext="Choose File"/><input type="hidden" name="addlFiles.Index" value="0" />
 								</div>
 							 </div>
 						 </li>

@@ -17,8 +17,8 @@
     		return '@(PDWInfrastructure.PaoliWebUser.PaoliCompanyType.EndUser)';
     	}
 
-    	function addEditCompanyCallback() {
-    		reloadEndCustomerList();
+    	function addEditCompanyCallback(cId) {
+    		reloadEndCustomerList(cId);
     	}
 
     	var fileCount = 1;
@@ -154,11 +154,12 @@
 			ddList.attr('value', ddSource.get('value'));
 		}
 
-    	function reloadEndCustomerList() {
+		function reloadEndCustomerList(cId) {
     		makeAjaxCall('/Project/GetFullEndCustomerList',
     			null,
     			function (data, textStatus, jqXHR) {
     				reloadDropDownCompanyList('#EndCustomerID', data, true);
+					$('#EndCustomerID').val(cId);
     			},
     			function (jqXHR, textStatus, errorThrown) {
     				alert('Error getting End Customer list:' + errorThrown)
