@@ -1,0 +1,148 @@
+﻿@{
+    ViewBag.Title = "Users";
+	ViewBag.CurrentPage = "Users";
+	ViewBag.CurrentSubPage = "Users";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+
+<h2>Paoli User List</h2>
+
+<a href="@Url.Action( "Add", "User" )" id="addNewUser">Add New</a><br />
+Account Type: @Html.DropDownList( "AccountType", ProductDataWarehouse.Controllers.UserController.GetUserRoleFilterList() )<br />
+Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.CompanyController.GetTerritoryDDList( true ) )<br />
+@Html.CheckBox( "DisabledUsers" ) Disabled, Active Users<br />
+<div>
+    <table id="userList">
+    <thead></thead>
+    <tfoot></tfoot>
+    </table>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('#AccountType').change(loadUsers);
+		$('#TerritoryID').change(loadUsers);
+		$('#DisabledUsers').click(loadUsers);
+
+		loadUsers();
+	});
+
+	function resetPassword(dID) {
+		if (confirm('Reset Password for User?')) {
+			makeAjaxCall('/User/ResetPassword',
+				{ id: dID },
+				function (data, textStatus, jqXHR) {
+					alert('The password for this user has been reset.');
+					loadUsers();
+				},
+				function (jqXHR, textStatus, errorThrown) {
+					alert('Error resetting password for User:' + errorThrown)
+				}
+			);
+		}
+	}
+
+	function sendWelcomeEmail(dID) {
+		if (confirm('Send Welcome Email for User?')) {
+			makeAjaxCall('/User/SendWelcomeEmail',
+				{ id: dID },
+				function (data, textStatus, jqXHR) {
+					alert('A welcome email has been sent to this user.');
+					loadUsers();
+				},
+				function (jqXHR, textStatus, errorThrown) {
+					alert('Error send welcome email to User:' + errorThrown)
+				}
+			);
+		}
+	}
+
+	var oTable = null;
+	function loadUsers() {
+		if (oTable != null) {
+			oTable.fnDraw();
+			return;
+		}
+
+		oTable = $('#userList').dataTable({
+			"bServerSide": true,
+			"bAutoWidth": false,
+			"bFilter": true,
+			"bLengthChange": false, // don't show dropdown for #items per page
+			"bPaginate": true,
+			"bInfo": true,
+			"sAjaxSource": '@Url.Action( "FullUserList" )',
+			"fnServerParams": function (aoData) {
+				aoData.push({ "name": "accountType", "value": $('#AccountType').val() });
+				aoData.push({ "name": "territoryId", "value": $('#TerritoryID').val() });
+				aoData.push({ "name": "disabledUsers", "value": $('#DisabledUsers:checked').length > 0 });
+			},
+			"iDisplayLength": 100,
+			"fnServerData": function (sSource, aoData, fnCallback) {
+				makeAjaxCall(sSource,
+					aoData,
+					function (data, textStatus, jqXHR) {
+						fnCallback(data, textStatus, jqXHR);
+					},
+					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Users:' + errorThrown) }
+				);
+			},
+			"bProcessing": false, // don't want to use the default progress indicator at this time
+			"aaSorting": [[1, "asc"]],
+			"aoColumnDefs": [
+                    { "sName": "FirstName", "sTitle": "First Name", "aTargets": [0], "mDataProp": "FirstName", "sWidth": "15%",
+                    	"fnRender": function (oObj) {
+                    		var s = '';
+                    		if (!oObj.aData["Enabled"]) {
+                    			s += '<span style="text-decoration:line-through">';
+                    		}
+                    		s += oObj.aData["FirstName"];
+                    		if (!oObj.aData["Enabled"]) {
+                    			s += '</span>';
+                    		}
+                    		return s;
+                    	}
+                    },
+                    { "sName": "LastName", "sTitle": "Last Name", "aTargets": [1], "mDataProp": "LastName", "sWidth": "15%",
+                    	"fnRender": function (oObj) {
+                    		var s = '';
+                    		if (!oObj.aData["Enabled"]) {
+                    			s += '<span style="text-decoration:line-through">';
+                    		}
+                    		s += oObj.aData["LastName"];
+                    		if (!oObj.aData["Enabled"]) {
+                    			s += '</span>';
+                    		}
+                    		return s;
+                    	}
+                    },
+                    { "sName": "EmailAddress", "sTitle": "Email Address", "aTargets": [2], "mDataProp": "EmailAddress", "sWidth": "20%" },
+                    { "sName": "CompanyName", "sTitle": "Company Name", "aTargets": [3], "mDataProp": "CompanyName", "sWidth": "20%" },
+                    { "sName": "LastLogin", "sTitle": "Last Login", "aTargets": [4], "mDataProp": "LastLogin",
+                    	"fnRender": function (oObj) {
+                    		return getDateTimeFromMilliseconds(oObj.aData["LastLoginMilliseconds"]);
+                    	}, "sWidth": "10%"
+                    },
+                    { "sName": "EditButtons",
+                    	"aTargets": [5],
+                    	"bSearchable": false,
+                    	"bSortable": false,
+                    	"mDataProp": "EditButtons", "sWidth": "20%",
+                    	"fnRender": function (oObj) {
+                    		var s;
+                    		s = '<a href=\"@Url.Action( "Edit", "User" )/' + oObj.aData["UserID"] + '" class="fbImageBtn">Edit</a>';
+                    		if (oObj.aData["SentWelcomeEmail"] && oObj.aData["Enabled"]) {
+                    			s += '&nbsp;|&nbsp;';
+                    			s += '<a href=\"#\" onclick="resetPassword(' + oObj.aData["UserID"] + ');">Reset Password</a>';
+                    		} else if (!oObj.aData["SentWelcomeEmail"]) {
+                    			s += '&nbsp;|&nbsp;';
+                    			s += '<a href=\"#\" onclick="sendWelcomeEmail(' + oObj.aData["UserID"] + ');">Send Welcome Email</a>';
+                    		}
+                    		return s;
+                    	}
+                    }
+                ]
+		});
+	}
+
+</script>

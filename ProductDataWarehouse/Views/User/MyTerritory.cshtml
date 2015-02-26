@@ -1,0 +1,279 @@
+﻿@model PDWModels.Companies.MyTerritoryInfo
+@{
+	ViewBag.Title = "MyTerritory";
+	Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.HeaderArea = "Users";
+}
+<div class="container">
+	<div class="main_inner1">
+		<div class="territory-companyProfile">
+			<!--left Column -->
+			<div class="main_inner2_btm_2Col_Col marginTop30">
+				<h2>
+					@Model.CompanyName - @Model.TerritoryID</h2>
+				<div class="addrssColmn">
+					@Model.Address1<br>
+					@if( (Model.Address2 ?? "").Any() )
+	 {
+		 <text>
+					@Model.Address2<br>
+					</text>
+					}
+					@Model.City @Model.State @Model.Zip
+				</div>
+				<div class="phneFaxWebLblColmn marginTop30">
+					Phone<br>
+					Fax<br>
+					Website
+				</div>
+				<div class="phneFaxWebInfoColmn marginTop30">
+					@Model.PhoneNumber<br>
+					@Model.FaxNumber<br>
+					<a href="@Model.WebSite">@Model.WebSite</a>
+				</div>
+			</div>
+			<!--//END left Column -->
+			<!--right Column -->
+			<div class="main_inner2_btm_2Col_Col">
+			&nbsp;
+				<!--<img src="img/victoryOffice-FPO.png" alt="" width="447" height="192" />-->
+			</div>
+			<div class="clear"></div>
+			<!--//END right Column -->
+			<hr>
+			<!-- registered user tablature data --->
+			<!--<span class="flt_Rt"><img src="img/addPlusSig.jpg" width="15" height="15" />New User</span>-->
+			<h4>Registered Users</h4>
+			<table class="userTable" id="userList">
+			</table>
+			<!-- //END registered user tablature data --->
+			<!-- dealership tablature data --->
+			<a href="javascript:void(0)" id="newCompanyLink" class="flt_Rt"><img src="/NewContent/images/addPlusSig.jpg" width="15" height="15" />New Dealership</a>
+			<h4>Dealerships In My Territory</h4>
+			<table class="dealerTable" id="dealerList">
+			</table>
+			<!-- //END dealership tablature data --->
+			<div class="clear">
+			</div>
+		</div>
+	</div>
+</div>
+<div style="display:none;">
+	<a href="#deactivateRequest" id="mainDeactivateBtn"></a>
+	<div id="deactivateRequest">
+		<div class="main_inner9_btm"> 
+			<div class="main_inner9_btm_top">
+				<div class="main_inner8_rt_msg">
+					<h2 class="bold">Request Deactivation</h2>
+					<h5>Please provide a reason for My.Paoli Admin to deactivate.</h5>
+					<textarea class="msg1" cols="20" id="Reason" name="Reason" rows="2"></textarea>
+					<input type="hidden" id="DCompanyID" value="" />
+				</div>
+				<i class="clear_0"></i>
+			</div>
+			<div class="clear"></div>
+			<span class="btn7 cancelDDBtn">CANCEL</span> <span class="btn8 submitDDBtn">SAVE</span> 
+		</div>
+	</div>
+
+	@{Html.RenderPartial( "RequestNewCompany" );}
+</div>
+
+
+<script type="text/javascript">
+	function getNewTerritoryID() {
+		return '@(Model.TerritoryID)';
+	}
+
+	function getNewCompanyType() {
+		return '@(PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer)';
+	}
+
+	function addEditCompanyCallback() {
+		loadCompanies();
+	}
+
+	var psrContactList = null;
+	$(document).ready(function () {
+		loadUsers();
+
+    	makeAjaxCall('/User/GetPaoliSalesRepListForCompany',
+    		{ companyId: @Model.CompanyID, enabledOnly: true },
+    		function (data, textStatus, jqXHR) {
+				psrContactList = data.theList;
+				loadCompanies();
+    		},
+    		function (jqXHR, textStatus, errorThrown) {    			
+    		}
+    	);
+
+		$('#newCompanyLink').click(function(e) {
+			clearNewCompanyForm();
+			$('#theContactForm h4').text('Add Dealership');
+			$('#mainEditContactBtn').trigger('click');
+		});
+
+		$('#mainDeactivateBtn').fancybox({
+			'autoDimensions': false,
+			'width': 972,
+			'height': 270,
+			'padding': 20,
+			'margin': 0,
+			'scrolling': 'auto',
+			'titleShow': false
+		});
+
+		$('.submitDDBtn').click(function (e) {
+			if( $('#Reason').val() != null && $('#Reason').val() != '' ) {
+				makeAjaxCall('/Company/RequestDeactiviation',
+					{ companyId: $('#DCompanyID').val(), reason: $('#Reason').val() },
+					function(data, textStatus, jqXHR) {
+						alert('Thank you for your request.  We\'ll process it shortly.');
+						$('#Reason').val('');
+						$.fancybox.close();
+					},
+    				function (jqXHR, textStatus, errorThrown) {    			
+    				}
+    			);
+			}
+		});
+
+		$('.cancelDDBtn').on('click', function() {
+			$.fancybox.close();
+		});
+
+	});
+
+	var uTable = null;
+	function loadUsers() {
+		if (uTable != null) {
+			uTable.fnDraw();
+			return;
+		}
+
+		uTable = $('#userList').dataTable({
+			"bServerSide": true,
+			"bAutoWidth": false,
+			"bFilter": false,
+			"bLengthChange": false, // don't show dropdown for #items per page
+			"bPaginate": true,
+			"bInfo": true,
+			"sAjaxSource": '@Url.Action( "MyTerritoryUserList", "User" )',
+			"fnServerParams": function (aoData) {
+				aoData.push({ "name": "companyId", "value": @Model.CompanyID });
+			},
+			"iDisplayLength": 100,
+			"fnServerData": function (sSource, aoData, fnCallback) {
+				makeAjaxCall(sSource,
+					aoData,
+					function (data, textStatus, jqXHR) {
+						fnCallback(data, textStatus, jqXHR);
+					},
+					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Users:' + errorThrown) }
+				);
+			},
+			"bProcessing": false, // don't want to use the default progress indicator at this time
+			"aaSorting": [[1, "asc"]],
+			"asStripeClasses": [],
+			"aoColumnDefs": [
+                    { "sName": "FirstName", "sTitle": "First Name<span></span>", "sClass": "hasSpan", "aTargets": [0], "mDataProp": "FirstName", "sWidth": "25%" },
+                    { "sName": "LastName", "sTitle": "Last Name<span></span>", "sClass": "hasSpan", "aTargets": [1], "mDataProp": "LastName", "sWidth": "25%" },
+                    { "sName": "Title", "sTitle": "Title<span></span>", "sClass": "hasSpan", "aTargets": [2], "mDataProp": "Title", "sWidth": "25%" },
+                    { "sName": "Role", "sTitle": "Role<span></span>", "sClass": "hasSpan", "aTargets": [3], "mDataProp": "Role", "sWidth": "25%", "bSortable": false }
+                ]
+		});
+	}
+
+	var oTable = null;
+	function loadCompanies() {
+		if (oTable != null) {
+			oTable.fnDraw();
+			return;
+		}
+
+		oTable = $('#dealerList').dataTable({
+			"bServerSide": true,
+			"bAutoWidth": false,
+			"bFilter": true,
+			"bLengthChange": false, // don't show dropdown for #items per page
+			"bPaginate": true,
+			"bInfo": true,
+			"sAjaxSource": '@Url.Action( "DealerForTerritoryCompanyList", "Company" )',
+			"fnServerParams": function (aoData) {
+				aoData.push({ "name": "companyType", "value": @PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer });
+				aoData.push({ "name": "territoryId", "value": @Model.TerritoryID });
+			},
+			"iDisplayLength": 100,
+			"fnServerData": function (sSource, aoData, fnCallback) {
+				makeAjaxCall(sSource,
+					aoData,
+					function (data, textStatus, jqXHR) {
+						fnCallback(data, textStatus, jqXHR);
+
+						$('.psrContact').on('change', function() {
+							var ddList = $(this);
+    						makeAjaxCall('/Company/UpdateSalesRepForDealer',
+    							{ companyId: $(this).data('companyid'), psrContact: $(this).val() },
+    							function (data, textStatus, jqXHR) {
+									console.log($(this));
+									ddList.find('option[value=""]').remove();
+    							},
+    							function (jqXHR, textStatus, errorThrown) {    			
+    							}
+    						);
+						});
+
+						$('.deactivateBtn').on('click', function() {
+							$('#DCompanyID').val($(this).data('id'));
+
+							$('#mainDeactivateBtn').trigger('click');
+						});
+					},
+					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Companies:' + errorThrown) }
+				);
+			},
+			"bProcessing": false, // don't want to use the default progress indicator at this time
+			"aaSorting": [[0, "asc"]],
+			"asStripeClasses": [],
+			"aoColumnDefs": [
+                    { "sName": "Name", "sTitle": "Dealership<span></span>", "sClass": "hasSpan", "aTargets": [0], "mDataProp": "Name",
+                    	"fnRender": function (oObj) {
+                    		var s;
+                    		s = '<a href=\"@Url.Action( "MyCompanyInfo", "User" )/' + oObj.aData["CompanyID"] + '">' + oObj.aData["Name"] + '</a>';
+                    		return s;
+                    	}
+                    },
+                    { "sName": "City", "sTitle": "City<span></span>", "sClass": "hasSpan", "aTargets": [1], "mDataProp": "City" },
+                    { "sName": "State", "sTitle": "State<span></span>", "sClass": "hasSpan", "aTargets": [2], "mDataProp": "State" },
+                    { "sName": "UserCount", "sTitle": "# of Users<span></span>", "sClass": "hasSpan", "aTargets": [3], "mDataProp": "UserCount", "sType": "numeric" },
+                    { "sName": "TripGroupInfo", "sTitle": "Trip Participant<span></span>", "sClass": "hasSpan", "aTargets": [4], "mDataProp": "TripGroupInfo" },
+                    { "sName": "PSRContact", "sTitle": "Sales Rep Contact<span></span>", "sClass": "hasSpan", "aTargets": [5], "mDataProp": "PSRContact",
+                    	"fnRender": function (oObj) {
+                    		var s;
+                    		s = '<select class="psrContact" data-companyid="' + oObj.aData["CompanyID"] + '">';
+							if( oObj.aData["PSRContactID"] == null ) {
+								s += '<option value=""></option>';
+							}
+							$.each(psrContactList, function(i, item) { 
+								s += '<option value="' + item.UserID + '"';
+								if( item.UserID == oObj.aData["PSRContactID"] ) {
+									s += ' selected';
+								}
+								s += '>' + item.FullName + '</option>';
+							});
+							s += '</select>';
+                    		return s;
+                    	}
+					},
+					{ "sName": "EditButtons", "sTitle": "Deactivate", "sClass": "hasSpan", "aTargets": [6], "mDataProp": "EditButtons", "bSortable": false, "sWidth": "5%",
+						"fnRender": function(oObj) {
+							var s = '';
+							s += '<span class="btn13 deactivateBtn" data-id="' + oObj.aData["CompanyID"] + '" title="Request Deactivation">X</span>';
+							return s;
+						}
+					}
+                ]
+		});
+	}
+
+</script>

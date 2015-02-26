@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.Title = "ManageVideos";
+	ViewBag.CurrentPage = "Users";
+	ViewBag.CurrentSubPage = "Videos";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+
+<h2>Dealer Video List</h2>
+
+<a href="@Url.Action( "AddDealerVideo", "Import" )?iframe" id="addNewVideo">Add New</a><br />
+<div>
+    <table id="videoList">
+    <thead></thead>
+    <tfoot></tfoot>
+    </table>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+
+		$("#addNewVideo").fancybox({
+			'autoDimensions': false,
+			'width': 800,
+			'height': 700,
+			'padding': 20,
+			'margin': 0,
+			'scrolling': 'auto',
+			'titleShow': false,
+			'type': 'iframe'
+		});
+
+		loadVideos();
+	});
+
+	function deleteVideo(dID) {
+		if (confirm('Delete Video? ')) {
+			makeAjaxCall('/Import/DeleteDealerVideo',
+				{ id: dID },
+				function (data, textStatus, jqXHR) {
+					loadVideos();
+				},
+				function (jqXHR, textStatus, errorThrown) {
+					alert('Unable to delete Video at this time.');
+				}
+			);
+		}
+	}
+
+	var oTable = null;
+	function loadVideos() {
+		if (oTable != null) {
+			oTable.fnDraw();
+			return;
+		}
+
+		oTable = $('#videoList').dataTable({
+			"bServerSide": true,
+			"bAutoWidth": false,
+			"bFilter": true,
+			"bLengthChange": false, // don't show dropdown for #items per page
+			"bPaginate": true,
+			"bInfo": true,
+			"sAjaxSource": '@Url.Action( "FullVideoList" )',
+			"fnServerParams": function (aoData) {
+			},
+			"iDisplayLength": 10,
+			"fnServerData": function (sSource, aoData, fnCallback) {
+				makeAjaxCall(sSource,
+					aoData,
+					function (data, textStatus, jqXHR) {
+						fnCallback(data, textStatus, jqXHR);
+						$('.fbImageBtn').fancybox({
+							'autoDimensions': false,
+							'width': 800,
+							'height': 700,
+							'padding': 20,
+							'margin': 0,
+							'scrolling': 'auto',
+							'titleShow': false,
+							'type': 'iframe'
+						});
+					},
+					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Videos:' + errorThrown) }
+				);
+			},
+			"bProcessing": false, // don't want to use the default progress indicator at this time
+			"aaSorting": [[0, "asc"]],
+			"aoColumnDefs": [
+                    { "sName": "Name", "sTitle": "Video Name", "aTargets": [0], "mDataProp": "Name", "sWidth": "200px" },
+                    { "sName": "EditButtons",
+                    	"aTargets": [1],
+                    	"bSearchable": false,
+                    	"bSortable": false,
+                    	"mDataProp": "EditButtons", "sWidth": "75px",
+                    	"fnRender": function (oObj) {
+                    		var s;
+                    		s = '<a href=\"@Url.Action( "EditDealerVideo", "Import" )/' + oObj.aData["VideoID"] + '/?iframe\" class="fbImageBtn">Edit</a>';
+                    		s += '&nbsp;|&nbsp;';
+                    		s += '<a href=\"#\" onclick="deleteVideo(' + oObj.aData["VideoID"] + ');">Delete</a>';
+                    		return s;
+                    	}
+                    }
+                ]
+		});
+	}
+
+</script>

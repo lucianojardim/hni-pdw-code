@@ -1,0 +1,83 @@
+﻿@model PDWModels.Companies.MyTripInfo
+@{
+    Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.HeaderArea = "TripInfo";
+}
+
+                     <div class="container">
+<div class="main_inner1_content ">
+	<div class="main_inner1_content_lt">
+    	<!-- LEAD TIME MODULE CUSTOMER SVC PROMO -->
+		<div class="LdTm_PromoBox">
+			<div class="LdTm_PromoHeadline">Earn Double Points!</div>
+            <div class="LdTm_PromoText">Now through the end of the 1st Quarter, every time you sell CO|HO, Share Space Seating or a premium finish casegood, you earn double the dollar value toward your sales goal to earn a trip for your dealership for those product sales!</div>
+		</div>
+		<div class="LdTm_PromoBox">
+			<div class="LdTm_PromoHeadline">Questions? We're here to help!</div>
+            <div class="LdTm_PromoText">The sales performance data you see on this page was last updated on @Model.ImportDate.ToShortDateString() and reflects all confirmed orders received by noon the preceding day. <br />
+			<br />
+If you have questions about the stats, scoring or rank data provided here or feel that the information presented does not accurately reflect your dealerships sales performance, please contact me today.</div>
+            <div class="LdTm_Contact_Left"><!--This image is placeholder Person--><img src="/images/13fbad33-25e7-467a-8ed3-1c8786367d58.jpg" alt="img"/></div>
+            <div class="LdTm_Contact_Right">
+            	<div class="LdTm_Contact_Name">Leslea Kerby</div>
+            	<div class="LdTm_Contact_Info"><a href="mailto:leslea-kerby@paoli.com">leslea-kerby@paoli.com</a></div>
+            	<div class="LdTm_Contact_Info">800-457-7415﻿</div>          
+            </div>   
+		</div>
+ 	</div>
+	<div class="main_inner1_content_rt">
+    
+    	<div class="LdTm_Full_Width">
+			<div><a href="http://www.paoli.com/maui"><img src="/newcontent/images/Paoli-Maui-Hero.png" alt=""/></a></div>
+			@if( Model.CanSeePerfData )
+   {
+            <h1>Your current trip incentive stats</h1>
+            <!-- FULL WIDTH - 2 COL TABLE BEGIN -->
+            <table class="dataColumns" border="0">
+				<tr>
+					<td width="75%">Year-to-date (YTD) sales</td>
+					<td>@Model.YTDSales</td>
+				</tr>
+                <tr>
+					<td width="75%">Number of trips earned</td>
+					<td>@Model.TripEarned</td>
+				</tr>
+                <tr>
+					<td width="75%">Sales to next trip</td>
+					<td>@Model.SalesToNextTrip</td>
+				</tr>
+                
+			</table>
+            <!-- FULL WIDTH - 2 COL TABLE END -->
+            <hr/>
+            <h1>Bonus Ways To Win A Trip</h1>
+            <p>Your dealership has been selected to participate in two bonus challenges that give you an additional way to earn a trip to Maui. You and @(Model.TripGroupCount - 1) other dealers (who are similar size/type/ and sales volume to you) are competing for this special challenge.</p>
+
+			<p>If your dealership finishes the qualification period ranked first or second in total-dollar growth or total-percent growth among all dealerships in the @Model.TripGroup group, you will one win trip for your dealership, if you have met your minimum threshold of sales volume. Updated stats are below. Good luck!</p>
+            <hr/>
+            <h1>Your Current Stats</h1>
+            <!-- FULL WIDTH - 4 COL TABLE BEGIN -->
+            <table class="dataColumns" border="0">
+				<tr>
+					<td>Actual Net Sales Growth YTD</td>
+					<td>@Model.NetGrowth</td>
+                    <td>Actual Net Sales Growth Rank</td>
+					<td>@Model.NetGrowthRank of @Model.TripGroupCount</td>
+				</tr>
+                <tr>
+					<td>% Net Sales Growth YTD</td>
+					<td>@Model.PercNetGrowth</td>
+                    <td>% Net Sales Growth Rank</td>
+					<td>@Model.PercNetGrowthRank of @Model.TripGroupCount</td>
+				</tr>
+
+                
+			</table>
+            <!-- FULL WIDTH - 4 COL TABLE END -->
+   }
+        </div>
+        
+	</div>
+	<i class="clear_0"></i>
+</div>
+</div>

@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "API Definition";
+}
+
+<script type="text/javascript">
+    var apiDefs = [
+@foreach( var apiDef in ProductDataWarehouse.Controllers.PDWController.APIDefinitions )
+{
+    <text>{ url : '@apiDef.url', parameters : '@Html.Raw( apiDef.parameters )', notes : '@apiDef.notes' },</text>
+}
+    ];
+
+    $(document).ready(function(){
+        for(var i = 0; i < apiDefs.length; i++ )
+        {
+            $('#inputUrl').append('<option value=' + i + '>' + apiDefs[i].url + '</option>');
+        }
+
+        setParameters();
+    });
+
+    function makeCall() {
+
+        $('#resultsArea').html('');
+        var theData = $.parseJSON($('#inputCall').val());
+        console.log(theData);
+        makeAjaxCall('' + $('#inputUrl option:selected').text() + '/?callback=?',
+            theData,
+            function (response) {
+                $('#resultsArea').html(JSON.stringify(response));
+            },
+            function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr);
+                console.log(ajaxOptions);
+                alert(thrownError);
+            }
+        );
+        
+    }
+
+    function setParameters()
+    {
+        $('#inputCall').val(decodeURI(apiDefs[$('#inputUrl').val()].parameters));
+        $('#notesField').html(decodeURI(apiDefs[$('#inputUrl').val()].notes));
+    }
+</script>
+<h2>API Definition</h2>
+
+<table width="100%">
+<tr>
+<td width="250px" style="vertical-align: top;">
+URL: 
+<select id="inputUrl" onchange="setParameters();">
+</select>
+<br />
+Input: <textarea id="inputCall" rows="20" cols="40"></textarea>
+<div id="notesField"></div>
+<input type="button" onclick="makeCall();" value="Submit" />
+</td>
+<td id="resultsArea" valign="top">
+</td>
+</tr>
+</table>

@@ -1,0 +1,24 @@
+﻿@model IEnumerable<PDWModels.Articles.ArticleSummary>
+@{
+    ViewBag.Title = "ViewAll";
+    Layout = "~/Views/Shared/NewLayout.cshtml";
+}
+
+<div class="container">
+	<div class="main_inner1">
+    	<div class="scoop_h1">@ViewBag.PageTitle</div>
+
+@foreach( var article in Model )
+{
+		<div class="scoop_item">
+			<div class="scoop_itemImage"><a href="@Url.Action( "View", new { id = article.ArticleID } )"><img src="@article.ImgURL" width="" height="" alt=""/></a></div>
+			<div class="scoop_itemContent">
+				<div class="scoop_itemHeadline"><a href="@Url.Action( "View", new { id = article.ArticleID } )">@article.Title</a></div>
+				<div class="scoop_itemAbstract">@article.Description</div>
+				<div class="scoop_itemDateline">Written by @article.Author on @article.PublishDate</div>
+			</div>
+		</div>
+}
+		<div class="clear_0"></div>
+	</div>
+</div>

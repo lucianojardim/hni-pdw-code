@@ -1,0 +1,67 @@
+﻿@model PDWModels.Articles.ArticleViewDetails
+@{
+	ViewBag.Title = Model.Headline;
+	Layout = "~/Views/Shared/NewLayout.cshtml";
+	switch( Model.ArticleType )
+    {
+	   case PDWModels.Articles.ArticleInformation.ArticleTypes.Scoop:
+		   ViewBag.HeaderArea = "TheScoop";
+		   break;
+	   case PDWModels.Articles.ArticleInformation.ArticleTypes.NewsAndUpdates:
+		   ViewBag.HeaderArea = "NewsUpdates";
+		   break;
+	   case PDWModels.Articles.ArticleInformation.ArticleTypes.Internal:
+		   ViewBag.HeaderArea = "InternalNews";
+		   break;
+	}
+}
+
+<div class="container">
+	<div class="main_inner1">
+		<div class="scoop_left">
+		@if( Model.ImageURL != null )
+  {
+			<div class="scoop_heroImage"><img src="@Model.ImageURL" width="600" height="337" alt=""/></div>
+  }
+			<div class="scoop_h1">@Model.Headline</div>
+			<div class="scoop_date">Published: @Model.PublishDate</div>
+			<div class="scoop_byline">Written By: @Model.AuthorName</div>
+			<div class="scoopItemMain">
+@Html.Raw( HttpUtility.HtmlDecode( Model.Content ) )
+			</div>
+			<div class="scoop_footnote">
+			@if( Model.AuthorImage != null )
+   {
+				<div class="scoop_author_avatar"><img src="/images/@Model.AuthorImage" width="64" height="64" alt=""/></div>
+   }
+				<div class="scoop_author">
+				@Model.AuthorCredit
+				</div>
+			</div>
+           
+		</div>
+		<div class="scoop_right">
+			<div class="scoop_recentTitle">Recent Articles</div>
+			<ul>
+			@foreach( var recentArticle in Model.RecentArticles )
+   {
+				<li><a href="@Url.Action( "View", new { id = recentArticle.ArticleID } )">@recentArticle.Headline</a></li>
+   }
+			</ul>
+			@switch( Model.ArticleType )
+   {
+	   case PDWModels.Articles.ArticleInformation.ArticleTypes.Scoop:
+			<a href="@Url.Action( "ViewAllScoop" )">view all</a>
+	   break;
+	   case PDWModels.Articles.ArticleInformation.ArticleTypes.NewsAndUpdates:
+			<a href="@Url.Action( "ViewAllNewsAndUpdates" )">view all</a>
+	   break;
+	   case PDWModels.Articles.ArticleInformation.ArticleTypes.Internal:
+			<a href="@Url.Action( "ViewAllInternal" )">view all</a>
+	   break;
+   }
+		</div>
+
+		<div class="clear_0"></div>
+	</div>
+</div>

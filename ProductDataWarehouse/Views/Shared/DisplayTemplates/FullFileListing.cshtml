@@ -1,0 +1,18 @@
+﻿@using PDWModels.SpecRequests
+@model SpecRequestInformation.FileListing
+
+		@if( Model != null && Model.FileList.Any() )
+  {
+	  <div>
+	  @foreach( var item in Model.FileList )
+   {
+	  <script type="text/javascript">
+		$(document).ready(function() {
+			$('#uploadDate@(item.FileID)').text(getLocalDateTime('@item.UploadDate.ToString()'));
+		});
+	  </script>
+	   
+	   <a href="/Documents/Typicals/@Model.SpecName/@item.Extension/@item.VersionNumber/@item.FileName" target="_blank">@item.FileName</a> <text>(<span id="uploadDate@(item.FileID)"></span>)</text><br />
+   }
+	  </div>
+  }

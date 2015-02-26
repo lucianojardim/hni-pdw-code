@@ -1,0 +1,44 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- html tag will most likely be stripped so no inline styles here-->
+<head>
+    <!-- head tag will most likely be stripped so no inline styles here-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <!-- can't hurt to keep the character encoding -->
+    <title>Paoli Marketing Updated Spec Request Notification [{RequestTNum}]</title>
+    <!-- Titles are the the intended Subject Line for the email -->
+</head>
+<body>
+    <!-- body tag will most likely be stripped so no inline styles here either-->
+    <!-- /////////////////////////////////////////////////////////-->
+    <!-- START OF CODE EMAIL CLIENTS WILL DEFINATELY RENDER-->
+    <!-- /////////////////////////////////////////////////////////-->
+	<div style="background-color:#263F6A; padding:13px 0;margin-top:20px;width:100%;height:64px;">
+		<img src="http://desktop.paoli.com/img/paoli_logo.png" />
+	</div>
+	<p>Hello [{FirstName}],</p>
+
+	<p>Your Specifications request, <a href="http://my.paoli.com/SpecRequest/ViewRequest/[{RequestID}]">[{RequestTNum}]</a>, has been updated on <a href="http://my.paoli.com/SpecRequest/ViewRequest/[{RequestID}]">My.Paoli.com</a> by [{SpecTeamMember}].</p>
+
+	[{SpecTeamNotesArea}]
+	[{FinalFileListArea}]
+	[{OldFileListArea}]
+
+	<p>Thank you,</p>
+
+	<p>- [{FromFirstName}]</p>
+
+	<p>[{FromFullName}]<br />
+	[{FromJobTitle}]<br />
+	[{FromEmailAddress}]</p>
+	[{MachineName}][{EmailOverride}]
+    <!-- /////////////////////////////////////////////////////////-->
+    <!-- END OF CODE EMAIL CLIENTS WILL DEFINATELY RENDER-->
+    <!-- /////////////////////////////////////////////////////////-->
+	<!-- [{SpecTeamNotesTemplate}]<p>[{SpecTeamMember}] wanted you to be aware of the following for this most recent update:</p><p style="margin-left:15px;">[{SpecTeamNotes}]</p>[{/SpecTeamNotesTemplate}]
+	[{FileListTemplate}]<p>The following new files have been added and are available for download: <ul>[{FullFinalFileList}]</ul>[{/FileListTemplate}]
+	[{OldFileListTemplate}]<p>Other files already created for this project include: <ul>[{OldFinalFileList}]</ul>[{/OldFileListTemplate}]
+	-->
+
+</body>
+</html>

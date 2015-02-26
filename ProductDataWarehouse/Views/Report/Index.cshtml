@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.HeaderArea = "Reports";
+}
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('.specReqButton').click(function (e) {
+			e.preventDefault();
+			location = '@Url.Action( "SpecRequestList", "Report" )';
+		});
+
+		$('.orderListButton').click(function (e) {
+			e.preventDefault();
+			location = '@Url.Action( "CollateralOrderList", "Report" )';			
+		});
+
+		$('.userActivityButton').click(function (e) {
+			e.preventDefault();
+			location = '@Url.Action( "UserActivity", "Report" )';
+		});
+	});
+</script>
+
+<div class="container">
+	<div class="main_inner1 ">
+		<h3>Reports</h3>
+		<div class="main_inner10_cont">
+			<div class="main_inner10_cont_top">
+				<h4>Spec Request Listing</h4>
+				<span class="btn7 specReqButton">DOWNLOAD</span>
+			</div>
+			<div class="main_inner10_cont_mid">
+				<h4>Collateral Order Listing</h4>
+				<span class="btn7 orderListButton">DOWNLOAD</span>
+			</div>
+			@if( PDWInfrastructure.PaoliWebUser.CurrentUser.IsSuperAdmin )
+   {
+			<div class="main_inner10_cont_btm">
+				<h4>User Activity Listing</h4>
+				<span class="btn7 userActivityButton">DOWNLOAD</span>
+			</div>
+   }
+		</div>
+	</div>
+</div>

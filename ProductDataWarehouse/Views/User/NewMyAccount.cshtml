@@ -1,0 +1,176 @@
+﻿@model PDWModels.Users.MyAccountInfo
+@{
+    ViewBag.Title = "NewMyAccount";
+	Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.HeaderArea = "Users";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+
+<script type="text/javascript">
+
+	$(document).ready(function () {
+		$('.submitBtn').click(function (e) {
+			$('#theForm').submit();
+		});
+
+		$('.cancelBtn').click(function (e) {
+			window.location = window.location;
+		});
+
+        @if( ViewBag.AccountUpdateSuccess ?? false )
+        {
+			<text>alert('Your account has been updated.');</text>
+		}
+
+	});
+
+</script>
+
+<div class="container">
+	<div class="main_inner1">
+
+	<h3>Edit Your Account Settings: Profile</h3>
+
+    @using( Html.BeginForm( "MyAccount", "User", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
+	{
+		@Html.AntiForgeryToken()
+		@Html.HiddenFor( m => m.UserID )
+	   <div class="main_inner2_btm"> 
+		<div class="main_inner2_btm_mid_myacct">   
+			<h4 class="bold">Update Profile Picture</h4> 
+			<ul>
+				<li>
+    				<div class="colmn1">Current Profile Picture</div>
+					<div class="colmn2pic">@if( Model.UserImageFileName != null )
+							{
+								@Html.HiddenFor( m => m.UserImageFileName )<img width="45" src="/Images/@Model.UserImageFileName" alt="" />
+							}
+							else
+							{
+								<text>None</text>
+							}</div>
+					<div class="colmn3-1">Change Profile Picture</div>
+					<div class="colmn3filebrowser"><input type="file" id="UserImage" name="UserImage" accept=".jpg,.png,.gif,.bmp" /></div>
+				</li>              
+			</ul>
+		</div>
+			<hr class="margin20"> 
+		<div class="clear"></div>
+	  </div>
+
+	   <div class="main_inner2_btm"> 
+		<div class="main_inner2_btm_mid_myacct">
+			<ul>
+				<li>
+					<div class="colmn1">First Name@(Html.ValidationMessageFor( m => m.FirstName ))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.FirstName )</div>
+				</li>
+				<li>
+					<div class="colmn1">Last Name@(Html.ValidationMessageFor( m => m.LastName ))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.LastName )</div>
+				</li>
+				<li>
+					<div class="colmn1">Company</div>
+					<div class="colmn3single">@Html.DisplayFor( m => m.CompanyName )</div>
+				</li>
+				<li>
+					<div class="colmn1">Title@(Html.ValidationMessageFor( m => m.Title ))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.Title )</div>
+				</li>
+				<li>
+					<div class="colmn1">Primary Email</div>
+					<div class="colmn3single">@Html.DisplayFor( m => m.EmailAddress )
+						@Html.HiddenFor( m => m.EmailAddress )</div>
+				</li>
+			</ul>   
+		</div>
+		<hr class="margin20"> 
+		<div class="clear"></div>
+	  </div>
+  
+	  <div class="main_inner2_btm">
+		<div class="main_inner2_btm_2Col_Col">
+    		<h4 class="bold">Business Address</h4>
+			<ul>
+        		<li>
+            		<div class="colmn1">Address 1@(Html.ValidationMessageFor( m => m.Address1 ))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.Address1 )</div>
+				</li>
+        		<li>
+            		<div class="colmn1">Address 2@(Html.ValidationMessageFor( m => m.Address2 ))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.Address2 )</div>
+				</li>
+        		<li>
+            		<div class="colmn1">City@(Html.ValidationMessageFor( m => m.City ))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.City )</div>
+				</li>
+				<li>
+            		<div class="colmn1">State@(Html.ValidationMessageFor( m => m.State ))</div>
+					<div class="colmn3single"><div class="styled-select">@Html.DropDownListFor( m => m.State, UserController.GetStateDDList() )</div></div>
+				</li>
+				<li>
+            		<div class="colmn1">Zip@(Html.ValidationMessageFor( m => m.Zip ))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.Zip )</div>
+				</li>
+				<li>
+            		<div class="colmn1">Business Phone@(Html.ValidationMessageFor( m => m.BusinessPhone ))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.BusinessPhone )</div>
+				</li>
+				<li>
+            		<div class="colmn1">Extension@(Html.ValidationMessageFor( m => m.Extension ))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.Extension, new { @class = "ext" } )</div>
+				</li>
+				<li>
+            		<div class="colmn1">Work Mobile@(Html.ValidationMessageFor( m => m.CellPhone ))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.CellPhone )</div>
+				</li>
+				<li>
+            		<div class="colmn1">Fax@(Html.ValidationMessageFor( m => m.FaxNumber ))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.FaxNumber )</div>
+				</li>                       
+			</ul>
+		</div> 
+		<div class="main_inner2_btm_2Col_Col">
+    		<h4 class="bold">Home Address</h4>
+	<ul>
+        		<li>
+            		<div class="colmn1">Address 1@(Html.ValidationMessageFor( m => m.HomeAddress1 ))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.HomeAddress1 )</div>
+				</li>
+        		<li>
+            		<div class="colmn1">Address 2@(Html.ValidationMessageFor( m => m.HomeAddress2 ))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.HomeAddress2 )</div>
+				</li>
+        		<li>
+            		<div class="colmn1">City@(Html.ValidationMessageFor( m => m.HomeCity ))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.HomeCity )</div>
+				</li>
+				<li>
+            		<div class="colmn1">State@(Html.ValidationMessageFor( m => m.HomeState ))</div>
+					<div class="colmn3single"><div class="styled-select">@Html.DropDownListFor( m => m.HomeState, UserController.GetStateDDList() )</div></div>
+				</li>
+				<li>
+            		<div class="colmn1">Zip@(Html.ValidationMessageFor( m => m.HomeZip ))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.HomeZip )</div>
+				</li>
+				<li>
+            		<div class="colmn1">Home Phone@(Html.ValidationMessageFor( m => m.HomePhone ))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.HomePhone )</div>
+				</li>
+				<li>
+            		<div class="colmn1">Personal Mobile@(Html.ValidationMessageFor( m => m.PersonalCellPhone ))</div>
+					<div class="colmn3single">@Html.TextBoxFor( m => m.PersonalCellPhone )</div>
+				</li>                  
+			</ul>        
+		</div> 
+		<div class="clear"></div>
+		<div class="main_inner2_btm_2Col_Col">Which address do you want to use as your default shipping address
+	for materials, gifts, etc.?</div>
+		<div class="main_inner2_btm_2Col_Col">@Html.RadioButtonFor( m => m.DefaultShippingAddress, PWDRepositories.UserRepository.AddressTypes.Business ) Business Address  &nbsp;&nbsp; @Html.RadioButtonFor( m => m.DefaultShippingAddress, PWDRepositories.UserRepository.AddressTypes.Home ) Home Address</div>
+		<div class="clear"></div>
+		<span class="btn7 cancelBtn">CANCEL</span> <span class="btn8 submitBtn">SAVE</span> 
+	  </div>   
+	}
+	</div>
+</div>

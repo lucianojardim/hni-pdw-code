@@ -1,0 +1,62 @@
+﻿@model PDWModels.LeadTimes.LeadTimeSummary
+@{
+    ViewBag.Title = "NewViewAll";
+    Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.HeaderArea = "LeadTimes";
+}
+
+<div class="container">
+<div class="main_inner1_content ">
+	<div class="main_inner1_content_lt">
+    	<!-- LEAD TIME MODULE CUSTOMER SVC PROMO -->
+		<div class="LdTm_PromoBox">
+			<div class="LdTm_PromoHeadline">@Model.PromoHeadline</div>
+            <div class="LdTm_PromoText">@Model.PromoText</div>
+			@if( Model.UserName != null )
+   {
+			if( Model.UserImage != null )
+   {
+            <div class="LdTm_Contact_Left"><img src="/images/@Model.UserImage" width="45" alt="img" /></div>
+   }
+            <div class="LdTm_Contact_Right">
+            	<div class="LdTm_Contact_Name">@Model.UserName</div>
+				@if( Model.UserEmail != null )
+	{
+            	<div class="LdTm_Contact_Info"><a href="mailto:@Model.UserEmail">@Model.UserEmail</a></div>
+	}
+	@if( Model.UserPhone != null )
+ {
+            	<div class="LdTm_Contact_Info">@Model.UserPhone</div>          
+ }
+            </div>   
+   }
+		</div>
+		<div class="main_inner1_content_lt_btm">
+			<h3>
+				Need help from our spec team?</h3>
+			<h4>
+				<a href="@Url.Action( "AddRequest", "SpecRequest" )">New Request</a></h4>
+		</div>
+		@if( PDWInfrastructure.PaoliWebUser.CurrentUser.CanManageLeadTimes )
+  {
+		<div class="main_inner1_content_lt_btm">
+			<a href="@Url.Action( "EditLeadTimes", "Home" )" class="btn_type2">Edit Page</a>
+		</div>
+  }
+	</div>
+	<div class="main_inner1_content_rt">
+		 <div class="LdTm_Main_Left">
+
+@Html.Raw( Model.LeftSide )
+        
+        </div>
+        
+        <div class="LdTm_Main_Right">
+        
+@Html.Raw( Model.RightSide )
+        
+        </div>
+	</div>
+	<i class="clear_0"></i>
+</div>
+</div>

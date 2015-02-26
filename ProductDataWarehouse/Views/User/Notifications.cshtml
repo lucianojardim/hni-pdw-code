@@ -1,0 +1,157 @@
+﻿@model PDWModels.Users.UserSubscriptionSummary
+@{
+	ViewBag.Title = "NewMyAccount";
+	Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.HeaderArea = "Users";
+	var currentUser = PDWInfrastructure.PaoliWebUser.CurrentUser;
+	var isSalesRepUser = currentUser.IsInRole( PDWInfrastructure.PaoliWebUser.PaoliWebRole.PaoliSalesRep );
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+
+<script type="text/javascript">
+
+	$(document).ready(function () {
+		$('.submitBtn').click(function (e) {
+			$('#theForm').submit();
+		});
+
+		$('.cancelBtn').click(function (e) {
+			window.location = window.location;
+		});
+
+        @if( ViewBag.AccountUpdateSuccess ?? false )
+		{
+			<text>alert('Your account has been updated.');</text>
+		}
+
+	});
+
+</script>
+
+<div class="container">
+	<div class="main_inner1">
+
+	<h3>Edit Your Account Settings: Notifications</h3>
+
+    @using( Html.BeginForm( "Notifications", "User", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
+	{
+		@Html.AntiForgeryToken()
+		@Html.HiddenFor( m => m.UserID )
+		<div class="main_inner2_btm"> 
+			<div class="main_inner2_btm_mid_myacct">
+    			<h4 class="bold">Collateral Orders</h4>
+				<ul>
+					<li>
+						<div class="colmn1">@Html.LabelFor( m => m.NewCollateralOrder )</div>
+						<div class="colmn3single">@Html.CheckBoxFor( m => m.NewCollateralOrder )</div>
+					</li>
+					@if( isSalesRepUser )
+	 {
+					<li>
+						<div class="colmn1">@Html.LabelFor( m => m.NewCollateralOrderTerritory )</div>
+						<div class="colmn3single">@Html.CheckBoxFor( m => m.NewCollateralOrderTerritory )</div>
+					</li>
+	 					<li>
+						<div class="colmn1">@Html.LabelFor( m => m.NewCollateralOrderMyDealers )</div>
+						<div class="colmn3single">@Html.CheckBoxFor( m => m.NewCollateralOrderMyDealers )</div>
+					</li>
+	 }
+					<li>
+						<div class="colmn1">@Html.LabelFor( m => m.NewCollateralOrderShipment )</div>
+						<div class="colmn3single">@Html.CheckBoxFor( m => m.NewCollateralOrderShipment )</div>
+					</li>
+					@if( isSalesRepUser )
+	 {
+					<li>
+						<div class="colmn1">@Html.LabelFor( m => m.NewCollateralOrderShipmentTerritory )</div>
+						<div class="colmn3single">@Html.CheckBoxFor( m => m.NewCollateralOrderShipmentTerritory )</div>
+					</li>
+	 					<li>
+						<div class="colmn1">@Html.LabelFor( m => m.NewCollateralOrderShipmentMyDealers )</div>
+						<div class="colmn3single">@Html.CheckBoxFor( m => m.NewCollateralOrderShipmentMyDealers )</div>
+					</li>
+	 }
+				</ul>   
+			</div>
+			<hr class="margin20"> 
+			<div class="clear"></div>
+		</div>
+  
+		<div class="main_inner2_btm"> 
+			<div class="main_inner2_btm_mid_myacct">
+    			<h4 class="bold">Specification Requests</h4>
+				<ul>
+					<li>
+						<div class="colmn1">@Html.LabelFor( m => m.NewSpecRequest )</div>
+						<div class="colmn3single">@Html.CheckBoxFor( m => m.NewSpecRequest )</div>
+					</li>
+					@if( isSalesRepUser && false )
+	 {
+					<li>
+						<div class="colmn1">@Html.LabelFor( m => m.NewSpecRequestTerritory )</div>
+						<div class="colmn3single">@Html.CheckBoxFor( m => m.NewSpecRequestTerritory )</div>
+					</li>
+					<li>
+						<div class="colmn1">@Html.LabelFor( m => m.NewSpecRequestMyDealers )</div>
+						<div class="colmn3single">@Html.CheckBoxFor( m => m.NewSpecRequestMyDealers )</div>
+					</li>
+	 }
+					<li>
+						<div class="colmn1">@Html.LabelFor( m => m.UpdateSpecRequest )</div>
+						<div class="colmn3single">@Html.CheckBoxFor( m => m.UpdateSpecRequest )</div>
+					</li>
+					@if( isSalesRepUser && false )
+	 {
+					<li>
+						<div class="colmn1">@Html.LabelFor( m => m.UpdateSpecRequestTerritory )</div>
+						<div class="colmn3single">@Html.CheckBoxFor( m => m.UpdateSpecRequestTerritory )</div>
+					</li>
+	 					<li>
+						<div class="colmn1">@Html.LabelFor( m => m.UpdateSpecRequestMyDealers )</div>
+						<div class="colmn3single">@Html.CheckBoxFor( m => m.UpdateSpecRequestMyDealers )</div>
+					</li>
+	 }
+					<li>
+						<div class="colmn1">@Html.LabelFor( m => m.CompleteSpecRequest )</div>
+						<div class="colmn3single">@Html.CheckBoxFor( m => m.CompleteSpecRequest )</div>
+					</li>
+					@if( isSalesRepUser && false )
+	 {
+					<li>
+						<div class="colmn1">@Html.LabelFor( m => m.CompleteSpecRequestTerritory )</div>
+						<div class="colmn3single">@Html.CheckBoxFor( m => m.CompleteSpecRequestTerritory )</div>
+					</li>
+	 					<li>
+						<div class="colmn1">@Html.LabelFor( m => m.CompleteSpecRequestMyDealers )</div>
+						<div class="colmn3single">@Html.CheckBoxFor( m => m.CompleteSpecRequestMyDealers )</div>
+					</li>
+	 }
+					<li>
+						<div class="colmn1">@Html.LabelFor( m => m.ReOpenSpecRequest )</div>
+						<div class="colmn3single">@Html.CheckBoxFor( m => m.ReOpenSpecRequest )</div>
+					</li>
+					@if( isSalesRepUser && false )
+	 {
+					<li>
+						<div class="colmn1">@Html.LabelFor( m => m.ReOpenSpecRequestTerritory )</div>
+						<div class="colmn3single">@Html.CheckBoxFor( m => m.ReOpenSpecRequestTerritory )</div>
+					</li>
+	 					<li>
+						<div class="colmn1">@Html.LabelFor( m => m.ReOpenSpecRequestMyDealers )</div>
+						<div class="colmn3single">@Html.CheckBoxFor( m => m.ReOpenSpecRequestMyDealers )</div>
+					</li>
+	 }
+				</ul>   
+			</div>
+			<hr class="margin20"> 
+			<div class="clear"></div>
+		</div>
+  
+		<div class="main_inner2_btm">
+			<div class="clear"></div>
+			<span class="btn7 cancelBtn">CANCEL</span> <span class="btn8 submitBtn">SAVE</span> 
+		</div>   
+	}
+	</div>
+</div>

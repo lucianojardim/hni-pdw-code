@@ -1,0 +1,41 @@
+﻿@model PDWModels.eCollateral.ECollateralDetails
+
+@Html.DisplayFor( m => m.Details[0], additionalViewData: new { index = 0 } )
+<br /><br />
+<div class="twocol twocollboxh borderright">
+    <div class="collboxes">
+@Html.DisplayFor( m => m.Details[1], additionalViewData: new { index = 1 } )
+    </div>
+    <div class="collboxes">
+@Html.DisplayFor( m => m.Details[2], additionalViewData: new { index = 2 } )
+    </div>
+	<div class="clr"></div>
+    <div class="collboxes">
+@Html.DisplayFor( m => m.Details[3], additionalViewData: new { index = 3 } )
+    </div>
+    <div class="collboxes">
+@Html.DisplayFor( m => m.Details[4], additionalViewData: new { index = 4 } )
+    </div>
+	<div class="clr"></div>
+</div>
+<div class="onecol">
+    <div class="padingbox">
+		<div class="onecolthreebkl">
+@Html.DisplayFor( m => m.Details[5], templateName: "DetailItemNoImage", additionalViewData: new { index = 5 } )
+		</div>
+		<div class="onecolthreebkl">
+@Html.DisplayFor( m => m.Details[6], templateName: "DetailItemNoImage", additionalViewData: new { index = 6 } )
+		</div>
+			@if( !string.IsNullOrEmpty( Model.DealerImageName ) && Model.AddDealerImage )
+   {
+		<div class="onecolthreebkl">
+			<img src="@("/images/" + Model.DealerImageName)" />
+		</div>
+   }
+		<div class="onecolthreebkl">
+@Html.DisplayFor( m => m.Details[7], templateName: "DetailItemNoImage", additionalViewData: new { index = 7 } )
+		</div>
+		<div class="clr"></div>
+	</div>
+</div>
+<div class="clr"></div>

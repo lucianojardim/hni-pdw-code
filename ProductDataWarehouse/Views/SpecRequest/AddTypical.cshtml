@@ -1,0 +1,185 @@
+﻿@model PDWModels.SpecRequests.TypicalMgmtInfo
+@{
+	ViewBag.Title = "Add Typical";
+	ViewBag.CurrentPage = "Database";
+	ViewBag.CurrentSubPage = "Typicals";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+
+<link href="@Url.Content( "~/Content/jquery.tagit.css" )" rel="stylesheet" type="text/css" />
+<script src="@Url.Content( "~/Scripts/tag-it.js" )" type="text/javascript"></script>
+
+    <script type="text/javascript">
+		var seriesList = [@Html.Raw( SpecRequestController.GetJustSeriesNameList() )];
+
+    	$(document).ready(function () {
+    		$('#SeriesList').tagit({
+				availableTags: seriesList,
+    			allowSpaces: true,
+    			beforeTagAdded: function (event, ui) {
+    				// do something special
+					var isValid = false;
+					$.each(seriesList, function(idx, i) {
+						if (i.toLowerCase() == ui.tagLabel.toLowerCase()) {
+							isValid = true;
+						}
+					});
+					return isValid;
+    			}
+    		});
+			/*
+    		$('#FeaturedSeries').tagit({
+				availableTags: seriesList,
+    			allowSpaces: true,
+				tagLimit: 1,
+    			beforeTagAdded: function (event, ui) {
+    				// do something special
+					var isValid = false;
+					$.each(seriesList, function(idx, i) {
+						if (i.toLowerCase() == ui.tagLabel.toLowerCase()) {
+							isValid = true;
+						}
+					});
+					return isValid;
+    			}
+    		});
+			*/
+    		$('#Material').tagit({
+    			allowSpaces: true,
+    			autocomplete: ({
+    				source: function (request, response) {
+    					makeAjaxCall('@Url.Action( "GetTypeAheadTypicalOptionList", "PDW" )',
+    						{ format: "json", attr: 'Material', query: request.term },
+    						function (data) {
+    							response($.map(data, function (item) {
+    								return {
+    									label: item,
+    									value: item
+    								}
+    							}));
+    						},
+    						function (request, status, error) {
+    							alert(error);
+    						}
+						);
+    				},
+    				minLength: 0
+    			})
+    		});
+
+    		$('#Finish').tagit({
+    			allowSpaces: true,
+    			autocomplete: ({
+    				source: function (request, response) {
+    					makeAjaxCall('@Url.Action( "GetTypeAheadTypicalOptionList", "PDW" )',
+    						{ format: "json", attr: 'Finish', query: request.term },
+    						function (data) {
+    							response($.map(data, function (item) {
+    								return {
+    									label: item,
+    									value: item
+    								}
+    							}));
+    						},
+    						function (request, status, error) {
+    							alert(error);
+    						}
+    					);
+    				},
+    				minLength: 0
+    			})
+    		});
+
+    		$('#RenderingImage').autocomplete ({
+    				source: function (request, response) {
+    					makeAjaxCall('@Url.Action( "GetTypeaheadImageList", "PDW" )',
+    						{ format: "json", query: request.term, max: 15 },
+    						function (data) {
+    							response($.map(data, function (item) {
+    								return {
+    									label: item,
+    									value: item
+    								}
+    							}));
+    						},
+    						function (request, status, error) {
+    							alert(error);
+    						}
+						);
+    				},
+    				minLength: 2
+    			});
+
+			var returnedImages = [];
+    		$('#AdditionalImages').tagit({
+    			allowSpaces: true,
+    			beforeTagAdded: function (event, ui) {
+    				// do something special
+					var isValid = false;
+					$.each(returnedImages, function(idx, i) {
+						if (i.toLowerCase() == ui.tagLabel.toLowerCase()) {
+							isValid = true;
+							return false; // break the loop
+						}
+					});
+					return isValid;
+    			},
+    			autocomplete: ({
+    				source: function (request, response) {
+    					makeAjaxCall('@Url.Action( "GetTypeaheadImageList", "PDW" )',
+    						{ format: "json", query: request.term, max: 15 },
+    						function (data) {
+								returnedImages = data;
+    							response($.map(data, function (item) {
+    								return {
+    									label: item,
+    									value: item
+    								}
+    							}));
+    						},
+    						function (request, status, error) {
+    							alert(error);
+								returnedImages = [];
+    						}
+						);
+    				},
+    				minLength: 2
+    			})
+    		});
+
+    	});
+
+    </script>    
+
+    <h2>Add Typical Finder - @Model.Name</h2>
+
+    @using( Html.BeginForm( "AddTypical", "SpecRequest", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
+	{
+		@Html.AntiForgeryToken()
+		<table cellpadding="0" cellspacing="0" class="dataLayout">
+		@Html.HiddenFor( m => m.RequestID )
+		@Html.HiddenFor( m => m.Name )
+        <tr><td>@Html.MJLabelFor( m => m.FeaturedSeries, true )</td><td>@Html.DropDownListFor( m => m.FeaturedSeries, ImportController.GetSeriesDDList( true ) )</td><td>
+			@Html.MJLabelFor( m => m.SeriesList, true )</td><td>@Html.TextBoxFor( m => m.SeriesList, new { style = "display:none" } )</td></tr>
+        <tr><td>@Html.MJLabelFor( m => m.ListPrice, true )</td><td>@Html.TextBoxFor( m => m.ListPrice )</td><td>
+			@Html.MJLabelFor( m => m.AvailableForIn2, true )</td><td>@Html.CheckBoxFor( m => m.AvailableForIn2 )</td></tr>
+        <tr><td>@Html.MJLabelFor( m => m.Material, true )</td><td>@Html.TextBoxFor( m => m.Material, new { style = "display:none" } )</td><td>
+			@Html.MJLabelFor( m => m.Finish, true )</td><td>@Html.TextBoxFor( m => m.Finish, new { style = "display:none" } )</td></tr>
+        <tr><td>@Html.MJLabelFor( m => m.Footprint, true )</td><td>@Html.DropDownListFor( m => m.Footprint, SpecRequestController.GetFootprintDDList() )</td>
+			<td>@Html.MJLabelFor( m => m.Shape, true )</td><td>@Html.DropDownListFor( m => m.Shape, SpecRequestController.GetShapeDDList() )</td></tr>
+		<tr><td>@Html.MJLabelFor( m => m.RenderingImage, true )</td><td>@Html.TextBoxFor( m => m.RenderingImage )</td><td>
+			@Html.MJLabelFor( m => m.AdditionalImages, true )</td><td>@Html.TextBoxFor( m => m.AdditionalImages, new { style = "display:none" } )</td></tr>
+		<tr><td>@Html.MJLabelFor( m => m.Notes, true )</td><td>@Html.TextAreaFor( m => m.Notes )</td></tr>
+		<tr><td class="padr30 padl30" colspan="4"><hr /></td></tr>
+		<tr><td>@Html.MJLabelFor( m => m.xlsFile, true )</td><td><input type="file" id="xlsFile" name="xlsFile" accept=".xls,.xlsx" /></td></tr>
+		<tr><td>@Html.MJLabelFor( m => m.sifFile, true )</td><td><input type="file" id="sifFile" name="sifFile" accept=".sif" /></td></tr>
+		<tr><td>@Html.MJLabelFor( m => m.sp4File, true )</td><td><input type="file" id="sp4File" name="sp4File" accept=".sp4" /></td></tr>
+		<tr><td>@Html.MJLabelFor( m => m.pdfFile, true )</td><td><input type="file" id="pdfFile" name="pdfFile" accept=".pdf" /></td></tr>
+		<tr><td>@Html.MJLabelFor( m => m.dwgFile, true )</td><td><input type="file" id="dwgFile" name="dwgFile" accept=".dwg" /></td></tr>
+		</table>
+@Html.ValidationSummary()
+        <input type="submit" class="btn_type1" value="Add" id="submitBtn" name="typeOfSubmit" />
+        <input type="submit" class="btn_type1" value="Publish" id="publishBtn" name="typeOfSubmit" />
+	}

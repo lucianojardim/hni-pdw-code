@@ -1,0 +1,103 @@
+﻿@model PDWModels.Dealers.DealerDetail
+@{
+    ViewBag.Title = Model.Name;
+    Layout = "~/Views/Shared/DealerLayout.cshtml";
+}
+
+<script type="text/javascript">
+    function getPDWUrl() {
+        var hostName = window.location.hostname.toLowerCase();
+
+        if (hostName.indexOf('paoli-test01') >= 0)
+            return 'http://paoli-test01:8780';
+        if (hostName.indexOf('jamesburnes') >= 0)
+        	return 'http://library.paoli.getvitaminj.com';
+        if (hostName.indexOf('getvitaminj') >= 0)
+        	return 'http://library.paoli.getvitaminj.com';
+        if (hostName.indexOf('matt3400') >= 0)
+            return 'http://matt3400.wdd.local:8780';
+        if (hostName.indexOf('localhost') >= 0)
+        	return 'http://localhost:13801';
+        return 'http://library.paoli.com';
+    }
+    function getSiteUrl() {
+    	var hostName = window.location.hostname.toLowerCase();
+
+    	if (hostName.indexOf('paoli-test01') >= 0)
+    		return 'http://paoli-test01';
+    	if (hostName.indexOf('jamesburnes') >= 0)
+    		return 'http://paoli.getvitaminj.com';
+    	if (hostName.indexOf('getvitaminj') >= 0)
+    		return 'http://paoli.getvitaminj.com';
+    	if (hostName.indexOf('matt3400') >= 0)
+    		return 'http://matt3400.wdd.local:8787';
+    	if (hostName.indexOf('localhost') >= 0)
+    		return 'http://localhost:8787';
+    	return 'http://www.paoli.com';
+    }
+
+    $(document).ready(function () {
+    	$('.products_thumbs a.img_box').each(function () {
+    		$(this).attr('href', getSiteUrl() + $(this).data('url')); 
+		});
+    	$('.products_thumbs img').each(function () {
+    		$(this).attr('src', getPDWUrl() + $(this).data('url'));
+    	});
+    	$('.page_list a').each(function () {
+    		$(this).attr('href', getSiteUrl() + $(this).data('url'));
+    	});
+    });
+</script>
+
+<div>
+	<div class="">
+		<iframe style="float:left; padding-right:20px;" width="550" height="310" src="http://www.youtube-nocookie.com/embed/@Model.FeaturedVideoLink?rel=0&autoplay=0&modestbranding=1&showinfo=0" frameborder="0" allowfullscreen></iframe>
+	@(new MvcHtmlString( Model.MainContent ))
+	</div>
+	<div class="clear"></div>
+</div>
+<p class="divider_line mart30 marb30" id="overview_hr"></p>
+@if( Model.ProductList.Any() || Model.PageLinks.Any() )
+{
+<div class="col66">
+@if( Model.ProductList.Any() )
+{
+	<div class="products_thumbs">
+		<h1 class="padb30">@Model.ProductHeadline</h1>
+		@foreach( var s in Model.ProductList )
+  {
+  <a href="#" data-url="/@s.LinkName" class="img_box img_box2 img_size5" >
+  <img class="img_style_3" src="" data-url="/Images/@s.FeaturedImageName"/>
+<!--  <span class="shadowBox"></span>-->
+  <h4>@s.SeriesName</h4>
+  </a>
+  }
+	</div>
+	<div class="clear"></div>
+}
+@if( Model.PageLinks.Any() )
+{
+	<div class="page_list">
+		<h1 class="padb30">@Model.PageHeadline</h1>
+		@foreach( var p in Model.PageLinks )
+  {
+	  <div class="col33">
+	  <li><a href="#" data-url="/@p.URL" >@p.Display</a></li>
+	  </div>
+  }
+	</div>
+}
+</div>
+}
+@if( Model.VideoLinks.Any() )
+{
+<div class="col33">
+	<h1 class="padb30" style="@((!Model.VideoLinks.Any()) ? "display:none" : "")">@Model.VideoHeadline</h1>
+	@foreach( var v in Model.VideoLinks )
+ {
+		<iframe class="padb10" width="320" height="180" src="http://www.youtube-nocookie.com/embed/@v.VideoLink?rel=0&autoplay=0&modestbranding=1&showinfo=0" frameborder="0" allowfullscreen></iframe>
+
+ }
+</div>
+}
+<div class="clear"></div>

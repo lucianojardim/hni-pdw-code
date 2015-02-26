@@ -1,0 +1,127 @@
+﻿@model PDWModels.Articles.ArticleInformation
+@{
+	ViewBag.Title = "Edit Article";
+	ViewBag.CurrentPage = "Database";
+	ViewBag.CurrentSubPage = "Articles";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+
+
+    <script src="@Url.Content( "~/Content/tiny_mce/tiny_mce.js" )" type="text/javascript"></script>
+    <script type="text/javascript">
+    	$(document).ready(function () {
+    		$('#PubDate').datepicker(
+            {
+            	dateFormat: "mm/dd/yy",
+            	changeMonth: true,
+            	changeYear: true
+            });
+
+    		$('#previewBtn').click(function () {
+    			tinyMCE.triggerSave();
+
+    			makeAjaxCall('/Article/SavePreview',
+    				{
+    					ContentBlock: $('#ContentBlock').val(),
+    					BigHeadline: $('#BigHeadline').val(),
+    					BigImageURL: $('#BigImageURL').val(),
+    					PubDate: $('#PubDate').val(),
+    					AuthorID: $('#AuthorID').val(),
+    					ShowBigImage: $('#ShowBigImage:checked').length > 0,
+						ArticleType: $('#ArticleType').val()
+    				},
+    				function (data, textStatus, jqXHR) {
+    					window.open('@Url.Action( "Preview" )');
+    				},
+    				function (jqXHR, textStatus, errorThrown) {
+    					alert('Error previewing this Article:' + errorThrown)
+    				}
+    			);
+
+    		});
+
+    		makeTextAreaTinyMCE('ContentBlock', 'submitBtn');
+    	});
+
+    	function makeTextAreaTinyMCE(elementName, submitBtn) {
+    		tinyMCE.init({
+    			theme: "advanced",
+//    			plugins: "lists,spellchecker,pagebreak,style,layer,table,advhr,advimage,advlink,iespell,inlinepopups,media,contextmenu,paste",
+    			theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,formatselect,|,hr,|,sub,sup",
+    			theme_advanced_buttons2: "cut,copy,paste,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,code",
+    			theme_advanced_toolbar_location: "top",
+    			theme_advanced_toolbar_align: "left",
+    			theme_advanced_statusbar_location: "bottom",
+    			theme_advanced_resizing: true,
+    			encoding: "xml",
+    			mode: "exact",
+    			elements: elementName,
+    			width: "640",
+    			height: "480",
+    			setup: function (ed) {
+    				ed.onSaveContent.add(function (i, o) {
+    					o.content = o.content.replace(/&#39/g, "&apos");
+    				});
+    			}
+    		});
+
+    		$('#' + submitBtn).click(function () {
+    			tinyMCE.triggerSave();
+    		});
+    	}
+
+    </script>    
+
+    <h2>Edit Article</h2>
+
+    @using( Html.BeginForm( "Edit", "Article", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
+	{
+		@Html.AntiForgeryToken()
+		@Html.HiddenFor( a => a.ArticleID )
+		<table cellpadding="0" cellspacing="0" class="dataLayout">
+        <tr>
+		<td>Title</td><td>@Html.TextBoxFor( m => m.Title )</td>
+		</tr>
+		<tr>
+		<td>Author Name</td><td>@Html.DropDownListFor( m => m.AuthorID, UserController.GetPaoliMemberDDList( true ) )</td>
+		<td>Publication Date</td><td>@Html.EditorFor( m => m.PubDate )</td>
+		</tr>
+		<tr>
+		<td>Article Type</td><td>@Html.DropDownListFor( m => m.ArticleType, ArticleController.GetArticleTypeList() )</td>
+		<td>Article Rank</td><td>@Html.DropDownListFor( m => m.Rank, ArticleController.GetArticleRankList() )</td>
+		</tr>
+		<tr>
+		<td colspan="2"><h3>Large Promo Information</h3></td>
+		<td colspan="2"><h3>Small Promo Information</h3></td>
+		</tr>
+        <tr>
+		<td>Headline</td><td>@Html.TextBoxFor( m => m.BigHeadline )</td>
+		<td>Headline</td><td>@Html.TextBoxFor( m => m.SmallHeadline )</td>
+		</tr>
+        <tr>
+		<td>Sub-Headline</td><td>@Html.TextBoxFor( m => m.BigText )</td>
+		<td>Sub-Headline</td><td>@Html.TextBoxFor( m => m.SmallText )</td>
+		</tr>
+        <tr>
+		<td>Image URL</td><td>@Html.TextBoxFor( m => m.BigImageURL )</td>
+		<td>Image URL</td><td>@Html.TextBoxFor( m => m.SmallImageURL )</td>
+		</tr>
+		<tr>
+		<td colspan="4" class="triple"><span class="littleHelp">Images should be at least 600px wide in order to show properly throughout the site.</span></td>
+		</tr>
+		<tr>
+		<td colspan="4">Show Image on Article @Html.CheckBoxFor( m => m.ShowBigImage )</td>
+		</tr>
+        <tr>
+		<td colspan="4"><h3>Content Block</h3></td>
+		</tr>
+		<tr>
+		<td colspan="4">@Html.TextAreaFor( m => m.ContentBlock, new { style = "width:100%", rows = "30" } )</td>
+		</tr>
+		</table>
+@Html.ValidationSummary()
+        <input type="submit" class="btn_type1" value="Update" id="submitBtn" />
+        <input type="button" class="btn_type1" value="Preview" id="previewBtn" />
+	}

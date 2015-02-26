@@ -1,0 +1,1106 @@
+/*********************************
+
+BUSINESS PRO DESIGNS CSS GOES HERE
+FOR ECOLLATERAL FRONT END / UI
+
+*********************************/
+@charset "utf-8";
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+nav,
+section {
+    display: block;
+}
+img {
+	margin:0;
+	vertical-align:top;
+    border: 0; /* 1 */
+    -ms-interpolation-mode: bicubic; /* 2 */
+	max-width:100%;
+	height:auto;
+	page-break-inside:avoid;
+}
+a {
+	outline:none;
+	color:#999;
+	text-decoration:none;
+}
+
+a:hover,
+a:active {
+    outline: 0;
+}
+h1,h2,h3,h4,h5,h6 {
+  font-weight:normal;
+}
+.clr {
+	clear:both;
+}
+body {
+	padding:0 0 36px 0;
+	margin:0 auto;
+	/*max-width:1024px;*/
+}
+
+/*Header styles starts here*/
+header.siteheader {
+	background:#FFF;
+	min-height:75px;
+	margin-bottom:21px;
+}
+.logo {
+	float:left;
+}
+.sublogo {
+	width:100%; float:left; display:block; height:58px; 
+}
+nav.mainmenu {
+	float:right;
+	padding-top:29px;
+	padding-right:28px;
+}
+nav.mainmenu ul {
+	margin:0;
+	padding:0;
+	list-style:none;
+	position:relative;
+}
+nav.mainmenu ul li a.MenuIcon {
+	background:url(../images/sprite.png) no-repeat left top;
+	width:18px;
+	text-indent:-9999px;
+	overflow:hidden;
+	height:16px;
+	display:block;
+}
+nav.mainmenu ul ul {
+	display:none;
+	width:120px;
+	position:absolute;
+	right:0;
+	top:15px;
+	box-shadow:1px 1px 2px #999999;
+}
+nav.mainmenu li {
+	display:block;
+}
+nav.mainmenu li li a {
+	background:#c2c3c6;
+	display:block;
+	padding-left:10px;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size:12px;
+	line-height:30px;
+	border-bottom:1px solid #666;
+	font-weight:100;
+}
+nav.mainmenu li li a:hover {
+	color:#666;
+}
+nav.mainmenu ul li:hover ul {
+	display:block;
+}
+
+/*Header styles ends here*/
+
+/*content styles starts here*/
+.content {
+	max-width:970px;
+	margin:20px auto 0;
+	background:#FFF;
+}
+.blank .content 
+{
+	margin:0px auto 0;
+}
+.content h1 {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size:40px;
+	color:#454545;
+	margin:0;
+	padding: 0 0 29px 0;
+	font-weight:100;
+}
+	
+	
+	
+.content h2 {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size:23px;
+	color:#454545;
+	margin:0;
+	padding:10px 0 23px 0;
+	font-weight:100;
+}
+.content h4 {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size:18px;
+	color:#454545;
+	margin:0;
+	padding:0 0 14px 0;
+	font-weight:100;
+}
+.boxes {
+	padding:47px 122px 35px 122px;
+}
+.settingpage {
+	padding:49px 73px 42px 73px;
+}
+.leftimgBlock {
+	float:left;
+	width:167px;
+	padding-bottom:26px;
+}
+.rightinfoBlock {
+	margin-left:189px;
+	padding-bottom:26px;
+}
+.rightinfoBlock p {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size:16px;
+	color:#454545;
+	margin:0;
+	padding:0 0 10px 0;
+	line-height:22px;
+	font-weight:100;
+}
+.btn {
+	display:inline-block;
+	border-radius:5px;
+	background:#69923a;
+	color:#FFF;
+	font-size:12px;
+	font-family: Helvetica, Arial, sans-serif;
+	line-height:31px;
+	padding:0 10px;
+	font-weight:100;
+}
+.tabmenu {
+	min-height:40px;
+	border-bottom:1px solid #dadada;
+	padding-top: 10px;
+}
+.tabmenu form {
+	float:right;
+	padding-top:10px;
+}
+.tabmenu form input[type=text] {
+	border:none;
+	background:#FFF;
+	height:28px;
+	padding-left:10px;
+	width:140px;
+	float:left;
+	font-family: Helvetica, Arial, sans-serif;	
+	font-weight:100;
+}
+.tabmenu form fieldset {
+	border:0;
+	padding:0;
+	margin:0;
+}
+.tabmenu form input[type=button] {
+	width:16px;
+	height:28px;
+	background:url(../images/sprite.png) no-repeat -18px 12px;
+	border:0;
+	text-indent:-99999px;
+	overflow:hidden;
+	cursor:pointer;
+}
+.tabmenu ul {
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+.tabmenu ul li {
+	float:left;
+	color:#777777;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size:16px;
+	line-height:36px;
+	cursor:pointer;
+	border-bottom:4px solid #FFF;
+	font-weight:100;
+}
+.tabmenu ul li+li {
+	margin-left:28px;
+}
+.tabmenu ul li:hover {
+	color:#454545;
+}
+.tabmenu ul li.active {
+	color:#454545;
+	font-family: Helvetica, Arial, sans-serif;
+	border-bottom:4px solid #c7c2ba;
+	font-weight:100;
+}
+.tabcont {
+	display:none;
+}
+.twoblk {
+	float:left;
+	width:48.61%;
+	padding-bottom:18px;
+}
+.tabcont div.twoblk:nth-child(odd) {
+	margin-left:2.7%;
+}
+.marginbtm {
+	padding-bottom:3px !important;
+}
+.layoutchoose {
+	width:42.5%;
+}
+.boxes div.layoutchoose:nth-child(2n) {
+	margin-left: 14.7%;
+}
+.templimg {
+	float:left;
+	width:91px;
+	padding-top:15px;
+}
+.templimg img {
+	border-radius:2px;
+}
+.templdesc {
+	margin-left:115px;
+	padding-top:10px;
+}
+.templdesc img.img {
+	float:left;
+	border:1px solid #cac6be;
+	margin:2px 12px 0 0;
+}
+.templdesc p , .filterby {
+	margin:0;
+	padding:0;
+	font-family: Helvetica, Arial, sans-serif;
+	color:#454545;
+	font-size:12px;
+	font-weight:100;
+}
+.templdesc p.modified {
+	padding-bottom:6px;
+}
+.templdesc p.projectname {
+	padding-bottom:5px;
+}
+.templdesc p.typehtml {
+	padding-bottom:0px;
+}
+.templdesc p.layoutcol {
+	padding-bottom:0px;
+}
+.templdesc p.status {
+	padding-bottom:0px;
+}
+.filterby {
+	display:block;
+	padding:15px 0 5px 0;
+}
+.templdesc p strong , .filterby strong {
+	font-weight:bold;
+}
+.icon {
+	display:inline-block;
+	padding:0 0 0 20px;
+	position:relative;
+}
+.createnew {
+	font-family: Helvetica, Arial, sans-serif;
+	color:#454545;
+	font-size:12px;
+	margin-top:12px;
+	font-weight:100;
+}
+.createnew:after {
+	background:url(../images/sprite.png) no-repeat -39px top;
+	display:block;
+	content:'';
+	width:16px;
+	height:16px;
+	position:absolute;
+	left:0;
+	top:0px;
+}
+.deletePage {
+	font-family: Helvetica, Arial, sans-serif;
+	color:#454545;
+	font-size:12px;
+	margin-top:12px;
+	font-weight:100;
+}
+.deletePage:after {
+	background:url(../images/sprite.png) no-repeat -77px top;
+	display:block;
+	content:'';
+	width:16px;
+	height:16px;
+	position:absolute;
+	left:0;
+	top:0px;
+}
+.aligncenter {
+	text-align:center;
+}
+.filesettinglist {
+	font-family: Helvetica, Arial, sans-serif;
+	padding-top:1px;
+	padding-bottom:21px;
+	font-weight:100;
+}
+.filesettinglist span {
+	display:block;
+	float:left;
+	font-size:16px;
+	color:#999999;
+	width:226px;
+	line-height:29px;
+	padding-top: 1px;
+}
+.filesettinglist span.emphasis 
+{
+	font-weight: bold;
+}
+.filesettinglist label {
+	display:block;
+	float:left;
+	font-size:16px;
+	color:#999999;
+	width:226px;
+	line-height:32px;
+}
+.filesettinglist label.short {
+	width:100px;
+}
+.filesettinglist b {
+	display:block;
+	float:left;
+	font-size:16px;
+	color:#454545;
+	font-weight:normal;
+	padding-top:5px;
+}
+.filesettinglist span.field-validation-error,
+.filesettinglist span.field-validation-error span
+{
+	color: #c00;
+	width: 100%;
+}
+
+.line {
+	border-bottom:1px solid #dadada;
+	margin:20px 0 33px;
+}
+.settingpage iframe {
+	width:100%;
+	height:600px;
+	border:1px solid #dadada;
+	background:#eaeaea;
+}
+.twoblk a.layouttype {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size:22px;
+	color:#454545;
+	font-weight:100;
+}
+.twoblk a.layouttype img {
+	display:block;
+	margin:30px auto 26px auto;
+}
+
+.leftdiv {
+	float:left;
+	padding-left:20px;
+}
+.rightdiv {
+	float:right;
+	padding-right:20px;
+}
+form.form input[type=text] {
+	border:2px solid #bababa;
+	height:28px;
+	line-height:28px;
+	width:192px;
+	font-family: Helvetica, Arial, sans-serif;
+	float:left;
+	font-size:16px;
+	color:#454545;
+	font-weight:100;
+}
+form.form input[type=text].short {
+	width:590px;
+}
+form.form select, .newLookDDL {
+	border:2px solid #bababa;
+	height:31px;
+	line-height:28px;
+	width:197px;
+	font-family: Helvetica, Arial, sans-serif;
+	float:left;
+	font-size:16px;
+	color:#454545;
+	font-weight:100;
+}
+form.form label {
+	margin:0 0 18px 0;
+}
+
+/*ERIN MOD - 8/6/2014 - adjust font weight / style*/
+form.form em {
+	font-size:12px;
+	color:#999999;
+	width:365px;
+	float:left;
+	padding-left:14px;
+	font-weight:100;
+	/*font-style:normal;*/
+}
+form.form em i {
+	display:block;
+	padding-left:23px;
+	position:relative;
+	margin-top:4px;
+	font-weight:100;
+	/*font-style:normal;*/
+}
+form.form em i:after {
+	position:absolute;
+	left:0;
+	top:0;
+	width:16px;
+	height:16px;
+	content:'';
+	display:block;
+	background:url(../images/sprite.png) no-repeat -60px top;
+}
+form.form em i.notavailable:after {
+	background:url(../images/sprite.png) no-repeat -77px top;
+}
+/*content styles ends here*/
+
+
+/*template page styles starts*/
+.templatepage {
+	border:1px solid #dadada;
+	padding:35px 5.9% 50px 5.9%;
+	position:relative;
+	margin-top:15px;
+}
+.templatepage footer {
+	margin-top:-19px;
+}
+.templatebody {
+	font-family: Helvetica, Arial, sans-serif;
+	padding-bottom:15px;
+	font-weight:100;
+}
+.templatebody header {
+	background:#313c6d;
+}
+.templatebody header div.templogo {
+	float:left;
+	padding:0 0 0 17px;
+}
+.templatebody header a.visitpaoli {
+	float:right;
+	margin:20px 39px 0 0;
+	font-size:12px;
+	color:#999;
+}
+.templatecont {
+	background:#FFF;
+	/*padding:14px;*/
+	margin:14px 19px 20px 19px;
+}
+.finalsite div.templatecont {
+	/*margin:0px 28px 0 28px;*/
+	margin: 20px auto;
+    max-width: 954px;
+    padding: 7px;
+}
+.finalsite div.templatebody h1 {
+    font-size: 33px;
+    padding: 31px 0 7px 2px;
+}
+
+/*ERIN MOD - 8/6/2014 - from 21 to 3px*/
+.twocollboxh {
+	padding-top:3px;
+}
+/*.finalsite div.templatebody h3 {
+    color: #666;
+    font-size: 25px;
+    font-weight: normal;
+    margin: 0;
+    padding: 4px 0 33px;
+}*/
+.finalsite div.templatebody p {
+	font-size:18px;
+}
+.finalsite .smalladimge {
+	padding-top:0;
+	margin-top: 21px;
+}
+.finalsite .collboxes h2 {
+    font-size: 24px;
+    margin: 0;
+    padding: 17px 0 6px;
+}
+.finalsite .collboxes p {
+    font-size: 16px !important;
+    padding-top: 5px;
+}
+.finalsite .threecol div.collboxes {
+	padding-bottom: 33px;
+}
+.templatecontbox {
+	/*8/26/14 changed padding 12px > 25px*/
+	padding:25px;
+	padding-bottom:25px;
+}
+.finalsite .twocol.addImageContGrid {
+	padding-top: 47px;
+}
+/*.finalsite .templatecont {
+	max-width:930px;
+	margin:0 auto !important;
+	padding:20px;
+}*/
+.addimagebox img {
+    display: block;
+    margin: 0 auto 4px;
+}
+.smalladimge img {
+	margin-bottom:4px !important;
+}
+.addimagebox {
+	background:#eaeaea;
+	text-align:center;
+	color:#454545;
+}
+.addimagebox img {
+	display:block;
+	margin:0 auto;
+}
+.addimagebox b {
+	display:block;
+	text-align:center;
+	font-weight:normal;
+	color:#263f6a;
+}
+.hidden {
+	display:none;
+}
+.templatebody h1 {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size:23px;
+	font-weight:bold;
+	color:#454545;
+	margin:0;
+	padding:22px 0 7px 2px;
+	font-weight:100;
+}
+.templatebody h3 {
+	font-size:17px;
+	font-weight:normal;
+	margin:0;
+	color:#666;
+	padding:4px 0 20px 0;
+}
+.templatebody p {
+	color:#666666;
+	font-size:14px;
+}
+.onecol {
+	float:left;
+	/*EI Mod 8/26 Change width from 31.45% and added left padding*/
+	width:29%;
+	padding-left:2%;
+}
+.onecol h3, .twocol h3, .threecol h3 {
+	font-size:16px;
+	font-weight:bold;
+	font-family: Helvetica, Arial, sans-serif;
+	color:#263f6a;
+	padding:0 0 19px 0;
+	margin:0;
+	font-weight:100;
+}
+.onecol h4, .twocol h4, .threecol h4 {
+	font-size:14px;
+	font-weight:bold;
+	font-family: Helvetica, Arial, sans-serif;
+	color:#666;
+	padding:0px 0 15px 0;
+	font-weight:100;
+}
+.onecol ul, .twocol ul, .onecol ol, .twocol ol, .threecol ul, .threecol ol {
+	font-size:12px;
+	margin:0;
+	padding:0 0 0px 16px;
+}
+
+/***ERIN MOD - 8/6/2014 - adding non-anchor lists***/
+.onecol ul li a, .twocol ul li a, .onecol ol li a, .twocol ol li a, .threecol ul li a, .threecol ol li a, .onecol ul li, .twocol ul li, .onecol ol li, .twocol ol li, .threecol ul li, .threecol ol li {
+	line-height:20px;
+}
+.onecol ul li, .twocol ul li, .threecol ul li 
+{
+	list-style: disc none outside;
+}
+.onecol ol li, .twocol ol li, .threecol ol li 
+{
+	list-style: decimal none outside;
+}
+.onecol p, .twocol p, .threecol p {
+	font-size:12px !important;
+	margin:0;
+	line-height:20px;
+	padding:6px 0;
+}
+.twocol {
+	float:left;
+	width:68.24%;
+	
+}
+.borderright {
+	border-right:1px solid #f0f0f0;
+}
+.bordertoop {
+	border-top:1px solid #dadada;
+}
+.fullcoll {
+	padding-top:36px;
+	margin-top:15px;
+}
+.fullcoll div.onecolthreebkl {
+	float:left;
+	/*change width to 29%, padding-right to 2%-old value was 33%, no padding*/
+	width:30%;
+	padding-right:2%;
+}
+.threecol div.collboxes {
+	width:47.2%;
+	float:left;
+	padding-bottom:22px;
+}
+.threecol div.collboxes {
+	/*changing width from 32 > 29; margin from left 1.8 to right 2*/
+	width:30%;
+	float:left;
+	padding-bottom:22px;
+	padding-right:2%;
+}
+.threecol div.collboxes:nth-child(1),
+.threecol div.collboxes:nth-child(5) ,
+.threecol div.collboxes:nth-child(9) , 
+.threecol div.collboxes:nth-child(13),
+.threecol div.collboxes:nth-child(17),
+.threecol div.collboxes:nth-child(21),
+.threecol div.collboxes:nth-child(25){
+	margin-left:0;
+}
+.fullcoll {
+	width:auto;
+	float:none !important;
+}
+
+.twocol div.collboxes {
+	/*EI change width from 47.2% adding right padding*/
+	width:46%;
+	padding-right:2%;
+	float:left;
+	padding-bottom:13px;
+	padding-top:5px;
+}
+.twocol div.collboxes {
+	margin-left:2.6%;
+}
+.twocol div.collboxes:nth-child(1),
+.twocol div.collboxes:nth-child(4)
+{
+	margin-left:0;
+}
+.addImageContGrid div.collboxes {
+	float:none;
+	margin:0 0 22px 0;
+	width:97%;
+}
+.addImageContGrid div.collboxes div.addimagebox, .addImageContGrid div.collboxes div.smalladimge {
+	float:left;
+	width:47.42%;
+}
+.addImageContGrid div.collboxes div.addcontentbox {
+	/*EI mod 8/26 margin-left old value 49.88*/
+	margin-left:51.4%;
+}
+.addImageContGrid.twocol div.collboxes:nth-child(even) {
+	margin-left:0;
+}
+.padingbox {
+	padding:12px;
+}
+.collboxes h2 {
+	font-size:18px;
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight:bold;
+	color:#454545;
+	margin:0;
+	padding:15px 0 6px 0;
+	font-weight:100;
+}
+.addImageContGrid .collboxes h2 {
+	padding-top:0;
+}
+.onecol, .twocol, .threecol {
+	color:#666;
+	font-size:12px;
+}
+
+.collboxes p {
+	margin:0;
+	padding:0;
+}
+.finalsite .twocol.twocollboxh .collboxes h2 {
+    padding: 22px 0 6px;
+}
+.twocol.twocollboxh div.collboxes {
+	padding-bottom: 49px;
+}
+
+.templatebody div.firstfooter {
+	background:#c3beb6;
+	padding:26px 50px;
+}
+
+.templatebody div.firstfooter div.fourdiv {
+	float:left;
+	width:30%;
+}
+.templatebody div.firstfooter div.fourdiv + div.fourdiv {
+	width:22%;
+}
+.templatebody div.firstfooter div.fourdiv h5 {
+	font-size:9px;
+	font-weight:bold;
+	color:#263f6a;
+	padding:10px 0 0 0;
+	margin:0;
+}
+.templatebody div.firstfooter div.fourdiv ul {
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+.templatebody div.firstfooter div.fourdiv ul li {
+	line-height:9px;
+}
+.templatebody div.firstfooter div.fourdiv ul li a {
+	color:#666;
+	font-size:9px;
+	line-height:9px;
+}
+.templatebody div.firstfooter div.fourdiv p {
+	color:#999;
+	font-size:9px;
+	margin:0;
+	padding:0;
+}
+.templatebody div.firstfooter div.fourdiv p a {
+	color:#263f6a;
+	line-height:9px;
+}
+.templatebody div.firstfooter div.fourdiv span.phone {
+	color:#263f6a;
+	display:block;
+	padding-bottom:15px;
+	font-size:14px;
+}
+
+
+.templatebody div.secfooter {
+	background:#2b4875;
+}
+.templatebody div.secfooter ul {
+	float:left;
+	margin:0;
+	padding:0 0 0 7px;
+	list-style:none;
+}
+.templatebody div.secfooter ul li {
+	display:inline;
+}
+.templatebody div.secfooter ul li a {
+	display:inline-block;
+	color:#263f6a;
+	font-size:9px;
+	padding:0 3px;
+	line-height:9px;
+}
+.templatebody div.secfooter span.tempcopy {
+	float:right;
+	display:block;
+	color:#263f6a;
+	font-size:9px;
+	padding:4px 7px 0 0;
+}
+.finalsite div.templatebody footer {
+	/*margin: 0 28px;*/
+	border-bottom:43px solid #FFF;
+}
+.mask {
+	display:block;
+	position:absolute;
+	left:0;
+	right:0;
+	top:0;
+	bottom:0;
+	background:rgba(0,0,0,0.8);
+}
+.editing {
+	position:relative;
+	z-index:9999;
+	background:#FFF;
+	border:1px solid #999999;
+}
+.editorheading {
+	min-height:42px;
+	text-align:right;
+}
+.editorheading a {
+	font-size:14px;
+	color:#454545;
+	padding:0 10px;
+	line-height:42px;
+	position:relative;
+}
+.editorheading a:first-child:after {
+	border-right:1px solid #999;
+	display:block;
+	content:'';
+	position:absolute;
+	height:10px;
+	right:0;
+	top:5px;
+}
+.editingcont {
+	padding:0 18px; 
+}
+/*template page styles starts*/
+
+/*main footer styles starts*/
+footer.mainfooter {
+	min-height:65px;
+	max-width:970px;
+	margin:0 auto;
+	background:#454545;
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight:100;
+}
+footer.mainfooter a {
+	font-size:20px;
+	color:#FFF;
+	display:inline-block;
+	position:relative;
+	line-height:65px;
+}
+footer.mainfooter a.previous, footer.mainfooter a.previousAlone {
+	padding:0 17px;
+	position:relative;
+}
+footer.mainfooter a.previous:before {
+	content:'';
+	display:block;
+	height:36px;
+	width:1px;
+	border-right:1px solid #6a6a6a;
+	position:absolute;
+	right:0;
+	top:15px;
+}
+footer.mainfooter a.previous:after, footer.mainfooter a.previousAlone:after {
+	content:'';
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 7px 7px 7px 0;
+	border-color: transparent #ffffff transparent transparent;
+	position:absolute;
+	left:0;
+	top:27px;
+}
+footer.mainfooter a.publish:after {
+	content:'';
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 7px 0 7px 7px;
+	border-color: transparent transparent transparent #ffffff;
+	position:absolute;
+	right:0;
+	top:27px;
+}
+footer.mainfooter a.publish {
+	padding:0 17px;
+}
+
+
+@media only screen and (max-width: 480px) {
+	.boxes {
+		padding:10px;
+	}
+	.twoblk, .leftimgBlock , .templimg , .tabmenu ul li , .twocol div.collboxes , .twocol , .onecol , .templatebody div.firstfooter div.fourdiv , .templatebody div.firstfooter div.fourdiv + div.fourdiv , .threecol div.collboxes ,.fullcoll div.onecolthreebkl ,.addImageContGrid div.collboxes div.addimagebox {
+		float:none;
+		width:auto;
+	}
+	.rightinfoBlock , .templdesc , .tabmenu ul li + li , .twocol div.collboxes:nth-child(2n) ,.addImageContGrid div.collboxes div.addcontentbox {
+		margin-left:0;
+	}
+	.content h1 {
+		font-size:24px;
+	}
+	.twocol div.collboxes {
+		float:none;
+	}
+	.templatebody div.secfooter ul , .templatebody div.secfooter span.tempcopy {
+		float:none;
+		text-align:center;
+		width:auto;
+		padding:4px;
+	}
+	.leftdiv , .rightdiv {
+		float:none;
+		width:auto;
+		text-align:center;
+		padding:0;
+	}
+	.rightdiv {
+		padding-bottom:10px;
+	}
+	.borderright {
+		border-right:0;
+	}
+	form.form em {
+		padding:0 0 0 00;
+	}
+
+
+
+}
+
+/**********NEW STYLES - EI - 8/6/2014************/
+.content .addcontentbox h1 {
+	padding-top:40px;
+}
+
+.content .addcontentbox h2 {
+	padding-bottom: 20px;
+}
+
+.content .addcontentbox p {
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight:100;
+	line-height:20px;
+}
+
+.content .addcontentbox h3 {
+	font-weight:normal;
+}
+
+.content .onecolthreebkl {
+	padding-bottom:25px;
+}
+
+.mainlightbox{
+	background:url(../images/transparent_blue.png) top left repeat;
+	height:100%;
+	width:100%;
+	position:fixed;
+	z-index:2000
+}
+.lightbox_in{
+	width:870px;
+	margin:40px auto 0;
+	background-color:#fff;
+	-moz-box-shadow: 0px 0px 4px #000;
+	-webkit-box-shadow: 0px 0px 4px #000;
+	box-shadow: 0px 0px 4px #000;
+}
+.lightbox_in_gtg{
+	width:870px;
+	margin:40px auto 0;
+}
+.lb_in{
+	padding:35px;
+	position:relative;
+}
+.lb_in_gtg{
+	padding:0px;
+	position:relative;
+}
+.close_lightbox{
+	cursor:pointer;
+	background:url(../images/close_icon.png) top left no-repeat;
+	height:33px;
+	width:34px;
+	position:absolute;
+	top:-16px;
+	right:-16px;
+}
+.lb_in_gtg .close_lightbox 
+{
+    top:0px;
+    right:0px;
+}
+
+.lightbox_in .underImagePadding
+{
+	padding-bottom: 20px;
+}
+
+.lightbox_in .leftCol
+{
+	float:left;
+	width: 66.666%;
+}
+
+.lightbox_in .rightCol
+{
+	float:left;
+	width: 33.333%;
+}
+
+.lightbox_in .leftColDetail
+{
+	margin-right: 30px;
+}
+
+.lightbox_in .leftColDetail h5, .lightbox_in .rightColDetail h5
+{
+	font-size: 16px;
+	padding-bottom: 10px;
+	font-weight: bold;
+}
+
+.lightbox_in .rightColDetail
+{
+	margin-left: 10px;
+}
+
+.lightbox_in .rightColDetail a.download_btn
+{
+    background: url('../images/download_icon.png') no-repeat scroll left center transparent;
+    color: #263F6A;
+    font-size: 15px;
+    padding-left: 30px;
+    display: block;
+    margin-bottom: 20px;
+}

@@ -1,0 +1,212 @@
+﻿@{
+    ViewBag.Title = "NewIndex";
+    Layout = "~/Views/Shared/NewLayout.cshtml";
+}
+@using PDWInfrastructure
+@{var CurrentUser = PaoliWebUser.CurrentUser;}
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		makeAjaxCall('@Url.Action( "UserHomePageList", "SpecRequest" )',
+			{ itemCount: 3 },
+			function (data) {
+				$(data).each(function (i, item) {
+					var s = '<p class="sideListItem" data-id="' + item.RequestID + '" data-canedit="' + (!item.IsCanceled && !item.IsCompleted) + '"><span>';
+					if (item.IsCanceled) {
+						s += 'Canceled';
+					} else if (item.IsCompleted) {
+						s += 'Completed';
+					} else if (item.IsOnHold) {
+						s += 'Pending - On Hold';
+					} else {
+						s += 'Pending';
+					}
+					s += ': </span> ';
+					s += item.Name;
+					s += ' requested by ';
+					if (item.DealerMember) {
+						s += item.DealerMember;
+						s += ' at ';
+					}
+					s += item.SalesRepGroup;
+					s += ' for ';
+					s += item.ProjectName;
+					s += ' on ';
+					s += getLocalDate(item.CreatedDateMilliseconds);
+					s += '</p>';
+
+					if (i == 0) {
+						$('#specRequestList').prepend(s);
+					} else {
+						$('#specRequestList .sideListItem').last().after(s);
+					}
+
+				});
+
+				$('#specRequestList .sideListItem').css('cursor', 'pointer').on('click', function () {
+				@if( CurrentUser.CanManageTypicals ) {
+					<text>
+					if ($(this).data('canedit')) {
+						window.location = '@Url.Action( "EditRequest", "SpecRequest" )/' + $(this).data('id');
+					} else {
+						window.location = '@Url.Action( "ViewRequest", "SpecRequest" )/' + $(this).data('id');
+					}
+					</text>
+					}
+					else{
+					<text>
+						window.location = '@Url.Action( "ViewRequest", "SpecRequest" )/' + $(this).data('id');
+					</text>
+					}
+				});
+			}
+		);
+
+		makeAjaxCall('@Url.Action( "UserHomePageList", "Collateral" )',
+			{ itemCount: 3 },
+			function (data) {
+				$(data).each(function (i, item) {
+					var s = '<p class="sideListItem" data-id="' + item.OrderID + '" data-canedit="' + item.CanEdit + '"><span>';
+					s += item.Status;
+					s += ': </span> ';
+					s += item.OrderID;
+					if (item.RPName != null) {
+						s += ' requested by ';
+						s += item.RPName;
+					}
+					if( item.RPCompany != null ) {
+						s += ' at ';
+						s += item.RPCompany;
+					}
+					if( item.SPCompany != null ) {
+						s += ' for ';
+						s += item.SPCompany;
+					}
+					s += ' on ';
+					s += getLocalDate(item.OrderDateMilliseconds);
+					s += '</p>';
+
+					if (i == 0) {
+						$('#collateralOrderList').prepend(s);
+					} else {
+						$('#collateralOrderList .sideListItem').last().after(s);
+					}
+
+				});
+
+				$('#collateralOrderList .sideListItem').css('cursor', 'pointer').on('click', function () {
+				@if( CurrentUser.CanManageOrders ) {
+		<text>
+					if ($(this).data('canedit')) {
+						window.location = '@Url.Action( "EditOrder", "Collateral" )/' + $(this).data('id');
+					} else {
+						window.location = '@Url.Action( "ViewOrder", "Collateral" )/' + $(this).data('id');
+					}
+					</text>
+					}
+					else{
+					<text>
+						window.location = '@Url.Action( "ViewOrder", "Collateral" )/' + $(this).data('id');
+					</text>
+					}
+				});
+			}
+		);
+	});
+
+</script>
+                     <div class="container">
+
+					 @{
+						 var articleList = ProductDataWarehouse.Controllers.HomeController.GetHomePageContent();
+						 
+					 }
+					 @if( articleList.Any() )
+	  {
+					 <div class="main_lt">
+					 
+					 @if( articleList.Count > 0 )
+	  {
+	<a href="@Url.Action( "View", "Article", new { id = articleList[0].ArticleID } )"><img src="@articleList[0].ImageURL" alt="img" width="600"/> </a>                     
+	<a href="@Url.Action( "View", "Article", new { id = articleList[0].ArticleID } )"><h3>@articleList[0].Headline</h3> </a>                               
+    <p>@articleList[0].Subheadline</p>                                 
+	  }
+	  @for( int row = 0; row < articleList.Count / 2; row++ )
+   {
+	<div class="main_lt_btm">                                      
+	   @for( int col = ( row * 2 ) + 1; col < articleList.Count && col < ( row * 2 ) + 3; col++ )
+	{
+       <div class="main_lt_btm_lt @if( col % 2 == 0 )
+								  { <text>last</text> }">                                          
+        	<a href="@Url.Action( "View", "Article", new { id = articleList[col].ArticleID } )" target="_blank"><img src="@articleList[col].ImageURL" alt="img" width="291"></a>                                          
+            <h3><a href="@Url.Action( "View", "Article", new { id = articleList[col].ArticleID } )" target="_blank">@articleList[col].Headline</a></h3>                                          
+            <p>@articleList[col].Subheadline</p>                                          
+       </div>                                      
+	}
+	   </div>
+       <i class="clear_0"></i>                                 
+   }
+   <div class="main_lt_btm">
+   @if( CurrentUser.CanSeeTheScoop )
+   {
+   <a href="@Url.Action( "ViewAllScoop", "Article" )">view all</a>
+   }
+   else
+   {
+   <a href="@Url.Action( "ViewAllNewsAndUpdates", "Article" )">view all</a>
+   }
+   </div>
+						</div>
+	  }
+	  else
+	  {
+		  <text>
+@Html.Raw( ProductDataWarehouse.Controllers.HomeController.GetHomePageContentHTML() )
+		</text>
+	  }
+                          <div class="main_rt">
+                               <div class="main_rt_box">
+                                    <div class="main_rt_box_top">
+                                        <h3><a href="@Url.Action( CurrentUser.CanManageOrders ? "Orders" : "ViewOrders", "Collateral" )"><cite><img src="/newcontent/images/collateral_img.jpg" width="22" height="24" alt="img"/></cite>Collateral Store</a> <span>@if( CurrentUser.CanAddOrders )
+																																																																	{ <a href="@Url.Action( "AddOrder", "Collateral" )"><img src="/newcontent/images/plus.jpg" width="15" height="15" alt="img"/></a> } </span></h3>
+                                    </div>
+                                 <div class="main_rt_box_btm" id="collateralOrderList">
+                                        
+	   @if( CurrentUser.CanManageOrders )
+	{
+				<a href="@Url.Action( "Orders", "Collateral" )">view all</a>
+	}
+	else if( CurrentUser.CanAddOrders )
+	{
+				<a href="@Url.Action( "ViewOrders", "Collateral" )">view all</a>
+	}
+
+                                        <i class="clear_0"></i>
+                                    </div>
+                               
+                            </div>
+                               <div class="main_rt_box">
+                                    <div class="main_rt_box_top">
+                                        <h3><a href="@Url.Action( CurrentUser.CanManageOrders ? "Manage" : "ViewAll", "SpecRequest" )"><cite><img src="/newcontent/images/quotes.jpg" width="22" height="22" alt="img"/></cite>Specification Requests</a> <span>@if( CurrentUser.CanAddSpecRequests )
+																																																																{ <a href="@Url.Action( "AddRequest", "SpecRequest" )"><img src="/newcontent/images/plus.jpg" width="15" height="15" alt="img"/></a> } </span></h3>
+                                    </div>
+                                    <div class="main_rt_box_btm" id="specRequestList">
+                                        
+                                        
+	   @if( CurrentUser.CanManageTypicals )
+	{
+				<a href="@Url.Action( "Manage", "SpecRequest" )">view all</a>
+	}
+	else if( CurrentUser.CanViewSpecRequests )
+	{
+				<a href="@Url.Action( "ViewAll", "SpecRequest" )">view all</a>
+	}
+                                        <i class="clear_0"></i>
+                                    </div>
+                               
+                               </div>
+                               <!--<a href="#"><img src="/newcontent/images/aprill.jpg" width="309" height="267" alt="img"/></a>-->
+                               
+                          </div>
+                          <i class="clear_0"></i>
+</div>

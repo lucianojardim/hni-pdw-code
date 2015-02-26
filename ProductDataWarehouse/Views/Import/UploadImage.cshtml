@@ -1,0 +1,33 @@
+﻿@model PDWModels.Images.ImageInformation
+@{
+    ViewBag.Title = "UploadImage";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+
+@if( ViewBag.CloseFancyBox ?? false )
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            parent.$.fancybox.close();
+            if (parent.loadImages) {
+                parent.loadImages();
+            }
+        });
+    </script>
+}
+
+    <h2 class="mart0">Upload Image File</h2>
+
+    @using( Html.BeginForm( "UploadImage", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
+    {
+		@Html.AntiForgeryToken()
+        @Html.HiddenFor( m => m.ImageID )
+        <span class="dataRow">@Html.MJLabelFor( m => m.ImageName, true )@Html.DisplayFor( m => m.ImageName )<br /></span>
+        <span class="dataRow">@Html.Label( "Image File Name: " )<input type="file" name="imageFile" data-val-required="The Image File Name is a required field." data-val="true" /><br /></span>
+@Html.ValidationSummary()
+        <input type="submit" class="btn_type1" value="Upload" onclick="$('#inProgress').show();" />
+	}
+    <div style="display:none;margin-top:25px;" id="inProgress">
+        <img src="@Url.Content( "~/Content/Images/baprogress.gif" )" alt="" style="display:inline;"/>&nbsp;<span>Uploading...</span>
+    </div>

@@ -1,0 +1,22 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+@{
+	Layout = "~/Views/Shared/NewLayout.cshtml";
+}
+
+<div class="content" style="text-align:center;">
+    <img src="/NewContent/images/ServerError.jpg?@(DateTime.Now.ToString())" style="padding:40px;" />
+	@if( Model != null )
+	{
+		var e = Model.Exception;
+        while( e != null )
+        {
+        <!-- 
+@e.Message
+        -->
+        <!-- 
+@e.StackTrace 
+        -->
+			e = e.InnerException;
+        }
+	}
+</div>

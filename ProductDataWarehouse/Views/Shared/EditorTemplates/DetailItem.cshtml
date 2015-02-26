@@ -1,0 +1,70 @@
+﻿@model PDWModels.eCollateral.ECollateralDetails.DetailItem
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		makeTextAreaTinyMCE('Details_@(ViewBag.index)__Content', 'btnSaveContent@(ViewBag.index)');
+
+		$('#detailContent@(ViewBag.index)').on('click', function (e) {
+			$(this).hide();
+			$(this).siblings('.editContent').show();
+		});
+		$('#btnSaveContent@(ViewBag.index)').on('click', function (e) {
+			var decoded = $('<div/>').html($('#Details_@(ViewBag.index)__Content').val()).text();
+			$('#detailContent@(ViewBag.index)').html(decoded);
+			$(this).parents('.editContent').hide();
+			$('#detailContent@(ViewBag.index)').show();
+		});
+		$('#btnCancelContent@(ViewBag.index)').on('click', function (e) {
+			var ed = tinyMCE.get('Details_@(ViewBag.index)__Content');
+			ed.setContent($('#detailContent@(ViewBag.index)').html());
+			$(this).parents('.editContent').hide();
+			$('#detailContent@(ViewBag.index)').show();
+		});
+
+		$('#detailImage@(ViewBag.index)').fancybox({
+			'autoDimensions': false,
+			'width': 800,
+			'height': 600,
+			'padding': 20,
+			'margin': 0,
+			'scrolling': 'auto',
+			'titleShow': false,
+			'type': 'inline',
+			'content': '#ImagePicker',
+			'onComplete': function () {
+				$('#ImagePicker').data('src', '#detailImage@(ViewBag.index)');
+			}
+		});
+	});
+
+</script>
+
+
+<div class="addimagebox" id="detailImage@(ViewBag.index)">
+	@Html.HiddenFor( m => m.ImageID, new { @class = "inputImageID" } )
+	@Html.HiddenFor( m => m.ImageFileName, new { @class = "inputImageFileName" } )
+		@if( Model.ImageID.HasValue )
+  {
+	  <img src="/Images/@Model.ImageFileName" width="100%" />
+  }
+  else if( ViewBag.isBigImage ?? true )
+  {
+	  <img src="/NewContent/images/image-browse-lg.png" />
+  }
+  else 
+  {
+	  <img src="/NewContent/images/image-browse-sm.png" />
+  }
+</div>
+<div class="addcontentbox">
+	<div id="detailContent@(ViewBag.index)" style="border: 1px solid #999; min-height: 100px;" >
+		@Html.Raw( Model.Content )
+	</div>
+	<div style="display:none; height: 550px;" class="editContent">
+		@Html.TextAreaFor( m => m.Content, new { @style = "width: 100%; height: 100%" } )
+		<div class="editorheading">
+			<a href="javascript:void(0)" id="btnSaveContent@(ViewBag.index)">Commit Changes</a><a href="javascript:void(0)" id="btnCancelContent@(ViewBag.index)">Close X</a>
+		</div>
+	</div>
+</div>
+<div class="clr"></div>

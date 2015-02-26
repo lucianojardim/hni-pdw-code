@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E5529190-3BF8-40D3-A334-A47DC3F230DA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PDWDBContext</RootNamespace>
+    <AssemblyName>PDWDBContext</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.4.1.10331.0\lib\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attribute.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AttributeOption.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Category.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CollateralGroupItem.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CollateralItem.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CollateralOrder.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CollateralOrderDetail.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CollateralOrderShipment.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CollateralOrderShipmentDetail.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CollateralType.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Company.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CompanyTripData.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBContext.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DBContext.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Dealer.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DealerFeaturedProduct.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="eCollateralItem.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="eCollateralSection.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GSAContract.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HomePageContent.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ImageFile.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LeadTimeDetail.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\Attribute.cs" />
+    <Compile Include="Objects\CollateralItem.cs" />
+    <Compile Include="Objects\Company.cs" />
+    <Compile Include="Objects\ImageFile.cs" />
+    <Compile Include="Objects\Series.cs" />
+    <Compile Include="Objects\SpecRequest.cs" />
+    <Compile Include="Objects\SpecRequestEvent.cs" />
+    <Compile Include="Objects\Territory.cs" />
+    <Compile Include="Objects\Typical.cs" />
+    <Compile Include="Objects\User.cs" />
+    <Compile Include="Objects\UserNotification.cs" />
+    <Compile Include="PageLink.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PDWModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PDWModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PDWModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Project.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Publication.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PublicationImage.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScoopArticle.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SearchResultsLog.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Series.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SeriesImageFile.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SeriesIntAttribute.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SeriesOptionAttribute.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SeriesTextAttribute.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SeriesTypical.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Showroom.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpecRequest.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpecRequestEvent.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpecRequestFile.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TAttribute.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TAttributeOption.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Territory.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TerritoryTripData.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Typical.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TypicalImageFile.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TypicalIntAttribute.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TypicalOptionAttribute.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TypicalTextAttribute.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="User.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserLogin.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserNotification.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VideoLink.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ZipCodeInfo.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="DBContext.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DBContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="PDWModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PDWModel.Context.cs</LastGenOutput>
+    </None>
+    <None Include="PDWModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PDWModel.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

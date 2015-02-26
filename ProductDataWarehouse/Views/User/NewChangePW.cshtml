@@ -1,0 +1,72 @@
+﻿@model PDWModels.Users.ChangePWDetail
+@{
+	ViewBag.Title = "NewChangePW";
+	Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.HeaderArea = "Users";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+<script type="text/javascript">
+
+	$(document).ready(function () {
+		$('.submitBtn').click(function (e) {
+			$('#theForm').submit();
+		});
+
+		$('.cancelBtn').click(function (e) {
+			window.location = window.location;
+		});
+
+        @if( ViewBag.ChangePWSuccess ?? false )
+        {
+			<text>alert('Your password has been updated.');</text>
+		}
+	});
+
+</script>
+                     <div class="container">
+<div class="main_inner1">
+	<h3>
+		Edit Your Account Settings: Change Password</h3>
+	<div class="main_inner2_btm">
+		<div class="main_inner2_btm_mid_myacct">
+    @using( Html.BeginForm( "ChangePW", "User", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
+	{
+		@Html.AntiForgeryToken()
+			<i class="clear_0"></i>
+		if( PDWInfrastructure.PaoliWebUser.CurrentUser.HasTempPassword )
+		{
+			<div>
+				You have been assigned a temporary password by our system. You'll need to change your password before you can proceed. Your password must be at least 8 characters and contain an upper-case letter, a lower-case letter and a non-letter.
+			</div>
+		}
+		else
+		{
+			<div>
+				Password must be at least 8 characters and contain an upper-case letter, a lower-case letter and a non-letter.
+			</div>
+		}
+			<ul>
+				<li>
+					<div class="colmn1">Current Password@(Html.ValidationMessageFor( m => m.OldPassword ))</div>
+					<div class="colmn3single">@Html.PasswordFor( m => m.OldPassword )</div>
+					<i class="clear_0"></i>
+				</li>
+				<li>
+					<div class="colmn1">New Password@(Html.ValidationMessageFor( m => m.NewPassword ))</div>
+					<div class="colmn3single">@Html.PasswordFor( m => m.NewPassword )</div>
+					<i class="clear_0"></i>
+				</li>
+				<li>
+					<div class="colmn1">Retype Password@(Html.ValidationMessageFor( m => m.ConfirmPassword ))</div>
+					<div class="colmn3single">@Html.PasswordFor( m => m.ConfirmPassword )</div>
+					<i class="clear_0"></i>
+				</li>
+			</ul>
+			<i class="clear_0"></i><span class="btn7 cancelBtn">CANCEL</span> <span class="btn8 submitBtn">SAVE</span>
+<!--		@Html.ValidationSummary()-->
+	}
+		</div>
+	</div>
+</div>
+</div>

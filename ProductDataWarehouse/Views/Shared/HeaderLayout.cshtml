@@ -1,0 +1,26 @@
+﻿@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using PDWInfrastructure
+@{var CurrentUser = PaoliWebUser.CurrentUser;}
+
+<div class="wrapperNew">
+@if( HttpContext.Current.User.Identity.IsAuthenticated )
+{
+	Html.RenderPartial( "RightMenu" );
+}
+
+	<header>
+		@Html.Partial( "PrimaryHeader" )
+	</header>
+	<div class="wrapper p20">
+		@RenderBody()
+	</div>
+</div>
+<div style="display:none">
+	<a href="#inProgressSection" id="btnFormSubmissionInProgress" style="display:none">In Progress</a>
+    <div style="vertical-align:middle;" id="inProgressSection">
+        <img src="@Url.Content( "~/Content/Images/baprogress.gif" )" alt="" style="display:inline;"/>&nbsp;<span>Working...</span>
+    </div>
+</div>
+@Html.Partial( "PrimaryFooter" )

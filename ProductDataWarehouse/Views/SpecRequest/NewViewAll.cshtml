@@ -1,0 +1,134 @@
+﻿@{
+    ViewBag.Title = "NewViewAll";
+    Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.HeaderArea = "SpecRequests";
+}
+@using PDWInfrastructure
+
+                     <div class="container">
+<div class="main_inner1_content ">
+	<div class="main_inner1_content_lt">
+		<div class="main_inner1_content_lt_top">
+			<h3>
+				<span>&nbsp;</span>Filter Results</h3>
+			<div class="main_inner1_content_lt_top_box">
+				<label>
+					Keyword</label>
+				<input class="leftAlignInput" type="text" id="keywordText"/>
+			</div>
+		</div>
+	@if( PaoliWebUser.CurrentUser.CanAddSpecRequests )
+	{
+		<div class="main_inner1_content_lt_btm">
+			<h3>
+				Need help from our spec team?</h3>
+			<h4>
+				<a href="@Url.Action( "AddRequest", "SpecRequest" )">New Request</a></h4>
+		</div>
+	}
+	</div>
+	<div class="main_inner1_content_rt">
+		<div id="demo">
+			<table id="specRequestList" class="display">
+				<thead>
+				</thead>
+				<tfoot>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+	<i class="clear_0"></i>
+</div>
+</div>
+@{
+	var colNum = 0;
+}
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('#keywordText').on('keyup', loadSpecRequests);
+		loadSpecRequests();
+	});
+
+	var oTable = null;
+	function loadSpecRequests() {
+		if (oTable != null) {
+			oTable.fnDraw();
+			return;
+		}
+
+		oTable = $('#specRequestList').dataTable({
+			"bServerSide": true,
+			"bAutoWidth": false,
+			"bFilter": true,
+			"bLengthChange": false, // don't show dropdown for #items per page
+			"bPaginate": false,
+			"bInfo": true,
+			"sAjaxSource": '@Url.Action( "UserRequestList", "SpecRequest" )',
+			"fnServerParams": function (aoData) {
+				aoData.push({ "name": "sLocalSearch", "value": $('#keywordText').val() });
+			},
+			"iDisplayLength": 100,
+			"fnServerData": function (sSource, aoData, fnCallback) {
+				makeAjaxCall(sSource,
+					aoData,
+					function (data, textStatus, jqXHR) {
+						fnCallback(data, textStatus, jqXHR);
+					},
+					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Orders:' + errorThrown) }
+				);
+			},
+			"fnHeaderCallback": function (nHead, aData, iStart, iEnd, aiDisplay) {
+				$(nHead).addClass('bg');
+				$(nHead).find('th').append('');
+			},
+			"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+				$(nRow).addClass('gradeX');
+				$(nRow).css('cursor', 'pointer');
+				$(nRow).off('click').on('click', function () {
+					window.location = '@Url.Action("ViewRequest", "SpecRequest")/' + aData["RequestID"];
+				});
+			},
+			"bProcessing": false, // don't want to use the default progress indicator at this time
+			"aoColumnDefs": [
+                    { "sName": "Name", "sTitle": "Name<span></span>", "sClass": "hasSpan", "aTargets": [@(colNum++)], "mDataProp": "Name", "sWidth": "9%",
+                    	"fnRender": function (oObj) {
+							return oObj.aData["Name"];
+                    	}
+ },
+			@if( !PaoliWebUser.CurrentUser.IsDealerUser && !PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
+   {
+	<text>
+                    { "sName": "SalesRepGroup", "sTitle": "Rep Group<span></span>", "sClass": "hasSpan", "aTargets": [@(colNum++)], "mDataProp": "SalesRepGroup", "sWidth": "27%" },
+	</text>
+   }
+	@if( !PaoliWebUser.CurrentUser.IsDealerUser )
+ {
+	<text>
+                    { "sName": "Dealer", "sTitle": "Dealer<span></span>", "sClass": "hasSpan", "aTargets": [@(colNum++)], "mDataProp": "Dealer", "sWidth": "27%" },
+	</text>
+ }
+                    { "sName": "ProjectName", "sTitle": "Project Name<span></span>", "sClass": "hasSpan", "aTargets": [@(colNum++)], "mDataProp": "ProjectName", "sWidth": "27%" },
+                    { "sName": "Status",
+                    	"aTargets": [@(colNum)],
+                    	"bSearchable": false,
+                    	"bSortable": true,
+                    	"mDataProp": "Status", "sTitle": "Status<span></span>", "sClass": "hasSpan", "sWidth": "10%",
+                    	"fnRender": function (oObj) {
+							if (oObj.aData["IsCanceled"]) {
+                    			return 'Canceled';
+                    		} else if (oObj.aData["IsCompleted"]) {
+                    			return 'Completed';
+                    		} else if (oObj.aData["SpecTeamMember"] == null || oObj.aData["SpecTeamMember"] == '') {
+                    			return 'Not Assigned';
+                    		} else if (oObj.aData["IsOnHold"]) {
+                    			return 'Pending - On Hold';
+                    		} 
+                    		return 'Pending';
+                    	}
+                    }
+                ],
+			"aaSorting": [[0, "desc"]]
+		});
+	}
+
+</script>

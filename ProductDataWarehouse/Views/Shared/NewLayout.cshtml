@@ -1,0 +1,204 @@
+﻿@using PDWInfrastructure
+@{var CurrentUser = PaoliWebUser.CurrentUser;}
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>@(ViewBag.RealPageTitle ?? "my.Paoli.com")</title>
+<!-- SET: FAVICON -->
+<link rel="shortcut icon" type="image/x-icon" href="/newcontent/images/favicon.ico"/>
+<!-- END: FAVICON -->
+<!-- SET: STYLESHEET -->
+<link href="/NewContent/css/fonts.css" rel="stylesheet" type="text/css" />
+<link href="/newcontent/css/style.css" rel="stylesheet" type="text/css" media="all"/>
+<link href="/NewContent/fancybox/jquery.fancybox-1.3.4.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="/newcontent/css/demo_table.css" rel="stylesheet" type="text/css" media="all"/>
+<link href="/newcontent/css/demo_page.css" rel="stylesheet" type="text/css" media="all"/>
+<link href="/newcontent/css/dd.css" type="text/css" rel="stylesheet"/>
+<link href="/newcontent/css/jquery-filestyle.css" type="text/css" rel="stylesheet"/>
+<link href="/newcontent/css/style2.css" rel="stylesheet" type="text/css"/>
+<link href="/NewContent/css/rightmenu.css" rel="stylesheet" type="text/css" />
+<link href="/NewContent/css/ecollateral.css" rel="stylesheet" type="text/css"/>
+<link href="@Url.Content( "~/Content/jquery.datatables.css" )" rel="stylesheet" type="text/css" />
+<link href="@Url.Content( "~/Content/themes/base/jquery.ui.all.css" )" rel="stylesheet" type="text/css" />
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<!-- END: STYLESHEET -->
+
+<script type="text/javascript" src="/newcontent/js/jquery.1.8.3.min.js"></script>
+<script src="/newcontent/js/jquery-ui-1.8.11.min.js" type="text/javascript"></script>
+<script src="/newcontent/js/modernizr-1.7.min.js" type="text/javascript"></script>
+<script src="/newcontent/js/jquery.validate.min.js" type="text/javascript"></script>
+<script src="/newcontent/js/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/newcontent/js/jquery.hoverIntent.minified.js"></script>
+<script type="text/javascript" src="/newcontent/js/jquery.dcjqaccordion.2.7.min.js"></script>
+<script type="text/javascript" src="/newcontent/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="/newcontent/js/jquery.dd.js"></script>		<!-- http://www.marghoobsuleman.com/mywork/jcomponents/image-dropdown/samples/examples/help.html -->
+<script src="/NewContent/js/jquery.custom.input.js" type="text/javascript"></script>  
+<script src="/NewContent/js/jquery-filestyle.js" type="text/javascript"></script>
+<script src="/NewContent/fancybox/jquery.fancybox-1.3.4.pack.js" type="text/javascript"></script>
+<script src="@Url.Content( "~/NewContent/js/main.js" )" type="text/javascript"></script>
+
+</head>
+<body>
+
+<div id='lightbox' class='mainlightbox' style='display:none'>
+	<div class='lightbox_in'>
+		<div class='lb_in page_content'>
+			<a class='close_lightbox' href='javascript:void(0);' onclick="$('#lightbox').hide();hideImage();return false;"></a>
+				<img width='785px' class='img_style_3' id='indImage'/>
+				<p class='underImagePadding'></p>
+				<div class='leftCol '>
+					<div class='leftColDetail'>
+						<h5 id='indImageTitle'>Image Name</h5>
+						<p id='indImageCaption'>Some Text</p>
+					</div>
+				</div>
+				<div class='rightCol '>
+					<div class='rightColDetail'>
+						<a href='' class='download_btn' id='indImageHiRes'>Download High Resolution Image</a>
+					</div>
+				</div>
+				<p class='clear'></p>
+		</div>
+	</div>
+</div>
+
+@if( HttpContext.Current.User.Identity.IsAuthenticated )
+{
+	Html.RenderPartial( "RightMenu" );
+}
+
+<!-- SET: WRAPPER -->
+<div class="wrapperNew @if( ViewBag.BlankWrapper ?? false ) { <text>blank</text> }">
+            <!-- SET: HEADER -->
+            	<header>
+					@{Html.RenderPartial( "PrimaryHeader" );}
+
+					@if( ( ViewBag.ShowHeaderArea ?? true ) )
+	 {
+                    <div class="header_btm">
+                         <div class="container">
+                              <div class="poly_top_lt">
+							  @switch( ( (string)ViewBag.HeaderArea ?? "" ) )
+		 {
+			 case "Projects":
+                            <h2><a href="@Url.Action( "Manage", "Project" )"><img src="/newcontent/images/request.png" alt="img">Projects</a></h2>
+									break;
+			 case "SpecRequests":
+									if( CurrentUser.CanManageTypicals )
+									{
+                            <h2><a href="@Url.Action( "Manage", "SpecRequest" )"><img src="/newcontent/images/request.png" alt="img">Specification Requests</a></h2>
+									}
+									else if( CurrentUser.CanViewSpecRequests )
+									{
+                            <h2><a href="@Url.Action( "ViewAll", "SpecRequest" )"><img src="/newcontent/images/request.png" alt="img">Specification Requests</a></h2>
+									}
+									break;
+			 case "Users":
+	<h2><img src="/newcontent/images/my_account.png" alt="img" height="50" width="57"/> My Account</h2>
+									break;
+			 case "CollateralOrders":
+									if( CurrentUser.CanManageOrders )
+									{
+<h2><a href="@Url.Action( "Orders", "Collateral" )"><img src="/newcontent/images/store_img.png" alt="img" height="55" width="46"/> Collateral Store</a></h2>
+									}
+									else if( CurrentUser.CanAddOrders )
+									{
+<h2><a href="@Url.Action( "ViewOrders", "Collateral" )"><img src="/newcontent/images/store_img.png" alt="img" height="55" width="46"/> Collateral Store</a></h2>
+									}
+
+									break;
+			 case "TheScoop":
+	<h2><a href="@Url.Action( "ViewAllScoop", "Article" )"><img src="/newcontent/images/scoop-icon.png" alt="img" height="50" width="50"/> The Scoop</a></h2>
+		 break;
+			 case "NewsUpdates":
+	<h2><a href="@Url.Action( "ViewAllNewsAndUpdates", "Article" )"><img src="/newcontent/images/scoop-icon.png" alt="img" height="50" width="50"/> News and Updates</a></h2>
+		 break;
+			 case "InternalNews":
+	<h2><a href="@Url.Action( "ViewAllInternal", "Article" )"><img src="/newcontent/images/scoop-icon.png" alt="img" height="50" width="50"/> Paoli News</a></h2>
+		 break;
+			 case "ePublisher":
+	<h2><a href="@Url.Action( "Manage", "ePublisher" )"><img src="/newcontent/images/publisher.png" alt="img" height="50" width="50"/> ePublisher</a></h2>
+		 break;
+			 case "Reports":
+	<h2><a href="@Url.Action( "Index", "Report" )"><img src="/newcontent/images/reporting-icon.png" alt="img" height="50" width="50"/> Reports</a></h2>
+		 break;
+			 case "LeadTimes":
+	<h2><a href="@Url.Action( "LeadTimes", "Home" )"><img src="/newcontent/images/leadtimes.png" alt="img" height="50" width="50"/> Lead Times</a></h2>
+		 break;
+		 case "TripInfo":
+	<h2><a href="@Url.Action( "MyTripInfo", "User" )"><img src="/newcontent/images/trip-incentive-icon.png" alt="img" height="50" width="50"/> Trip Incentive</a></h2>
+		 break;
+		 default:
+		 if( HttpContext.Current.User.Identity.IsAuthenticated )
+		 {
+                                   <h3 id="welcomeHeading"><span>@CurrentUser.FirstName!</span></h3>
+                                   <h4>@if( CurrentUser.PreviousLogin.Any() )
+									   { <text>You last visited<span>@CurrentUser.PreviousLogin ago</span></text>}
+									   else
+									   {<text>&nbsp;</text>}</h4>
+		 }
+		 break;
+		 }
+                              </div>
+                              <div class="poly_top_rt">
+			@if( HttpContext.Current.User.Identity.IsAuthenticated )
+   {
+                                 <h3>How Can We <span>Help?</span></h3>
+                                 <ul>
+								 @{var contactList = ProductDataWarehouse.Controllers.HomeController.GetHomeContacts();}
+								 @for( int i = 0; i < contactList.Count(); i++ )
+		 {
+                                    <li>
+                                        <div class="box @if( i == contactList.Count() - 1 )
+														{ <text>last</text> }">
+										@if( contactList.ElementAt( i ).ImageFileName != null )
+		  {
+											<img src="/images/@contactList.ElementAt( i ).ImageFileName" width="45" alt="img"/>
+		  }
+                                            <div class="box_cont">
+                                                <h3>@contactList.ElementAt( i ).FullName</h3>
+                                                <span><a href="mailto:@contactList.ElementAt( i ).EmailAddress"><img src="/newcontent/images/email-us.png" />Email Us</a></span>
+                                                <cite>@contactList.ElementAt( i ).PhoneNumber</cite>
+                                            </div>
+                                      </div>
+                                    </li>
+		 }
+                                 </ul>
+   }
+                              </div>
+                         <i class="clear_0"></i>
+                         
+                         </div>
+                    
+                    </div>
+	 }
+                </header>
+            <!-- END: HEADER -->
+           <!-- SET: main -->
+               <section class="main">
+			   <!-- BODY SECTION -->
+			   @RenderBody()
+			   <!-- END BODY SECTION -->
+              </section>
+           <!-- END: main --> 
+</div>            
+
+<div style="display:none">
+	<a href="#inProgressSection" id="btnFormSubmissionInProgress" style="display:none">In Progress</a>
+    <div style="vertical-align:middle;" id="inProgressSection">
+        <img src="@Url.Content( "~/Content/Images/baprogress.gif" )" alt="" style="display:inline;"/>&nbsp;<span>Working...</span>
+    </div>
+</div>
+
+					@{Html.RenderPartial( "PrimaryFooter" );}
+            
+@{Html.RenderPartial( "GoogleAnalytics" );} 
+    
+
+
+
+<!-- END: WRAPPER -->
+</body>
+</html>

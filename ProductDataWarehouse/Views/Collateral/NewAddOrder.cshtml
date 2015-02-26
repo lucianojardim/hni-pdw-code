@@ -1,0 +1,1153 @@
+﻿@model PDWModels.Collateral.NewOrderInformation
+@{
+    Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.HeaderArea = "CollateralOrders";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+@using PDWInfrastructure
+
+    <script type="text/javascript">
+		var bAddRequestingDealer = false;
+		function getNewTerritoryID() {
+			@if( PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
+			{
+			<text>
+			return '@(CompanyController.GetMyTerritoryID())';
+			</text>
+			}
+
+			return null;
+		}
+
+		function getNewCompanyType() {
+			return '@(PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer)';
+		}
+
+		function addEditCompanyCallback() {
+			loadDealerList();
+			loadSPDealerList();
+		}
+
+		var bAddRequestingDealerMember = false;
+		function getNewUserCompanyID() {
+			if( bAddRequestingDealerMember ) {
+				return $('#DealerID').val();
+			}
+			return $('#SPDealerID').val();
+		}
+
+		function addEditUserCallback() {
+			reloadDealerSalesRepList();
+			reloadSPDealerSalesRepList();
+		}
+
+    	$(document).ready(function () {
+    		$.data($('#theForm')[0], 'validator').settings.ignore = '.noValidate';
+    		$.validator.addMethod(
+					"atLeastOneItem",
+					function (value, element, regexp) {
+						var itemCount = 0;
+						$('.quantityInput').each(function () {
+							itemCount += $(this).val();
+						});
+						return (itemCount > 0);
+					},
+					"Please add at least one item to your order."
+				);
+    		$.validator.addMethod(
+					"regex",
+					function (value, element, regexp) {
+						var re = new RegExp(regexp);
+						return this.optional(element) || re.test(value);
+					},
+					"Please check your input."
+				);
+			$.each($('.tab_container1'), function() {
+				$(this).find('.quantityInput').last().rules("add", { atLeastOneItem: true, messages: { number: 'Please add at least one item to your order.'} });
+			});
+
+//    		$('.quantityInput').rules("add", { atLeastOneItem: true, messages: { number: 'Please add at least one item to your order.'} });
+    		$('#PaoliMemberID').rules("add", { required: true, messages: { required: "Paoli Member is required."} });
+    		$('#PaoliRepGroupID').rules("add", { required: true, messages: { required: "Paoli Rep Group is required."} });
+    		$('#DealerID').rules("add", { required: true, messages: { required: "Dealership Name is required."} });
+    		$('#SPPaoliMemberID').rules("add", { required: true, messages: { required: "Paoli Member is required."} });
+    		$('#SPPaoliRepGroupID').rules("add", { required: true, messages: { required: "Paoli Rep Group is required."} });
+    		$('#SPDealerID').rules("add", { required: true, messages: { required: "Dealership Name is required."} });
+    		$("#tb1ShippingZip").rules("add", { regex: "^\\d{5}(-\\d{4})?$", messages: { regex: "Zip Code must be in the format ##### or #####-####."} });
+    		$("#tb1ShippingPhoneNumber").rules("add", { regex: "^[2-9]\\d{2}-\\d{3}-\\d{4}$", messages: { regex: "Phone Number must be in the format ###-###-####."} });
+    		$("#tb1ShippingEmailAddress").rules("add", { regex: "^[A-Za-z0-9](([_\\.\\-\\+]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$", messages: { regex: "Email must be a valid Email Address."} });
+    		$("#tb2ShippingZip").rules("add", { regex: "^\\d{5}(-\\d{4})?$", messages: { regex: "Zip Code must be in the format ##### or #####-####."} });
+    		$("#tb2ShippingPhoneNumber").rules("add", { regex: "^[2-9]\\d{2}-\\d{3}-\\d{4}$", messages: { regex: "Phone Number must be in the format ###-###-####."} });
+    		$("#tb2ShippingEmailAddress").rules("add", { regex: "^[A-Za-z0-9](([_\\.\\-\\+]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$", messages: { regex: "Email must be a valid Email Address."} });
+    		$('#ShippingFedexAccount').rules("add", { required: true, messages: { required: "Fedex Account Number is required."} });
+			
+			$('#RequestingParty').on('change', setRPDetails);
+			$('#PaoliRepGroupID').on('change', function () {
+    			loadSPDealerList();
+				loadSPRepGroupList();
+    			reloadPaoliSalesRepList();
+    		});
+			$('#DealerID').on('change', function () {
+    			loadSPDealerList();
+    			reloadDealerSalesRepList();
+    		});
+
+			$('#ShippingParty').on('change', setSPDetails);
+			$('#SPPaoliRepGroupID').on('change', reloadSPPaoliSalesRepList);
+			$('#SPDealerID').on('change', reloadSPDealerSalesRepList);
+
+			$('#tb1ShippingState').msDropdown({ visibleRows: 15 });
+			$('#tb2ShippingState').msDropdown({ visibleRows: 15 });
+			$('#ShippingType').msDropdown({ visibleRows: 15 });
+
+    		$('.nextBtn').click(function (e) {
+    			e.preventDefault();
+    			$('.validation-summary-errors ul').empty();
+    			if ($('#theForm').valid()) {
+    				setPanel(1);
+
+    				if ($('#ShippingType').closest('.requestPanel').hasClass('activeSection')) {
+    					$('#ShippingAddressType[value="0"]').removeAttr('disabled');
+    					$('#ShippingAddressType[value="1"]').trigger('mouseup');
+    					setCompanyDetails();
+						changeShippingType();
+    				}
+    			}
+    		});
+
+    		$('.previousBtn').click(function (e) {
+    			e.preventDefault();
+    			setPanel(-1);
+    		});
+
+    		$('.cancelBtn').click(function (e) {
+			@if( PaoliWebUser.CurrentUser.CanManageOrders ) {
+				<text>
+    			window.location.href = '@Url.Action( "Orders" )';
+				</text>
+				} else {
+				<text>
+    			window.location.href = '@Url.Action( "ViewOrders" )';
+				</text>
+				}
+    		});
+
+			$('.submitBtn').click(function(e) {
+				$('#theForm').submit();
+			});
+
+			$('input').addClass('noValidate');
+			$('select').addClass('noValidate');
+			$('.activeSection input').removeClass('noValidate');
+			$('.activeSection select').removeClass('noValidate');
+
+    		setRPDetails();
+    		setSPDetails();
+
+    		changeShippingType();
+    		$('#ShippingType').change(function (e) {
+    			changeShippingType();
+    		});
+
+    		$('.fakeShippingAddressType').click(function (e) {
+    			setCompanyDetails();
+    		});
+
+			@if( PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
+			{
+			<text>
+			reloadPaoliSalesRepList();
+			reloadSPPaoliSalesRepList();
+			</text>
+			}
+			else if( PaoliWebUser.CurrentUser.IsDealerUser )
+			{
+			<text>
+			reloadDealerSalesRepList();
+			</text>
+			}
+
+			//Default Action
+			$(".tab_content1").hide(); //Hide all content
+			$("ul.tabs1 li:first").addClass("active").show(); //Activate first tab
+			$(".tab_content1:first").show(); //Show first tab content
+	
+			//On Click Event
+			$("ul.tabs1 li").click(function() {
+				$("ul.tabs1 li").removeClass("active"); //Remove any "active" class
+				$(this).addClass("active"); //Add "active" class to selected tab
+				$(".tab_content1").hide(); //Hide all tab content
+				var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
+				$(activeTab).fadeIn(); //Fade in the active content
+				return false;
+			});
+
+			$(".radio").dgStyle();
+
+			$('#newRPUserLink').click(function(e) {
+				bAddRequestingDealerMember = true;
+				$('#AccountType option[value!="@(PaoliWebUser.PaoliWebRole.DealerSalesRep)"]').remove();
+				$('#mainEditUserContactBtn').trigger('click');
+			});
+
+			$('#newSPUserLink').click(function(e) {
+				bAddRequestingDealerMember = false;
+				$('#AccountType option[value!="@(PaoliWebUser.PaoliWebRole.DealerSalesRep)"]').remove();
+				$('#mainEditUserContactBtn').trigger('click');
+			});
+
+			$('#newRPCompanyLink').click(function(e) {
+				bAddRequestingDealer = true;
+				clearNewCompanyForm();
+				$('#theContactForm h4').text('Add Dealership');
+				$('#mainEditContactBtn').trigger('click');
+			});
+
+			$('#newSPCompanyLink').click(function(e) {
+				bAddRequestingDealer = false;
+				clearNewCompanyForm();
+				$('#theContactForm h4').text('Add Dealership');
+				$('#mainEditContactBtn').trigger('click');
+			});
+
+    	});
+
+    	function changeShippingType() {
+			$('.fedexAccount input').addClass('noValidate');
+    		switch ($('#ShippingType').val()) {
+    			case '@PDWModels.Collateral.NewOrderInformation.STGround':
+    				$('.fedexAccount').hide();
+    				break;
+    			case '@PDWModels.Collateral.NewOrderInformation.ST2DayFedex':
+    				$('.fedexAccount').show();
+					$('.fedexAccount input').removeClass('noValidate');
+    				break;
+    			case '@PDWModels.Collateral.NewOrderInformation.STOvernightFedex':
+    				$('.fedexAccount').show();
+					$('.fedexAccount input').removeClass('noValidate');
+    				break;
+    			case '@PDWModels.Collateral.NewOrderInformation.STStdOvernightFedex':
+    				$('.fedexAccount').show();
+					$('.fedexAccount input').removeClass('noValidate');
+    				break;
+
+    		}
+    	}
+
+    	function setCompanyDetails() {
+    		var officialUserID = null, officialCompanyID = null;
+    		switch ($('#ShippingParty').val()) {
+    			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliMember':
+    				if ($('#SPPaoliMemberID').val() != null && $('#SPPaoliMemberID').val() != '0' && $('#SPPaoliMemberID').val() != '') {
+    					officialUserID = $('#SPPaoliMemberID').val();
+    				}
+    				break;
+    			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative':
+    				if ($('#SPPaoliRepGroupMemberID').val() != null && $('#SPPaoliRepGroupMemberID').val() != '0' && $('#SPPaoliRepGroupMemberID').val() != '') {
+    					officialUserID = $('#SPPaoliRepGroupMemberID').val();
+    					officialCompanyID = $('#SPPaoliRepGroupID').val();
+    				} else if ($('#SPPaoliRepGroupID').val() != null && $('#SPPaoliRepGroupID').val() != '0' && $('#SPPaoliRepGroupID').val() != '') {
+    					officialUserID = null;
+    					officialCompanyID = $('#SPPaoliRepGroupID').val();
+    				}
+    				break;
+    			case '@PDWModels.Collateral.NewOrderInformation.RPDealer':
+    				if ($('#SPDealerMemberID').val() != null && $('#SPDealerMemberID').val() != '0' && $('#SPDealerMemberID').val() != '') {
+    					officialUserID = $('#SPDealerMemberID').val();
+    					officialCompanyID = $('#SPDealerID').val();
+    				} else if ($('#SPDealerID').val() != null && $('#SPDealerID').val() != '0' && $('#SPDealerID').val() != '') {
+    					officialUserID = null;
+    					officialCompanyID = $('#SPDealerID').val();
+    				}
+    				break;
+    		}
+    		if (officialCompanyID != null || officialUserID != null) {
+    			makeAjaxCall('/Company/GetShippingAddress',
+    				{ companyId: officialCompanyID, userId: officialUserID },
+    				function (data, textStatus, jqXHR) {
+    					$('#tb1ShippingCompanyName').val(data.Name);
+    					$('#tb1ShippingAttn').val(data.ContactAttn);
+    					$('#tb1ShippingAddress1').val(data.Address1);
+    					$('#tb1ShippingAddress2').val(data.Address2);
+    					$('#tb1ShippingCity').val(data.City);
+    					$('#tb1ShippingState').msDropdown().data("dd").set('value', data.State);
+    					$('#tb1ShippingZip').val(data.Zip);
+    					$('#tb1ShippingPhoneNumber').val(data.Phone);
+    					$('#tb1ShippingEmailAddress').val(data.ContactEmail);
+
+    				},
+    				function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Company Address:' + errorThrown)
+    				}
+    			);
+    		}
+   			if (officialCompanyID == null && officialUserID == null) {
+    			$('#ShippingAddressType[value="0"]').attr('disabled', true);
+			}
+			if ($('input:radio[name=ShippingAddressType]:checked').val() == '1') {
+				$('.currentAddress').attr('disabled', 'disabled');
+				$('.newAddress').removeAttr('disabled');
+    			$('#tb1ShippingState').msDropdown().data("dd").set('disabled', true);
+    			$('#tb2ShippingState').msDropdown().data("dd").set('disabled', false);
+			} else {
+				$('.newAddress').attr('disabled', 'disabled');
+				$('.currentAddress').removeAttr('disabled');
+    			$('#tb1ShippingState').msDropdown().data("dd").set('disabled', false);
+    			$('#tb2ShippingState').msDropdown().data("dd").set('disabled', true);
+			}
+    	}
+
+    	function setRPDetails() {
+    		$('#ShippingParty option').removeAttr('disabled');
+			$('#RPControlSet input').addClass('noValidate');
+			$('#RPControlSet select').addClass('noValidate');
+    		switch ($('#RequestingParty').val()) {
+    			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliMember':
+    				$('.RPMember').show();
+    				$('.RPRepGroup').hide();
+    				$('.RPDealer').hide();
+    				$('.RPEndUser').hide();
+    				break;
+    			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative':
+    				$('.RPMember').hide();
+    				$('.RPRepGroup').show();
+    				$('.RPDealer').hide();
+    				$('.RPEndUser').hide();
+    				$('#ShippingParty option[value=@PDWModels.Collateral.NewOrderInformation.RPPaoliMember]').attr('disabled', 'disabled');
+    				break;
+    			case '@PDWModels.Collateral.NewOrderInformation.RPDealer':
+    				$('.RPMember').hide();
+    				$('.RPRepGroup').hide();
+    				$('.RPDealer').show();
+    				$('.RPEndUser').hide();
+    				$('#ShippingParty option[value=@PDWModels.Collateral.NewOrderInformation.RPPaoliMember]').attr('disabled', 'disabled');
+    				$('#ShippingParty option[value=@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative]').attr('disabled', 'disabled');
+    				break;
+    			case '@PDWModels.Collateral.NewOrderInformation.RPEndUser':
+    				$('.RPMember').hide();
+    				$('.RPRepGroup').hide();
+    				$('.RPDealer').hide();
+    				$('.RPEndUser').show();
+    				$('#ShippingParty option[value=@PDWModels.Collateral.NewOrderInformation.RPPaoliMember]').attr('disabled', 'disabled');
+    				$('#ShippingParty option[value=@PDWModels.Collateral.NewOrderInformation.RPDealer]').attr('disabled', 'disabled');
+    				$('#ShippingParty option[value=@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative]').attr('disabled', 'disabled');
+    				break;
+    		}
+			$('.RPControlArea:not(:hidden) input').removeClass('noValidate');
+			$('.RPControlArea:not(:hidden) select').removeClass('noValidate');
+    		$('#ShippingParty').val(Math.max($('#ShippingParty').val(), $('#RequestingParty').val()));
+
+    		setSPDetails();
+    	}
+
+    	function setSPDetails() {
+			if( $('#ShippingParty').val() < $('#RequestingParty').val() ) {
+				$('#ShippingParty').val($('#RequestingParty').val());
+			}
+
+			$('#SPControlSet input').addClass('noValidate');
+			$('#SPControlSet select').addClass('noValidate');
+    		switch ($('#ShippingParty').val()) {
+    			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliMember':
+    				$('.SPMember').show();
+    				$('.SPRepGroup').hide();
+    				$('.SPDealer').hide();
+    				$('.SPEndUser').hide();
+    				break;
+    			case '@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative':
+    				$('.SPMember').hide();
+    				$('.SPRepGroup').show();
+    				$('.SPDealer').hide();
+    				$('.SPEndUser').hide();
+					loadSPRepGroupList();
+    				break;
+    			case '@PDWModels.Collateral.NewOrderInformation.RPDealer':
+    				$('.SPMember').hide();
+    				$('.SPRepGroup').hide();
+    				$('.SPDealer').show();
+    				$('.SPEndUser').hide();
+    				loadSPDealerList();
+    				break;
+    			case '@PDWModels.Collateral.NewOrderInformation.RPEndUser':
+    				$('.SPMember').hide();
+    				$('.SPRepGroup').hide();
+    				$('.SPDealer').hide();
+    				$('.SPEndUser').show();
+    				break;
+    		}
+			$('.SPControlArea:not(:hidden) input').removeClass('noValidate');
+			$('.SPControlArea:not(:hidden) select').removeClass('noValidate');
+    	}
+
+    	function setPanel(offset) {
+    		var curIdx = $('#theForm div.activeSection').index('#theForm div.requestPanel');
+    		var divCount = $('#theForm div.requestPanel').length;
+    		//console.log('setPanel [' + offset + '][' + curIdx + '][' + divCount + ']');
+			$('input').addClass('noValidate');
+			$('select').addClass('noValidate');
+    		if (offset == -1 && curIdx > 0) {
+    			$('.activeSection').removeClass('activeSection').addClass('futureSection');
+    			$('#theForm div.requestPanel:eq(' + (curIdx + offset) + ')').removeClass('futureSection').addClass('activeSection');
+    			if (curIdx + offset > 0) {
+    				$('.previousBtn').show();
+    			} else {
+    				$('.previousBtn').hide();
+    			}
+    			$('.nextBtn').show();
+    			$('.submitBtn').hide();
+    		} else if (offset == 1 && curIdx < (divCount - 1)) {
+    			$('.activeSection').removeClass('activeSection').addClass('futureSection');
+    			$('#theForm div.requestPanel:eq(' + (curIdx + offset) + ')').removeClass('futureSection').addClass('activeSection');
+    			if (curIdx + offset < (divCount - 1)) {
+    				$('.nextBtn').show();
+    			} else {
+    				$('.nextBtn').hide();
+    				$('.submitBtn').show();
+    				fillConfirmForm();
+    			}
+    			$('.previousBtn').show();
+    		}
+			$('.activeSection input').removeClass('noValidate');
+			$('.activeSection select').removeClass('noValidate');
+    	}
+		
+		function emptyDropDownList(ddList) {
+			ddList.empty();
+		}
+
+		function reloadDropDownUserList(ddListID, data, bNeedOther) {
+    		var ddList = $(ddListID);
+    		emptyDropDownList(ddList);
+    		$.each(data.theList, function (idx, item) {
+				ddList.append('<option value="' + item.UserID + '">' + item.FullName + '</option>")');
+    		});
+			if( bNeedOther ) {
+				ddList.append('<option value="0">Other</option>")');
+			}
+		}
+
+		function reloadDropDownCompanyList(ddListID, data) {
+    		var ddList = $(ddListID);
+    		emptyDropDownList(ddList);
+    		$.each(data, function (idx, item) {
+				ddList.append('<option value="' + item.ID + '">' + item.Text + '</option>")');
+    		});
+		}
+
+		function setDropDownListToMatch(ddListID, ddSourceID) {
+			var ddList = $(ddListID);
+			emptyDropDownList(ddList);
+			var ddSource = $(ddSourceID);
+			ddList.append('<option value="' + ddSource.attr('value') + '">' + ddSource.find('option:selected').text() + '</option>")');
+			ddList.attr('value', ddSource.get('value'));
+		}
+
+		function loadDealerList() {
+		@if( PaoliWebUser.CurrentUser.IsDealerUser )
+		{
+		} 
+		else
+		{
+			if( PaoliWebUser.CurrentUser.IsPaoliUser )
+			{
+				<text>
+			var theUrl = '/Company/GetDealerList';
+			var dataSet = { includeBlank: 'true' };
+				</text>
+			}
+			else
+			{
+				<text>
+			theUrl = '/Company/GetDealerListForSalesRep';
+			dataSet = { salesRepCompanyId: $('#PaoliRepGroupID').val(), includeBlank: 'true' };
+				</text>
+			}
+				<text>
+			makeAjaxCall(theUrl,
+				dataSet,
+				function (data, textStatus, jqXHR) {
+					reloadDropDownCompanyList('#DealerID', data);
+					reloadDealerSalesRepList();
+				},
+				function (jqXHR, textStatus, errorThrown) {
+					alert('Error getting Dealer list:' + errorThrown)
+				}
+			);
+				</text>
+		}
+		}
+
+		function loadSPDealerList() {
+			var theUrl = '/Company/GetDealerList';
+			var dataSet = { includeBlank: 'true' };
+			if ($('.RPRepGroup:hidden').length == 0) {
+				// rep group is showing - only load dealers for the group
+				theUrl = '/Company/GetDealerListForSalesRep';
+				dataSet = { salesRepCompanyId: $('#PaoliRepGroupID').val(), includeBlank: 'true' };
+				if ($('#PaoliRepGroupID option:selected').text() == '') {
+					emptyDropDownList($('#SPDealerID'));
+					reloadSPDealerSalesRepList();
+					return;
+				}
+			} else if ($('.RPDealer:hidden').length == 0) {
+				setDropDownListToMatch('#SPDealerID', '#DealerID');
+				reloadSPDealerSalesRepList();
+				return;
+			}
+
+			makeAjaxCall(theUrl,
+				dataSet,
+				function (data, textStatus, jqXHR) {
+					reloadDropDownCompanyList('#SPDealerID', data);
+					reloadSPDealerSalesRepList();
+				},
+				function (jqXHR, textStatus, errorThrown) {
+					alert('Error getting Dealer list:' + errorThrown)
+				}
+			);
+		}
+
+		function loadSPRepGroupList() {
+			var theUrl = '/Company/GetPaoliRepGroupList';
+			var dataSet = { includeBlank: 'true' };
+			if ($('.RPRepGroup:hidden').length == 0) {
+				// rep group is showing - only load that group
+				setDropDownListToMatch('#SPPaoliRepGroupID', '#PaoliRepGroupID');
+				reloadSPPaoliSalesRepList();
+				return;
+			}
+
+			makeAjaxCall(theUrl,
+				dataSet,
+				function (data, textStatus, jqXHR) {
+					reloadDropDownCompanyList('#SPPaoliRepGroupID', data);
+					reloadSPDealerSalesRepList();
+					reloadSPPaoliSalesRepList();
+				},
+				function (jqXHR, textStatus, errorThrown) {
+					alert('Error getting Rep Group list:' + errorThrown)
+				}
+			);
+		}
+
+		function reloadDealerSalesRepList() {
+			if ($('#DealerID option:selected').text() != '') {
+				makeAjaxCall('/User/GetDealerSalesRepListForCompany',
+					{ companyId: $('#DealerID').val(), enabledOnly: true },
+					function (data, textStatus, jqXHR) {
+						reloadDropDownUserList('#DealerMemberID', data);
+						$('#newRPUserLink').show();
+					},
+					function (jqXHR, textStatus, errorThrown) {
+						alert('Error getting Dealer Sales Rep list:' + errorThrown)
+					}
+				);
+			} else {
+				emptyDropDownList($('#DealerMemberID'));
+				$('#newRPUserLink').hide();
+			}
+    	}
+
+    	function reloadPaoliSalesRepList() {
+    		makeAjaxCall('/User/GetPaoliSalesRepListForCompany',
+    			{ companyId: $('#PaoliRepGroupID').val(), enabledOnly: true },
+    			function (data, textStatus, jqXHR) {
+					reloadDropDownUserList('#PaoliRepGroupMemberID', data);
+    			},
+    			function (jqXHR, textStatus, errorThrown) {
+    				alert('Error getting Paoli Sales Rep list:' + errorThrown)
+    			}
+    		);
+    	}
+
+    	function reloadSPDealerSalesRepList() {
+    		if ($('#SPDealerID option:selected').text() != '') {
+    			makeAjaxCall('/User/GetDealerSalesRepListForCompany',
+    				{ companyId: $('#SPDealerID').val(), enabledOnly: true },
+    				function (data, textStatus, jqXHR) {
+    					reloadDropDownUserList('#SPDealerMemberID', data);
+						$('#newSPUserLink').show();
+    				},
+    				function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting SP Dealer Sales Rep list:' + errorThrown)
+    				}
+    			);
+    		} else {
+				emptyDropDownList($('#SPDealerMemberID'));
+				$('#newSPUserLink').hide();
+    		}
+    	}
+
+    	function reloadSPPaoliSalesRepList() {
+    		if ($('#SPPaoliRepGroupID option:selected').text() != '') {
+    			makeAjaxCall('/User/GetPaoliSalesRepListForCompany',
+    				{ companyId: $('#SPPaoliRepGroupID').val(), enabledOnly: true },
+    				function (data, textStatus, jqXHR) {
+    					reloadDropDownUserList('#SPPaoliRepGroupMemberID', data);
+    				},
+    				function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting SP Paoli Sales Rep list:' + errorThrown)
+    				}
+    			);
+    		} else {
+    			emptyDropDownList($('#SPPaoliRepGroupMemberID'));
+    		}
+    	}
+
+		function addConfirmItem(ulClass, liClass, liText) {
+			if( liText == '' || liText == null )
+			{
+				liText = '&nbsp;';
+			}
+			$('.' + ulClass).append('<li class="' + liClass + '">' + liText + '</li>');
+		}
+
+		function fillConfirmForm() {
+			$('.rpLabel').remove();
+			$('.rpValue').remove();
+
+			addConfirmItem('rpValues', 'rpValue', $('#RequestingParty option:selected').text());
+			switch ($('#RequestingParty').val()) {
+				case '@PDWModels.Collateral.NewOrderInformation.RPPaoliMember':
+					addConfirmItem('rpLabels', 'rpLabel', '@Html.MJLabelFor(m => m.PaoliMemberID, true)');
+					addConfirmItem('rpValues', 'rpValue', $('#PaoliMemberID option:selected').text());
+					break;
+				case '@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative':
+					addConfirmItem('rpLabels', 'rpLabel', '@Html.MJLabelFor(m => m.PaoliRepGroupID, true)');
+					addConfirmItem('rpValues', 'rpValue', $('#PaoliRepGroupID option:selected').text());
+					addConfirmItem('rpLabels', 'rpLabel', '@Html.MJLabelFor(m => m.PaoliRepGroupMemberID, true)');
+					addConfirmItem('rpValues', 'rpValue', $('#PaoliRepGroupMemberID option:selected').text());
+					break;
+				case '@PDWModels.Collateral.NewOrderInformation.RPDealer':
+					addConfirmItem('rpLabels', 'rpLabel', '@Html.MJLabelFor(m => m.DealerID, true)');
+					addConfirmItem('rpValues', 'rpValue', $('#DealerID option:selected').text());
+					addConfirmItem('rpLabels', 'rpLabel', '@Html.MJLabelFor(m => m.DealerMemberID, true)');
+					addConfirmItem('rpValues', 'rpValue', $('#DealerMemberID option:selected').text());
+					break;
+				case '@PDWModels.Collateral.NewOrderInformation.RPEndUser':
+					addConfirmItem('rpLabels', 'rpLabel', '@Html.MJLabelFor(m => m.EndUserFirstName, true)');
+					addConfirmItem('rpValues', 'rpValue', $('#EndUserFirstName').val());
+					addConfirmItem('rpLabels', 'rpLabel', '@Html.MJLabelFor(m => m.EndUserLastName, true)');
+					addConfirmItem('rpValues', 'rpValue', $('#EndUserLastName').val());
+					addConfirmItem('rpLabels', 'rpLabel', '@Html.MJLabelFor(m => m.EndUserPhoneNumber, true)');
+					addConfirmItem('rpValues', 'rpValue', $('#EndUserPhoneNumber').val());
+					addConfirmItem('rpLabels', 'rpLabel', '@Html.MJLabelFor(m => m.EndUserEMailAddress, true)');
+					addConfirmItem('rpValues', 'rpValue', $('#EndUserEMailAddress').val());
+					break;
+			}
+
+			$('.spLabel').remove();
+			$('.spValue').remove();
+
+			addConfirmItem('spValues', 'spValue', $('#ShippingParty option:selected').text());
+			switch ($('#ShippingParty').val()) {
+				case '@PDWModels.Collateral.NewOrderInformation.RPPaoliMember':
+					addConfirmItem('spLabels', 'spLabel', '@Html.MJLabelFor(m => m.SPPaoliMemberID, true)');
+					addConfirmItem('spValues', 'spValue', $('#SPPaoliMemberID option:selected').text());
+					break;
+				case '@PDWModels.Collateral.NewOrderInformation.RPPaoliRepresentative':
+					addConfirmItem('spLabels', 'spLabel', '@Html.MJLabelFor(m => m.SPPaoliRepGroupID, true)');
+					addConfirmItem('spValues', 'spValue', $('#SPPaoliRepGroupID option:selected').text());
+					addConfirmItem('spLabels', 'spLabel', '@Html.MJLabelFor(m => m.SPPaoliRepGroupMemberID, true)');
+					addConfirmItem('spValues', 'spValue', $('#SPPaoliRepGroupMemberID option:selected').text());
+					break;
+				case '@PDWModels.Collateral.NewOrderInformation.RPDealer':
+					addConfirmItem('spLabels', 'spLabel', '@Html.MJLabelFor(m => m.SPDealerID, true)');
+					addConfirmItem('spValues', 'spValue', $('#SPDealerID option:selected').text());
+					addConfirmItem('spLabels', 'spLabel', '@Html.MJLabelFor(m => m.SPDealerMemberID, true)');
+					addConfirmItem('spValues', 'spValue', $('#SPDealerMemberID option:selected').text());
+					break;
+				case '@PDWModels.Collateral.NewOrderInformation.RPEndUser':
+					addConfirmItem('spLabels', 'spLabel', '@Html.MJLabelFor(m => m.SPEndUserFirstName, true)');
+					addConfirmItem('spValues', 'spValue', $('#SPEndUserFirstName').val());
+					addConfirmItem('spLabels', 'spLabel', '@Html.MJLabelFor(m => m.SPEndUserLastName, true)');
+					addConfirmItem('spValues', 'spValue', $('#SPEndUserLastName').val());
+					addConfirmItem('spLabels', 'spLabel', '@Html.MJLabelFor(m => m.SPEndUserPhoneNumber, true)');
+					addConfirmItem('spValues', 'spValue', $('#SPEndUserPhoneNumber').val());
+					addConfirmItem('spLabels', 'spLabel', '@Html.MJLabelFor( m => m.SPEndUserEMailAddress, true )');
+					addConfirmItem('spValues', 'spValue', $('#SPEndUserEMailAddress').val());
+					break;
+			}
+
+			var itemCount = 0;
+			$('#confirmItems').html('');
+			$.each($('.quantityInput'), function () {
+				if (parseInt($(this).val()) > 0) {
+					var itemRow = $(this).closest('div');
+					var itemName = itemRow.prev().find('h4').text();
+					var img = itemRow.prev().prev().find('img');
+
+					if( itemCount % 2 == 0 ) {
+						$('#confirmItems').append('<li></li>');
+					}
+					var liItem = $('#confirmItems li').last();
+
+					liItem.append('<div class="colmn1">' + $('<div>').append(img.clone()).html() + '</div>');
+					liItem.append('<div class="colmn2">' + itemName + '</div>');
+					liItem.append('<div class="colmn' + (itemCount % 2 == 0 ? 3 : 4) + '">' + $(this).val() + '</div>');
+
+					itemCount++;
+				}
+			});
+
+			$('.shippingTypeLabel').remove();
+			$('.shippingTypeValue').remove();
+			$('.shippingValue').html($('#ShippingType option:selected').text());
+			switch ($('#ShippingType').val()) {
+				case '@PDWModels.Collateral.NewOrderInformation.STGround':
+					break;
+				case '@PDWModels.Collateral.NewOrderInformation.ST2DayFedex':
+				case '@PDWModels.Collateral.NewOrderInformation.STOvernightFedex':
+				case '@PDWModels.Collateral.NewOrderInformation.STStdOvernightFedex':
+					addConfirmItem('shippingTypeLabels', 'shippingTypeLabel', 'Tracking Number');
+					addConfirmItem('shippingTypeValues', 'shippingTypeValue', $('#ShippingFedexAccount').val());
+					break;
+			}
+
+			var shippingType = 'tb1';
+			if ($('input:radio[name=ShippingAddressType]:checked').val() == '1') {
+				shippingType = 'tb2';
+			}
+
+			$('.addressValue').remove();
+			addConfirmItem('addressValues', 'addressValue', $('#' + shippingType + 'ShippingAttn').val());
+			addConfirmItem('addressValues', 'addressValue', $('#' + shippingType + 'ShippingCompanyName').val());
+			addConfirmItem('addressValues', 'addressValue', $('#' + shippingType + 'ShippingAddress1').val());
+			addConfirmItem('addressValues', 'addressValue', $('#' + shippingType + 'ShippingAddress2').val());
+			addConfirmItem('addressValues', 'addressValue', $('#' + shippingType + 'ShippingCity').val());
+			addConfirmItem('addressValues', 'addressValue', $('#' + shippingType + 'ShippingState').val());
+			addConfirmItem('addressValues', 'addressValue', $('#' + shippingType + 'ShippingZip').val());
+			addConfirmItem('addressValues', 'addressValue', $('#' + shippingType + 'ShippingPhoneNumber').val());
+			addConfirmItem('addressValues', 'addressValue', $('#' + shippingType + 'ShippingEmailAddress').val());
+		}
+
+	</script>
+@{
+	var collTypeList = CollateralController.GetCollateralTypeFilterList().Where( c => Model.OrderDetails.Any( od => od.CollateralTypeID.ToString() == c.Value ) ).OrderBy( c => int.Parse( c.Value ) );
+	CompanyController.GetCompanyListFunction GetSalesRepList = CompanyController.GetCompanyDDList;
+	CompanyController.GetCompanyListFunction GetDealerList = CompanyController.GetCompanyDDList;
+	if( PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
+	{
+		GetSalesRepList = CompanyController.GetThisCompanyAsDDItem;
+		GetDealerList = CompanyController.GetDealerForSalesRepDDList;
+	}
+	else if( PaoliWebUser.CurrentUser.IsDealerUser )
+	{
+		GetDealerList = CompanyController.GetThisCompanyAsDDItem;
+	}
+}
+    @using( Html.BeginForm( "AddOrder", "Collateral", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
+	{
+		@Html.AntiForgeryToken()
+		@Html.Hidden( "Status", PDWModels.Collateral.NewOrderInformation.SPending )
+
+                     <div class="container2">
+<div class="main_inner1 activeSection requestPanel">
+	<h3>
+		Step 1: Who’s Requesting?</h3>
+	<div class="main_inner1_btm">
+		<h4>
+			Requestor Information</h4>
+		<ul id="RPControlSet">
+			<li>
+				<div class="box1">
+					@Html.MJLabelFor( m => m.RequestingParty, false )
+					@Html.DropDownListFor( m => m.RequestingParty, CollateralController.GetPartyListForUser() )
+				</div>
+			</li>
+			<li>
+				<div class="box1 RPMember RPControlArea">
+					@Html.MJLabelFor( m => m.PaoliMemberID, false )
+					@Html.DropDownListFor( m => m.PaoliMemberID, UserController.GetPaoliMemberDDList( true ) )
+					@Html.ValidationMessageFor( m => m.PaoliMemberID )
+				</div>
+				<div class="box1 RPRepGroup RPControlArea">
+					@Html.MJLabelFor( m => m.PaoliRepGroupID, false )
+					@Html.DropDownListFor( m => m.PaoliRepGroupID, GetSalesRepList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, true ) )
+					@Html.MJCiteFor( m => m.PaoliRepGroupMemberID, false )
+					@Html.DropDownListFor( m => m.PaoliRepGroupMemberID, new List<SelectListItem>() )
+					@Html.ValidationMessageFor( m => m.PaoliRepGroupID )
+				</div>
+				<div class="box1 RPDealer RPControlArea">
+					@Html.MJLabelFor( m => m.DealerID, false )
+					@Html.DropDownListFor( m => m.DealerID, GetDealerList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer, true ) )@if( !PaoliWebUser.CurrentUser.IsDealerUser )
+																															{<a class="btn7" id="newRPCompanyLink">+</a>}
+					@Html.MJCiteFor( m => m.DealerMemberID, false, new { @class = !PaoliWebUser.CurrentUser.IsDealerUser ? "thin" : "" } )
+					@Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>() )<a class="btn7 DSRCell" id="newRPUserLink" style="display:none;">+</a>
+					@Html.ValidationMessageFor( m => m.DealerID )
+				</div>
+				<div class="box1 RPEndUser RPControlArea">
+					@Html.MJLabelFor( m => m.EndUserFirstName, false )
+					@Html.TextBoxFor( m => m.EndUserFirstName )
+					@Html.MJCiteFor( m => m.EndUserLastName, false )
+					@Html.TextBoxFor( m => m.EndUserLastName )
+				</div>
+				<div class="box1 RPEndUser RPControlArea">
+					@Html.MJLabelFor( m => m.EndUserPhoneNumber, false )
+					@Html.TextBoxFor( m => m.EndUserPhoneNumber )
+					@Html.MJCiteFor( m => m.EndUserEMailAddress, false )
+					@Html.TextBoxFor( m => m.EndUserEMailAddress )
+				</div>
+			</li>
+		</ul>
+		<i class="clear_0"></i>
+	</div>
+	<div class="main_inner1_btm last">
+		<h5>
+			Recipient Information</h5>
+		<ul id="SPControlSet">
+			<li>
+				<div class="box1">
+					@Html.MJLabelFor( m => m.ShippingParty, false )
+					@Html.DropDownListFor( m => m.ShippingParty, CollateralController.GetPartyListForUser() )
+				</div>
+			</li>
+			<li>
+				<div class="box1 SPMember SPControlArea">
+					@Html.MJLabelFor( m => m.SPPaoliMemberID, false )
+					@Html.DropDownListFor( m => m.SPPaoliMemberID, UserController.GetPaoliMemberDDList( true ) )
+					@Html.ValidationMessageFor( m => m.SPPaoliMemberID )
+				</div>
+				<div class="box1 SPRepGroup SPControlArea">
+					@Html.MJLabelFor( m => m.SPPaoliRepGroupID, false )
+					@Html.DropDownListFor( m => m.SPPaoliRepGroupID, GetSalesRepList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, true ) )
+					@Html.MJCiteFor( m => m.SPPaoliRepGroupMemberID, false )
+					@Html.DropDownListFor( m => m.SPPaoliRepGroupMemberID, new List<SelectListItem>() )
+					@Html.ValidationMessageFor( m => m.SPPaoliRepGroupID )
+				</div>
+				<div class="box1 SPDealer SPControlArea">
+					@Html.MJLabelFor( m => m.SPDealerID, false )
+					@Html.DropDownListFor( m => m.SPDealerID, GetDealerList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer, true ) )@if( !PaoliWebUser.CurrentUser.IsDealerUser )
+																															  {<a class="btn7" id="newSPCompanyLink">+</a>}
+					@Html.MJCiteFor( m => m.SPDealerMemberID, false, new { @class = !PaoliWebUser.CurrentUser.IsDealerUser ? "thin" : "" } )
+					@Html.DropDownListFor( m => m.SPDealerMemberID, new List<SelectListItem>() )<a class="btn7" id="newSPUserLink" style="display:none;">+</a>
+					@Html.ValidationMessageFor( m => m.SPDealerID )
+				</div>
+				<div class="box1 SPEndUser SPControlArea">
+					@Html.MJLabelFor( m => m.SPEndUserFirstName, false )
+					@Html.TextBoxFor( m => m.SPEndUserFirstName )
+					@Html.MJCiteFor( m => m.SPEndUserLastName, false )
+					@Html.TextBoxFor( m => m.SPEndUserLastName )
+				</div>
+				<div class="box1 SPEndUser SPControlArea">
+					@Html.MJLabelFor( m => m.SPEndUserPhoneNumber, false )
+					@Html.TextBoxFor( m => m.SPEndUserPhoneNumber )
+					@Html.MJCiteFor( m => m.SPEndUserEMailAddress, false )
+					@Html.TextBoxFor( m => m.SPEndUserEMailAddress )
+				</div>
+			</li>
+		</ul>
+		<i class="clear_0"></i>
+	</div>
+</div>
+		
+		
+		<div class="main_inner1 requestPanel futureSection">
+			<h3>
+				Step 2: What Would You Like to Order?</h3>
+			<div class="main_inner3_btm">
+				<div class="main_inner3_btm_top">
+					<ul class="tabs1">
+		@foreach( var collateralType in collTypeList )
+  {
+	  if( collateralType.Value != "0" )
+	  {
+						<li class="box1"><a href="#tab@(collateralType.Value)">@collateralType.Text</a></li>
+	  }
+  }
+					</ul>
+					<i class="clear_0"></i>
+				</div>
+				@{
+  var itemNum = 0;
+  var startTR = "<li>";
+  var endTR = "</li>";
+	  }
+		@foreach( var collateralType in collTypeList )
+  {
+	  if( collateralType.Value != "0" )
+	  {
+				<div class="tab_container1">
+					<div style="display: block;" id="tab@(collateralType.Value)" class="tab_content1">
+						<ul>
+				@{
+		  itemNum = 0;
+				}
+				@for( int i = 0; i < Model.OrderDetails.Count; i++ )
+	{
+		if( Model.OrderDetails[i].CollateralTypeID.ToString() == collateralType.Value )
+		{
+			if( itemNum % 2 == 0 )
+			{
+				<text>@Html.Raw( startTR )</text>
+			}
+			
+								<div class="colmn1">
+								@if( Model.OrderDetails[i].ImageName != null )
+		{
+									<img src="/images/@(Model.OrderDetails[i].ImageName)" alt="img" style="max-width:125px; max-height:70px;"/>
+		}
+		else
+		{
+									<img src="/newcontent/images/productNoImage.png" alt="img"/>
+		}
+								</div>
+								<div class="colmn2">
+									<h4>
+										@Model.OrderDetails[i].Name
+									</h4>
+									<p>
+										@Model.OrderDetails[i].Description
+									</p>
+									@Html.ValidationMessageFor( m => m.OrderDetails[i].Quantity )
+
+								</div>
+								<div class="colmn@(itemNum % 2 == 1 ? "4" : "3")">
+									@Html.TextBoxFor( m => m.OrderDetails[i].Quantity, new { @class = "quantityInput" } )
+									<span>@Model.OrderDetails[i].Status</span>
+								</div>			
+			
+			@Html.HiddenFor( m => m.OrderDetails[i].CollateralID )
+		if( itemNum % 2 == 1 )
+		{
+				<text>@Html.Raw( endTR )</text>
+		}
+		itemNum++;
+		}
+	}
+
+						</ul>
+						<i class="clear_0"></i>
+
+					</div>
+				</div>
+	  }
+  }
+			</div>
+			
+		</div>  
+
+		<div class="main_inner1 requestPanel futureSection">
+			<h3>
+				Step 3: Where Should We Send Your Order?</h3>
+			<div class="main_inner2_btm">
+				<div class="main_inner2_btm_top">
+					<label>
+						Shipping Priority</label>
+					@Html.DropDownListFor( m => m.ShippingType, PDWModels.Collateral.NewOrderInformation.ShippingTypes.Select( st => new SelectListItem() { Text = st.Value, Value = st.Key.ToString() } ) )
+				</div>
+				<div class="main_inner2_btm_mid fedexAccount">
+					<ul>
+						<li>
+							<div class="colmn1">
+								@Html.LabelFor( m => m.ShippingFedexAccount ) @Html.ValidationMessageFor( m => m.ShippingFedexAccount )</div>
+							<div class="colmn2">
+								@Html.TextBoxFor( m => m.ShippingFedexAccount )</div>
+						</li>
+					</ul>
+					<i class="clear_0"></i>
+				</div>
+				<div class="main_inner2_btm_mid">
+					<h4>
+						Which address do you want to ship to?</h4>
+					<div class="main_inner2_btm_mid_lt">
+						<div class="radio fakeShippingAddressType" id="box-single15">
+							@Html.RadioButtonFor( m => m.ShippingAddressType, "0", new { @checked = "checked", @class = "radio" } )
+						</div>
+						<span>Current Address On File</span>
+					</div>
+					<div class="main_inner2_btm_mid_rt">
+						<div class="radio fakeShippingAddressType" id="box-single17">
+							@Html.RadioButtonFor( m => m.ShippingAddressType, "1", new { @class = "radio" } )
+						</div>
+						<span>Alternate Address</span>
+					</div>
+					<i class="clear_0"></i>
+					<ul>
+						<li>
+							<div class="colmn1">
+								Attention To @Html.ValidationMessageFor( m => m.ShippingAttn )</div>
+							<div class="colmn2">
+								@Html.TextBoxFor( m => m.ShippingAttn, new { @class = "currentAddress", @id = "tb1ShippingAttn" } )</div>
+							<div class="colmn3">
+								@Html.TextBoxFor( m => m.ShippingAttn, new { @class = "newAddress", @id = "tb2ShippingAttn" } )</div>
+						</li>
+						<li>
+							<div class="colmn1">
+								Company @Html.ValidationMessageFor( m => m.ShippingCompanyName )</div>
+							<div class="colmn2">
+								@Html.TextBoxFor( m => m.ShippingCompanyName, new { @class = "currentAddress", @id = "tb1ShippingCompanyName" } )</div>
+							<div class="colmn3">
+								@Html.TextBoxFor( m => m.ShippingCompanyName, new { @class = "newAddress", @id = "tb2ShippingCompanyName" } )</div>
+						</li>
+						<li>
+							<div class="colmn1">
+								Address 1 @Html.ValidationMessageFor( m => m.ShippingAddress1 )</div>
+							<div class="colmn2">
+								@Html.TextBoxFor( m => m.ShippingAddress1, new { @class = "currentAddress", @id = "tb1ShippingAddress1" } )</div>
+							<div class="colmn3">
+								@Html.TextBoxFor( m => m.ShippingAddress1, new { @class = "newAddress", @id = "tb2ShippingAddress1" } )</div>
+						</li>
+						<li>
+							<div class="colmn1">
+								Address 2 @Html.ValidationMessageFor( m => m.ShippingAddress2 )</div>
+							<div class="colmn2">
+								@Html.TextBoxFor( m => m.ShippingAddress2, new { @class = "currentAddress", @id = "tb1ShippingAddress2" } )</div>
+							<div class="colmn3">
+								@Html.TextBoxFor( m => m.ShippingAddress2, new { @class = "newAddress", @id = "tb2ShippingAddress2" } )</div>
+						</li>
+						<li>
+							<div class="colmn1">
+								City @Html.ValidationMessageFor( m => m.ShippingCity )</div>
+							<div class="colmn2">
+								@Html.TextBoxFor( m => m.ShippingCity, new { @class = "currentAddress", @id = "tb1ShippingCity" } )</div>
+							<div class="colmn3">
+								@Html.TextBoxFor( m => m.ShippingCity, new { @class = "newAddress", @id = "tb2ShippingCity" } )</div>
+						</li>
+						<li>
+							<div class="colmn1">
+								State @Html.ValidationMessageFor( m => m.ShippingState )</div>
+							<div class="colmn2">
+								@Html.DropDownListFor( m => m.ShippingState, UserController.GetStateDDList(), new { @class = "currentAddress", @id = "tb1ShippingState" } )</div>
+							<div class="colmn3">
+								@Html.DropDownListFor( m => m.ShippingState, UserController.GetStateDDList(), new { @class = "newAddress", @id = "tb2ShippingState" } )</div>
+						</li>
+						<li>
+							<div class="colmn1">
+								ZIP Code @Html.ValidationMessageFor( m => m.ShippingZip )</div>
+							<div class="colmn2">
+								@Html.TextBoxFor( m => m.ShippingZip, new { @class = "currentAddress", @id = "tb1ShippingZip" } )</div>
+							<div class="colmn3">
+								@Html.TextBoxFor( m => m.ShippingZip, new { @class = "newAddress", @id = "tb2ShippingZip" } )</div>
+						</li>
+						<li>
+							<div class="colmn1">
+								Phone Number @Html.ValidationMessageFor( m => m.ShippingPhoneNumber )</div>
+							<div class="colmn2">
+								@Html.TextBoxFor( m => m.ShippingPhoneNumber, new { @class = "currentAddress", @id = "tb1ShippingPhoneNumber" } )</div>
+							<div class="colmn3">
+								@Html.TextBoxFor( m => m.ShippingPhoneNumber, new { @class = "newAddress", @id = "tb2ShippingPhoneNumber" } )</div>
+						</li>
+						<li>
+							<div class="colmn1">
+								Email @Html.ValidationMessageFor( m => m.ShippingEmailAddress )</div>
+							<div class="colmn2">
+								@Html.TextBoxFor( m => m.ShippingEmailAddress, new { @class = "currentAddress", @id = "tb1ShippingEmailAddress" } )</div>
+							<div class="colmn3">
+								@Html.TextBoxFor( m => m.ShippingEmailAddress, new { @class = "newAddress", @id = "tb2ShippingEmailAddress" } )</div>
+						</li>
+					</ul>
+					<i class="clear_0"></i>
+				</div>
+			</div>
+		</div>    
+		
+    
+		
+		<div class="main_inner1 requestPanel futureSection">
+			<h3>
+				Step 4: Confirm</h3>
+			<div class="main_inner4_btm">
+				<div class="main_inner4_btm_top">
+					<h4>
+						Requestor Details</h4>
+					<div class="content1">
+						<ul class="rpLabels">
+							<li>Who is placing this order:</li>
+							<li class="rpLabel">Paoli Rep Group:</li>
+							<li class="rpLabel">Paoli Rep:</li>
+						</ul>
+					</div>
+					<div class="content2">
+						<ul class="rpValues">
+							<li class="rpValue">Paoli Sales Rep</li>
+							<li class="rpValue">Paoli-Marketing Group</li>
+							<li class="rpValue">John Doe</li>
+						</ul>
+					</div>
+					<div class="content1">
+						<ul class="spLabels">
+							<li>Who is receiving this order:</li>
+							<li class="spLabel">Paoli Rep Group:</li>
+							<li class="spLabel">Paoli Rep:</li>
+						</ul>
+					</div>
+					<div class="content4">
+						<ul class="spValues">
+							<li class="spValue">Paoli Sales Rep</li>
+							<li class="spValue">Paoli-Marketing Group</li>
+							<li class="spValue">PJohn Smith</li>
+						</ul>
+					</div>
+					<i class="clear_0"></i>
+				</div>
+				<div class="main_inner4_btm_mid">
+					<h4>
+						Order Details</h4>
+					<ul id="confirmItems">
+					</ul>
+					<i class="clear_0"></i>
+				</div>
+			</div>
+			<div class="main_inner4_btm_bottm">
+				<h4>
+					Shipping Details</h4>
+				<div class="content1">
+					<ul>
+						<li>Attention To</li>
+						<li>Company</li>
+						<li>Address 1</li>
+						<li>Address 2</li>
+						<li>City</li>
+						<li>State</li>
+						<li>ZIP Code</li>
+						<li>Phone NumberS</li>
+						<li>Email</li>
+					</ul>
+				</div>
+				<div class="content2">
+					<ul class="addressValues">
+						<li class="addressValue">John Smith</li>
+						<li class="addressValue">Some Company Name</li>
+						<li class="addressValue">1234 Main St</li>
+						<li class="addressValue">Suite 3A</li>
+						<li class="addressValue">Anytown</li>
+						<li class="addressValue">US</li>
+						<li class="addressValue">10001</li>
+						<li class="addressValue">(310) 555-5555</li>
+						<li class="addressValue">john.smith@someemail.com</li>
+					</ul>
+				</div>
+				<div class="content1">
+					<ul class="shippingTypeLabels">
+						<li>Shipping Priority</li>
+						<li class="shippingTypeLabel">Tracking Number</li>
+					</ul>
+				</div>
+				<div class="content3">
+					<ul class="shippingTypeValues">
+						<li class="shippingValue">Ground</li>
+						<li class="shippingTypeValue">1Z1234567890ABCD</li>
+					</ul>
+				</div>
+				<i class="clear_0"></i>
+			</div>
+		</div>		
+<div class="btnAlt">
+<span class="btn7 cancelBtn">CANCEL</span>
+<span class="btn11 submitBtn" style="display:none;">SUBMIT</span>
+<span class="btn8 nextBtn">NEXT</span>
+<span class="btn9 previousBtn" style="display:none;">PREV</span>
+</div>
+<!--	@Html.ValidationSummary()-->
+	</div>
+	}
+
+<div style="display:none">
+
+	@{Html.RenderPartial( "RequestNewUser" );}
+
+	@{Html.RenderPartial( "RequestNewCompany" );}
+
+</div>

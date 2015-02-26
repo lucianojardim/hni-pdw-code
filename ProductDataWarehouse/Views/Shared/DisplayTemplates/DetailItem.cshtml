@@ -1,0 +1,22 @@
+﻿@model PDWModels.eCollateral.ECollateralDetails.DetailItem
+
+<script type="text/javascript">
+	$(document).ready(function () {
+	});
+
+</script>
+
+
+  @if( Model.ImageID.HasValue )
+  {
+<div class="smalladimge">
+  <img src="/Images/@Model.ImageFileName" class="imagePopupItem clickForPopup" imageId="@Model.ImageID" />
+</div>
+  }
+  @if( ( Model.Content ?? "" ).Any() )
+  {
+<div class="addcontentbox">
+	@Html.Raw( Model.Content )
+</div>
+  }
+<div class="clr"></div>

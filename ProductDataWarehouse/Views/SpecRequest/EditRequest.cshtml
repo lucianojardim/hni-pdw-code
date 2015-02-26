@@ -1,0 +1,819 @@
+﻿@model PDWModels.SpecRequests.SpecRequestInformation
+@{
+	ViewBag.Title = "Edit A Spec Quote Request";
+	ViewBag.CurrentPage = "Database";
+	ViewBag.CurrentSubPage = "Typicals";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
+	
+	Model.SpecTeamNotes = "";	// clear it out to force them to type something new
+}
+@functions
+{
+	string JSSafe( string input, string defReturn = "" )
+	{
+		if( !( input ?? "" ).Any() )
+			return defReturn;
+		
+		return input.Replace( "'", "''" );
+	}
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+
+    <script type="text/javascript">
+    	var fileCount = 1;
+    	$(document).ready(function () {
+			$.data($('#theForm')[0], 'validator').settings.ignore = ':hidden';
+    		$.validator.addMethod(
+					"regex",
+					function (value, element, regexp) {
+						var re = new RegExp(regexp);
+						return this.optional(element) || re.test(value);
+					},
+					"Please check your input."
+				);
+
+    		$('#DealerPointOfContact').rules("add", { required: true, messages: { required: "Dealership Point of Contact Name is required."} });
+    		$('#LaminatePreference').rules("add", { required: true, messages: { required: "Laminate Preference is required."} });
+    		$("#DealerPointOfContactPhone").rules("add", { regex: "^[2-9]\\d{2}-\\d{3}-\\d{4}$", messages: { regex: "Phone Number must be in the format ###-###-####."} });
+    		$("#DealerPointOfContactEmail").rules("add", { regex: "^[A-Za-z0-9](([_\\.\\-\\+]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$", messages: { regex: "Email must be a valid Email Address."} });
+
+			@if( Model.CreatedDate.HasValue )
+   {
+			<text>
+                $('#createdDate').text(getLocalDateTime('@Model.CreatedDate.Value.ToString()'));
+			</text>
+   }
+			@if( Model.CanceledDate.HasValue ) {
+			<text>
+				$('#canceledDate').text(getLocalDateTime('@Model.CanceledDate.Value.ToString()'));
+			</text>
+			}
+			@if( Model.ReOpenedDate.HasValue )
+   {
+			<text>
+                $('#reopenedDate').text(getLocalDateTime('@Model.ReOpenedDate.Value.ToString()'));
+			</text>
+   }
+
+    		$('.cancelBtn').click(function (e) {
+    			window.location.href = '@Url.Action( "Manage" )';
+    		});
+
+			$('.cancelReqBtn').click(function(e) {
+				if( confirm('Are you sure?') ) {
+					makeAjaxCall('/SpecRequest/CancelRequest',
+						{ id: '@Model.RequestID' },
+						function (data, textStatus, jqXHR) {
+			    			window.location.href = '@Url.Action( "Manage" )';
+						},
+						function (jqXHR, textStatus, errorThrown) {
+							alert('Error canceling Request:' + errorThrown)
+						}
+					);
+					
+				}
+			});
+
+			$('.viewBtn').click(function(e) {
+				window.open( '@Url.Action( "ViewRequest", new { id = Model.RequestID } )' );
+			});
+
+    		$('#DealerID').change(function () {
+    			reloadDealerSalesRepList();
+    		});
+
+    		reloadPaoliSalesRepList( @(Model.PaoliSalesRepMemberID.HasValue ? Model.PaoliSalesRepMemberID.Value.ToString() : "null"), 
+				@(Model.DealerID.HasValue ? Model.DealerID.Value.ToString() : "null"), 
+				@(Model.DealerMemberID.HasValue ? Model.DealerMemberID.Value.ToString() : "null"),
+				@(Model.ProjectID.HasValue ? Model.ProjectID.Value.ToString() : "null") );
+			reloadEndCustomerList(@(Model.EndCustomerID.HasValue ? Model.EndCustomerID.Value.ToString() : "null"),
+				@(Model.ProjectID.HasValue ? Model.ProjectID.Value.ToString() : "null"), 
+				@(Model.DealerID.HasValue ? Model.DealerID.Value.ToString() : "null"), 
+				@(Model.DealerMemberID.HasValue ? Model.DealerMemberID.Value.ToString() : "null"));
+
+    		$('#PaoliSalesRepGroupID').change(function () {
+    			reloadPaoliSalesRepList();
+    		});
+
+			$('#PaoliSalesRepMemberID').change(function() {
+				showPSRContactInfo();
+			});
+
+			$('#DealerMemberID').change(function() {
+				showPSRContactInfo();
+				showHideDealerPOC();
+			});
+
+			$('#EndCustomerID').change(reloadProjectList);
+			$('#ProjectID').change(changeProject);
+
+    		changeGrommets($('#Grommets'));
+    		$('#Grommets').change(function (e) {
+    			changeGrommets($(this));
+    		});
+
+			$('#IsOnHold').click(showHideIsComplete);
+			showHideIsComplete();
+    		$('#IsCompleted').click(showHideIsGoodForWeb);
+    		showHideIsGoodForWeb();
+
+			$( "#submitBtn" ).click(function( event ) {
+				if( $('#IsCompleted:checked').length > 0 )
+				{
+					if( $('#SendCompleteEmail:checked').length > 0 )
+					{
+						if( confirm('Are you sure you want to send an email update to the Dealers and Reps? It will include any comments or notes shown.') ) {
+							$('#theForm').submit();
+						}
+					}
+					else
+					{
+						if( confirm('Click OK if you want to mark this request complete without notifying the DSR and/or Sales Rep via email that you have completed their request.') ) {
+							$('#theForm').submit();
+						}
+					}
+				}
+				else
+				{
+					$('#SendInProgressEmail').val(confirm('You are about to Save changes made to this Spec Request. An email will now be sent to all affected users with an update of changes you made including any comments you have added in the "Spec Team Notes to Recipients" field.\n\nClick "OK" to Send an email notification to users.\n\nClick "Cancel" to save this project without sending an email notification'));
+					$('#theForm').submit();
+				}
+			});
+
+    		$('#Footprint').autocomplete({
+    			source: function (request, response) {
+    				makeAjaxCall('@Url.Action( "GetTypeAheadSpecRequestFootprintList", "PDW" )',
+    					{ format: "json", query: request.term },
+    					function (data) {
+    						response($.map(data, function (item) {
+    							return {
+    								label: item,
+    								value: item
+    							}
+    						}));
+    					},
+    					function (request, status, error) {
+    						alert(error);
+    					}
+					);
+    			},
+    			minLength: 0
+    		});
+
+			showHideDrawerOptions();
+			showHideCGCSOptions();
+			showHideFabric();
+			$('.chkCasegoods').change(function (e) {
+				showHideDrawerOptions();
+				showHideCGCSOptions();
+			});
+
+			$('.chkSeating').change(function (e) {
+				showHideFabric();
+			});
+
+			$('.chkConferencing').change(function (e) {
+				showHideCGCSOptions();
+			});
+
+			showHideLaminatePreference();
+			$('.chkFinish').change(function (e) {
+				showHideLaminatePreference();
+			});
+
+			var doesMultipleFiles = false;
+    		$('#stFileContainer input[type="file"]').each(function (i, fc) {
+    			if (fc.files != null) {
+    				doesMultipleFiles = true;
+    			}
+    		});
+			if( doesMultipleFiles ) {
+				$('.specTeamFilesIndex').remove();
+				$('#stFileContainer input[type="file"]').attr('name', 'specTeamFiles');
+				$('.addlFilesIndex').remove();
+				$('#fileContainer input[type="file"]').attr('name', 'addlFiles');
+			}
+    	});
+
+		function getTerritoryForRepGroup() {
+			var group = $('#PaoliSalesRepGroupID option:selected').text();
+
+			return group.substring(0, 4);
+		}
+
+		function showHideLaminatePreference() {
+			if ($('.chkFinish:checked[value="Laminate"]').length > 0) {
+				$('.laminatePreference').show();
+			} else {
+				$('.laminatePreference').hide();
+			}			
+		}
+
+		function showHideCGCSOptions() {
+			if ($('.chkCasegoods:checked').length > 0 || $('.chkConferencing:checked').length > 0) {
+				$('.cgcsOnly').show();
+			} else {
+				$('.cgcsOnly').hide();
+			}
+		}
+		
+		function showHideFabric() {
+			if ($('.chkSeating:checked').length > 0) {
+				$('.forFabric').show();
+			} else {
+				$('.forFabric').hide();
+			}
+		}
+
+		function showHideDrawerOptions() {
+			if( $('.chkCasegoods:checked').length > 0 ) {
+				$('.drawerOptions').show();
+			} else {
+				$('.drawerOptions').hide();
+			}
+		}
+
+    	function showHideIsGoodForWeb() {
+    		if ($('#IsCompleted:checked').length > 0) {
+    			$('.isGoodForWeb').show();
+				$('.isOnHold').hide();
+    		} else {
+    			$('.isGoodForWeb').hide();
+				$('.isOnHold').show();
+    		}
+    	}
+
+    	function showHideIsComplete() {
+    		if ($('#IsOnHold:checked').length > 0) {
+				$('.isComplete').hide();
+    		} else {
+				$('.isComplete').show();
+    		}
+    	}
+
+    	function changeGrommets(chkMark) {
+    		if (chkMark.attr("checked")) {
+    			$('.grommetDetails').show();
+    		} else {
+    			$('.grommetDetails').hide();
+    		}
+    	}
+    	function fileChanged() {
+    		var doInsert = true;
+    		$('#fileContainer input[type="file"]').each(function (i, fc) {
+    			if (fc.value == null || fc.value == '' || fc.files != null) {
+    				doInsert = false;
+    				return false;
+    			}
+    		});
+    		if (doInsert) {
+    			$('#fileContainer').append('<br/><input type="file" name="addlFiles[' + fileCount + ']" class="addlFiles" onchange="fileChanged()" />' +
+				'<input type="hidden" name="addlFiles.Index" value="' + fileCount + '" />');
+    			fileCount++;
+    		}
+    	}
+    	function stFileChanged() {
+    		var doInsert = true;
+    		$('#stFileContainer input[type="file"]').each(function (i, fc) {
+    			if (fc.value == null || fc.value == '' || fc.files != null) {
+    				doInsert = false;
+    				return false;
+    			}
+    		});
+    		if (doInsert) {
+    			$('#stFileContainer').append('<br/><input type="file" name="specTeamFiles[' + fileCount + ']" class="specTeamFiles" onchange="stFileChanged()" />' +
+				'<input type="hidden" name="specTeamFiles.Index" value="' + fileCount + '" />');
+    			fileCount++;
+    		}
+    	}
+
+    	function reloadDealerSalesRepList( dsrMemberID ) {
+    		if ($('#DealerID').val() != null && $('#DealerID').val() != '' && $('#DealerID').val() != '0') {
+    			makeAjaxCall('/User/GetDealerSalesRepListForCompany',
+    				{ companyId: $('#DealerID').val(), enabledOnly: false },
+    				function (data, textStatus, jqXHR) {
+    					$('#DealerMemberID').empty();
+    					$.each(data.theList, function (idx, item) {
+    						$('#DealerMemberID').append('<option value="' + item.UserID + '" ' + (item.UserID == dsrMemberID ? 'selected ' : ' ') + 
+								(item.PhoneNumber != null ? 'data-phone="' + item.PhoneNumber + '" ' : ' ') +
+								(item.EmailAddress != null ? 'data-email="' + item.EmailAddress + '" ' : ' ') +
+								'>' + item.FullName + '</option>');
+    					});
+    					$('#DealerMemberID').append('<option value="0" ' + (null == dsrMemberID ? 'selected ' : ' ') + '>Other</option>');
+    					$('.DSRCell').show();
+						showHideDealerPOC();
+						showDSRContactInfo();
+    				},
+    				function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Dealer Sales Rep list:' + errorThrown)
+    				}
+    			);
+    		} else {
+    			$('#DealerMemberID').empty();
+    			$('#DealerPointOfContact').val('');
+    			$('.DSRCell').hide();
+				$('.DSRPOCCell').hide();
+    		}
+    	}
+
+		function showHideDealerPOC() {
+    		if ($('#DealerMemberID').val() == '0') {
+    			$('.DSRPOCCell').show();
+    		} else {
+    			$('.DSRPOCCell').hide();
+    		}
+		}
+
+		function showPSRContactInfo() {
+			var selInfo = $('#PaoliSalesRepMemberID option:selected');
+			if( selInfo.length > 0 ) {
+				$('#psrContactInfo').text(
+					(selInfo.data('phone') != null ? selInfo.data('phone') : '') + 
+					(selInfo.data('phone') != null && selInfo.data('email') != null ? ' | ' : '') + 
+					(selInfo.data('email') != null ? selInfo.data('email') : '')
+				);
+			} else {
+				$('#psrContactInfo').empty();
+			}
+		}
+
+		function showDSRContactInfo() {
+			var selInfo = $('#DealerMemberID option:selected');
+			if( selInfo.length > 0 ) {
+				$('#dsrContactInfo').text(
+					(selInfo.data('phone') != null ? selInfo.data('phone') : '') + 
+					(selInfo.data('phone') != null && selInfo.data('email') != null ? ' | ' : '') + 
+					(selInfo.data('email') != null ? selInfo.data('email') : '')
+				);
+			} else {
+				$('#dsrContactInfo').empty();
+			}
+		}
+
+		function emptyDropDownList(ddList) {
+			ddList.empty();
+		}
+
+		function reloadDropDownStringList(ddListID, data, bNeedOther) {
+    		var ddList = $(ddListID);
+    		emptyDropDownList(ddList);
+			if( bNeedOther ) {
+				ddList.append('<option value=""></option>")');
+			}
+    		$.each(data.theList, function (idx, item) {
+				ddList.append('<option value="' + item + '">' + item + '</option>")');
+    		});
+		}
+
+		function reloadDropDownCompanyList(ddListID, data, bNeedEmpty) {
+    		var ddList = $(ddListID);
+    		emptyDropDownList(ddList);
+			if( bNeedEmpty ) {
+				ddList.append('<option value=""></option>');
+			}
+    		$.each(data, function (idx, item) {
+				ddList.append('<option value="' + (item.ID > 0 ? item.ID : '') + '" data-extra="' + item.Extra + '">' + item.Text + '</option>")');
+    		});
+		}
+
+    	function reloadPaoliSalesRepList( psrMemberID, dealerID, dsrMemberID, initProjectID ) {
+    		if ($('#PaoliSalesRepGroupID').val() != null && $('#PaoliSalesRepGroupID').val() != '' && $('#PaoliSalesRepGroupID').val() != '0') {
+    			makeAjaxCall('/User/GetPaoliSalesRepListForCompany',
+    				{ companyId: $('#PaoliSalesRepGroupID').val(), enabledOnly: false },
+    				function (data, textStatus, jqXHR) {
+    					$('#PaoliSalesRepMemberID').empty();
+    					$('.PSRCell').hide();
+    					$.each(data.theList, function (idx, item) {
+    						$('#PaoliSalesRepMemberID').append('<option value="' + item.UserID + '" ' + (item.UserID == psrMemberID ? 'selected ' : ' ') + 
+								(item.PhoneNumber != null ? 'data-phone="' + item.PhoneNumber + '" ' : ' ') +
+								(item.EmailAddress != null ? 'data-email="' + item.EmailAddress + '" ' : ' ') +
+								'>' + item.FullName + '</option>');
+    						$('.PSRCell').show();
+    					});
+						showPSRContactInfo();
+    				},
+    				function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Paoli Sales Rep list:' + errorThrown)
+    				}
+    			);
+
+				reloadProjectList(initProjectID, dealerID, dsrMemberID);
+    		} else {
+    			$('#PaoliSalesRepMemberID').empty();
+    			$('#DealerID').empty();
+    			$('.PSRCell').hide();
+    			$('.DealerRow').hide();
+				$('.DSRCell').hide();
+				$('.DSRPOCCell').hide();
+    		}
+    	}
+
+		function reloadDealerList(dealerID, dsrMemberID, forceDealer) {
+    		makeAjaxCall('/Company/GetDealerListForSalesRep',
+    			{ salesRepCompanyId: $('#PaoliSalesRepGroupID').val(), includeTerritory: true },
+    			function (data, textStatus, jqXHR) {
+    				$('#DealerID').empty();
+    				$('.DealerRow').hide();
+    				$.each(data, function (idx, item) {
+						if( forceDealer == null || forceDealer == '' || item.ID == forceDealer ) {
+    						$('#DealerID').append('<option value="' + item.ID + '" ' + (item.ID == dealerID ? 'selected' : '') + '>' + item.Text + '</option>');
+	    					$('.DealerRow').show();
+						}
+    				});
+    				reloadDealerSalesRepList(dsrMemberID);
+    			},
+    			function (jqXHR, textStatus, errorThrown) {
+    				alert('Error getting Dealer list:' + errorThrown)
+    			}
+    		);
+		}
+
+		function changeProject(dealerID, dsrMemberID) {
+			var forceDealer = null;
+			if( $('#ProjectID option:selected').length > 0 ) {
+				forceDealer = $('#ProjectID option:selected').first().data('extra');
+    			makeAjaxCall('/SpecRequest/GetProjectInfo',
+    				{ id: $('#ProjectID').val() },
+    				function (data, textStatus, jqXHR) {
+						$('#gsaInfo').text(data.IsGSA ? "Yes" : "No");
+						$('#contractInfo').text(data.IsGSA ? (data.ContractName != null ? data.ContractName : 'N/A') : 'N/A');
+    				},
+    				function (jqXHR, textStatus, errorThrown) {
+    				});
+			} else {
+				$('#gsaInfo').text('N/A');
+				$('#contractInfo').text('N/A');
+			}
+			reloadDealerList(dealerID, dsrMemberID, forceDealer);
+		}
+
+    	function reloadProjectList(initId, dealerID, dsrMemberID) {
+    		if ($('#EndCustomerID').val() != null && $('#EndCustomerID').val() != '' && $('#EndCustomerID').val() != '0' &&
+				getTerritoryForRepGroup() != null && getTerritoryForRepGroup() != '') {
+    			makeAjaxCall('/SpecRequest/GetProjectForCustomer',
+    				{ customer: $('#EndCustomerID').val(), territory: getTerritoryForRepGroup() },
+    				function (data, textStatus, jqXHR) {
+						reloadDropDownCompanyList('#ProjectID', data.theList, true);
+						if( initId != null ) {
+							$('#ProjectID').val(initId);
+						}
+    					$('.ProjectCell').show();
+
+						changeProject(dealerID, dsrMemberID);
+    				},
+    				function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Project list:' + errorThrown)
+    				}
+    			);
+    		} else {
+				emptyDropDownList($("#ProjectID"));
+				$('.ProjectCell').hide();
+
+    			emptyDropDownList($('#DealerID'));
+    			$('.DealerRow').hide();
+    			$('.DSRCell').hide();
+
+    		}
+    	}
+
+    	function reloadEndCustomerList(initId, initProject, dealerID, dsrMemberID) {
+    		makeAjaxCall('/Project/GetFullEndCustomerList',
+    			null,
+    			function (data, textStatus, jqXHR) {
+    				reloadDropDownCompanyList('#EndCustomerID', data, true);
+					if( initId != null ) {
+						$('#EndCustomerID').val(initId);
+						if( initProject != null ) {
+							reloadProjectList(initProject, dealerID, dsrMemberID);
+						}
+					}
+    			},
+    			function (jqXHR, textStatus, errorThrown) {
+    				alert('Error getting End Customer list:' + errorThrown)
+    			}
+    		);
+    	}
+
+	</script>
+
+    @using( Html.BeginForm( "EditRequest", "SpecRequest", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
+	{
+		@Html.AntiForgeryToken()
+		@Html.HiddenFor( m => m.RequestID )
+		@Html.HiddenFor( m => m.SendInProgressEmail )
+		<div>
+		<div class="left">
+			<h2>Edit A Spec Quote Request - @Model.Name</h2>
+		</div>
+		<div class="right">
+		@Html.MJLabelFor( m => m.CreatedDate, true ) <span id="createdDate"></span>
+		@if( Model.CreatedByUser != null )
+  {
+		@Html.MJLabelFor( m => m.CreatedByUser, true )<br /> <span>@Html.DisplayFor( m => m.CreatedByUser )</span>
+	   <br /><span>@Html.DisplayFor( m => m.CreatedByUserCompany )</span>
+	  if( Model.CreatedByUserPhone != null )
+	  {
+	   <br /><span>@Html.DisplayFor( m => m.CreatedByUserPhone )</span>
+	  }
+	  if( Model.CreatedByUserEmail != null )
+	  {
+	   <br /><span>@Html.DisplayFor( m => m.CreatedByUserEmail )</span>
+	  }
+  }
+  @if( Model.ReOpenedByUser != null )
+  {
+	  <br /><br />
+		@Html.MJLabelFor( m => m.ReOpenedDate, true ) <span id="reopenedDate"></span>
+		if( Model.ReOpenedByUser != null )
+  {
+		@Html.MJLabelFor( m => m.ReOpenedByUser, true )<br /> <span>@Html.DisplayFor( m => m.ReOpenedByUser )</span>
+	   <br /><span>@Html.DisplayFor( m => m.ReOpenedByUserCompany )</span>
+	  if( Model.ReOpenedByUserPhone != null )
+	  {
+	   <br /><span>@Html.DisplayFor( m => m.ReOpenedByUserPhone )</span>
+	  }
+	  if( Model.ReOpenedByUserEmail != null )
+	  {
+	   <br /><span>@Html.DisplayFor( m => m.ReOpenedByUserEmail )</span>
+	  }
+  }
+  }
+		@if( !Model.IsCanceled )
+  {
+	  if( !Model.IsCompleted )
+	  {
+		<br /><br /><input type="button" class="btn_type1 cancelReqBtn" value="Cancel Request" />
+	  }
+  }
+  else
+  {
+	  <br /><br />
+		@Html.MJLabelFor( m => m.CanceledDate, true ) <span id="canceledDate"></span>
+		@Html.MJLabelFor( m => m.CanceledByUser, true ) <br /><span>@Html.DisplayFor( m => m.CanceledByUser )</span>
+	  
+  }
+		<input type="button" class="btn_type1 viewBtn" value="Print Request" />
+		</div>
+		<div class="clear"></div>
+		</div>
+		<div class="requestPanel">
+			<h3>This Request is for:</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td>@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )</td><td>@Html.DropDownListFor( m => m.PaoliSalesRepGroupID, CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, includeTerritory: true ) )</td>
+					<td class="DealerRow">@Html.MJLabelFor( m => m.DealerID, false )</td><td class="DealerRow">@Html.DropDownListFor( m => m.DealerID, new List<SelectListItem>() )</td>
+				</tr>
+				<tr>
+					<td class="PSRCell">@Html.MJLabelFor( m => m.PaoliSalesRepMemberID, true )</td><td class="PSRCell">@Html.DropDownListFor( m => m.PaoliSalesRepMemberID, new List<SelectListItem>() )<span class="littleHelp" id="psrContactInfo"></span></td>
+					<td class="DSRCell">@Html.MJLabelFor( m => m.DealerMemberID, true )</td><td class="DSRCell">@Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>() )<span class="littleHelp" id="dsrContactInfo"></span></td>
+				</tr>
+				<tr>
+					<td>@Html.MJLabelFor( m => m.EndCustomerID, false )</td><td>@Html.DropDownListFor( m => m.EndCustomerID, new List<SelectListItem>() )</td>
+					<td class="DSRPOCCell">Name:</td><td class="DSRPOCCell">@Html.TextBoxFor( m => m.DealerPointOfContact )</td>
+				</tr>
+				<tr>
+					<td>@Html.MJLabelFor( m => m.ProjectID, false, new { @class = "ProjectCell" } )</td><td>@Html.DropDownListFor( m => m.ProjectID, new List<SelectListItem>(), new { @class = "ProjectCell" } )</td>
+					<td class="DSRPOCCell">Email:</td><td class="DSRPOCCell">@Html.TextBoxFor( m => m.DealerPointOfContactEmail )</td>
+				</tr>
+				<tr>
+					<td>This project qualifies for GSA or other contract. </td><td id="gsaInfo">@(Model.RealIsGSA ? "Yes" : "No")</td>
+					<td class="DSRPOCCell">Phone:</td><td class="DSRPOCCell">@Html.TextBoxFor( m => m.DealerPointOfContactPhone )</td>
+ 				</tr>
+				<tr>
+					<td>Contract</td><td id="contractInfo">@if( Model.RealIsGSA ) { <text> @(Model.RealContractName) </text> }</td>
+					<td class="DSRPOCCell">User Type:</td><td class="DSRPOCCell">@Html.DropDownListFor( m => m.DealerPointOfContactAcctType, UserController.GetDealerUserRoleDDList() )</td>
+ 				</tr>
+			</table>
+		</div>
+		<div class="requestPanel bglg">
+			<h3>Spec Team Only</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td style="height:31px">@Html.MJLabelFor( m => m.PaoliSpecTeamMember, true )</td><td style="height:31px">@Html.DropDownListFor( m => m.PaoliSpecTeamMember, UserController.GetUserDDList( PDWInfrastructure.PaoliWebUser.PaoliWebRole.PaoliMemberSpecTeam ) )</td>
+					<td rowspan="10" id="stFileContainer" class="double">@Html.MJLabelFor( m => m.PreviousSpecTeamNotes, true )<br /><div class="marb5">@Html.DisplayFor( m => m.PreviousSpecTeamNotes, templateName: "MultilineDisplay" )<br /></div>@Html.MJLabelFor( m => m.SpecTeamNotes, true )<br />@Html.TextAreaFor( m => m.SpecTeamNotes, new { cols = 30, rows = 10 } )<br />
+					@Html.MJLabelFor( m => m.specTeamFiles, true ) @Html.DisplayFor( m => m.specTeamFileList, templateName: "FullFileListWithDelete" )<span class="littleHelp">Any file uploaded here will be available to the DSR and Sales Rep for downloading. Be sure to name your files clearly. Click Save below to attach these files to the request.</span><input type="file" name="specTeamFiles[0]" class="specTeamFiles" onchange="stFileChanged()" multiple /><input type="hidden" name="specTeamFiles.Index" value="0" class="specTeamFilesIndex" /></td>
+
+				</tr>
+				<tr>
+				<td style="height:31px">@Html.MJLabelFor( m => m.ListPrice, true )</td><td style="height:31px">@Html.TextBoxFor( m => m.ListPrice )</td>
+				</tr>
+				<tr>
+				<td style="height:31px">@Html.MJLabelFor( m => m.SPLQuote, true )</td><td style="height:31px">@Html.TextBoxFor( m => m.SPLQuote )</td>
+				</tr>
+				<tr>
+				<td style="height:31px">@Html.MJLabelFor( m => m.Footprint, true )</td><td style="height:31px">@Html.TextBoxFor( m => m.Footprint )</td>
+				</tr>
+				<tr>
+				<td style="height:31px">@Html.MJLabelFor( m => m.SavedLocation, true )</td><td style="height:31px">@Html.TextBoxFor( m => m.SavedLocation )</td>
+				</tr>
+				<tr>
+				<td style="height:31px">@Html.MJLabelFor( m => m.Received, true )</td><td style="height:31px">@Html.CheckBoxFor( m => m.Received )</td>
+				</tr>
+				<tr>
+				<td style="height:31px" class="isComplete">@Html.MJLabelFor( m => m.IsCompleted, true )</td><td style="height:31px" class="isComplete">@Html.CheckBoxFor( m => m.IsCompleted )</td>
+				</tr>
+				<tr>
+				<td style="height:31px" class="isOnHold">Is On Hold?</td><td style="height:31px" class="isOnHold">@Html.CheckBoxFor( m => m.IsOnHold )</td>
+				</tr>
+				<tr>
+				<td style="height:31px">@Html.MJLabelFor( m => m.IsGoodForWeb, true, new { @style = "display:none;", @class = "isGoodForWeb" } )</td><td style="height:31px">@Html.CheckBoxFor( m => m.IsGoodForWeb, new { @style = "display:none;", @class = "isGoodForWeb" } )</td>
+				</tr>
+				<tr>
+				<td style="height:31px">@Html.MJLabelFor( m => m.SendCompleteEmail, true, new { @style = "display:none;", @class = "isGoodForWeb" } )</td><td style="height:31px">@Html.CheckBoxFor( m => m.SendCompleteEmail, new { @style = "display:none;", @class = "isGoodForWeb" } )</td>
+				</tr>
+				<tr>
+				<td></td><td></td>
+				<td class="double">@Html.MJLabelFor( m => m.InternalNotes, true )<br />@Html.TextAreaFor( m => m.InternalNotes, new { cols = 30, rows = 10 } )</td>
+				</tr>
+				<tr><td>&nbsp;</td><td></td></tr>
+			</table>
+		</div>
+		<div class="requestPanel">
+			<h3>About This Project</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td>@Html.MJLabelFor( m => m.ProjectSize, false )</td><td>@Html.TextBoxFor( m => m.ProjectSize )</td>
+				</tr>
+				<tr>
+					<td></td><td><span class="littleHelp">Need number of private offices and/or meeting spaces</span></td>
+				</tr>
+				<tr>
+					<td colspan="2">@Html.CheckBoxFor( m => m.AvailableForIn2 ) @Html.MJLabelFor( m => m.AvailableForIn2, false )</td>
+				</tr>
+			</table>
+		</div>
+		<div class="requestPanel">
+			<h3>Services Requested</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td>@Html.CheckBoxFor( m => m.NeedAuditSpecs, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedAuditSpecs, false )<span class="littleHelp">Our team can quickly review and check a specification you have completed. Please include a parts list and a legible drawing/sketch of the furniture layout with sizes and details clearly noted.</span></td>
+					<td rowspan="5" id="fileContainer">@Html.MJLabelFor( m => m.addlFiles, true ) @Html.DisplayFor( m => m.addlFileList, templateName: "FullFileListing" )<span class="littleHelp">Attach PDFs or other applicable files to help the specificaton engineer complete this request.</span><input type="file" name="addlFiles[0]" class="addlFiles" onchange="fileChanged()" multiple /><input type="hidden" name="addlFiles.Index" value="0" class="addlFilesIndex" /></td>
+				</tr>
+				<tr>
+					<td>@Html.CheckBoxFor( m => m.NeedFloorplanSpecs, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedFloorplanSpecs, false )<span class="littleHelp">Please attach a legible drawing/sketch of the furniture layout with sizes and details clearly noted.</span></td>
+				</tr>
+				<tr>
+					<td>@Html.CheckBoxFor( m => m.NeedPhotoRendering, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedPhotoRendering, false )<span class="littleHelp">Initial rendering is no charge, changes and additional renderings may incur fees. Check with Specification services. Extended lead times may apply.</span></td>
+				</tr>
+				<tr>
+					<td>@Html.CheckBoxFor( m => m.Need2DDrawing, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.Need2DDrawing, false )</td>
+				</tr>
+				<tr>
+					<td>@Html.CheckBoxFor( m => m.NeedValueEng, new { @class = "chkServices" } ) @Html.MJLabelFor( m => m.NeedValueEng, false )<span class="littleHelp">Please include a parts list and a legible drawing/sketch of the furniture layout with sizes and details clearly noted.</span></td>
+				</tr>
+			</table>
+		</div>
+		<div class="requestPanel">
+			<h3>What file format do you want?</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td style="height:10px">Our spec team will create your specification or<br />quote request in any of the following file formats.<br /><br />Select from the options below:</td>
+					<td rowspan="6">@Html.MJLabelFor( m => m.Notes, true ) <br/> @Html.TextAreaFor( m => m.Notes, new { @rows = "15" } )
+					<span class="littleHelp">Copy and paste any content from your email including Name and contact info for the requestor here.</span></td>
+				</tr>
+				<tr>
+					<td style="height:10px">@Html.CheckBoxFor( m => m.NeedDWGFiles, new { @class = "chkFilesNeeded" } ) @Html.MJLabelFor( m => m.NeedDWGFiles, false )</td>
+				</tr>
+				<tr>
+					<td style="height:10px">@Html.CheckBoxFor( m => m.NeedSP4Files, new { @class = "chkFilesNeeded" } ) @Html.MJLabelFor( m => m.NeedSP4Files, false )</td>
+				</tr>
+				<tr>
+					<td style="height:10px">@Html.CheckBoxFor( m => m.NeedSIFFiles, new { @class = "chkFilesNeeded" } ) @Html.MJLabelFor( m => m.NeedSIFFiles, false )</td>
+				</tr>
+				<tr>
+					<td style="height:10px">@Html.CheckBoxFor( m => m.NeedXLSFiles, new { @class = "chkFilesNeeded" } ) @Html.MJLabelFor( m => m.NeedXLSFiles, false )</td>
+				</tr>
+				<tr>
+					<td>@Html.CheckBoxFor( m => m.NeedPDFFiles, new { @class = "chkFilesNeeded" } ) @Html.MJLabelFor( m => m.NeedPDFFiles, false )</td>
+				</tr>
+			</table>
+		</div>
+		<div class="requestPanel">
+			<h3>Project Requirements</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td width="200px">@Html.MJLabelFor( m => m.Casegoods, false )</td>
+					<td width="200px">@Html.MJLabelFor( m => m.Conferencing, false )</td>
+					<td width="200px" colspan="2">@Html.MJLabelFor( m => m.Seating, false )</td>
+				</tr>
+				<tr>
+					<td>@for( int i = 0; i < ViewBag.BlankInformation.Casegoods.Count; i++ )
+		 {
+			 <input type="hidden" name="Casegoods.Index" value="@i" />
+			 <input type="checkbox" name="Casegoods[@i]" value="@ViewBag.BlankInformation.Casegoods[i]" class="chkCasegoods" @(Model.Casegoods.Contains( ViewBag.BlankInformation.Casegoods[i] ) ? "checked" : "") /> <label for="Casegoods[@i]">@ViewBag.BlankInformation.Casegoods[i]</label><br />
+		 }</td>
+					<td>@for( int i = 0; i < ViewBag.BlankInformation.Conferencing.Count; i++ )
+		 {
+			 <input type="hidden" name="Conferencing.Index" value="@i" />
+			 <input type="checkbox" name="Conferencing[@i]" value="@ViewBag.BlankInformation.Conferencing[i]" class="chkConferencing" @(Model.Conferencing.Contains( ViewBag.BlankInformation.Conferencing[i] ) ? "checked" : "") /> <label for="Conferencing[@i]">@ViewBag.BlankInformation.Conferencing[i]</label><br />
+		 }</td>
+					<td>@for( int i = 0; i < ( ViewBag.BlankInformation.Seating.Count + 1 ) / 2; i++ )
+		 {
+			 <input type="hidden" name="Seating.Index" value="@i" />
+			 <input type="checkbox" name="Seating[@i]" value="@ViewBag.BlankInformation.Seating[i]" class="chkSeating" @(Model.Seating.Contains( ViewBag.BlankInformation.Seating[i] ) ? "checked" : "") /> <label for="Seating[@i]">@ViewBag.BlankInformation.Seating[i]</label><br />
+		 }</td>
+					<td>@for( int i = ( ViewBag.BlankInformation.Seating.Count + 1 ) / 2; i < ViewBag.BlankInformation.Seating.Count; i++ )
+		 {
+			 <input type="hidden" name="Seating.Index" value="@i" />
+			 <input type="checkbox" name="Seating[@i]" value="@ViewBag.BlankInformation.Seating[i]" class="chkSeating" @(Model.Seating.Contains( ViewBag.BlankInformation.Seating[i] ) ? "checked" : "") /> <label for="Seating[@i]">@ViewBag.BlankInformation.Seating[i]</label><br />
+		 }</td>
+				</tr>
+			</table>
+			<hr class="cgcsOnly" />
+			<table cellpadding="0" cellspacing="0" class="dataLayout cgcsOnly">
+				<tr>
+					<td>@Html.CheckBoxFor( m => m.Grommets ) @Html.MJLabelFor( m => m.Grommets, false )</td>
+					<td class="grommetDetails" style="display:none">@Html.MJLabelFor( m => m.GrommetDetails, false )<span class="littleHelp">Please indicate number, location or other specifications.</span></td><td class="grommetDetails" style="display:none">@Html.TextAreaFor( m => m.GrommetDetails )</td>
+				</tr>
+				<tr class="grommetDetails" style="display:none">
+					<td></td>
+					<td>@Html.MJLabelFor( m => m.GrommetPosition, false )</td><td>@Html.TextAreaFor( m => m.GrommetPosition )</td>
+				</tr>
+			</table>
+			<hr class="drawerOptions" />
+			<table cellpadding="0" cellspacing="0" class="dataLayout drawerOptions">
+				<tr>
+					<td>
+			@Html.MJLabelFor( m => m.DrawerOption, false )</td><td>
+			@Html.DropDownListFor( m => m.DrawerOption, new List<SelectListItem>() { 
+	new SelectListItem() { Text = "Vinyl Wrap", Value = "Vinyl Wrap" }, 
+	new SelectListItem() { Text = "Wood", Value = "Wood" } } )
+					</td>
+				</tr>
+			</table>
+			<hr class="cgcsOnly" />
+			<table cellpadding="0" cellspacing="0" class="dataLayout cgcsOnly">
+				<tr>
+					<td>@Html.MJLabelFor( m => m.Finishes, false )<br />
+					@for( int i = 0; i < ViewBag.BlankInformation.Finishes.Count; i++ )
+	 {
+			 <input type="hidden" name="Finishes.Index" value="@i" />
+			 <input type="checkbox" name="Finishes[@i]" value="@ViewBag.BlankInformation.Finishes[i]" class="chkFinish" @(Model.Finishes.Contains( ViewBag.BlankInformation.Finishes[i] ) ? "checked" : "") /> <label for="Finishes[@i]">@ViewBag.BlankInformation.Finishes[i]</label><br />
+	 }
+					</td>
+					<td colspan="2" class="double">
+					<br />
+					@Html.MJLabelFor( m => m.LaminatePreference, true, new { @class = "laminatePreference" } ) @Html.DropDownListFor( m => m.LaminatePreference, new List<SelectListItem>() { 
+	new SelectListItem(),
+	new SelectListItem() { Value = "TFL", Text = "TFL - Thermally Fused Laminate" },
+	new SelectListItem() { Value = "HPL", Text = "HPL - High Pressure Laminate" } }, new { @class = "laminatePreference" } )<br class="laminatePreference" />
+		 @Html.TextBoxFor( m => m.OtherFinishDetails )
+	<span class="littleHelp">Please specify if you there is a combination of finishes required by top vs. base, etc. Please include all appropriate detail of the user preference.</span>
+					</td>
+				</tr>
+			</table>
+			<hr class="forFabric" />
+			<table cellpadding="0" cellspacing="0" class="dataLayout forFabric">
+				<tr>
+					<td>
+			@Html.MJLabelFor( m => m.FabricGrade, false )</td><td>
+			@Html.DropDownListFor( m => m.FabricGrade, new List<SelectListItem>() { 
+	new SelectListItem() { Text = "A", Value = "A" },
+	new SelectListItem() { Text = "B", Value = "B" },
+	new SelectListItem() { Text = "C", Value = "C" },
+	new SelectListItem() { Text = "D", Value = "D" },
+	new SelectListItem() { Text = "E", Value = "E" },
+	new SelectListItem() { Text = "F", Value = "F" }, 
+	new SelectListItem() { Text = "G", Value = "G" },
+	new SelectListItem() { Text = "H", Value = "H" },
+	new SelectListItem() { Text = "I", Value = "I" },
+	new SelectListItem() { Text = "J", Value = "J" },
+	new SelectListItem() { Text = "K", Value = "K" },
+	new SelectListItem() { Text = "L", Value = "L" },
+	new SelectListItem() { Text = "M", Value = "M" } 
+} )
+					</td>
+				</tr><tr>
+					<td>
+					@Html.MJLabelFor( m => m.Fabric, false )</td><td>
+					@Html.TextBoxFor( m => m.Fabric )
+					<span class="littleHelp">Please specify the exact fabric code if you know what the user wants specified for pricing purposes.</span>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="requestPanel">
+			<h3>Specials</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td>@Html.MJLabelFor( m => m.SpecialRequests, true )</td><td class="triple">@Html.TextAreaFor( m => m.SpecialRequests, new { @rows = "15" } )</td>
+				</tr>
+				<tr>
+				<td></td><td class="triple"><span class="littleHelp">Please provide any additional information you may have regarding edge profile, finish, pulls, drawer options and grommets, etc.</span></td>
+				</tr>
+			</table>
+		</div>
+		<hr />
+@Html.ValidationSummary()
+		<div>
+		<div class="left">
+		@if( !Model.IsCanceled )
+  {
+        <input type="button" class="btn_type1" value="Save Changes" id="submitBtn" />
+  }
+		<input type="button" class="btn_type1 cancelBtn" value="Cancel Changes" />
+		</div>
+		<div class="clear"></div>
+		</div>
+	}

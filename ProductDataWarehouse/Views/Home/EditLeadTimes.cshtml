@@ -1,0 +1,63 @@
+﻿@model PDWModels.LeadTimes.LeadTimeInformation
+@{
+	Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.HeaderArea = "LeadTimes";
+}
+
+    <script type="text/javascript">
+		var fileCount = 1;
+		$(document).ready(function () {
+			$('.submitBtn').click(function(e) {
+				$('#theForm').submit();
+			});
+
+			$('.cancelBtn').click(function (e) {
+    			window.location.href = '@Url.Action( "LeadTimes" )';
+			});
+		});
+	</script>
+
+                     <div class="container2">
+     @using( Html.BeginForm( "EditLeadTimes", "Home", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
+	 {
+		 @Html.AntiForgeryToken()
+		 <div class="main_inner1 activeSection requestPanel">
+			 <h3>Edit Lead Times</h3>
+			 <div class="main_inner11_btm">
+					<ul>
+						<li>						
+							<div class="box2">
+								<label>Promo Headline</label>
+								<div class="colmn1">@Html.TextBoxFor( m => m.PromoHeadline )</div>
+							</div>
+						</li>
+						<li>						
+							<div class="box2">
+								<label>Promo Text</label>
+								<div class="colmn1">@Html.TextBoxFor( m => m.PromoText )</div>
+							</div>
+						</li>
+						<li>						
+							<div class="box2">
+								<label>User</label>
+								<div class="colmn1">@Html.DropDownListFor( m => m.UserID, ProductDataWarehouse.Controllers.UserController.GetPaoliMemberDDList( false ) )</div>
+							</div>
+						</li>
+					</ul>
+					 <div class="main_inner11_msg">
+						<h5>Left Side</h5>
+						@Html.TextAreaFor( m => m.LeftSide, new { @rows = "15", @class = "msg" } )
+						<br />
+						<h5>Right Side</h5>
+						@Html.TextAreaFor( m => m.RightSide, new { @rows = "15", @class = "msg" } )
+					 </div>
+				 <i class="clear_0"></i>
+			 </div>
+		 </div>    
+<div class="btnAlt">
+<span class="btn7 cancelBtn">CANCEL</span>
+<span class="btn11 submitBtn">SUBMIT</span>
+</div>
+	<!--@Html.ValidationSummary()-->
+	 }
+	 </div>

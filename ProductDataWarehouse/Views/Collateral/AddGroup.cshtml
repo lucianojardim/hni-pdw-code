@@ -1,0 +1,129 @@
+﻿@model PDWModels.Collateral.CollateralGroupInformation
+@{
+	ViewBag.Title = "Add Collateral Bundle";
+	ViewBag.CurrentPage = "Database";
+	ViewBag.CurrentSubPage = "Collateral";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+
+    <script type="text/javascript">
+    	var itemCount = @Model.GroupItems.Count;
+    	$(document).ready(function () {
+    		$('#StatusDate').datepicker(
+            {
+            	dateFormat: "mm/dd/yy",
+            	minDate: new Date(),
+            	changeMonth: true,
+            	changeYear: true,
+            	yearRange: '2014:2100'
+            });
+
+			$('#addItemBtn').click(function (e) {
+    			e.preventDefault();
+
+    			var newRow = $('#groupData tbody tr:first-child').clone();
+    			newRow.find('.ddlCollateral').attr('name', 'GroupItems[' + itemCount + '].ItemID');
+    			newRow.find('.txtQuantity').attr('name', 'GroupItems[' + itemCount + '].Quantity');
+				newRow.find('.txtQuantity').val(0);
+				newRow.find('#GroupItems_Index').val(itemCount);
+    			newRow.appendTo('#groupData tbody');
+    			itemCount++;
+
+				showHideRemoveLinks();
+
+    		});
+
+			showHideRemoveLinks();
+
+    	});
+
+		function deleteItem( link ){
+			if( confirm( 'Delete item?' ) ) {
+				link.closest('tr').remove();
+				showHideRemoveLinks();
+			}
+		}
+
+		function isFormValid() {
+			if( $('#groupData tbody tr').length == 0 ) {
+				alert( 'Please add at least one item to this Bundle.' );
+				return false;
+			}
+			return true;
+		}
+
+		function showHideRemoveLinks() {
+			if( $('#groupData tbody tr').length <= 1 ) {
+				$('.linkRemove').hide();
+			} else {
+				$('.linkRemove').show();
+			}
+		}
+
+    </script>    
+
+    <h2>Add Collateral Bundle</h2>
+
+    @using( Html.BeginForm( "AddGroup", "Collateral", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
+	{
+		@Html.AntiForgeryToken()
+		@Html.HiddenFor( m => m.Quantity )
+		@Html.Hidden( "CollateralTypeID", 0 )
+		<table cellpadding="0" cellspacing="0" class="dataLayout">
+        <tr>
+		<td>@Html.MJLabelFor( m => m.Name, true )</td><td>@Html.TextBoxFor( m => m.Name )</td>
+		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.Description, true )</td><td>@Html.TextAreaFor( m => m.Description )</td>
+		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.LeadTime, true )</td><td>@Html.TextBoxFor( m => m.LeadTime )</td>
+		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.Weight, true )</td><td>@Html.TextBoxFor( m => m.Weight )</td>
+		</tr>
+		<tr class="statusDateRow">
+		<td>@Html.MJLabelFor( m => m.StatusDate, true )</td><td>@Html.TextBoxFor( m => m.StatusDate )</td>
+		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.Price, true )</td><td>$@Html.TextBoxFor( m => m.Price )</td>
+		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.Shipping, true )</td><td>$@Html.TextBoxFor( m => m.Shipping )</td>
+		</tr>
+		<tr>
+		<td>@Html.MJLabelFor( m => m.ImageFileName, true )</td><td><input type="file" id="CollateralImage" name="CollateralImage" accept=".jpg,.png,.gif,.bmp" /></td>
+		</tr>
+        <tr>
+		<td>@Html.MJLabelFor( m => m.IsActive, false )</td><td>@Html.CheckBoxFor( m => m.IsActive )</td>
+		</tr>
+		
+		</table>
+		<hr />
+		<h3>Manage Bundle Contents</h3>
+		<table cellpadding="0" cellspacing="0" class="dataLayout" id="groupData">
+		<thead>
+		<tr>
+		<th style="width:276px">Collateral</th>
+		<th style="width:276px">Quantity</th>
+		</tr>
+		</thead>
+		<tbody>
+		@for( int i = 0; i < Model.GroupItems.Count; i++ )
+  {
+        <tr>
+		@Html.Hidden( "GroupItems.Index", i )
+		<td>@Html.DropDownListFor( m => m.GroupItems[i].ItemID, CollateralController.GetProductDDList(), new { @class = "ddlCollateral" } )</td>
+		<td>@Html.TextBoxFor( m => m.GroupItems[i].Quantity, new { @class = "txtQuantity" } )</td>
+		<td><a href="javascript:void(0);" onclick="deleteItem($(this));" class="linkRemove">Remove</a></td>
+		</tr>
+  }
+		</tbody>
+		</table>
+@Html.ValidationSummary()
+        <input type="button" class="btn_type1" value="Add Item" id="addItemBtn" />
+		<hr />
+        <input type="submit" class="btn_type1" value="Add Bundle" id="submitBtn" onclick="return isFormValid();" />
+	}

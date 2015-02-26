@@ -1,0 +1,382 @@
+﻿@model PDWModels.SpecRequests.SpecRequestInformation
+@{
+    ViewBag.Title = "NewViewRequest";
+	Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.HeaderArea = "SpecRequests";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+
+    <script type="text/javascript">
+    	$(document).ready(function () {
+			@if( Model.CreatedDate.HasValue ) {
+			<text>
+                $('#createdDate').text(getLocalDateTime('@Model.CreatedDate.Value.ToString()'));
+			</text>
+			}
+			@if( Model.CanceledDate.HasValue ) {
+			<text>
+				$('#canceledDate').text(getLocalDateTime('@Model.CanceledDate.Value.ToString()'));
+			</text>
+			}
+
+			$('.openReqBtn').click(function(e) {
+				makeAjaxCall('/SpecRequest/OpenRequest',
+					{ id: '@Model.RequestID' },
+					function (data, textStatus, jqXHR) {
+			    		window.location.href = '@Url.Action( "EditRequest", "SpecRequest", new { id = Model.RequestID } )';
+					},
+					function (jqXHR, textStatus, errorThrown) {
+						alert('Error re-opening Request:' + errorThrown)
+					}
+				);
+			});
+
+			$('.openReqSalesRepBtn').click(function(e) {
+			    window.location.href = '@Url.Action( "ReOpenRequest", "SpecRequest", new { id = Model.RequestID } )';
+			});
+    	});
+	</script>
+
+                     <div class="container">
+
+		 <div class="main_inner1">
+			 <h3 class="floating">
+				 View Spec Request - @Model.Name</h3>
+		 @if( Model.IsCompleted && !Model.IsCanceled && PDWInfrastructure.PaoliWebUser.CurrentUser.CanManageTypicals )
+   {
+		<div class="headerBtns">
+			<span class="btn7 openReqBtn">RE-OPEN</span>
+		</div>
+   }
+		 @if( Model.IsCompleted && !Model.IsCanceled && PDWInfrastructure.PaoliWebUser.CurrentUser.CanReOpenSpecRequests )
+   {
+		<div class="headerBtns">
+			<span class="btn7 openReqSalesRepBtn">Request a Change</span>
+		</div>
+   }
+	   <i class="clear_0"></i>
+
+			 <div class="main_inner10_cont">
+				 <div class="main_inner10_cont_top">
+					 <h3>
+						 Requestor & Project Information</h3>
+					 <ul>
+						 <li id="requestorList1" class="requestorList">
+							 <div class="coln1">
+								 <h5>
+									 Sales Rep Territory</h5>
+								 <h5>
+									 Sales Rep Point of Contact</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>
+									 @Html.DisplayFor( m => m.SalesRepGroupName )</h5>
+								 <h5>
+									 @Html.DisplayFor( m => m.SalesRepMemberName )</h5>
+							 </div>
+							 <div class="coln3">
+								 <h5>
+									 Who is the end customer?</h5>
+								 <h5>
+									 What project is this for?</h5>
+							 </div>
+							 <div class="coln4">
+								 <h5>
+									 @Html.DisplayFor( m => m.RealEndCustomer )</h5>
+								 <h5>
+									 @Html.DisplayFor( m => m.RealProjectName )</h5>
+							 </div>
+							 <i class="clear_0"></i></li>
+						 <li id="requestorList2" class="requestorList">
+							 <div class="coln1">
+								 <h5>
+									 Dealership</h5>
+								 <h5>
+									 Dealership Point of Contact</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>
+									 @Html.DisplayFor( m => m.DealerName )</h5>
+								 <h5>
+									@if( ( Model.DealerPointOfContact ?? "" ).Any() || ( Model.DealerPointOfContactEmail ?? "" ).Any() || ( Model.DealerPointOfContactPhone ?? "" ).Any() || ( Model.DealerPointOfContactAcctTypeName ?? "" ).Any() )
+		 { 
+										@Html.DisplayFor( m => m.DealerPointOfContact )<br />
+										@Html.DisplayFor( m => m.DealerPointOfContactEmail )<br />
+										@Html.DisplayFor( m => m.DealerPointOfContactPhone )<br />
+			 @Html.DisplayFor( m => m.DealerPointOfContactAcctTypeName )
+		 }
+		 else
+		 {
+									@Html.DisplayFor( m => m.DealerSalesRepName )
+		 }</h5>
+							 </div>
+							 <div class="coln3">
+								 <h5>
+									 What is the size and scope of this project?</h5>
+								 <h5>
+									 in2 Quick Ship</h5>
+							 </div>
+							 <div class="coln4">
+								 <h5>
+									 @Html.DisplayFor( m => m.ProjectSize )</h5>
+								 <h5>
+									 @Html.DisplayFor( m => m.AvailableForIn2, templateName: "YesNo" )</h5>
+							 </div>
+							 <i class="clear_0"></i></li>
+						 <li id="requestorList3" class="requestorList">
+							 <div class="coln1">
+							 <h5>&nbsp;</h5>
+							 </div>
+							 <div class="coln2">
+							 <h5>&nbsp;</h5>
+							 </div>
+							 <div class="coln3">
+								 <h5>
+									 This project qualifies for GSA/other contract.</h5>
+									 @if( Model.RealIsGSA )
+		  {
+								 <h5>
+									 Contract</h5>
+		  }
+							 </div>
+							 <div class="coln4">
+								 <h5>
+									 @Html.DisplayFor( m => m.RealIsGSA, templateName: "YesNo" )</h5>
+									 @if( Model.RealIsGSA )
+		  {
+								 <h5>
+									 @Html.DisplayFor( m => m.RealContractName )</h5>
+		  }
+							 </div>
+							 <i class="clear_0"></i></li>
+					 </ul>
+					 <i class="clear_0"></i>
+				 </div>
+				 <div class="main_inner10_cont_mid">
+					 <h3>
+						 Service & Project Requirements</h3>
+					 <ul>
+						 <li id="confirmServiceList">
+							 <div class="coln1">
+								 <h5>
+									 Services Needed</h5>
+							 </div>
+							 <div class="coln2">
+							 @if( Model.NeedAuditSpecs )
+		{
+								 <h5>Spec Check Audit</h5>
+		}
+		@if( Model.NeedFloorplanSpecs )
+  {
+								 <h5>Floorplan Specifications</h5>
+  }
+  @if( Model.NeedPhotoRendering )
+  {
+								 <h5>Photo Rendering</h5>
+  }
+  @if( Model.Need2DDrawing )
+  {
+								 <h5>2D Drawing</h5>
+  }
+  @if( Model.NeedValueEng )
+  {
+								 <h5>Value Engineering</h5>
+  }
+							 </div>
+							 <i class="clear_0"></i></li>
+						 <li id="confirmAddlServiceInfo">
+							 <div class="coln1">
+								 <h5>Related Drawings or Notes</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>@Html.DisplayFor( m => m.addlFileList, templateName: "NewFullFileListing" )</h5>
+							 </div>
+							 <i class="clear_0"></i>
+							 <div class="coln1">
+								 <h5>File Format(s)</h5>
+								 <h5>Additional Services Notes</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>@{
+									 var NeedFileList = new List<string>();
+									 if( Model.NeedDWGFiles ) { NeedFileList.Add( "DWG" ); }
+									 if( Model.NeedSP4Files ) { NeedFileList.Add( "SP4" ); }
+									 if( Model.NeedSIFFiles ) { NeedFileList.Add( "SIF" ); }
+									 if( Model.NeedXLSFiles ) { NeedFileList.Add( "XLS" ); }
+									 if( Model.NeedPDFFiles ) { NeedFileList.Add( "PDF" ); }
+			   }
+			   @(string.Join( ", ", NeedFileList ))</h5>
+								 <h5>@Html.DisplayFor( m => m.Notes, templateName: "MultilineDisplay" )</h5>
+							 </div>
+							 <i class="clear_0"></i></li>
+						 <li id="confirmSeriesList">
+							 <div class="coln1">
+								 <h5>Casegoods</h5>
+								 <h5>Conferencing</h5>
+								 <h5>Seating</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>@Html.DisplayFor( m => m.Casegoods, templateName: "StringList" )</h5>
+								 <h5>@Html.DisplayFor( m => m.Conferencing, templateName: "StringList" )</h5>
+								 <h5>@Html.DisplayFor( m => m.Seating, templateName: "StringList" )</h5>
+							 </div>
+							 <i class="clear_0"></i></li>
+	 @if( Model.Casegoods.Any( c => c.Any() ) )
+  {
+						 <li id="confirmDrawers">
+							 <div class="coln1">
+								 <h5>What drawer construction do you require?</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>@Html.DisplayFor( m => m.DrawerOption )</h5>
+							 </div>
+							 <i class="clear_0"></i></li>
+  }
+@if( Model.Seating.Any( c => c.Any() ) )
+{
+						 <li id="confirmFabric">
+							 <div class="coln1">
+								 <h5>What fabric grade do you require?</h5>
+								 <h5>Which fabric do you require?</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>@Html.DisplayFor( m => m.FabricGrade )</h5>
+								 <h5>@Html.DisplayFor( m => m.Fabric )</h5>
+							 </div>
+							 <i class="clear_0"></i></li>
+}
+						 <li id="confirmGrommets">
+							 <div class="coln1">
+								 <h5>Include grommets?</h5>
+					@if( Model.Grommets )
+	 {
+								 <h5>Grommet Specifications</h5>
+								 <h5>Grommet Position</h5>
+	 }
+							 </div>
+							 <div class="coln2">
+								 <h5>@Html.DisplayFor( m => m.Grommets, templateName: "YesNo" )</h5>
+					@if( Model.Grommets )
+	 {
+								 <h5>@Html.DisplayFor( m => m.GrommetDetails )</h5>
+								 <h5>@Html.DisplayFor( m => m.GrommetPosition )</h5>
+	 }
+							 </div>
+							 <i class="clear_0"></i></li>
+			@if( Model.Casegoods.Any( c => c.Any() ) || Model.Conferencing.Any( c => c.Any() ) )
+   {
+						 <li id="confirmFinishes">
+							 <div class="coln1">
+								 <h5>What finish do you require?</h5>
+								 <h5>Additional finishes requests</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>@Html.DisplayFor( m => m.Finishes, templateName: "StringList" )</h5>
+								 <h5>@Html.DisplayFor( m => m.OtherFinishDetails )</h5>
+							 </div>
+							 <i class="clear_0"></i></li>
+						 <li id="confirmLaminate">
+							 <div class="coln1">
+								 <h5>What type of laminate do you require?</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>@switch( Model.LaminatePreference )
+			 {
+				 case "TFL": <text>TFL - Thermally Fused Laminate</text> break;
+				 case "HPL": <text>HPL - High Pressure Laminate</text> break;
+			 }</h5>
+							 </div>
+							 <i class="clear_0"></i></li>
+   }
+						 <li id="confirmSpecialRequests">
+							 <div class="coln1">
+								 <h5>Special Requests</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>@Html.DisplayFor( m => m.SpecialRequests )</h5>
+							 </div>
+							 <i class="clear_0"></i></li>
+					 </ul>
+					 <i class="clear_0"></i>
+				 </div>
+				 <div class="main_inner10_cont_mid">
+					 <h3>Additional Details</h3>
+					 <ul>
+						 <li>
+							 <div class="coln1">
+								 <h5>Spec Team Member</h5>
+								 <h5>List Price</h5>
+								 <h5>SPL Quote</h5>
+								 <h5>Footprint</h5>
+								 <h5>Saved Location</h5>
+								 <h5>Received</h5>
+								 @if( Model.IsCanceled )
+		 {
+								 <h5>Canceled</h5>
+		 }
+		 else
+		 {
+								 <h5>Completed</h5>
+			 if( !Model.IsCompleted && Model.IsOnHold )
+			 {
+			 <h5>On Hold</h5>
+			 }
+		 }
+							 </div>
+							 <div class="coln2">
+								 <h5>@Html.DisplayFor( m => m.SpecTeamMemberName )</h5>
+								 <h5>@Html.DisplayFor( m => m.ListPrice, templateName: "Currency" )</h5>
+								 <h5>@Html.DisplayFor( m => m.SPLQuote )</h5>
+								 <h5>@Html.DisplayFor( m => m.Footprint )</h5>
+								 <h5>@Html.DisplayFor( m => m.SavedLocation )</h5>
+								 <h5>@Html.DisplayFor( m => m.Received, templateName: "YesNo" )</h5>
+								 @if( Model.IsCanceled )
+		 {
+								 <h5>@Html.DisplayFor( m => m.IsCanceled, templateName: "YesNo" )</h5>
+		 }
+		 else
+		 {
+								 <h5>@Html.DisplayFor( m => m.IsCompleted, templateName: "YesNo" )</h5>
+			 if( !Model.IsCompleted && Model.IsOnHold )
+			 {
+			 <h5>@Html.DisplayFor( m => m.IsOnHold, templateName: "YesNo" )</h5>
+			 }
+		 }
+							 </div>
+							 <i class="clear_0"></i></li>
+					</ul>
+					 <ul>
+						 <li>
+							 <div class="coln1">
+								 <h5>Spec Team Notes</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>@Html.DisplayFor( m => m.SpecTeamNotes, templateName: "MultilineDisplay" )</h5>
+							 </div>
+							 <i class="clear_0"></i>
+							 <div class="coln1">
+								 <h5>Final Client Files</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>@Html.DisplayFor( m => m.specTeamFileList, templateName: "NewFullFileListing" )</h5>
+							 </div>
+							 <i class="clear_0"></i>
+							 @if( PDWInfrastructure.PaoliWebUser.CurrentUser.IsPaoliUser )
+		{
+							 <div class="coln1">
+								 <h5>Internal Notes</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>@Html.DisplayFor( m => m.InternalNotes, templateName: "MultilineDisplay" )</h5>
+							 </div>
+							 <i class="clear_0"></i>
+		}
+						</li>
+					</ul>
+					 <i class="clear_0"></i>
+				 </div>
+			 </div>
+			 <!-- END: main -->
+		 </div>  
+</div>

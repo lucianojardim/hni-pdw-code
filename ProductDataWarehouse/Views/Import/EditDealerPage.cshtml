@@ -1,0 +1,38 @@
+﻿@model PDWModels.Dealers.DealerPageInformation
+
+@{
+	ViewBag.Title = "EditDealerPage";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using ProductDataWarehouse.Models
+
+@if( ViewBag.CloseFancyBox ?? false )
+{
+    <script type="text/javascript">
+    	$(document).ready(function () {
+    		parent.$.fancybox.close();
+    		if (parent.loadPages) {
+    			parent.loadPages();
+    		}
+    	});
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+    	$(document).ready(function () {
+    	});
+
+    </script>    
+}
+    <h2>Edit Page</h2>
+
+    @using( Html.BeginForm( "EditDealerPage", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
+	{
+		@Html.AntiForgeryToken()
+		@Html.HiddenFor( m => m.PageID )
+        <span class="dataRow">@Html.MJLabelFor( m => m.Name, true )@Html.TextBoxFor( m => m.Name )<br /></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.URLLocation, true )@Html.TextBoxFor( m => m.URLLocation )<br /></span>
+@Html.ValidationSummary()
+        <input type="submit" class="btn_type1" value="Save Changes" id="submitBtn" />
+	}

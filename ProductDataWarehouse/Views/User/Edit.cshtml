@@ -1,0 +1,339 @@
+﻿@using ProductDataWarehouse.Models
+@model PDWModels.Users.UserInformation
+@{
+	ViewBag.Title = "Edit User";
+	ViewBag.CurrentPage = "Users";
+	ViewBag.CurrentSubPage = "Users";
+	Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+@using ProductDataWarehouse.Controllers
+
+    <script type="text/javascript">
+    	$(document).ready(function () {
+    		reloadAccountType();
+
+    		$('#CompanyID').change(function () {
+    			reloadAccountType();
+    		});
+
+    		$('#SendWelcomeEmail').click(function () {
+    			if ($('#SendWelcomeEmail:checked').length > 0) {
+    				$('#Enabled').removeAttr("disabled");
+    			} else {
+    				$('#Enabled').attr("disabled", true);
+    			}
+    		});
+
+			@if( Model.LockAccountType )
+   {
+			<text>
+			$('select#CompanyID').attr('disabled', 'disabled');
+			$('select#AccountType').attr('disabled', 'disabled');
+			</text>
+   }
+    	});
+
+    	function reloadAccountType() {
+    		if ($('#CompanyID').val() != null && $('#CompanyID').val() != '') {
+    			makeAjaxCall('/Company/GetTypeListForCompany',
+    				{ companyId: $('#CompanyID').val() },
+    				function (data, textStatus, jqXHR) {
+    					var curVal = $('#AccountType').val();
+    					$('#AccountType').empty();
+    					$.each(data.theList, function (idx, item) {
+    						$('#AccountType').append('<option value="' + item.Value + '" ' + ((curVal == item.Value) ? 'selected' : '') + '>' + item.Text + '</option>');
+    					});
+						if( data.companyType == @PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer ) {
+							$('.dealerOnly').show();
+							$('.dealerOnly select').removeAttr('disabled');
+							if( data.isTrip ) {
+								$('.dealerTripOnly').show();
+							} else {
+								$('.dealerTripOnly').hide();
+							}
+						} else {
+							$('.dealerOnly').hide();
+							$('.dealerOnly select').attr('disabled', 'disabled');
+							$('.dealerTripOnly').hide();
+						}
+    				},
+    				function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Account Type list:' + errorThrown)
+    				}
+    			);
+    		} else {
+    			$('#AccountType').empty();
+				$('.dealerOnly').hide();
+				$('.dealerOnly select').attr('disabled', 'disabled');
+				$('.dealerTripOnly').hide();
+    		}
+			
+    	}
+    </script>    
+
+    <h2>Edit User</h2>
+
+    @using( Html.BeginForm( "Edit", "User", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
+	{
+		@Html.AntiForgeryToken()
+		@Html.HiddenFor( m => m.UserID )
+		@Html.HiddenFor( m => m.LockAccountType )
+		if( Model.LockAccountType )
+		{
+			@Html.HiddenFor( m => m.CompanyID )
+  			@Html.HiddenFor( m => m.AccountType )
+		}
+
+        <span class="dataRow">@Html.MJLabelFor( m => m.EmailAddress, true )@Html.TextBoxFor( m => m.EmailAddress )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.FirstName, true )@Html.TextBoxFor( m => m.FirstName )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.LastName, true )@Html.TextBoxFor( m => m.LastName )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.CompanyID, true )@Html.DropDownListFor( m => m.CompanyID, CompanyController.GetCompanyDDList() )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Title, true )@Html.TextBoxFor( m => m.Title )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.AuthorCredit, true )@Html.TextAreaFor( m => m.AuthorCredit )<br/></span>
+		<h3>Business Address</h3>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Address1, true )@Html.TextBoxFor( m => m.Address1 )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Address2, true )@Html.TextBoxFor( m => m.Address2 )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.City, true )@Html.TextBoxFor( m => m.City )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.State, true )@Html.DropDownListFor( m => m.State, UserController.GetStateDDList() )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Zip, true )@Html.TextBoxFor( m => m.Zip )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.BusinessPhone, true )@Html.TextBoxFor( m => m.BusinessPhone )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.Extension, true )@Html.TextBoxFor( m => m.Extension )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.CellPhone, true )@Html.TextBoxFor( m => m.CellPhone )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.FaxNumber, true )@Html.TextBoxFor( m => m.FaxNumber )<br/></span>
+		<h3>Home Address</h3>
+        <span class="dataRow">@Html.MJLabelFor( m => m.HomeAddress1, true )@Html.TextBoxFor( m => m.HomeAddress1 )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.HomeAddress2, true )@Html.TextBoxFor( m => m.HomeAddress2 )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.HomeCity, true )@Html.TextBoxFor( m => m.HomeCity )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.HomeState, true )@Html.DropDownListFor( m => m.HomeState, UserController.GetStateDDList() )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.HomeZip, true )@Html.TextBoxFor( m => m.HomeZip )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.HomePhone, true )@Html.TextBoxFor( m => m.HomePhone )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.PersonalCellPhone, true )@Html.TextBoxFor( m => m.PersonalCellPhone )<br/></span>
+		<div class="padr30 padl30"><hr /></div>
+        <span class="dataRow">@Html.MJLabelFor( m => m.AccountType, true )@Html.DropDownListFor( m => m.AccountType, UserController.GetUserRoleDDList() )<br/></span>
+        <span class="dataRow">@Html.MJLabelFor( m => m.DefaultShippingAddress, true )@Html.DropDownListFor( m => m.DefaultShippingAddress, UserController.GetAddressTypeDDList() )<br/></span>
+		if( PDWInfrastructure.PaoliWebUser.CurrentUser.UserId != Model.UserID )
+		{
+        <span class="dataRow">@Html.MJLabelFor( m => m.Enabled, true )@Html.CheckBoxFor( m => m.Enabled, Model.SendWelcomeEmail ? null : new { @disabled = true } )<br/></span>
+		}
+		else
+		{
+			@Html.HiddenFor( m => m.Enabled )
+		}
+        <span class="dataRow">@Html.MJLabelFor( m => m.IsActive, true )@Html.CheckBoxFor( m => m.IsActive )<br/></span>
+		if( Model.SendWelcomeEmail )
+		{
+			@Html.HiddenFor( m => m.SendWelcomeEmail )
+		}
+		else
+		{
+        <span class="dataRow">@Html.MJLabelFor( m => m.SendWelcomeEmail, true )@Html.CheckBoxFor( m => m.SendWelcomeEmail )<br/></span>
+		}
+        <span class="dataRow dealerTripOnly">@Html.MJLabelFor( m => m.ViewPerfData, true )@Html.CheckBoxFor( m => m.ViewPerfData )<br/></span>
+        <span class="dataRow dealerOnly">@Html.MJLabelFor( m => m.TierGroup, true )@Html.DropDownListFor( m => m.TierGroup, UserController.GetTierGroupDDList() )<br/></span>
+		<span class="dataRow">@Html.MJLabelFor( m => m.UserImageFileName, true )@if( Model.UserImageFileName != null )
+																		  { @Html.HiddenFor( m => m.UserImageFileName ) <img class="img_size_thumb_wide" src="/Images/@Model.UserImageFileName" /> }<input type="file" id="UserImage" name="UserImage" accept=".jpg,.png,.gif,.bmp" /></span>
+@Html.ValidationSummary()
+        <input type="submit" class="btn_type1" value="Save Changes" id="submitBtn" />
+	}
+	<div class="clear"></div>
+	<div>
+<br /><hr />
+<h3>Specification Requests</h3>
+    <table id="specRequestList">
+    <thead></thead>
+    <tfoot></tfoot>
+    </table>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		loadSpecRequests();
+	});
+
+	var srTable = null;
+	function loadSpecRequests() {
+		if (srTable != null) {
+			srTable.fnDraw();
+			return;
+		}
+
+		srTable = $('#specRequestList').dataTable({
+			"bServerSide": true,
+			"bAutoWidth": false,
+			"bFilter": false,
+			"bLengthChange": false, // don't show dropdown for #items per page
+			"bPaginate": true,
+			"bInfo": true,
+			"sAjaxSource": '@Url.Action( "FullRequestList", "SpecRequest" )',
+			"fnServerParams": function (aoData) {
+				aoData.push({ "name": "userId", "value": @Model.UserID });
+			},
+			"iDisplayLength": 100,
+			"oLanguage": {
+				"sSearch": "Filter by Keyword:"
+			},
+			"fnServerData": function (sSource, aoData, fnCallback) {
+				makeAjaxCall(sSource,
+					aoData,
+					function (data, textStatus, jqXHR) {
+						fnCallback(data, textStatus, jqXHR);
+					},
+					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Requests:' + errorThrown) }
+				);
+			},
+			"bProcessing": false, // don't want to use the default progress indicator at this time
+			"aaSorting": [[0, "desc"]],
+			"aoColumnDefs": [
+					{ "sName": "EditButtons",
+						"sTitle": "Name",
+						"aTargets": [0],
+						"mDataProp": "EditButtons", "sWidth": "8%",
+						"fnRender": function (oObj) {
+							if (oObj.aData["IsCanceled"] || oObj.aData["IsCompleted"]) {
+								return '<a href=\"@Url.Action( "ViewRequest", "SpecRequest" )/' + oObj.aData["RequestID"] + '\">' + oObj.aData["Name"] + '</a>';
+							}
+							return '<a href=\"@Url.Action( "EditRequest", "SpecRequest" )/' + oObj.aData["RequestID"] + '\">' + oObj.aData["Name"] + '</a>';
+						}
+					},
+                    { "sName": "Dealer", "sTitle": "Dealer", "aTargets": [1], "mDataProp": "Dealer", "sWidth": "17%" },
+                    { "sName": "ProjectName", "sTitle": "Project Name", "aTargets": [2], "mDataProp": "ProjectName", "sWidth": "16%" },
+                    { "sName": "SalesRepGroup", "sTitle": "Rep Group", "aTargets": [3], "mDataProp": "SalesRepGroup", "sWidth": "17%" },
+                    { "sName": "SpecTeamMember", "sTitle": "Member", "aTargets": [4], "mDataProp": "SpecTeamMember", "sWidth": "10%" },
+                    { "sName": "CreatedDate", "sTitle": "Created", "aTargets": [5], "mDataProp": "CreatedDate", "sWidth": "9%",
+                    	"fnRender": function (oObj) {
+                    		if (oObj.aData["CreatedDate"] != null) {
+                    			var milli = oObj.aData["CreatedDate"].replace(/\/Date\((-?\d+)\)\//, '$1');
+                    			return getLocalDate(parseInt(milli));
+                    		}
+                    		return '';
+                    	}
+                    },
+                    { "sName": "Status",
+                    	"aTargets": [6],
+                    	"bSearchable": false,
+                    	"bSortable": false,
+                    	"mDataProp": "Status", "sTitle": "Status", "sWidth": "10%",
+                    	"fnRender": function (oObj) {
+                    		if (oObj.aData["IsCanceled"]) {
+                    			return 'Canceled';
+                    		} else if (oObj.aData["IsCompleted"]) {
+                    			return 'Completed';
+                    		} else if (oObj.aData["SpecTeamMember"] == null || oObj.aData["SpecTeamMember"] == '') {
+                    			return 'Not Assigned';
+                    		} else if (oObj.aData["IsAuditSpecOnly"]) {
+                    			return 'Pending - Spec Audit Check';
+                    		}
+                    		return 'Pending';
+                    	}
+                    },
+                    { "sName": "TypicalFinder",
+                    	"aTargets": [7],
+                    	"bSearchable": false,
+                    	"bSortable": false,
+                    	"mDataProp": "TypicalFinder", "sTitle": "Typical Finder", "sWidth": "13%",
+                    	"fnRender": function (oObj) {
+                    		if (oObj.aData["IsPublished"]) {
+                    			return '<a href=\"@Url.Action( "EditTypical", "SpecRequest" )/' + oObj.aData["RequestID"] + '/\" class="fbImageBtn">Published</a>';
+                    		} else if (oObj.aData["IsCompleted"] && !oObj.aData["IsCanceled"]) {
+                    			if (oObj.aData["HasTypical"]) {
+                    				return '<a href=\"@Url.Action( "EditTypical", "SpecRequest" )/' + oObj.aData["RequestID"] + '/\" class="fbImageBtn">Recommended</a>';
+                    			} else if (oObj.aData["IsRecommended"]) {
+                    				return '<a href=\"@Url.Action( "AddTypical", "SpecRequest" )/' + oObj.aData["RequestID"] + '/\" class="fbImageBtn">Recommended</a>';
+                    			} else {
+                    				return 'Not recommended';
+                    			}
+                    		}
+                    		return '';
+                    	}
+                    }
+                ]
+		});
+	}
+
+</script>
+
+	<div class="clear"></div>
+<div>
+<br /><hr />
+<h3>Collateral Orders</h3>
+    <table id="orderList">
+    <thead></thead>
+    <tfoot></tfoot>
+    </table>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		loadOrders();
+	});
+
+	var oTable = null;
+	function loadOrders() {
+		if (oTable != null) {
+			oTable.fnDraw();
+			return;
+		}
+
+		oTable = $('#orderList').dataTable({
+			"bServerSide": true,
+			"bAutoWidth": false,
+			"bFilter": false,
+			"bLengthChange": false, // don't show dropdown for #items per page
+			"bPaginate": true,
+			"bInfo": true,
+			"sAjaxSource": '@Url.Action( "FullCollateralOrderList", "Collateral" )',
+			"fnServerParams": function (aoData) {
+				aoData.push({ "name": "userId", "value": @Model.UserID });
+			},
+			"iDisplayLength": 100,
+			"fnServerData": function (sSource, aoData, fnCallback) {
+				makeAjaxCall(sSource,
+					aoData,
+					function (data, textStatus, jqXHR) {
+						fnCallback(data, textStatus, jqXHR);
+					},
+					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Orders:' + errorThrown) }
+				);
+			},
+			"bProcessing": false, // don't want to use the default progress indicator at this time
+			"aaSorting": [[0, "desc"]],
+			"aoColumnDefs": [
+                    { "sName": "EditButtons",
+                    	"aTargets": [0],
+                    	"sTitle": "Order Number",
+                    	"mDataProp": "EditButtons", "sWidth": "8%",
+                    	"fnRender": function (oObj) {
+                    		var s = '';
+                    		if (oObj.aData["CanEdit"]) {
+                    			s += '<a href=\"@Url.Action( "EditOrder", "Collateral" )/' + oObj.aData["OrderID"] + '">' + oObj.aData["OrderID"] + '</a>';
+                    		} else {
+                    			s += oObj.aData["OrderID"];
+                    		}
+                    		return s;
+                    	}
+                    },
+                    { "sName": "RequestingParty", "sTitle": "Requested By", "aTargets": [1], "mDataProp": "RequestingParty", "sWidth": "36%" },
+                    { "sName": "ShippingParty", "sTitle": "Requested For", "aTargets": [2], "mDataProp": "ShippingParty", "sWidth": "36%" },
+                    { "sName": "OrderDate", "sTitle": "Order Date", "aTargets": [3], "mDataProp": "OrderDate",
+                    	"fnRender": function (oObj) {
+                    		return getLocalDate(oObj.aData["OrderDateMilliseconds"]);
+                    	}, "sWidth": "10%"
+                    },
+                    { "sName": "Status", "sTitle": "Status", "aTargets": [4], "mDataProp": "Status", "sWidth": "10%",
+                    	"fnRender": function (oObj) {
+                    		var s = '';
+                    		s += '<a href=\"@Url.Action( "ShipOrder", "Collateral" )/' + oObj.aData["OrderID"] + '">' + oObj.aData["Status"] + '</a>';
+                    		if (oObj.aData["IsOvernight"]) {
+                    			s += ' <img src="@Url.Content( "~/Content/images/SeriousWarning.png" )" />';
+                    		}
+                    		return s;
+                    	}
+                    }
+                ]
+		});
+	}
+
+</script>
+
+	<div class="clear"></div>
+<div>

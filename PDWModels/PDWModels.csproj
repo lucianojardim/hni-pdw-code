@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{67C436B4-9FD8-4D29-A573-3FF721D04835}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PDWModels</RootNamespace>
+    <AssemblyName>PDWModels</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Articles\ArticleDisplayInfo.cs" />
+    <Compile Include="Articles\ArticleInformation.cs" />
+    <Compile Include="Articles\ArticleSummary.cs" />
+    <Compile Include="Articles\ArticleViewDetails.cs" />
+    <Compile Include="Attributes\AttributeComboItem.cs" />
+    <Compile Include="Attributes\AttributeInformation.cs" />
+    <Compile Include="Attributes\CMInformation.cs" />
+    <Compile Include="Attributes\FinishInformation.cs" />
+    <Compile Include="Collateral\CollateralGroupInformation.cs" />
+    <Compile Include="Collateral\CollateralInformation.cs" />
+    <Compile Include="Collateral\CollateralOrderExport.cs" />
+    <Compile Include="Collateral\CollateralOrderHPSummary.cs" />
+    <Compile Include="Collateral\CollateralOrderSummary.cs" />
+    <Compile Include="Collateral\CollateralShipmentDetail.cs" />
+    <Compile Include="Collateral\CollateralSummary.cs" />
+    <Compile Include="Collateral\NewOrderInformation.cs" />
+    <Compile Include="Collateral\PendingOrderInformation.cs" />
+    <Compile Include="Collateral\ShipmentInformation.cs" />
+    <Compile Include="Companies\ClosestRepInfo.cs" />
+    <Compile Include="Companies\CompanyInformation.cs" />
+    <Compile Include="Companies\CompanySummary.cs" />
+    <Compile Include="Companies\DealerTripSummary.cs" />
+    <Compile Include="Companies\MyCompanyInfo.cs" />
+    <Compile Include="Companies\MyTerritoryInfo.cs" />
+    <Compile Include="Companies\MyTripInfo.cs" />
+    <Compile Include="Companies\ShippingAddress.cs" />
+    <Compile Include="Companies\TerritorySummary.cs" />
+    <Compile Include="Companies\TerritoryTripInfo.cs" />
+    <Compile Include="Dealers\DealerDetail.cs" />
+    <Compile Include="Dealers\DealerInformation.cs" />
+    <Compile Include="Dealers\DealerPageInformation.cs" />
+    <Compile Include="Dealers\DealerPageSummary.cs" />
+    <Compile Include="Dealers\DealerSummary.cs" />
+    <Compile Include="Dealers\DealerVideoInformation.cs" />
+    <Compile Include="Dealers\DealerVideoSummary.cs" />
+    <Compile Include="eCollateral\ECollateralDetails.cs" />
+    <Compile Include="eCollateral\ECollateralInformation.cs" />
+    <Compile Include="eCollateral\ECollateralLayout.cs" />
+    <Compile Include="eCollateral\ECollateralSettings.cs" />
+    <Compile Include="eCollateral\ECollateralSummary.cs" />
+    <Compile Include="HomePageContentInformation.cs" />
+    <Compile Include="IDToTextItem.cs" />
+    <Compile Include="Images\HiResImageInfo.cs" />
+    <Compile Include="Images\ImageComboItem.cs" />
+    <Compile Include="Images\ImageContentType.cs" />
+    <Compile Include="Images\ImageDetail.cs" />
+    <Compile Include="Images\ImageForObject.cs" />
+    <Compile Include="Images\ImageItemDetails.cs" />
+    <Compile Include="Images\ImageListGallery.cs" />
+    <Compile Include="Images\ImageListSummary.cs" />
+    <Compile Include="Images\ImageThumbnailGallery.cs" />
+    <Compile Include="Images\ImageInformation.cs" />
+    <Compile Include="Images\ImageSummary.cs" />
+    <Compile Include="Images\ImageUsage.cs" />
+    <Compile Include="Images\PubImageDetail.cs" />
+    <Compile Include="LeadTimes\LeadTimeInformation.cs" />
+    <Compile Include="LeadTimes\LeadTimeSummary.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Publications\PublicationComboItem.cs" />
+    <Compile Include="Publications\PublicationInformation.cs" />
+    <Compile Include="Publications\PublicationSummary.cs" />
+    <Compile Include="SearchResults.cs" />
+    <Compile Include="SearchText.cs" />
+    <Compile Include="Series\SeriesComboItem.cs" />
+    <Compile Include="Series\SeriesDocListData.cs" />
+    <Compile Include="Series\SeriesInformation.cs" />
+    <Compile Include="Series\SeriesListData.cs" />
+    <Compile Include="Series\SeriesSearchResult.cs" />
+    <Compile Include="SpecRequests\NewProjectInformation.cs" />
+    <Compile Include="SpecRequests\ProjectInformation.cs" />
+    <Compile Include="SpecRequests\ProjectSeriesInformation.cs" />
+    <Compile Include="SpecRequests\ProjectStatus.cs" />
+    <Compile Include="SpecRequests\ProjectSuccess.cs" />
+    <Compile Include="SpecRequests\ProjectSummary.cs" />
+    <Compile Include="SpecRequests\ReOpenRequestInformation.cs" />
+    <Compile Include="SpecRequests\SpecRequestExport.cs" />
+    <Compile Include="SpecRequests\SpecRequestInformation.cs" />
+    <Compile Include="SpecRequests\SpecRequestSummary.cs" />
+    <Compile Include="SpecRequests\TypicalMgmtInfo.cs" />
+    <Compile Include="Typicals\TypicalDetailListData.cs" />
+    <Compile Include="Typicals\TypicalDetailListGallery.cs" />
+    <Compile Include="Typicals\TypicalInformation.cs" />
+    <Compile Include="Typicals\TypicalListData.cs" />
+    <Compile Include="Typicals\TypicalListGallery.cs" />
+    <Compile Include="Users\ChangePWDetail.cs" />
+    <Compile Include="Users\DealerContactInfo.cs" />
+    <Compile Include="Users\MyAccountInfo.cs" />
+    <Compile Include="Users\UserActivityExport.cs" />
+    <Compile Include="Users\UserContactInfo.cs" />
+    <Compile Include="Users\UserInformation.cs" />
+    <Compile Include="Users\UserSubscriptionSummary.cs" />
+    <Compile Include="Users\UserSummary.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PDWDBContext\PDWDBContext.csproj">
+      <Project>{E5529190-3BF8-40D3-A334-A47DC3F230DA}</Project>
+      <Name>PDWDBContext</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PDWInfrastructure\PDWInfrastructure.csproj">
+      <Project>{64E12C25-AA09-4262-9045-77C987AF022E}</Project>
+      <Name>PDWInfrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

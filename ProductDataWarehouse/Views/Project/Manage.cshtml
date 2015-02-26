@@ -1,0 +1,100 @@
+﻿@{
+    ViewBag.Title = "NewViewAll";
+    Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.HeaderArea = "Projects";
+}
+@using PDWInfrastructure
+
+                     <div class="container">
+<div class="main_inner1_content ">
+	<div class="main_inner1_content_lt">
+		<div class="main_inner1_content_lt_top">
+			<h3>
+				<span>&nbsp;</span>Filter Results</h3>
+			<div class="main_inner1_content_lt_top_box">
+				<label>
+					Keyword</label>
+				<input class="leftAlignInput" type="text" id="keywordText"/>
+			</div>
+		</div>
+		<div class="main_inner1_content_lt_btm">
+			<h3>
+				Have a new project you're starting?</h3>
+			<h4>
+				<a href="@Url.Action( "Add", "Project" )">New Project</a></h4>
+		</div>
+	</div>
+	<div class="main_inner1_content_rt">
+		<div id="demo">
+			<table id="projectList" class="display">
+				<thead>
+				</thead>
+				<tfoot>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+	<i class="clear_0"></i>
+</div>
+</div>
+@{
+	var colNum = 0;
+}
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('#keywordText').on('keyup', loadProjects);
+		loadProjects();
+	});
+
+	var oTable = null;
+	function loadProjects() {
+		if (oTable != null) {
+			oTable.fnDraw();
+			return;
+		}
+
+		oTable = $('#projectList').dataTable({
+			"bServerSide": true,
+			"bAutoWidth": false,
+			"bFilter": true,
+			"bLengthChange": false, // don't show dropdown for #items per page
+			"bPaginate": false,
+			"bInfo": true,
+			"sAjaxSource": '@Url.Action( "ProjectList", "Project" )',
+			"fnServerParams": function (aoData) {
+				aoData.push({ "name": "sLocalSearch", "value": $('#keywordText').val() });
+			},
+			"iDisplayLength": 100,
+			"fnServerData": function (sSource, aoData, fnCallback) {
+				makeAjaxCall(sSource,
+					aoData,
+					function (data, textStatus, jqXHR) {
+						fnCallback(data, textStatus, jqXHR);
+					},
+					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Projects:' + errorThrown) }
+				);
+			},
+			"fnHeaderCallback": function (nHead, aData, iStart, iEnd, aiDisplay) {
+				$(nHead).addClass('bg');
+				$(nHead).find('th').append('');
+			},
+			"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+				$(nRow).addClass('gradeX');
+				$(nRow).css('cursor', 'pointer');
+				$(nRow).off('click').on('click', function () {
+					window.location = '@Url.Action("Edit", "Project")/' + aData["ProjectID"];
+				});
+			},
+			"bProcessing": false, // don't want to use the default progress indicator at this time
+			"aoColumnDefs": [
+                    { "sName": "ProjectName", "sTitle": "Name<span></span>", "sClass": "hasSpan", "aTargets": [0], "mDataProp": "ProjectName", "sWidth": "25%" },
+                    { "sName": "CustomerName", "sTitle": "Customer Name<span></span>", "sClass": "hasSpan", "aTargets": [1], "mDataProp": "CustomerName", "sWidth": "25%" },
+                    { "sName": "DealershipName", "sTitle": "Dealer<span></span>", "sClass": "hasSpan", "aTargets": [2], "mDataProp": "DealershipName", "sWidth": "25%" },
+                    { "sName": "ProjectStatus", "sTitle": "Status<span></span>", "sClass": "hasSpan", "aTargets": [3], "mDataProp": "ProjectStatus", "sWidth": "25%" }
+                    
+                ],
+			"aaSorting": [[0, "asc"]]
+		});
+	}
+
+</script>

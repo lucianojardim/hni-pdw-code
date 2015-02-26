@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Logon";
+    Layout = "~/Views/Shared/HeaderLayout.cshtml";
+}
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$("#forgotPasswordLink").fancybox({
+			'autoDimensions': false,
+			'width': 400,
+			'height': 200,
+			'padding': 20,
+			'margin': 0,
+			'scrolling': 'auto',
+			'titleShow': false,
+			'type': 'iframe'
+		});
+
+	});
+</script>
+<div id="loginBox">
+	<h2>Login</h2>
+	<div class="box">
+@using( Html.BeginForm() )
+{
+	@Html.AntiForgeryToken()
+            @Html.ValidationSummary( "", new { @class = "form_errors" } )
+			<div class="loginRow">
+			<div class="loginLabel">Email Address:</div>
+            @Html.TextBox( "username", null, new { @class = "usernameField" } )
+			</div>
+			<div class="loginRow">
+			<div class="loginLabel">Password:</div>
+            @Html.Password( "password", null, new { @class = "passwordField", autocomplete = "off" } )
+			</div>
+			<p class="field" id="loginSubmit">
+				<input type='submit' class='btn_type1 left' value='Login'/>
+				<a class="right" id="forgotPasswordLink" href="@Url.Action( "ForgotPassword", "Import" )?iframe">Forgot Password</a>
+			</p>
+}	
+    </div>
+	<div class="right contactHelp">
+		Need help?  Contact <a href="mailto:helpdesk@paoli.com">helpdesk@paoli.com</a>
+	</div>
+</div>

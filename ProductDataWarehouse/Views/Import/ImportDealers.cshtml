@@ -1,0 +1,51 @@
+﻿@model PDWModels.Images.ImageInformation
+@{
+	ViewBag.Title = "ImportDealers";
+}
+@using ProductDataWarehouse.Controllers
+
+@if( ViewBag.CloseFancyBox ?? false )
+{
+    <script type="text/javascript">
+    	$(document).ready(function () {
+    		parent.$.fancybox.close();
+    		if (parent.loadDealers) {
+    			parent.loadDealers();
+    		}
+    	});
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+        });
+    </script>    
+}
+    <h2>Import Dealer List</h2>
+
+    @using( Html.BeginForm( "ImportDealers", "Import", FormMethod.Post, new { id = "theForm", name = "TheForm", enctype = "multipart/form-data" } ) )
+	{
+		@Html.AntiForgeryToken()
+        <span class="dataRow">@Html.Label( "Dealer File Name: " )<input type="file" name="dealerFile" data-val-required="The Image File Name is a required field." data-val="true" /><br /></span>
+@Html.ValidationSummary()
+        <input type="submit" class="btn_type1" value="Import" onclick="$('#inProgress').show();" />
+	}
+    <div style="display:none;margin-top:25px;" id="inProgress">
+        <img src="@Url.Content( "~/Content/Images/baprogress.gif" )" alt="" style="display:inline;"/>&nbsp;<span>Uploading...</span>
+    </div>
+	<div>
+	<h3>Column Headers:</h3>
+	<ul>
+	<li>Dealer Name<ul><li>Required - Name of the Dealer</li></ul></li>
+	<li>URL<ul><li>Required - URL addition for the Dealer's home page (my.paoli.com/dealer/****)</li></ul></li>
+	<li>Main Content<ul><li>HTML for the main content of the home page</li></ul></li>
+	<li>Featured Video<ul><li>Required - Name of Featured Video for the Dealer</li></ul></li>
+	<li>Product List<ul><li>Comma separated list of Series Names for use under "Products We Discussed"</li></ul></li>
+	<li>Video List<ul><li>Comma separated list of Video Names for use under "Videos You Missed"</li></ul></li>
+	<li>Page List<ul><li>Comma separated list of Page Names for use under "Pages We Discussed"</li></ul></li>
+	<li>Product Headline<ul><li>Title for section on dealer page for products</li></ul></li>
+	<li>Video Headline<ul><li>Title for section on dealer page for pages</li></ul></li>
+	<li>Page Headline<ul><li>Title for section on dealer page for videos</li></ul></li>
+	</ul>
+	</div>

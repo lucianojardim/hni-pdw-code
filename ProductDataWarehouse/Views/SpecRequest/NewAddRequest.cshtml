@@ -1,0 +1,1463 @@
+﻿@model PDWModels.SpecRequests.SpecRequestInformation
+@{
+	Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.HeaderArea = "SpecRequests";
+}
+@using ProductDataWarehouse.Models
+@using ProductDataWarehouse.Controllers
+@using PDWInfrastructure
+
+    <script type="text/javascript">
+		function getNewUserCompanyID() {
+			return $('#DealerID').val();
+		}
+
+		function addEditUserCallback() {
+			reloadDealerSalesRepList();
+		}
+
+		var addDealerForm = false;
+		function getNewTerritoryID() {
+			if( addDealerForm ) {
+				return getTerritoryForRepGroup();
+			}
+
+			return null;
+		}
+
+		function getTerritoryForRepGroup() {
+			var group = $('#PaoliSalesRepGroupID option:selected').text();
+
+			return group.substring(0, 4);
+		}
+
+		function getNewCompanyType() {
+			if( addDealerForm ) {
+				return '@(PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer)';
+			}
+			return '@(PDWInfrastructure.PaoliWebUser.PaoliCompanyType.EndUser)';
+		}
+
+		function addEditCompanyCallback() {
+			if( addDealerForm ) {
+		@if( !PaoliWebUser.CurrentUser.IsDealerUser )
+	{
+	<text>
+			reloadDealerList();
+			</text>
+  }
+				return;
+			}
+
+			reloadEndCustomerList();
+		}
+
+		var fileCount = 1;
+		$(document).ready(function () {
+			$.data($('#theForm')[0], 'validator').settings.ignore = '.noValidate';
+
+    		$.validator.addMethod(
+					"regex",
+					function (value, element, regexp) {
+						var re = new RegExp(regexp);
+						return this.optional(element) || re.test(value);
+					},
+					"Please check your input."
+				);
+
+    		$('#LaminatePreference').rules("add", { required: true, messages: { required: "Laminate Preference is required."} });
+    		$('#ProjectID').rules("add", { required: true, messages: { required: "Project is required."} });
+    		$('#PaoliSalesRepGroupID').rules("add", { required: true, messages: { required: "Sales Rep Territory is required."} });
+    		$('#EndCustomerID').rules("add", { required: true, messages: { required: "End Customer is required."} });
+			$('#DealerMemberID').rules("add", { required: true, messages: { required: "Dealership Point of Contact is required."} });
+
+			$('#PaoliSalesRepGroupID').on('change', reloadPaoliSalesRepList);
+			$('#DealerID').on('change', reloadDealerSalesRepList);
+			$('#EndCustomerID').on('change', reloadProjectList);
+			$('#ProjectID').on('change', changeProject);
+
+			$('input').addClass('noValidate');
+			$('select').addClass('noValidate');
+			$('.activeSection input').removeClass('noValidate');
+			$('.activeSection select').removeClass('noValidate');
+
+			$('#newCompanyLink').click(function(e) {
+				addDealerForm = true;
+				clearNewCompanyForm();
+    			$('.needTerritory').show();
+    			$('#TerritoryID').removeClass('noValidate');
+				$('#theContactForm h4').text('Add Dealership');
+				$('#mainEditContactBtn').trigger('click');
+			});
+
+			reloadDealerSalesRepList();
+			reloadPaoliSalesRepList();
+			reloadEndCustomerList();
+			reloadProjectList();
+
+			$('.nextBtn').click(function (e) {
+				e.preventDefault();
+				if ($('#theForm').valid()) {
+					setPanel(1);
+
+    				if ($('#LaminatePreference').closest('.requestPanel').hasClass('activeSection')) {
+						showHideLaminatePreference();
+					}
+				}
+			});
+
+			$('.previousBtn').click(function (e) {
+				e.preventDefault();
+				setPanel(-1);
+
+    			if ($('#LaminatePreference').closest('.requestPanel').hasClass('activeSection')) {
+					showHideLaminatePreference();
+				}
+			});
+
+			$('.cancelBtn').click(function (e) {
+			@if( PaoliWebUser.CurrentUser.CanManageOrders ) {
+				<text>
+				window.location.href = '@Url.Action( "Manage" )';
+				</text>
+				} else {
+				<text>
+    			window.location.href = '@Url.Action( "ViewAll" )';
+				</text>
+				}
+			});
+
+			$('.submitBtn').click(function(e) {
+				$('#theForm').submit();
+			});
+
+			$('#grommetCheckbox').click(function (e) {
+				if ($('#Grommets').attr("checked")) {
+					$('.grommetDetails').show();
+				} else {
+					$('.grommetDetails').hide();
+				}
+			});
+
+			showHideDrawerOptions();
+			showHideCGCSOptions();
+			showHideFabric();
+			$('.chkCasegoods').click(function (e) {
+				showDetailsArea();
+				showHideDrawerOptions();
+				showHideCGCSOptions();
+			});
+
+			$('.chkSeating').click(function (e) {
+				showDetailsArea();
+				showHideFabric();
+			});
+
+			$('.chkConferencing').click(function (e) {
+				showDetailsArea();
+				showHideCGCSOptions();
+			});
+
+			showHideLaminatePreference();
+			$('.chkFinish').click(function (e) {
+				showHideLaminatePreference();
+			});
+
+			$(".radio").dgStyle();
+			$(".checkbox").dgStyle();
+//			$(":file").jfilestyle({buttonText: "Choose a file"});
+
+			//Default Action
+			$(".tab_content1").hide(); //Hide all content
+			$("ul.tabs1 li:first").addClass("active").show(); //Activate first tab
+			$(".tab_content1:first").show(); //Show first tab content
+	
+			//On Click Event
+			$("ul.tabs1 li").click(function() {
+				$("ul.tabs1 li").removeClass("active"); //Remove any "active" class
+				$(this).addClass("active"); //Add "active" class to selected tab
+				$(".tab_content1").hide(); //Hide all tab content
+				var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
+				$(activeTab).fadeIn(); //Fade in the active content
+				return false;
+			});
+
+			var doesMultipleFiles = false;
+    		$('#fileContainer input[type="file"]').each(function (i, fc) {
+    			if (fc.files != null) {
+    				doesMultipleFiles = true;
+    			}
+    		});
+			if( doesMultipleFiles ) {
+				$('.addlFilesIndex').remove();
+				$('#fileContainer input[type="file"]').attr('name', 'addlFiles');
+			}
+
+			$('.addECBtn').on('click', function(){
+				addDealerForm = false;
+    			clearNewCompanyForm();
+    			$('.needTerritory').hide();
+    			$('#TerritoryID').addClass('noValidate');
+    			$('#theContactForm h4').text('Add End Customer');
+    			$('#mainEditContactBtn').trigger('click');
+			});
+
+			$('.addProjBtn').fancybox({
+				'autoDimensions': false,
+				'width': 972,
+				'height': 400,
+				'padding': 20,
+				'margin': 0,
+				'scrolling': 'auto',
+				'titleShow': false
+			});
+
+			$('.submitNewProjBtn').on('click', function() {
+				if( $('#NewProject').val() != '' && $('#NewProject').val() != null ) {
+					// add the new project, then reload the list
+					makeAjaxCall('/SpecRequest/CreateNewProject',
+						{ 
+							projectName: $('#NewProject').val(),
+							customer: $('#EndCustomerID').val(),
+							territory: getTerritoryForRepGroup(),
+							dealer: $('#ProjectDealerID').val(),
+							isGSA:  $('#NewIsGSA:checked').length > 0,
+							contractId: $('#NewContractID').val()
+						}, 
+						function(data) {
+							reloadProjectList(data.projectId);
+							$('#NewProject').val('');
+							$('#NewIsGSA').removeAttr('checked');
+							$('#NewContractID').val('');
+							showHideContractInfo();
+							$.fancybox.close();
+						}
+					);
+				}
+			});
+
+			$('.cancelNewProjBtn').on('click', function() {
+				$.fancybox.close();
+			});
+
+			showHideContractInfo();
+			$('.fakeIsGSA').click(function(e) {
+				showHideContractInfo();
+			});
+
+			$('#newUserLink').click(function(e) {
+				$('#AccountType option[value!="@(PaoliWebUser.PaoliWebRole.DealerSalesRep)"]').remove();
+				$('#mainEditUserContactBtn').trigger('click');
+			});
+
+		});
+
+		function showHideContractInfo() {
+			if ($('#NewIsGSA:checked').length > 0) {
+				$('.gsaOnly').show();
+			} else {
+				$('.gsaOnly').hide();
+			}			
+			
+		}
+
+		function showHideLaminatePreference() {
+			if ($('.chkRealFinish:checked[value="Laminate"]').length > 0) {
+				$('.laminatePreference').show();
+				$('#LaminatePreference').removeClass('noValidate');
+			} else {
+				$('.laminatePreference').hide();
+				$('#LaminatePreference').addClass('noValidate');
+			}			
+		}
+
+		function showDetailsArea() {
+			if ($('.chkRealCasegoods:checked').length > 0 || $('.chkRealConferencing:checked').length > 0 || $('.chkRealSeating:checked').length > 0) {
+				$('.needMoreDetails').show();
+			} else {
+				$('.needMoreDetails').hide();
+			}
+		}
+
+		function showHideCGCSOptions() {
+			if ($('.chkRealCasegoods:checked').length > 0 || $('.chkRealConferencing:checked').length > 0) {
+				$('.cgcsOnly').show();
+			} else {
+				$('.cgcsOnly').hide();
+			}
+		}
+		
+		function showHideFabric() {
+			if ($('.chkRealSeating:checked').length > 0) {
+				$('.forFabric').show();
+			} else {
+				$('.forFabric').hide();
+			}
+		}
+
+		function showHideDrawerOptions() {
+			if ($('.chkRealCasegoods:checked').length > 0) {
+				$('.drawerOptions').show();
+			} else {
+				$('.drawerOptions').hide();
+			}
+		}
+
+		function fileChanged() {
+    		var doInsert = true;
+    		$('#fileContainer input[type="file"]').each(function (i, fc) {
+    			if (fc.value == null || fc.value == '' || fc.files != null) {
+    				doInsert = false;
+    				return false;
+    			}
+    		});
+    		if (doInsert) {
+    			$('#fileContainer').append('<div><input type="file" id="addlFiles' + fileCount + '" name="addlFiles[' + fileCount + ']" class="jfilestyle addlFiles" onchange="fileChanged()" data-buttontext="Choose File"/><input type="hidden" name="addlFiles.Index" value="' + fileCount + '" /></div>');
+//				$('#addlFiles' + fileCount + '').jfilestyle({buttonText: "Choose a file"});
+    			fileCount++;
+    		}		
+    	}
+
+    	function setPanel(offset) {
+    		var curIdx = $('#theForm div.activeSection').index('#theForm div.requestPanel');
+    		var divCount = $('#theForm div.requestPanel').length;
+			$('input').addClass('noValidate');
+			$('select').addClass('noValidate');
+    		if (offset == -1 && curIdx > 0) {
+    			$('.activeSection').removeClass('activeSection').addClass('futureSection');
+    			$('#theForm div.requestPanel:eq(' + (curIdx + offset) + ')').removeClass('futureSection').addClass('activeSection');
+    			if (curIdx + offset > 0) {
+    				$('.previousBtn').show();
+    			} else {
+    				$('.previousBtn').hide();
+    			}
+    			$('.nextBtn').show();
+    			$('.submitBtn').hide();
+    		} else if (offset == 1 && curIdx < (divCount - 1)) {
+    			$('.activeSection').removeClass('activeSection').addClass('futureSection');
+    			$('#theForm div.requestPanel:eq(' + (curIdx + offset) + ')').removeClass('futureSection').addClass('activeSection');
+    			if (curIdx + offset < (divCount - 1)) {
+    				$('.nextBtn').show();
+    			} else {
+    				$('.nextBtn').hide();
+    				$('.submitBtn').show();
+    				fillConfirmForm();
+    			}
+    			$('.previousBtn').show();
+    		}
+			$('.activeSection input').removeClass('noValidate');
+			$('.activeSection select').removeClass('noValidate');
+    	}
+
+    	function fillConfirmForm() {
+			$('.requestorList h5').remove();
+			$('.requestorList h5').remove();
+    		if ($('#PaoliSalesRepGroupID').val() != null && $('#PaoliSalesRepGroupID').val() != '' && $('#PaoliSalesRepGroupID').val() != '0') {
+				$('#requestorList1 .coln1').append('<h5>Sales Rep Territory</h5>');
+				$('#requestorList1 .coln2').append('<h5>' + $('#PaoliSalesRepGroupID option:selected').text() + '</h5>');
+    			if ($('#PaoliSalesRepMemberID').val() != null && $('#PaoliSalesRepMemberID').val() != '' && $('#PaoliSalesRepMemberID').val() != '0') {
+					$('#requestorList1 .coln1').append('<h5>Sales Rep Point of Contact</h5>');
+					$('#requestorList1 .coln2').append('<h5>' + $('#PaoliSalesRepMemberID option:selected').text() + '</h5>');
+    			}
+    			if ($('#DealerID').val() != null && $('#DealerID').val() != '' && $('#DealerID').val() != '0') {
+					$('#requestorList2 .coln1').append('<h5>Dealership</h5>');
+					$('#requestorList2 .coln2').append('<h5>' + $('#DealerID option:selected').text() + '</h5>');
+    				if ($('#DealerMemberID').val() != '0') {
+    					if ($('#DealerMemberID').val() != null && $('#DealerMemberID').val() != '' && $('#DealerMemberID').val() != '0') {
+							$('#requestorList2 .coln1').append('<h5>Dealership Point of Contact</h5>');
+							$('#requestorList2 .coln2').append('<h5>' + $('#DealerMemberID option:selected').text() + '</h5>');
+    					}
+    				} 
+    			}
+    		}
+
+    		if ($('#EndCustomerID').val() != null && $('#EndCustomerID').val() != '') {
+				$('#requestorList1 .coln3').append('<h5>Who is the end customer?</h5>');
+				$('#requestorList1 .coln4').append('<h5>' + $('#EndCustomerID option[value="' + $('#EndCustomerID').val() + '"]').text() + '</h5>');
+    		}
+    		if ($('#ProjectID').val() != null && $('#ProjectID').val() != '') {
+				$('#requestorList1 .coln3').append('<h5>What will we call this project?</h5>');
+				$('#requestorList1 .coln4').append('<h5>' + $("#ProjectID option[value='" + $('#ProjectID').val() + "']").text() + '</h5>');
+    		}
+    		if ($('#ProjectSize').val() != null && $('#ProjectSize').val() != '') {
+				$('#requestorList2 .coln3').append('<h5>What is the size and scope of this project?</h5>');
+				$('#requestorList2 .coln4').append('<h5>' + $('#ProjectSize').val() + '</h5>');
+    		}
+			if ($('#AvailableForIn2').is(':checked')) {
+				$('#requestorList2 .coln3').append('<h5>in2 Quick Ship</h5>');
+				$('#requestorList2 .coln4').append('<h5>Yes</h5>');
+			}
+
+			$('#confirmServiceList h5').remove();
+    		$('.chkServices').each(function () {
+    			if ($(this).attr('checked')) {
+					if( $('#confirmServiceList .coln1').children().length == 0 ) {
+						$('#confirmServiceList .coln1').append('<h5>Services Needed</h5>');
+					}
+					$('#confirmServiceList .coln2').append('<h5>' + $(this).closest('li').find('h3').text() + '</h5>');
+    			}
+    		});
+
+			$('#confirmAddlServiceInfo h5').remove();
+			var fileList = new Array();
+			$('#fileContainer input[type="file"]').each(function (i, fc) {
+				if (fc.files != null) {
+					$.each(fc.files, function(i, fileCtrl) {
+						fileList.push(fileCtrl.name);
+					});
+				} else if (fc.value != null) {
+					fileList.push(fc.value);
+				}
+			});
+			if (fileList.length != 0) {
+				$('#confirmAddlServiceInfo .coln1').append('<h5>Related Drawings or Notes</h5>');
+				$('#confirmAddlServiceInfo .coln2').append('<h5>' + fileList.join(', ') + '</h5>');
+			}
+
+			var filesNeeded = new Array();
+			if( $('.chkFilesNeeded:checked').length > 0 ) {
+				$('#confirmAddlServiceInfo .coln1').append('<h5>File Format(s)</h5>');
+			}
+    		$('.chkFilesNeeded').each(function () {
+    			if ($(this).attr('checked')) {
+					filesNeeded.push($(this).siblings('span').text());
+    			}
+    		});
+			if( filesNeeded.length != 0 ) {
+				$('#confirmAddlServiceInfo .coln2').append('<h5>' + filesNeeded.join(', ') + '</h5>');
+			}
+			if ($('#Notes').val() != null && $('#Notes').val() != '') {
+				$('#confirmAddlServiceInfo .coln1').append('<h5>Additional Services Notes</h5>');
+				$('#confirmAddlServiceInfo .coln2').append('<h5>' + $('#Notes').val() + '</h5>');
+			}
+
+			$('#confirmSeriesList h5').remove();
+			var casegoodsList = new Array();
+			$('.chkRealCasegoods').each(function (i, fc) {
+				if ($(this).attr('checked')) {
+					casegoodsList.push($(this).closest('div.tab_lt').find('h3').text());
+				}
+			});
+			if (casegoodsList.length != 0) {
+				$('#confirmSeriesList .coln1').append('<h5>Casegoods</h5>');
+				$('#confirmSeriesList .coln2').append('<h5>' + casegoodsList.join(', ') + '</h5>');
+			}
+
+			var conferencingList = new Array();
+			$('.chkRealConferencing').each(function (i, fc) {
+				if ($(this).attr('checked')) {
+					conferencingList.push($(this).closest('div.tab_lt').find('h3').text());
+				}
+			});
+			if (conferencingList.length != 0) {
+				$('#confirmSeriesList .coln1').append('<h5>Conferencing</h5>');
+				$('#confirmSeriesList .coln2').append('<h5>' + conferencingList.join(', ') + '</h5>');
+			}
+
+			var seatingList = new Array();
+			$('.chkRealSeating').each(function (i, fc) {
+				if ($(this).attr('checked')) {
+					seatingList.push($(this).closest('div.tab_lt').find('h3').text());
+				}
+			});
+			if (seatingList.length != 0) {
+				$('#confirmSeriesList .coln1').append('<h5>Seating</h5>');
+				$('#confirmSeriesList .coln2').append('<h5>' + seatingList.join(', ') + '</h5>');
+			}
+
+			$('#confirmDrawers h5').remove();
+			if (casegoodsList.length != 0) {
+				$('#confirmDrawers .coln1').append('<h5>What drawer construction do you require?</h5>');
+				$('#confirmDrawers .coln2').append('<h5>' + $('#DrawerOption option:selected').text() + '</h5>');
+			}
+			$('#confirmFabric h5').remove();
+			if (seatingList.length != 0) {
+				$('#confirmFabric .coln1').append('<h5>What fabric grade do you require?</h5>');
+				$('#confirmFabric .coln2').append('<h5>' + $('#FabricGrade option:selected').text() + '</h5>');
+				if ($('#Fabric').val() != null) {
+					$('#confirmFabric .coln1').append('<h5>Which fabric do you require?</h5>');
+					$('#confirmFabric .coln2').append('<h5>' + $('#Fabric').val() + '</h5>');
+				}
+			}
+			$('#confirmGrommets h5').remove();
+			$('#confirmFinishes h5').remove();
+			$('#confirmLaminate h5').remove();
+			if (casegoodsList.length != 0 || conferencingList.length != 0) {
+				if ($('#Grommets').is(':checked')) {
+					$('#confirmGrommets .coln1').append('<h5>Include grommets?</h5>');
+					$('#confirmGrommets .coln2').append('<h5>Yes</h5>');
+					if ($('#GrommetDetails').val() != null && $('#GrommetDetails').val() != '') {
+						$('#confirmGrommets .coln1').append('<h5>Grommet Specifications</h5>');
+						$('#confirmGrommets .coln2').append('<h5>' + $('#GrommetDetails').val() + '</h5>');
+					}
+					if ($('#GrommetPosition').val() != null && $('#GrommetPosition').val() != '') {
+						$('#confirmGrommets .coln1').append('<h5>Grommet Position</h5>');
+						$('#confirmGrommets .coln2').append('<h5>' + $('#GrommetPosition').val() + '</h5>');
+					}
+				}
+
+				var finishList = new Array();
+				var otherFinishes = $('#OtherFinishDetails').val();
+				$('.chkRealFinish').each(function (i, fc) {
+					if ($(this).attr('checked')) {
+						finishList.push($(this).next('em').text());
+					}
+				});
+				if (finishList.length != 0) {
+					$('#confirmFinishes .coln1').append('<h5>What finish do you require?</h5>');
+					$('#confirmFinishes .coln2').append('<h5>' + finishList.join(', ') + '</h5>');
+					if( otherFinishes != null && otherFinishes != '' )
+					{
+						$('#confirmFinishes .coln1').append('<h5>Additional finishes requests</h5>');
+						$('#confirmFinishes .coln2').append('<h5>' + otherFinishes + '</h5>');
+					}
+					if ($.inArray(finishList, 'Laminate')) {
+						$('#confirmLaminate .coln1').append('<h5>Laminate</h5>');
+						$('#confirmLaminate .coln2').append('<h5>' + $('#LaminatePreference option:selected').text() + '</h5>');
+					}
+				}
+			}
+
+			$('#confirmSpecialRequests h5').remove();
+			if ($('#SpecialRequests').val() != null && $('#SpecialRequests').val() != '') {
+				$('#confirmSpecialRequests .coln1').append('<h5>Special Requests</h5>');
+				$('#confirmSpecialRequests .coln2').append('<h5>' + $('#SpecialRequests').val() + '</h5>');
+			}
+
+		}
+
+		function emptyDropDownList(ddList) {
+			ddList.empty();
+		}
+
+		function reloadDropDownStringList(ddListID, data, bNeedOther) {
+    		var ddList = $(ddListID);
+    		emptyDropDownList(ddList);
+			if( bNeedOther ) {
+				ddList.append('<option value=""></option>');
+			}
+    		$.each(data.theList, function (idx, item) {
+				ddList.append('<option value="' + item + '">' + item + '</option>');
+    		});
+		}
+
+		function reloadDropDownUserList(ddListID, data, bNeedOther) {
+    		var ddList = $(ddListID);
+    		emptyDropDownList(ddList);
+    		$.each(data.theList, function (idx, item) {
+				ddList.append('<option value="' + item.UserID + '">' + item.FullName + '</option>');
+    		});
+			if( bNeedOther ) {
+				ddList.append('<option value="0">Other</option>');
+			}
+		}
+
+		function reloadDropDownCompanyList(ddListID, data, bNeedEmpty) {
+    		var ddList = $(ddListID);
+    		emptyDropDownList(ddList);
+			if( bNeedEmpty ) {
+				ddList.append('<option value=""></option>');
+			}
+    		$.each(data, function (idx, item) {
+				ddList.append('<option value="' + (item.ID > 0 ? item.ID : '') + '" data-extra="' + item.Extra + '">' + item.Text + '</option>');
+    		});
+		}
+
+		function setDropDownListToMatch(ddListID, ddSourceID) {
+			var ddList = $(ddListID);
+			emptyDropDownList(ddList);
+			var ddSource = $(ddSourceID);
+			ddList.append('<option value="' + ddSource.attr('value') + '">' + ddSource.find('option:selected').text() + '</option>');
+			ddList.attr('value', ddSource.get('value'));
+		}
+
+    	function reloadDealerSalesRepList() {
+    		if ($('#DealerID').val() != null && $('#DealerID').val() != '' && $('#DealerID').val() != '0') {
+    			makeAjaxCall('/User/GetDealerSalesRepListForCompany',
+    				{ companyId: $('#DealerID').val(), enabledOnly: true },
+    				function (data, textStatus, jqXHR) {
+						reloadDropDownUserList('#DealerMemberID', data, false);
+    					$('.DSRCell').show();
+						$("#DealerMemberID").removeClass('noValidate');
+    				},
+    				function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Dealer Sales Rep list:' + errorThrown)
+    				}
+    			);
+    		} else {
+				emptyDropDownList($("#DealerMemberID"));
+				$("#DealerMemberID").addClass('noValidate');
+    			$('.DSRCell').hide();
+    		}
+    	}
+
+		function changeProject() {
+@if( !PaoliWebUser.CurrentUser.IsDealerUser )
+{
+			<text>
+			var forceDealer = null;
+			if( $('#ProjectID option:selected').length > 0 ) {
+				forceDealer = $('#ProjectID option:selected').first().data('extra');
+			}
+			reloadDealerList(forceDealer);
+			</text>
+}
+		}
+
+    	function reloadProjectList(initId) {
+    		if ($('#EndCustomerID').val() != null && $('#EndCustomerID').val() != '' && $('#EndCustomerID').val() != '0' &&
+				getTerritoryForRepGroup() != null && getTerritoryForRepGroup() != '' ) {
+    			makeAjaxCall('/SpecRequest/GetProjectForCustomer',
+		@if( !PaoliWebUser.CurrentUser.IsDealerUser )
+	{
+	<text>
+    				{ customer: $('#EndCustomerID').val(), territory: getTerritoryForRepGroup() },
+			</text>
+  }
+  else
+  {
+	<text>
+    				{ customer: $('#EndCustomerID').val(), dealer: $('#DealerID').val(), territory: getTerritoryForRepGroup() },
+			</text>
+  }
+    				function (data, textStatus, jqXHR) {
+						reloadDropDownCompanyList('#ProjectID', data.theList, true);
+						if( initId != null ) {
+							$('#ProjectID').val(initId);
+						}
+    					$('.ProjectCell').show();
+
+						@if( !PaoliWebUser.CurrentUser.IsDealerUser )
+						{
+						<text>
+						changeProject();
+						</text>
+						}
+    				},
+    				function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Project list:' + errorThrown)
+    				}
+    			);
+    		} else {
+				emptyDropDownList($("#ProjectID"));
+				$('.ProjectCell').hide();
+
+						@if( !PaoliWebUser.CurrentUser.IsDealerUser )
+						{
+						<text>
+    			emptyDropDownList($('#DealerID'));
+    			$('.DealerRow').hide();
+						</text>
+						}
+    		}
+    	}
+
+    	function reloadPaoliSalesRepList() {
+    		if ($('#PaoliSalesRepGroupID').val() != null && $('#PaoliSalesRepGroupID').val() != '' && $('#PaoliSalesRepGroupID').val() != '0') {
+    			makeAjaxCall('/User/GetPaoliSalesRepListForCompany',
+    				{ companyId: $('#PaoliSalesRepGroupID').val(), enabledOnly: true },
+    				function (data, textStatus, jqXHR) {
+    					$('.PSRCell').hide();
+						reloadDropDownUserList('#PaoliSalesRepMemberID', data);
+    					if( $('#PaoliSalesRepMemberID option').length > 0 ) {
+    						$('.PSRCell').show();
+    					}
+    				},
+    				function (jqXHR, textStatus, errorThrown) {
+    					alert('Error getting Paoli Sales Rep list:' + errorThrown)
+    				}
+    			);
+				
+
+				@if( PaoliWebUser.CurrentUser.IsDealerUser )
+	{
+		var thisCompany = CompanyController.GetThisCompanyAsDDItem( includeTerritory: true );
+				<text>
+    				emptyDropDownList($('#DealerID'));
+					$('#DealerID').append('<option value="@(thisCompany.First().Value)">@(thisCompany.First().Text.Replace( "'", "''" ))</option>');
+					$('#ProjectDealerID').append('<option value="@(thisCompany.First().Value)">@(thisCompany.First().Text.Replace( "'", "''" ))</option>');
+    				reloadDealerSalesRepList();
+				</text>
+	}
+				reloadProjectList();
+    		} else {
+    			emptyDropDownList($('#PaoliSalesRepMemberID'));
+    			emptyDropDownList($('#DealerID'));
+				emptyDropDownList($('#ProjectDealerID'));
+    			$('.PSRCell').hide();
+    			$('.DealerRow').hide();
+				$('.DSRCell').hide();
+				$("#DealerMemberID").addClass('noValidate');
+    		}
+    	}
+
+		function reloadDealerList(forceDealer) {
+    		makeAjaxCall('/Company/GetDealerListForSalesRep',
+    			{ salesRepCompanyId: $('#PaoliSalesRepGroupID').val(), includeTerritory: true },
+    			function (data, textStatus, jqXHR) {
+    				$('.DealerRow').hide();
+					$('.DSRCell').hide();
+					$("#DealerMemberID").addClass('noValidate');
+
+					if( forceDealer != null && forceDealer != '' ) {
+						emptyDropDownList($('#DealerID'));
+						$.each(data, function(i, d) {
+							if( d.ID == forceDealer ) {
+								reloadDropDownCompanyList('#DealerID', [d]);
+								return false;
+							}
+						});
+					} else {
+						reloadDropDownCompanyList('#DealerID', data);
+					}
+
+					reloadDropDownCompanyList('#ProjectDealerID', data);
+
+    				if( $('#DealerID option').length > 0 ) {
+    					$('.DealerRow').show();
+    				}
+
+    				reloadDealerSalesRepList();
+    			},
+    			function (jqXHR, textStatus, errorThrown) {
+    				alert('Error getting Dealer list:' + errorThrown)
+    			}
+    		);
+
+		}
+
+    	function reloadEndCustomerList() {
+    		makeAjaxCall('/Project/GetFullEndCustomerList',
+    			null,
+    			function (data, textStatus, jqXHR) {
+    				reloadDropDownCompanyList('#EndCustomerID', data);
+    			},
+    			function (jqXHR, textStatus, errorThrown) {
+    				alert('Error getting End Customer list:' + errorThrown)
+    			}
+    		);
+    	}
+
+	</script>
+@{
+	var stepCount = 7;
+	var stepNum = 1;
+	CompanyController.GetCompanyListFunction GetSalesRepList = CompanyController.GetCompanyDDList;
+	if( PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
+	{
+		GetSalesRepList = CompanyController.GetThisCompanyAsDDItem;
+	}
+	else if( PaoliWebUser.CurrentUser.IsDealerUser )
+	{
+		GetSalesRepList = CompanyController.GetSalesRepForDealerDDItem;
+	}
+	var imageList = SpecRequestController.GetFeatureImageList();
+}
+
+                     <div class="container2">
+     @using( Html.BeginForm( "AddRequest", "SpecRequest", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
+	 {
+		 @Html.AntiForgeryToken()
+		 <div class="main_inner1 activeSection requestPanel">
+			 <h3>
+				 Step 1: Project Overview</h3>
+			 <div class="main_inner6_btm">
+				 <h4>
+					 Who Is This For?</h4>
+				 <ul>
+					 <li>
+						 <div class="box2">
+							 <label>
+								 Sales Rep Territory
+								 @Html.ValidationMessageFor( m => m.PaoliSalesRepGroupID )</label>
+							 @Html.DropDownListFor( m => m.PaoliSalesRepGroupID, GetSalesRepList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, includeTerritory: true ) )
+							 <cite class="DealerRow">
+								 Dealership</cite>
+							 @Html.DropDownListFor( m => m.DealerID, new List<SelectListItem>(), new { @class = "DealerRow" } )@if( !PaoliWebUser.CurrentUser.IsDealerUser )
+																			{<a class="btn7 DealerRow" id="newCompanyLink">+</a>}
+						 </div>
+					 </li>
+					 <li>
+						 <div class="box2">
+							 <label class="PSRCell">Sales Rep Point of Contact</label>
+							 @Html.DropDownListFor( m => m.PaoliSalesRepMemberID, new List<SelectListItem>(), new { @class = "PSRCell" } )
+							 <cite class="DSRCell">Dealership Point of Contact
+							 @Html.ValidationMessageFor( m => m.DealerMemberID )</cite>
+							 @Html.DropDownListFor( m => m.DealerMemberID, new List<SelectListItem>(), new { @class = "DSRCell" } )<a class="btn7 DSRCell" id="newUserLink">+</a>
+						 </div>
+					 </li>
+					 <li>
+						 <div class="box2 EndCustomerCell">
+							 <label>
+								 Who is the end customer?
+								 @Html.ValidationMessageFor( m => m.EndCustomerID )</label>
+								 @Html.DropDownListFor( m => m.EndCustomerID, new List<SelectListItem>() )<a class="btn7 addECBtn" href="javascript:void(0)">+</a>
+						</div>
+					</li>
+					<li>
+						<div class="box2 ProjectCell">
+							 <label>
+								 What project is this for?
+								 @Html.ValidationMessageFor( m => m.ProjectID )</label>
+								 @Html.DropDownListFor( m => m.ProjectID, new List<SelectListItem>() )<a class="btn7 addProjBtn" href="#newProject">+</a>
+						 </div>
+					 </li>
+					 
+				 </ul>
+				 <i class="clear_0"></i>
+			 </div>
+			 <div class="main_inner6_btm btm">
+				 <h5>
+					 About This Project</h5>
+				 <ul>
+					 <li>
+						 <div class="box2">
+							 <label>
+								 What is the size and scope of this<br>
+								 project?</label>
+							 <div class="colmn1">
+								 @Html.TextBoxFor( m => m.ProjectSize )
+								 <span>Number of private offices and/or meeting spaces</span>
+							 </div>
+							 <div class="colmn4">
+								 <div class="colmn4_lt">
+									 <div class="checkbox">
+										 @Html.CheckBoxFor( m => m.AvailableForIn2 )
+										 <span>in2 Quick Ship</span>
+									 </div>
+								 </div>
+							 </div>
+						 </div>
+					 </li>
+				 </ul>
+				 <i class="clear_0"></i>
+			 </div>
+		 </div>    
+
+		 <div class="main_inner1 futureSection requestPanel">
+			 <h3>
+				 Step 2: Services Requested</h3>
+			 <div class="main_inner7_btm">
+				 <div class="main_inner7_lt">
+					 <ul>
+						 <li>
+							 <div class="checkbox">
+								 @Html.CheckBoxFor( m => m.NeedAuditSpecs, new { @class = "chkServices" } )
+							 </div>
+							 <div class="text">
+								 <h3>
+									 Spec Check Audit</h3>
+								 <p>
+									 Our team can quickly review and check a specification your have completed. Please
+									 include a parts list and a legible drawing/sketch of the furniture layout with sizes
+									 and details clearly noted.</p>
+							 </div>
+						 </li>
+						 <li>
+							 <div class="checkbox">
+								 @Html.CheckBoxFor( m => m.NeedFloorplanSpecs, new { @class = "chkServices" } )
+							 </div>
+							 <div class="text">
+								 <h3>
+									 Floorplan Specifications</h3>
+								 <p>
+									 Please attach a legible drawing/sketch of the furniture layout with sizes and details
+									 clearly noted.</p>
+							 </div>
+						 </li>
+						 <li>
+							 <div class="checkbox">
+								 @Html.CheckBoxFor( m => m.NeedPhotoRendering, new { @class = "chkServices" } )
+							 </div>
+							 <div class="text">
+								 <h3>
+									 Photo Rendering</h3>
+								 <p>
+									 Initial rendering is no charge, changes and additional renderings may incur fees.
+									 Check with Specification services. Extended lead times may apply.</p>
+							 </div>
+						 </li>
+						 <li>
+							 <div class="checkbox">
+								 @Html.CheckBoxFor( m => m.Need2DDrawing, new { @class = "chkServices" } )
+							 </div>
+							 <div class="text">
+								 <h3>
+									 2D Drawing</h3>
+							 </div>
+						 </li>
+						 <li>
+							 <div class="checkbox">
+								 @Html.CheckBoxFor( m => m.NeedValueEng, new { @class = "chkServices" } )
+							 </div>
+							 <div class="text">
+								 <h3>
+									 Value Engineering</h3>
+								 <p>
+									 Please include a parts list and a legible drawing/sketch of the furniture layout
+									 with sizes and details clearly noted.</p>
+							 </div>
+						 </li>
+					 </ul>
+				 </div>
+				 <div class="main_inner7_rt">
+					 <ul>
+						 <li>
+							 <h3>
+								 Related Drawings or Notes</h3>
+							 <p>
+								 Attach PDFs of other applicable files to help the specification engineer complete
+								 this request.</p>
+							 <div class="box4" id="fileContainer">
+							 <div>
+								 <input type="file" id="addlFiles0" name="addlFiles[0]" class="jfilestyle addlFiles" onchange="fileChanged()" multiple data-buttontext="Choose File"/><input type="hidden" name="addlFiles.Index" value="0" class="addlFilesIndex" />
+								</div>
+							 </div>
+						 </li>
+						 <li class="last">
+							 <h3>
+								 Output File Format Required</h3>
+							 <p>
+								 Our spec team will create your specification or quote request in any of the file
+								 formats listed below. Select all that apply.</p>
+							 <div class="text2">
+								 <div class="checkbox">
+									 @Html.CheckBoxFor( m => m.NeedDWGFiles, new { @class = "chkFilesNeeded" } )
+									 <span>DWG</span>
+								 </div>
+								 <div class="checkbox">
+									 @Html.CheckBoxFor( m => m.NeedSP4Files, new { @class = "chkFilesNeeded" } )
+									 <span>SP4</span>
+								 </div>
+								 <div class="checkbox">
+									 @Html.CheckBoxFor( m => m.NeedSIFFiles, new { @class = "chkFilesNeeded" } )
+									 <span>SIF</span>
+								 </div>
+							 </div>
+							 <div class="text2">
+								 <div class="checkbox">
+									 @Html.CheckBoxFor( m => m.NeedXLSFiles, new { @class = "chkFilesNeeded" } )
+									 <span>XLS</span>
+								 </div>
+								 <div class="checkbox">
+									 @Html.CheckBoxFor( m => m.NeedPDFFiles, new { @class = "chkFilesNeeded" } )
+									 <span>PDF</span>
+								 </div>
+							 </div>
+						 </li>
+					 </ul>
+					 <i class="clear_0"></i>
+					 <div class="main_inner7_rt_msg">
+						 <h5>
+							 Notes and directions for Spec Team</h5>
+						 
+						 @Html.TextAreaFor( m => m.Notes, new { @rows = "15", @class = "msg" } )
+					 </div>
+				 </div>
+				 <i class="clear_0"></i>
+			 </div>
+		 </div>    
+		 <div class="main_inner1 futureSection requestPanel">
+			 <h3>
+				 Step 3: Product Options</h3>
+			 <div class="main_inner9_btm">
+				 <div class="main_inner9_btm_top">
+					 <ul class="tabs1">
+						 <li class="box1"><a href="#tab1">Casegoods</a></li>
+						 <li class="box2"><a href="#tab2">Conferencing</a></li>
+						 <li class="box3"><a href="#tab3">Seating</a></li>
+					 </ul>
+					 <i class="clear_0"></i>
+				 </div>
+				 <div class="tab_container1">
+					 <div style="display: block;" id="tab1" class="tab_content1">
+						 <ul>
+				@{
+																			var startTR = "<li>";
+																			var endTR = "</li>";
+	  }
+					@for( int i = 0; i < ViewBag.BlankInformation.Casegoods.Count; i++ )
+	 {
+		 if( i % 2 == 0 )
+		 {
+				<text>@Html.Raw( startTR )</text>
+		 }
+		 
+								 <div class="tab_lt @(i % 2 == 1 ? "last" : "")">
+									 <div class="colmn_lt">
+									 <input type="hidden" name="Casegoods.Index" value="@i" />
+										 <div class="checkbox chkCasegoods">
+											 <input type="checkbox" class="chkRealCasegoods" name="Casegoods[@i]" value="@ViewBag.BlankInformation.Casegoods[i]" />
+										 </div>
+										 <img class="seriesImage" src="/images/@(imageList.Keys.Contains( ViewBag.BlankInformation.Casegoods[i] ) ? imageList[ViewBag.BlankInformation.Casegoods[i]] : "productNoImage.png")" alt="img"/>
+									 </div>
+									 <div class="colmn_rt">
+										 <h3>
+											 @ViewBag.BlankInformation.Casegoods[i]</h3>
+										 <p></p>
+									 </div>
+								 </div>
+			
+			 
+		 if( i % 2 == 1 )
+		 {
+				<text>@Html.Raw( endTR )</text>
+		 }
+	 }
+
+						 </ul>
+						 <i class="clear_0"></i>
+					 </div>
+				 </div>
+				 <div class="tab_container1">
+					 <div style="display: block;" id="tab2" class="tab_content1">
+						 <ul>
+					@for( int i = 0; i < ViewBag.BlankInformation.Conferencing.Count; i++ )
+	 {
+		 if( i % 2 == 0 )
+		 {
+				<text>@Html.Raw( startTR )</text>
+		 }
+		 
+								 <div class="tab_lt @(i % 2 == 1 ? "last" : "")">
+									 <div class="colmn_lt">
+										 <input type="hidden" name="Conferencing.Index" value="@i" />
+										 <div class="checkbox chkConferencing">
+											 <input type="checkbox" class="chkRealConferencing" name="Conferencing[@i]" value="@ViewBag.BlankInformation.Conferencing[i]" />
+										 </div>
+										 <img class="seriesImage" src="/images/@(imageList.Keys.Contains( ViewBag.BlankInformation.Conferencing[i] ) ? imageList[ViewBag.BlankInformation.Conferencing[i]] : "productNoImage.png")" alt="img"/>
+									 </div>
+									 <div class="colmn_rt">
+										 <h3>
+											 @ViewBag.BlankInformation.Conferencing[i]</h3>
+										 <p></p>
+									 </div>
+								 </div>
+			
+			 
+		 if( i % 2 == 1 )
+		 {
+				<text>@Html.Raw( endTR )</text>
+		 }
+	 }
+						 </ul>
+						 <i class="clear_0"></i>
+					 </div>
+				 </div>
+				 <div class="tab_container1">
+					 <div style="display: block;" id="tab3" class="tab_content1">
+						 <ul>
+					@for( int i = 0; i < ViewBag.BlankInformation.Seating.Count; i++ )
+	 {
+		 if( i % 2 == 0 )
+		 {
+				<text>@Html.Raw( startTR )</text>
+		 }
+		 
+								 <div class="tab_lt @(i % 2 == 1 ? "last" : "")">
+									 <div class="colmn_lt">
+										 <input type="hidden" name="Seating.Index" value="@i" />
+										 <div class="checkbox chkSeating">
+											 <input type="checkbox" class="chkRealSeating" name="Seating[@i]" value="@ViewBag.BlankInformation.Seating[i]" />
+										 </div>
+										 <img class="seriesImage" src="/images/@(imageList.Keys.Contains( ViewBag.BlankInformation.Seating[i] ) ? imageList[ViewBag.BlankInformation.Seating[i]] : "productNoImage.png")" alt="img"/>
+									 </div>
+									 <div class="colmn_rt">
+										 <h3>
+											 @ViewBag.BlankInformation.Seating[i]</h3>
+										 <p></p>
+									 </div>
+								 </div>
+			
+			 
+		 if( i % 2 == 1 )
+		 {
+				<text>@Html.Raw( endTR )</text>
+		 }
+	 }
+						 </ul>
+						 <i class="clear_0"></i>
+					 </div>
+				 </div>
+						 <div class="main_inner9_bottom needMoreDetails" style="display:none;">
+							 <h3>We need further details</h3>
+							 <div class="cgcsOnly">
+								 <div class="checkbox" id="grommetCheckbox">
+									 @Html.CheckBoxFor( m => m.Grommets )
+									 <em>Include Grommets?</em>
+								 </div>
+								 <i class="clear_0"></i>
+								 <div class="box9 grommetDetails" style="display:none">
+									 <h4>Grommet Specifications</h4>
+									 @Html.TextAreaFor( m => m.GrommetDetails, new { @class = "msg" } )
+									 <i class="clear_0"></i>
+									 <cite>Please indicate number, location or other specifications.</cite>
+									 <i class="clear_0"></i>
+									 <h4>Position of Grommets</h4>
+									 @Html.TextAreaFor( m => m.GrommetPosition, new { @class = "msg" } )
+									 <i class="clear_0"></i><cite></cite>
+								 </div>
+							 </div>
+							 <div class="box9 drawerOptions">
+								 <div class="box9_lt">
+									 <h5>
+										 What drawer construction do you require?</h5>
+								 </div>
+								 <div class="box9_rt">
+									 @Html.DropDownListFor( m => m.DrawerOption, new List<SelectListItem>() { 
+	new SelectListItem() { Text = "Vinyl Wrap", Value = "Vinyl Wrap" }, 
+	new SelectListItem() { Text = "Wood", Value = "Wood" } } )
+								 </div>
+							 </div>
+							 <div class="box9 cgcsOnly">
+								 <div class="box9_lt">
+									 <h5>
+										 What finish do you require?</h5>
+								 </div>
+								 <div class="box9_rt">
+								 @for( int i = 0; i < ViewBag.BlankInformation.Finishes.Count; i++ )
+		 {
+									 <div class="colmn @(i == ViewBag.BlankInformation.Finishes.Count - 1 ? "last" : "")">
+			 <input type="hidden" name="Finishes.Index" value="@i" />
+										 <div class="checkbox chkFinish">
+											 <input type="checkbox" name="Finishes[@i]" value="@ViewBag.BlankInformation.Finishes[i]" class="chkRealFinish" /><em>@ViewBag.BlankInformation.Finishes[i]</em>
+										 </div>
+									 </div>
+		 }
+								 </div>
+							 </div>
+							 <div class="box9 cgcsOnly">
+								 <div class="box9_lt laminatePreference">
+									 <h5>
+										 What type of laminate do you require?</h5>
+										 @Html.ValidationMessageFor( m => m.LaminatePreference )
+								 </div>
+								 <div class="box9_rt laminatePreference">
+									 @Html.DropDownListFor( m => m.LaminatePreference, new List<SelectListItem>() { 
+	new SelectListItem(),
+	new SelectListItem() { Value = "TFL", Text = "TFL - Thermally Fused Laminate" },
+	new SelectListItem() { Value = "HPL", Text = "HPL - High Pressure Laminate" } }, new { @class = "" } )
+								 </div>
+							 </div>
+							 <i class="clear_0"></i>
+							 <div class="cgcsOnly">
+								 <h6>
+									 Additional Finishes Requests</h6>
+								 @Html.TextAreaFor( m => m.OtherFinishDetails, new { @class = "msg" } )
+								 <i class="clear_0"></i><cite>Please specify if there is a combination of finishes required
+									 by top vs. base, etc. Please include all appropriate detail of the<br/>
+									 user preference.</cite>
+							 </div>
+							 <div class="box9 forFabric">
+								 <div class="box9_lt">
+									 <h5>
+										 What fabric grade do you require?</h5>
+								 </div>
+								 <div class="box9_rt">
+									 @Html.DropDownListFor( m => m.FabricGrade, new List<SelectListItem>() { 
+	new SelectListItem() { Text = "A", Value = "A" },
+	new SelectListItem() { Text = "B", Value = "B" },
+	new SelectListItem() { Text = "C", Value = "C" },
+	new SelectListItem() { Text = "D", Value = "D" },
+	new SelectListItem() { Text = "E", Value = "E" },
+	new SelectListItem() { Text = "F", Value = "F" }, 
+	new SelectListItem() { Text = "G", Value = "G" },
+	new SelectListItem() { Text = "H", Value = "H" },
+	new SelectListItem() { Text = "I", Value = "I" },
+	new SelectListItem() { Text = "J", Value = "J" },
+	new SelectListItem() { Text = "K", Value = "K" },
+	new SelectListItem() { Text = "L", Value = "L" },
+	new SelectListItem() { Text = "M", Value = "M" } 
+} )
+								 </div>
+							 </div>
+							 <div class="box9 forFabric">
+								 <div class="box9_lt">
+									 <h5>
+										 What specific fabric do you require?</h5>
+								 </div>
+								 <div class="box9_rt">
+									 @Html.TextBoxFor( m => m.Fabric )
+								 </div>
+							 </div>
+							 <i class="clear_0"></i>
+						 </div>
+			 </div>
+			 <!-- END: main -->
+		 </div>  
+		 <div class="main_inner1 futureSection requestPanel">
+			 <h3>
+				 Step 4: Special Requests</h3>
+			 <div class="main_inner9_btm">
+				 <div class="main_inner9_btm_top">
+					 <div class="main_inner8_rt_msg">
+						 <h5>
+							 Additional Information</h5>
+						 @Html.TextAreaFor( m => m.SpecialRequests, new { @class = "msg1" } )
+						 <p>
+							 Please provide any additional information you may have regarding edge profile, finish,
+							 pulls, drawer options and grommets, etc.</p>
+					 </div>
+					 <i class="clear_0"></i>
+				 </div>
+			 </div>
+			 <!-- END: main -->
+		 </div>  
+		 <div class="main_inner1 futureSection requestPanel">
+			 <h3>
+				 Step 5: Confirmation</h3>
+			 <div class="main_inner10_cont">
+				 <div class="main_inner10_cont_top">
+					 <h3>
+						 Requestor & Project Information</h3>
+					 <ul>
+						 <li id="requestorList1" class="requestorList">
+							 <div class="coln1">
+								 <h5>
+									 Sales Rep Territory</h5>
+								 <h5>
+									 Sales Rep Point of Contact</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>
+									 Paoli-Marketing Team</h5>
+								 <h5>
+									 John Doe</h5>
+							 </div>
+							 <div class="coln3">
+								 <h5>
+									 Who is the end customer?</h5>
+								 <h5>
+									 What will we call this project?</h5>
+							 </div>
+							 <div class="coln4">
+								 <h5>
+									 General Motors</h5>
+								 <h5>
+									 Powertrain Offices</h5>
+							 </div>
+							 <i class="clear_0"></i></li>
+						 <li id="requestorList2" class="requestorList">
+							 <div class="coln1">
+								 <h5>
+									 Dealership</h5>
+								 <h5>
+									 Dealership Point of Contact</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>
+									 Dealership Name</h5>
+								 <h5>
+									 Dealer Rep Name</h5>
+							 </div>
+							 <div class="coln3">
+								 <h5>
+									 What is the size and scope of this project?</h5>
+								 <h5>
+									 in2 Quick Ship</h5>
+							 </div>
+							 <div class="coln4">
+								 <h5>
+									 13 offices, 2 conf rooms</h5>
+								 <h5>
+									 No</h5>
+							 </div>
+							 <i class="clear_0"></i></li>
+					 </ul>
+					 <i class="clear_0"></i>
+				 </div>
+				 <div class="main_inner10_cont_btm">
+					 <h3>
+						 Service & Project Requirements</h3>
+					 <ul>
+						 <li id="confirmServiceList">
+							 <div class="coln1">
+								 <h5>
+									 Services Needed</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>
+									 Spec Check Audit</h5>
+								 <h5>
+									 Floorplan Specifications</h5>
+								 <h5>
+									 Photo Rendering</h5>
+								 <h5>
+									 2D Drawing</h5>
+								 <h5>
+									 Value Engineering</h5>
+							 </div>
+							 <i class="clear_0"></i></li>
+						 <li id="confirmAddlServiceInfo">
+							 <div class="coln1">
+								 <h5>
+									 Related Drawings or Notes</h5>
+								 <h5>
+									 File Format(s)</h5>
+								 <h5>
+									 Additional Services Notes</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>
+									 File-Name.pdf</h5>
+								 <h5>
+									 DWG, SIF</h5>
+								 <h5>
+									 Lorem ipsum dolor sit amet notes go here and can be multiline. Lorem ipsum dolor
+									 sit amet
+								 </h5>
+								 <h5>
+									 consectetuer adipiscing elit domus equis.</h5>
+							 </div>
+							 <i class="clear_0"></i></li>
+						 <li id="confirmSeriesList">
+							 <div class="coln1">
+								 <h5>
+									 Casegoods</h5>
+								 <h5>
+									 Conferencing</h5>
+								 <h5>
+									 Seating</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>
+									 Altamont</h5>
+								 <h5>
+									 Conferencing Program</h5>
+								 <h5>
+									 4Square</h5>
+							 </div>
+							 <i class="clear_0"></i></li>
+						 <li id="confirmDrawers">
+							 <div class="coln1">
+								 <h5>
+									 What drawer construction do you require?</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>
+									 Vinyl Wrap</h5>
+							 </div>
+							 <i class="clear_0"></i></li>
+						 <li id="confirmFabric">
+							 <div class="coln1">
+								 <h5>
+									 What fabric grade do you require?</h5>
+								 <h5>
+									 Which fabric do you require?</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>
+									 A</h5>
+								 <h5>
+									 AB12345</h5>
+							 </div>
+							 <i class="clear_0"></i></li>
+						 <li id="confirmGrommets">
+							 <div class="coln1">
+								 <h5>
+									 Include grommets?</h5>
+								 <h5>
+									 Grommet Specifications</h5>
+								 <h5>
+									 Grommet Position</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>
+									 Yes</h5>
+								 <h5>
+									 Grommet specs lorem ipsum dolor</h5>
+								 <h5>
+									 Position lorem ipsum dolor</h5>
+							 </div>
+							 <i class="clear_0"></i></li>
+						 <li id="confirmFinishes">
+							 <div class="coln1">
+								 <h5>
+									 What finish do you require?</h5>
+								 <h5>
+									 Additional finishes requests</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>
+									 Laminate</h5>
+								 <h5>
+									 Combo finish specification goes here in detail</h5>
+							 </div>
+							 <i class="clear_0"></i></li>
+						 <li id="confirmLaminate">
+							 <div class="coln1">
+								 <h5>
+									 What type of laminate do you require?</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>
+									 TFL - Thermally Fused Laminate</h5>
+							 </div>
+							 <i class="clear_0"></i></li>
+						 <li id="confirmSpecialRequests">
+							 <div class="coln1">
+								 <h5>
+									 Special Requests</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>
+									 Lorem ipsum dolor sit amet notes go here and can be multiline. Lorem ipsum dolor
+									 sit amet
+								 </h5>
+							 </div>
+							 <i class="clear_0"></i></li>
+					 </ul>
+					 <i class="clear_0"></i>
+				 </div>
+			 </div>
+			 <!-- END: main -->
+		 </div>  
+<div class="btnAlt">
+<span class="btn7 cancelBtn">CANCEL</span>
+<span class="btn11 submitBtn" style="display:none;">SUBMIT</span>
+<span class="btn8 nextBtn">NEXT</span>
+<span class="btn9 previousBtn" style="display:none;">PREV</span>
+</div>
+	<!--@Html.ValidationSummary()-->
+	 }
+	 </div>
+
+	 <div style="display:none">
+
+	<div id="newProject" class="needRowPadding">
+		<div class="main_inner2_btm"> 
+    	<h2 class="bold">Add Project</h2>
+			<div class="main_inner2_btm_mid_myacct">
+				<ul>
+        			<li>
+            			<div class="colmn1">Project Name</div>
+						<div class="colmn3single"><input class="msg2" id="NewProject" name="NewProject" /></div>
+					</li>
+        			<li>
+            			<div class="colmn1">Dealership</div>
+						<div class="colmn3single">@Html.DropDownList( "ProjectDealerID", new List<SelectListItem>() )</div>
+					</li>
+					<li>
+						<div class="colmn1">
+							<div class="checkbox fakeIsGSA">
+								@Html.CheckBox( "NewIsGSA" )
+							</div>
+							This project qualifies for GSA or other contract.
+						</div>
+					</li>
+					<li class="gsaOnly">
+						<div class="colmn1">To which contract does this relate?</div>
+						<div class="colmn3single">@Html.DropDownList( "NewContractID", SpecRequestController.GSAContractList( true ), new { @class = "gsaOnly" } )</div>
+					</li>
+				</ul>
+			</div>
+			<div class="clear"></div>
+			<span class="btn7 cancelNewProjBtn">CANCEL</span> <span class="btn8 submitNewProjBtn">SAVE</span> 
+		</div>
+	</div>
+
+	@{Html.RenderPartial( "RequestNewUser" );}
+
+	@{Html.RenderPartial( "RequestNewCompany" );}
+
+	 </div>

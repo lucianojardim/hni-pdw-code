@@ -1,0 +1,6 @@
+﻿@model int?
+
+@if( Model.HasValue )
+{
+	<text>@Model.Value.ToString( "c" )</text>
+}

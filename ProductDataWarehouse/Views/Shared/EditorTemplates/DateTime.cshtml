@@ -1,0 +1,13 @@
+﻿@model DateTime?
+
+@{
+    var newClass = "datePicker";
+    if( ViewData["class"] != null )
+    {
+        newClass += " " + (string)ViewData["class"];
+    }
+    }
+
+
+@Html.TextBox( "", Model.HasValue ? Model.Value.ToString( "MM/dd/yyyy" ) : "",
+                      new { @class = newClass } ) 

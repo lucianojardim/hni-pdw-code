@@ -1,0 +1,14 @@
+﻿@model PDWModels.eCollateral.ECollateralDetails.DetailItem
+
+<script type="text/javascript">
+	$(document).ready(function () {
+	});
+
+</script>
+
+  @if( ( Model.Content ?? "" ).Any() )
+  {
+<div class="addcontentbox">
+	@Html.Raw( Model.Content )
+</div>
+  }

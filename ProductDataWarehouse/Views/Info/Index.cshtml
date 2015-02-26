@@ -1,0 +1,114 @@
+﻿@model PDWModels.eCollateral.ECollateralDetails
+@{
+	ViewBag.RealPageTitle = "Paoli - " + Model.Name;
+    Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.ShowHeaderArea = false;
+	ViewBag.HeaderArea = "ePublisher";
+}
+<script type="text/javascript">
+	$(document).ready(function () {
+		doImagePopupSetup();
+	});
+
+	function doImagePopupSetup() {
+		$.each($('.imagePopupItem'), function (n, i) {
+			if (!$(i).parent().is('span') || !$(i).parent().hasClass('gotoImageGallery')) {
+				$(i).wrap('<span class="gotoImageGallery" style="position:relative;display:inline-block;width:100%;"></span>');
+				$(i).parent().append('<img src="/NewContent/images/zoom_icon.png" onclick="loadImage($(this).siblings(\'img.imagePopupItem\').attr(\'imageId\'));return false;" style="z-index:2; width:25px; position: absolute; bottom: 5px; right: 5px; display: none; cursor: pointer;" class="imgPopupIcon"/>');
+				$(i).parent().mouseover(showPopupIcon).mouseout(hidePopupIcon);
+				if ($(i).hasClass('clickForPopup')) {
+					$(i).attr('onclick', 'loadImage($(this).attr(\'imageId\'));return false;').css('cursor', 'pointer');
+				}
+			}
+		});
+
+		$(window).scroll(checkLightBoxPosition);
+	}
+
+	function showPopupIcon() {
+		$(this).children('img.imgPopupIcon').show();
+	}
+
+	function hidePopupIcon() {
+		$(this).children('img.imgPopupIcon').hide();
+	}
+
+	function loadImage(imgId) {
+		var url = '/PDW/GetImageDetailInfo?';
+		url += ('&imageId=' + imgId);
+		url += '&callback=?'
+
+		makeAjaxCall(url, null,
+			function (data) {
+				showImage(imgId, data);
+			},
+			function (jqXHR, textStatus, errorThrown) {
+				ajaxError('Error getting data: ' + errorThrown + '[' + textStatus + ']');
+			}
+		);
+
+	}
+
+	var stickyLBPos = 0;
+	function checkLightBoxPosition() {
+		$('.lightbox_in').css('margin-top', (stickyLBPos - $(window).scrollTop()) + 40);
+	}
+
+	function showImage(imgId, imgData) {
+		$('#indImageTitle').html(imgData["Name"]);
+		$('#indImageCaption').html(imgData["Caption"]);
+		$('#indImage').attr('src', '/Images/' + imgData["FileName"]);
+		$('#indImageHiRes').attr('href', '/PDW/GetHiResImage?imageId=' + imgId);
+
+		$('#indImageSeries').html('');
+		if (imgData["SeriesList"].length > 0) {
+			$('#seriesForImgHeader').show();
+
+			$.each(imgData["SeriesList"], function (i, seriesInfo) {
+				if (i > 0) {
+					$('#indImageSeries').append('<br/>');
+				}
+
+				var aSeries = document.createElement("a");
+
+				//aSeries.href = '/series?seriesID=' + seriesInfo["SeriesID"];
+				aSeries.href = '/' + seriesInfo["Name"].replace(' ', '-');
+				var aText = seriesInfo["Name"];
+
+				aSeries.innerHTML = aText;
+				$('#indImageSeries').append(aSeries);
+
+				if (seriesInfo["TypicalList"].length > 0) {
+					$('#indImageSeries').append("<br>View Typical: ");
+				}
+
+
+				$.each(seriesInfo["TypicalList"], function (i, typicalInfo) {
+					if (i > 0)
+						$('#indImageSeries').append(', ');
+					var aTypical = document.createElement("a");
+
+					aTypical.href = '/typicals?id=' + escape(typicalInfo);
+					var aText = typicalInfo;
+
+					aTypical.innerHTML = aText;
+					$('#indImageSeries').append(aTypical);
+				});
+			});
+		} else {
+			$('#seriesForImgHeader').hide();
+		}
+
+		stickyLBPos = $(window).scrollTop();
+		checkLightBoxPosition();
+
+		$('#lightbox').show();
+	}
+
+
+</script>
+<div class="content">
+	<div class="templatecontbox">
+		@Html.Partial( partialViewName: "~/Views/ePublisher/" + Model.DisplayViewName + ".cshtml", model: Model )
+	</div>
+</div>
