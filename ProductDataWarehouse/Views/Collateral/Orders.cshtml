@@ -17,6 +17,7 @@
 }
 <br />
 @Html.CheckBox( "HideFulfilled" )Hide Fulfilled<br />
+Territory: @Html.DropDownList( "PaoliSalesRepGroupID", ProductDataWarehouse.Controllers.CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, includeTerritory: true ) )<br />
 <div>
     <table id="orderList">
     <thead></thead>
@@ -27,6 +28,8 @@
 <script type="text/javascript">
 	$(document).ready(function () {
 		$('#HideFulfilled').click(loadOrders);
+		$('#PaoliSalesRepGroupID').change(loadOrders);
+
 		loadOrders();
 	});
 
@@ -47,6 +50,7 @@
 			"sAjaxSource": '@Url.Action( "FullCollateralOrderList" )',
 			"fnServerParams": function (aoData) {
 				aoData.push({ "name": "hideFulfilled", "value": $('#HideFulfilled:checked').length > 0 });
+				aoData.push({ "name": "paoliSalesRepGroupID", "value": $('#PaoliSalesRepGroupID').val() });
 			},
 			"iDisplayLength": 100,
 			"fnServerData": function (sSource, aoData, fnCallback) {

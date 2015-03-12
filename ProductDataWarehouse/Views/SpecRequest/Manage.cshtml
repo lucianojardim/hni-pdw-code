@@ -13,6 +13,7 @@
 @Html.CheckBox( "NotYetAssigned" )Not Yet Assigned<br />
 @Html.CheckBox( "AuditSpecOnly" )Spec Audit Checks<br />
 @Html.CheckBox( "GSAOnly" )Show GSA Only<br />
+Territory: @Html.DropDownList( "PaoliSalesRepGroupID", ProductDataWarehouse.Controllers.CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, includeTerritory: true ) )<br />
 <div>
     <table id="specRequestList">
     <thead></thead>
@@ -27,6 +28,7 @@
 		$('#NotYetAssigned').click(loadSpecRequests);
 		$('#AuditSpecOnly').click(loadSpecRequests);
 		$('#GSAOnly').click(loadSpecRequests);
+		$('#PaoliSalesRepGroupID').change(loadSpecRequests);
 
 		loadSpecRequests();
 	});
@@ -52,6 +54,7 @@
 				aoData.push({ "name": "notYetAssigned", "value": $('#NotYetAssigned:checked').length > 0 });
 				aoData.push({ "name": "auditSpecOnly", "value": $('#AuditSpecOnly:checked').length > 0 });
 				aoData.push({ "name": "showGSAOnly", "value": $('#GSAOnly:checked').length > 0 });
+				aoData.push({ "name": "paoliSalesRepGroupID", "value": $('#PaoliSalesRepGroupID').val() });
 			},
 			"iDisplayLength": 100,
 			"oLanguage": {

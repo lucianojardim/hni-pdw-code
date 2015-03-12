@@ -634,11 +634,23 @@ namespace PWDRepositories
 				.Select( i => ToECollateralSummary( i ) );
 		}
 
-		public IEnumerable<ECollateralSummary> GetAllItemsList( int skipItems, string filterText )
+		public IEnumerable<ECollateralSummary> GetAllItemsList( int skipItems, string filterText, int? psrgId )
 		{
+			int? territoryId = null;
+			if( psrgId.HasValue )
+			{
+				var territory = database.Companies.FirstOrDefault( c => c.CompanyID == psrgId.Value );
+				if( territory != null )
+				{
+					territoryId = territory.TerritoryID;
+				}
+			}
+
 			var theList = database.eCollateralItems
 				.Include( i => i.Project )
+				.Include( i => i.Company )
 				.Where( i => i.FileName.Contains( filterText ) || i.URLText.Contains( filterText ) )
+				.Where( i => (i.Company.TerritoryID == territoryId) || !territoryId.HasValue )
 				.OrderByDescending( i => i.LastModifiedByDateTime );
 
 			return theList
@@ -651,13 +663,25 @@ namespace PWDRepositories
 				.Select( i => ToECollateralSummary( i ) );
 		}
 
-		public IEnumerable<ECollateralSummary> GetReviewItemsList( int skipItems, string filterText )
+		public IEnumerable<ECollateralSummary> GetReviewItemsList( int skipItems, string filterText, int? psrgId )
 		{
+			int? territoryId = null;
+			if( psrgId.HasValue )
+			{
+				var territory = database.Companies.FirstOrDefault( c => c.CompanyID == psrgId.Value );
+				if( territory != null )
+				{
+					territoryId = territory.TerritoryID;
+				}
+			}
+
 			var theList = database.eCollateralItems
 				.Include( i => i.Project )
+				.Include( i => i.Company )
 				.Where( i => i.Status == StatusTypes.New || i.Status == StatusTypes.Unapproved )
 				.Where( i => !i.IsTemplate )
 				.Where( i => i.FileName.Contains( filterText ) || i.URLText.Contains( filterText ) )
+				.Where( i => ( i.Company.TerritoryID == territoryId ) || !territoryId.HasValue )
 				.OrderByDescending( i => i.LastModifiedByDateTime );
 
 			return theList

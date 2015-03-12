@@ -1129,6 +1129,20 @@ namespace PWDRepositories
 			{
 				collateralList = collateralList.Where( c => c.Status == NewOrderInformation.SPartial || c.Status == NewOrderInformation.SPending );
 			}
+			if( param.paoliSalesRepGroupID.HasValue )
+			{
+				var territory = database.Companies.FirstOrDefault( c => c.CompanyID == param.paoliSalesRepGroupID.Value );
+				if( territory != null )
+				{
+					collateralList = collateralList.Where( c =>
+						( ( c.RequestingParty == NewOrderInformation.RPPaoliRepresentative ) && ( c.PaoliRepGroupID == territory.CompanyID ) ) ||
+						( ( c.ShippingParty == NewOrderInformation.RPPaoliRepresentative ) && ( c.SPPaoliRepGroupID == territory.CompanyID ) ) ||
+						( ( c.RequestingParty == NewOrderInformation.RPDealer ) && ( c.Dealer.TerritoryID == territory.TerritoryID ) ) ||
+						( ( c.ShippingParty == NewOrderInformation.RPDealer ) && ( c.SPDealer.TerritoryID == territory.TerritoryID ) ) );
+
+					totalRecords = collateralList.Count();
+				}
+			}
 			if( param.companyId.HasValue )
 			{
 				collateralList = collateralList.Where( c =>

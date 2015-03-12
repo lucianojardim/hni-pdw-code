@@ -394,11 +394,11 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanReviewECollateral" )]
-		public JsonResult GetReviewPagesList( int skipItems, string filterText )
+		public JsonResult GetReviewPagesList( int skipItems, string filterText, int? psrgId )
 		{
 			using( var eRepository = new ECollateralRepository() )
 			{
-				var theList = eRepository.GetReviewItemsList( skipItems, filterText );
+				var theList = eRepository.GetReviewItemsList( skipItems, filterText, psrgId );
 
 				return Json( theList,
 					JsonRequestBehavior.AllowGet );
@@ -406,11 +406,11 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageAllECollateral" )]
-		public JsonResult GetAllPagesList( int skipItems, string filterText )
+		public JsonResult GetAllPagesList( int skipItems, string filterText, int? psrgId )
 		{
 			using( var eRepository = new ECollateralRepository() )
 			{
-				var theList = eRepository.GetAllItemsList( skipItems, filterText );
+				var theList = eRepository.GetAllItemsList( skipItems, filterText, psrgId );
 
 				return Json( theList,
 					JsonRequestBehavior.AllowGet );

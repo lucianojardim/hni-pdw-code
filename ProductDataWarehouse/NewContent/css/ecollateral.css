@@ -377,6 +377,14 @@ nav.mainmenu ul li:hover ul {
 	width:226px;
 	line-height:32px;
 }
+label.newDDLFilter {
+	display:block;
+	float:left;
+	font-size:16px;
+	color:#999999;
+	width:96px;
+	line-height:32px;
+}
 .filesettinglist label.short {
 	width:100px;
 }
