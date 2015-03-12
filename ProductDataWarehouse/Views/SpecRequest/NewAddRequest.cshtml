@@ -978,28 +978,53 @@
 								 Our spec team will create your specification or quote request in any of the file
 								 formats listed below. Select all that apply.</p>
 							 <div class="text2">
-								 <div class="checkbox">
-									 @Html.CheckBoxFor( m => m.NeedDWGFiles, new { @class = "chkFilesNeeded" } )
-									 <span>DWG</span>
-								 </div>
-								 <div class="checkbox">
-									 @Html.CheckBoxFor( m => m.NeedSP4Files, new { @class = "chkFilesNeeded" } )
-									 <span>SP4</span>
-								 </div>
-								 <div class="checkbox">
-									 @Html.CheckBoxFor( m => m.NeedSIFFiles, new { @class = "chkFilesNeeded" } )
-									 <span>SIF</span>
-								 </div>
+								 <div>
+									 <div class="checkbox">
+										 @Html.CheckBoxFor( m => m.NeedDWGFiles, new { @class = "chkFilesNeeded" } )
+									 </div>
+									 <div style="padding-top:4px;">
+										<span>DWG (Autocad CAP drawing)</span>
+									</div>
+									<i class="clear_0"></i>
+								</div>
+								<div>
+									 <div class="checkbox">
+										 @Html.CheckBoxFor( m => m.NeedSP4Files, new { @class = "chkFilesNeeded" } )
+									 </div>
+									<div style="padding-top:4px;">
+										 <span>SP4 (Cap & Giza Worksheet)</span>
+									</div>
+									<i class="clear_0"></i>
+								</div>
+								<div>
+									 <div class="checkbox">
+										 @Html.CheckBoxFor( m => m.NeedSIFFiles, new { @class = "chkFilesNeeded" } )
+									 </div>
+									<div style="padding-top:4px;">
+										 <span>SIF (eOrder or Project Matrix/Hedberg)</span>
+									</div>
+									<i class="clear_0"></i>
+								</div>
 							 </div>
 							 <div class="text2">
-								 <div class="checkbox">
-									 @Html.CheckBoxFor( m => m.NeedXLSFiles, new { @class = "chkFilesNeeded" } )
-									 <span>XLS</span>
-								 </div>
-								 <div class="checkbox">
-									 @Html.CheckBoxFor( m => m.NeedPDFFiles, new { @class = "chkFilesNeeded" } )
-									 <span>PDF</span>
-								 </div>
+								 <div>
+									 <div class="checkbox">
+										 @Html.CheckBoxFor( m => m.NeedXLSFiles, new { @class = "chkFilesNeeded" } )
+									 </div>
+									<div style="padding-top:4px;">
+										 <span>XLS (Microsoft Excel Workbook)</span>
+									</div>
+									<i class="clear_0"></i>
+								</div>
+								<div>
+									 <div class="checkbox">
+										 @Html.CheckBoxFor( m => m.NeedPDFFiles, new { @class = "chkFilesNeeded" } )
+									 </div>
+									<div style="padding-top:4px;">
+										 <span>PDF (Adobe Portable Document Format)</span>
+									</div>
+									<i class="clear_0"></i>
+								</div>
 							 </div>
 						 </li>
 					 </ul>
