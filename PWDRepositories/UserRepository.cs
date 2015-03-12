@@ -1018,7 +1018,7 @@ namespace PWDRepositories
 				newUser.RecWelcomeEmail = false;
 				newUser.IsActive = true;
 				newUser.AuthorCredit = null;
-				newUser.DefaultShippingAddress = AddressTypes.Home;
+				newUser.DefaultShippingAddress = AddressTypes.Business;
 				newUser.ViewPerfData = false;
 				newUser.TierGroup = PaoliWebUser.PaoliTierGroup.General;
 
