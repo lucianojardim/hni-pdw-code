@@ -114,7 +114,7 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
-		[PaoliAuthorize( "CanViewMyTerritory" )]
+		[PaoliAuthorize( "CanUpdateDealerOnMyTerritory" )]
 		[TempPasswordCheck]
 		public JsonResult UpdateSalesRepForDealer( int companyId, int psrContact )
 		{
@@ -152,9 +152,31 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
-		[PaoliAuthorize( "CanViewMyTerritory" )]
+		[PaoliAuthorize( "CanViewMyTerritoryDealerList" )]
 		[TempPasswordCheck]
 		public JsonResult DealerForTerritoryCompanyList( CompanyTableParams param )
+		{
+			int totalCount = 0, filteredCount = 0;
+
+			using( var cRepository = new CompanyRepository() )
+			{
+				var results = cRepository.GetFullCompanyList(
+					param, out totalCount, out filteredCount );
+
+				return Json( new
+				{
+					sEcho = param.sEcho,
+					iTotalRecords = totalCount,
+					iTotalDisplayRecords = filteredCount,
+					aaData = results
+				},
+					JsonRequestBehavior.AllowGet );
+			}
+		}
+
+		[PaoliAuthorize( "CanManageTerritories" )]
+		[TempPasswordCheck]
+		public JsonResult TerritoryCompanyList( CompanyTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
 
@@ -267,7 +289,7 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
-		[PaoliAuthorize( "CanViewMyTerritory" )]
+		[PaoliAuthorize( "CanUpdateDealerOnMyTerritory" )]
 		public JsonResult RequestDeactiviation( int companyId, string reason )
 		{
 			using( var cRepository = new CompanyRepository() )

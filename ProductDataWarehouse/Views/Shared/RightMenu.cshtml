@@ -173,6 +173,10 @@
 						   {
                             <li><a href="@Url.Action( "Index", "Report" )">Reports</a></li>
 						   }
+                           @if( CurrentUser.CanManageTerritories )
+						   {
+                            <li><a href="@Url.Action( "Territories", "User" )">Territories</a></li>
+						   }
                         </ul>
                     </li>
  }

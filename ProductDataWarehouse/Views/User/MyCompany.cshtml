@@ -34,7 +34,7 @@
 	{
 				<img src="/NewContent/images/incentiveFPO.jpg" alt="" width="455" height="207" class="incentiveImg" />
 	}
-	@if( PDWInfrastructure.PaoliWebUser.CurrentUser.CanViewMyTerritory )
+	@if( PDWInfrastructure.PaoliWebUser.CurrentUser.CanViewMyTerritory || PDWInfrastructure.PaoliWebUser.CurrentUser.CanManageTerritories )
  {
 	 <div class="clear"></div>
 	 <span class="btn7" id="editContactBtn">EDIT</span>
@@ -342,7 +342,7 @@
 						"fnRender": function(oObj) {
 							var s = '';
 							s += '<span class="btn13 deactivateBtn" data-id="' + oObj.aData["UserID"] + '" title="Request Deactivation">X</span>';
-					@if( PDWInfrastructure.PaoliWebUser.CurrentUser.CanViewMyTerritory )
+					@if( PDWInfrastructure.PaoliWebUser.CurrentUser.CanViewMyTerritory || PDWInfrastructure.PaoliWebUser.CurrentUser.CanManageTerritories )
 	 {
 		 <text>
 							s += '&nbsp;';

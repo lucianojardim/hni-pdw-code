@@ -1,0 +1,72 @@
+﻿@model PDWModels.Companies.MyTerritoryInfo
+@{
+	ViewBag.Title = "MyTerritory";
+	Layout = "~/Views/Shared/NewLayout.cshtml";
+	ViewBag.HeaderArea = "Territories";
+}
+<div class="container">
+	<div class="main_inner1">
+		<div class="territory-companyProfile">
+			<h4>Territories</h4>
+			<table class="dealerTable" id="territoryList">
+			</table>
+			<!-- //END dealership tablature data --->
+			<div class="clear">
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var psrContactList = null;
+	$(document).ready(function () {
+		loadCompanies();
+	});
+
+	var oTable = null;
+	function loadCompanies() {
+		if (oTable != null) {
+			oTable.fnDraw();
+			return;
+		}
+
+		oTable = $('#territoryList').dataTable({
+			"bServerSide": true,
+			"bAutoWidth": false,
+			"bFilter": true,
+			"bLengthChange": false, // don't show dropdown for #items per page
+			"bPaginate": true,
+			"bInfo": true,
+			"sAjaxSource": '@Url.Action( "TerritoryCompanyList", "Company" )',
+			"fnServerParams": function (aoData) {
+				aoData.push({ "name": "companyType", "value": @PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup });
+			},
+			"iDisplayLength": 100,
+			"fnServerData": function (sSource, aoData, fnCallback) {
+				makeAjaxCall(sSource,
+					aoData,
+					function (data, textStatus, jqXHR) {
+						fnCallback(data, textStatus, jqXHR);
+					},
+					function (jqXHR, textStatus, errorThrown) { alert('Error getting list of Companies:' + errorThrown) }
+				);
+			},
+			"bProcessing": false, // don't want to use the default progress indicator at this time
+			"aaSorting": [[0, "asc"]],
+			"asStripeClasses": [],
+			"aoColumnDefs": [
+                    { "sName": "TerritoryID", "sTitle": "Territory<span></span>", "sClass": "hasSpan", "aTargets": [0], "mDataProp": "TerritoryID",
+                    	"fnRender": function (oObj) {
+                    		var s;
+                    		s = '<a href=\"@Url.Action( "MyTerritoryInfo", "User" )/' + oObj.aData["CompanyID"] + '">' + oObj.aData["TerritoryID"] + '</a>';
+                    		return s;
+                    	}
+                    },
+                    { "sName": "Name", "sTitle": "Sales Rep Group<span></span>", "sClass": "hasSpan", "aTargets": [1], "mDataProp": "Name" },
+                    { "sName": "DealerCount", "sTitle": "# of Dealers<span></span>", "sClass": "hasSpan", "aTargets": [2], "mDataProp": "DealerCount", "sType": "numeric", "bSortable": false }
+					
+                ]
+		});
+	}
+
+</script>

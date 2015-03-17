@@ -22,5 +22,7 @@ namespace PDWModels.Companies
 		public string TierGroup { get; set; }
 		public string EditButtons { get; set; }
 		public bool CanDelete { get; set; }
+		public int? TerritoryID { get; set; }
+		public int DealerCount { get; set; }
 	}
 }

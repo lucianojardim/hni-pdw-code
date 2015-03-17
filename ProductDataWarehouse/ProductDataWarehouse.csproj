@@ -821,6 +821,7 @@
     <Content Include="Views\User\MyTripInfo.cshtml" />
     <Content Include="Views\Company\ImportTerritoryTripData.cshtml" />
     <Content Include="Views\User\TerritoryTripInfo.cshtml" />
+    <Content Include="Views\User\Territories.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

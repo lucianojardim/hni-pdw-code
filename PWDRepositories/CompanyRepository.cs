@@ -38,7 +38,9 @@ namespace PWDRepositories
 				PSRContact = c.PaoliSalesRepMemberID.HasValue ? c.PaoliSalesRepMember.FullName : "",
 				TierGroup = c.TierGroup,
 				UserCount = c.Users.Where( u => u.IsActive && u.Enabled ).Count(),
-				CanDelete = database.spCanDeleteCompany( c.CompanyID ).First() > 0
+				CanDelete = database.spCanDeleteCompany( c.CompanyID ).First() > 0,
+				TerritoryID = c.TerritoryID,
+				DealerCount = c.Territory.Companies.Count( d => d.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer )
 			};
 			
 		}
@@ -507,6 +509,16 @@ namespace PWDRepositories
 						filteredAndSorted = companyList.OrderByDescending( v => v.TierGroup );
 					}
 					break;
+				case "territoryid":
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = companyList.OrderBy( v => v.TerritoryID );
+					}
+					else
+					{
+						filteredAndSorted = companyList.OrderByDescending( v => v.TerritoryID );
+					}
+					break;
 			}
 
 			if( ( displayedRecords > param.iDisplayLength ) && ( param.iDisplayLength > 0 ) )
@@ -518,6 +530,7 @@ namespace PWDRepositories
 				.Include( c => c.PaoliSalesRepMember )
 				.Include( c => c.Users )
 				.Include( c => c.CompanyTripData )
+				.Include( c => c.Territory.Companies )
 				.ToList()
 				.Select( v => ToCompanySummary( v ) )
 				.ToList();
@@ -757,19 +770,30 @@ namespace PWDRepositories
 				throw new Exception( "Unable to find user." );
 			}
 
+			return GetTerritoryInfo( thisUser.CompanyID );
+		}
+
+		public MyTerritoryInfo GetTerritoryInfo( int companyId )
+		{
+			var thisUser = database.Companies.FirstOrDefault( u => u.CompanyID == companyId );
+			if( thisUser == null )
+			{
+				throw new Exception( "Unable to find user." );
+			}
+
 			return new MyTerritoryInfo()
 			{
 				CompanyID = thisUser.CompanyID,
-				CompanyName = thisUser.Company.Name,
-				TerritoryID = thisUser.Company.TerritoryID.Value,
-				Address1 = thisUser.Company.Address1,
-				Address2 = thisUser.Company.Address2,
-				City = thisUser.Company.City,
-				State = thisUser.Company.State,
-				Zip = thisUser.Company.Zip,
-				PhoneNumber = thisUser.Company.Phone,
-				FaxNumber = thisUser.Company.FAX,
-				WebSite = thisUser.Company.WebSite
+				CompanyName = thisUser.Name,
+				TerritoryID = thisUser.TerritoryID.Value,
+				Address1 = thisUser.Address1,
+				Address2 = thisUser.Address2,
+				City = thisUser.City,
+				State = thisUser.State,
+				Zip = thisUser.Zip,
+				PhoneNumber = thisUser.Phone,
+				FaxNumber = thisUser.FAX,
+				WebSite = thisUser.WebSite
 			};
 		}
 

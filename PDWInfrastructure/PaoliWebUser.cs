@@ -260,7 +260,7 @@ namespace PDWInfrastructure
 		}
 
 		public bool IsNewLayout { get { return true; } }
-		public bool HasAdminLink { get { return CanManageUsers || CanManageCompanies || CanManageImages || CanManageImport || CanManageSearchLog || CanViewReports; } }
+		public bool HasAdminLink { get { return CanManageUsers || CanManageCompanies || CanManageImages || CanManageImport || CanManageSearchLog || CanViewReports || CanManageTerritories; } }
 
 		public bool IsSuperAdmin { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
 		public bool IsDealerUser { get { return OneOfRoles( PaoliWebRole.DealerAdmin, PaoliWebRole.DealerDesigner, 
@@ -319,8 +319,13 @@ namespace PDWInfrastructure
 
 		public bool CanViewMyTerritory { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ); } }
 		public bool CanViewMyCompany { get { return IsDealerUser; } }
-		public bool CanViewMyCompanyUserList { get { return CanViewMyCompany || CanViewMyTerritory; } }
-		public bool CanChangeMyCompanyUserImage { get { return CanViewMyCompany || CanViewMyTerritory; } }
+		public bool CanViewMyCompanyUserList { get { return CanViewMyCompany || CanViewMyTerritory || CanManageTerritories; } }
+		public bool CanViewMyTerritoryUserList { get { return CanViewMyTerritory || CanManageTerritories; } }
+		public bool CanViewMyTerritoryDealerList { get { return CanViewMyTerritory || CanManageTerritories; } }
+		public bool CanChangeMyCompanyUserImage { get { return CanViewMyCompany || CanViewMyTerritory || CanManageTerritories; } }
+		public bool CanManageTerritories { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin, PaoliWebRole.PaoliMemberSales ); } }
+		public bool CanViewMyCompanyInfo { get { return CanViewMyTerritory || CanManageTerritories; } }
+		public bool CanUpdateDealerOnMyTerritory { get { return CanViewMyTerritory || CanManageTerritories; } }
 
 		public bool CanInLineAddProjects { get { return IsPaoliUser || IsDealerUser || OneOfRoles( PaoliWebRole.PaoliSalesRep ); } }
 		public bool CanManageProjects { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin ); } }

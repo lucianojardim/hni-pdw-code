@@ -41,7 +41,7 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
-		[PaoliAuthorize( "CanViewMyTerritory" )]
+		[PaoliAuthorize( "CanViewMyTerritoryUserList" )]
 		[TempPasswordCheck]
 		public JsonResult MyTerritoryUserList( UserTableParams param )
 		{
@@ -209,6 +209,24 @@ namespace ProductDataWarehouse.Controllers
 			return View( viewName: "NewMyAccount", model: uInfo );
 		}
 
+		[PaoliAuthorize( "CanManageTerritories" )]
+		public ActionResult Territories()
+		{
+			using( var cRepository = new CompanyRepository() )
+			{
+				return View();
+			}
+		}
+
+		[PaoliAuthorize( "CanManageTerritories" )]
+		public ActionResult MyTerritoryInfo( int id )
+		{
+			using( var cRepository = new CompanyRepository() )
+			{
+				return View( "MyTerritory", cRepository.GetTerritoryInfo( id ) );
+			}
+		}
+
 		[PaoliAuthorize( "CanViewMyTerritory" )]
 		public ActionResult MyTerritory()
 		{
@@ -218,7 +236,7 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
-		[PaoliAuthorize( "CanViewMyTerritory" )]
+		[PaoliAuthorize( "CanViewMyCompanyInfo" )]
 		public ActionResult MyCompanyInfo( int id )
 		{
 			using( var cRepository = new CompanyRepository() )
@@ -290,7 +308,7 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
-		[PaoliAuthorize( "CanViewMyTerritory" )]
+		[PaoliAuthorize( "CanUpdateDealerOnMyTerritory" )]
 		public JsonResult GetDealerContactInfo( int userId )
 		{
 			using( var aRepository = new UserRepository() )
@@ -316,7 +334,7 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
-		[PaoliAuthorize( "CanViewMyTerritory" )]
+		[PaoliAuthorize( "CanUpdateDealerOnMyTerritory" )]
 		public JsonResult RequestEmailChange( int userId, string emailAddress )
 		{
 			using( var aRepository = new UserRepository() )
