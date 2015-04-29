@@ -14,9 +14,7 @@
 		</div>
 		<div class="LdTm_PromoBox">
 			<div class="LdTm_PromoHeadline">Questions? We're here to help!</div>
-            <div class="LdTm_PromoText">The sales performance data you see on this page was last updated on @Model.ImportDate.ToShortDateString() and reflects all confirmed orders received by noon the preceding day. <br />
-			<br />
-If you have questions about the stats, scoring or rank data provided here or feel that the information presented does not accurately reflect your dealerships sales performance, please contact me today.</div>
+			<div class="LdTm_PromoText">If you have questions about the stats, scoring or rank data provided here or feel that the information presented does not accurately reflect your dealerships sales performance, please contact me today.</div>
             <div class="LdTm_Contact_Left"><!--This image is placeholder Person--><img src="/images/13fbad33-25e7-467a-8ed3-1c8786367d58.jpg" alt="img"/></div>
             <div class="LdTm_Contact_Right">
             	<div class="LdTm_Contact_Name">Leslea Kerby</div>
@@ -29,7 +27,7 @@ If you have questions about the stats, scoring or rank data provided here or fee
     
     	<div class="LdTm_Full_Width">
 			<div><a href="http://www.paoli.com/maui"><img src="/newcontent/images/Paoli-Maui-Hero.png" alt=""/></a></div>
-			@if( Model.CanSeePerfData )
+			@if( Model.CanSeePerfData && (Model.TripGroup != "Ohana") )
    {
             <h1>Your current trip incentive stats</h1>
             <!-- FULL WIDTH - 2 COL TABLE BEGIN -->

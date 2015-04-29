@@ -54,7 +54,7 @@ namespace PWDRepositories
 					user.AccountType, user.IsTempPassword, user.PreviousLogin,
 					user.Company.Name, user.BusinessPhone,
 					( ( user.Company.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ) && user.Company.SignedUpForTrip && ( user.Company.CompanyTripData != null ) ) ||
-					( ( user.Company.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup ) && ( user.Company.TerritoryTripData != null ) ) );
+					( ( user.Company.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup ) ) );
 			}
 
 			return null;

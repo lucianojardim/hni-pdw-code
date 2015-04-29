@@ -787,6 +787,7 @@
     			function (data, textStatus, jqXHR) {
     				reloadDropDownCompanyList('#EndCustomerID', data);
 					$('#EndCustomerID').val(cId);
+					reloadProjectList();
     			},
     			function (jqXHR, textStatus, errorThrown) {
     				alert('Error getting End Customer list:' + errorThrown)

@@ -40,7 +40,7 @@ namespace PWDRepositories
 				UserCount = c.Users.Where( u => u.IsActive && u.Enabled ).Count(),
 				CanDelete = database.spCanDeleteCompany( c.CompanyID ).First() > 0,
 				TerritoryID = c.TerritoryID,
-				DealerCount = c.Territory.Companies.Count( d => d.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer )
+				DealerCount = c.TerritoryID.HasValue ? c.Territory.Companies.Count( d => d.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ) : 0
 			};
 			
 		}
@@ -1174,22 +1174,11 @@ namespace PWDRepositories
 
 			if( dbUser != null )
 			{
-				if( dbUser.Company.TerritoryTripData != null )
+				return new TerritoryTripInfo()
 				{
-					return new TerritoryTripInfo()
-					{
-						TerritoryID = dbUser.Company.TerritoryID ?? 0,
-						NewProductPoints = dbUser.Company.TerritoryTripData.NewProductPoints,
-						FocusDealerPoints = dbUser.Company.TerritoryTripData.FocusDealerPoints,
-						CurrentTerritoryVol = dbUser.Company.TerritoryTripData.CurrentTerritoryVol,
-						TerritoryPoints = dbUser.Company.TerritoryTripData.TerritoryPoints,
-						NumDealerTripsAwarded = dbUser.Company.TerritoryTripData.NumDealerTripsAwarded,
-						DealerTripPoints = dbUser.Company.TerritoryTripData.DealerTripPoints,
-						EducationPoints = dbUser.Company.TerritoryTripData.EducationPoints,
-						TotalTripPoints = dbUser.Company.TerritoryTripData.TotalTripPoints,
-						ImportDate = dbUser.Company.TerritoryTripData.ImportDate
-					};
-				}
+					TerritoryID = dbUser.Company.TerritoryID ?? 0,
+					ImportDate = DateTime.Now
+				};
 			}
 
 			throw new NotImplementedException();
