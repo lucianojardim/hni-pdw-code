@@ -9,10 +9,6 @@
 	<div class="main_inner1_content_lt">
     	<!-- LEAD TIME MODULE CUSTOMER SVC PROMO -->
 		<div class="LdTm_PromoBox">
-			<div class="LdTm_PromoHeadline">Earn Double Points!</div>
-            <div class="LdTm_PromoText">Now through the end of the 1st Quarter, every time you sell CO|HO, Share Space Seating or a premium finish casegood, you earn double the dollar value toward your sales goal to earn a trip for your dealership for those product sales!</div>
-		</div>
-		<div class="LdTm_PromoBox">
 			<div class="LdTm_PromoHeadline">Questions? We're here to help!</div>
 			<div class="LdTm_PromoText">If you have questions about the stats, scoring or rank data provided here or feel that the information presented does not accurately reflect your dealerships sales performance, please contact me today.</div>
             <div class="LdTm_Contact_Left"><!--This image is placeholder Person--><img src="/images/13fbad33-25e7-467a-8ed3-1c8786367d58.jpg" alt="img"/></div>
@@ -27,7 +23,7 @@
     
     	<div class="LdTm_Full_Width">
 			<div><a href="http://www.paoli.com/maui"><img src="/newcontent/images/Paoli-Maui-Hero.png" alt=""/></a></div>
-			@if( Model.CanSeePerfData && (Model.TripGroup != "Ohana") )
+			@if( Model.CanSeePerfData )
    {
             <h1>Your current trip incentive stats</h1>
             <!-- FULL WIDTH - 2 COL TABLE BEGIN -->
@@ -47,6 +43,8 @@
                 
 			</table>
             <!-- FULL WIDTH - 2 COL TABLE END -->
+	   if( Model.TripGroup != "Ohana" )
+	{
             <hr/>
             <h1>Bonus Ways To Win A Trip</h1>
             <p>Your dealership has been selected to participate in two bonus challenges that give you an additional way to earn a trip to Maui. You and @(Model.TripGroupCount - 1) other dealers (who are similar size/type/ and sales volume to you) are competing for this special challenge.</p>
@@ -71,6 +69,7 @@
 
                 
 			</table>
+	}
             <!-- FULL WIDTH - 4 COL TABLE END -->
    }
         </div>
