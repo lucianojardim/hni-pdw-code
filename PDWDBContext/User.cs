@@ -36,6 +36,7 @@ namespace PDWDBContext
             this.eCollateralItems2 = new HashSet<eCollateralItem>();
             this.SpecRequestEvents = new HashSet<SpecRequestEvent>();
             this.LeadTimeDetails = new HashSet<LeadTimeDetail>();
+            this.Users1 = new HashSet<User>();
         }
     
         public int UserID { get; set; }
@@ -71,6 +72,8 @@ namespace PDWDBContext
         public string PersonalCellPhone { get; set; }
         public string FAX { get; set; }
         public string Extension { get; set; }
+        public Nullable<int> CreatedByUser { get; set; }
+        public Nullable<System.DateTime> CreatedDateTime { get; set; }
     
         public virtual ICollection<SpecRequest> SpecRequests { get; set; }
         public virtual ICollection<SpecRequest> SpecRequests1 { get; set; }
@@ -94,6 +97,8 @@ namespace PDWDBContext
         public virtual ICollection<SpecRequestEvent> SpecRequestEvents { get; set; }
         public virtual ICollection<LeadTimeDetail> LeadTimeDetails { get; set; }
         public virtual UserNotification UserNotification { get; set; }
+        public virtual ICollection<User> Users1 { get; set; }
+        public virtual User User1 { get; set; }
     }
     
 }

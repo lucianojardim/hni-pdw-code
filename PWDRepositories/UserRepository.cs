@@ -128,7 +128,7 @@ namespace PWDRepositories
 			return retVal;
 		}
 
-		public bool AddUser( UserInformation uInfo, Stream imgStream, string fileName )
+		public bool AddUser( UserInformation uInfo, Stream imgStream, string fileName, int currentUserId )
 		{
 			if( database.Users.Any( u => u.Email == uInfo.EmailAddress ) )
 			{
@@ -196,6 +196,9 @@ namespace PWDRepositories
 				ReOpenSpecRequest = true,
 				ReOpenSpecRequestTerritory = true
 			};
+
+			newUser.CreatedByUser = currentUserId;
+			newUser.CreatedDateTime = DateTime.UtcNow;
 
 			database.Users.Add( newUser );
 
@@ -287,7 +290,9 @@ namespace PWDRepositories
 				DefaultShippingAddress = eUser.DefaultShippingAddress,
 				ViewPerfData = eUser.ViewPerfData,
 				TierGroup = eUser.TierGroup,
-				CompanyTierGroup = eUser.Company.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ? eUser.Company.TierGroup : null
+				CompanyTierGroup = eUser.Company.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ? eUser.Company.TierGroup : null,
+				CreatedByUser = eUser.CreatedByUser.HasValue ? eUser.User1.FullName : "Unknown",
+				CreatedDateTime = eUser.CreatedDateTime
 			};
 		}
 
@@ -492,6 +497,16 @@ namespace PWDRepositories
 			IQueryable<User> filteredAndSorted = null;
 			switch( sortCol.ToLower() )
 			{
+				case "userid":
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = userList.OrderBy( v => v.UserID );
+					}
+					else
+					{
+						filteredAndSorted = userList.OrderByDescending( v => v.UserID );
+					}
+					break;
 				case "firstname":
 					if( param.sSortDir_0.ToLower() == "asc" )
 					{
@@ -946,6 +961,7 @@ namespace PWDRepositories
 			var dbReqUser = database.Users.FirstOrDefault( u => u.UserID == reqUserId );
 			var companyName = "";
 			var accountType = 0;
+			string password = "";
 			if( uInfo.UserID > 0 )
 			{
 				var eUser = database.Users.FirstOrDefault( u => u.UserID == uInfo.UserID );
@@ -1014,15 +1030,15 @@ namespace PWDRepositories
 				newUser.Extension = uInfo.Extension;
 				newUser.Title = uInfo.Title;
 				newUser.AccountType = uInfo.AccountType;
-				newUser.Enabled = false;
-				newUser.RecWelcomeEmail = false;
+				newUser.Enabled = true;
+				newUser.RecWelcomeEmail = true;
 				newUser.IsActive = true;
 				newUser.AuthorCredit = null;
 				newUser.DefaultShippingAddress = AddressTypes.Business;
 				newUser.ViewPerfData = false;
 				newUser.TierGroup = PaoliWebUser.PaoliTierGroup.General;
 
-				string password = GenerateNewPassword();
+				password = GenerateNewPassword();
 				PaoliEncryption enc = new PaoliEncryption( PaoliEncryption.DataPassPhrase );
 				newUser.Password = enc.Encrypt( password );
 				newUser.IsTempPassword = true;
@@ -1043,6 +1059,9 @@ namespace PWDRepositories
 					ReOpenSpecRequestTerritory = true
 				};
 
+				newUser.CreatedByUser = reqUserId;
+				newUser.CreatedDateTime = DateTime.UtcNow;
+
 				database.Users.Add( newUser );
 			}
 
@@ -1055,6 +1074,11 @@ namespace PWDRepositories
 				uInfo.CellPhone, uInfo.Extension, uInfo.FaxNumber, 
 				uInfo.HomeAddress1, uInfo.HomeAddress2, uInfo.HomeCity, uInfo.HomeState, uInfo.HomeZip, uInfo.HomePhone, uInfo.PersonalCellPhone,
 				PaoliWebUser.PaoliWebRole.RoleList[accountType] );
+
+			if( uInfo.UserID == 0 )
+			{
+				( new NewAccountEmailSender() ).SubmitNewAccountEmail( uInfo.EmailAddress, password );
+			}
 		}
 	}
 }

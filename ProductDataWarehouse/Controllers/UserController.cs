@@ -102,7 +102,7 @@ namespace ProductDataWarehouse.Controllers
 			{
 				using( var uRepository = new UserRepository() )
 				{
-					uRepository.AddUser( uInfo, UserImage != null ? UserImage.InputStream : null, UserImage != null ? UserImage.FileName : null );
+					uRepository.AddUser( uInfo, UserImage != null ? UserImage.InputStream : null, UserImage != null ? UserImage.FileName : null, PaoliWebUser.CurrentUser.UserId );
 
 					return RedirectToAction( "Manage" );
 				}

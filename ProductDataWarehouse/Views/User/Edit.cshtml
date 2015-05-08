@@ -31,6 +31,12 @@
 			$('select#AccountType').attr('disabled', 'disabled');
 			</text>
    }
+			@if( Model.CreatedDateTime.HasValue )
+   {
+			<text>
+                $('#createdDate').text(getLocalDateTime('@Model.CreatedDateTime.Value.ToString()'));
+			</text>
+   }
     	});
 
     	function reloadAccountType() {
@@ -90,6 +96,8 @@
         <span class="dataRow">@Html.MJLabelFor( m => m.CompanyID, true )@Html.DropDownListFor( m => m.CompanyID, CompanyController.GetCompanyDDList() )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.Title, true )@Html.TextBoxFor( m => m.Title )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.AuthorCredit, true )@Html.TextAreaFor( m => m.AuthorCredit )<br/></span>
+		<span class="dataRow">@Html.MJLabelFor( m => m.CreatedByUser, true )@Html.DisplayFor( m => m.CreatedByUser )<br /></span>
+		<span class="dataRow">@Html.MJLabelFor( m => m.CreatedDateTime, true )<span id="createdDate"></span><br /></span>
 		<h3>Business Address</h3>
         <span class="dataRow">@Html.MJLabelFor( m => m.Address1, true )@Html.TextBoxFor( m => m.Address1 )<br/></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.Address2, true )@Html.TextBoxFor( m => m.Address2 )<br/></span>

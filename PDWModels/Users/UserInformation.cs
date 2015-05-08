@@ -26,6 +26,11 @@ namespace PDWModels.Users
 		[DisplayName( "View Trip Performance Data" )]
 		public bool ViewPerfData { get; set; }
 
+		[DisplayName( "Created by" )]
+		public string CreatedByUser { get; set; }
+		[DisplayName( "Created at" )]
+		public DateTime? CreatedDateTime { get; set; }
+
 		public bool LockAccountType { get; set; }
 	}
 }

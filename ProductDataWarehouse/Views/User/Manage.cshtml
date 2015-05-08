@@ -90,7 +90,8 @@ Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.C
 			"bProcessing": false, // don't want to use the default progress indicator at this time
 			"aaSorting": [[1, "asc"]],
 			"aoColumnDefs": [
-                    { "sName": "FirstName", "sTitle": "First Name", "aTargets": [0], "mDataProp": "FirstName", "sWidth": "15%",
+					{ "sName": "UserID", "sTitle": "ID", "aTargets": [0], "mDataProp": "UserID", "sWidth": "5%" },
+                    { "sName": "FirstName", "sTitle": "First Name", "aTargets": [1], "mDataProp": "FirstName", "sWidth": "13%",
                     	"fnRender": function (oObj) {
                     		var s = '';
                     		if (!oObj.aData["Enabled"]) {
@@ -103,7 +104,7 @@ Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.C
                     		return s;
                     	}
                     },
-                    { "sName": "LastName", "sTitle": "Last Name", "aTargets": [1], "mDataProp": "LastName", "sWidth": "15%",
+                    { "sName": "LastName", "sTitle": "Last Name", "aTargets": [2], "mDataProp": "LastName", "sWidth": "13%",
                     	"fnRender": function (oObj) {
                     		var s = '';
                     		if (!oObj.aData["Enabled"]) {
@@ -116,26 +117,26 @@ Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.C
                     		return s;
                     	}
                     },
-                    { "sName": "EmailAddress", "sTitle": "Email Address", "aTargets": [2], "mDataProp": "EmailAddress", "sWidth": "20%" },
-                    { "sName": "CompanyName", "sTitle": "Company Name", "aTargets": [3], "mDataProp": "CompanyName", "sWidth": "20%" },
-                    { "sName": "LastLogin", "sTitle": "Last Login", "aTargets": [4], "mDataProp": "LastLogin",
+                    { "sName": "EmailAddress", "sTitle": "Email Address", "aTargets": [3], "mDataProp": "EmailAddress", "sWidth": "20%" },
+                    { "sName": "CompanyName", "sTitle": "Company Name", "aTargets": [4], "mDataProp": "CompanyName", "sWidth": "20%" },
+                    { "sName": "LastLogin", "sTitle": "Last Login", "aTargets": [5], "mDataProp": "LastLogin",
                     	"fnRender": function (oObj) {
                     		return getDateTimeFromMilliseconds(oObj.aData["LastLoginMilliseconds"]);
                     	}, "sWidth": "10%"
                     },
                     { "sName": "EditButtons",
-                    	"aTargets": [5],
+                    	"aTargets": [6],
                     	"bSearchable": false,
                     	"bSortable": false,
-                    	"mDataProp": "EditButtons", "sWidth": "20%",
+                    	"mDataProp": "EditButtons", "sWidth": "19%",
                     	"fnRender": function (oObj) {
                     		var s;
                     		s = '<a href=\"@Url.Action( "Edit", "User" )/' + oObj.aData["UserID"] + '" class="fbImageBtn">Edit</a>';
                     		if (oObj.aData["SentWelcomeEmail"] && oObj.aData["Enabled"]) {
-                    			s += '&nbsp;|&nbsp;';
+                    			s += '&nbsp;|<br/>';
                     			s += '<a href=\"#\" onclick="resetPassword(' + oObj.aData["UserID"] + ');">Reset Password</a>';
                     		} else if (!oObj.aData["SentWelcomeEmail"]) {
-                    			s += '&nbsp;|&nbsp;';
+                    			s += '&nbsp;|<br/>';
                     			s += '<a href=\"#\" onclick="sendWelcomeEmail(' + oObj.aData["UserID"] + ');">Send Welcome Email</a>';
                     		}
                     		return s;
