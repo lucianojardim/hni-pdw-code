@@ -536,13 +536,13 @@ namespace PWDRepositories
 				.ToList();
 		}
 
-		public IEnumerable<IDToTextItem> GetFullCompanyList( int? companyType, bool includeTerritory = false )
+		public IEnumerable<IDToTextItemExtra> GetFullCompanyList( int? companyType, bool includeTerritory = false )
 		{
 			return database.Companies
 				.Where( c => !companyType.HasValue || ( companyType.HasValue && companyType.Value == c.CompanyType ) )
 				.OrderBy( c => c.Name )
 				.ToList()
-				.Select( c => new IDToTextItem() { ID = c.CompanyID, Text = includeTerritory ? c.FullNameWithTerritory : c.FullName } );
+				.Select( c => new IDToTextItemExtra() { ID = c.CompanyID, Text = includeTerritory ? c.FullNameWithTerritory : c.FullName, Extra = (c.TerritoryID ?? 0).ToString() } );
 		}
 
 		public IEnumerable<TerritorySummary> GetTerritoryList()
@@ -624,7 +624,7 @@ namespace PWDRepositories
 			};
 		}
 
-		public IDToTextItem GetMySalesRepInfo( bool includeTerritory = false )
+		public IDToTextItemExtra GetMySalesRepInfo( bool includeTerritory = false )
 		{
 			var user = database.Users.FirstOrDefault( u => u.UserID == PaoliWebUser.CurrentUser.UserId );
 			if( user != null )
@@ -633,7 +633,7 @@ namespace PWDRepositories
 					c.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup );
 				if( salesRep != null )
 				{
-					return new IDToTextItem() { ID = salesRep.CompanyID, Text = includeTerritory ? salesRep.FullNameWithTerritory : salesRep.FullName };
+					return new IDToTextItemExtra() { ID = salesRep.CompanyID, Text = includeTerritory ? salesRep.FullNameWithTerritory : salesRep.FullName, Extra = salesRep.TerritoryID.ToString() };
 				}
 
 				throw new Exception( "Unable to find sales rep" );
@@ -642,7 +642,7 @@ namespace PWDRepositories
 			throw new Exception( "Unable to find current user" );
 		}
 
-		public IEnumerable<IDToTextItem> GetMyDealerList()
+		public IEnumerable<IDToTextItemExtra> GetMyDealerList()
 		{
 			var user = database.Users.FirstOrDefault( u => u.UserID == PaoliWebUser.CurrentUser.UserId );
 			if( user != null )
@@ -653,7 +653,7 @@ namespace PWDRepositories
 			throw new Exception( "Unable to find current user" );
 		}
 
-		public IEnumerable<IDToTextItem> GetDealerList( int salesRepCompanyId, bool includeTerritory = false )
+		public IEnumerable<IDToTextItemExtra> GetDealerList( int salesRepCompanyId, bool includeTerritory = false )
 		{
 			var salesRep = database.Companies.FirstOrDefault( c => c.CompanyID == salesRepCompanyId );
 			if( salesRep != null )
@@ -661,16 +661,16 @@ namespace PWDRepositories
 				return GetDealerListForTerritory( salesRep.TerritoryID.Value, includeTerritory );
 			}
 
-			return new List<IDToTextItem>();
+			return new List<IDToTextItemExtra>();
 		}
 
-		public IEnumerable<IDToTextItem> GetDealerListForTerritory( int territoryId, bool includeTerritory = false )
+		public IEnumerable<IDToTextItemExtra> GetDealerListForTerritory( int territoryId, bool includeTerritory = false )
 		{
 			return database.Companies
 				.Where( c => c.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer && c.TerritoryID == territoryId )
 				.OrderBy( c => c.Name )
 				.ToList()
-				.Select( c => new IDToTextItem() { ID = c.CompanyID, Text = includeTerritory ? c.FullNameWithTerritory : c.FullName } );
+				.Select( c => new IDToTextItemExtra() { ID = c.CompanyID, Text = includeTerritory ? c.FullNameWithTerritory : c.FullName, Extra = c.TerritoryID.ToString() } );
 		}
 
 		public ShippingAddress GetCompanyAddress( int companyId )

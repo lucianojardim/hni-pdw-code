@@ -13,7 +13,7 @@
 @Html.CheckBox( "NotYetAssigned" )Not Yet Assigned<br />
 @Html.CheckBox( "AuditSpecOnly" )Spec Audit Checks<br />
 @Html.CheckBox( "GSAOnly" )Show GSA Only<br />
-Territory: @Html.DropDownList( "PaoliSalesRepGroupID", ProductDataWarehouse.Controllers.CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, includeTerritory: true ) )<br />
+Territory: @Html.DropDownList( "PaoliSalesRepGroupID", ProductDataWarehouse.Controllers.CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, includeTerritory: PDWInfrastructure.PaoliWebUser.CurrentUser.WantTerritoriesInDropDowns ) )<br />
 <div>
     <table id="specRequestList">
     <thead></thead>

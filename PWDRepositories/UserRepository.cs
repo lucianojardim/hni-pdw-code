@@ -850,12 +850,12 @@ namespace PWDRepositories
 			};
 		}
 
-		public IDToTextItem GetCurrentCompanyInfo( bool includeTerritory = false )
+		public IDToTextItemExtra GetCurrentCompanyInfo( bool includeTerritory = false )
 		{
 			var user = database.Users.FirstOrDefault( u => u.UserID == PaoliWebUser.CurrentUser.UserId );
 			if( user != null )
 			{
-				return new IDToTextItem() { ID = user.Company.CompanyID, Text = includeTerritory ? user.Company.FullNameWithTerritory : user.Company.FullName };
+				return new IDToTextItemExtra() { ID = user.Company.CompanyID, Text = includeTerritory ? user.Company.FullNameWithTerritory : user.Company.FullName, Extra = (user.Company.TerritoryID ?? 0).ToString() };
 			}
 
 			throw new Exception( "Unable to find current user" );

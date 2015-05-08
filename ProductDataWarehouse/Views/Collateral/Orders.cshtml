@@ -17,7 +17,7 @@
 }
 <br />
 @Html.CheckBox( "HideFulfilled" )Hide Fulfilled<br />
-Territory: @Html.DropDownList( "PaoliSalesRepGroupID", ProductDataWarehouse.Controllers.CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, includeTerritory: true ) )<br />
+Territory: @Html.DropDownList( "PaoliSalesRepGroupID", ProductDataWarehouse.Controllers.CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, includeTerritory: PDWInfrastructure.PaoliWebUser.CurrentUser.WantTerritoriesInDropDowns ) )<br />
 <div>
     <table id="orderList">
     <thead></thead>

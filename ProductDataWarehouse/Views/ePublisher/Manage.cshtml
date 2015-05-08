@@ -363,14 +363,14 @@
             <div class="clr galleryBottom"></div>
         </div>
         <div class="tabcont three">
-        	<span class="filterby"><label class="newDDLFilter">Territory: </label>@Html.DropDownList( "PSRGReview", ProductDataWarehouse.Controllers.CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, includeTerritory: true ), new { @class = "newLookDDL" } )<br /></span>
+        	<span class="filterby"><label class="newDDLFilter">Territory: </label>@Html.DropDownList( "PSRGReview", ProductDataWarehouse.Controllers.CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, includeTerritory: PDWInfrastructure.PaoliWebUser.CurrentUser.WantTerritoriesInDropDowns ), new { @class = "newLookDDL" } )<br /></span>
 			<div class="clr"></div>
 			<div style="display: block;" id="tab3" class="galleryList">
 			</div>
         	<div class="clr galleryBottom"></div>
         </div>
         <div class="tabcont four">
-        	<span class="filterby"><label class="newDDLFilter">Territory: </label>@Html.DropDownList( "PSRGAll", ProductDataWarehouse.Controllers.CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, includeTerritory: true ), new { @class = "newLookDDL" } )<br /></span>
+        	<span class="filterby"><label class="newDDLFilter">Territory: </label>@Html.DropDownList( "PSRGAll", ProductDataWarehouse.Controllers.CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, includeTerritory: PDWInfrastructure.PaoliWebUser.CurrentUser.WantTerritoriesInDropDowns ), new { @class = "newLookDDL" } )<br /></span>
 			<div class="clr"></div>
 			<div style="display: block;" id="tab4" class="galleryList">
 			</div>

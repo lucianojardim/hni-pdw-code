@@ -31,9 +31,7 @@
 			</text>
 			}
 
-			var group = $('#PaoliSalesRepGroupID option:selected').text();
-
-			return group.substring(0, 4);
+			return $('#PaoliSalesRepGroupID option:selected').data('territory');
 		}
 
 		function getNewCompanyType() {
@@ -260,7 +258,7 @@
     		if ($('#PaoliSalesRepGroupID').val() != null && $('#PaoliSalesRepGroupID').val() != '' && $('#PaoliSalesRepGroupID').val() != '0') {
 				@if( PDWInfrastructure.PaoliWebUser.CurrentUser.IsDealerUser )
 	{
-		var thisCompany = ProductDataWarehouse.Controllers.CompanyController.GetThisCompanyAsDDItem( includeTerritory: true );
+		var thisCompany = ProductDataWarehouse.Controllers.CompanyController.GetThisCompanyAsDDItem( includeTerritory: PDWInfrastructure.PaoliWebUser.CurrentUser.WantTerritoriesInDropDowns );
 				<text>
     				emptyDropDownList($('#DealershipID'));
 					$('#DealershipID').append('<option value="@(thisCompany.First().Value)">@(thisCompany.First().Text.Replace( "'", "''" ))</option>');
@@ -344,7 +342,7 @@
 
 		function reloadDealerList(dealerID, dsrMemberID, forceDealer) {
     		makeAjaxCall('/Company/GetDealerListForSalesRep',
-    			{ salesRepCompanyId: $('#PaoliSalesRepGroupID').val(), includeTerritory: true },
+    			{ salesRepCompanyId: $('#PaoliSalesRepGroupID').val(), includeTerritory: @(PDWInfrastructure.PaoliWebUser.CurrentUser.WantTerritoriesInDropDowns ? "true" : "false") },
     			function (data, textStatus, jqXHR) {
 					if( forceDealer != null && forceDealer != '' ) {
 						emptyDropDownList($('#DealershipID'));
@@ -450,7 +448,12 @@
 	{
 				<div class="projectInfo">
                 <label for="PaoliSalesRepGroupID">Sales Rep Territory</label>
-                @Html.DropDownListFor( m => m.PaoliSalesRepGroupID, GetSalesRepList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, includeTerritory: true ) )
+				<select data-val="true" data-val-number="The field Select A Sales Rep Territory must be a number." id="PaoliSalesRepGroupID" name="PaoliSalesRepGroupID" class="valid">
+				@foreach( var groupItem in GetSalesRepList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, includeTerritory: PDWInfrastructure.PaoliWebUser.CurrentUser.WantTerritoriesInDropDowns ) )
+	{
+					<option value="@groupItem.Value" data-territory="@groupItem.Extra">@groupItem.Text</option>
+		}
+				</select>
                 <div class="clr"></div>
 				@Html.ValidationMessageFor( m => m.PaoliSalesRepGroupID )
                 <div class="clr"></div>

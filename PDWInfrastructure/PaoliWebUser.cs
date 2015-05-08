@@ -330,6 +330,8 @@ namespace PDWInfrastructure
 		public bool CanInLineAddProjects { get { return IsPaoliUser || IsDealerUser || OneOfRoles( PaoliWebRole.PaoliSalesRep ); } }
 		public bool CanManageProjects { get { return OneOfRoles( PaoliWebRole.SuperAdmin, PaoliWebRole.PaoliMemberAdmin ); } }
 
+		public bool WantTerritoriesInDropDowns { get { return IsSuperAdmin; } }
+
 		public string ProductsHomePage
 		{
 			get

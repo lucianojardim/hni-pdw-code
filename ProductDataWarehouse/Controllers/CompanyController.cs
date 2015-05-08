@@ -355,7 +355,7 @@ namespace ProductDataWarehouse.Controllers
 					.ToList();
 				if( includeBlank )
 				{
-					theList.Insert( 0, new PDWModels.IDToTextItem() { ID = 0, Text = "" } );
+					theList.Insert( 0, new PDWModels.IDToTextItemExtra() { ID = 0, Text = "" } );
 				}
 				return Json( theList, JsonRequestBehavior.AllowGet );
 			}
@@ -369,7 +369,7 @@ namespace ProductDataWarehouse.Controllers
 					.ToList();
 				if( includeBlank )
 				{
-					theList.Insert( 0, new PDWModels.IDToTextItem() { ID = 0, Text = "" } );
+					theList.Insert( 0, new PDWModels.IDToTextItemExtra() { ID = 0, Text = "" } );
 				}
 				return Json( theList, JsonRequestBehavior.AllowGet );
 			}
@@ -383,7 +383,7 @@ namespace ProductDataWarehouse.Controllers
 
 				if( includeBlank )
 				{
-					theList.Insert( 0, new PDWModels.IDToTextItem() { ID = 0, Text = "" } );
+					theList.Insert( 0, new PDWModels.IDToTextItemExtra() { ID = 0, Text = "" } );
 				}
 
 				return Json( theList, JsonRequestBehavior.AllowGet );
@@ -398,7 +398,7 @@ namespace ProductDataWarehouse.Controllers
 
 				if( includeBlank )
 				{
-					theList.Insert( 0, new PDWModels.IDToTextItem() { ID = 0, Text = "" } );
+					theList.Insert( 0, new PDWModels.IDToTextItemExtra() { ID = 0, Text = "" } );
 				}
 
 				return Json( theList, JsonRequestBehavior.AllowGet );
@@ -420,19 +420,24 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
-		public delegate IEnumerable<SelectListItem> GetCompanyListFunction( int? companyType = null, bool includeBlank = true, bool includeTerritory = false );
+		public class SelectListItemPlus : SelectListItem
+		{
+			public string Extra { get; set; }
+		}
 
-		public static IEnumerable<SelectListItem> GetThisCompanyAsDDItem( int? companyType = null, bool includeBlank = true, bool includeTerritory = false )
+		public delegate IEnumerable<SelectListItemPlus> GetCompanyListFunction( int? companyType = null, bool includeBlank = true, bool includeTerritory = false );
+
+		public static IEnumerable<SelectListItemPlus> GetThisCompanyAsDDItem( int? companyType = null, bool includeBlank = true, bool includeTerritory = false )
 		{
 			using( var uRepository = new UserRepository() )
 			{
 				var cInfo = uRepository.GetCurrentCompanyInfo( includeTerritory );
 
-				return new List<SelectListItem>() { new SelectListItem() { Value = cInfo.ID.ToString(), Text = cInfo.Text } };
+				return new List<SelectListItemPlus>() { new SelectListItemPlus() { Value = cInfo.ID.ToString(), Text = cInfo.Text, Extra = cInfo.Extra } };
 			}
 		}
 
-		public static IEnumerable<SelectListItem> GetDealerForSalesRepDDList( int? companyType = null, bool includeBlank = true, bool includeTerritory = false )
+		public static IEnumerable<SelectListItemPlus> GetDealerForSalesRepDDList( int? companyType = null, bool includeBlank = true, bool includeTerritory = false )
 		{
 			using( var cRepository = new CompanyRepository() )
 			{
@@ -440,31 +445,33 @@ namespace ProductDataWarehouse.Controllers
 
 				if( includeBlank )
 				{
-					theList.Insert( 0, new PDWModels.IDToTextItem() { ID = 0, Text = "" } );
+					theList.Insert( 0, new PDWModels.IDToTextItemExtra() { ID = 0, Text = "", Extra = "" } );
 				}
 
-				return theList.Select( cInfo => new SelectListItem() { Value = cInfo.ID.ToString(), Text = cInfo.Text } );
+				return theList.Select( cInfo => new SelectListItemPlus() { Value = cInfo.ID.ToString(), Text = cInfo.Text, Extra = cInfo.Extra } );
 			}
 		}
 
-		public static IEnumerable<SelectListItem> GetSalesRepForDealerDDItem( int? companyType = null, bool includeBlank = true, bool includeTerritory = false )
+		public static IEnumerable<SelectListItemPlus> GetSalesRepForDealerDDItem( int? companyType = null, bool includeBlank = true, bool includeTerritory = false )
 		{
 			using( var cRepository = new CompanyRepository() )
 			{
 				var cInfo = cRepository.GetMySalesRepInfo( includeTerritory );
 
-				return new List<SelectListItem>() { new SelectListItem() { Value = cInfo.ID.ToString(), Text = cInfo.Text } };
+				return new List<SelectListItemPlus>() { new SelectListItemPlus() { Value = cInfo.ID.ToString(), Text = cInfo.Text, Extra = cInfo.Extra } };
 			}
 		}
 
-		public static IEnumerable<SelectListItem> GetCompanyDDList( int? companyType = null, bool includeBlank = true, bool includeTerritory = false )
+		public static IEnumerable<SelectListItemPlus> GetCompanyDDList( int? companyType = null, bool includeBlank = true, bool includeTerritory = false )
 		{
 			using( var cRepository = new CompanyRepository() )
 			{
-				var theList = cRepository.GetFullCompanyList( companyType, includeTerritory ).Select( c => new SelectListItem() { Value = c.ID.ToString(), Text = c.Text } ).ToList();
+				var theList = cRepository.GetFullCompanyList( companyType, includeTerritory )
+					.Select( c => new SelectListItemPlus() { Value = c.ID.ToString(), Text = c.Text, Extra = c.Extra } )
+					.ToList();
 				if( includeBlank )
 				{
-					theList.Insert( 0, new SelectListItem() );
+					theList.Insert( 0, new SelectListItemPlus() );
 				}
 				return theList;
 			}
