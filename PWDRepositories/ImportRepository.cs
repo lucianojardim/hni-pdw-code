@@ -211,7 +211,7 @@ namespace PWDRepositories
 								attForSeries.Series = sData;
 								database.SeriesTextAttributes.Add( attForSeries );
 
-								var startingPrice = string.Join( "", val.Intersect( "0123456789" ) );
+								var startingPrice = string.Join( "", val.Where( c => Char.IsDigit( c ) ) );
 								int price = 0;
 								if( startingPrice.Any() && int.TryParse( startingPrice, out price ) )
 								{
