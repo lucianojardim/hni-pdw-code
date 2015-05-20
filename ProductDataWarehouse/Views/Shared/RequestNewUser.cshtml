@@ -115,7 +115,6 @@
 <script type="text/javascript">
 	$(document).ready(function () {
 
-		$.data($('#theContactUserForm')[0], 'validator').settings.ignore = '.noValidate';
 		$('#EmailAddress').rules("add", { required: true, messages: { required: "Email Address is required."} });
 		$("#EmailAddress").rules("add", { regex: "^[A-Za-z0-9](([_\\.\\-\\+]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$", messages: { regex: "Email Address must be a valid Email Address."} });
 
@@ -128,6 +127,8 @@
 			'scrolling': 'auto',
 			'titleShow': false
 		});
+
+		$('#theContactUserForm').validate();
 
 		$('.submitUserContactBtn').click(function (e) {
 			$('#UserCompanyID').val(getNewUserCompanyID());
@@ -149,7 +150,7 @@
 								addEditUserCallback();
 							}
 						} else {
-							alert('We are unable to process your request at this time.');
+							alert(data.message);
 						}
 					}, function () {
 						alert('We are unable to process your request at this time.');

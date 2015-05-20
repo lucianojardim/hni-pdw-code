@@ -999,7 +999,7 @@ namespace PWDRepositories
 			{
 				if( database.Users.Any( u => u.Email == uInfo.EmailAddress ) )
 				{
-					throw new Exception( "Unable to add user - Email address already exists." );
+					throw new ApplicationException( "Unable to add user - Email address already exists." );
 				}
 
 				var dbCompany = database.Companies.FirstOrDefault( c => c.CompanyID == uInfo.UserCompanyID );

@@ -324,13 +324,20 @@ namespace ProductDataWarehouse.Controllers
 		{
 			using( var aRepository = new UserRepository() )
 			{
-				aRepository.UpdateDealerContact( PaoliWebUser.CurrentUser.UserId, uInfo );
-
-				return Json( new
+				try
 				{
-					success = true
-				},
-									JsonRequestBehavior.AllowGet );
+					aRepository.UpdateDealerContact( PaoliWebUser.CurrentUser.UserId, uInfo );
+
+					return Json( new
+					{
+						success = true
+					},
+										JsonRequestBehavior.AllowGet );
+				}
+				catch( ApplicationException e )
+				{
+					return Json( new { success = false, message = e.Message } );
+				}
 			}
 		}
 
