@@ -60,6 +60,7 @@
     			elements: elementName,
     			width: "640",
     			height: "480",
+    			convert_urls: false,
     			setup: function (ed) {
     				ed.onSaveContent.add(function (i, o) {
     					o.content = o.content.replace(/&#39/g, "&apos");

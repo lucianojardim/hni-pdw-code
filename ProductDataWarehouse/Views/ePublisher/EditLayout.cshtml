@@ -24,6 +24,7 @@
 			height: "480",
 			plugins : "paste",
 			paste_text_sticky : true,
+			convert_urls: false,
 			setup: function (ed) {
 				ed.onSaveContent.add(function (i, o) {
 					o.content = o.content.replace(/&#39/g, "&apos");
