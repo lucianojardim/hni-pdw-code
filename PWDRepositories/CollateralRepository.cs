@@ -468,6 +468,14 @@ namespace PWDRepositories
 			return database.SaveChanges() > 0;
 		}
 
+		public List<CollateralTypeDetail> GetCollateralTypeOrderedList()
+		{
+			return database.CollateralTypes
+				.OrderBy( c => c.DisplayOrder )
+				.Select( c => new CollateralTypeDetail() { id = c.CollateralTypeID, name = c.Name, order = c.DisplayOrder.Value } )
+				.ToList();
+		}
+
 		public Dictionary<int, string> GetCollateralTypeList()
 		{
 			return database.CollateralTypes

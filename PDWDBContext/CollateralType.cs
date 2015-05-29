@@ -21,6 +21,7 @@ namespace PDWDBContext
     
         public int CollateralTypeID { get; set; }
         public string Name { get; set; }
+        public Nullable<int> DisplayOrder { get; set; }
     
         public virtual ICollection<CollateralItem> CollateralItems { get; set; }
     }

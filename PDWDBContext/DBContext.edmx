@@ -563,6 +563,7 @@
           </Key>
           <Property Name="CollateralTypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="DisplayOrder" Type="int" />
         </EntityType>
         <EntityType Name="Companies">
           <Key>
@@ -3709,6 +3710,7 @@
           <Property Type="Int32" Name="CollateralTypeID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="CollateralItems" Relationship="PaoliPDWModel.fkCollateral_Type" FromRole="CollateralType" ToRole="CollateralItem" />
+          <Property Type="Int32" Name="DisplayOrder" />
         </EntityType>
         <Association Name="fkCollateral_Type">
           <End Type="PaoliPDWModel.CollateralType" Role="CollateralType" Multiplicity="0..1" />
@@ -5061,6 +5063,7 @@
           <EntitySetMapping Name="CollateralTypes">
             <EntityTypeMapping TypeName="PaoliPDWModel.CollateralType">
               <MappingFragment StoreEntitySet="CollateralTypes">
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CollateralTypeID" ColumnName="CollateralTypeID" />
               </MappingFragment>

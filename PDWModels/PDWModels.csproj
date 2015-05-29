@@ -58,6 +58,7 @@
     <Compile Include="Collateral\CollateralOrderSummary.cs" />
     <Compile Include="Collateral\CollateralShipmentDetail.cs" />
     <Compile Include="Collateral\CollateralSummary.cs" />
+    <Compile Include="Collateral\CollateralTypeDetail.cs" />
     <Compile Include="Collateral\NewOrderInformation.cs" />
     <Compile Include="Collateral\PendingOrderInformation.cs" />
     <Compile Include="Collateral\ShipmentInformation.cs" />

@@ -431,6 +431,20 @@ namespace ProductDataWarehouse.Controllers
 			return theList;
 		}
 
+		public static IEnumerable<CollateralTypeDetail> GetCollateralTypeTabList()
+		{
+			using( var cRepo = new CollateralRepository() )
+			{
+				var theList = cRepo.GetCollateralTypeOrderedList();
+				theList.Add( new CollateralTypeDetail() { name = "Bundle", id = -1, order = -1 } );
+				theList.Sort( delegate( CollateralTypeDetail x, CollateralTypeDetail y )
+				{
+					return x.order.CompareTo( y.order );
+				} );
+				return theList;
+			}
+		}
+
 		public static IEnumerable<SelectListItem> GetProductDDList( int? itemId = null )
 		{
 			using( var cRepository = new CollateralRepository() )

@@ -726,7 +726,7 @@
 
 	</script>
 @{
-	var collTypeList = CollateralController.GetCollateralTypeFilterList().Where( c => Model.OrderDetails.Any( od => od.CollateralTypeID.ToString() == c.Value ) ).OrderBy( c => int.Parse( c.Value ) );
+	var collTypeList = CollateralController.GetCollateralTypeTabList().Where( c => Model.OrderDetails.Any( od => od.CollateralTypeID == c.id ) );
 	CompanyController.GetCompanyListFunction GetSalesRepList = CompanyController.GetCompanyDDList;
 	CompanyController.GetCompanyListFunction GetDealerList = CompanyController.GetCompanyDDList;
 	if( PaoliWebUser.CurrentUser.IsInRole( PaoliWebUser.PaoliWebRole.PaoliSalesRep ) )
@@ -853,9 +853,9 @@
 					<ul class="tabs1">
 		@foreach( var collateralType in collTypeList )
   {
-	  if( collateralType.Value != "0" )
+	  if( collateralType.id != 0 )
 	  {
-						<li class="box1"><a href="#tab@(collateralType.Value)">@collateralType.Text</a></li>
+						<li class="box1"><a href="#tab@(collateralType.id)">@collateralType.name</a></li>
 	  }
   }
 					</ul>
@@ -868,17 +868,17 @@
 	  }
 		@foreach( var collateralType in collTypeList )
   {
-	  if( collateralType.Value != "0" )
+	  if( collateralType.id != 0 )
 	  {
 				<div class="tab_container1">
-					<div style="display: block;" id="tab@(collateralType.Value)" class="tab_content1">
+					<div style="display: block;" id="tab@(collateralType.id)" class="tab_content1">
 						<ul>
 				@{
 		  itemNum = 0;
 				}
 				@for( int i = 0; i < Model.OrderDetails.Count; i++ )
 	{
-		if( Model.OrderDetails[i].CollateralTypeID.ToString() == collateralType.Value )
+		if( Model.OrderDetails[i].CollateralTypeID == collateralType.id )
 		{
 			if( itemNum % 2 == 0 )
 			{
