@@ -218,7 +218,7 @@ namespace PWDRepositories
 				.Include( t => t.TypicalOptionAttributes.Select( s => s.TAttribute ) )
 				.Include( t => t.TypicalOptionAttributes.Select( s => s.TAttributeOption ) )
 				.Include( t => t.TypicalIntAttributes )
-				.Include( t => t.TypicalImageFiles.Select( s => s.ImageFile ) )
+				.Include( t => t.TypicalImageFiles.Select( s => s.ImageFile.TypicalImageFiles.Select( tif => tif.Typical ) ) )
 				.Where( t => t.IsPublished )
 				.AsQueryable();
 			gallery.TotalListCount = theList.Count();

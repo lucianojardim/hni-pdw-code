@@ -13,6 +13,7 @@ namespace PDWDBContext
 			public int ID { get; set; }
 			public string FileName { get; set; }
 			public bool CanLightbox { get; set; }
+			public string TypicalName { get; set; }
 		}
 
 		public class PDWImageType
@@ -48,7 +49,8 @@ namespace PDWDBContext
 		public ImageData ThumbnailImageData( string suffix )
 		{
 			string prependImageName = ConfigurationManager.AppSettings["PrependImageName"];
-			return new ImageData() { ID = ImageID, FileName = prependImageName + " " + Name + "_" + suffix + ".jpg", CanLightbox = ImageCanLightbox( ImageType ) };
+			return new ImageData() { ID = ImageID, FileName = prependImageName + " " + Name + "_" + suffix + ".jpg", CanLightbox = ImageCanLightbox( ImageType ),
+				TypicalName = TypicalImageFiles.Any() ? TypicalImageFiles.First().Typical.Name : null };
 		}
 
 		public string OriginalImage

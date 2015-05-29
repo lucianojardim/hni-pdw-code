@@ -190,7 +190,8 @@ namespace PWDRepositories
 					FileName = img.ThumbnailImageData( "mBase" ).FileName,
 					ImageID = img.ImageID,
 					CanLightbox = ImageFile.ImageCanLightbox( img.ImageType ),
-					HiResFileName = img.OriginalImage
+					HiResFileName = img.OriginalImage,
+					TypicalName = img.ThumbnailImageData( "mBase" ).TypicalName
 				} );
 
 			return gallery;
@@ -205,6 +206,7 @@ namespace PWDRepositories
 					.Select( iType => iType.Abbreviation )
 					.ToList();
 			var imgList = database.ImageFiles
+				.Include( i => i.TypicalImageFiles.Select( tif => tif.Typical ) )
 				.Where( i => !i.HasPeople || includePeople )
 				.Where( imgFile => imageTypeList.Any( it => it == imgFile.ImageType ) )
 				.AsQueryable();
@@ -291,7 +293,8 @@ namespace PWDRepositories
 					FileName = img.ThumbnailImageData( "m16to9" ).FileName, 
 					ImageID = img.ImageID,
 					CanLightbox = ImageFile.ImageCanLightbox( img.ImageType ),
-					HiResFileName = img.OriginalImage 
+					HiResFileName = img.OriginalImage,
+					TypicalName = img.ThumbnailImageData( "m16to9" ).TypicalName
 				} );
 
 			return gallery;
@@ -305,6 +308,7 @@ namespace PWDRepositories
 			var imageTypeList = ImageFile.ImageTypes.Where( i => i.CommonImage )
 					.Select( iType => iType.Abbreviation );
 			var imgList = database.ImageFiles
+				.Include( i => i.TypicalImageFiles.Select( tif => tif.Typical ) )
 				.Where( imgFile => imageTypeList.Any( it => it == imgFile.ImageType ) )
 				.AsQueryable();
 			gallery.TotalImageCount = imgList.Count();
@@ -385,7 +389,8 @@ namespace PWDRepositories
 					FileName = img.ThumbnailImageData( largeImage ? "l16to9" : "m16to9" ).FileName,
 					Name = img.Name,
 					ImageID = img.ImageID,
-					CanLightbox = ImageFile.ImageCanLightbox( img.ImageType )
+					CanLightbox = ImageFile.ImageCanLightbox( img.ImageType ),
+					TypicalName = img.ThumbnailImageData( "m16to9" ).TypicalName
 				};
 		}
 

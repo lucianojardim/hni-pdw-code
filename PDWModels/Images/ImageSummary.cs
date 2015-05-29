@@ -12,5 +12,6 @@ namespace PDWModels.Images
 		public string Name { get; set; }
 		public bool CanLightbox { get; set; }
 		public string HiResFileName { get; set; }
+		public string TypicalName { get; set; }
 	}
 }
