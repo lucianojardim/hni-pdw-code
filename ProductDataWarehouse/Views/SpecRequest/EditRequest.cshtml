@@ -563,7 +563,7 @@
 				<select data-val="true" data-val-number="The field Select A Sales Rep Territory must be a number." id="PaoliSalesRepGroupID" name="PaoliSalesRepGroupID" class="valid">
 				@foreach( var groupItem in CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, includeTerritory: PDWInfrastructure.PaoliWebUser.CurrentUser.WantTerritoriesInDropDowns ) )
 	{
-					<option value="@groupItem.Value" data-territory="@groupItem.Extra">@groupItem.Text</option>
+					<option value="@groupItem.Value" data-territory="@groupItem.Extra" @if(Model.PaoliSalesRepGroupID.ToString() == groupItem.Value) {<text>selected</text>}>@groupItem.Text</option>
 		}
 				</select>
 					</td>
