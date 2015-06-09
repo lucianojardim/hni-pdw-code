@@ -132,7 +132,7 @@ namespace PWDRepositories
 		{
 			if( database.Users.Any( u => u.Email == uInfo.EmailAddress ) )
 			{
-				throw new Exception( "Unable to add user - Email address already exists." );
+				throw new ApplicationException( "Email address already exists." );
 			}
 
 			User newUser = new User();
@@ -306,7 +306,7 @@ namespace PWDRepositories
 
 			if( database.Users.Any( u => u.Email == uInfo.EmailAddress && u.UserID != uInfo.UserID ) )
 			{
-				throw new Exception( "Unable to update user - Email address already exists." );
+				throw new ApplicationException( "Unable to update user - Email address already exists." );
 			}
 
 			bool bChangeEmail = false, bWelcomeEmail = false;

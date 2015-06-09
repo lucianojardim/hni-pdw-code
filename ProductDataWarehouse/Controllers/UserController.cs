@@ -102,9 +102,16 @@ namespace ProductDataWarehouse.Controllers
 			{
 				using( var uRepository = new UserRepository() )
 				{
-					uRepository.AddUser( uInfo, UserImage != null ? UserImage.InputStream : null, UserImage != null ? UserImage.FileName : null, PaoliWebUser.CurrentUser.UserId );
+					try
+					{
+						uRepository.AddUser( uInfo, UserImage != null ? UserImage.InputStream : null, UserImage != null ? UserImage.FileName : null, PaoliWebUser.CurrentUser.UserId );
 
-					return RedirectToAction( "Manage" );
+						return RedirectToAction( "Manage" );
+					}
+					catch( ApplicationException e )
+					{
+						ModelState.AddModelError( "", e.Message );
+					}
 				}
 			}
 
@@ -133,9 +140,16 @@ namespace ProductDataWarehouse.Controllers
 			{
 				using( var uRepository = new UserRepository() )
 				{
-					uRepository.UpdateUser( uInfo, UserImage != null ? UserImage.InputStream : null, UserImage != null ? UserImage.FileName : null );
+					try
+					{
+						uRepository.UpdateUser( uInfo, UserImage != null ? UserImage.InputStream : null, UserImage != null ? UserImage.FileName : null );
 
-					return RedirectToAction( "Manage" );
+						return RedirectToAction( "Manage" );
+					}
+					catch( ApplicationException e )
+					{
+						ModelState.AddModelError( "", e.Message );
+					}
 				}
 
 			}
