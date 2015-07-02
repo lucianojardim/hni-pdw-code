@@ -64,6 +64,7 @@
 				);
 
     		$('#LaminatePreference').rules("add", { required: true, messages: { required: "Laminate Preference is required."} });
+    		$('#VeneerPreference').rules("add", { required: true, messages: { required: "Veneer Preference is required."} });
     		$('#ProjectID').rules("add", { required: true, messages: { required: "Project is required."} });
     		$('#PaoliSalesRepGroupID').rules("add", { required: true, messages: { required: "Sales Rep Territory is required."} });
     		$('#EndCustomerID').rules("add", { required: true, messages: { required: "End Customer is required."} });
@@ -101,6 +102,9 @@
     				if ($('#LaminatePreference').closest('.requestPanel').hasClass('activeSection')) {
 						showHideLaminatePreference();
 					}
+    				if ($('#VeneerPreference').closest('.requestPanel').hasClass('activeSection')) {
+						showHideVeneerPreference();
+					}
 				}
 			});
 
@@ -110,6 +114,9 @@
 
     			if ($('#LaminatePreference').closest('.requestPanel').hasClass('activeSection')) {
 					showHideLaminatePreference();
+				}
+    			if ($('#VeneerPreference').closest('.requestPanel').hasClass('activeSection')) {
+					showHideVeneerPreference();
 				}
 			});
 
@@ -157,8 +164,10 @@
 			});
 
 			showHideLaminatePreference();
+			showHideVeneerPreference();
 			$('.chkFinish').click(function (e) {
 				showHideLaminatePreference();
+				showHideVeneerPreference();
 			});
 
 			$(".radio").dgStyle();
@@ -268,6 +277,16 @@
 			} else {
 				$('.laminatePreference').hide();
 				$('#LaminatePreference').addClass('noValidate');
+			}			
+		}
+
+		function showHideVeneerPreference() {
+			if ($('.chkRealFinish:checked[value="Veneer"]').length > 0) {
+				$('.veneerPreference').show();
+				$('#VeneerPreference').removeClass('noValidate');
+			} else {
+				$('.veneerPreference').hide();
+				$('#VeneerPreference').addClass('noValidate');
 			}			
 		}
 
@@ -534,6 +553,7 @@
 			$('#confirmGrommets h5').remove();
 			$('#confirmFinishes h5').remove();
 			$('#confirmLaminate h5').remove();
+			$('#confirmVeneer h5').remove();
 			if (casegoodsList.length != 0 || conferencingList.length != 0) {
 				if ($('#Grommets').is(':checked')) {
 					$('#confirmGrommets .coln1').append('<h5>Include grommets?</h5>');
@@ -566,6 +586,10 @@
 					if ($.inArray(finishList, 'Laminate')) {
 						$('#confirmLaminate .coln1').append('<h5>Laminate</h5>');
 						$('#confirmLaminate .coln2').append('<h5>' + $('#LaminatePreference option:selected').text() + '</h5>');
+					}
+					if ($.inArray(finishList, 'Veneer')) {
+						$('#confirmVeneer .coln1').append('<h5>Veneer</h5>');
+						$('#confirmVeneer .coln2').append('<h5>' + $('#VeneerPreference option:selected').text() + '</h5>');
 					}
 				}
 			}
@@ -1226,6 +1250,20 @@
 								 </div>
 							 </div>
 							 <i class="clear_0"></i>
+							 <div class="box9 cgcsOnly">
+								 <div class="box9_lt veneerPreference">
+									 <h5>
+										 What type of veneer do you require?</h5>
+										 @Html.ValidationMessageFor( m => m.VeneerPreference )
+								 </div>
+								 <div class="box9_rt veneerPreference">
+									 @Html.DropDownListFor( m => m.VeneerPreference, new List<SelectListItem>() { 
+	new SelectListItem(),
+	new SelectListItem() { Value = "Standard", Text = "Standard Veneer" },
+	new SelectListItem() { Value = "Premium", Text = "Premium Veneer" } }, new { @class = "" } )
+								 </div>
+							 </div>
+							 <i class="clear_0"></i>
 							 <div class="cgcsOnly">
 								 <h6>
 									 Additional Finishes Requests</h6>
@@ -1480,6 +1518,17 @@
 									 TFL - Thermally Fused Laminate</h5>
 							 </div>
 							 <i class="clear_0"></i></li>
+						 <li id="confirmVeneer">
+							 <div class="coln1">
+								 <h5>
+									 What type of veneer do you require?</h5>
+							 </div>
+							 <div class="coln2">
+								 <h5>
+									 Standard Veneer</h5>
+							 </div>
+							 <i class="clear_0"></i>
+						 </li>
 						 <li id="confirmSpecialRequests">
 							 <div class="coln1">
 								 <h5>

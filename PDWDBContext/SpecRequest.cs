@@ -80,6 +80,7 @@ namespace PDWDBContext
         public string OldEndCustomer { get; set; }
         public Nullable<bool> OldIsGSA { get; set; }
         public Nullable<int> OldContractID { get; set; }
+        public string VeneerPreference { get; set; }
     
         public virtual Company PrimaryCompany { get; set; }
         public virtual Company PaoliSalesRepGroup { get; set; }

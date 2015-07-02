@@ -109,6 +109,8 @@ namespace PDWModels.SpecRequests
 		public List<string> Finishes { get; set; }
 		[DisplayName( "Laminate Preference" )]
 		public string LaminatePreference { get; set; }
+		[DisplayName( "Veneer Preference" )]
+		public string VeneerPreference { get; set; }
 		public string OtherFinishDetails { get; set; }
 		[DisplayName( "Include Grommets" )]
 		public bool Grommets { get; set; }

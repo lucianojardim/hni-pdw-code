@@ -35,6 +35,7 @@
 
     		$('#DealerPointOfContact').rules("add", { required: true, messages: { required: "Dealership Point of Contact Name is required."} });
     		$('#LaminatePreference').rules("add", { required: true, messages: { required: "Laminate Preference is required."} });
+    		$('#VeneerPreference').rules("add", { required: true, messages: { required: "Veneer Preference is required."} });
     		$("#DealerPointOfContactPhone").rules("add", { regex: "^[2-9]\\d{2}-\\d{3}-\\d{4}$", messages: { regex: "Phone Number must be in the format ###-###-####."} });
     		$("#DealerPointOfContactEmail").rules("add", { regex: "^[A-Za-z0-9](([_\\.\\-\\+]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$", messages: { regex: "Email must be a valid Email Address."} });
 
@@ -178,8 +179,10 @@
 			});
 
 			showHideLaminatePreference();
+			showHideVeneerPreference();
 			$('.chkFinish').change(function (e) {
 				showHideLaminatePreference();
+				showHideVeneerPreference();
 			});
 
 			var doesMultipleFiles = false;
@@ -205,6 +208,14 @@
 				$('.laminatePreference').show();
 			} else {
 				$('.laminatePreference').hide();
+			}			
+		}
+
+		function showHideVeneerPreference(){
+			if ($('.chkFinish:checked[value="Veneer"]').length > 0) {
+				$('.veneerPreference').show();
+			} else {
+				$('.veneerPreference').hide();
 			}			
 		}
 
@@ -763,6 +774,10 @@
 	new SelectListItem(),
 	new SelectListItem() { Value = "TFL", Text = "TFL - Thermally Fused Laminate" },
 	new SelectListItem() { Value = "HPL", Text = "HPL - High Pressure Laminate" } }, new { @class = "laminatePreference" } )<br class="laminatePreference" />
+					@Html.MJLabelFor( m => m.VeneerPreference, true, new { @class = "veneerPreference" } ) @Html.DropDownListFor( m => m.VeneerPreference, new List<SelectListItem>() { 
+	new SelectListItem(),
+	new SelectListItem() { Value = "Standard", Text = "Standard Veneer" },
+	new SelectListItem() { Value = "Premium", Text = "Premium Veneer" } }, new { @class = "veneerPreference" } )<br class="veneerPreference" />
 		 @Html.TextBoxFor( m => m.OtherFinishDetails )
 	<span class="littleHelp">Please specify if you there is a combination of finishes required by top vs. base, etc. Please include all appropriate detail of the user preference.</span>
 					</td>
