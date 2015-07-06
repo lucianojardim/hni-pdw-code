@@ -98,8 +98,14 @@ Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.C
 			"aoColumnDefs": [
                     { "sName": "Name", "sTitle": "Name", "aTargets": [0], "mDataProp": "Name", "sWidth": "31%",
                     	"fnRender": function (oObj) {
-                    		var s;
-                    		s = '<a href=\"@Url.Action( "Edit", "Company" )/' + oObj.aData["CompanyID"] + '">' + oObj.aData["Name"] + '</a>';
+                    		var s = '';
+                    		if (oObj.aData["IsDisabled"]) {
+                    			s += '<span style="text-decoration:line-through">';
+                    		}
+                    		s += '<a href=\"@Url.Action( "Edit", "Company" )/' + oObj.aData["CompanyID"] + '">' + oObj.aData["Name"] + '</a>';
+                    		if (oObj.aData["IsDisabled"]) {
+                    			s += '</span>';
+                    		}
                     		return s;
                     	}
                     },

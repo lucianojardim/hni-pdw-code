@@ -601,6 +601,7 @@
           <Property Name="TripGroup" Type="nvarchar" MaxLength="50" />
           <Property Name="TierGroup" Type="nvarchar" MaxLength="50" />
           <Property Name="ImageFileName" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsDisabled" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="CompanyTripData">
           <Key>
@@ -3434,6 +3435,7 @@
           <NavigationProperty Name="Projects1" Relationship="PaoliPDWModel.fkProject_EndCustomer" FromRole="Company" ToRole="Project" />
           <NavigationProperty Name="CompanyTripData" Relationship="PaoliPDWModel.fkTripData_Company" FromRole="Company" ToRole="CompanyTripData" />
           <NavigationProperty Name="TerritoryTripData" Relationship="PaoliPDWModel.fkTerritoryTripData_Company" FromRole="Company" ToRole="TerritoryTripData" />
+          <Property Type="Boolean" Name="IsDisabled" Nullable="false" />
         </EntityType>
         <EntityType Name="SpecRequestFile">
           <Key>
@@ -4885,6 +4887,7 @@
           <EntitySetMapping Name="Companies">
             <EntityTypeMapping TypeName="PaoliPDWModel.Company">
               <MappingFragment StoreEntitySet="Companies">
+                <ScalarProperty Name="IsDisabled" ColumnName="IsDisabled" />
                 <ScalarProperty Name="ImageFileName" ColumnName="ImageFileName" />
                 <ScalarProperty Name="TierGroup" ColumnName="TierGroup" />
                 <ScalarProperty Name="TripGroup" ColumnName="TripGroup" />

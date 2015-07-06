@@ -24,5 +24,6 @@ namespace PDWModels.Companies
 		public bool CanDelete { get; set; }
 		public int? TerritoryID { get; set; }
 		public int DealerCount { get; set; }
+		public bool IsDisabled { get; set; }
 	}
 }

@@ -23,9 +23,11 @@
     		showHideTerritoryID( @(Model.PaoliSalesRepMemberID.HasValue ? Model.PaoliSalesRepMemberID.Value.ToString() : "null") );
 			showHidePaoliSalesRepList( @(Model.PaoliSalesRepMemberID.HasValue ? Model.PaoliSalesRepMemberID.Value.ToString() : "null") );
 			showHideTripGroup();
+			showHideIsDisabled();
 
     		$('#CompanyType').change(function () {
     			showHideTerritoryID();
+				showHideIsDisabled();
     		});
 
     		$('#TerritoryID').change(function () {
@@ -101,6 +103,14 @@
 				}
 			} else {
 				$('.dealerRow').hide();
+			}
+		}
+
+		function showHideIsDisabled() {
+			if( $('#CompanyType').val() == @PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer || $('#CompanyType').val() == @PDWInfrastructure.PaoliWebUser.PaoliCompanyType.EndUser ) {
+				$('.isDisabledRow').show();
+			} else {
+				$('.isDisabledRow').hide();
 			}
 		}
 
@@ -201,15 +211,15 @@
         
 		<tr>
 		<td>@Html.MJLabelFor( m => m.CompanyType, true )</td><td>@Html.DropDownListFor( m => m.CompanyType, CompanyController.GetCompanyTypeDDList(), new { tabindex = 11 } )</td>
-		<td class="territoryRow">@Html.MJLabelFor( m => m.TerritoryID, true )</td><td class="territoryRow">@Html.DropDownListFor( m => m.TerritoryID, CompanyController.GetTerritoryDDList( true ), new { tabindex = 20 } )</td>
+		<td class="territoryRow">@Html.MJLabelFor( m => m.TerritoryID, true )</td><td class="territoryRow">@Html.DropDownListFor( m => m.TerritoryID, CompanyController.GetTerritoryDDList( true ), new { tabindex = 21 } )</td>
 		</tr>
         <tr>
 		<td>@Html.MJLabelFor( m => m.MasterID, true )</td><td>@Html.TextBoxFor( m => m.MasterID, new { tabindex = 12 } )</td>
-		<td class="territoryRow">@Html.MJLabelFor( m => m.PaoliMemberID, true )</td><td class="territoryRow">@Html.DropDownListFor( m => m.PaoliMemberID, UserController.GetPaoliMemberDDListForCompany( true ), new { tabindex = 21 } )</td>
+		<td class="territoryRow">@Html.MJLabelFor( m => m.PaoliMemberID, true )</td><td class="territoryRow">@Html.DropDownListFor( m => m.PaoliMemberID, UserController.GetPaoliMemberDDListForCompany( true ), new { tabindex = 22 } )</td>
 		</tr>
         <tr>
 		<td>@Html.MJLabelFor( m => m.SubCompanyIDs, true )</td><td>@Html.TextBoxFor( m => m.SubCompanyIDs, new { tabindex = 13 } )</td>
-		<td class="dealerRow">@Html.MJLabelFor( m => m.PaoliSalesRepMemberID, true )</td><td class="dealerRow">@Html.DropDownListFor( m => m.PaoliSalesRepMemberID, UserController.GetPaoliMemberDDListForCompany( true ), new { tabindex = 22 } )</td>
+		<td class="dealerRow">@Html.MJLabelFor( m => m.PaoliSalesRepMemberID, true )</td><td class="dealerRow">@Html.DropDownListFor( m => m.PaoliSalesRepMemberID, UserController.GetPaoliMemberDDListForCompany( true ), new { tabindex = 23 } )</td>
 		</tr>
         <tr>
 		<td>@Html.MJLabelFor( m => m.BusinessUnitName, true )</td><td>@Html.TextBoxFor( m => m.BusinessUnitName, new { tabindex = 14 } )</td>
@@ -221,71 +231,74 @@
         <tr class="dealerRow">
 		<td>@Html.MJLabelFor( m => m.TierGroup, true )</td><td>@Html.DropDownListFor( m => m.TierGroup, UserController.GetTierGroupDDList(), new { tabindex = 19 } )</td>
 		</tr>
+        <tr class="isDisabledRow">
+		<td>@Html.MJLabelFor( m => m.IsDisabled, true )</td><td>@Html.CheckBoxFor( m => m.IsDisabled, new { tabindex = 20 } )</td>
+		</tr>
 
 		<tr><td class="padr30 padl30" colspan="4"><hr /></td></tr>
 		<tr>
 		<td  colspan="4"><h3>Paoli.com Public Profile Information</h3></td>
 		</tr>
         <tr>
-		<td>@Html.MJLabelFor( m => m.PublicDisplayName, true )</td><td>@Html.TextBoxFor( m => m.PublicDisplayName, new { tabindex = 23 } )</td>
+		<td>@Html.MJLabelFor( m => m.PublicDisplayName, true )</td><td>@Html.TextBoxFor( m => m.PublicDisplayName, new { tabindex = 24 } )</td>
 		</tr>
 		<tr>
-		<td>@Html.MJLabelFor( m => m.PublicAddress1, true )</td><td>@Html.TextBoxFor( m => m.PublicAddress1, new { tabindex = 24 } )</td>
-		<td>@Html.MJLabelFor( m => m.PublicPhone, true )</td><td>@Html.TextBoxFor( m => m.PublicPhone, new { tabindex = 29 } )</td>
+		<td>@Html.MJLabelFor( m => m.PublicAddress1, true )</td><td>@Html.TextBoxFor( m => m.PublicAddress1, new { tabindex = 25 } )</td>
+		<td>@Html.MJLabelFor( m => m.PublicPhone, true )</td><td>@Html.TextBoxFor( m => m.PublicPhone, new { tabindex = 30 } )</td>
 		</tr>
         <tr>
-		<td>@Html.MJLabelFor( m => m.PublicAddress2, true )</td><td>@Html.TextBoxFor( m => m.PublicAddress2, new { tabindex = 25 } )</td>
-		<td>@Html.MJLabelFor( m => m.PublicFAX, true )</td><td>@Html.TextBoxFor( m => m.PublicFAX, new { tabindex = 30 } )</td>
+		<td>@Html.MJLabelFor( m => m.PublicAddress2, true )</td><td>@Html.TextBoxFor( m => m.PublicAddress2, new { tabindex = 26 } )</td>
+		<td>@Html.MJLabelFor( m => m.PublicFAX, true )</td><td>@Html.TextBoxFor( m => m.PublicFAX, new { tabindex = 31 } )</td>
 		</tr>
         <tr>
-		<td>@Html.MJLabelFor( m => m.PublicCity, true )</td><td>@Html.TextBoxFor( m => m.PublicCity, new { tabindex = 26 } )</td>
-		<td>@Html.MJLabelFor( m => m.PublicContactEmail, true )</td><td>@Html.TextBoxFor( m => m.PublicContactEmail, new { tabindex = 31 } )</td>
+		<td>@Html.MJLabelFor( m => m.PublicCity, true )</td><td>@Html.TextBoxFor( m => m.PublicCity, new { tabindex = 27 } )</td>
+		<td>@Html.MJLabelFor( m => m.PublicContactEmail, true )</td><td>@Html.TextBoxFor( m => m.PublicContactEmail, new { tabindex = 32 } )</td>
 		</tr>
         <tr>
-		<td>@Html.MJLabelFor( m => m.PublicState, true )</td><td>@Html.DropDownListFor( m => m.PublicState, UserController.GetStateDDList(), new { tabindex = 27 } )</td>
-		<td>@Html.MJLabelFor( m => m.PublicWebSite, true )</td><td>@Html.TextBoxFor( m => m.PublicWebSite, new { tabindex = 32 } )</td>
+		<td>@Html.MJLabelFor( m => m.PublicState, true )</td><td>@Html.DropDownListFor( m => m.PublicState, UserController.GetStateDDList(), new { tabindex = 28 } )</td>
+		<td>@Html.MJLabelFor( m => m.PublicWebSite, true )</td><td>@Html.TextBoxFor( m => m.PublicWebSite, new { tabindex = 33 } )</td>
 		</tr>
         <tr>
-		<td>@Html.MJLabelFor( m => m.PublicZip, true )</td><td>@Html.TextBoxFor( m => m.PublicZip, new { tabindex = 28 } )</td>
+		<td>@Html.MJLabelFor( m => m.PublicZip, true )</td><td>@Html.TextBoxFor( m => m.PublicZip, new { tabindex = 29 } )</td>
 		</tr>
 
         <tr>
-		<td>@Html.MJLabelFor( m => m.HasShowroom, true )</td><td>@Html.CheckBoxFor( m => m.HasShowroom, new { tabindex = 33 } )</td>
+		<td>@Html.MJLabelFor( m => m.HasShowroom, true )</td><td>@Html.CheckBoxFor( m => m.HasShowroom, new { tabindex = 34 } )</td>
 		</tr>
 		<tr class="showRoomRow"><td class="padr30 padl30" colspan="4"><hr /></td></tr>
 		<tr class="showRoomRow">
 		<td  colspan="4"><h3>Showroom Information</h3></td>
 		</tr>
         <tr class="showRoomRow">
-		<td>@Html.MJLabelFor( m => m.ShowroomDisplayName, true )</td><td>@Html.TextBoxFor( m => m.ShowroomDisplayName, new { tabindex = 34 } )</td>
+		<td>@Html.MJLabelFor( m => m.ShowroomDisplayName, true )</td><td>@Html.TextBoxFor( m => m.ShowroomDisplayName, new { tabindex = 35 } )</td>
 		</tr>
 		<tr class="showRoomRow">
-		<td>@Html.MJLabelFor( m => m.ShowroomAddress1, true )</td><td>@Html.TextBoxFor( m => m.ShowroomAddress1, new { tabindex = 35 } )</td>
+		<td>@Html.MJLabelFor( m => m.ShowroomAddress1, true )</td><td>@Html.TextBoxFor( m => m.ShowroomAddress1, new { tabindex = 36 } )</td>
 		<td>@Html.MJLabelFor( m => m.ShowroomDescription, true )</td>
 		</tr>
         <tr class="showRoomRow">
-		<td>@Html.MJLabelFor( m => m.ShowroomAddress2, true )</td><td>@Html.TextBoxFor( m => m.ShowroomAddress2, new { tabindex = 36 } )</td>
-		<td rowspan="3" colspan="2">@Html.TextAreaFor( m => m.ShowroomDescription, new { tabindex = 43 } )</td>
+		<td>@Html.MJLabelFor( m => m.ShowroomAddress2, true )</td><td>@Html.TextBoxFor( m => m.ShowroomAddress2, new { tabindex = 37 } )</td>
+		<td rowspan="3" colspan="2">@Html.TextAreaFor( m => m.ShowroomDescription, new { tabindex = 44 } )</td>
 		</tr>
         <tr class="showRoomRow">
-		<td>@Html.MJLabelFor( m => m.ShowroomCity, true )</td><td>@Html.TextBoxFor( m => m.ShowroomCity, new { tabindex = 37 } )</td>
+		<td>@Html.MJLabelFor( m => m.ShowroomCity, true )</td><td>@Html.TextBoxFor( m => m.ShowroomCity, new { tabindex = 38 } )</td>
 		</tr>
         <tr class="showRoomRow">
-		<td>@Html.MJLabelFor( m => m.ShowroomState, true )</td><td>@Html.DropDownListFor( m => m.ShowroomState, UserController.GetStateDDList(), new { tabindex = 38 } )</td>
+		<td>@Html.MJLabelFor( m => m.ShowroomState, true )</td><td>@Html.DropDownListFor( m => m.ShowroomState, UserController.GetStateDDList(), new { tabindex = 39 } )</td>
 		</tr>
         <tr class="showRoomRow">
-		<td>@Html.MJLabelFor( m => m.ShowroomZip, true )</td><td>@Html.TextBoxFor( m => m.ShowroomZip, new { tabindex = 39 } )</td>
+		<td>@Html.MJLabelFor( m => m.ShowroomZip, true )</td><td>@Html.TextBoxFor( m => m.ShowroomZip, new { tabindex = 40 } )</td>
 		<td>@Html.MJLabelFor( m => m.ShowroomHours, true )</td>
 		</tr>
 		<tr class="showRoomRow">
-		<td>@Html.MJLabelFor( m => m.ShowroomPhone, true )</td><td>@Html.TextBoxFor( m => m.ShowroomPhone, new { tabindex = 40 } )</td>
-		<td rowspan="3" colspan="2">@Html.TextAreaFor( m => m.ShowroomHours, new { tabindex = 44 } )</td>
+		<td>@Html.MJLabelFor( m => m.ShowroomPhone, true )</td><td>@Html.TextBoxFor( m => m.ShowroomPhone, new { tabindex = 41 } )</td>
+		<td rowspan="3" colspan="2">@Html.TextAreaFor( m => m.ShowroomHours, new { tabindex = 45 } )</td>
 		</tr>
 		<tr class="showRoomRow">
-		<td>@Html.MJLabelFor( m => m.ShowroomFAX, true )</td><td>@Html.TextBoxFor( m => m.ShowroomFAX, new { tabindex = 41 } )</td>
+		<td>@Html.MJLabelFor( m => m.ShowroomFAX, true )</td><td>@Html.TextBoxFor( m => m.ShowroomFAX, new { tabindex = 42 } )</td>
 		</tr>
 		<tr class="showRoomRow">
-		<td>@Html.MJLabelFor( m => m.ShowroomWebsite, true )</td><td>@Html.TextBoxFor( m => m.ShowroomWebsite, new { tabindex = 42 } )</td>
+		<td>@Html.MJLabelFor( m => m.ShowroomWebsite, true )</td><td>@Html.TextBoxFor( m => m.ShowroomWebsite, new { tabindex = 43 } )</td>
 		</tr>
 		<tr class="showRoomRow">
 		<td>@Html.MJLabelFor( m => m.ShowroomImages, true )</td><td>@Html.TextBoxFor( m => m.ShowroomImages, new { style = "display:none" } )</td>

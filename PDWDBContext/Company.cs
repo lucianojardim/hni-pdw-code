@@ -61,6 +61,7 @@ namespace PDWDBContext
         public string TripGroup { get; set; }
         public string TierGroup { get; set; }
         public string ImageFileName { get; set; }
+        public bool IsDisabled { get; set; }
     
         public virtual ICollection<SpecRequest> SpecRequests { get; set; }
         public virtual ICollection<SpecRequest> SpecRequests1 { get; set; }

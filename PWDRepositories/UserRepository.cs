@@ -96,7 +96,7 @@ namespace PWDRepositories
 				}
 			}
 
-			bool bValid = ( string.Compare( enc.Decrypt( user.Password ), password, false ) == 0 );
+			bool bValid = ( string.Compare( enc.Decrypt( user.Password ), password, false ) == 0 ) && ( !user.Company.IsDisabled );
 
 			homePage = PaoliWebUser.PaoliWebRole.RoleHomePage( user.AccountType );
 

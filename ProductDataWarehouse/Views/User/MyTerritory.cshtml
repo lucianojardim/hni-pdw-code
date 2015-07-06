@@ -128,6 +128,7 @@
 				makeAjaxCall('/Company/RequestDeactiviation',
 					{ companyId: $('#DCompanyID').val(), reason: $('#Reason').val() },
 					function(data, textStatus, jqXHR) {
+						loadCompanies();
 						alert('Thank you for your request.  We\'ll process it shortly.');
 						$('#Reason').val('');
 						$.fancybox.close();

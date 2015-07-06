@@ -44,6 +44,8 @@ namespace PDWModels.Companies
 		public string WebSite { get; set; }
 		[DisplayName( "Image" )]
 		public string ImageFileName { get; set; }
+		[DisplayName( "Is Disabled" )]
+		public bool IsDisabled { get; set; }
 
 		[DisplayName( "Display Name As" )]
 		public string PublicDisplayName { get; set; }

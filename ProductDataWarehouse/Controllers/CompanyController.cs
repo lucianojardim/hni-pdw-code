@@ -157,6 +157,8 @@ namespace ProductDataWarehouse.Controllers
 		public JsonResult DealerForTerritoryCompanyList( CompanyTableParams param )
 		{
 			int totalCount = 0, filteredCount = 0;
+			
+			param.activeOnly = true;
 
 			using( var cRepository = new CompanyRepository() )
 			{

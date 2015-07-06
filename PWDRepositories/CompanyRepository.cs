@@ -40,7 +40,8 @@ namespace PWDRepositories
 				UserCount = c.Users.Where( u => u.IsActive && u.Enabled ).Count(),
 				CanDelete = database.spCanDeleteCompany( c.CompanyID ).First() > 0,
 				TerritoryID = c.TerritoryID,
-				DealerCount = c.TerritoryID.HasValue ? c.Territory.Companies.Count( d => d.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ) : 0
+				DealerCount = c.TerritoryID.HasValue ? c.Territory.Companies.Count( d => d.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ) : 0,
+				IsDisabled = c.IsDisabled
 			};
 			
 		}
@@ -85,6 +86,7 @@ namespace PWDRepositories
 			newCompany.SignedUpForTrip = cInfo.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ? cInfo.SignedUpForTrip : false;
 			newCompany.TripGroup = cInfo.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ? (newCompany.SignedUpForTrip ? cInfo.TripGroup : null) : null;
 			newCompany.TierGroup = cInfo.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ? cInfo.TierGroup : null;
+			newCompany.IsDisabled = cInfo.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer || cInfo.CompanyType == PaoliWebUser.PaoliCompanyType.EndUser ? cInfo.IsDisabled : false;
 
 			if( cInfo.HasShowroom )
 			{
@@ -175,6 +177,7 @@ namespace PWDRepositories
 				TripGroup = eCompany.TripGroup,
 				TierGroup = eCompany.TierGroup,
 				ImageFileName = eCompany.ImageFileName,
+				IsDisabled = eCompany.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer || eCompany.CompanyType == PaoliWebUser.PaoliCompanyType.EndUser ? eCompany.IsDisabled : false,
 
 				HasShowroom = eCompany.Showroom != null,
 				ShowroomDisplayName = eCompany.Showroom != null ? eCompany.Showroom.DisplayName : null,
@@ -237,6 +240,7 @@ namespace PWDRepositories
 			eCompany.SignedUpForTrip = cInfo.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ? cInfo.SignedUpForTrip : false;
 			eCompany.TripGroup = cInfo.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ? ( eCompany.SignedUpForTrip ? cInfo.TripGroup : null ) : null;
 			eCompany.TierGroup = cInfo.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ? cInfo.TierGroup : null;
+			eCompany.IsDisabled = cInfo.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer || cInfo.CompanyType == PaoliWebUser.PaoliCompanyType.EndUser ? cInfo.IsDisabled : false;
 
 			eCompany.ShowroomImages.Clear();
 
@@ -419,6 +423,10 @@ namespace PWDRepositories
 			if( param.tripOnly )
 			{
 				companyList = companyList.Where( c => c.SignedUpForTrip );
+			}
+			if( param.activeOnly )
+			{
+				companyList = companyList.Where( c => !c.IsDisabled );
 			}
 
 			displayedRecords = companyList.Count();
@@ -847,6 +855,10 @@ namespace PWDRepositories
 
 			if( dbCompany != null )
 			{
+				dbCompany.IsDisabled = true;
+
+				database.SaveChanges();
+
 				( new RequestDeactivationEmailSender() ).SubmitCompanyRequestEmail( dbReqUser.FullName, dbReqUser.Company.Name, dbReqUser.Email,
 					companyId, dbCompany.Name, reason, dbCompany.MasterID, dbCompany.SubCompanyIDs );
 			}
