@@ -50,11 +50,11 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanBeLoggedIn" )]
-		public JsonResult GetFullEndCustomerList()
+		public JsonResult GetFullEndCustomerList( bool includeInactive = false )
 		{
 			using( var sRepo = new SpecRequestRepository() )
 			{
-				var results = sRepo.GetEndCustomerList();
+				var results = sRepo.GetEndCustomerList( includeInactive );
 
 				return Json( results, JsonRequestBehavior.AllowGet );
 			}

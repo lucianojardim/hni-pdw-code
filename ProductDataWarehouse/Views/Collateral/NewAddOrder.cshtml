@@ -453,14 +453,14 @@
 			{
 				<text>
 			var theUrl = '/Company/GetDealerList';
-			var dataSet = { includeBlank: 'true' };
+			var dataSet = { includeBlank: 'true', includeInactive: 'false' };
 				</text>
 			}
 			else
 			{
 				<text>
 			theUrl = '/Company/GetDealerListForSalesRep';
-			dataSet = { salesRepCompanyId: $('#PaoliRepGroupID').val(), includeBlank: 'true' };
+			dataSet = { salesRepCompanyId: $('#PaoliRepGroupID').val(), includeBlank: 'true', includeInactive: 'false' };
 				</text>
 			}
 				<text>
@@ -481,11 +481,11 @@
 
 		function loadSPDealerList(cId) {
 			var theUrl = '/Company/GetDealerList';
-			var dataSet = { includeBlank: 'true' };
+			var dataSet = { includeBlank: 'true', includeInactive: 'false' };
 			if ($('.RPRepGroup:hidden').length == 0) {
 				// rep group is showing - only load dealers for the group
 				theUrl = '/Company/GetDealerListForSalesRep';
-				dataSet = { salesRepCompanyId: $('#PaoliRepGroupID').val(), includeBlank: 'true' };
+				dataSet = { salesRepCompanyId: $('#PaoliRepGroupID').val(), includeBlank: 'true', includeInactive: 'false' };
 				if ($('#PaoliRepGroupID option:selected').text() == '') {
 					emptyDropDownList($('#SPDealerID'));
 					reloadSPDealerSalesRepList();
@@ -512,7 +512,7 @@
 
 		function loadSPRepGroupList() {
 			var theUrl = '/Company/GetPaoliRepGroupList';
-			var dataSet = { includeBlank: 'true' };
+			var dataSet = { includeBlank: 'true', includeInactive: 'false' };
 			if ($('.RPRepGroup:hidden').length == 0) {
 				// rep group is showing - only load that group
 				setDropDownListToMatch('#SPPaoliRepGroupID', '#PaoliRepGroupID');

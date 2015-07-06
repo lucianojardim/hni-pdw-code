@@ -544,10 +544,11 @@ namespace PWDRepositories
 				.ToList();
 		}
 
-		public IEnumerable<IDToTextItemExtra> GetFullCompanyList( int? companyType, bool includeTerritory = false )
+		public IEnumerable<IDToTextItemExtra> GetFullCompanyList( int? companyType, bool includeTerritory, bool includeInactive )
 		{
 			return database.Companies
 				.Where( c => !companyType.HasValue || ( companyType.HasValue && companyType.Value == c.CompanyType ) )
+				.Where( c => !c.IsDisabled || includeInactive )
 				.OrderBy( c => c.Name )
 				.ToList()
 				.Select( c => new IDToTextItemExtra() { ID = c.CompanyID, Text = includeTerritory ? c.FullNameWithTerritory : c.FullName, Extra = (c.TerritoryID ?? 0).ToString() } );
@@ -650,32 +651,33 @@ namespace PWDRepositories
 			throw new Exception( "Unable to find current user" );
 		}
 
-		public IEnumerable<IDToTextItemExtra> GetMyDealerList()
+		public IEnumerable<IDToTextItemExtra> GetMyDealerList( bool includeInactive )
 		{
 			var user = database.Users.FirstOrDefault( u => u.UserID == PaoliWebUser.CurrentUser.UserId );
 			if( user != null )
 			{
-				return GetDealerList( user.CompanyID );
+				return GetDealerList( user.CompanyID, false, includeInactive );
 			}
 
 			throw new Exception( "Unable to find current user" );
 		}
 
-		public IEnumerable<IDToTextItemExtra> GetDealerList( int salesRepCompanyId, bool includeTerritory = false )
+		public IEnumerable<IDToTextItemExtra> GetDealerList( int salesRepCompanyId, bool includeTerritory, bool includeInactive )
 		{
 			var salesRep = database.Companies.FirstOrDefault( c => c.CompanyID == salesRepCompanyId );
 			if( salesRep != null )
 			{
-				return GetDealerListForTerritory( salesRep.TerritoryID.Value, includeTerritory );
+				return GetDealerListForTerritory( salesRep.TerritoryID.Value, includeTerritory, includeInactive );
 			}
 
 			return new List<IDToTextItemExtra>();
 		}
 
-		public IEnumerable<IDToTextItemExtra> GetDealerListForTerritory( int territoryId, bool includeTerritory = false )
+		public IEnumerable<IDToTextItemExtra> GetDealerListForTerritory( int territoryId, bool includeTerritory, bool includeInactive )
 		{
 			return database.Companies
 				.Where( c => c.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer && c.TerritoryID == territoryId )
+				.Where( c => !c.IsDisabled || includeInactive )
 				.OrderBy( c => c.Name )
 				.ToList()
 				.Select( c => new IDToTextItemExtra() { ID = c.CompanyID, Text = includeTerritory ? c.FullNameWithTerritory : c.FullName, Extra = c.TerritoryID.ToString() } );
@@ -704,7 +706,7 @@ namespace PWDRepositories
 			};
 		}
 
-		public IEnumerable<IDToTextItem> GetDealerListForUser( int userId )
+		public IEnumerable<IDToTextItem> GetDealerListForUser( int userId, bool includeInactive )
 		{
 			var user = database.Users.FirstOrDefault( u => u.UserID == userId );
 			if( user != null )
@@ -714,18 +716,21 @@ namespace PWDRepositories
 					case PaoliWebUser.PaoliCompanyType.Paoli:
 						return database.Companies
 							.Where( c => c.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer )
+							.Where( c => !c.IsDisabled || includeInactive )
 							.OrderBy( c => c.Name )
 							.ToList()
 							.Select( c => new IDToTextItem() { ID = c.CompanyID, Text = c.FullName } );
 					case PaoliWebUser.PaoliCompanyType.PaoliRepGroup:
 						return database.Companies
 							.Where( c => c.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer && c.TerritoryID == user.Company.TerritoryID )
+							.Where( c => !c.IsDisabled || includeInactive )
 							.OrderBy( c => c.Name )
 							.ToList()
 							.Select( c => new IDToTextItem() { ID = c.CompanyID, Text = c.FullName } );
 					case PaoliWebUser.PaoliCompanyType.Dealer:
 						return database.Companies
 							.Where( c => c.CompanyID == user.CompanyID )
+							.Where( c => !c.IsDisabled || includeInactive )
 							.OrderBy( c => c.Name )
 							.ToList()
 							.Select( c => new IDToTextItem() { ID = c.CompanyID, Text = c.FullName } );

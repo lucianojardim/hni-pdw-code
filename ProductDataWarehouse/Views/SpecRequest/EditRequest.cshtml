@@ -420,7 +420,7 @@
 
 		function reloadDealerList(dealerID, dsrMemberID, forceDealer) {
     		makeAjaxCall('/Company/GetDealerListForSalesRep',
-    			{ salesRepCompanyId: $('#PaoliSalesRepGroupID').val(), includeTerritory: @(PDWInfrastructure.PaoliWebUser.CurrentUser.WantTerritoriesInDropDowns ? "true" : "false") },
+    			{ salesRepCompanyId: $('#PaoliSalesRepGroupID').val(), includeTerritory: @(PDWInfrastructure.PaoliWebUser.CurrentUser.WantTerritoriesInDropDowns ? "true" : "false"), includeInactive: 'true' },
     			function (data, textStatus, jqXHR) {
     				$('#DealerID').empty();
     				$('.DealerRow').hide();
@@ -488,7 +488,7 @@
 
     	function reloadEndCustomerList(initId, initProject, dealerID, dsrMemberID) {
     		makeAjaxCall('/Project/GetFullEndCustomerList',
-    			null,
+    			{ includeInactive: 'true' },
     			function (data, textStatus, jqXHR) {
     				reloadDropDownCompanyList('#EndCustomerID', data, true);
 					if( initId != null ) {
@@ -572,7 +572,7 @@
 				<tr>
 					<td>@Html.MJLabelFor( m => m.PaoliSalesRepGroupID, true )</td><td>
 				<select data-val="true" data-val-number="The field Select A Sales Rep Territory must be a number." id="PaoliSalesRepGroupID" name="PaoliSalesRepGroupID" class="valid">
-				@foreach( var groupItem in CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, includeTerritory: PDWInfrastructure.PaoliWebUser.CurrentUser.WantTerritoriesInDropDowns ) )
+				@foreach( var groupItem in CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, includeTerritory: PDWInfrastructure.PaoliWebUser.CurrentUser.WantTerritoriesInDropDowns, includeInactive: true ) )
 	{
 					<option value="@groupItem.Value" data-territory="@groupItem.Extra" @if(Model.PaoliSalesRepGroupID.ToString() == groupItem.Value) {<text>selected</text>}>@groupItem.Text</option>
 		}

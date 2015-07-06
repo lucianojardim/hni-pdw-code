@@ -90,7 +90,7 @@
     	function reloadDealerList() {
     		if ($('#TerritoryID').val() != null && $('#TerritoryID').val() != '' && $('#TerritoryID').val() != '0') {
     			makeAjaxCall('/Company/GetDealerListForTerritory',
-    				{ territoryId: $('#TerritoryID').val() },
+    				{ territoryId: $('#TerritoryID').val(), includeInactive: 'false' },
     				function (data, textStatus, jqXHR) {
     					$('.DealerRow').hide();
     					reloadDropDownCompanyList('#DealerID', data);
@@ -156,7 +156,7 @@
 
 		function reloadEndCustomerList(cId) {
     		makeAjaxCall('/Project/GetFullEndCustomerList',
-    			null,
+    			{ includeInactive: 'false' },
     			function (data, textStatus, jqXHR) {
     				reloadDropDownCompanyList('#EndCustomerID', data, true);
 					$('#EndCustomerID').val(cId);

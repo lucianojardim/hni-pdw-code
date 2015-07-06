@@ -2167,11 +2167,12 @@ namespace PWDRepositories
 			database.SaveChanges();
 		}
 
-		public IEnumerable<IDToTextItem> GetEndCustomerList()
+		public IEnumerable<IDToTextItem> GetEndCustomerList( bool includeInactive )
 		{
 			var theList = database.Companies
 				.Where( c => c.CompanyType == PaoliWebUser.PaoliCompanyType.EndUser )
-				.Select( p => new IDToTextItem() { ID = p.CompanyID, Text = p.Name } )
+				.Where( c => !c.IsDisabled || includeInactive )
+				.Select( p => new IDToTextItem() { ID = p.CompanyID, Text = p.Name + (p.IsDisabled ? " (Inactive)" : "") } )
 				.ToList();
 
 			theList.Insert( 0, new IDToTextItem() { ID = 0, Text = "" } );

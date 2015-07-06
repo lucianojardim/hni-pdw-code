@@ -349,11 +349,11 @@ namespace ProductDataWarehouse.Controllers
 			throw new Exception( "Unable to find shipping address" );
 		}
 
-		public JsonResult GetDealerList( bool includeBlank = true )
+		public JsonResult GetDealerList( bool includeBlank = true, bool includeInactive = false )
 		{
 			using( var cRepository = new CompanyRepository() )
 			{
-				var theList = cRepository.GetFullCompanyList( PaoliWebUser.PaoliCompanyType.Dealer )
+				var theList = cRepository.GetFullCompanyList( PaoliWebUser.PaoliCompanyType.Dealer, false, includeInactive )
 					.ToList();
 				if( includeBlank )
 				{
@@ -363,11 +363,11 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
-		public JsonResult GetPaoliRepGroupList( bool includeBlank = true )
+		public JsonResult GetPaoliRepGroupList( bool includeBlank = true, bool includeInactive = false )
 		{
 			using( var cRepository = new CompanyRepository() )
 			{
-				var theList = cRepository.GetFullCompanyList( PaoliWebUser.PaoliCompanyType.PaoliRepGroup )
+				var theList = cRepository.GetFullCompanyList( PaoliWebUser.PaoliCompanyType.PaoliRepGroup, false, includeInactive )
 					.ToList();
 				if( includeBlank )
 				{
@@ -377,11 +377,11 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
-		public JsonResult GetDealerListForSalesRep( int salesRepCompanyId, bool includeBlank = true, bool includeTerritory = false )
+		public JsonResult GetDealerListForSalesRep( int salesRepCompanyId, bool includeBlank = true, bool includeTerritory = false, bool includeInactive = false )
 		{
 			using( var cRepository = new CompanyRepository() )
 			{
-				var theList = cRepository.GetDealerList( salesRepCompanyId, includeTerritory ).ToList();
+				var theList = cRepository.GetDealerList( salesRepCompanyId, includeTerritory, includeInactive ).ToList();
 
 				if( includeBlank )
 				{
@@ -392,11 +392,11 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
-		public JsonResult GetDealerListForTerritory( int territoryId, bool includeBlank = true, bool includeTerritory = false )
+		public JsonResult GetDealerListForTerritory( int territoryId, bool includeBlank = true, bool includeTerritory = false, bool includeInactive = false )
 		{
 			using( var cRepository = new CompanyRepository() )
 			{
-				var theList = cRepository.GetDealerListForTerritory( territoryId, includeTerritory ).ToList();
+				var theList = cRepository.GetDealerListForTerritory( territoryId, includeTerritory, includeInactive ).ToList();
 
 				if( includeBlank )
 				{
@@ -407,11 +407,11 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
-		public JsonResult GetDealerListForUser( bool includeBlank = true )
+		public JsonResult GetDealerListForUser( bool includeBlank = true, bool includeInactive = false )
 		{
 			using( var cRepository = new CompanyRepository() )
 			{
-				var theList = cRepository.GetDealerListForUser( PaoliWebUser.CurrentUser.UserId ).ToList();
+				var theList = cRepository.GetDealerListForUser( PaoliWebUser.CurrentUser.UserId, includeInactive ).ToList();
 
 				if( includeBlank )
 				{
@@ -427,9 +427,9 @@ namespace ProductDataWarehouse.Controllers
 			public string Extra { get; set; }
 		}
 
-		public delegate IEnumerable<SelectListItemPlus> GetCompanyListFunction( int? companyType = null, bool includeBlank = true, bool includeTerritory = false );
+		public delegate IEnumerable<SelectListItemPlus> GetCompanyListFunction( int? companyType = null, bool includeBlank = true, bool includeTerritory = false, bool includeInactive = false );
 
-		public static IEnumerable<SelectListItemPlus> GetThisCompanyAsDDItem( int? companyType = null, bool includeBlank = true, bool includeTerritory = false )
+		public static IEnumerable<SelectListItemPlus> GetThisCompanyAsDDItem( int? companyType = null, bool includeBlank = true, bool includeTerritory = false, bool includeInactive = false )
 		{
 			using( var uRepository = new UserRepository() )
 			{
@@ -439,11 +439,11 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
-		public static IEnumerable<SelectListItemPlus> GetDealerForSalesRepDDList( int? companyType = null, bool includeBlank = true, bool includeTerritory = false )
+		public static IEnumerable<SelectListItemPlus> GetDealerForSalesRepDDList( int? companyType = null, bool includeBlank = true, bool includeTerritory = false, bool includeInactive = false )
 		{
 			using( var cRepository = new CompanyRepository() )
 			{
-				var theList = cRepository.GetMyDealerList().ToList();
+				var theList = cRepository.GetMyDealerList( includeInactive ).ToList();
 
 				if( includeBlank )
 				{
@@ -454,7 +454,7 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
-		public static IEnumerable<SelectListItemPlus> GetSalesRepForDealerDDItem( int? companyType = null, bool includeBlank = true, bool includeTerritory = false )
+		public static IEnumerable<SelectListItemPlus> GetSalesRepForDealerDDItem( int? companyType = null, bool includeBlank = true, bool includeTerritory = false, bool includeInactive = false )
 		{
 			using( var cRepository = new CompanyRepository() )
 			{
@@ -464,11 +464,11 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
-		public static IEnumerable<SelectListItemPlus> GetCompanyDDList( int? companyType = null, bool includeBlank = true, bool includeTerritory = false )
+		public static IEnumerable<SelectListItemPlus> GetCompanyDDList( int? companyType = null, bool includeBlank = true, bool includeTerritory = false, bool includeInactive = false )
 		{
 			using( var cRepository = new CompanyRepository() )
 			{
-				var theList = cRepository.GetFullCompanyList( companyType, includeTerritory )
+				var theList = cRepository.GetFullCompanyList( companyType, includeTerritory, includeInactive )
 					.Select( c => new SelectListItemPlus() { Value = c.ID.ToString(), Text = c.Text, Extra = c.Extra } )
 					.ToList();
 				if( includeBlank )

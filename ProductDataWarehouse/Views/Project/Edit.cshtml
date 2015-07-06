@@ -90,7 +90,7 @@
     	function reloadDealerList(initValue) {
     		if ($('#TerritoryID').val() != null && $('#TerritoryID').val() != '' && $('#TerritoryID').val() != '0') {
     			makeAjaxCall('/Company/GetDealerListForTerritory',
-    				{ territoryId: $('#TerritoryID').val() },
+    				{ territoryId: $('#TerritoryID').val(), includeInactive: 'true' },
     				function (data, textStatus, jqXHR) {
     					$('.DealerRow').hide();
     					reloadDropDownCompanyList('#DealerID', data);
@@ -157,7 +157,7 @@
 
     	function reloadEndCustomerList(initValue) {
     		makeAjaxCall('/Project/GetFullEndCustomerList',
-    			null,
+    			{ includeInactive: 'true' },
     			function (data, textStatus, jqXHR) {
     				reloadDropDownCompanyList('#EndCustomerID', data, true);
 					$('#EndCustomerID').val(initValue);
@@ -211,7 +211,7 @@
 							 <label>&nbsp;</label>
 							 <div class="colmn1">&nbsp;</div>
 							 <cite>Dealership @Html.ValidationMessageFor( m => m.DealerID )</cite>
-							 @Html.DropDownListFor( m => m.DealerID, GetDealerList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer ) )
+							 @Html.DropDownListFor( m => m.DealerID, GetDealerList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer, includeInactive: true ) )
 						 </div>
 					 </li>
 					 <li>

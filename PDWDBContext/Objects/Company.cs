@@ -11,7 +11,7 @@ namespace PDWDBContext
 		{
 			get
 			{
-				return Name + ((BusinessUnitName ?? "").Any() ? (" - " + BusinessUnitName) : "" );
+				return Name + ((BusinessUnitName ?? "").Any() ? (" - " + BusinessUnitName) : "" ) + (IsDisabled ? " (Inactive)" : "");
 			}
 		}
 

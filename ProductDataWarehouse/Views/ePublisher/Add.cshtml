@@ -340,7 +340,7 @@
 
 		function reloadDealerList(forceDealer) {
     		makeAjaxCall('/Company/GetDealerListForSalesRep',
-    			{ salesRepCompanyId: $('#PaoliSalesRepGroupID').val(), includeTerritory: @(PDWInfrastructure.PaoliWebUser.CurrentUser.WantTerritoriesInDropDowns ? "true" : "false") },
+    			{ salesRepCompanyId: $('#PaoliSalesRepGroupID').val(), includeTerritory: @(PDWInfrastructure.PaoliWebUser.CurrentUser.WantTerritoriesInDropDowns ? "true" : "false"), includeInactive: 'false' },
     			function (data, textStatus, jqXHR) {
 					if( forceDealer != null && forceDealer != '' ) {
 						emptyDropDownList($('#DealershipID'));
@@ -366,7 +366,7 @@
 
     	function reloadEndCustomerList() {
     		makeAjaxCall('/Project/GetFullEndCustomerList',
-    			null,
+    			{ includeInactive: 'false' },
     			function (data, textStatus, jqXHR) {
     				reloadDropDownCompanyList('#CustomerID', data);
     			},
