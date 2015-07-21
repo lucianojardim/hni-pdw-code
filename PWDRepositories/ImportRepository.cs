@@ -465,20 +465,20 @@ namespace PWDRepositories
 				"Other Series Shown",
 				"Keywords"
 			};
-
+*/
 			foreach( var t in database.Typicals )
 			{
 				List<string> keywords = new List<string>()
 					{ 
 						t.Name,
+						t.FeaturedSeries,
+						t.SeriesList,
+						t.Notes
 					};
-
-				keywords.AddRange( t.SeriesTypicals.Select( st => st.Series ).SelectMany( s => new List<string>() { s.Name, s.Category.Name } ) );
-				keywords.AddRange( t.TypicalOptionAttributes.Where( a => arrTypicalAttributes.Contains( a.TAttribute.Name ) ).Select( o => o.TAttributeOption.Name ) );
 
 				t.DBKeywords = SearchText.GetKeywordList( keywords );
 			}
-			*/
+			/*
 			foreach( var i in database.ImageFiles )
 			{
 				List<string> keywords = new List<string>()
@@ -490,7 +490,7 @@ namespace PWDRepositories
 
 				i.DBKeywords = SearchText.GetKeywordList( keywords );
 			}
-
+			*/
 			database.SaveChanges();
 		}
 

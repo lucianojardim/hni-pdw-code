@@ -1502,7 +1502,7 @@ namespace PWDRepositories
 			arrKeywordList.Add( tInfo.FeaturedSeries );
 			arrKeywordList.Add( tInfo.Name );
 			arrKeywordList.Add( tInfo.SeriesList );
-			//				arrKeywordList.Add( tInfo.Keywords );
+			arrKeywordList.Add( tInfo.Notes );
 
 			tData.DBKeywords = SearchText.GetKeywordList( arrKeywordList );
 
@@ -1763,7 +1763,7 @@ namespace PWDRepositories
 			arrKeywordList.Add( tInfo.FeaturedSeries );
 			arrKeywordList.Add( tInfo.Name );
 			arrKeywordList.Add( tInfo.SeriesList );
-			//				arrKeywordList.Add( tInfo.Keywords );
+			arrKeywordList.Add( tInfo.Notes );
 
 			tData.DBKeywords = SearchText.GetKeywordList( arrKeywordList );
 
