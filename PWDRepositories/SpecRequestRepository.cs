@@ -326,6 +326,10 @@ namespace PWDRepositories
 			{
 				requestList = requestList.Where( i => i.Project.IsGSA ?? false );
 			}
+			if( paramDetails.showPublishedOnly )
+			{
+				requestList = requestList.Where( i => i.Typicals.Any( t => t.IsPublished ) );
+			}
 			if( paramDetails.paoliSalesRepGroupID.HasValue )
 			{
 				requestList = requestList.Where( s => s.PaoliSalesRepGroupID == paramDetails.paoliSalesRepGroupID.Value );

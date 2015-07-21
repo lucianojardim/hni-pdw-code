@@ -13,6 +13,7 @@ namespace PDWInfrastructure
 		public bool auditSpecOnly { get; set; }
 		public int? companyId { get; set; }
 		public bool showGSAOnly { get; set; }
+		public bool showPublishedOnly { get; set; }
 		public int? userId { get; set; }
 		public int? paoliSalesRepGroupID { get; set; }
 	}

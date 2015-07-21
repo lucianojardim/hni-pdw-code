@@ -13,6 +13,7 @@
 @Html.CheckBox( "NotYetAssigned" )Not Yet Assigned<br />
 @Html.CheckBox( "AuditSpecOnly" )Spec Audit Checks<br />
 @Html.CheckBox( "GSAOnly" )Show GSA Only<br />
+@Html.CheckBox( "PublishedOnly")Published Only<br />
 Territory: @Html.DropDownList( "PaoliSalesRepGroupID", ProductDataWarehouse.Controllers.CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, includeTerritory: PDWInfrastructure.PaoliWebUser.CurrentUser.WantTerritoriesInDropDowns ) )<br />
 <div>
     <table id="specRequestList">
@@ -28,6 +29,7 @@ Territory: @Html.DropDownList( "PaoliSalesRepGroupID", ProductDataWarehouse.Cont
 		$('#NotYetAssigned').click(loadSpecRequests);
 		$('#AuditSpecOnly').click(loadSpecRequests);
 		$('#GSAOnly').click(loadSpecRequests);
+		$('#PublishedOnly').click(loadSpecRequests);
 		$('#PaoliSalesRepGroupID').change(loadSpecRequests);
 
 		loadSpecRequests();
@@ -54,6 +56,7 @@ Territory: @Html.DropDownList( "PaoliSalesRepGroupID", ProductDataWarehouse.Cont
 				aoData.push({ "name": "notYetAssigned", "value": $('#NotYetAssigned:checked').length > 0 });
 				aoData.push({ "name": "auditSpecOnly", "value": $('#AuditSpecOnly:checked').length > 0 });
 				aoData.push({ "name": "showGSAOnly", "value": $('#GSAOnly:checked').length > 0 });
+				aoData.push({ "name": "showPublishedOnly", "value": $('#PublishedOnly:checked').length > 0 });
 				aoData.push({ "name": "paoliSalesRepGroupID", "value": $('#PaoliSalesRepGroupID').val() });
 			},
 			"iDisplayLength": 100,
