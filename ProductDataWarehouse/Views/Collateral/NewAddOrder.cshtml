@@ -187,13 +187,11 @@
 
 			$('#newRPUserLink').click(function(e) {
 				bAddRequestingDealerMember = true;
-				$('#AccountType option[value!="@(PaoliWebUser.PaoliWebRole.DealerSalesRep)"]').remove();
 				$('#mainEditUserContactBtn').trigger('click');
 			});
 
 			$('#newSPUserLink').click(function(e) {
 				bAddRequestingDealerMember = false;
-				$('#AccountType option[value!="@(PaoliWebUser.PaoliWebRole.DealerSalesRep)"]').remove();
 				$('#mainEditUserContactBtn').trigger('click');
 			});
 

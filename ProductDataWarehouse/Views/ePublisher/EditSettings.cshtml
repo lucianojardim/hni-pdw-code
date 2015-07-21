@@ -93,7 +93,6 @@
 
 			$('#newUserLink').click(function(e) {
 	    		if ($('#DealershipID').val() != null && $('#DealershipID').val() != '' && $('#DealershipID').val() != '0') {
-					$('#AccountType option[value!="@(PaoliWebUser.PaoliWebRole.DealerSalesRep)"]').remove();
 					$('#mainEditUserContactBtn').trigger('click');
 				}
 			});

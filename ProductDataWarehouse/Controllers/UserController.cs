@@ -634,7 +634,12 @@ namespace ProductDataWarehouse.Controllers
 		{
 			using( var uRepository = new UserRepository() )
 			{
-				var theList = uRepository.GetUserListForAccountType( companyId, PaoliWebUser.PaoliWebRole.DealerSalesRep, enabledOnly );
+				var theList = uRepository.GetUserListForAccountType( companyId, 
+					new List<int>() { PaoliWebUser.PaoliWebRole.DealerAdmin, 
+						PaoliWebUser.PaoliWebRole.DealerDesigner, 
+						PaoliWebUser.PaoliWebRole.DealerPrincipal, 
+						PaoliWebUser.PaoliWebRole.DealerSalesRep 
+					}, enabledOnly );
 
 				return Json( new
 				{

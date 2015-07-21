@@ -628,11 +628,16 @@ namespace PWDRepositories
 
 		public IEnumerable<UserSummary> GetUserListForAccountType( int companyId, int accountType, bool enabledOnly )
 		{
+			return GetUserListForAccountType( companyId, new List<int>() { accountType }, enabledOnly );
+		}
+
+		public IEnumerable<UserSummary> GetUserListForAccountType( int companyId, List<int> accountTypes, bool enabledOnly )
+		{
 			return database.Users
 				.Include( u => u.Company )
 				.Include( u => u.UserLogins )
 				.Where( u => u.CompanyID == companyId )
-				.Where( u => u.AccountType == accountType || accountType == 0 )
+				.Where( u => accountTypes.Contains( u.AccountType ) || !accountTypes.Any() || accountTypes.Contains( 0 ) )
 				.Where( u => u.IsActive || !enabledOnly )
 				.ToList()
 				.OrderBy( u => u.FullName )
