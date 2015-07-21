@@ -862,6 +862,12 @@ namespace PWDRepositories
 			{
 				dbCompany.IsDisabled = true;
 
+				foreach( var dbUser in dbCompany.Users )
+				{
+					dbUser.IsActive = false;
+					dbUser.Enabled = false;
+				}
+
 				database.SaveChanges();
 
 				( new RequestDeactivationEmailSender() ).SubmitCompanyRequestEmail( dbReqUser.FullName, dbReqUser.Company.Name, dbReqUser.Email,
