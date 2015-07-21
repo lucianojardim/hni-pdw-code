@@ -1,0 +1,6 @@
+﻿@model IEnumerable<PDWModels.Images.ImageUsage.ECollateralUsage>
+
+@foreach( var s in Model )
+{
+	<a href="@s.URL" target="_blank">@s.Name</a><br />
+}

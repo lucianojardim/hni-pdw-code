@@ -631,7 +631,14 @@ namespace PWDRepositories
 					Serieses = img.SeriesImageFiles.Select( s => s.Series.Name ),
 					Typicals = img.TypicalImageFiles.Select( t => t.Typical.Name ),
 					Showrooms = img.Showrooms.Select( s => s.Name ),
-					ECollateral = img.eCollateralSections.Select( e => e.eCollateralItem.FileName )
+					ECollateral = img.eCollateralSections.Select( e => new PDWModels.Images.ImageUsage.ECollateralUsage()
+					{
+						ItemID = e.eCollateralItem.ItemID,
+						Name = e.eCollateralItem.FileName,
+						HasLayout = true,
+						HasSections = true,
+						IsComplete = e.eCollateralItem.Status != PWDRepositories.ECollateralRepository.StatusTypes.Incomplete
+					} )
 				};
 			}
 
