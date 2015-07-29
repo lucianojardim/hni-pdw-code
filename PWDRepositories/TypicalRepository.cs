@@ -143,7 +143,7 @@ namespace PWDRepositories
 					TypicalID = t.TypicalID,
 					Name = t.Name,
 					ImageFileData = t.FeaturedImageForSize( "m16to9" ),
-					Price = t.IntAttribute( "Pricing" ),
+					Price = t.IntAttribute( "Pricing" ) ?? 0,
 					Footprints = t.AttributeSet( "Footprint" ),
 					SeriesList = t.SeriesTypicals.Select( st => st.Series.Name ),
 					Shapes = t.AttributeSet( "Shape" )

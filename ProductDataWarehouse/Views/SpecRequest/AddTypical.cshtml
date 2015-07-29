@@ -163,8 +163,20 @@
 		@Html.HiddenFor( m => m.Name )
         <tr><td>@Html.MJLabelFor( m => m.FeaturedSeries, true )</td><td>@Html.DropDownListFor( m => m.FeaturedSeries, ImportController.GetSeriesDDList( true ) )</td><td>
 			@Html.MJLabelFor( m => m.SeriesList, true )</td><td>@Html.TextBoxFor( m => m.SeriesList, new { style = "display:none" } )</td></tr>
-        <tr><td>@Html.MJLabelFor( m => m.ListPrice, true )</td><td>@Html.TextBoxFor( m => m.ListPrice )</td><td>
-			@Html.MJLabelFor( m => m.AvailableForIn2, true )</td><td>@Html.CheckBoxFor( m => m.AvailableForIn2 )</td></tr>
+        <tr><td>@Html.MJLabelFor( m => m.AvailableForIn2, true )</td><td>@Html.CheckBoxFor( m => m.AvailableForIn2 )</td>
+			<td></td><td></td></tr>
+
+		<tr><td>@Html.MJLabelFor( m => m.VariationLabel, true )</td><td>@Html.TextBoxFor( m => m.VariationLabel )</td>
+			<td>@Html.MJLabelFor( m => m.ListPrice, true )</td><td>@Html.TextBoxFor( m => m.ListPrice )</td></tr>
+		<tr><td>@Html.MJLabelFor( m => m.VariationLabel2, true )</td><td>@Html.TextBoxFor( m => m.VariationLabel2 )</td>
+			<td>@Html.MJLabelFor( m => m.ListPrice2, true )</td><td>@Html.TextBoxFor( m => m.ListPrice2 )</td></tr>
+		<tr><td>@Html.MJLabelFor( m => m.VariationLabel3, true )</td><td>@Html.TextBoxFor( m => m.VariationLabel3 )</td>
+			<td>@Html.MJLabelFor( m => m.ListPrice3, true )</td><td>@Html.TextBoxFor( m => m.ListPrice3 )</td></tr>
+		<tr><td>@Html.MJLabelFor( m => m.VariationLabel4, true )</td><td>@Html.TextBoxFor( m => m.VariationLabel4 )</td>
+			<td>@Html.MJLabelFor( m => m.ListPrice4, true )</td><td>@Html.TextBoxFor( m => m.ListPrice4 )</td></tr>
+		<tr><td>@Html.MJLabelFor( m => m.VariationLabel5, true )</td><td>@Html.TextBoxFor( m => m.VariationLabel5 )</td>
+			<td>@Html.MJLabelFor( m => m.ListPrice5, true )</td><td>@Html.TextBoxFor( m => m.ListPrice5 )</td></tr>
+
         <tr><td>@Html.MJLabelFor( m => m.Material, true )</td><td>@Html.TextBoxFor( m => m.Material, new { style = "display:none" } )</td><td>
 			@Html.MJLabelFor( m => m.Finish, true )</td><td>@Html.TextBoxFor( m => m.Finish, new { style = "display:none" } )</td></tr>
         <tr><td>@Html.MJLabelFor( m => m.Footprint, true )</td><td>@Html.DropDownListFor( m => m.Footprint, SpecRequestController.GetFootprintDDList() )</td>

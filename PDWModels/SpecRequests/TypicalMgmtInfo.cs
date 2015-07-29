@@ -14,9 +14,28 @@ namespace PDWModels.SpecRequests
 		public int RequestID { get; set; }
 		public string Name { get; set; }
 
-		[DisplayName( "List Price" )]
+		[DisplayName( "Base List Price" )]
 		[Required]
 		public int ListPrice { get; set; }
+		[DisplayName( "Option #1 List Price" )]
+		public int? ListPrice2 { get; set; }
+		[DisplayName( "Option #2 List Price" )]
+		public int? ListPrice3 { get; set; }
+		[DisplayName( "Option #3 List Price" )]
+		public int? ListPrice4 { get; set; }
+		[DisplayName( "Option #4 List Price" )]
+		public int? ListPrice5 { get; set; }
+		[DisplayName( "Base Label" )]
+		[Required]
+		public string VariationLabel { get; set; }
+		[DisplayName( "Option #1 Label" )]
+		public string VariationLabel2 { get; set; }
+		[DisplayName( "Option #2 Label" )]
+		public string VariationLabel3 { get; set; }
+		[DisplayName( "Option #3 Label" )]
+		public string VariationLabel4 { get; set; }
+		[DisplayName( "Option #4 Label" )]
+		public string VariationLabel5 { get; set; }
 		[DisplayName( "Additional Series" )]
 		public string SeriesList { get; set; }
 		[DisplayName( "Available for In2" )]

@@ -1367,6 +1367,7 @@ namespace PWDRepositories
 				RequestID = sInfo.RequestID,
 				Name = sInfo.Name,
 				ListPrice = sInfo.ListPrice ?? 0,
+				VariationLabel = "Base",
 				SeriesList = sInfo.SeriesList,
 				AvailableForIn2 = sInfo.AvailableForIn2 ?? false,
 				Footprint = sInfo.Footprint,
@@ -1451,22 +1452,18 @@ namespace PWDRepositories
 				}
 			}
 
-			{
-				var attData = database.TAttributes.FirstOrDefault( a => a.Name == "pricing" );
-				if( attData == null )
-				{
-					attData = new PDWDBContext.TAttribute();
-					attData.Name = "pricing";
-					database.TAttributes.Add( attData );
-				}
+			SetTypicalAttribute( tData, tInfo.ListPrice, "pricing" );
+			SetTypicalAttribute( tData, tInfo.ListPrice2, "Pricing2" );
+			SetTypicalAttribute( tData, tInfo.ListPrice3, "Pricing3" );
+			SetTypicalAttribute( tData, tInfo.ListPrice4, "Pricing4" );
+			SetTypicalAttribute( tData, tInfo.ListPrice5, "Pricing5" );
 
-				var attForTypical = new TypicalIntAttribute();
-				attForTypical.TAttribute = attData;
-				attForTypical.Value = tInfo.ListPrice;
-				attForTypical.Typical = tData;
-				database.TypicalIntAttributes.Add( attForTypical );
-			}
-
+			SetTypicalAttribute( tData, tInfo.VariationLabel, "Variation" );
+			SetTypicalAttribute( tData, tInfo.VariationLabel2, "Variation2" );
+			SetTypicalAttribute( tData, tInfo.VariationLabel3, "Variation3" );
+			SetTypicalAttribute( tData, tInfo.VariationLabel4, "Variation4" );
+			SetTypicalAttribute( tData, tInfo.VariationLabel5, "Variation5" );
+			
 			var rootLocation = Path.Combine( ConfigurationManager.AppSettings["SpecRequestDocumentLocation"], tInfo.Name );
 
 			if( tInfo.dwgFile != null )
@@ -1575,7 +1572,17 @@ namespace PWDRepositories
 				SeriesList = string.Join( ",", tInfo.SeriesTypicals.Where( st => !st.IsPrimary ).Select( st => st.Series.Name ) ),
 				FeaturedSeries = string.Join( ",", tInfo.SeriesTypicals.Where( st => st.IsPrimary ).Select( st => st.Series.Name ) ),
 				
-				ListPrice = tInfo.IntAttribute( "Pricing" ),
+				ListPrice = tInfo.IntAttribute( "Pricing" ) ?? 0,
+				ListPrice2 = tInfo.IntAttribute( "Pricing2" ),
+				ListPrice3 = tInfo.IntAttribute( "Pricing3" ),
+				ListPrice4 = tInfo.IntAttribute( "Pricing4" ),
+				ListPrice5 = tInfo.IntAttribute( "Pricing5" ),
+
+				VariationLabel = tInfo.TextAttribute( "Variation" ),
+				VariationLabel2 = tInfo.TextAttribute( "Variation2" ),
+				VariationLabel3 = tInfo.TextAttribute( "Variation3" ),
+				VariationLabel4 = tInfo.TextAttribute( "Variation4" ),
+				VariationLabel5 = tInfo.TextAttribute( "Variation5" ),
 
 				Footprint = string.Join( ",", tInfo.AttributeSet( "Footprint" ) ),
 				Material = string.Join( ",", tInfo.AttributeSet( "Material" ) ),
@@ -1707,26 +1714,17 @@ namespace PWDRepositories
 				}
 			}
 
-			{
-				var attData = database.TAttributes.FirstOrDefault( a => a.Name == "Pricing" );
-				if( attData == null )
-				{
-					attData = new PDWDBContext.TAttribute();
-					attData.Name = "Pricing";
-					database.TAttributes.Add( attData );
-				}
+			SetTypicalAttribute( tData, tInfo.ListPrice, "Pricing" );
+			SetTypicalAttribute( tData, tInfo.ListPrice2, "Pricing2" );
+			SetTypicalAttribute( tData, tInfo.ListPrice3, "Pricing3" );
+			SetTypicalAttribute( tData, tInfo.ListPrice4, "Pricing4" );
+			SetTypicalAttribute( tData, tInfo.ListPrice5, "Pricing5" );
 
-				if( tData.TypicalIntAttributes.Any( tia => tia.AttributeID == attData.AttributeID ) )
-				{
-					database.TypicalIntAttributes.Remove( tData.TypicalIntAttributes.First( tia => tia.AttributeID == attData.AttributeID ) );
-				}
-
-				var attForTypical = new TypicalIntAttribute();
-				attForTypical.TAttribute = attData;
-				attForTypical.Value = tInfo.ListPrice;
-				attForTypical.Typical = tData;
-				database.TypicalIntAttributes.Add( attForTypical );
-			}
+			SetTypicalAttribute( tData, tInfo.VariationLabel, "Variation" );
+			SetTypicalAttribute( tData, tInfo.VariationLabel2, "Variation2" );
+			SetTypicalAttribute( tData, tInfo.VariationLabel3, "Variation3" );
+			SetTypicalAttribute( tData, tInfo.VariationLabel4, "Variation4" );
+			SetTypicalAttribute( tData, tInfo.VariationLabel5, "Variation5" );
 
 			var rootLocation = Path.Combine( ConfigurationManager.AppSettings["SpecRequestDocumentLocation"], tInfo.Name );
 
@@ -1771,6 +1769,56 @@ namespace PWDRepositories
 			tData.AvailableForIn2 = tInfo.AvailableForIn2;
 
 			return database.SaveChanges() > 0;
+		}
+
+		private void SetTypicalAttribute( Typical tData, int? val, string header )
+		{
+			var attData = database.TAttributes.FirstOrDefault( a => a.Name == header );
+			if( attData == null )
+			{
+				attData = new PDWDBContext.TAttribute();
+				attData.Name = header;
+				database.TAttributes.Add( attData );
+			}
+
+			if( tData.TypicalIntAttributes.Any( tia => tia.AttributeID == attData.AttributeID ) )
+			{
+				database.TypicalIntAttributes.Remove( tData.TypicalIntAttributes.First( tia => tia.AttributeID == attData.AttributeID ) );
+			}
+
+			if( val.HasValue )
+			{
+				var attForTypical = new TypicalIntAttribute();
+				attForTypical.TAttribute = attData;
+				attForTypical.Value = val.Value;
+				attForTypical.Typical = tData;
+				database.TypicalIntAttributes.Add( attForTypical );
+			}
+		}
+
+		private void SetTypicalAttribute( Typical tData, string val, string header )
+		{
+			var attData = database.TAttributes.FirstOrDefault( a => a.Name == header );
+			if( attData == null )
+			{
+				attData = new PDWDBContext.TAttribute();
+				attData.Name = header;
+				database.TAttributes.Add( attData );
+			}
+
+			if( tData.TypicalTextAttributes.Any( tia => tia.AttributeID == attData.AttributeID ) )
+			{
+				database.TypicalTextAttributes.Remove( tData.TypicalTextAttributes.First( tia => tia.AttributeID == attData.AttributeID ) );
+			}
+
+			if( !string.IsNullOrEmpty( val ) )
+			{
+				var attForTypical = new TypicalTextAttribute();
+				attForTypical.TAttribute = attData;
+				attForTypical.Value = val;
+				attForTypical.Typical = tData;
+				database.TypicalTextAttributes.Add( attForTypical );
+			}
 		}
 
 		private void FillTypicalAttribute( Typical tData, string val, string header )

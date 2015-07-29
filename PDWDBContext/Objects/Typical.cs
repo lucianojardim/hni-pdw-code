@@ -32,7 +32,7 @@ namespace PDWDBContext
 			return null;
 		}
 
-		public int IntAttribute( string attName )
+		public int? IntAttribute( string attName )
 		{
 			var att = TypicalIntAttributes.FirstOrDefault( a => a.TAttribute.Name == attName );
 			if( att != null )
@@ -40,7 +40,7 @@ namespace PDWDBContext
 				return att.Value;
 			}
 
-			return 0;
+			return null;
 		}
 
 		public string TextAttribute( string attName )
