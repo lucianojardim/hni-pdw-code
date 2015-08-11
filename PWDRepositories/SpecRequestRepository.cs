@@ -1466,29 +1466,134 @@ namespace PWDRepositories
 			
 			var rootLocation = Path.Combine( ConfigurationManager.AppSettings["SpecRequestDocumentLocation"], tInfo.Name );
 
+			// base
 			if( tInfo.dwgFile != null )
 			{
-				FillTypicalFileData( tData, rootLocation, tInfo.dwgFile.FileName, tInfo.dwgFile.InputStream, "drawing dwg" );
+				FillTypicalFileData( tData, rootLocation, tInfo.dwgFile.FileName, tInfo.dwgFile.InputStream, "Drawing DWG" );
 			}
 
 			if( tInfo.xlsFile != null )
 			{
-				FillTypicalFileData( tData, rootLocation, tInfo.xlsFile.FileName, tInfo.xlsFile.InputStream, "spec & price xls" );
+				FillTypicalFileData( tData, rootLocation, tInfo.xlsFile.FileName, tInfo.xlsFile.InputStream, "Spec & Price XLS" );
 			}
 
 			if( tInfo.sifFile != null )
 			{
-				FillTypicalFileData( tData, rootLocation, tInfo.sifFile.FileName, tInfo.sifFile.InputStream, "spec & price sif" );
+				FillTypicalFileData( tData, rootLocation, tInfo.sifFile.FileName, tInfo.sifFile.InputStream, "Spec & Price SIF" );
 			}
 
 			if( tInfo.sp4File != null )
 			{
-				FillTypicalFileData( tData, rootLocation, tInfo.sp4File.FileName, tInfo.sp4File.InputStream, "spec & price sp4" );
+				FillTypicalFileData( tData, rootLocation, tInfo.sp4File.FileName, tInfo.sp4File.InputStream, "Spec & Price SP4" );
 			}
 
 			if( tInfo.pdfFile != null )
 			{
-				FillTypicalFileData( tData, rootLocation, tInfo.pdfFile.FileName, tInfo.pdfFile.InputStream, "spec & price pdf" );
+				FillTypicalFileData( tData, rootLocation, tInfo.pdfFile.FileName, tInfo.pdfFile.InputStream, "Spec & Price PDF" );
+			}
+
+			// option #1
+			if( tInfo.dwgFile2 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.dwgFile2.FileName, tInfo.dwgFile2.InputStream, "Drawing DWG2" );
+			}
+
+			if( tInfo.xlsFile2 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.xlsFile2.FileName, tInfo.xlsFile2.InputStream, "Spec & Price XLS2" );
+			}
+
+			if( tInfo.sifFile2 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.sifFile2.FileName, tInfo.sifFile2.InputStream, "Spec & Price SIF2" );
+			}
+
+			if( tInfo.sp4File2 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.sp4File2.FileName, tInfo.sp4File2.InputStream, "Spec & Price SP42" );
+			}
+
+			if( tInfo.pdfFile2 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.pdfFile2.FileName, tInfo.pdfFile2.InputStream, "Spec & Price PDF2" );
+			}
+
+			// option #2
+			if( tInfo.dwgFile3 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.dwgFile3.FileName, tInfo.dwgFile3.InputStream, "Drawing DWG3" );
+			}
+
+			if( tInfo.xlsFile3 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.xlsFile3.FileName, tInfo.xlsFile3.InputStream, "Spec & Price XLS3" );
+			}
+
+			if( tInfo.sifFile3 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.sifFile3.FileName, tInfo.sifFile3.InputStream, "Spec & Price SIF3" );
+			}
+
+			if( tInfo.sp4File3 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.sp4File3.FileName, tInfo.sp4File3.InputStream, "Spec & Price SP43" );
+			}
+
+			if( tInfo.pdfFile3 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.pdfFile3.FileName, tInfo.pdfFile3.InputStream, "Spec & Price PDF3" );
+			}
+
+			// option #3
+			if( tInfo.dwgFile4 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.dwgFile4.FileName, tInfo.dwgFile4.InputStream, "Drawing DWG4" );
+			}
+
+			if( tInfo.xlsFile4 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.xlsFile4.FileName, tInfo.xlsFile4.InputStream, "Spec & Price XLS4" );
+			}
+
+			if( tInfo.sifFile4 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.sifFile4.FileName, tInfo.sifFile4.InputStream, "Spec & Price SIF4" );
+			}
+
+			if( tInfo.sp4File4 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.sp4File4.FileName, tInfo.sp4File4.InputStream, "Spec & Price SP44" );
+			}
+
+			if( tInfo.pdfFile4 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.pdfFile4.FileName, tInfo.pdfFile4.InputStream, "Spec & Price PDF4" );
+			}
+
+			// option #4
+			if( tInfo.dwgFile5 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.dwgFile5.FileName, tInfo.dwgFile5.InputStream, "Drawing DWG5" );
+			}
+
+			if( tInfo.xlsFile5 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.xlsFile5.FileName, tInfo.xlsFile5.InputStream, "Spec & Price XLS5" );
+			}
+
+			if( tInfo.sifFile5 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.sifFile5.FileName, tInfo.sifFile5.InputStream, "Spec & Price SIF5" );
+			}
+
+			if( tInfo.sp4File5 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.sp4File5.FileName, tInfo.sp4File5.InputStream, "Spec & Price SP45" );
+			}
+
+			if( tInfo.pdfFile5 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.pdfFile5.FileName, tInfo.pdfFile5.InputStream, "Spec & Price PDF5" );
 			}
 
 			FillTypicalAttribute( tData, tInfo.Footprint, "Footprint" );
@@ -1571,7 +1676,7 @@ namespace PWDRepositories
 				AvailableForIn2 = tInfo.AvailableForIn2 ?? false,
 				SeriesList = string.Join( ",", tInfo.SeriesTypicals.Where( st => !st.IsPrimary ).Select( st => st.Series.Name ) ),
 				FeaturedSeries = string.Join( ",", tInfo.SeriesTypicals.Where( st => st.IsPrimary ).Select( st => st.Series.Name ) ),
-				
+
 				ListPrice = tInfo.IntAttribute( "Pricing" ) ?? 0,
 				ListPrice2 = tInfo.IntAttribute( "Pricing2" ),
 				ListPrice3 = tInfo.IntAttribute( "Pricing3" ),
@@ -1598,37 +1703,191 @@ namespace PWDRepositories
 				pdfFileName = "",
 				dwgFileName = "",
 
+				xlsFileName2 = "",
+				sifFileName2 = "",
+				sp4FileName2 = "",
+				pdfFileName2 = "",
+				dwgFileName2 = "",
+
+				xlsFileName3 = "",
+				sifFileName3 = "",
+				sp4FileName3 = "",
+				pdfFileName3 = "",
+				dwgFileName3 = "",
+
+				xlsFileName4 = "",
+				sifFileName4 = "",
+				sp4FileName4 = "",
+				pdfFileName4 = "",
+				dwgFileName4 = "",
+
+				xlsFileName5 = "",
+				sifFileName5 = "",
+				sp4FileName5 = "",
+				pdfFileName5 = "",
+				dwgFileName5 = "",
+
 				IsPublished = tInfo.IsPublished
 			};
 
-			var xlsFiles = tInfo.TextAttribute( "Spec & Price XLS" );
-			if( xlsFiles.Any() )
 			{
-				typData.xlsFileName = xlsFiles.Split( '/' ).Last();
+				var xlsFiles = tInfo.TextAttribute( "Spec & Price XLS" );
+				if( xlsFiles.Any() )
+				{
+					typData.xlsFileName = xlsFiles.Split( '/' ).Last();
+				}
+
+				var sifFiles = tInfo.TextAttribute( "Spec & Price SIF" );
+				if( sifFiles.Any() )
+				{
+					typData.sifFileName = sifFiles.Split( '/' ).Last();
+				}
+
+				var sp4Files = tInfo.TextAttribute( "Spec & Price SP4" );
+				if( sp4Files.Any() )
+				{
+					typData.sp4FileName = sp4Files.Split( '/' ).Last();
+				}
+
+				var pdfFiles = tInfo.TextAttribute( "Spec & Price PDF" );
+				if( pdfFiles.Any() )
+				{
+					typData.pdfFileName = pdfFiles.Split( '/' ).Last();
+				}
+
+				var dwgFiles = tInfo.TextAttribute( "Drawing DWG" );
+				if( dwgFiles.Any() )
+				{
+					typData.dwgFileName = dwgFiles.Split( '/' ).Last();
+				}
 			}
 
-			var sifFiles = tInfo.TextAttribute( "Spec & Price SIF" );
-			if( sifFiles.Any() )
 			{
-				typData.sifFileName = sifFiles.Split( '/' ).Last();
+				var xlsFiles = tInfo.TextAttribute( "Spec & Price XLS2" );
+				if( xlsFiles.Any() )
+				{
+					typData.xlsFileName2 = xlsFiles.Split( '/' ).Last();
+				}
+
+				var sifFiles = tInfo.TextAttribute( "Spec & Price SIF2" );
+				if( sifFiles.Any() )
+				{
+					typData.sifFileName2 = sifFiles.Split( '/' ).Last();
+				}
+
+				var sp4Files = tInfo.TextAttribute( "Spec & Price SP42" );
+				if( sp4Files.Any() )
+				{
+					typData.sp4FileName2 = sp4Files.Split( '/' ).Last();
+				}
+
+				var pdfFiles = tInfo.TextAttribute( "Spec & Price PDF2" );
+				if( pdfFiles.Any() )
+				{
+					typData.pdfFileName2 = pdfFiles.Split( '/' ).Last();
+				}
+
+				var dwgFiles = tInfo.TextAttribute( "Drawing DWG2" );
+				if( dwgFiles.Any() )
+				{
+					typData.dwgFileName2 = dwgFiles.Split( '/' ).Last();
+				}
 			}
 
-			var sp4Files = tInfo.TextAttribute( "Spec & Price SP4" );
-			if( sp4Files.Any() )
 			{
-				typData.sp4FileName = sp4Files.Split( '/' ).Last();
+				var xlsFiles = tInfo.TextAttribute( "Spec & Price XLS3" );
+				if( xlsFiles.Any() )
+				{
+					typData.xlsFileName3 = xlsFiles.Split( '/' ).Last();
+				}
+
+				var sifFiles = tInfo.TextAttribute( "Spec & Price SIF3" );
+				if( sifFiles.Any() )
+				{
+					typData.sifFileName3 = sifFiles.Split( '/' ).Last();
+				}
+
+				var sp4Files = tInfo.TextAttribute( "Spec & Price SP43" );
+				if( sp4Files.Any() )
+				{
+					typData.sp4FileName3 = sp4Files.Split( '/' ).Last();
+				}
+
+				var pdfFiles = tInfo.TextAttribute( "Spec & Price PDF3" );
+				if( pdfFiles.Any() )
+				{
+					typData.pdfFileName3 = pdfFiles.Split( '/' ).Last();
+				}
+
+				var dwgFiles = tInfo.TextAttribute( "Drawing DWG3" );
+				if( dwgFiles.Any() )
+				{
+					typData.dwgFileName3 = dwgFiles.Split( '/' ).Last();
+				}
 			}
 
-			var pdfFiles = tInfo.TextAttribute( "Spec & Price PDF" );
-			if( pdfFiles.Any() )
 			{
-				typData.pdfFileName = pdfFiles.Split( '/' ).Last();
+				var xlsFiles = tInfo.TextAttribute( "Spec & Price XLS4" );
+				if( xlsFiles.Any() )
+				{
+					typData.xlsFileName4 = xlsFiles.Split( '/' ).Last();
+				}
+
+				var sifFiles = tInfo.TextAttribute( "Spec & Price SIF4" );
+				if( sifFiles.Any() )
+				{
+					typData.sifFileName4 = sifFiles.Split( '/' ).Last();
+				}
+
+				var sp4Files = tInfo.TextAttribute( "Spec & Price SP44" );
+				if( sp4Files.Any() )
+				{
+					typData.sp4FileName4 = sp4Files.Split( '/' ).Last();
+				}
+
+				var pdfFiles = tInfo.TextAttribute( "Spec & Price PDF4" );
+				if( pdfFiles.Any() )
+				{
+					typData.pdfFileName4 = pdfFiles.Split( '/' ).Last();
+				}
+
+				var dwgFiles = tInfo.TextAttribute( "Drawing DWG4" );
+				if( dwgFiles.Any() )
+				{
+					typData.dwgFileName4 = dwgFiles.Split( '/' ).Last();
+				}
 			}
 
-			var dwgFiles = tInfo.TextAttribute( "Drawing DWG" );
-			if( dwgFiles.Any() )
 			{
-				typData.dwgFileName = dwgFiles.Split( '/' ).Last();
+				var xlsFiles = tInfo.TextAttribute( "Spec & Price XLS5" );
+				if( xlsFiles.Any() )
+				{
+					typData.xlsFileName5 = xlsFiles.Split( '/' ).Last();
+				}
+
+				var sifFiles = tInfo.TextAttribute( "Spec & Price SIF5" );
+				if( sifFiles.Any() )
+				{
+					typData.sifFileName5 = sifFiles.Split( '/' ).Last();
+				}
+
+				var sp4Files = tInfo.TextAttribute( "Spec & Price SP45" );
+				if( sp4Files.Any() )
+				{
+					typData.sp4FileName5 = sp4Files.Split( '/' ).Last();
+				}
+
+				var pdfFiles = tInfo.TextAttribute( "Spec & Price PDF5" );
+				if( pdfFiles.Any() )
+				{
+					typData.pdfFileName5 = pdfFiles.Split( '/' ).Last();
+				}
+
+				var dwgFiles = tInfo.TextAttribute( "Drawing DWG5" );
+				if( dwgFiles.Any() )
+				{
+					typData.dwgFileName5 = dwgFiles.Split( '/' ).Last();
+				}
 			}
 
 			return typData;
@@ -1728,29 +1987,134 @@ namespace PWDRepositories
 
 			var rootLocation = Path.Combine( ConfigurationManager.AppSettings["SpecRequestDocumentLocation"], tInfo.Name );
 
+			// base
 			if( tInfo.dwgFile != null )
 			{
-				FillTypicalFileData( tData, rootLocation, tInfo.dwgFile.FileName, tInfo.dwgFile.InputStream, "drawing dwg" );
+				FillTypicalFileData( tData, rootLocation, tInfo.dwgFile.FileName, tInfo.dwgFile.InputStream, "Drawing DWG" );
 			}
 
 			if( tInfo.xlsFile != null )
 			{
-				FillTypicalFileData( tData, rootLocation, tInfo.xlsFile.FileName, tInfo.xlsFile.InputStream, "spec & price xls" );
+				FillTypicalFileData( tData, rootLocation, tInfo.xlsFile.FileName, tInfo.xlsFile.InputStream, "Spec & Price XLS" );
 			}
 
 			if( tInfo.sifFile != null )
 			{
-				FillTypicalFileData( tData, rootLocation, tInfo.sifFile.FileName, tInfo.sifFile.InputStream, "spec & price sif" );
+				FillTypicalFileData( tData, rootLocation, tInfo.sifFile.FileName, tInfo.sifFile.InputStream, "Spec & Price SIF" );
 			}
 
 			if( tInfo.sp4File != null )
 			{
-				FillTypicalFileData( tData, rootLocation, tInfo.sp4File.FileName, tInfo.sp4File.InputStream, "spec & price sp4" );
+				FillTypicalFileData( tData, rootLocation, tInfo.sp4File.FileName, tInfo.sp4File.InputStream, "Spec & Price SP4" );
 			}
 
 			if( tInfo.pdfFile != null )
 			{
-				FillTypicalFileData( tData, rootLocation, tInfo.pdfFile.FileName, tInfo.pdfFile.InputStream, "spec & price pdf" );
+				FillTypicalFileData( tData, rootLocation, tInfo.pdfFile.FileName, tInfo.pdfFile.InputStream, "Spec & Price PDF" );
+			}
+
+			// option #1
+			if( tInfo.dwgFile2 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.dwgFile2.FileName, tInfo.dwgFile2.InputStream, "Drawing DWG2" );
+			}
+
+			if( tInfo.xlsFile2 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.xlsFile2.FileName, tInfo.xlsFile2.InputStream, "Spec & Price XLS2" );
+			}
+
+			if( tInfo.sifFile2 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.sifFile2.FileName, tInfo.sifFile2.InputStream, "Spec & Price SIF2" );
+			}
+
+			if( tInfo.sp4File2 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.sp4File2.FileName, tInfo.sp4File2.InputStream, "Spec & Price SP42" );
+			}
+
+			if( tInfo.pdfFile2 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.pdfFile2.FileName, tInfo.pdfFile2.InputStream, "Spec & Price PDF2" );
+			}
+
+			// option #2
+			if( tInfo.dwgFile3 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.dwgFile3.FileName, tInfo.dwgFile3.InputStream, "Drawing DWG3" );
+			}
+
+			if( tInfo.xlsFile3 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.xlsFile3.FileName, tInfo.xlsFile3.InputStream, "Spec & Price XLS3" );
+			}
+
+			if( tInfo.sifFile3 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.sifFile3.FileName, tInfo.sifFile3.InputStream, "Spec & Price SIF3" );
+			}
+
+			if( tInfo.sp4File3 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.sp4File3.FileName, tInfo.sp4File3.InputStream, "Spec & Price SP43" );
+			}
+
+			if( tInfo.pdfFile3 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.pdfFile3.FileName, tInfo.pdfFile3.InputStream, "Spec & Price PDF3" );
+			}
+
+			// option #3
+			if( tInfo.dwgFile4 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.dwgFile4.FileName, tInfo.dwgFile4.InputStream, "Drawing DWG4" );
+			}
+
+			if( tInfo.xlsFile4 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.xlsFile4.FileName, tInfo.xlsFile4.InputStream, "Spec & Price XLS4" );
+			}
+
+			if( tInfo.sifFile4 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.sifFile4.FileName, tInfo.sifFile4.InputStream, "Spec & Price SIF4" );
+			}
+
+			if( tInfo.sp4File4 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.sp4File4.FileName, tInfo.sp4File4.InputStream, "Spec & Price SP44" );
+			}
+
+			if( tInfo.pdfFile4 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.pdfFile4.FileName, tInfo.pdfFile4.InputStream, "Spec & Price PDF4" );
+			}
+
+			// option #4
+			if( tInfo.dwgFile5 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.dwgFile5.FileName, tInfo.dwgFile5.InputStream, "Drawing DWG5" );
+			}
+
+			if( tInfo.xlsFile5 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.xlsFile5.FileName, tInfo.xlsFile5.InputStream, "Spec & Price XLS5" );
+			}
+
+			if( tInfo.sifFile5 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.sifFile5.FileName, tInfo.sifFile5.InputStream, "Spec & Price SIF5" );
+			}
+
+			if( tInfo.sp4File5 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.sp4File5.FileName, tInfo.sp4File5.InputStream, "Spec & Price SP45" );
+			}
+
+			if( tInfo.pdfFile5 != null )
+			{
+				FillTypicalFileData( tData, rootLocation, tInfo.pdfFile5.FileName, tInfo.pdfFile5.InputStream, "Spec & Price PDF5" );
 			}
 
 			FillTypicalAttribute( tData, tInfo.Footprint, "Footprint" );

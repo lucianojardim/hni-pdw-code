@@ -74,6 +74,75 @@ namespace PDWModels.SpecRequests
 		public string sp4FileName { get; set; }
 		public string pdfFileName { get; set; }
 		public string dwgFileName { get; set; }
+
+		[DisplayName( "XLS File" )]
+		public HttpPostedFileBase xlsFile2 { get; set; }
+		[DisplayName( "SIF File" )]
+		public HttpPostedFileBase sifFile2 { get; set; }
+		[DisplayName( "SP4 File" )]
+		public HttpPostedFileBase sp4File2 { get; set; }
+		[DisplayName( "PDF File" )]
+		public HttpPostedFileBase pdfFile2 { get; set; }
+		[DisplayName( "DWG File" )]
+		public HttpPostedFileBase dwgFile2 { get; set; }
+
+		public string xlsFileName2 { get; set; }
+		public string sifFileName2 { get; set; }
+		public string sp4FileName2 { get; set; }
+		public string pdfFileName2 { get; set; }
+		public string dwgFileName2 { get; set; }
+
+		[DisplayName( "XLS File" )]
+		public HttpPostedFileBase xlsFile3 { get; set; }
+		[DisplayName( "SIF File" )]
+		public HttpPostedFileBase sifFile3 { get; set; }
+		[DisplayName( "SP4 File" )]
+		public HttpPostedFileBase sp4File3 { get; set; }
+		[DisplayName( "PDF File" )]
+		public HttpPostedFileBase pdfFile3 { get; set; }
+		[DisplayName( "DWG File" )]
+		public HttpPostedFileBase dwgFile3 { get; set; }
+
+		public string xlsFileName3 { get; set; }
+		public string sifFileName3 { get; set; }
+		public string sp4FileName3 { get; set; }
+		public string pdfFileName3 { get; set; }
+		public string dwgFileName3 { get; set; }
+
+		[DisplayName( "XLS File" )]
+		public HttpPostedFileBase xlsFile4 { get; set; }
+		[DisplayName( "SIF File" )]
+		public HttpPostedFileBase sifFile4 { get; set; }
+		[DisplayName( "SP4 File" )]
+		public HttpPostedFileBase sp4File4 { get; set; }
+		[DisplayName( "PDF File" )]
+		public HttpPostedFileBase pdfFile4 { get; set; }
+		[DisplayName( "DWG File" )]
+		public HttpPostedFileBase dwgFile4 { get; set; }
+
+		public string xlsFileName4 { get; set; }
+		public string sifFileName4 { get; set; }
+		public string sp4FileName4 { get; set; }
+		public string pdfFileName4 { get; set; }
+		public string dwgFileName4 { get; set; }
+
+		[DisplayName( "XLS File" )]
+		public HttpPostedFileBase xlsFile5 { get; set; }
+		[DisplayName( "SIF File" )]
+		public HttpPostedFileBase sifFile5 { get; set; }
+		[DisplayName( "SP4 File" )]
+		public HttpPostedFileBase sp4File5 { get; set; }
+		[DisplayName( "PDF File" )]
+		public HttpPostedFileBase pdfFile5 { get; set; }
+		[DisplayName( "DWG File" )]
+		public HttpPostedFileBase dwgFile5 { get; set; }
+
+		public string xlsFileName5 { get; set; }
+		public string sifFileName5 { get; set; }
+		public string sp4FileName5 { get; set; }
+		public string pdfFileName5 { get; set; }
+		public string dwgFileName5 { get; set; }
+
 		public bool IsPublished { get; set; }
 	}
 }

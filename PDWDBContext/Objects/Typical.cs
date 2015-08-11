@@ -45,7 +45,7 @@ namespace PDWDBContext
 
 		public string TextAttribute( string attName )
 		{
-			var att = TypicalTextAttributes.FirstOrDefault( a => a.TAttribute.Name == attName );
+			var att = TypicalTextAttributes.FirstOrDefault( a => a.TAttribute.Name.ToLower() == attName.ToLower() );
 			if( att != null )
 			{
 				return att.Value;
