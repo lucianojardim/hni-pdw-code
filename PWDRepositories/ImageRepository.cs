@@ -125,6 +125,7 @@ namespace PWDRepositories
 
 			return new ImageItemDetails()
 			{
+				ImageID = img.ImageID,
 				FileName = img.ThumbnailImageData( "l16to9" ).FileName,
 				Caption = img.Caption,
 				Name = img.Name,
@@ -137,6 +138,7 @@ namespace PWDRepositories
 		{
 			return new ImageItemDetails()
 			{
+				ImageID = img.ImageID,
 				FileName = img.ThumbnailImageData( "l16to9" ).FileName,
 				Caption = img.Caption,
 				Name = img.Name,
@@ -445,6 +447,18 @@ namespace PWDRepositories
 		public ImageItemDetails GetImageDetailInfo( int imageId )
 		{
 			var img = database.ImageFiles.FirstOrDefault( i => i.ImageID == imageId );
+
+			if( img != null )
+			{
+				return ToImageItemDetails( img );
+			}
+
+			return null;
+		}
+
+		public ImageItemDetails GetImageDetailInfo( string name )
+		{
+			var img = database.ImageFiles.FirstOrDefault( i => i.Name == name );
 
 			if( img != null )
 			{

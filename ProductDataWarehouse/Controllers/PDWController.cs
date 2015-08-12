@@ -307,6 +307,20 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
+		public JsonpResult GetImageDetailInfoByName( string name )
+		{
+			using( ImageRepository iRepo = new ImageRepository() )
+			{
+				var theData = iRepo.GetImageDetailInfo( name );
+
+				return new JsonpResult()
+				{
+					Data = theData,
+					JsonRequestBehavior = JsonRequestBehavior.AllowGet
+				};
+			}
+		}
+
 		public JsonpResult GetImageFinishInfo( int imageId )
 		{
 			using( ImageRepository iRepo = new ImageRepository() )
