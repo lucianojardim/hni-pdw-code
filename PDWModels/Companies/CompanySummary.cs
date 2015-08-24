@@ -25,5 +25,26 @@ namespace PDWModels.Companies
 		public int? TerritoryID { get; set; }
 		public int DealerCount { get; set; }
 		public bool IsDisabled { get; set; }
+		public string Location
+		{
+			get
+			{
+				if( !string.IsNullOrEmpty( City ) )
+				{
+					if( !string.IsNullOrEmpty( State ) )
+					{
+						return City + ", " + State;
+					}
+					else
+					{
+						return City;
+					}
+				}
+				else
+				{
+					return State;
+				}
+			}
+		}
 	}
 }

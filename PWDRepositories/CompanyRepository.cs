@@ -458,6 +458,7 @@ namespace PWDRepositories
 					}
 					break;
 				case "city":
+				case "location":
 					if( param.sSortDir_0.ToLower() == "asc" )
 					{
 						filteredAndSorted = companyList.OrderBy( v => v.City );
