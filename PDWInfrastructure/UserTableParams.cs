@@ -11,5 +11,6 @@ namespace PDWInfrastructure
 		public int? territoryId { get; set; }
 		public int? companyId { get; set; }
 		public bool? disabledUsers { get; set; }
+		public bool? hideInactiveUsers { get; set; }
 	}
 }

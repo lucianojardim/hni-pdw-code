@@ -11,6 +11,7 @@
 Account Type: @Html.DropDownList( "AccountType", ProductDataWarehouse.Controllers.UserController.GetUserRoleFilterList() )<br />
 Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.CompanyController.GetTerritoryDDList( true ) )<br />
 @Html.CheckBox( "DisabledUsers" ) Disabled, Active Users<br />
+@Html.CheckBox( "HideInactiveUsers" ) Hide Inactive Users<br />
 <div>
     <table id="userList">
     <thead></thead>
@@ -23,7 +24,7 @@ Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.C
 		$('#AccountType').change(loadUsers);
 		$('#TerritoryID').change(loadUsers);
 		$('#DisabledUsers').click(loadUsers);
-
+		$('#HideInactiveUsers').click(loadUsers);
 		loadUsers();
 	});
 
@@ -76,6 +77,7 @@ Territory: @Html.DropDownList( "TerritoryID", ProductDataWarehouse.Controllers.C
 				aoData.push({ "name": "accountType", "value": $('#AccountType').val() });
 				aoData.push({ "name": "territoryId", "value": $('#TerritoryID').val() });
 				aoData.push({ "name": "disabledUsers", "value": $('#DisabledUsers:checked').length > 0 });
+				aoData.push({ "name": "hideInactiveUsers", "value": $('#HideInactiveUsers:checked').length > 0 });
 			},
 			"iDisplayLength": 100,
 			"fnServerData": function (sSource, aoData, fnCallback) {
