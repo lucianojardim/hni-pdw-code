@@ -829,12 +829,12 @@
           </Key>
           <Property Name="ArticleID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="BigHeadline" Type="nvarchar" MaxLength="500" />
-          <Property Name="BigText" Type="ntext" />
+          <Property Name="BigText" Type="nvarchar(max)" />
           <Property Name="BigImageURL" Type="nvarchar" MaxLength="200" />
           <Property Name="SmallHeadline" Type="nvarchar" MaxLength="500" />
-          <Property Name="SmallText" Type="ntext" />
+          <Property Name="SmallText" Type="nvarchar(max)" />
           <Property Name="SmallImageURL" Type="nvarchar" MaxLength="200" />
-          <Property Name="ContentBlock" Type="ntext" />
+          <Property Name="ContentBlock" Type="nvarchar(max)" />
           <Property Name="Title" Type="nvarchar" MaxLength="200" />
           <Property Name="PubDate" Type="datetime" />
           <Property Name="AuthorID" Type="int" Nullable="false" />

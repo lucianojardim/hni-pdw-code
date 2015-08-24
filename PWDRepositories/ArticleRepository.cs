@@ -7,6 +7,7 @@ using PDWModels.Articles;
 using PDWInfrastructure;
 using System.Web;
 using System.Data.Entity;
+using PDWModels;
 
 namespace PWDRepositories
 {
@@ -166,7 +167,7 @@ namespace PWDRepositories
 				.ToList().Select( v => ToArticleSummary( v ) );
 		}
 
-		public IEnumerable<ArticleSummary> GetArticleViewList( int articleType )
+		public IEnumerable<ArticleSummary> GetArticleViewList( int articleType, string search )
 		{
 			var articleList = database.ScoopArticles.AsQueryable();
 
@@ -174,6 +175,20 @@ namespace PWDRepositories
 				.Include( a => a.User )
 				.Where( a => a.PubDate < DateTime.Now && a.ArticleType == articleType )
 				.OrderByDescending( a => a.PubDate );
+
+			if( !string.IsNullOrEmpty( search ) )
+			{
+				var termList = SearchText.GetSearchList( search );
+
+				foreach( var term in termList )
+				{
+					articleList = articleList.Where( a => a.BigHeadline.Contains( term.searchText.Trim() ) ||
+						a.BigText.Contains( term.searchText.Trim() ) ||
+						a.User.FirstName.Contains( term.searchText.Trim() ) ||
+						a.User.LastName.Contains( term.searchText.Trim() ) ||
+						a.ContentBlock.Contains( term.searchText.Trim() ) );
+				}
+			}
 
 			return articleList.ToList().Select( v => ToArticleSummary( v, true ) );
 		}

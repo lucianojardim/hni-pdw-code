@@ -6,7 +6,15 @@
 
 <div class="container">
 	<div class="main_inner1">
-    	<div class="scoop_h1">@ViewBag.PageTitle</div>
+    	<div class="">
+			<div class="flt_Lt scoop_h1">@ViewBag.PageTitle</div>
+			<div class="flt_Rt articleSearch">
+			@using( Html.BeginForm() )
+	  {
+	<fieldset><input class="valid" placeholder="Keyword Filter / Search" id="search" name="search" type="text" value="@ViewBag.SearchText"/><input id="btnDoSearch" type="submit"/></fieldset>
+		  }
+			</div>
+		</div>
 
 @foreach( var article in Model )
 {

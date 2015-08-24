@@ -141,40 +141,43 @@ namespace ProductDataWarehouse.Controllers
 
 		[PaoliAuthorize( "IsPaoliUser" )]
 		[TempPasswordCheck]
-		public ActionResult ViewAllInternal()
+		public ActionResult ViewAllInternal( string search )
 		{
 			using( var aRepository = new ArticleRepository() )
 			{
 				ViewBag.PageTitle = "Here's your Paoli news";
 				ViewBag.HeaderArea = "InternalNews";
+				ViewBag.SearchText = search;
 
-				return View( viewName: "ViewAll", model: aRepository.GetArticleViewList( ArticleInformation.ArticleTypes.Internal ) );
+				return View( viewName: "ViewAll", model: aRepository.GetArticleViewList( ArticleInformation.ArticleTypes.Internal, search ) );
 			}
 		}
 
 		[PaoliAuthorize( "CanSeeTheScoop" )]
 		[TempPasswordCheck]
-		public ActionResult ViewAllScoop()
+		public ActionResult ViewAllScoop( string search )
 		{
 			using( var aRepository = new ArticleRepository() )
 			{
 				ViewBag.PageTitle = "Here's the Scoop";
 				ViewBag.HeaderArea = "TheScoop";
+				ViewBag.SearchText = search;
 
-				return View( viewName: "ViewAll", model: aRepository.GetArticleViewList( ArticleInformation.ArticleTypes.Scoop ) );
+				return View( viewName: "ViewAll", model: aRepository.GetArticleViewList( ArticleInformation.ArticleTypes.Scoop, search ) );
 			}
 		}
 
 		[PaoliAuthorize( "CanSeeNewsUpdates" )]
 		[TempPasswordCheck]
-		public ActionResult ViewAllNewsAndUpdates()
+		public ActionResult ViewAllNewsAndUpdates( string search )
 		{
 			using( var aRepository = new ArticleRepository() )
 			{
 				ViewBag.PageTitle = "Here's your News and Updates";
 				ViewBag.HeaderArea = "NewsUpdates";
+				ViewBag.SearchText = search;
 
-				return View( viewName: "ViewAll", model: aRepository.GetArticleViewList( ArticleInformation.ArticleTypes.NewsAndUpdates ) );
+				return View( viewName: "ViewAll", model: aRepository.GetArticleViewList( ArticleInformation.ArticleTypes.NewsAndUpdates, search ) );
 			}
 		}
 

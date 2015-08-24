@@ -1112,3 +1112,32 @@ footer.mainfooter a.publish {
     display: block;
     margin-bottom: 20px;
 }
+
+.articleSearch form {
+	float:right;
+	padding-top:10px;
+}
+.articleSearch form input[type=text] {
+	border:none;
+	background:#FFF;
+	height:28px;
+	padding-left:10px;
+	width:140px;
+	float:left;
+	font-family: Helvetica, Arial, sans-serif;	
+	font-weight:100;
+}
+.articleSearch form fieldset {
+	border:0;
+	padding:0;
+	margin:0;
+}
+.articleSearch form input[type=submit] {
+	width:16px;
+	height:28px;
+	background:url(../images/sprite.png) no-repeat -18px 12px;
+	border:0;
+	text-indent:-99999px;
+	overflow:hidden;
+	cursor:pointer;
+}
