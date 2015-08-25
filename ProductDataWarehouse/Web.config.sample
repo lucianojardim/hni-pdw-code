@@ -44,6 +44,11 @@
 		<add key="EmailFromFullName" value="Stan King"/>
 		<add key="EmailFromJobTitle" value="Customer Service Manager"/>
 		<add key="EmailFromEmailAddress" value="kings@paoli.com"/>
+
+		<add key="MailChimpApiKey" value="a93665177bd5f4ed1bb30eef32999a5e-us7"/>
+		<add key="MailChimpDealerList" value="4d68bf13db"/>
+		<add key="MailChimpSalesRepList" value="640e530a77﻿"/>
+
   </appSettings>
 
 	<encSettings>

@@ -237,6 +237,8 @@ namespace PWDRepositories
 						} );
 				}
 
+				MailChimpSubscribe.AddEmailAddress( newUser.Email, newUser.AccountType );
+
 				return true;
 			}
 
@@ -1087,6 +1089,8 @@ namespace PWDRepositories
 			if( uInfo.UserID == 0 )
 			{
 				( new NewAccountEmailSender() ).SubmitNewAccountEmail( uInfo.EmailAddress, password );
+
+				MailChimpSubscribe.AddEmailAddress( uInfo.EmailAddress, accountType );
 			}
 		}
 	}
