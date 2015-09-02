@@ -57,6 +57,13 @@ namespace PDWModels.Images
 			Premium = 2
 		}
 
+		public enum ImageApplications
+		{
+			PrivateOffice = 1,
+			Teaming = 2,
+			Collaborative = 3
+		}
+
 		public int ImageID { get; set; }
 		[Required]
 		[DisplayName("Image Name")]
@@ -99,6 +106,8 @@ namespace PDWModels.Images
 		public int? VeneerSpecies { get; set; }
 		[DisplayName( "Seating Grade" )]
 		public int? SeatingGrade { get; set; }
+		[DisplayName( "Image Application" )]
+		public int? ImageApplication { get; set; }
 
 		[DisplayName( "Featured Table Shape" )]
 		public string FeaturedTableShape { get; set; }

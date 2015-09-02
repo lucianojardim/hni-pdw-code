@@ -77,7 +77,8 @@ namespace PWDRepositories
 				FeaturedTableShape = img.TableShape,
 				ControlMechanism = img.ControlMechanism,
 				ControlDescription = img.ControlDescription,
-				GoToGuidePageNum = img.GoToGuidePage ?? 0
+				GoToGuidePageNum = img.GoToGuidePage ?? 0,
+				ImageApplication = img.ImageApplication
 			};
 		}
 
@@ -200,7 +201,7 @@ namespace PWDRepositories
 		}
 
 		public ImageThumbnailGallery GetImageThumbnailList( string categories, string imageTypes, int? seriesId, string sortBy, string keywords,
-			int? pubId, string pubPageNum, string contentTypes, bool includePeople, int pageNum, int pageSize )
+			int? pubId, string pubPageNum, string contentTypes, bool includePeople, int pageNum, int pageSize, string imageApplications )
 		{
 			ImageThumbnailGallery gallery = new ImageThumbnailGallery();
 
@@ -234,6 +235,11 @@ namespace PWDRepositories
 			{
 				var catList = categories.Split( ',' );
 				imgList = imgList.Where( img => catList.Intersect( img.SeriesImageFiles.Select( s => s.Series.Category.Name ) ).Any() );
+			}
+			if( ( imageApplications ?? "" ).Any() )
+			{
+				var appList = imageApplications.Split( ',' ).Select( i => int.Parse( i ) ).ToList();
+				imgList = imgList.Where( img => appList.Contains( img.ImageApplication ?? 0 ) );
 			}
 			if( pubId.HasValue )
 			{
@@ -303,7 +309,7 @@ namespace PWDRepositories
 		}
 
 		public ImageListGallery GetImageDetailList( string categories, string imageTypes, int? seriesId, string sortBy, string keywords,
-			int? pubId, string pubPageNum, string contentTypes, int pageNum, int pageSize )
+			int? pubId, string pubPageNum, string contentTypes, int pageNum, int pageSize, string imageApplications )
 		{
 			ImageListGallery gallery = new ImageListGallery();
 
@@ -336,7 +342,12 @@ namespace PWDRepositories
 				var catList = categories.Split( ',' );
 				imgList = imgList.Where( img => catList.Intersect( img.SeriesImageFiles.Select( s => s.Series.Category.Name ) ).Any() );
 			}
-			if( (keywords ?? "").Any() )
+			if( ( imageApplications ?? "" ).Any() )
+			{
+				var appList = imageApplications.Split( ',' ).Select( i => int.Parse( i ) ).ToList();
+				imgList = imgList.Where( img => appList.Contains( img.ImageApplication ?? 0 ) );
+			}
+			if( ( keywords ?? "" ).Any() )
 			{
 				var termList = SearchText.GetSearchList( keywords );
 
@@ -802,6 +813,7 @@ namespace PWDRepositories
 			imgData.ControlMechanism = imgInfo.ControlMechanism;
 			imgData.ControlDescription = imgInfo.ControlDescription;
 			imgData.GoToGuidePage = imgInfo.GoToGuidePageNum;
+			imgData.ImageApplication = imgInfo.ImageApplication;
 
 			database.ImageFiles.Add( imgData );
 
@@ -840,6 +852,7 @@ namespace PWDRepositories
 			imgData.ControlMechanism = imgInfo.ControlMechanism;
 			imgData.ControlDescription = imgInfo.ControlDescription;
 			imgData.GoToGuidePage = imgInfo.GoToGuidePageNum;
+			imgData.ImageApplication = imgInfo.ImageApplication;
 
 			database.SaveChanges();
 		}

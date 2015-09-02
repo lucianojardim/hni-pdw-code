@@ -222,6 +222,10 @@ namespace ProductDataWarehouse.Controllers
 					imgInfo.ControlMechanism = null;
 					imgInfo.GoToGuidePageNum = 0;
 					imgInfo.FeaturedFinish = null;
+					if( imgInfo.ImageType != "Env" && imgInfo.ImageType != "WS" )
+					{
+						imgInfo.ImageApplication = null;
+					}
 					break;
 				case ImageInformation.ImageContents.Edge:
 					if( imgInfo.FeaturedEdge == null )
@@ -239,6 +243,7 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.HasPeople = false;
 						imgInfo.GoToGuidePageNum = 0;
 						imgInfo.FeaturedFinish = null;
+						imgInfo.ImageApplication = null;
 					}
 					break;
 				case ImageInformation.ImageContents.Pull:
@@ -257,6 +262,7 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.HasPeople = false;
 						imgInfo.GoToGuidePageNum = 0;
 						imgInfo.FeaturedFinish = null;
+						imgInfo.ImageApplication = null;
 					}
 					break;
 				case ImageInformation.ImageContents.Finish:
@@ -275,6 +281,7 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.ControlMechanism = null;
 						imgInfo.HasPeople = false;
 						imgInfo.GoToGuidePageNum = 0;
+						imgInfo.ImageApplication = null;
 					}
 					break;
 				case ImageInformation.ImageContents.TableShape:
@@ -293,6 +300,7 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.HasPeople = false;
 						imgInfo.GoToGuidePageNum = 0;
 						imgInfo.FeaturedFinish = null;
+						imgInfo.ImageApplication = null;
 					}
 					break;
 				case ImageInformation.ImageContents.TableBase:
@@ -311,6 +319,7 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.HasPeople = false;
 						imgInfo.GoToGuidePageNum = 0;
 						imgInfo.FeaturedFinish = null;
+						imgInfo.ImageApplication = null;
 					}
 					break;
 				case ImageInformation.ImageContents.ControlMech:
@@ -328,6 +337,7 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.HasPeople = false;
 						imgInfo.GoToGuidePageNum = 0;
 						imgInfo.FeaturedFinish = null;
+						imgInfo.ImageApplication = null;
 					}
 					break;
 				case ImageInformation.ImageContents.GoToGuide:
@@ -339,6 +349,7 @@ namespace ProductDataWarehouse.Controllers
 					imgInfo.ControlMechanism = null;
 					imgInfo.HasPeople = false;
 					imgInfo.FeaturedFinish = null;
+					imgInfo.ImageApplication = null;
 					break;
 
 			}
@@ -395,6 +406,10 @@ namespace ProductDataWarehouse.Controllers
 					imgInfo.ControlMechanism = null;
 					imgInfo.GoToGuidePageNum = 0;
 					imgInfo.FeaturedFinish = null;
+					if( imgInfo.ImageType != "Env" && imgInfo.ImageType != "WS" )
+					{
+						imgInfo.ImageApplication = null;
+					}
 					break;
 				case ImageInformation.ImageContents.Edge:
 					if( imgInfo.FeaturedEdge == null )
@@ -412,6 +427,7 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.HasPeople = false;
 						imgInfo.GoToGuidePageNum = 0;
 						imgInfo.FeaturedFinish = null;
+						imgInfo.ImageApplication = null;
 					}
 					break;
 				case ImageInformation.ImageContents.Pull:
@@ -430,6 +446,7 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.HasPeople = false;
 						imgInfo.GoToGuidePageNum = 0;
 						imgInfo.FeaturedFinish = null;
+						imgInfo.ImageApplication = null;
 					}
 					break;
 				case ImageInformation.ImageContents.Finish:
@@ -448,6 +465,7 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.ControlMechanism = null;
 						imgInfo.HasPeople = false;
 						imgInfo.GoToGuidePageNum = 0;
+						imgInfo.ImageApplication = null;
 					}
 					break;
 				case ImageInformation.ImageContents.TableShape:
@@ -466,6 +484,7 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.HasPeople = false;
 						imgInfo.GoToGuidePageNum = 0;
 						imgInfo.FeaturedFinish = null;
+						imgInfo.ImageApplication = null;
 					}
 					break;
 				case ImageInformation.ImageContents.TableBase:
@@ -484,6 +503,7 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.HasPeople = false;
 						imgInfo.GoToGuidePageNum = 0;
 						imgInfo.FeaturedFinish = null;
+						imgInfo.ImageApplication = null;
 					}
 					break;
 				case ImageInformation.ImageContents.ControlMech:
@@ -501,6 +521,7 @@ namespace ProductDataWarehouse.Controllers
 						imgInfo.HasPeople = false;
 						imgInfo.GoToGuidePageNum = 0;
 						imgInfo.FeaturedFinish = null;
+						imgInfo.ImageApplication = null;
 					}
 					break;
 				case ImageInformation.ImageContents.GoToGuide:
@@ -512,6 +533,7 @@ namespace ProductDataWarehouse.Controllers
 					imgInfo.ControlMechanism = null;
 					imgInfo.HasPeople = false;
 					imgInfo.FeaturedFinish = null;
+					imgInfo.ImageApplication = null;
 					break;
 
 			}
@@ -623,6 +645,17 @@ namespace ProductDataWarehouse.Controllers
 			{
 				new SelectListItem() { Text = "Standard", Value = ((int)ImageInformation.SeatingGrades.Standard).ToString() },
 				new SelectListItem() { Text = "Premium", Value = ((int)ImageInformation.SeatingGrades.Premium).ToString() },
+			};
+		}
+
+		static public IEnumerable<SelectListItem> GetImageApplicationList()
+		{
+			return new List<SelectListItem>()
+			{
+				new SelectListItem() { Text = "", Value = "" },
+				new SelectListItem() { Text = "Private Office", Value = ((int)ImageInformation.ImageApplications.PrivateOffice).ToString() },
+				new SelectListItem() { Text = "Teaming", Value = ((int)ImageInformation.ImageApplications.Teaming).ToString() },
+				new SelectListItem() { Text = "Collaborative", Value = ((int)ImageInformation.ImageApplications.Collaborative).ToString() },
 			};
 		}
 

@@ -22,8 +22,26 @@ else
         $(document).ready(function () {
             $('#ImageContent').change(doImageContentChange);
             $('#FinishType').change(doFinishTypeChange);
-            doImageContentChange();
+    		$('#ImageType').change(doImageTypeChange);
+    		doFinishTypeChange();
+    		doImageContentChange();
+    		doImageTypeChange();
         });
+    	function doImageTypeChange() {
+    		if ($('#ImageContent').val() != '1') {
+    			$('.imgApplicationRange').hide();
+    		} else {
+    			switch ($('#ImageType').val()) {
+    				case 'Env':
+    				case 'WS':
+    					$('.imgApplicationRange').show();
+    					break;
+    				default:
+    					$('.imgApplicationRange').hide();
+    					break;
+    			}
+    		}
+    	}
 
            function doFinishTypeChange() {
            	switch ($('#FinishType').val()) {
@@ -152,6 +170,8 @@ else
 					$('.goToGuideRange').show();
                     break;
             }
+
+                  doImageTypeChange();
         }
     </script>    
 
@@ -184,6 +204,7 @@ else
 		<span class="controlMechanismRange dataRow">@Html.MJLabelFor( m => m.ControlMechanism, true ) @Html.TextBoxFor( m => m.ControlMechanism )<br /></span>
 		<span class="controlMechanismRange dataRow">@Html.MJLabelFor( m => m.ControlDescription, true ) @Html.TextAreaFor( m => m.ControlDescription )<br /></span>
         <span class="goToGuideRange dataRow">@Html.MJLabelFor( m => m.GoToGuidePageNum, true ) @Html.TextBoxFor( m => m.GoToGuidePageNum )<br /></span>
+        <span class="imgApplicationRange dataRow">@Html.MJLabelFor( m => m.ImageApplication, true ) @Html.DropDownListFor( m => m.ImageApplication, ImportController.GetImageApplicationList() )<br /></span>
 @Html.ValidationSummary()
         <input type="submit" class="btn_type1" value="Save" />
 			}

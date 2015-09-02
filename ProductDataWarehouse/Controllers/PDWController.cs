@@ -248,12 +248,12 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		public JsonpResult GetImageThumbnailList( string categories, string imageTypes, int? seriesId, string sortBy, string keywords, 
-			int? pubId, string pubPageNum, string contentTypes, bool? includePeople = false,
+			int? pubId, string pubPageNum, string contentTypes, string imageApplications, bool? includePeople = false,
 			int? pageNum = 1, int? pageSize = 28 )
 		{
 			using( ImageRepository iRepo = new ImageRepository() )
 			{
-				var theData = iRepo.GetImageThumbnailList( categories, imageTypes, seriesId, sortBy, keywords, pubId, pubPageNum, contentTypes, includePeople.Value, pageNum.Value, pageSize.Value );
+				var theData = iRepo.GetImageThumbnailList( categories, imageTypes, seriesId, sortBy, keywords, pubId, pubPageNum, contentTypes, includePeople.Value, pageNum.Value, pageSize.Value, imageApplications );
 
 				return new JsonpResult()
 				{
@@ -264,12 +264,12 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		public JsonpResult GetImageDetailList( string categories, string imageTypes, int? seriesId, string sortBy, string keywords,
-			int? pubId, string pubPageNum, string contentTypes, 
+			int? pubId, string pubPageNum, string contentTypes, string imageApplications, 
 			int? pageNum = 1, int? pageSize = 28 )
 		{
 			using( ImageRepository iRepo = new ImageRepository() )
 			{
-				var theData = iRepo.GetImageDetailList( categories, imageTypes, seriesId, sortBy, keywords, pubId, pubPageNum, contentTypes, pageNum.Value, pageSize.Value );
+				var theData = iRepo.GetImageDetailList( categories, imageTypes, seriesId, sortBy, keywords, pubId, pubPageNum, contentTypes, pageNum.Value, pageSize.Value, imageApplications );
 
 				return new JsonpResult()
 				{
