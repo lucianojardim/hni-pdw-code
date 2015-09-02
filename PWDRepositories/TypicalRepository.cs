@@ -341,7 +341,8 @@ namespace PWDRepositories
 					TypicalID = t.TypicalID,
 					Name = t.Name,
 					SeriesID = t.SeriesTypicals.Where( st => st.IsPrimary ).Select( st => st.SeriesID ).FirstOrDefault(),
-					ImageFileData = t.FeaturedImageForSize( "m16to9" )
+					ImageFileData = t.FeaturedImageForSize( "m16to9" ),
+					FeaturedSeries = t.FeaturedSeries
 				};
 		}
 

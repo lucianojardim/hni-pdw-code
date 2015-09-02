@@ -12,5 +12,6 @@ namespace PDWModels.Typicals
 		public string Name { get; set; }
 		public int SeriesID { get; set; }
 		public ImageComboItem ImageFileData { get; set; }
+		public string FeaturedSeries { get; set; }
 	}
 }
