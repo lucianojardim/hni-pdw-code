@@ -12,6 +12,7 @@ namespace PDWModels.Companies
 		public string CompanyType { get; set; }
 		public string MasterID { get; set; }
 		public string BaseNumber { get; set; }
+		public string BusinessUnitName { get; set; }
 		public int UserCount { get; set; }
 		public string City { get; set; }
 		public string State { get; set; }

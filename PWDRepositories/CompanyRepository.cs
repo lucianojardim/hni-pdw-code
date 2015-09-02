@@ -28,6 +28,7 @@ namespace PWDRepositories
 				CompanyID = c.CompanyID,
 				Name = c.FullName,
 				CompanyType = PaoliWebUser.PaoliCompanyType.CompanyTypeList[c.CompanyType],
+				BusinessUnitName = c.BusinessUnitName,
 				MasterID = c.MasterID,
 				BaseNumber = c.SubCompanyIDs,
 				City = c.City,
@@ -455,6 +456,16 @@ namespace PWDRepositories
 					else
 					{
 						filteredAndSorted = companyList.OrderByDescending( v => v.MasterID );
+					}
+					break;
+				case "businessunitname":
+					if( param.sSortDir_0.ToLower() == "asc" )
+					{
+						filteredAndSorted = companyList.OrderBy( v => v.BusinessUnitName );
+					}
+					else
+					{
+						filteredAndSorted = companyList.OrderByDescending( v => v.BusinessUnitName );
 					}
 					break;
 				case "city":
