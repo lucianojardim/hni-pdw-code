@@ -76,6 +76,7 @@ namespace PDWDBContext
         public DbSet<Project> Projects { get; set; }
         public DbSet<CompanyTripData> CompanyTripDatas { get; set; }
         public DbSet<TerritoryTripData> TerritoryTripDatas { get; set; }
+        public DbSet<ImageFileSeries> ImageFileSerieses { get; set; }
     
         public virtual ObjectResult<Showroom> ClosestShowroom(Nullable<double> lat, Nullable<double> @long)
         {

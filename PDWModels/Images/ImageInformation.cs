@@ -122,5 +122,11 @@ namespace PDWModels.Images
 
 		[DisplayName( "Go To Guide Page Number" )]
 		public int GoToGuidePageNum { get; set; }
+
+		[DisplayName( "Additional Series" )]
+		public string SeriesList { get; set; }
+		[DisplayName( "Featured Series" )]
+		[StringLength( 50 )]
+		public string FeaturedSeries { get; set; }
 	}
 }

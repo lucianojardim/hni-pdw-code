@@ -23,6 +23,7 @@ namespace PDWDBContext
             this.ParentSerieses = new HashSet<Series>();
             this.ChildSerieses = new HashSet<Series>();
             this.SeriesTypicals = new HashSet<SeriesTypical>();
+            this.ImageFileSerieses = new HashSet<ImageFileSeries>();
         }
     
         public int SeriesID { get; set; }
@@ -40,6 +41,7 @@ namespace PDWDBContext
         public virtual ICollection<Series> ParentSerieses { get; set; }
         public virtual ICollection<Series> ChildSerieses { get; set; }
         public virtual ICollection<SeriesTypical> SeriesTypicals { get; set; }
+        public virtual ICollection<ImageFileSeries> ImageFileSerieses { get; set; }
     }
     
 }

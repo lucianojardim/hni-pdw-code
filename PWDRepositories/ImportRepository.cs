@@ -38,6 +38,7 @@ namespace PWDRepositories
 			DeleteAllObjects( "[SeriesImageFiles]" );
 			DeleteAllObjects( "[RelatedSeries]" );
 			DeleteAllObjects( "[SeriesTypicals]" );
+			DeleteAllObjects( "[ImageFileSerieses]" );
 			DeleteAllObjects( "[Serieses]" );
 			DeleteAllObjects( "[Categories]" );
 
@@ -391,6 +392,42 @@ namespace PWDRepositories
 					}
 				}
 				tData.SeriesList = string.Join( ", ", tData.SeriesTypicals.Where( st => !st.IsPrimary ).Select( st => st.Series.Name ) );
+
+				tData.DBKeywords = SearchText.GetKeywordList( new List<string>() { tData.Name, tData.FeaturedSeries, tData.Notes, tData.SeriesList } );
+			}
+
+			foreach( var imgData in database.ImageFiles )
+			{
+				var rSeries = database.Serieses.FirstOrDefault( s => s.Name == imgData.FeaturedSeries );
+				if( rSeries != null )
+				{
+					ImageFileSeries stData = new ImageFileSeries();
+					stData.IsFeatured = true;
+					stData.Series = rSeries;
+					stData.ImageFile = imgData;
+					database.ImageFileSerieses.Add( stData );
+
+					imgData.FeaturedSeries = rSeries.Name;
+				}
+
+				if( imgData.SeriesList != null )
+				{
+					foreach( var indVal in imgData.SeriesList.Split( ',' ).Select( s => s.Trim() ) )
+					{
+						var oSeries = database.Serieses.FirstOrDefault( s => s.Name == indVal );
+						if( oSeries != null )
+						{
+							ImageFileSeries stData = new ImageFileSeries();
+							stData.IsFeatured = false;
+							stData.Series = oSeries;
+							stData.ImageFile = imgData;
+							database.ImageFileSerieses.Add( stData );
+						}
+					}
+				}
+				imgData.SeriesList = string.Join( ", ", imgData.ImageFileSerieses.Where( st => !st.IsFeatured ).Select( st => st.Series.Name ) );
+
+				imgData.DBKeywords = SearchText.GetKeywordList( new List<string>() { imgData.Name, imgData.Caption, imgData.Keyword, imgData.FeaturedSeries, imgData.SeriesList } );
 			}
 
 			database.SaveChanges();

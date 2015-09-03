@@ -109,6 +109,9 @@
     <Compile Include="ImageFile.cs">
       <DependentUpon>PDWModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ImageFileSeries.cs">
+      <DependentUpon>PDWModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="LeadTimeDetail.cs">
       <DependentUpon>PDWModel.tt</DependentUpon>
     </Compile>

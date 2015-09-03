@@ -21,6 +21,7 @@ namespace PDWDBContext
             this.PublicationImages = new HashSet<PublicationImage>();
             this.Showrooms = new HashSet<Company>();
             this.eCollateralSections = new HashSet<eCollateralSection>();
+            this.ImageFileSerieses = new HashSet<ImageFileSeries>();
         }
     
         public int ImageID { get; set; }
@@ -52,12 +53,15 @@ namespace PDWDBContext
         public Nullable<int> SeatingGrade { get; set; }
         public bool LaminateIsTFL { get; set; }
         public Nullable<int> ImageApplication { get; set; }
+        public string FeaturedSeries { get; set; }
+        public string SeriesList { get; set; }
     
         public virtual ICollection<SeriesImageFile> SeriesImageFiles { get; set; }
         public virtual ICollection<TypicalImageFile> TypicalImageFiles { get; set; }
         public virtual ICollection<PublicationImage> PublicationImages { get; set; }
         public virtual ICollection<Company> Showrooms { get; set; }
         public virtual ICollection<eCollateralSection> eCollateralSections { get; set; }
+        public virtual ICollection<ImageFileSeries> ImageFileSerieses { get; set; }
     }
     
 }

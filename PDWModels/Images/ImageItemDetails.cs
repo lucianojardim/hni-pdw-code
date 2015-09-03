@@ -11,6 +11,7 @@ namespace PDWModels.Images
 		{
 			public int SeriesID { get; set; }
 			public string Name { get; set; }
+			public bool IsFeatured { get; set; }
 			public IEnumerable<string> TypicalList { get; set; }
 		}
 
@@ -21,5 +22,6 @@ namespace PDWModels.Images
 		public string SecondaryName { get; set; }
 		public IEnumerable<ImageSeries> SeriesList { get; set; }
 		public string HiResFileName { get; set; }
+		public string FeaturedSeries { get; set; }
 	}
 }

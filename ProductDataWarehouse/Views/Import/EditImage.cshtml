@@ -5,6 +5,9 @@
 @using ProductDataWarehouse.Controllers
 @using ProductDataWarehouse.Models
 
+<link href="@Url.Content( "~/Content/jquery.tagit.css" )" rel="stylesheet" type="text/css" />
+<script src="@Url.Content( "~/Scripts/tag-it.js" )" type="text/javascript"></script>
+
 @if( ViewBag.CloseFancyBox ?? false )
 {
     <script type="text/javascript">
@@ -19,14 +22,32 @@
 else
 {
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('#ImageContent').change(doImageContentChange);
-            $('#FinishType').change(doFinishTypeChange);
+		var seriesList = [@Html.Raw( SpecRequestController.GetJustSeriesNameList() )];
+
+    	$(document).ready(function () {
+    		$('#ImageContent').change(doImageContentChange);
+    		$('#FinishType').change(doFinishTypeChange);
     		$('#ImageType').change(doImageTypeChange);
     		doFinishTypeChange();
     		doImageContentChange();
     		doImageTypeChange();
-        });
+
+    		$('#SeriesList').tagit({
+    			availableTags: seriesList,
+    			allowSpaces: true,
+    			beforeTagAdded: function (event, ui) {
+    				// do something special
+    				var isValid = false;
+    				$.each(seriesList, function (idx, i) {
+    					if (i.toLowerCase() == ui.tagLabel.toLowerCase()) {
+    						isValid = true;
+    					}
+    				});
+    				return isValid;
+    			}
+    		});
+    	});
+
     	function doImageTypeChange() {
     		if ($('#ImageContent').val() != '1') {
     			$('.imgApplicationRange').hide();
@@ -186,6 +207,8 @@ else
         <span class="dataRow">@Html.MJLabelFor( m => m.Caption, true )@Html.TextAreaFor( m => m.Caption )<br /></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.Keywords, true )@Html.TextAreaFor( m => m.Keywords )<br /></span>
         <span class="dataRow">@Html.MJLabelFor( m => m.ImageContent, true )@Html.DropDownListFor( m => m.ImageContent, ImportController.GetImageContentList( false ) )<br /></span>
+		<span class="dataRow">@Html.MJLabelFor( m => m.FeaturedSeries, true )@Html.DropDownListFor( m => m.FeaturedSeries, ImportController.GetSeriesDDList( true ) )<br /></span>
+		<span class="dataRow">@Html.MJLabelFor( m => m.SeriesList, true )@Html.TextBoxFor( m => m.SeriesList, new { style = "display:none" } )<br /></span>
         <span class="imageTypeRange dataRow">@Html.MJLabelFor( m => m.ImageType, true )@Html.DropDownListFor( m => m.ImageType, ImportController.GetImageTypeList() )<br /></span>
         <span class="hasPeopleRange dataRow">@Html.MJLabelFor( m => m.HasPeople, true )@Html.CheckBoxFor( m => m.HasPeople )<br /></span>
         <span class="featuredEdgeRange dataRow">@Html.MJLabelFor( m => m.FeaturedEdge, true )@Html.TextBoxFor( m => m.FeaturedEdge )<br /></span>

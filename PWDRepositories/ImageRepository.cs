@@ -78,18 +78,21 @@ namespace PWDRepositories
 				ControlMechanism = img.ControlMechanism,
 				ControlDescription = img.ControlDescription,
 				GoToGuidePageNum = img.GoToGuidePage ?? 0,
-				ImageApplication = img.ImageApplication
+				ImageApplication = img.ImageApplication,
+				SeriesList = string.Join( ",", img.ImageFileSerieses.Where( st => !st.IsFeatured ).Select( st => st.Series.Name ) ),
+				FeaturedSeries = string.Join( ",", img.ImageFileSerieses.Where( st => st.IsFeatured ).Select( st => st.Series.Name ) ),
 			};
 		}
 
 		private ImageItemDetails ToImageItemDetails( ImageFile img )
 		{
-			var seriesList = img.SeriesImageFiles
+			var seriesList = img.ImageFileSerieses
 					
 					.Select( s => new ImageItemDetails.ImageSeries()
 					{
 						SeriesID = s.SeriesID,
 						Name = s.Series.Name,
+						IsFeatured = s.IsFeatured,
 						TypicalList = s.Series
 							.SeriesTypicals
 								.Where( t => t.Typical.IsPublished && t.Typical.TypicalImageFiles.Any( tif => tif.ImageID == s.ImageID ) )
@@ -131,7 +134,8 @@ namespace PWDRepositories
 				Caption = img.Caption,
 				Name = img.Name,
 				SeriesList = seriesList,
-				HiResFileName = img.OriginalImage
+				HiResFileName = img.OriginalImage,
+				FeaturedSeries = seriesList.Where( s => s.IsFeatured ).Select( s => s.Name ).FirstOrDefault()
 			};
 		}
 
@@ -210,6 +214,7 @@ namespace PWDRepositories
 					.ToList();
 			var imgList = database.ImageFiles
 				.Include( i => i.TypicalImageFiles.Select( tif => tif.Typical ) )
+				.Include( i => i.ImageFileSerieses.Select( ifs => ifs.Series ) )
 				.Where( i => !i.HasPeople || includePeople )
 				.Where( imgFile => imageTypeList.Any( it => it == imgFile.ImageType ) )
 				.AsQueryable();
@@ -229,12 +234,12 @@ namespace PWDRepositories
 			}
 			if( seriesId.HasValue )
 			{
-				imgList = imgList.Where( img => img.SeriesImageFiles.Any( s => s.SeriesID == seriesId.Value ) );
+				imgList = imgList.Where( img => img.ImageFileSerieses.Any( s => s.SeriesID == seriesId.Value ) );
 			}
 			if( (categories ?? "").Any() )
 			{
 				var catList = categories.Split( ',' );
-				imgList = imgList.Where( img => catList.Intersect( img.SeriesImageFiles.Select( s => s.Series.Category.Name ) ).Any() );
+				imgList = imgList.Where( img => catList.Intersect( img.ImageFileSerieses.Select( s => s.Series.Category.Name ) ).Any() );
 			}
 			if( ( imageApplications ?? "" ).Any() )
 			{
@@ -302,7 +307,8 @@ namespace PWDRepositories
 					ImageID = img.ImageID,
 					CanLightbox = ImageFile.ImageCanLightbox( img.ImageType ),
 					HiResFileName = img.OriginalImage,
-					TypicalName = img.ThumbnailImageData( "m16to9" ).TypicalName
+					TypicalName = img.ThumbnailImageData( "m16to9" ).TypicalName,
+					FeaturedSeries = img.ImageFileSerieses.Where( i => i.IsFeatured ).Select( s => s.Series.Name ).FirstOrDefault()
 				} );
 
 			return gallery;
@@ -335,12 +341,12 @@ namespace PWDRepositories
 			}
 			if( seriesId.HasValue )
 			{
-				imgList = imgList.Where( img => img.SeriesImageFiles.Any( s => s.SeriesID == seriesId.Value ) );
+				imgList = imgList.Where( img => img.ImageFileSerieses.Any( s => s.SeriesID == seriesId.Value ) );
 			}
 			if( (categories ?? "").Any() )
 			{
 				var catList = categories.Split( ',' );
-				imgList = imgList.Where( img => catList.Intersect( img.SeriesImageFiles.Select( s => s.Series.Category.Name ) ).Any() );
+				imgList = imgList.Where( img => catList.Intersect( img.ImageFileSerieses.Select( s => s.Series.Category.Name ) ).Any() );
 			}
 			if( ( imageApplications ?? "" ).Any() )
 			{
@@ -807,13 +813,49 @@ namespace PWDRepositories
 			imgData.VeneerGrade = imgInfo.VeneerGrade;
 			imgData.VeneerSpecies = imgInfo.VeneerSpecies;
 			imgData.SeatingGrade = imgInfo.SeatingGrade;
-			imgData.DBKeywords = SearchText.GetKeywordList( new List<string>() { imgData.Name, imgData.Caption, imgData.Keyword } );
 			imgData.TableBase = imgInfo.FeaturedTableBase;
 			imgData.TableShape = imgInfo.FeaturedTableShape;
 			imgData.ControlMechanism = imgInfo.ControlMechanism;
 			imgData.ControlDescription = imgInfo.ControlDescription;
 			imgData.GoToGuidePage = imgInfo.GoToGuidePageNum;
 			imgData.ImageApplication = imgInfo.ImageApplication;
+
+			if( !string.IsNullOrEmpty( imgInfo.FeaturedSeries ) )
+			{
+				var rSeries = database.Serieses.FirstOrDefault( s => s.Name == imgInfo.FeaturedSeries );
+				if( rSeries != null )
+				{
+					ImageFileSeries ifsData = new ImageFileSeries();
+					ifsData.IsFeatured = true;
+					ifsData.Series = rSeries;
+					ifsData.ImageFile = imgData;
+					database.ImageFileSerieses.Add( ifsData );
+				}
+				else
+				{
+					throw new Exception( "Unable to find Featured Series" );
+				}
+				imgData.FeaturedSeries = rSeries.Name;
+			}
+
+			if( ( imgInfo.SeriesList ?? "" ).Any() )
+			{
+				foreach( var indVal in imgInfo.SeriesList.Split( ',' ).Select( s => s.Trim() ) )
+				{
+					var oSeries = database.Serieses.FirstOrDefault( s => s.Name == indVal );
+					if( oSeries != null )
+					{
+						ImageFileSeries ifsData = new ImageFileSeries();
+						ifsData.IsFeatured = false;
+						ifsData.Series = oSeries;
+						ifsData.ImageFile = imgData;
+						database.ImageFileSerieses.Add( ifsData );
+					}
+				}
+				imgData.SeriesList = string.Join( ", ", imgData.ImageFileSerieses.Where( st => !st.IsFeatured ).Select( st => st.Series.Name ) );
+			}
+
+			imgData.DBKeywords = SearchText.GetKeywordList( new List<string>() { imgData.Name, imgData.Caption, imgData.Keyword, imgData.FeaturedSeries, imgData.SeriesList } );
 
 			database.ImageFiles.Add( imgData );
 
@@ -846,13 +888,52 @@ namespace PWDRepositories
 			imgData.VeneerGrade = imgInfo.VeneerGrade;
 			imgData.VeneerSpecies = imgInfo.VeneerSpecies;
 			imgData.SeatingGrade = imgInfo.SeatingGrade;
-			imgData.DBKeywords = SearchText.GetKeywordList( new List<string>() { imgData.Name, imgData.Caption, imgData.Keyword } );
 			imgData.TableBase = imgInfo.FeaturedTableBase;
 			imgData.TableShape = imgInfo.FeaturedTableShape;
 			imgData.ControlMechanism = imgInfo.ControlMechanism;
 			imgData.ControlDescription = imgInfo.ControlDescription;
 			imgData.GoToGuidePage = imgInfo.GoToGuidePageNum;
 			imgData.ImageApplication = imgInfo.ImageApplication;
+
+			imgData.ImageFileSerieses.ToList().ForEach( st => database.ImageFileSerieses.Remove( st ) );
+
+			var rSeries = database.Serieses.FirstOrDefault( s => s.Name == imgInfo.FeaturedSeries );
+			if( rSeries != null )
+			{
+				ImageFileSeries ifsData = new ImageFileSeries();
+				ifsData.IsFeatured = true;
+				ifsData.Series = rSeries;
+				ifsData.ImageFile = imgData;
+				database.ImageFileSerieses.Add( ifsData );
+				imgData.FeaturedSeries = rSeries.Name;
+			}
+			else
+			{
+				imgData.FeaturedSeries = null;
+			}
+
+			if( ( imgInfo.SeriesList ?? "" ).Any() )
+			{
+				foreach( var indVal in imgInfo.SeriesList.Split( ',' ).Select( s => s.Trim() ) )
+				{
+					var oSeries = database.Serieses.FirstOrDefault( s => s.Name == indVal );
+					if( oSeries != null )
+					{
+						ImageFileSeries ifsData = new ImageFileSeries();
+						ifsData.IsFeatured = false;
+						ifsData.Series = oSeries;
+						ifsData.ImageFile = imgData;
+						database.ImageFileSerieses.Add( ifsData );
+					}
+				}
+				imgData.SeriesList = string.Join( ", ", imgData.ImageFileSerieses.Where( st => !st.IsFeatured ).Select( st => st.Series.Name ) );
+			}
+			else
+			{
+				imgData.SeriesList = null;
+			}
+
+			imgData.DBKeywords = SearchText.GetKeywordList( new List<string>() { imgData.Name, imgData.Caption, imgData.Keyword, imgData.FeaturedSeries, imgData.SeriesList } );
 
 			database.SaveChanges();
 		}
@@ -864,6 +945,11 @@ namespace PWDRepositories
 			{
 				if( !imgData.SeriesImageFiles.Any() && !imgData.TypicalImageFiles.Any() )
 				{
+					foreach( var series in imgData.ImageFileSerieses.ToList() )
+					{
+						database.ImageFileSerieses.Remove( series );
+					}
+
 					database.ImageFiles.Remove( imgData );
 
 					database.SaveChanges();
