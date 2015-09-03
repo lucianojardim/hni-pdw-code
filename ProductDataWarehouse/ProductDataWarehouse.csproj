@@ -573,6 +573,7 @@
     <Content Include="NewContent\images\noorder_arrow.jpg" />
     <Content Include="NewContent\images\order_arrow.jpg" />
     <Content Include="NewContent\images\Paoli-Maui-Hero.png" />
+    <Content Include="NewContent\images\Paoli-Montreal-Hero.jpg" />
     <Content Include="NewContent\images\Paoli_BlueRGB.png" />
     <Content Include="NewContent\images\plus.jpg" />
     <Content Include="NewContent\images\prev_arrow.jpg" />

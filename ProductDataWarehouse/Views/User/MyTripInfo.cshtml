@@ -22,7 +22,32 @@
 	<div class="main_inner1_content_rt">
     
     	<div class="LdTm_Full_Width">
-			<div><a href="http://www.paoli.com/maui"><img src="/newcontent/images/Paoli-Maui-Hero.png" alt=""/></a></div>
+			<div>
+				<div>
+					<img src="/NewContent/Images/Paoli-Montreal-Hero.jpg" alt="" />
+				</div>
+				<hr />
+				<p>Paoli is pleased to announce the 2016 Dealer Incentive Trip Program to Montreal, Quebec, Canada. The Qualification period includes orders received July 1, 2015 to June 30, 2016 with shipment by August 30, 2016. The trip is October 14 - 18, 2016.</p>
+				<hr />
+				<h1>How Dealership Groups Quality</h1>
+				<p>For every $325,000 in net sales, the Dealership earns a trip for two.</p>
+				<hr />
+				<h1>Terms and Conditions</h1>
+
+				<p>GSA sales count towards trip at 100%</p>
+				<p>Dealership must be current and in good standing at the time of the trip</p>
+				<p>Must be an active employee of the dealership at the time of the trip</p>
+				<p>Over the course of the program’s qualification period, there may be opportunity to earn trips by achieving a Chairman’s Choice Award</p>
+				<p style="padding-left:25px">These Award opportunities will be announced by Paoli Management over the duration of the program’s qualifying period</p>
+				<p>Dealer employees must be at least 21 years old at time of trip</p>
+				<p>Dealer guests must be at least 18 years old at time of trip</p>
+				<p>Any additional costs for the deviations to the scheduled group travel dates are the responsibility of the participant</p>
+				<p>Trips have no cash value</p>
+				<p>Final determination of winning dealerships will be made by Paoli</p>
+				<p>A 1099 will be issued for each trip taken</p>
+				<p>Paoli reserves the right to terminate the program or alter rules at Paoli’s discretion and without notice</p>
+			
+			</div>
 			@if( Model.CanSeePerfData )
    {
             <h1>Your current trip incentive stats</h1>
@@ -42,35 +67,6 @@
 				</tr>
                 
 			</table>
-            <!-- FULL WIDTH - 2 COL TABLE END -->
-	   if( Model.TripGroup != "Ohana" )
-	{
-            <hr/>
-            <h1>Bonus Ways To Win A Trip</h1>
-            <p>Your dealership has been selected to participate in two bonus challenges that give you an additional way to earn a trip to Maui. You and @(Model.TripGroupCount - 1) other dealers (who are similar size/type/ and sales volume to you) are competing for this special challenge.</p>
-
-			<p>If your dealership finishes the qualification period ranked first or second in total-dollar growth or total-percent growth among all dealerships in the @Model.TripGroup group, you will one win trip for your dealership, if you have met your minimum threshold of sales volume. Updated stats are below. Good luck!</p>
-            <hr/>
-            <h1>Your Current Stats</h1>
-            <!-- FULL WIDTH - 4 COL TABLE BEGIN -->
-            <table class="dataColumns" border="0">
-				<tr>
-					<td>Actual Net Sales Growth YTD</td>
-					<td>@Model.NetGrowth</td>
-                    <td>Actual Net Sales Growth Rank</td>
-					<td>@Model.NetGrowthRank of @Model.TripGroupCount</td>
-				</tr>
-                <tr>
-					<td>% Net Sales Growth YTD</td>
-					<td>@Model.PercNetGrowth</td>
-                    <td>% Net Sales Growth Rank</td>
-					<td>@Model.PercNetGrowthRank of @Model.TripGroupCount</td>
-				</tr>
-
-                
-			</table>
-	}
-            <!-- FULL WIDTH - 4 COL TABLE END -->
    }
         </div>
         
