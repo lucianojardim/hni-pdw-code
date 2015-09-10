@@ -26,6 +26,26 @@
 				<div>
 					<img src="/NewContent/Images/Paoli-Montreal-Hero.jpg" alt="" />
 				</div>
+			@if( Model.CanSeePerfData )
+   {
+            <h1>Your current trip incentive stats (as of @(Model.ImportDate.ToString( "MMMM d, yyyy" )))</h1>
+            <!-- FULL WIDTH - 2 COL TABLE BEGIN -->
+            <table class="dataColumns" border="0">
+				<tr>
+					<td width="75%">Year-to-date (YTD) sales</td>
+					<td>@Model.YTDSales</td>
+				</tr>
+                <tr>
+					<td width="75%">Number of trips earned</td>
+					<td>@Model.TripEarned</td>
+				</tr>
+                <tr>
+					<td width="75%">Sales to next trip</td>
+					<td>@Model.SalesToNextTrip</td>
+				</tr>
+                
+			</table>
+   }
 				<hr />
 				<p>Paoli is pleased to announce the 2016 Dealer Incentive Trip Program to Montreal, Quebec, Canada. The Qualification period includes orders received July 1, 2015 to June 30, 2016 with shipment by August 30, 2016. The trip is October 14 - 18, 2016.</p>
 				<hr />
@@ -48,26 +68,6 @@
 				<p>Paoli reserves the right to terminate the program or alter rules at Paoli’s discretion and without notice</p>
 			
 			</div>
-			@if( Model.CanSeePerfData )
-   {
-            <h1>Your current trip incentive stats</h1>
-            <!-- FULL WIDTH - 2 COL TABLE BEGIN -->
-            <table class="dataColumns" border="0">
-				<tr>
-					<td width="75%">Year-to-date (YTD) sales</td>
-					<td>@Model.YTDSales</td>
-				</tr>
-                <tr>
-					<td width="75%">Number of trips earned</td>
-					<td>@Model.TripEarned</td>
-				</tr>
-                <tr>
-					<td width="75%">Sales to next trip</td>
-					<td>@Model.SalesToNextTrip</td>
-				</tr>
-                
-			</table>
-   }
         </div>
         
 	</div>
