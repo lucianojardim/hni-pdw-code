@@ -32,15 +32,26 @@ namespace ProductDataWarehouse.Controllers
 			}
 		}
 
-		public static List<ArticleDisplayInfo> GetHomePageContent()
+		[PaoliAuthorize( "CanBeLoggedIn" )]
+		public ActionResult ArticleListing( int? articleType )
 		{
-			var articleType = ArticleInformation.ArticleTypes.NewsAndUpdates;
-			if( PaoliWebUser.CurrentUser.CanSeeTheScoop )
-				articleType = ArticleInformation.ArticleTypes.Scoop;
+			return PartialView( articleType );
+		}
+
+		public static List<ArticleDisplayInfo> GetHomePageContent( int? articleType, out int outputType )
+		{
+			if( !articleType.HasValue )
+			{
+				articleType = ArticleInformation.ArticleTypes.NewsAndUpdates;
+				if( PaoliWebUser.CurrentUser.CanSeeTheScoop )
+					articleType = ArticleInformation.ArticleTypes.Scoop;
+			}
+
+			outputType = articleType.Value;
 
 			using( var aRepo = new ArticleRepository() )
 			{
-				var contentArea = aRepo.GetMainArticleList( articleType );
+				var contentArea = aRepo.GetMainArticleList( articleType.Value );
 				if( contentArea != null )
 				{
 					return contentArea.ToList();

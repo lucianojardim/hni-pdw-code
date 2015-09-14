@@ -117,53 +117,14 @@
 </script>
                      <div class="container">
 
-					 @{
-						 var articleList = ProductDataWarehouse.Controllers.HomeController.GetHomePageContent();
-						 
-					 }
-					 @if( articleList.Any() )
-	  {
-					 <div class="main_lt">
-					 
-					 @if( articleList.Count > 0 )
-	  {
-	<a href="@Url.Action( "View", "Article", new { id = articleList[0].ArticleID } )"><img src="@articleList[0].ImageURL" alt="img" width="600"/> </a>                     
-	<a href="@Url.Action( "View", "Article", new { id = articleList[0].ArticleID } )"><h3>@articleList[0].Headline</h3> </a>                               
-    <p>@articleList[0].Subheadline</p>                                 
-	  }
-	  @for( int row = 0; row < articleList.Count / 2; row++ )
-   {
-	<div class="main_lt_btm">                                      
-	   @for( int col = ( row * 2 ) + 1; col < articleList.Count && col < ( row * 2 ) + 3; col++ )
-	{
-       <div class="main_lt_btm_lt @if( col % 2 == 0 )
-								  { <text>last</text> }">                                          
-        	<a href="@Url.Action( "View", "Article", new { id = articleList[col].ArticleID } )" target="_blank"><img src="@articleList[col].ImageURL" alt="img" width="291"></a>                                          
-            <h3><a href="@Url.Action( "View", "Article", new { id = articleList[col].ArticleID } )" target="_blank">@articleList[col].Headline</a></h3>                                          
-            <p>@articleList[col].Subheadline</p>                                          
-       </div>                                      
+<script type="text/javascript">
+	function reloadArticles() {
+		$('#articleList').load('@(Url.Action( "ArticleListing", "Home" ))', { articleType: $('#articleSelection').val() });
 	}
-	   </div>
-       <i class="clear_0"></i>                                 
-   }
-   <div class="main_lt_btm">
-   @if( CurrentUser.CanSeeTheScoop )
-   {
-   <a href="@Url.Action( "ViewAllScoop", "Article" )">view all</a>
-   }
-   else
-   {
-   <a href="@Url.Action( "ViewAllNewsAndUpdates", "Article" )">view all</a>
-   }
-   </div>
-						</div>
-	  }
-	  else
-	  {
-		  <text>
-@Html.Raw( ProductDataWarehouse.Controllers.HomeController.GetHomePageContentHTML() )
-		</text>
-	  }
+</script>
+	<div class="main_lt" id="articleList">
+					 @Html.Partial( "ArticleListing", model: null )
+	</div>
                           <div class="main_rt">
                                <div class="main_rt_box">
                                     <div class="main_rt_box_top">
