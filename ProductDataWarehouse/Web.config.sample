@@ -46,7 +46,7 @@
 		<add key="EmailFromEmailAddress" value="kings@paoli.com"/>
 
 		<add key="MailChimpApiKey" value="a93665177bd5f4ed1bb30eef32999a5e-us7"/>
-		<add key="MailChimpDealerList" value="4d68bf13db"/>
+		<add key="MailChimpDealerList" value="4d68bf13db,bf2ebc4aad﻿"/>
 		<add key="MailChimpSalesRepList" value="640e530a77﻿"/>
 
   </appSettings>

@@ -10,9 +10,9 @@ namespace PDWInfrastructure
 {
 	public static class MailChimpSubscribe
 	{
-		public static void AddEmailAddress( string emailAddress, string listId )
+		public static void AddEmailAddress( string emailAddress, string lists )
 		{
-			if( string.IsNullOrEmpty( listId ) )
+			if( string.IsNullOrEmpty( lists ) )
 			{
 				return;
 			}
@@ -27,7 +27,10 @@ namespace PDWInfrastructure
 					Email = emailAddress
 				};
 
-				EmailParameter results = mc.Subscribe( listId, email, doubleOptIn: false );
+				foreach( var listId in lists.Split( ',' ).Select( s => s.Trim() ) )
+				{
+					EmailParameter results = mc.Subscribe( listId, email, doubleOptIn: false );
+				}
 			}
 			catch
 			{
