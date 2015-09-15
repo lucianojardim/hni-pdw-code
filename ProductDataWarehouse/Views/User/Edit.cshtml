@@ -49,7 +49,7 @@
     					$.each(data.theList, function (idx, item) {
     						$('#AccountType').append('<option value="' + item.Value + '" ' + ((curVal == item.Value) ? 'selected' : '') + '>' + item.Text + '</option>');
     					});
-						if( data.companyType == @PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer ) {
+						if( data.companyType == @(PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Dealer) ) {
 							$('.dealerOnly').show();
 							$('.dealerOnly select').removeAttr('disabled');
 							if( data.isTrip ) {
@@ -62,6 +62,12 @@
 							$('.dealerOnly select').attr('disabled', 'disabled');
 							$('.dealerTripOnly').hide();
 						}
+
+						if( data.companyType == @(PDWInfrastructure.PaoliWebUser.PaoliCompanyType.Paoli) ) {
+							$('.paoliOnly').show();
+						} else {
+							$('.paoliOnly').hide();
+						}						
     				},
     				function (jqXHR, textStatus, errorThrown) {
     					alert('Error getting Account Type list:' + errorThrown)
@@ -72,6 +78,7 @@
 				$('.dealerOnly').hide();
 				$('.dealerOnly select').attr('disabled', 'disabled');
 				$('.dealerTripOnly').hide();
+				$('.paoliOnly').hide();
     		}
 			
     	}
@@ -138,6 +145,7 @@
 		}
         <span class="dataRow dealerTripOnly">@Html.MJLabelFor( m => m.ViewPerfData, true )@Html.CheckBoxFor( m => m.ViewPerfData )<br/></span>
         <span class="dataRow dealerOnly">@Html.MJLabelFor( m => m.TierGroup, true )@Html.DropDownListFor( m => m.TierGroup, UserController.GetTierGroupDDList() )<br/></span>
+        <span class="dataRow paoliOnly">@Html.MJLabelFor( m => m.AllowNewsMgmt, true )@Html.CheckBoxFor( m => m.AllowNewsMgmt )<br/></span>
 		<span class="dataRow">@Html.MJLabelFor( m => m.UserImageFileName, true )@if( Model.UserImageFileName != null )
 																		  { @Html.HiddenFor( m => m.UserImageFileName ) <img class="img_size_thumb_wide" src="/Images/@Model.UserImageFileName" /> }<input type="file" id="UserImage" name="UserImage" accept=".jpg,.png,.gif,.bmp" /></span>
 @Html.ValidationSummary()

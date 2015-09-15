@@ -151,7 +151,7 @@ namespace PDWInfrastructure
 		}
 
 		public PaoliWebUser( string email, string authType, int userId, string firstName, string lastName, int role,
-			bool hasTempPassword, DateTime? previousLogin, string companyName, string phoneNumber, bool isTripIncentive )
+			bool hasTempPassword, DateTime? previousLogin, string companyName, string phoneNumber, bool isTripIncentive, bool newsManagement )
         {
 			_identity = new PaoliWebIdentity( email, authType );
             UserId = userId;
@@ -164,6 +164,7 @@ namespace PDWInfrastructure
 			CompanyName = companyName;
 			PhoneNumber = phoneNumber;
 			IsTripIncentive = isTripIncentive;
+			NewsManagement = newsManagement;
         }
 
 		private PaoliWebIdentity _identity { get; set; }
@@ -177,6 +178,7 @@ namespace PDWInfrastructure
 		public string CompanyName { get; private set; }
 		public string PhoneNumber { get; private set; }
 		public bool IsTripIncentive { get; private set; }
+		public bool NewsManagement { get; private set; }
 		public string PreviousLogin
 		{
 			get
@@ -260,7 +262,7 @@ namespace PDWInfrastructure
 		}
 
 		public bool IsNewLayout { get { return true; } }
-		public bool HasAdminLink { get { return CanManageUsers || CanManageCompanies || CanManageImages || CanManageImport || CanManageSearchLog || CanViewReports || CanManageTerritories; } }
+		public bool HasAdminLink { get { return CanManageUsers || CanManageCompanies || CanManageImages || CanManageArticles || CanManageImport || CanManageSearchLog || CanViewReports || CanManageTerritories; } }
 
 		public bool IsSuperAdmin { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
 		public bool IsDealerUser { get { return OneOfRoles( PaoliWebRole.DealerAdmin, PaoliWebRole.DealerDesigner, 
@@ -304,7 +306,7 @@ namespace PDWInfrastructure
 					PaoliWebRole.PaoliMemberMarketing, PaoliWebRole.PaoliMemberSpecTeam ); } }
 		public bool CanAddOrders { get { return CanManageOrders || OneOfRoles( PaoliWebRole.PaoliSalesRep ) || IsDealerUser; } }
 
-		public bool CanManageArticles { get { return OneOfRoles( PaoliWebRole.SuperAdmin ); } }
+		public bool CanManageArticles { get { return OneOfRoles( PaoliWebRole.SuperAdmin ) || NewsManagement; } }
 
 		public bool CanManageECollateral { get { return OneOfRoles( PaoliWebRole.PaoliSalesRep ) || IsPaoliUser || IsDealerUser; } }
 		public bool CanReviewECollateral { get { return IsPaoliUser; } }

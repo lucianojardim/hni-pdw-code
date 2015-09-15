@@ -74,6 +74,7 @@ namespace PDWDBContext
         public string Extension { get; set; }
         public Nullable<int> CreatedByUser { get; set; }
         public Nullable<System.DateTime> CreatedDateTime { get; set; }
+        public bool AllowNewsMgmt { get; set; }
     
         public virtual ICollection<SpecRequest> SpecRequests { get; set; }
         public virtual ICollection<SpecRequest> SpecRequests1 { get; set; }

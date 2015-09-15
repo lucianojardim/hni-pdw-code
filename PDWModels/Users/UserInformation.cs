@@ -25,6 +25,8 @@ namespace PDWModels.Users
 		public string AuthorCredit { get; set; }
 		[DisplayName( "View Trip Performance Data" )]
 		public bool ViewPerfData { get; set; }
+		[DisplayName( "Can Update Member News" )]
+		public bool AllowNewsMgmt { get; set; }
 
 		[DisplayName( "Created by" )]
 		public string CreatedByUser { get; set; }

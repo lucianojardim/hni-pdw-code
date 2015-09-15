@@ -54,7 +54,8 @@ namespace PWDRepositories
 					user.AccountType, user.IsTempPassword, user.PreviousLogin,
 					user.Company.Name, user.BusinessPhone,
 					( ( user.Company.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ) && user.Company.SignedUpForTrip && ( user.Company.CompanyTripData != null ) ) ||
-					( ( user.Company.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup ) ) );
+					( ( user.Company.CompanyType == PaoliWebUser.PaoliCompanyType.PaoliRepGroup ) ),
+					( user.Company.CompanyType == PaoliWebUser.PaoliCompanyType.Paoli && user.AllowNewsMgmt ) );
 			}
 
 			return null;
@@ -166,6 +167,7 @@ namespace PWDRepositories
 			newUser.DefaultShippingAddress = uInfo.DefaultShippingAddress;
 			newUser.ViewPerfData = uInfo.ViewPerfData;
 			newUser.TierGroup = uInfo.TierGroup;
+			newUser.AllowNewsMgmt = uInfo.AllowNewsMgmt;
 
 			string password = GenerateNewPassword();
 			PaoliEncryption enc = new PaoliEncryption( PaoliEncryption.DataPassPhrase );
@@ -290,6 +292,7 @@ namespace PWDRepositories
 				UserImageFileName = eUser.ImageFileName,
 				AuthorCredit = eUser.AuthorCredit,
 				DefaultShippingAddress = eUser.DefaultShippingAddress,
+				AllowNewsMgmt = eUser.AllowNewsMgmt,
 				ViewPerfData = eUser.ViewPerfData,
 				TierGroup = eUser.TierGroup,
 				CompanyTierGroup = eUser.Company.CompanyType == PaoliWebUser.PaoliCompanyType.Dealer ? eUser.Company.TierGroup : null,
@@ -349,6 +352,7 @@ namespace PWDRepositories
 				eUser.CompanyID = ( uInfo as UserInformation ).CompanyID;
 				eUser.AuthorCredit = ( uInfo as UserInformation ).AuthorCredit;
 				eUser.ViewPerfData = ( uInfo as UserInformation ).ViewPerfData;
+				eUser.AllowNewsMgmt = ( uInfo as UserInformation ).AllowNewsMgmt;
 				eUser.TierGroup = ( uInfo as UserInformation ).TierGroup;
 				if( !eUser.RecWelcomeEmail && ( uInfo as UserInformation ).SendWelcomeEmail )
 				{

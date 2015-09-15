@@ -200,16 +200,26 @@ namespace ProductDataWarehouse.Controllers
 		{
 			var theList = new List<SelectListItem>();
 
-			if( includeBlank )
+			if( !PaoliWebUser.CurrentUser.IsSuperAdmin )
 			{
-				theList.Add( new SelectListItem() { Text = "All", Value = "0", Selected = true } );
+				theList.AddRange(
+					ArticleInformation.ArticleTypes.ArticleTypeList
+						.Where( a => a.Key == ArticleInformation.ArticleTypes.Internal )
+						.Select( a => new SelectListItem() { Text = a.Value, Value = a.Key.ToString() } )
+				);
 			}
+			else
+			{
+				if( includeBlank )
+				{
+					theList.Add( new SelectListItem() { Text = "All", Value = "0", Selected = true } );
+				}
 
-			theList.AddRange(
-				ArticleInformation.ArticleTypes.ArticleTypeList
-					.Select( a => new SelectListItem() { Text = a.Value, Value = a.Key.ToString() } )
-			);
-
+				theList.AddRange(
+					ArticleInformation.ArticleTypes.ArticleTypeList
+						.Select( a => new SelectListItem() { Text = a.Value, Value = a.Key.ToString() } )
+				);
+			}
 			return theList;
 		}
 

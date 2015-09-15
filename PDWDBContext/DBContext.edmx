@@ -1204,6 +1204,7 @@
           <Property Name="Extension" Type="nvarchar" MaxLength="10" />
           <Property Name="CreatedByUser" Type="int" />
           <Property Name="CreatedDateTime" Type="datetime" />
+          <Property Name="AllowNewsMgmt" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="VideoLinks">
           <Key>
@@ -3440,6 +3441,7 @@
           <Property Type="DateTime" Name="CreatedDateTime" />
           <NavigationProperty Name="Users1" Relationship="PaoliPDWModel.fkUsers_CreatedByUser" FromRole="User" ToRole="User1" />
           <NavigationProperty Name="User1" Relationship="PaoliPDWModel.fkUsers_CreatedByUser" FromRole="User1" ToRole="User" />
+          <Property Type="Boolean" Name="AllowNewsMgmt" Nullable="false" />
           </EntityType>
         <EntityType Name="Company">
           <Key>
@@ -4943,6 +4945,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="PaoliPDWModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="AllowNewsMgmt" ColumnName="AllowNewsMgmt" />
                 <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
                 <ScalarProperty Name="CreatedByUser" ColumnName="CreatedByUser" />
                 <ScalarProperty Name="Extension" ColumnName="Extension" />
