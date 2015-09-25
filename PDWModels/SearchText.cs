@@ -30,7 +30,7 @@ namespace PDWModels
 		public static IEnumerable<SearchNeedItem> GetSearchList( string searchText )
 		{
 			List<SearchNeedItem> searchList = new List<SearchNeedItem>();
-			searchText = Regex.Replace( searchText, @"[^A-Za-z0-9\- ]", "" );
+			searchText = Regex.Replace( searchText, @"[^A-Za-z0-9\-| ]", "" );
 
 			var wordList = searchText.ToLower().Trim().Split( ' ' ).ToList();
 
