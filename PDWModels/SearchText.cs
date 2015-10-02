@@ -61,7 +61,7 @@ namespace PDWModels
 			List<string> fullKeywordList = new List<string>();
 			
 			arrKeywordList.ForEach( s => 
-				fullKeywordList.AddRange( Regex.Replace( (s ?? "").Replace( '\n', ' ' ), @"[^A-Za-z0-9\- ]", "" ).ToLower().Split( ' ' ).ToList() ) );
+				fullKeywordList.AddRange( Regex.Replace( (s ?? "").Replace( '\n', ' ' ), @"[^A-Za-z0-9\-| ]", "" ).ToLower().Split( ' ' ).ToList() ) );
 			fullKeywordList = fullKeywordList.Where( s => s.Any() ).Distinct().ToList();
 			fullKeywordList.RemoveAll( InStopList );
 

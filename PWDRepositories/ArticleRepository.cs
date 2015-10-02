@@ -36,7 +36,8 @@ namespace PWDRepositories
 				AuthorID = article.AuthorID,
 				ShowBigImage = article.ShowBigImage,
 				Rank = article.Rank,
-				ArticleType = article.ArticleType
+				ArticleType = article.ArticleType,
+				Keywords = article.Keywords
 			};
 		}
 
@@ -186,7 +187,8 @@ namespace PWDRepositories
 						a.BigText.Contains( term.searchText.Trim() ) ||
 						a.User.FirstName.Contains( term.searchText.Trim() ) ||
 						a.User.LastName.Contains( term.searchText.Trim() ) ||
-						a.ContentBlock.Contains( term.searchText.Trim() ) );
+						a.ContentBlock.Contains( term.searchText.Trim() ) ||
+						a.DBKeywords.Contains( term.searchText ) );
 				}
 			}
 
@@ -210,6 +212,8 @@ namespace PWDRepositories
 			newArticle.Rank = aInfo.Rank;
 			newArticle.ShowBigImage = aInfo.ShowBigImage;
 			newArticle.ArticleType = aInfo.ArticleType;
+			newArticle.Keywords = aInfo.Keywords;
+			newArticle.DBKeywords = SearchText.GetKeywordList( new List<string>() { aInfo.Keywords } );
 
 			database.ScoopArticles.Add( newArticle );
 
@@ -250,6 +254,8 @@ namespace PWDRepositories
 			dbArticle.ShowBigImage = aInfo.ShowBigImage;
 			dbArticle.ArticleType = aInfo.ArticleType;
 			dbArticle.Rank = aInfo.Rank;
+			dbArticle.Keywords = aInfo.Keywords;
+			dbArticle.DBKeywords = SearchText.GetKeywordList( new List<string>() { aInfo.Keywords } );
 
 			return database.SaveChanges() > 0;
 		}

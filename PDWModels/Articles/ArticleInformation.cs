@@ -64,5 +64,6 @@ namespace PDWModels.Articles
 		public int Rank { get; set; }
 		public bool ShowBigImage { get; set; }
 		public int ArticleType { get; set; }
+		public string Keywords { get; set; }
 	}
 }

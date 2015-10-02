@@ -19,7 +19,7 @@
 @foreach( var article in Model )
 {
 		<div class="scoop_item">
-			<div class="scoop_itemImage"><a href="@Url.Action( "View", new { id = article.ArticleID } )"><img src="@article.ImgURL" width="" height="" alt=""/></a></div>
+			<div class="scoop_itemImage"><a href="@Url.Action( "View", new { id = article.ArticleID } )"><img src="@(!string.IsNullOrEmpty( article.ImgURL ) ? article.ImgURL : "/NewContent/images/Paoli_BlueRGB.png")" width="" height="" alt=""/></a></div>
 			<div class="scoop_itemContent">
 				<div class="scoop_itemHeadline"><a href="@Url.Action( "View", new { id = article.ArticleID } )">@article.Title</a></div>
 				<div class="scoop_itemAbstract">@article.Description</div>

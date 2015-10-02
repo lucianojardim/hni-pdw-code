@@ -28,6 +28,8 @@ namespace PDWDBContext
         public int Rank { get; set; }
         public bool ShowBigImage { get; set; }
         public int ArticleType { get; set; }
+        public string Keywords { get; set; }
+        public string DBKeywords { get; set; }
     
         public virtual User User { get; set; }
     }

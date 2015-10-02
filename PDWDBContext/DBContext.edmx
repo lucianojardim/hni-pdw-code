@@ -862,6 +862,8 @@
           <Property Name="Rank" Type="int" Nullable="false" />
           <Property Name="ShowBigImage" Type="bit" Nullable="false" />
           <Property Name="ArticleType" Type="int" Nullable="false" />
+          <Property Name="Keywords" Type="nvarchar(max)" />
+          <Property Name="DBKeywords" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="SearchResultsLog">
           <Key>
@@ -4221,6 +4223,8 @@
           <NavigationProperty Name="User" Relationship="PaoliPDWModel.fkScoopArticle_User" FromRole="ScoopArticle" ToRole="User" />
           <Property Type="Boolean" Name="ShowBigImage" Nullable="false" />
           <Property Type="Int32" Name="ArticleType" Nullable="false" />
+          <Property Type="String" Name="Keywords" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DBKeywords" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="fkScoopArticle_User">
           <End Type="PaoliPDWModel.User" Role="User" Multiplicity="1" />
@@ -5310,6 +5314,8 @@
           <EntitySetMapping Name="ScoopArticles">
             <EntityTypeMapping TypeName="PaoliPDWModel.ScoopArticle">
               <MappingFragment StoreEntitySet="ScoopArticles">
+                <ScalarProperty Name="DBKeywords" ColumnName="DBKeywords" />
+                <ScalarProperty Name="Keywords" ColumnName="Keywords" />
                 <ScalarProperty Name="ArticleType" ColumnName="ArticleType" />
                 <ScalarProperty Name="ShowBigImage" ColumnName="ShowBigImage" />
                 <ScalarProperty Name="Rank" ColumnName="Rank" />
