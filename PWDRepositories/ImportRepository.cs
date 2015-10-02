@@ -365,7 +365,6 @@ namespace PWDRepositories
 			foreach( var tData in database.Typicals )
 			{
 				var rSeries = database.Serieses.FirstOrDefault( s => s.Name == tData.FeaturedSeries );
-				tData.FeaturedSeries = rSeries.Name;
 				if( rSeries != null )
 				{
 					SeriesTypical stData = new SeriesTypical();
@@ -400,7 +399,6 @@ namespace PWDRepositories
 			foreach( var imgData in database.ImageFiles )
 			{
 				var rSeries = database.Serieses.FirstOrDefault( s => s.Name == imgData.FeaturedSeries );
-				imgData.FeaturedSeries = rSeries.Name;
 				if( rSeries != null )
 				{
 					ImageFileSeries stData = new ImageFileSeries();
