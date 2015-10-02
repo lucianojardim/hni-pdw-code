@@ -211,12 +211,12 @@ namespace PWDRepositories
 					( new NewAccountEmailSender() ).SubmitNewAccountEmail( newUser.Email, password );
 				}
 
+				var reloadedUser = database.Users
+					.Include( u => u.Company )
+					.FirstOrDefault( u => u.UserID == newUser.UserID );
+
 				if( PaoliWebUser.PaoliWebRole.IsDealerAccountType( newUser.AccountType ) )
 				{
-					var reloadedUser = database.Users
-						.Include( u => u.Company )
-						.FirstOrDefault( u => u.UserID == newUser.UserID );
-
 					( new NewDealerUserEmailSender() ).SubmitNewUserEmail( new NewDealerUserEmailSender.EmailUserSummary()
 						{
 							UserID = reloadedUser.UserID,
@@ -237,9 +237,21 @@ namespace PWDRepositories
 							SendWelcomeEmail = reloadedUser.RecWelcomeEmail.ToString(),
 							IsActive = reloadedUser.IsActive.ToString()
 						} );
+
+					MailChimpSubscribe.AddDealerEmailAddress( reloadedUser.Email, reloadedUser.FirstName, reloadedUser.LastName, reloadedUser.Company.CompanyID, 
+						reloadedUser.Company.Name, reloadedUser.Company.SubCompanyIDs,
+						reloadedUser.Company.PaoliMember.FirstName, reloadedUser.Company.PaoliMember.LastName, reloadedUser.UserID, 
+						reloadedUser.Company.Address1, reloadedUser.Company.Address2, reloadedUser.Company.City, reloadedUser.Company.State, reloadedUser.Company.Zip,
+						reloadedUser.Company.Phone, reloadedUser.Company.TerritoryID );
+				}
+				else if( newUser.AccountType == PaoliWebUser.PaoliWebRole.PaoliSalesRep )
+				{
+					MailChimpSubscribe.AddSalesRepEmailAddress( reloadedUser.Email, reloadedUser.FirstName, reloadedUser.LastName, reloadedUser.Company.Name,
+						reloadedUser.CellPhone, reloadedUser.Company.Address1, reloadedUser.Company.Address2, reloadedUser.Company.City, reloadedUser.Company.State,
+						reloadedUser.BusinessPhone, reloadedUser.FAX, reloadedUser.Company.TerritoryID );
 				}
 
-				MailChimpSubscribe.AddEmailAddress( newUser.Email, newUser.AccountType );
+				// MailChimpSubscribe.AddEmailAddress( newUser.Email, newUser.AccountType );
 
 				return true;
 			}
@@ -1009,6 +1021,8 @@ namespace PWDRepositories
 				eUser.HomePhone = uInfo.HomePhone;
 				eUser.PersonalCellPhone = uInfo.PersonalCellPhone;
 				accountType = eUser.AccountType;
+
+				database.SaveChanges();
 			}
 			else
 			{
@@ -1078,9 +1092,17 @@ namespace PWDRepositories
 				newUser.CreatedDateTime = DateTime.UtcNow;
 
 				database.Users.Add( newUser );
-			}
 
-			database.SaveChanges();
+				database.SaveChanges();
+
+				database.Entry<User>( newUser ).Reload();
+
+				( new NewAccountEmailSender() ).SubmitNewAccountEmail( uInfo.EmailAddress, password );
+
+				MailChimpSubscribe.AddDealerEmailAddress( uInfo.EmailAddress, uInfo.FirstName, uInfo.LastName, dbCompany.CompanyID, dbCompany.Name, dbCompany.SubCompanyIDs,
+					dbCompany.PaoliMember.FirstName, dbCompany.PaoliMember.LastName, newUser.UserID, dbCompany.Address1, dbCompany.Address2, dbCompany.City, dbCompany.State, dbCompany.Zip,
+					dbCompany.Phone, dbCompany.TerritoryID );
+			}
 
 			new ChangeDealerUserInfoEmailSender( uInfo.UserID > 0 ? "ChangeDealerUserInfo" : "AddDealerUserInfo" ).SubmitRequestEmail( 
 				dbReqUser.FullName, dbReqUser.Company.Name, uInfo.UserID, companyName, 
@@ -1089,13 +1111,6 @@ namespace PWDRepositories
 				uInfo.CellPhone, uInfo.Extension, uInfo.FaxNumber, 
 				uInfo.HomeAddress1, uInfo.HomeAddress2, uInfo.HomeCity, uInfo.HomeState, uInfo.HomeZip, uInfo.HomePhone, uInfo.PersonalCellPhone,
 				PaoliWebUser.PaoliWebRole.RoleList[accountType] );
-
-			if( uInfo.UserID == 0 )
-			{
-				( new NewAccountEmailSender() ).SubmitNewAccountEmail( uInfo.EmailAddress, password );
-
-				MailChimpSubscribe.AddEmailAddress( uInfo.EmailAddress, accountType );
-			}
 		}
 	}
 }

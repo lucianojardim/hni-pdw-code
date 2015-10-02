@@ -34,7 +34,7 @@
 					<div class="main_lt_btm_lt @if( col % 2 == 0 )
 								{ <text>last</text> }">
 						<a href="@Url.Action( "View", "Article", new { id = articleList[col].ArticleID } )" target="_blank">
-							<img src="@(!string.IsNullOrEmpty( articleList[col].ImageURL ) ? articleList[0].ImageURL : "/NewContent/images/Paoli_BlueRGB.png")" alt="img" width="291"></a>
+							<img src="@(!string.IsNullOrEmpty( articleList[col].ImageURL ) ? articleList[col].ImageURL : "/NewContent/images/Paoli_BlueRGB.png")" alt="img" width="291"></a>
 						<h3>
 							<a href="@Url.Action( "View", "Article", new { id = articleList[col].ArticleID } )" target="_blank">@articleList[col].Headline</a></h3>
 						<p>@articleList[col].Subheadline</p>
