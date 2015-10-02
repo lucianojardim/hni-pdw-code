@@ -22,7 +22,7 @@ namespace PDWModels.Articles
 					return new Dictionary<int, string>() {
 					{ Scoop, "The Scoop - Sales Reps" },				
 					{ NewsAndUpdates, "Dealer Updates - Dealers" },				
-					{ Internal, "Paoli News (Internal)" },				
+					{ Internal, "Member News (Internal)" },				
                 };
 				}
 			}

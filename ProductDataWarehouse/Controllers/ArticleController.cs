@@ -135,7 +135,21 @@ namespace ProductDataWarehouse.Controllers
 		{
 			using( var aRepository = new ArticleRepository() )
 			{
-				return View( aRepository.GetArticleViewer( id ) );
+				var details = aRepository.GetArticleViewer( id );
+				switch( details.ArticleType )
+				{
+					case ArticleInformation.ArticleTypes.Scoop:
+						ViewBag.HeaderArea = "TheScoop";
+						break;
+					case ArticleInformation.ArticleTypes.NewsAndUpdates:
+						ViewBag.HeaderArea = "NewsUpdates";
+						break;
+					case ArticleInformation.ArticleTypes.Internal:
+						ViewBag.HeaderArea = "InternalNews";
+						break;
+				}
+
+				return View( details );
 			}
 		}
 
@@ -145,7 +159,7 @@ namespace ProductDataWarehouse.Controllers
 		{
 			using( var aRepository = new ArticleRepository() )
 			{
-				ViewBag.PageTitle = "Here's your Paoli news";
+				ViewBag.PageTitle = "Here's your Member news";
 				ViewBag.HeaderArea = "InternalNews";
 				ViewBag.SearchText = search;
 

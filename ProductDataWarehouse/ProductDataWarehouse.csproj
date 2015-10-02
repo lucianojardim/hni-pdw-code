@@ -104,6 +104,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImportController.cs" />
     <Compile Include="Controllers\InfoController.cs" />
+    <Compile Include="Controllers\MemberNewsController.cs" />
     <Compile Include="Controllers\PDWController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
