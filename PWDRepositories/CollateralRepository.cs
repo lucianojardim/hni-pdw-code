@@ -676,8 +676,11 @@ namespace PWDRepositories
 
 				GetEmailList( reloadedOrder, "NewCollateralOrder", "NewCollateralOrderTerritory", "NewCollateralOrderMyDealers", out createdByEmail, salesRepEmails, requestedForEmails );
 
-				( new NewCollateralOrderEmailSender( "NewCollateralOrderCreatedBy" ) ).SubmitNewOrderEmail( createdByEmail.EmailAddress,
-					ToEmailOrderSummary( createdByEmail, reloadedOrder ), createdByEmail.FromDetails );
+				if( createdByEmail != null )
+				{
+					( new NewCollateralOrderEmailSender( "NewCollateralOrderCreatedBy" ) ).SubmitNewOrderEmail( createdByEmail.EmailAddress,
+						ToEmailOrderSummary( createdByEmail, reloadedOrder ), createdByEmail.FromDetails );
+				}
 
 				foreach( var salesRep in salesRepEmails )
 				{

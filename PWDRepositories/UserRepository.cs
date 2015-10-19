@@ -196,7 +196,13 @@ namespace PWDRepositories
 				UpdateSpecRequest = true,
 				UpdateSpecRequestTerritory = true,
 				ReOpenSpecRequest = true,
-				ReOpenSpecRequestTerritory = true
+				ReOpenSpecRequestTerritory = true,
+				CompleteSpecRequestMyDealers = true,
+				NewCollateralOrderMyDealers = true,
+				NewCollateralOrderShipmentMyDealers = true,
+				NewSpecRequestMyDealers = true,
+				ReOpenSpecRequestMyDealers = true,
+				UpdateSpecRequestMyDealers = true
 			};
 
 			newUser.CreatedByUser = currentUserId;
@@ -1085,7 +1091,13 @@ namespace PWDRepositories
 					UpdateSpecRequest = true,
 					UpdateSpecRequestTerritory = true,
 					ReOpenSpecRequest = true,
-					ReOpenSpecRequestTerritory = true
+					ReOpenSpecRequestTerritory = true,
+					CompleteSpecRequestMyDealers = true,
+					NewCollateralOrderMyDealers = true,
+					NewCollateralOrderShipmentMyDealers = true,
+					NewSpecRequestMyDealers = true,
+					ReOpenSpecRequestMyDealers = true,
+					UpdateSpecRequestMyDealers = true
 				};
 
 				newUser.CreatedByUser = reqUserId;
