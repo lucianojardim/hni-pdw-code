@@ -105,6 +105,8 @@ namespace PWDRepositories
 				NeedPDFFiles = sInfo.NeedPDFFiles,
 				CreatedDate = sInfo.CreatedOnDate,
 				DealerName = sInfo.PrimaryCompanyID.HasValue ? sInfo.PrimaryCompany.FullName : "None",
+				DealerBaseNumber = sInfo.PrimaryCompanyID.HasValue ? sInfo.PrimaryCompany.SubCompanyIDs : "None",
+				DealerType = sInfo.PrimaryCompanyID.HasValue ? sInfo.PrimaryCompany.TierGroup : "None",
 				SalesRepGroupName = sInfo.PaoliSalesRepGroupID.HasValue ? sInfo.PaoliSalesRepGroup.FullName : "None",
 				SalesRepMemberName = sInfo.PaoliSalesRepMemberID.HasValue ? sInfo.PaoliSalesRepMember.FullName : "None",
 				DealerSalesRepName = sInfo.DealerSalesRepID.HasValue ? sInfo.DealerSalesRep.FullName : "None",

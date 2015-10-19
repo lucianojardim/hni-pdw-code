@@ -17,6 +17,8 @@ namespace PDWModels.SpecRequests
 		public string SalesRepGroupName { get; set; }
 		public string SalesRepMemberName { get; set; }
 		public string DealerName { get; set; }
+		public string DealerBaseNumber { get; set; }
+		public string DealerType { get; set; }
 		public string DealerSalesRepName { get; set; }
 		public string DealerSalesRepContact { get; set; }
 		public string DealerPointOfContact { get; set; }
