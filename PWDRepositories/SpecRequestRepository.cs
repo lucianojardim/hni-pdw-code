@@ -336,6 +336,10 @@ namespace PWDRepositories
 			{
 				requestList = requestList.Where( s => s.PaoliSalesRepGroupID == paramDetails.paoliSalesRepGroupID.Value );
 			}
+			if( !string.IsNullOrEmpty( paramDetails.dealerType ) )
+			{
+				requestList = requestList.Where( s => s.PrimaryCompany.TierGroup == paramDetails.dealerType );
+			}
 			if( paramDetails.companyId.HasValue )
 			{
 				requestList = requestList.Where( s => s.PrimaryCompanyID == paramDetails.companyId.Value || s.PaoliSalesRepGroupID == paramDetails.companyId.Value );

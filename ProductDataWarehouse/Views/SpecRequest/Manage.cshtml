@@ -14,6 +14,7 @@
 @Html.CheckBox( "AuditSpecOnly" )Spec Audit Checks<br />
 @Html.CheckBox( "GSAOnly" )Show GSA Only<br />
 @Html.CheckBox( "PublishedOnly")Published Only<br />
+Dealership Type: @Html.DropDownList( "DealerType", ProductDataWarehouse.Controllers.UserController.GetTierGroupDDList( true ) )<br />
 Territory: @Html.DropDownList( "PaoliSalesRepGroupID", ProductDataWarehouse.Controllers.CompanyController.GetCompanyDDList( PDWInfrastructure.PaoliWebUser.PaoliCompanyType.PaoliRepGroup, includeTerritory: PDWInfrastructure.PaoliWebUser.CurrentUser.WantTerritoriesInDropDowns ) )<br />
 <div>
     <table id="specRequestList">
@@ -31,6 +32,7 @@ Territory: @Html.DropDownList( "PaoliSalesRepGroupID", ProductDataWarehouse.Cont
 		$('#GSAOnly').click(loadSpecRequests);
 		$('#PublishedOnly').click(loadSpecRequests);
 		$('#PaoliSalesRepGroupID').change(loadSpecRequests);
+		$('#DealerType').change(loadSpecRequests);
 
 		loadSpecRequests();
 	});
@@ -58,6 +60,7 @@ Territory: @Html.DropDownList( "PaoliSalesRepGroupID", ProductDataWarehouse.Cont
 				aoData.push({ "name": "showGSAOnly", "value": $('#GSAOnly:checked').length > 0 });
 				aoData.push({ "name": "showPublishedOnly", "value": $('#PublishedOnly:checked').length > 0 });
 				aoData.push({ "name": "paoliSalesRepGroupID", "value": $('#PaoliSalesRepGroupID').val() });
+				aoData.push({ "name": "dealerType", "value": $('#DealerType').val() });
 			},
 			"iDisplayLength": 100,
 			"oLanguage": {

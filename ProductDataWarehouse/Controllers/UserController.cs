@@ -513,10 +513,18 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
-		public static IEnumerable<SelectListItem> GetTierGroupDDList()
+		public static IEnumerable<SelectListItem> GetTierGroupDDList( bool includeBlank = false )
 		{
-			return PaoliWebUser.PaoliTierGroup.TierGroupList
-				.Select( tg => new SelectListItem() { Text = tg, Value = tg } );
+			var list = PaoliWebUser.PaoliTierGroup.TierGroupList
+				.Select( tg => new SelectListItem() { Text = tg, Value = tg } )
+				.ToList();
+
+			if( includeBlank )
+			{
+				list.Insert( 0, new SelectListItem() );
+			}
+
+			return list;
 		}
 
 		public static IEnumerable<SelectListItem> GetUserRoleDDList()

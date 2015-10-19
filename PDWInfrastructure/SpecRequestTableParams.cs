@@ -16,5 +16,6 @@ namespace PDWInfrastructure
 		public bool showPublishedOnly { get; set; }
 		public int? userId { get; set; }
 		public int? paoliSalesRepGroupID { get; set; }
+		public string dealerType { get; set; }
 	}
 }
