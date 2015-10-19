@@ -1,6 +1,5 @@
 /*====================================== reset.css is here ========================================*/
 body,div,dl,dt,dd,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,th,td { margin:0; padding:0;}
-.nonPaddedLists ul,ol,li {margin:0; padding:0;}
 table {	border-collapse:collapse; border-spacing:0;}
 fieldset,img { border:0; }
 address,caption,cite,code,dfn,th,var {font-style:normal; font-weight:normal;}

@@ -889,7 +889,7 @@
 	var imageList = SpecRequestController.GetFeatureImageList();
 }
 
-                     <div class="container2 nonPaddedLists">
+                     <div class="container2 ">
      @using( Html.BeginForm( "AddRequest", "SpecRequest", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
 	 {
 		 @Html.AntiForgeryToken()
