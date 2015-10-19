@@ -27,6 +27,7 @@ namespace PWDRepositories
 				RequestID = sRequest.RequestID,
 				Name = sRequest.Name,
 				Dealer = sRequest.PrimaryCompanyID.HasValue ? sRequest.PrimaryCompany.FullName : "",
+				DealerIcon = sRequest.PrimaryCompanyID.HasValue ? PaoliWebUser.PaoliTierGroup.GetIcon( sRequest.PrimaryCompany.TierGroup ) : null,
 				DealerMember = sRequest.DealerSalesRepID.HasValue ? sRequest.DealerSalesRep.FullName : sRequest.DealerPOCText,
 				ProjectName = sRequest.ProjectID.HasValue ? sRequest.Project.ProjectName : "",
 				SpecTeamMember = sRequest.PaoliSpecTeamMemberID.HasValue ? sRequest.SpecTeamMember.LastName : "",

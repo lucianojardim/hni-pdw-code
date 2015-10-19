@@ -90,7 +90,15 @@ Territory: @Html.DropDownList( "PaoliSalesRepGroupID", ProductDataWarehouse.Cont
 							return '<a href=\"@Url.Action( "EditRequest", "SpecRequest" )/' + oObj.aData["RequestID"] + '\">' + oObj.aData["Name"] + '</a>';
 						}
 					},
-                    { "sName": "Dealer", "sTitle": "Dealer", "aTargets": [1], "mDataProp": "Dealer", "sWidth": "17%" },
+                    { "sName": "Dealer", "sTitle": "Dealer", "aTargets": [1], "mDataProp": "Dealer", "sWidth": "17%",
+                    	"fnRender": function (oObj) {
+                    		var s = oObj.aData["Dealer"];
+                    		if (oObj.aData["DealerIcon"] != null) {
+                    			s += ' <img src="/NewContent/images/' + oObj.aData["DealerIcon"] + '" height="14px" />';
+                    		}
+                    		return s;
+                    	}
+                    },
                     { "sName": "ProjectName", "sTitle": "Project Name", "aTargets": [2], "mDataProp": "ProjectName", "sWidth": "16%" },
                     { "sName": "SalesRepGroup", "sTitle": "Rep Group", "aTargets": [3], "mDataProp": "SalesRepGroup", "sWidth": "17%" },
                     { "sName": "SpecTeamMember", "sTitle": "Member", "aTargets": [4], "mDataProp": "SpecTeamMember", "sWidth": "10%" },

@@ -30,6 +30,21 @@ namespace PDWInfrastructure
 					};
 				}
 			}
+
+			public static string GetIcon( string group )
+			{
+				switch( group )
+				{
+					case Diamond:
+						return "D.png";
+					case DiamondElite:
+						return "DE.png";
+					case Focus:
+						return "F.png";
+				}
+
+				return null;
+			}
 		}
 
 		public static class PaoliCompanyType

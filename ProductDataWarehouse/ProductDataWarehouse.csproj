@@ -545,11 +545,14 @@
     <Content Include="NewContent\images\close_icon.png" />
     <Content Include="NewContent\images\collateral_img.jpg" />
     <Content Include="NewContent\images\company-logo-placeholder.png" />
+    <Content Include="NewContent\images\D.png" />
     <Content Include="NewContent\images\dashboard-image.png" />
+    <Content Include="NewContent\images\DE.png" />
     <Content Include="NewContent\images\dealership-icon.png" />
     <Content Include="NewContent\images\download_icon.png" />
     <Content Include="NewContent\images\eCollateralAddImage.png" />
     <Content Include="NewContent\images\email-us.png" />
+    <Content Include="NewContent\images\F.png" />
     <Content Include="NewContent\images\favicon.ico" />
     <Content Include="NewContent\images\filter.jpg" />
     <Content Include="NewContent\images\header_bg.jpg" />
