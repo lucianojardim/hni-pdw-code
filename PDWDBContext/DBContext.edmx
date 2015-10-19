@@ -1045,6 +1045,14 @@
           <Property Name="OldIsGSA" Type="bit" />
           <Property Name="OldContractID" Type="int" />
           <Property Name="VeneerPreference" Type="nvarchar" MaxLength="10" />
+          <Property Name="ProjectScope" Type="nvarchar" MaxLength="50" />
+          <Property Name="ProjectListPrice" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsPhasedProject" Type="bit" />
+          <Property Name="NumberOfPhases" Type="int" />
+          <Property Name="IsStandardsProgram" Type="bit" />
+          <Property Name="ProjectFirstOrderDate" Type="date" />
+          <Property Name="Competitors" Type="nvarchar(max)" />
+          <Property Name="CompetitorSeries" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="TAttributeOptions">
           <Key>
@@ -3586,6 +3594,14 @@
           <Property Type="Int32" Name="OldContractID" />
           <NavigationProperty Name="Project" Relationship="PaoliPDWModel.fkSpecRequest_Project" FromRole="SpecRequest" ToRole="Project" />
           <Property Type="String" Name="VeneerPreference" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ProjectScope" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ProjectListPrice" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsPhasedProject" />
+          <Property Type="Int32" Name="NumberOfPhases" />
+          <Property Type="Boolean" Name="IsStandardsProgram" />
+          <Property Type="DateTime" Name="ProjectFirstOrderDate" />
+          <Property Type="String" Name="Competitors" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CompetitorSeries" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="fkSpec_Company">
           <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="0..1" />
@@ -5043,6 +5059,14 @@
           <EntitySetMapping Name="SpecRequests">
             <EntityTypeMapping TypeName="PaoliPDWModel.SpecRequest">
               <MappingFragment StoreEntitySet="SpecRequests">
+                <ScalarProperty Name="CompetitorSeries" ColumnName="CompetitorSeries" />
+                <ScalarProperty Name="Competitors" ColumnName="Competitors" />
+                <ScalarProperty Name="ProjectFirstOrderDate" ColumnName="ProjectFirstOrderDate" />
+                <ScalarProperty Name="IsStandardsProgram" ColumnName="IsStandardsProgram" />
+                <ScalarProperty Name="NumberOfPhases" ColumnName="NumberOfPhases" />
+                <ScalarProperty Name="IsPhasedProject" ColumnName="IsPhasedProject" />
+                <ScalarProperty Name="ProjectListPrice" ColumnName="ProjectListPrice" />
+                <ScalarProperty Name="ProjectScope" ColumnName="ProjectScope" />
                 <ScalarProperty Name="VeneerPreference" ColumnName="VeneerPreference" />
                 <ScalarProperty Name="OldContractID" ColumnName="OldContractID" />
                 <ScalarProperty Name="OldIsGSA" ColumnName="OldIsGSA" />

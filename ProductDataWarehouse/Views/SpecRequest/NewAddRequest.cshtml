@@ -7,6 +7,9 @@
 @using ProductDataWarehouse.Controllers
 @using PDWInfrastructure
 
+<link href="@Url.Content( "~/Content/jquery.tagit.css" )" rel="stylesheet" type="text/css" />
+<script src="@Url.Content( "~/Scripts/tag-it.js" )" type="text/javascript"></script>
+
     <script type="text/javascript">
 		function getNewUserCompanyID() {
 			return $('#DealerID').val();
@@ -69,11 +72,24 @@
     		$('#PaoliSalesRepGroupID').rules("add", { required: true, messages: { required: "Sales Rep Territory is required."} });
     		$('#EndCustomerID').rules("add", { required: true, messages: { required: "End Customer is required."} });
 			$('#DealerMemberID').rules("add", { required: true, messages: { required: "Dealership Point of Contact is required."} });
+    		$('#NumberOfPhases').rules("add", { number: true, messages: { number: "Number of Phases must be a number."} });
 
 			$('#PaoliSalesRepGroupID').on('change', reloadPaoliSalesRepList);
 			$('#DealerID').on('change', reloadDealerSalesRepList);
 			$('#EndCustomerID').on('change', reloadProjectList);
 			$('#ProjectID').on('change', changeProject);
+
+    		$('#FirstOrderDate').datepicker(
+            {
+            	dateFormat: "mm/dd/yy",
+            	changeMonth: true,
+            	changeYear: true
+            });
+
+    		$('#Competitors').tagit({
+				availableTags: ['9 to 5','Dar Ran','First Office','Global','Gunlocks','Haworth','Herman Miller','HON','Indiana','JOFCO','JSI','Kimball','Knoll','Krug','National','OFS','A18','Steelcase﻿'],
+    			allowSpaces: true
+    		});
 
 			$('input').addClass('noValidate');
 			$('select').addClass('noValidate');
@@ -245,6 +261,11 @@
 				$('#mainEditUserContactBtn').trigger('click');
 			});
 
+			showHidePhases();
+			$('.fakePhasedProject').click(function(e){
+				showHidePhases();
+			});
+
 			var doesMultipleFiles = false;
     		$('#fileContainer input[type="file"]').each(function (i, fc) {
     			if (fc.files != null) {
@@ -267,6 +288,14 @@
 				$('.gsaOnly').hide();
 			}			
 			
+		}
+
+		function showHidePhases() {
+			if ($('#IsPhasedProject:checked').length > 0) {
+				$('.numberOfPhases').show();
+			} else {
+				$('.numberOfPhases').hide();
+			}			
 		}
 
 		function showHideLaminatePreference() {
@@ -446,14 +475,42 @@
 				$('#requestorList1 .coln3').append('<h5>What will we call this project?</h5>');
 				$('#requestorList1 .coln4').append('<h5>' + $("#ProjectID option[value='" + $('#ProjectID').val() + "']").text() + '</h5>');
     		}
-    		if ($('#ProjectSize').val() != null && $('#ProjectSize').val() != '') {
-				$('#requestorList2 .coln3').append('<h5>What is the size and scope of this project?</h5>');
-				$('#requestorList2 .coln4').append('<h5>' + $('#ProjectSize').val() + '</h5>');
-    		}
 			if ($('#AvailableForIn2').is(':checked')) {
 				$('#requestorList2 .coln3').append('<h5>in2 Quick Ship</h5>');
 				$('#requestorList2 .coln4').append('<h5>Yes</h5>');
 			}
+    		if ($('#ProjectScope').val() != null && $('#ProjectScope').val() != '') {
+				$('#requestorList2 .coln3').append('<h5>Project Scope</h5>');
+				$('#requestorList2 .coln4').append('<h5>' + $('#ProjectScope').val() + '</h5>');
+    		}
+    		if ($('#ProjectedListPrice').val() != null && $('#ProjectedListPrice').val() != '') {
+				$('#requestorList2 .coln3').append('<h5>Projected List $</h5>');
+				$('#requestorList2 .coln4').append('<h5>' + $('#ProjectedListPrice').val() + '</h5>');
+    		}
+			if ($('#IsPhasedProject').is(':checked')) {
+				$('#requestorList2 .coln3').append('<h5>Phased Project</h5>');
+				$('#requestorList2 .coln4').append('<h5>Yes</h5>');
+    			if ($('#NumberOfPhases').val() != null && $('#NumberOfPhases').val() != '') {
+					$('#requestorList2 .coln3').append('<h5>Number of Phases</h5>');
+					$('#requestorList2 .coln4').append('<h5>' + $('#NumberOfPhases').val() + '</h5>');
+    			}
+			}
+    		if ($('#FirstOrderDate').val() != null && $('#FirstOrderDate').val() != '') {
+				$('#requestorList2 .coln3').append('<h5>Projected First Order Date</h5>');
+				$('#requestorList2 .coln4').append('<h5>' + $('#FirstOrderDate').val() + '</h5>');
+    		}
+			if ($('#IsStandardsProgram').is(':checked')) {
+				$('#requestorList2 .coln3').append('<h5>Standards Program</h5>');
+				$('#requestorList2 .coln4').append('<h5>Yes</h5>');
+			}
+    		if ($('#Competitors').val() != null && $('#Competitors').val() != '') {
+				$('#requestorList2 .coln3').append('<h5>Competitors</h5>');
+				$('#requestorList2 .coln4').append('<h5>' + $('#Competitors').val() + '</h5>');
+    		}
+    		if ($('#CompetitorSeries').val() != null && $('#CompetitorSeries').val() != '') {
+				$('#requestorList2 .coln3').append('<h5>Competitor Series</h5>');
+				$('#requestorList2 .coln4').append('<h5>' + $('#CompetitorSeries').val() + '</h5>');
+    		}
 
 			$('#confirmServiceList h5').remove();
     		$('.chkServices').each(function () {
@@ -832,7 +889,7 @@
 	var imageList = SpecRequestController.GetFeatureImageList();
 }
 
-                     <div class="container2">
+                     <div class="container2 nonPaddedLists">
      @using( Html.BeginForm( "AddRequest", "SpecRequest", FormMethod.Post, new { id = "theForm", name = "theForm", enctype = "multipart/form-data" } ) )
 	 {
 		 @Html.AntiForgeryToken()
@@ -895,12 +952,9 @@
 				 <ul>
 					 <li>
 						 <div class="box2">
-							 <label>
-								 What is the size and scope of this<br>
-								 project?</label>
+							 <label>Project Scope</label>
 							 <div class="colmn1">
-								 @Html.TextBoxFor( m => m.ProjectSize )
-								 <span>Number of private offices and/or meeting spaces</span>
+								 @Html.DropDownListFor( m => m.ProjectScope, SpecRequestController.ProjectScopeDDList() )
 							 </div>
 							 <div class="colmn4">
 								 <div class="colmn4_lt">
@@ -909,6 +963,56 @@
 										 <span>in2 Quick Ship</span>
 									 </div>
 								 </div>
+							 </div>
+						 </div>
+					 </li>
+					 <li>
+						 <div class="box2">
+							 <label>Projected List $</label>
+							 <div class="colmn1">
+								 @Html.DropDownListFor( m => m.ProjectedListPrice, SpecRequestController.ProjectListPriceDDList() )
+							 </div>
+							 <div class="colmn4">
+								 <div class="colmn4_lt">
+									 <div class="checkbox fakePhasedProject">
+										 @Html.CheckBoxFor( m => m.IsPhasedProject )
+										 <span>Phased Project</span>
+									 </div>
+								 </div>
+							 </div>
+						 </div>
+					 </li>
+					 <li>
+						 <div class="box2">
+							 <label>Projected First Order Date</label>
+							 <div class="colmn1">
+								 @Html.TextBoxFor( m => m.FirstOrderDate, new { @readonly = "readonly" } )
+							 </div>
+							<cite class="numberOfPhases">Number of Phases @Html.ValidationMessageFor( m => m.NumberOfPhases )</cite>
+							@Html.TextBoxFor( m => m.NumberOfPhases, new { @class = "numberOfPhases" } )
+						 </div>
+					 </li>
+					 <li>
+						 <div class="box2">
+							 <label>Competitors</label>
+							 <div class="colmn1">
+								 @Html.TextBoxFor( m => m.Competitors, new { style = "display:none" } )
+							 </div>
+							 <div class="colmn4">
+								 <div class="colmn4_lt">
+									 <div class="checkbox">
+										 @Html.CheckBoxFor( m => m.IsStandardsProgram )
+										 <span>Standards Program</span>
+									 </div>
+								 </div>
+							 </div>
+						 </div>
+					 </li>
+					 <li>
+						 <div class="box2">
+							 <label>Competitor Series</label>
+							 <div class="colmn1">
+								 @Html.TextBoxFor( m => m.CompetitorSeries )
 							 </div>
 						 </div>
 					 </li>

@@ -63,8 +63,14 @@ namespace PDWModels.SpecRequests
 		public int? ProjectID { get; set; }
 		public string RealProjectName { get; set; }
 		[DisplayName( "What is the size and scope of the project?" )]
-		[StringLength( 100 )]
-		public string ProjectSize { get; set; }
+		public string ProjectScope { get; set; }
+		public string ProjectedListPrice { get; set; }
+		public bool IsPhasedProject { get; set; }
+		public int? NumberOfPhases { get; set; }
+		public bool IsStandardsProgram { get; set; }
+		public DateTime? FirstOrderDate { get; set; }
+		public string Competitors { get; set; }
+		public string CompetitorSeries { get; set; }
 		[DisplayName( "Is in2?" )]
 		public bool AvailableForIn2 { get; set; }
 		public bool RealIsGSA { get; set; }

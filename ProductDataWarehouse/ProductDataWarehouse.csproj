@@ -603,6 +603,7 @@
     <Content Include="NewContent\images\zoom_icon.png" />
     <Content Include="NewContent\js\jquery-filestyle.js" />
     <Content Include="NewContent\js\jquery-ui-1.8.11.min.js" />
+    <Content Include="NewContent\js\jquery-ui-1.8.22.min.js" />
     <Content Include="NewContent\js\jquery.1.8.3.min.js" />
     <Content Include="NewContent\js\jquery.custom.input.js" />
     <Content Include="NewContent\js\jquery.dataTables.js" />

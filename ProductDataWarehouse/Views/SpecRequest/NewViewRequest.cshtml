@@ -38,7 +38,7 @@
     	});
 	</script>
 
-                     <div class="container">
+                     <div class="container nonPaddedLists">
 
 		 <div class="main_inner1">
 			 <h3 class="floating">
@@ -112,16 +112,32 @@
 		 }</h5>
 							 </div>
 							 <div class="coln3">
-								 <h5>
-									 What is the size and scope of this project?</h5>
-								 <h5>
-									 in2 Quick Ship</h5>
+								 <h5>in2 Quick Ship</h5>
+								 <h5>Project Scope</h5>
+								 <h5>Projected List $</h5>
+								 <h5>Phased Project</h5>
+								 @if( Model.IsPhasedProject )
+		 {
+								 <h5>Number of Phases</h5>
+		 }
+								 <h5>Projected First Order Date</h5>
+								 <h5>Standards Program</h5>
+								 <h5>Competitors</h5>
+								 <h5>Competitor Series</h5>
 							 </div>
 							 <div class="coln4">
-								 <h5>
-									 @Html.DisplayFor( m => m.ProjectSize )</h5>
-								 <h5>
-									 @Html.DisplayFor( m => m.AvailableForIn2, templateName: "YesNo" )</h5>
+								 <h5>@Html.DisplayFor( m => m.AvailableForIn2, templateName: "YesNo" )</h5>
+								 <h5>@Html.DisplayFor( m => m.ProjectScope )</h5>
+								 <h5>@Html.DisplayFor( m => m.ProjectedListPrice )</h5>
+								 <h5>@Html.DisplayFor( m => m.IsPhasedProject, templateName: "YesNo" )</h5>
+								 @if( Model.IsPhasedProject )
+		 {
+								 <h5>@Html.DisplayFor( m => m.NumberOfPhases )</h5>
+		 }
+								 <h5>@(Model.FirstOrderDate.HasValue ? Model.FirstOrderDate.Value.ToShortDateString() : null)</h5>
+								 <h5>@Html.DisplayFor( m => m.IsStandardsProgram, templateName: "YesNo" )</h5>
+								 <h5>@Html.DisplayFor( m => m.Competitors )</h5>
+								 <h5>@Html.DisplayFor( m => m.CompetitorSeries )</h5>
 							 </div>
 							 <i class="clear_0"></i></li>
 						 <li id="requestorList3" class="requestorList">

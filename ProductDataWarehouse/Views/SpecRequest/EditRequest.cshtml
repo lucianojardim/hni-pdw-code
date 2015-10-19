@@ -20,6 +20,9 @@
 @using ProductDataWarehouse.Models
 @using ProductDataWarehouse.Controllers
 
+<link href="@Url.Content( "~/Content/jquery.tagit.css" )" rel="stylesheet" type="text/css" />
+<script src="@Url.Content( "~/Scripts/tag-it.js" )" type="text/javascript"></script>
+
     <script type="text/javascript">
     	var fileCount = 1;
     	$(document).ready(function () {
@@ -56,6 +59,18 @@
                 $('#reopenedDate').text(getLocalDateTime('@Model.ReOpenedDate.Value.ToString()'));
 			</text>
    }
+
+    		$('#FirstOrderDate').datepicker(
+            {
+            	dateFormat: "mm/dd/yy",
+            	changeMonth: true,
+            	changeYear: true
+            });
+
+    		$('#Competitors').tagit({
+				availableTags: ['9 to 5','Dar Ran','First Office','Global','Gunlocks','Haworth','Herman Miller','HON','Indiana','JOFCO','JSI','Kimball','Knoll','Krug','National','OFS','A18','Steelcase﻿'],
+    			allowSpaces: true
+    		});
 
     		$('.cancelBtn').click(function (e) {
     			window.location.href = '@Url.Action( "Manage" )';
@@ -197,7 +212,19 @@
 				$('.addlFilesIndex').remove();
 				$('#fileContainer input[type="file"]').attr('name', 'addlFiles');
 			}
+
+			showHidePhases();
+			$('#IsPhasedProject').click(showHidePhases);
     	});
+
+
+		function showHidePhases() {
+			if ($('#IsPhasedProject:checked').length > 0) {
+				$('.numberOfPhases').show();
+			} else {
+				$('.numberOfPhases').hide();
+			}			
+		}
 
 		function getTerritoryForRepGroup() {
 			return $('#PaoliSalesRepGroupID option:selected').data('territory');
@@ -649,13 +676,19 @@
 			<h3>About This Project</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
-					<td>@Html.MJLabelFor( m => m.ProjectSize, false )</td><td>@Html.TextBoxFor( m => m.ProjectSize )</td>
+					<td>Project Scope</td><td>@Html.DropDownListFor( m => m.ProjectScope, SpecRequestController.ProjectScopeDDList() )</td><td colspan="2">@Html.CheckBoxFor( m => m.AvailableForIn2 ) @Html.MJLabelFor( m => m.AvailableForIn2, false )</td>
 				</tr>
 				<tr>
-					<td></td><td><span class="littleHelp">Need number of private offices and/or meeting spaces</span></td>
+					<td>Projected List $</td><td>@Html.DropDownListFor( m => m.ProjectedListPrice, SpecRequestController.ProjectListPriceDDList() )</td><td colspan="2">@Html.CheckBoxFor( m => m.IsPhasedProject ) Phased Project</td>
 				</tr>
 				<tr>
-					<td colspan="2">@Html.CheckBoxFor( m => m.AvailableForIn2 ) @Html.MJLabelFor( m => m.AvailableForIn2, false )</td>
+					<td>Projected First Order Date</td><td>@Html.TextBoxFor( m => m.FirstOrderDate, new { @readonly = "readonly", @Value = Model.FirstOrderDate.HasValue ? Model.FirstOrderDate.Value.ToString( "MM/dd/yyyy" ) : null } )</td><td class="numberOfPhases">Number of Phases</td><td class="numberOfPhases">@Html.TextBoxFor( m => m.NumberOfPhases )</td>
+				</tr>
+				<tr>
+					<td>Competitors</td><td>@Html.TextBoxFor( m => m.Competitors, new { style = "display:none" } )</td><td colspan="2">@Html.CheckBoxFor( m => m.IsStandardsProgram ) Standards Program</td>
+				</tr>
+				<tr>
+					<td>Competitor Series</td><td>@Html.TextBoxFor( m => m.CompetitorSeries )</td>
 				</tr>
 			</table>
 		</div>

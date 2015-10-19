@@ -81,6 +81,14 @@ namespace PDWDBContext
         public Nullable<bool> OldIsGSA { get; set; }
         public Nullable<int> OldContractID { get; set; }
         public string VeneerPreference { get; set; }
+        public string ProjectScope { get; set; }
+        public string ProjectListPrice { get; set; }
+        public Nullable<bool> IsPhasedProject { get; set; }
+        public Nullable<int> NumberOfPhases { get; set; }
+        public Nullable<bool> IsStandardsProgram { get; set; }
+        public Nullable<System.DateTime> ProjectFirstOrderDate { get; set; }
+        public string Competitors { get; set; }
+        public string CompetitorSeries { get; set; }
     
         public virtual Company PrimaryCompany { get; set; }
         public virtual Company PaoliSalesRepGroup { get; set; }

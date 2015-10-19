@@ -416,5 +416,32 @@ namespace ProductDataWarehouse.Controllers
 				return Json( sRepo.GetProject( id ), JsonRequestBehavior.AllowGet );
 			}
 		}
+
+		public static IEnumerable<SelectListItem> ProjectScopeDDList()
+		{
+			return new List<SelectListItem>()
+			{
+				new SelectListItem(),
+				new SelectListItem() { Text = "1-5 offices" },
+				new SelectListItem() { Text = "6-10 offices" },
+				new SelectListItem() { Text = "11-19 offices" },
+				new SelectListItem() { Text = "20 or more﻿" }
+			};
+		}
+
+		public static IEnumerable<SelectListItem> ProjectListPriceDDList()
+		{
+			return new List<SelectListItem>()
+			{
+				new SelectListItem(),
+				new SelectListItem() { Text = "< $9,999" },
+				new SelectListItem() { Text = "$10,000 - $19,999" },
+				new SelectListItem() { Text = "$20,000 - $29,999" },
+				new SelectListItem() { Text = "$30,000 - $49,999" },
+				new SelectListItem() { Text = "$50,000 - $99,999" },
+				new SelectListItem() { Text = "$100,000 - $249,999" },
+				new SelectListItem() { Text = "> $250,000﻿" },
+			};
+		}
     }
 }
