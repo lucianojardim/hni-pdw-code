@@ -114,7 +114,14 @@ namespace PWDRepositories
 				DealerSalesRepContact = sInfo.DealerSalesRepID.HasValue ? sInfo.DealerSalesRep.ContactInfo : "",
 				SpecTeamMemberName = sInfo.PaoliSpecTeamMemberID.HasValue ? sInfo.SpecTeamMember.FullName : "Not Assigned",
 				EndCustomer = sInfo.ProjectID.HasValue ? (sInfo.Project.EndCustomerID.HasValue ? sInfo.Project.EndCustomerCompany.Name : "") : "",
-				ProjectSize = sInfo.ProjectSize,
+				ProjectScope = sInfo.ProjectScope,
+				ProjectListPrice = sInfo.ProjectListPrice,
+				IsPhasedProject = sInfo.IsPhasedProject,
+				NumberOfPhases = sInfo.NumberOfPhases,
+				IsStandardsProgram = sInfo.IsStandardsProgram,
+				ProjectFirstOrderDate = sInfo.ProjectFirstOrderDate,
+				Competitors = sInfo.Competitors,
+				CompetitorSeries = sInfo.CompetitorSeries,
 				NeedFloorplanSpecs = sInfo.NeedFloorplanSpecs,
 				NeedValueEng = sInfo.NeedValueEng,
 				NeedPhotoRendering = sInfo.NeedPhotoRendering,
@@ -935,7 +942,7 @@ namespace PWDRepositories
 				firstName = target.FirstName,
 				companyName = request.ProjectID.HasValue ? (request.Project.EndCustomerID.HasValue ? request.Project.EndCustomerCompany.Name : "") : "",
 				projectName = request.ProjectID.HasValue ? request.Project.ProjectName : "",
-				scopeDescription = request.ProjectSize,
+				scopeDescription = request.ProjectScope,
 				createdBy = request.CreatedByUserName
 			};
 

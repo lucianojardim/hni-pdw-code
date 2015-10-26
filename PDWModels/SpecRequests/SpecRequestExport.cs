@@ -25,7 +25,14 @@ namespace PDWModels.SpecRequests
 		public string EndCustomer { get; set; }
 		public string SpecTeamMemberName { get; set; }
 		public string ProjectName { get; set; }
-		public string ProjectSize { get; set; }
+		public string ProjectScope { get; set; }
+		public string ProjectListPrice { get; set; }
+		public bool? IsPhasedProject { get; set; }
+		public int? NumberOfPhases { get; set; }
+		public bool? IsStandardsProgram { get; set; }
+		public DateTime? ProjectFirstOrderDate { get; set; }
+		public string Competitors { get; set; }
+		public string CompetitorSeries { get; set; }
 		public bool IsGSA { get; set; }
 		public string ContractName { get; set; }
 		public bool AvailableForIn2 { get; set; }
