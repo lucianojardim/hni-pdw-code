@@ -20,6 +20,9 @@
 @using ProductDataWarehouse.Models
 @using ProductDataWarehouse.Controllers
 
+<link href="@Url.Content( "~/Content/jquery.tagit.css" )" rel="stylesheet" type="text/css" />
+<script src="@Url.Content( "~/Scripts/tag-it.js" )" type="text/javascript"></script>
+
     <script type="text/javascript">
     	var fileCount = 1;
     	$(document).ready(function () {
@@ -63,6 +66,11 @@
             	changeMonth: true,
             	changeYear: true
             });
+
+    		$('#Competitors').tagit({
+				availableTags: ['9 to 5','Dar Ran','First Office','Global','Gunlocks','Haworth','Herman Miller','HON','Indiana','JOFCO','JSI','Kimball','Knoll','Krug','National','OFS','A18','Steelcase﻿'],
+    			allowSpaces: true
+    		});
 
     		$('.cancelBtn').click(function (e) {
     			window.location.href = '@Url.Action( "Manage" )';
@@ -677,7 +685,7 @@
 					<td>Projected First Order Date</td><td>@Html.TextBoxFor( m => m.FirstOrderDate, new { @readonly = "readonly", @Value = Model.FirstOrderDate.HasValue ? Model.FirstOrderDate.Value.ToString( "MM/dd/yyyy" ) : null } )</td><td class="numberOfPhases">Number of Phases</td><td class="numberOfPhases">@Html.TextBoxFor( m => m.NumberOfPhases )</td>
 				</tr>
 				<tr>
-					<td>Competitors</td><td>@Html.TextBoxFor( m => m.Competitors )</td><td colspan="2">@Html.CheckBoxFor( m => m.IsStandardsProgram ) Standards Program</td>
+					<td>Competitors</td><td>@Html.TextBoxFor( m => m.Competitors, new { style = "display:none" } )</td><td colspan="2">@Html.CheckBoxFor( m => m.IsStandardsProgram ) Standards Program</td>
 				</tr>
 				<tr>
 					<td>Competitor Series</td><td>@Html.TextBoxFor( m => m.CompetitorSeries )</td>
