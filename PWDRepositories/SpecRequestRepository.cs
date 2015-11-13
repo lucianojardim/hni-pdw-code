@@ -2301,7 +2301,7 @@ namespace PWDRepositories
 			return database.SaveChanges() > 0;
 		}
 
-		public bool ReOpenRequest( int requestId )
+		public bool ReOpenRequest( int requestId, bool doEmail )
 		{
 			var specInfo = database.SpecRequests
 				.Include( s => s.SpecRequestEvents )
@@ -2335,7 +2335,10 @@ namespace PWDRepositories
 
 			if( database.SaveChanges() > 0 )
 			{
-				EmailForReopenedRequest( specInfo, new List<EmailSender.FileDetail>(), null );
+				if( doEmail )
+				{
+					EmailForReopenedRequest( specInfo, new List<EmailSender.FileDetail>(), null );
+				}
 
 				return true;
 			}

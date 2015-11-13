@@ -335,11 +335,11 @@ namespace ProductDataWarehouse.Controllers
 		}
 
 		[PaoliAuthorize( "CanManageTypicals" )]
-		public JsonResult OpenRequest( int id )
+		public JsonResult OpenRequest( int id, bool doEmail )
 		{
 			using( var sRepository = new SpecRequestRepository() )
 			{
-				bool bSuccess = sRepository.ReOpenRequest( id );
+				bool bSuccess = sRepository.ReOpenRequest( id, doEmail );
 
 				return Json( new
 				{
