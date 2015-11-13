@@ -52,9 +52,9 @@ namespace PDWDBContext
         public string FinishCode { get; set; }
         public Nullable<int> SeatingGrade { get; set; }
         public bool LaminateIsTFL { get; set; }
-        public Nullable<int> ImageApplication { get; set; }
         public string FeaturedSeries { get; set; }
         public string SeriesList { get; set; }
+        public string ImageApplicationList { get; set; }
     
         public virtual ICollection<SeriesImageFile> SeriesImageFiles { get; set; }
         public virtual ICollection<TypicalImageFile> TypicalImageFiles { get; set; }

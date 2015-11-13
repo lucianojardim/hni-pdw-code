@@ -648,15 +648,10 @@ namespace ProductDataWarehouse.Controllers
 			};
 		}
 
-		static public IEnumerable<SelectListItem> GetImageApplicationList()
+		static public string GetImageApplicationList()
 		{
-			return new List<SelectListItem>()
-			{
-				new SelectListItem() { Text = "", Value = "" },
-				new SelectListItem() { Text = "Private Office", Value = ((int)ImageInformation.ImageApplications.PrivateOffice).ToString() },
-				new SelectListItem() { Text = "Teaming", Value = ((int)ImageInformation.ImageApplications.Teaming).ToString() },
-				new SelectListItem() { Text = "Collaborative", Value = ((int)ImageInformation.ImageApplications.Collaborative).ToString() },
-			};
+			var list = new List<string>() { "Private Office", "Teaming", "Collaborative", "Training", "Café" };
+			return "'" + string.Join( "','", list ) + "'";
 		}
 
 		static public IEnumerable<SelectListItem> GetVeneerGradeList()

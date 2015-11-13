@@ -78,7 +78,7 @@ namespace PWDRepositories
 				ControlMechanism = img.ControlMechanism,
 				ControlDescription = img.ControlDescription,
 				GoToGuidePageNum = img.GoToGuidePage ?? 0,
-				ImageApplication = img.ImageApplication,
+				ImageApplication = img.ImageApplicationList,
 				SeriesList = string.Join( ",", img.ImageFileSerieses.Where( st => !st.IsFeatured ).Select( st => st.Series.Name ) ),
 				FeaturedSeries = string.Join( ",", img.ImageFileSerieses.Where( st => st.IsFeatured ).Select( st => st.Series.Name ) ),
 			};
@@ -243,8 +243,8 @@ namespace PWDRepositories
 			}
 			if( ( imageApplications ?? "" ).Any() )
 			{
-				var appList = imageApplications.Split( ',' ).Select( i => int.Parse( i ) ).ToList();
-				imgList = imgList.Where( img => appList.Contains( img.ImageApplication ?? 0 ) );
+				var appList = imageApplications.Split( ',' ).ToList();
+				imgList = imgList.Where( img => appList.Any( a => img.ImageApplicationList.Contains( a ) ) );
 			}
 			if( pubId.HasValue )
 			{
@@ -350,8 +350,8 @@ namespace PWDRepositories
 			}
 			if( ( imageApplications ?? "" ).Any() )
 			{
-				var appList = imageApplications.Split( ',' ).Select( i => int.Parse( i ) ).ToList();
-				imgList = imgList.Where( img => appList.Contains( img.ImageApplication ?? 0 ) );
+				var appList = imageApplications.Split( ',' ).ToList();
+				imgList = imgList.Where( img => appList.Any( a => img.ImageApplicationList.Contains( a ) ) );
 			}
 			if( ( keywords ?? "" ).Any() )
 			{
@@ -818,7 +818,7 @@ namespace PWDRepositories
 			imgData.ControlMechanism = imgInfo.ControlMechanism;
 			imgData.ControlDescription = imgInfo.ControlDescription;
 			imgData.GoToGuidePage = imgInfo.GoToGuidePageNum;
-			imgData.ImageApplication = imgInfo.ImageApplication;
+			imgData.ImageApplicationList = imgInfo.ImageApplication;
 
 			if( !string.IsNullOrEmpty( imgInfo.FeaturedSeries ) )
 			{
@@ -893,7 +893,7 @@ namespace PWDRepositories
 			imgData.ControlMechanism = imgInfo.ControlMechanism;
 			imgData.ControlDescription = imgInfo.ControlDescription;
 			imgData.GoToGuidePage = imgInfo.GoToGuidePageNum;
-			imgData.ImageApplication = imgInfo.ImageApplication;
+			imgData.ImageApplicationList = imgInfo.ImageApplication;
 
 			imgData.ImageFileSerieses.ToList().ForEach( st => database.ImageFileSerieses.Remove( st ) );
 

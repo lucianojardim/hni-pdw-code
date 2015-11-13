@@ -61,7 +61,9 @@ namespace PDWModels.Images
 		{
 			PrivateOffice = 1,
 			Teaming = 2,
-			Collaborative = 3
+			Collaborative = 3,
+			Training = 4,
+			Cafe = 5
 		}
 
 		public int ImageID { get; set; }
@@ -107,7 +109,7 @@ namespace PDWModels.Images
 		[DisplayName( "Seating Grade" )]
 		public int? SeatingGrade { get; set; }
 		[DisplayName( "Image Application" )]
-		public int? ImageApplication { get; set; }
+		public string ImageApplication { get; set; }
 
 		[DisplayName( "Featured Table Shape" )]
 		public string FeaturedTableShape { get; set; }
