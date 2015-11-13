@@ -89,6 +89,11 @@ namespace PDWDBContext
         public Nullable<System.DateTime> ProjectFirstOrderDate { get; set; }
         public string Competitors { get; set; }
         public string CompetitorSeries { get; set; }
+        public string Status { get; set; }
+        public Nullable<System.DateTime> OrderPlacedDate { get; set; }
+        public string OrderCost { get; set; }
+        public string AckNumber { get; set; }
+        public string LostReason { get; set; }
     
         public virtual Company PrimaryCompany { get; set; }
         public virtual Company PaoliSalesRepGroup { get; set; }

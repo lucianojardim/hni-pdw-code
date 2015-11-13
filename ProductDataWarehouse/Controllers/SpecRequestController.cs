@@ -443,5 +443,16 @@ namespace ProductDataWarehouse.Controllers
 				new SelectListItem() { Text = "> $250,000﻿" },
 			};
 		}
+
+		public static IEnumerable<SelectListItem> SpecStatusDDList()
+		{
+			return new List<SelectListItem>()
+			{
+				new SelectListItem(),
+				new SelectListItem() { Text = "Pending" },
+				new SelectListItem() { Text = "Won" },
+				new SelectListItem() { Text = "Lost" },
+			};
+		}
     }
 }

@@ -67,9 +67,33 @@
             	changeYear: true
             });
 
+    		$('#OrderPlacedDate').datepicker(
+            {
+            	dateFormat: "mm/dd/yy",
+            	changeMonth: true,
+            	changeYear: true
+            });
+
     		$('#Competitors').tagit({
 				availableTags: ['9 to 5','Dar Ran','First Office','Global','Gunlocks','Haworth','Herman Miller','HON','Indiana','JOFCO','JSI','Kimball','Knoll','Krug','National','OFS','A18','Steelcase﻿'],
     			allowSpaces: true
+    		});
+
+			var reasonList = ['Price','Product Deficiency','Lead Time','Don\'t Know'];
+    		$('#LostReason').tagit({
+				availableTags: reasonList,
+    			allowSpaces: true,
+				showAutocompleteOnFocus: true,
+    			beforeTagAdded: function (event, ui) {
+    				// do something special
+    				var isValid = false;
+    				$.each(reasonList, function (idx, i) {
+    					if (i.toLowerCase() == ui.tagLabel.toLowerCase()) {
+    						isValid = true;
+    					}
+    				});
+    				return isValid;
+    			}
     		});
 
     		$('.cancelBtn').click(function (e) {
@@ -215,8 +239,27 @@
 
 			showHidePhases();
 			$('#IsPhasedProject').click(showHidePhases);
+
+			specStatusChange();
     	});
 
+		function specStatusChange() {
+			switch($('#Status').val())
+			{
+			case 'Won':
+				$('.wonItems').show();
+				$('.lostItems').hide();
+				break;
+			case 'Lost':
+				$('.wonItems').hide();
+				$('.lostItems').show();
+				break;
+			default:
+				$('.wonItems').hide();
+				$('.lostItems').hide();
+				break;
+			}
+		}
 
 		function showHidePhases() {
 			if ($('#IsPhasedProject:checked').length > 0) {
@@ -630,6 +673,31 @@
 			</table>
 		</div>
 		<div class="requestPanel bglg">
+			<h3>Sales Users</h3>
+			<table cellpadding="0" cellspacing="0" class="dataLayout">
+				<tr>
+					<td>Project Scope</td><td>@Html.DropDownListFor( m => m.ProjectScope, SpecRequestController.ProjectScopeDDList() )</td><td colspan="2">@Html.CheckBoxFor( m => m.AvailableForIn2 ) @Html.MJLabelFor( m => m.AvailableForIn2, false )</td>
+				</tr>
+				<tr>
+					<td>Projected List $</td><td>@Html.DropDownListFor( m => m.ProjectedListPrice, SpecRequestController.ProjectListPriceDDList() )</td><td colspan="2">@Html.CheckBoxFor( m => m.IsPhasedProject ) Phased Project</td>
+				</tr>
+				<tr>
+					<td>Projected First Order Date</td><td>@Html.TextBoxFor( m => m.FirstOrderDate, new { @readonly = "readonly", @Value = Model.FirstOrderDate.HasValue ? Model.FirstOrderDate.Value.ToString( "MM/dd/yyyy" ) : null } )</td><td class="numberOfPhases">Number of Phases</td><td class="numberOfPhases">@Html.TextBoxFor( m => m.NumberOfPhases )</td>
+				</tr>
+				<tr>
+					<td>Competitors</td><td>@Html.TextBoxFor( m => m.Competitors, new { style = "display:none" } )</td><td colspan="2">@Html.CheckBoxFor( m => m.IsStandardsProgram ) Standards Program</td>
+				</tr>
+				<tr>
+					<td>Competitor Series</td><td>@Html.TextBoxFor( m => m.CompetitorSeries )</td>
+				</tr>
+				<tr><td>Spec Status</td><td>@Html.DropDownListFor( m => m.Status, SpecRequestController.SpecStatusDDList(), new { onChange = "specStatusChange()" } )</td></tr>
+				<tr class="wonItems"><td>Order Placed Date</td><td>@Html.TextBoxFor( m => m.OrderPlacedDate, new { @readonly = "readonly", @Value = Model.OrderPlacedDate.HasValue ? Model.OrderPlacedDate.Value.ToString( "MM/dd/yyyy" ) : null } )</td></tr>
+				<tr class="wonItems"><td>Total $ of Order</td><td>@Html.TextBoxFor( m => m.OrderCost )</td></tr>
+				<tr class="wonItems"><td>Acknowledgement Number</td><td>@Html.TextBoxFor( m => m.AckNumber )</td></tr>
+				<tr class="lostItems"><td>Why Lost</td><td>@Html.TextBoxFor( m => m.LostReason, new { style = "display:none" } )</td></tr>
+			</table>
+		</div>
+		<div class="requestPanel bglg">
 			<h3>Spec Team Only</h3>
 			<table cellpadding="0" cellspacing="0" class="dataLayout">
 				<tr>
@@ -670,26 +738,6 @@
 				<td class="double">@Html.MJLabelFor( m => m.InternalNotes, true )<br />@Html.TextAreaFor( m => m.InternalNotes, new { cols = 30, rows = 10 } )</td>
 				</tr>
 				<tr><td>&nbsp;</td><td></td></tr>
-			</table>
-		</div>
-		<div class="requestPanel">
-			<h3>About This Project</h3>
-			<table cellpadding="0" cellspacing="0" class="dataLayout">
-				<tr>
-					<td>Project Scope</td><td>@Html.DropDownListFor( m => m.ProjectScope, SpecRequestController.ProjectScopeDDList() )</td><td colspan="2">@Html.CheckBoxFor( m => m.AvailableForIn2 ) @Html.MJLabelFor( m => m.AvailableForIn2, false )</td>
-				</tr>
-				<tr>
-					<td>Projected List $</td><td>@Html.DropDownListFor( m => m.ProjectedListPrice, SpecRequestController.ProjectListPriceDDList() )</td><td colspan="2">@Html.CheckBoxFor( m => m.IsPhasedProject ) Phased Project</td>
-				</tr>
-				<tr>
-					<td>Projected First Order Date</td><td>@Html.TextBoxFor( m => m.FirstOrderDate, new { @readonly = "readonly", @Value = Model.FirstOrderDate.HasValue ? Model.FirstOrderDate.Value.ToString( "MM/dd/yyyy" ) : null } )</td><td class="numberOfPhases">Number of Phases</td><td class="numberOfPhases">@Html.TextBoxFor( m => m.NumberOfPhases )</td>
-				</tr>
-				<tr>
-					<td>Competitors</td><td>@Html.TextBoxFor( m => m.Competitors, new { style = "display:none" } )</td><td colspan="2">@Html.CheckBoxFor( m => m.IsStandardsProgram ) Standards Program</td>
-				</tr>
-				<tr>
-					<td>Competitor Series</td><td>@Html.TextBoxFor( m => m.CompetitorSeries )</td>
-				</tr>
 			</table>
 		</div>
 		<div class="requestPanel">

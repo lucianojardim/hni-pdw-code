@@ -76,6 +76,12 @@ namespace PDWModels.SpecRequests
 		public bool RealIsGSA { get; set; }
 		public string RealContractName { get; set; }
 
+		public string Status { get; set; }
+		public DateTime? OrderPlacedDate { get; set; }
+		public string OrderCost { get; set; }
+		public string AckNumber { get; set; }
+		public string LostReason { get; set; }
+
 		[DisplayName( "Floorplan Specifications" )]
 		public bool NeedFloorplanSpecs { get; set; }
 		/* obselete

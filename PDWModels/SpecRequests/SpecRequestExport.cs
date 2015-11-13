@@ -34,6 +34,11 @@ namespace PDWModels.SpecRequests
 		public string Competitors { get; set; }
 		public string CompetitorSeries { get; set; }
 		public bool IsGSA { get; set; }
+		public string Status { get; set; }
+		public DateTime? OrderPlacedDate { get; set; }
+		public string OrderCost { get; set; }
+		public string AckNumber { get; set; }
+		public string LostReason { get; set; }
 		public string ContractName { get; set; }
 		public bool AvailableForIn2 { get; set; }
 		public bool NeedFloorplanSpecs { get; set; }

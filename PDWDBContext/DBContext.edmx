@@ -1053,6 +1053,11 @@
           <Property Name="ProjectFirstOrderDate" Type="date" />
           <Property Name="Competitors" Type="nvarchar(max)" />
           <Property Name="CompetitorSeries" Type="nvarchar" MaxLength="200" />
+          <Property Name="Status" Type="nvarchar" MaxLength="10" />
+          <Property Name="OrderPlacedDate" Type="date" />
+          <Property Name="OrderCost" Type="nvarchar" MaxLength="50" />
+          <Property Name="AckNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="LostReason" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="TAttributeOptions">
           <Key>
@@ -3602,6 +3607,11 @@
           <Property Type="DateTime" Name="ProjectFirstOrderDate" />
           <Property Type="String" Name="Competitors" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="CompetitorSeries" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Status" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="OrderPlacedDate" />
+          <Property Type="String" Name="OrderCost" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="AckNumber" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LostReason" MaxLength="250" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="fkSpec_Company">
           <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="0..1" />
@@ -5059,6 +5069,11 @@
           <EntitySetMapping Name="SpecRequests">
             <EntityTypeMapping TypeName="PaoliPDWModel.SpecRequest">
               <MappingFragment StoreEntitySet="SpecRequests">
+                <ScalarProperty Name="LostReason" ColumnName="LostReason" />
+                <ScalarProperty Name="AckNumber" ColumnName="AckNumber" />
+                <ScalarProperty Name="OrderCost" ColumnName="OrderCost" />
+                <ScalarProperty Name="OrderPlacedDate" ColumnName="OrderPlacedDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="CompetitorSeries" ColumnName="CompetitorSeries" />
                 <ScalarProperty Name="Competitors" ColumnName="Competitors" />
                 <ScalarProperty Name="ProjectFirstOrderDate" ColumnName="ProjectFirstOrderDate" />

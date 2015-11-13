@@ -147,7 +147,12 @@ namespace PWDRepositories
 				SpecTeamNotes = sInfo.SpecTeamNotes,
 				InternalNotes = sInfo.InternalNotes,
 				CompletedDate = sInfo.CompletedOnDate,
-				ReOpenedCount = sInfo.ReOpenedCount
+				ReOpenedCount = sInfo.ReOpenedCount,
+				Status = sInfo.Status,
+				OrderPlacedDate = sInfo.OrderPlacedDate,
+				OrderCost = sInfo.OrderCost,
+				AckNumber = sInfo.AckNumber,
+				LostReason = sInfo.LostReason,
 
 			};
 		}
@@ -740,6 +745,11 @@ namespace PWDRepositories
 				SpecTeamNotes = sInfo.SpecTeamNotes,
 				PreviousSpecTeamNotes = sInfo.SpecTeamNotes,
 				InternalNotes = sInfo.InternalNotes,
+				Status = sInfo.Status,
+				OrderPlacedDate = sInfo.OrderPlacedDate,
+				OrderCost = sInfo.OrderCost,
+				AckNumber = sInfo.AckNumber,
+				LostReason = sInfo.LostReason,
 
 				CreatedByUser = sInfo.CreatedByUserName,
 				CreatedByUserCompany = sInfo.CreatedByCompany,
@@ -786,6 +796,7 @@ namespace PWDRepositories
 			newSpec.ProjectFirstOrderDate = sInfo.FirstOrderDate;
 			newSpec.Competitors = sInfo.Competitors;
 			newSpec.CompetitorSeries = sInfo.CompetitorSeries;
+			newSpec.Status = "Pending";
 			newSpec.NeedFloorplanSpecs = sInfo.NeedFloorplanSpecs;
 			newSpec.NeedValueEng = sInfo.NeedValueEng;
 			newSpec.NeedPhotoRendering = sInfo.NeedPhotoRendering;
@@ -1100,7 +1111,29 @@ namespace PWDRepositories
 				specInfo.SpecTeamNotes += ( ( ( specInfo.SpecTeamNotes ?? "" ).Any() ? "\n" : "" ) + string.Format( "Notes added by {0}: {1}", PaoliWebUser.CurrentUser.FullName, sInfo.SpecTeamNotes ) );
 			}
 			specInfo.InternalNotes = sInfo.InternalNotes;
-
+			specInfo.Status = sInfo.Status;
+			switch( specInfo.Status.ToLower() )
+			{
+				case "won":
+					specInfo.OrderPlacedDate = sInfo.OrderPlacedDate;
+					specInfo.OrderCost = sInfo.OrderCost;
+					specInfo.AckNumber = sInfo.AckNumber;
+					specInfo.LostReason = null;
+					break;
+				case "lost":
+					specInfo.OrderPlacedDate = null;
+					specInfo.OrderCost = null;
+					specInfo.AckNumber = null;
+					specInfo.LostReason = sInfo.LostReason;
+					break;
+				case "pending":
+				default:
+					specInfo.OrderPlacedDate = null;
+					specInfo.OrderCost = null;
+					specInfo.AckNumber = null;
+					specInfo.LostReason = null;
+					break;
+			}
 			var rootLocation = Path.Combine( ConfigurationManager.AppSettings["SpecRequestDocumentLocation"], specInfo.Name );
 			var nowDate = DateTime.UtcNow;
 
