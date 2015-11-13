@@ -73,6 +73,12 @@
     		$('#EndCustomerID').rules("add", { required: true, messages: { required: "End Customer is required."} });
 			$('#DealerMemberID').rules("add", { required: true, messages: { required: "Dealership Point of Contact is required."} });
     		$('#NumberOfPhases').rules("add", { number: true, messages: { number: "Number of Phases must be a number."} });
+			$('#IsPhasedProject').rules("add", { required: true, messages: { required: "Phased Project is required."} });
+			$('#IsStandardsProgram').rules("add", { required: true, messages: { required: "Standards Program is required."} });
+			$('#FirstOrderDate').rules("add", { required: true, messages: { required: "Projected First Order Date is required."} });
+			$('#ProjectedListPrice').rules("add", { required: true, messages: { required: "Projected List $ is required."} });
+			$('#ProjectScope').rules("add", { required: true, messages: { required: "Project Scope is required."} });
+			$('#SeriesList').rules("add", { required: true, messages: { required: "Please select at least one series."} });
 
 			$('#PaoliSalesRepGroupID').on('change', reloadPaoliSalesRepList);
 			$('#DealerID').on('change', reloadDealerSalesRepList);
@@ -83,8 +89,11 @@
             {
             	dateFormat: "mm/dd/yy",
             	changeMonth: true,
-            	changeYear: true
-            });
+            	changeYear: true,
+				onSelect: function() {
+					$('#FirstOrderDate').valid(); 
+				}
+			});
 
     		$('#Competitors').tagit({
 				availableTags: ['9 to 5','Dar Ran','First Office','Global','Gunlocks','Haworth','Herman Miller','HON','Indiana','JOFCO','JSI','Kimball','Knoll','Krug','National','OFS','A18','Steelcase﻿'],
@@ -167,16 +176,19 @@
 				showDetailsArea();
 				showHideDrawerOptions();
 				showHideCGCSOptions();
+				setSeriesList();
 			});
 
 			$('.chkSeating').click(function (e) {
 				showDetailsArea();
 				showHideFabric();
+				setSeriesList();
 			});
 
 			$('.chkConferencing').click(function (e) {
 				showDetailsArea();
 				showHideCGCSOptions();
+				setSeriesList();
 			});
 
 			showHideLaminatePreference();
@@ -262,7 +274,7 @@
 			});
 
 			showHidePhases();
-			$('.fakePhasedProject').click(function(e){
+			$('#IsPhasedProject').change(function(e){
 				showHidePhases();
 			});
 
@@ -281,6 +293,11 @@
 			$('#addlMultipleFiles').on('change', multipleFileChanged);
 		});
 
+		function setSeriesList() {
+			$('#SeriesList').val($('.chkSeries:checked').length > 0 ? 'yes' : '');
+			$('#SeriesList').valid(); 
+		}
+
 		function showHideContractInfo() {
 			if ($('#NewIsGSA:checked').length > 0) {
 				$('.gsaOnly').show();
@@ -291,7 +308,7 @@
 		}
 
 		function showHidePhases() {
-			if ($('#IsPhasedProject:checked').length > 0) {
+			if ($('#IsPhasedProject').val() == 'true') {
 				$('.numberOfPhases').show();
 			} else {
 				$('.numberOfPhases').hide();
@@ -487,7 +504,7 @@
 				$('#requestorList2 .coln3').append('<h5>Projected List $</h5>');
 				$('#requestorList2 .coln4').append('<h5>' + $('#ProjectedListPrice').val() + '</h5>');
     		}
-			if ($('#IsPhasedProject').is(':checked')) {
+			if ($('#IsPhasedProject').val() == 'true') {
 				$('#requestorList2 .coln3').append('<h5>Phased Project</h5>');
 				$('#requestorList2 .coln4').append('<h5>Yes</h5>');
     			if ($('#NumberOfPhases').val() != null && $('#NumberOfPhases').val() != '') {
@@ -499,7 +516,7 @@
 				$('#requestorList2 .coln3').append('<h5>Projected First Order Date</h5>');
 				$('#requestorList2 .coln4').append('<h5>' + $('#FirstOrderDate').val() + '</h5>');
     		}
-			if ($('#IsStandardsProgram').is(':checked')) {
+			if ($('#IsStandardsProgram').val() == 'true') {
 				$('#requestorList2 .coln3').append('<h5>Standards Program</h5>');
 				$('#requestorList2 .coln4').append('<h5>Yes</h5>');
 			}
@@ -952,7 +969,8 @@
 				 <ul>
 					 <li>
 						 <div class="box2">
-							 <label>Project Scope</label>
+							 <label>Project Scope
+							 @Html.ValidationMessageFor( m => m.ProjectScope )</label>
 							 <div class="colmn1">
 								 @Html.DropDownListFor( m => m.ProjectScope, SpecRequestController.ProjectScopeDDList() )
 							 </div>
@@ -968,23 +986,20 @@
 					 </li>
 					 <li>
 						 <div class="box2">
-							 <label>Projected List $</label>
+							 <label>Projected List $
+							 @Html.ValidationMessageFor( m => m.ProjectedListPrice )</label>
 							 <div class="colmn1">
 								 @Html.DropDownListFor( m => m.ProjectedListPrice, SpecRequestController.ProjectListPriceDDList() )
 							 </div>
-							 <div class="colmn4">
-								 <div class="colmn4_lt">
-									 <div class="checkbox fakePhasedProject">
-										 @Html.CheckBoxFor( m => m.IsPhasedProject )
-										 <span>Phased Project</span>
-									 </div>
-								 </div>
-							 </div>
+							 <cite>Phased Project
+							 @Html.ValidationMessageFor( m => m.IsPhasedProject )</cite>
+							 @Html.DropDownListFor( m => m.IsPhasedProject, new List<SelectListItem>() { new SelectListItem() { Text = "", Value = "" }, new SelectListItem() { Text = "Yes", Value = "true" }, new SelectListItem() { Text = "No", Value = "false" } } )
 						 </div>
 					 </li>
 					 <li>
 						 <div class="box2">
-							 <label>Projected First Order Date</label>
+							 <label>Projected First Order Date
+							 @Html.ValidationMessageFor( m => m.FirstOrderDate )</label>
 							 <div class="colmn1">
 								 @Html.TextBoxFor( m => m.FirstOrderDate, new { @readonly = "readonly" } )
 							 </div>
@@ -998,14 +1013,9 @@
 							 <div class="colmn1">
 								 @Html.TextBoxFor( m => m.Competitors, new { style = "display:none" } )
 							 </div>
-							 <div class="colmn4">
-								 <div class="colmn4_lt">
-									 <div class="checkbox">
-										 @Html.CheckBoxFor( m => m.IsStandardsProgram )
-										 <span>Standards Program</span>
-									 </div>
-								 </div>
-							 </div>
+							 <cite>Standards Program
+							 @Html.ValidationMessageFor( m => m.IsStandardsProgram )</cite>
+							 @Html.DropDownListFor( m => m.IsStandardsProgram, new List<SelectListItem>() { new SelectListItem() { Text = "", Value = "" }, new SelectListItem() { Text = "Yes", Value = "true" }, new SelectListItem() { Text = "No", Value = "false" } } )
 						 </div>
 					 </li>
 					 <li>
@@ -1171,6 +1181,7 @@
 			 </div>
 		 </div>    
 		 <div class="main_inner1 futureSection requestPanel">
+		 <input type="hidden" name="SeriesList" id="SeriesList"/>
 			 <h3>
 				 Step 3: Product Options</h3>
 			 <div class="main_inner9_btm">
@@ -1200,7 +1211,7 @@
 									 <div class="colmn_lt">
 									 <input type="hidden" name="Casegoods.Index" value="@i" />
 										 <div class="checkbox chkCasegoods">
-											 <input type="checkbox" class="chkRealCasegoods" name="Casegoods[@i]" value="@ViewBag.BlankInformation.Casegoods[i]" />
+											 <input type="checkbox" class="chkRealCasegoods chkSeries" name="Casegoods[@i]" value="@ViewBag.BlankInformation.Casegoods[i]" />
 										 </div>
 										 <img class="seriesImage" src="/images/@(imageList.Keys.Contains( ViewBag.BlankInformation.Casegoods[i] ) ? imageList[ViewBag.BlankInformation.Casegoods[i]] : "productNoImage.png")" alt="img"/>
 									 </div>
@@ -1236,7 +1247,7 @@
 									 <div class="colmn_lt">
 										 <input type="hidden" name="Conferencing.Index" value="@i" />
 										 <div class="checkbox chkConferencing">
-											 <input type="checkbox" class="chkRealConferencing" name="Conferencing[@i]" value="@ViewBag.BlankInformation.Conferencing[i]" />
+											 <input type="checkbox" class="chkRealConferencing chkSeries" name="Conferencing[@i]" value="@ViewBag.BlankInformation.Conferencing[i]" />
 										 </div>
 										 <img class="seriesImage" src="/images/@(imageList.Keys.Contains( ViewBag.BlankInformation.Conferencing[i] ) ? imageList[ViewBag.BlankInformation.Conferencing[i]] : "productNoImage.png")" alt="img"/>
 									 </div>
@@ -1271,7 +1282,7 @@
 									 <div class="colmn_lt">
 										 <input type="hidden" name="Seating.Index" value="@i" />
 										 <div class="checkbox chkSeating">
-											 <input type="checkbox" class="chkRealSeating" name="Seating[@i]" value="@ViewBag.BlankInformation.Seating[i]" />
+											 <input type="checkbox" class="chkRealSeating chkSeries" name="Seating[@i]" value="@ViewBag.BlankInformation.Seating[i]" />
 										 </div>
 										 <img class="seriesImage" src="/images/@(imageList.Keys.Contains( ViewBag.BlankInformation.Seating[i] ) ? imageList[ViewBag.BlankInformation.Seating[i]] : "productNoImage.png")" alt="img"/>
 									 </div>
@@ -1292,6 +1303,7 @@
 						 <i class="clear_0"></i>
 					 </div>
 				 </div>
+				 @Html.ValidationMessageFor( m => m.SeriesList )
 						 <div class="main_inner9_bottom needMoreDetails" style="display:none;">
 							 <h3>We need further details</h3>
 							 <div class="cgcsOnly">

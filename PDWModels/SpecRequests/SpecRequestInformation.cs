@@ -113,6 +113,7 @@ namespace PDWModels.SpecRequests
 		public List<string> Conferencing { get; set; }
 		[DisplayName( "Finishes" )]
 		public List<string> Finishes { get; set; }
+		public string SeriesList { get; set; }
 		[DisplayName( "Laminate Preference" )]
 		public string LaminatePreference { get; set; }
 		[DisplayName( "Veneer Preference" )]
