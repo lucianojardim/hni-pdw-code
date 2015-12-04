@@ -21,7 +21,7 @@
 			}
 
 			$('.openReqBtn').click(function(e) {
-				var bEmail = confirm('You are about to re-open this Spec Request. An email will now be sent to all affected users with an update regarding the status of this request.\n\nClick "OK" to Send an email notification to users.\n\nClick "Cancel" to save this project without sending an email notification');
+				var bEmail = confirm('You are about to re-open this Spec Request. An email will now be sent to all affected users with an update regarding the status of this request.\n\nClick "OK" to Send an email notification to users.\n\nClick "Cancel" to re-open this project without sending an email notification');
 				makeAjaxCall('/SpecRequest/OpenRequest',
 					{ id: '@Model.RequestID', doEmail: bEmail },
 					function (data, textStatus, jqXHR) {
