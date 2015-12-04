@@ -238,7 +238,9 @@
 			}
 
 			showHidePhases();
-			$('#IsPhasedProject').click(showHidePhases);
+			$('#IsPhasedProject').change(function(e){
+				showHidePhases();
+			});
 
 			specStatusChange();
     	});
@@ -262,7 +264,7 @@
 		}
 
 		function showHidePhases() {
-			if ($('#IsPhasedProject:checked').length > 0) {
+			if ($('#IsPhasedProject').val() == 'true') {
 				$('.numberOfPhases').show();
 			} else {
 				$('.numberOfPhases').hide();
@@ -679,13 +681,13 @@
 					<td>Project Scope</td><td>@Html.DropDownListFor( m => m.ProjectScope, SpecRequestController.ProjectScopeDDList() )</td><td colspan="2">@Html.CheckBoxFor( m => m.AvailableForIn2 ) @Html.MJLabelFor( m => m.AvailableForIn2, false )</td>
 				</tr>
 				<tr>
-					<td>Projected List $</td><td>@Html.DropDownListFor( m => m.ProjectedListPrice, SpecRequestController.ProjectListPriceDDList() )</td><td colspan="2">@Html.CheckBoxFor( m => m.IsPhasedProject ) Phased Project</td>
+					<td>Projected List $</td><td>@Html.DropDownListFor( m => m.ProjectedListPrice, SpecRequestController.ProjectListPriceDDList() )</td><td>Phased Project</td><td>@Html.DropDownListFor( m => m.IsPhasedProject, new List<SelectListItem>() { new SelectListItem() { Text = "", Value = "" }, new SelectListItem() { Text = "Yes", Value = "true" }, new SelectListItem() { Text = "No", Value = "false" } } )</td>
 				</tr>
 				<tr>
 					<td>Projected First Order Date</td><td>@Html.TextBoxFor( m => m.FirstOrderDate, new { @readonly = "readonly", @Value = Model.FirstOrderDate.HasValue ? Model.FirstOrderDate.Value.ToString( "MM/dd/yyyy" ) : null } )</td><td class="numberOfPhases">Number of Phases</td><td class="numberOfPhases">@Html.TextBoxFor( m => m.NumberOfPhases )</td>
 				</tr>
 				<tr>
-					<td>Competitors</td><td>@Html.TextBoxFor( m => m.Competitors, new { style = "display:none" } )</td><td colspan="2">@Html.CheckBoxFor( m => m.IsStandardsProgram ) Standards Program</td>
+					<td>Competitors</td><td>@Html.TextBoxFor( m => m.Competitors, new { style = "display:none" } )</td><td>Standards Program</td><td>@Html.DropDownListFor( m => m.IsStandardsProgram, new List<SelectListItem>() { new SelectListItem() { Text = "", Value = "" }, new SelectListItem() { Text = "Yes", Value = "true" }, new SelectListItem() { Text = "No", Value = "false" } } )</td>
 				</tr>
 				<tr>
 					<td>Competitor Series</td><td>@Html.TextBoxFor( m => m.CompetitorSeries )</td>

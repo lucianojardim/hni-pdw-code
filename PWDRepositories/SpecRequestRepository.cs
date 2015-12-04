@@ -1112,7 +1112,7 @@ namespace PWDRepositories
 			}
 			specInfo.InternalNotes = sInfo.InternalNotes;
 			specInfo.Status = sInfo.Status;
-			switch( specInfo.Status.ToLower() )
+			switch( (specInfo.Status ?? "").ToLower() )
 			{
 				case "won":
 					specInfo.OrderPlacedDate = sInfo.OrderPlacedDate;
