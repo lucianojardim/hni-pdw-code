@@ -1,0 +1,2363 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PaoliPDWModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="PaoliPDWEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AttributeOptions" EntityType="PaoliPDWModel.AttributeOption" />
+    <EntitySet Name="Attributes" EntityType="PaoliPDWModel.Attribute" />
+    <EntitySet Name="Categories" EntityType="PaoliPDWModel.Category" />
+    <EntitySet Name="Serieses" EntityType="PaoliPDWModel.Series" />
+    <EntitySet Name="SeriesIntAttributes" EntityType="PaoliPDWModel.SeriesIntAttribute" />
+    <EntitySet Name="SeriesOptionAttributes" EntityType="PaoliPDWModel.SeriesOptionAttribute" />
+    <EntitySet Name="SeriesTextAttributes" EntityType="PaoliPDWModel.SeriesTextAttribute" />
+    <AssociationSet Name="fkOption_Attribute" Association="PaoliPDWModel.fkOption_Attribute">
+      <End Role="Attributes" EntitySet="Attributes" />
+      <End Role="AttributeOptions" EntitySet="AttributeOptions" />
+    </AssociationSet>
+    <AssociationSet Name="fkSOA_AttributeOption" Association="PaoliPDWModel.fkSOA_AttributeOption">
+      <End Role="AttributeOptions" EntitySet="AttributeOptions" />
+      <End Role="SeriesOptionAttributes" EntitySet="SeriesOptionAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkSIA_Attribute" Association="PaoliPDWModel.fkSIA_Attribute">
+      <End Role="Attributes" EntitySet="Attributes" />
+      <End Role="SeriesIntAttributes" EntitySet="SeriesIntAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkSOA_Attribute" Association="PaoliPDWModel.fkSOA_Attribute">
+      <End Role="Attributes" EntitySet="Attributes" />
+      <End Role="SeriesOptionAttributes" EntitySet="SeriesOptionAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkSTA_Attribute" Association="PaoliPDWModel.fkSTA_Attribute">
+      <End Role="Attributes" EntitySet="Attributes" />
+      <End Role="SeriesTextAttributes" EntitySet="SeriesTextAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkSIA_Series" Association="PaoliPDWModel.fkSIA_Series">
+      <End Role="Serieses" EntitySet="Serieses" />
+      <End Role="SeriesIntAttributes" EntitySet="SeriesIntAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkSOA_Series" Association="PaoliPDWModel.fkSOA_Series">
+      <End Role="Serieses" EntitySet="Serieses" />
+      <End Role="SeriesOptionAttributes" EntitySet="SeriesOptionAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkSTA_Series" Association="PaoliPDWModel.fkSTA_Series">
+      <End Role="Serieses" EntitySet="Serieses" />
+      <End Role="SeriesTextAttributes" EntitySet="SeriesTextAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkSeries_Category" Association="PaoliPDWModel.fkSeries_Category">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Series" EntitySet="Serieses" />
+    </AssociationSet>
+    <EntitySet Name="ImageFiles" EntityType="PaoliPDWModel.ImageFile" />
+    <EntitySet Name="SeriesImageFiles" EntityType="PaoliPDWModel.SeriesImageFile" />
+    <AssociationSet Name="fkSIF_Image" Association="PaoliPDWModel.fkSIF_Image">
+      <End Role="ImageFile" EntitySet="ImageFiles" />
+      <End Role="SeriesImageFile" EntitySet="SeriesImageFiles" />
+    </AssociationSet>
+    <AssociationSet Name="fkSIF_Series" Association="PaoliPDWModel.fkSIF_Series">
+      <End Role="Series" EntitySet="Serieses" />
+      <End Role="SeriesImageFile" EntitySet="SeriesImageFiles" />
+    </AssociationSet>
+    <AssociationSet Name="RelatedSeries" Association="PaoliPDWModel.RelatedSeries">
+      <End Role="Series" EntitySet="Serieses" />
+      <End Role="Series1" EntitySet="Serieses" />
+    </AssociationSet>
+    <EntitySet Name="TAttributeOptions" EntityType="PaoliPDWModel.TAttributeOption" />
+    <EntitySet Name="TAttributes" EntityType="PaoliPDWModel.TAttribute" />
+    <EntitySet Name="TypicalImageFiles" EntityType="PaoliPDWModel.TypicalImageFile" />
+    <EntitySet Name="TypicalIntAttributes" EntityType="PaoliPDWModel.TypicalIntAttribute" />
+    <EntitySet Name="TypicalOptionAttributes" EntityType="PaoliPDWModel.TypicalOptionAttribute" />
+    <EntitySet Name="Typicals" EntityType="PaoliPDWModel.Typical" />
+    <EntitySet Name="TypicalTextAttributes" EntityType="PaoliPDWModel.TypicalTextAttribute" />
+    <AssociationSet Name="fkTIF_Image" Association="PaoliPDWModel.fkTIF_Image">
+      <End Role="ImageFile" EntitySet="ImageFiles" />
+      <End Role="TypicalImageFile" EntitySet="TypicalImageFiles" />
+    </AssociationSet>
+    <AssociationSet Name="fkTOA_AttributeOption" Association="PaoliPDWModel.fkTOA_AttributeOption">
+      <End Role="TAttributeOption" EntitySet="TAttributeOptions" />
+      <End Role="TypicalOptionAttribute" EntitySet="TypicalOptionAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkTOption_Attribute" Association="PaoliPDWModel.fkTOption_Attribute">
+      <End Role="TAttribute" EntitySet="TAttributes" />
+      <End Role="TAttributeOption" EntitySet="TAttributeOptions" />
+    </AssociationSet>
+    <AssociationSet Name="fkTIA_Attribute" Association="PaoliPDWModel.fkTIA_Attribute">
+      <End Role="TAttribute" EntitySet="TAttributes" />
+      <End Role="TypicalIntAttribute" EntitySet="TypicalIntAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkTOA_Attribute" Association="PaoliPDWModel.fkTOA_Attribute">
+      <End Role="TAttribute" EntitySet="TAttributes" />
+      <End Role="TypicalOptionAttribute" EntitySet="TypicalOptionAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkTTA_Attribute" Association="PaoliPDWModel.fkTTA_Attribute">
+      <End Role="TAttribute" EntitySet="TAttributes" />
+      <End Role="TypicalTextAttribute" EntitySet="TypicalTextAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkTIF_Typical" Association="PaoliPDWModel.fkTIF_Typical">
+      <End Role="Typical" EntitySet="Typicals" />
+      <End Role="TypicalImageFile" EntitySet="TypicalImageFiles" />
+    </AssociationSet>
+    <AssociationSet Name="fkTIA_Typical" Association="PaoliPDWModel.fkTIA_Typical">
+      <End Role="Typical" EntitySet="Typicals" />
+      <End Role="TypicalIntAttribute" EntitySet="TypicalIntAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkTOA_Typical" Association="PaoliPDWModel.fkTOA_Typical">
+      <End Role="Typical" EntitySet="Typicals" />
+      <End Role="TypicalOptionAttribute" EntitySet="TypicalOptionAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkTTA_Typical" Association="PaoliPDWModel.fkTTA_Typical">
+      <End Role="Typical" EntitySet="Typicals" />
+      <End Role="TypicalTextAttribute" EntitySet="TypicalTextAttributes" />
+    </AssociationSet>
+    <EntitySet Name="SeriesTypicals" EntityType="PaoliPDWModel.SeriesTypical" />
+    <AssociationSet Name="fkST_Series" Association="PaoliPDWModel.fkST_Series">
+      <End Role="Series" EntitySet="Serieses" />
+      <End Role="SeriesTypical" EntitySet="SeriesTypicals" />
+    </AssociationSet>
+    <AssociationSet Name="fkST_Typical" Association="PaoliPDWModel.fkST_Typical">
+      <End Role="Typical" EntitySet="Typicals" />
+      <End Role="SeriesTypical" EntitySet="SeriesTypicals" />
+    </AssociationSet>
+    <EntitySet Name="SearchResultsLogs" EntityType="PaoliPDWModel.SearchResultsLog" />
+    <EntitySet Name="PublicationImages" EntityType="PaoliPDWModel.PublicationImage" />
+    <EntitySet Name="Publications" EntityType="PaoliPDWModel.Publication" />
+    <AssociationSet Name="fkPI_Image" Association="PaoliPDWModel.fkPI_Image">
+      <End Role="ImageFile" EntitySet="ImageFiles" />
+      <End Role="PublicationImage" EntitySet="PublicationImages" />
+    </AssociationSet>
+    <AssociationSet Name="fkPI_Publication" Association="PaoliPDWModel.fkPI_Publication">
+      <End Role="Publication" EntitySet="Publications" />
+      <End Role="PublicationImage" EntitySet="PublicationImages" />
+    </AssociationSet>
+    <EntitySet Name="Dealers" EntityType="PaoliPDWModel.Dealer" />
+    <EntitySet Name="PageLinks" EntityType="PaoliPDWModel.PageLink" />
+    <EntitySet Name="VideoLinks" EntityType="PaoliPDWModel.VideoLink" />
+    <AssociationSet Name="DealerPageLinks" Association="PaoliPDWModel.DealerPageLinks">
+      <End Role="Dealer" EntitySet="Dealers" />
+      <End Role="PageLink" EntitySet="PageLinks" />
+    </AssociationSet>
+    <AssociationSet Name="DealerVideoLinks" Association="PaoliPDWModel.DealerVideoLinks">
+      <End Role="Dealer" EntitySet="Dealers" />
+      <End Role="VideoLink" EntitySet="VideoLinks" />
+    </AssociationSet>
+    <AssociationSet Name="fkDealer_VideoLink" Association="PaoliPDWModel.fkDealer_VideoLink">
+      <End Role="VideoLink" EntitySet="VideoLinks" />
+      <End Role="Dealer" EntitySet="Dealers" />
+    </AssociationSet>
+    <EntitySet Name="DealerFeaturedProducts" EntityType="PaoliPDWModel.DealerFeaturedProduct" />
+    <AssociationSet Name="fkDFP_Dealer" Association="PaoliPDWModel.fkDFP_Dealer">
+      <End Role="Dealer" EntitySet="Dealers" />
+      <End Role="DealerFeaturedProduct" EntitySet="DealerFeaturedProducts" />
+    </AssociationSet>
+    <EntitySet Name="Users" EntityType="PaoliPDWModel.User" />
+    <EntitySet Name="Companies" EntityType="PaoliPDWModel.Company" />
+    <EntitySet Name="SpecRequestFiles" EntityType="PaoliPDWModel.SpecRequestFile" />
+    <EntitySet Name="SpecRequests" EntityType="PaoliPDWModel.SpecRequest" />
+    <AssociationSet Name="fkSpec_Company" Association="PaoliPDWModel.fkSpec_Company">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="SpecRequest" EntitySet="SpecRequests" />
+    </AssociationSet>
+    <AssociationSet Name="fkSpec_RepGroup" Association="PaoliPDWModel.fkSpec_RepGroup">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="SpecRequest" EntitySet="SpecRequests" />
+    </AssociationSet>
+    <AssociationSet Name="fkSpecFile_Request" Association="PaoliPDWModel.fkSpecFile_Request">
+      <End Role="SpecRequest" EntitySet="SpecRequests" />
+      <End Role="SpecRequestFile" EntitySet="SpecRequestFiles" />
+    </AssociationSet>
+    <AssociationSet Name="fkSpec_DealerSalesRep" Association="PaoliPDWModel.fkSpec_DealerSalesRep">
+      <End Role="User" EntitySet="Users" />
+      <End Role="SpecRequest" EntitySet="SpecRequests" />
+    </AssociationSet>
+    <AssociationSet Name="fkSpec_PaoliSpecTeam" Association="PaoliPDWModel.fkSpec_PaoliSpecTeam">
+      <End Role="User" EntitySet="Users" />
+      <End Role="SpecRequest" EntitySet="SpecRequests" />
+    </AssociationSet>
+    <AssociationSet Name="fkUser_Company" Association="PaoliPDWModel.fkUser_Company">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="fkTypical_Spec" Association="PaoliPDWModel.fkTypical_Spec">
+      <End Role="SpecRequest" EntitySet="SpecRequests" />
+      <End Role="Typical" EntitySet="Typicals" />
+    </AssociationSet>
+    <EntitySet Name="Territories" EntityType="PaoliPDWModel.Territory" />
+    <AssociationSet Name="fkCompany_Territory" Association="PaoliPDWModel.fkCompany_Territory">
+      <End Role="Territory" EntitySet="Territories" />
+      <End Role="Company" EntitySet="Companies" />
+    </AssociationSet>
+    <EntitySet Name="Showrooms" EntityType="PaoliPDWModel.Showroom" />
+    <EntitySet Name="ZipCodeInfoes" EntityType="PaoliPDWModel.ZipCodeInfo" />
+    <AssociationSet Name="fkShowroom_Company" Association="PaoliPDWModel.fkShowroom_Company">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="Showroom" EntitySet="Showrooms" />
+    </AssociationSet>
+    <AssociationSet Name="fkZip_Territory" Association="PaoliPDWModel.fkZip_Territory">
+      <End Role="Territory" EntitySet="Territories" />
+      <End Role="ZipCodeInfo" EntitySet="ZipCodeInfoes" />
+    </AssociationSet>
+    <FunctionImport Name="ClosestShowroom" EntitySet="Showrooms" ReturnType="Collection(PaoliPDWModel.Showroom)">
+      <Parameter Name="lat" Mode="In" Type="Double" />
+      <Parameter Name="long" Mode="In" Type="Double" />
+    </FunctionImport>
+    <AssociationSet Name="ShowroomImages" Association="PaoliPDWModel.ShowroomImages">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="ImageFile" EntitySet="ImageFiles" />
+    </AssociationSet>
+    <EntitySet Name="CollateralItems" EntityType="PaoliPDWModel.CollateralItem" />
+    <EntitySet Name="CollateralTypes" EntityType="PaoliPDWModel.CollateralType" />
+    <AssociationSet Name="fkCollateral_Type" Association="PaoliPDWModel.fkCollateral_Type">
+      <End Role="CollateralType" EntitySet="CollateralTypes" />
+      <End Role="CollateralItem" EntitySet="CollateralItems" />
+    </AssociationSet>
+    <EntitySet Name="CollateralGroupItems" EntityType="PaoliPDWModel.CollateralGroupItem" />
+    <AssociationSet Name="fkCGI_Children" Association="PaoliPDWModel.fkCGI_Children">
+      <End Role="CollateralItem" EntitySet="CollateralItems" />
+      <End Role="CollateralGroupItem" EntitySet="CollateralGroupItems" />
+    </AssociationSet>
+    <AssociationSet Name="fkCGI_Parent" Association="PaoliPDWModel.fkCGI_Parent">
+      <End Role="CollateralItem" EntitySet="CollateralItems" />
+      <End Role="CollateralGroupItem" EntitySet="CollateralGroupItems" />
+    </AssociationSet>
+    <AssociationSet Name="fkSpecRequest_PSRMember" Association="PaoliPDWModel.fkSpecRequest_PSRMember">
+      <End Role="User" EntitySet="Users" />
+      <End Role="SpecRequest" EntitySet="SpecRequests" />
+    </AssociationSet>
+    <EntitySet Name="CollateralOrderDetails" EntityType="PaoliPDWModel.CollateralOrderDetail" />
+    <EntitySet Name="CollateralOrders" EntityType="PaoliPDWModel.CollateralOrder" />
+    <AssociationSet Name="fkCODetail_Order" Association="PaoliPDWModel.fkCODetail_Order">
+      <End Role="CollateralOrder" EntitySet="CollateralOrders" />
+      <End Role="CollateralOrderDetail" EntitySet="CollateralOrderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="fkCOrder_Dealer" Association="PaoliPDWModel.fkCOrder_Dealer">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="CollateralOrder" EntitySet="CollateralOrders" />
+    </AssociationSet>
+    <AssociationSet Name="fkCOrder_SalesRep" Association="PaoliPDWModel.fkCOrder_SalesRep">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="CollateralOrder" EntitySet="CollateralOrders" />
+    </AssociationSet>
+    <AssociationSet Name="fkCOrder_DealerMember" Association="PaoliPDWModel.fkCOrder_DealerMember">
+      <End Role="User" EntitySet="Users" />
+      <End Role="CollateralOrder" EntitySet="CollateralOrders" />
+    </AssociationSet>
+    <AssociationSet Name="fkCOrder_SalesRepMember" Association="PaoliPDWModel.fkCOrder_SalesRepMember">
+      <End Role="User" EntitySet="Users" />
+      <End Role="CollateralOrder" EntitySet="CollateralOrders" />
+    </AssociationSet>
+    <AssociationSet Name="fkCOrder_PaoliMember" Association="PaoliPDWModel.fkCOrder_PaoliMember">
+      <End Role="User" EntitySet="Users" />
+      <End Role="CollateralOrder" EntitySet="CollateralOrders" />
+    </AssociationSet>
+    <AssociationSet Name="fkCO_CreatedUser" Association="PaoliPDWModel.fkCO_CreatedUser">
+      <End Role="User" EntitySet="Users" />
+      <End Role="CollateralOrder" EntitySet="CollateralOrders" />
+    </AssociationSet>
+    <EntitySet Name="CollateralOrderShipmentDetails" EntityType="PaoliPDWModel.CollateralOrderShipmentDetail" />
+    <EntitySet Name="CollateralOrderShipments" EntityType="PaoliPDWModel.CollateralOrderShipment" />
+    <AssociationSet Name="fkShipmentDetail_CODetail" Association="PaoliPDWModel.fkShipmentDetail_CODetail">
+      <End Role="CollateralOrderDetail" EntitySet="CollateralOrderDetails" />
+      <End Role="CollateralOrderShipmentDetail" EntitySet="CollateralOrderShipmentDetails" />
+    </AssociationSet>
+    <AssociationSet Name="fkShipment_COrder" Association="PaoliPDWModel.fkShipment_COrder">
+      <End Role="CollateralOrder" EntitySet="CollateralOrders" />
+      <End Role="CollateralOrderShipment" EntitySet="CollateralOrderShipments" />
+    </AssociationSet>
+    <AssociationSet Name="fkShipmentDetail_Shipment" Association="PaoliPDWModel.fkShipmentDetail_Shipment">
+      <End Role="CollateralOrderShipment" EntitySet="CollateralOrderShipments" />
+      <End Role="CollateralOrderShipmentDetail" EntitySet="CollateralOrderShipmentDetails" />
+    </AssociationSet>
+    <AssociationSet Name="fkCO_CanceledUser" Association="PaoliPDWModel.fkCO_CanceledUser">
+      <End Role="User" EntitySet="Users" />
+      <End Role="CollateralOrder" EntitySet="CollateralOrders" />
+    </AssociationSet>
+    <AssociationSet Name="fkCOrder_SPDealer" Association="PaoliPDWModel.fkCOrder_SPDealer">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="CollateralOrder" EntitySet="CollateralOrders" />
+    </AssociationSet>
+    <AssociationSet Name="fkCOrder_SPDealerMember" Association="PaoliPDWModel.fkCOrder_SPDealerMember">
+      <End Role="User" EntitySet="Users" />
+      <End Role="CollateralOrder" EntitySet="CollateralOrders" />
+    </AssociationSet>
+    <AssociationSet Name="fkCOrder_SPPaoliMember" Association="PaoliPDWModel.fkCOrder_SPPaoliMember">
+      <End Role="User" EntitySet="Users" />
+      <End Role="CollateralOrder" EntitySet="CollateralOrders" />
+    </AssociationSet>
+    <AssociationSet Name="fkCOrder_SPSalesRep" Association="PaoliPDWModel.fkCOrder_SPSalesRep">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="CollateralOrder" EntitySet="CollateralOrders" />
+    </AssociationSet>
+    <AssociationSet Name="fkCOrder_SPSalesRepMember" Association="PaoliPDWModel.fkCOrder_SPSalesRepMember">
+      <End Role="User" EntitySet="Users" />
+      <End Role="CollateralOrder" EntitySet="CollateralOrders" />
+    </AssociationSet>
+    <AssociationSet Name="fkCompany_PaoliMember" Association="PaoliPDWModel.fkCompany_PaoliMember">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Company" EntitySet="Companies" />
+    </AssociationSet>
+    <AssociationSet Name="fkCompany_PaoliSalesRepMember" Association="PaoliPDWModel.fkCompany_PaoliSalesRepMember">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Company" EntitySet="Companies" />
+    </AssociationSet>
+    <EntitySet Name="GSAContracts" EntityType="PaoliPDWModel.GSAContract" />
+    <EntitySet Name="UserLogins" EntityType="PaoliPDWModel.UserLogin" />
+    <AssociationSet Name="fkLogin_User" Association="PaoliPDWModel.fkLogin_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="UserLogin" EntitySet="UserLogins" />
+    </AssociationSet>
+    <EntitySet Name="HomePageContents" EntityType="PaoliPDWModel.HomePageContent" />
+    <EntitySet Name="ScoopArticles" EntityType="PaoliPDWModel.ScoopArticle" />
+    <AssociationSet Name="fkScoopArticle_User" Association="PaoliPDWModel.fkScoopArticle_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="ScoopArticle" EntitySet="ScoopArticles" />
+    </AssociationSet>
+    <EntitySet Name="eCollateralItems" EntityType="PaoliPDWModel.eCollateralItem" />
+    <EntitySet Name="eCollateralSections" EntityType="PaoliPDWModel.eCollateralSection" />
+    <AssociationSet Name="fkeCollateral_Dealership" Association="PaoliPDWModel.fkeCollateral_Dealership">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="eCollateralItem" EntitySet="eCollateralItems" />
+    </AssociationSet>
+    <AssociationSet Name="fkeCollateral_CreatedUser" Association="PaoliPDWModel.fkeCollateral_CreatedUser">
+      <End Role="User" EntitySet="Users" />
+      <End Role="eCollateralItem" EntitySet="eCollateralItems" />
+    </AssociationSet>
+    <AssociationSet Name="fkeCollateral_DealerUser" Association="PaoliPDWModel.fkeCollateral_DealerUser">
+      <End Role="User" EntitySet="Users" />
+      <End Role="eCollateralItem" EntitySet="eCollateralItems" />
+    </AssociationSet>
+    <AssociationSet Name="fkeCollateral_ModifiedUser" Association="PaoliPDWModel.fkeCollateral_ModifiedUser">
+      <End Role="User" EntitySet="Users" />
+      <End Role="eCollateralItem" EntitySet="eCollateralItems" />
+    </AssociationSet>
+    <AssociationSet Name="fkeCSection_Item" Association="PaoliPDWModel.fkeCSection_Item">
+      <End Role="eCollateralItem" EntitySet="eCollateralItems" />
+      <End Role="eCollateralSection" EntitySet="eCollateralSections" />
+    </AssociationSet>
+    <AssociationSet Name="fkeCSection_Image" Association="PaoliPDWModel.fkeCSection_Image">
+      <End Role="ImageFile" EntitySet="ImageFiles" />
+      <End Role="eCollateralSection" EntitySet="eCollateralSections" />
+    </AssociationSet>
+    <EntitySet Name="SpecRequestEvents" EntityType="PaoliPDWModel.SpecRequestEvent" />
+    <AssociationSet Name="FK_Events_SpecRequests" Association="PaoliPDWModel.FK_Events_SpecRequests">
+      <End Role="SpecRequest" EntitySet="SpecRequests" />
+      <End Role="SpecRequestEvent" EntitySet="SpecRequestEvents" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Events_Users" Association="PaoliPDWModel.FK_Events_Users">
+      <End Role="User" EntitySet="Users" />
+      <End Role="SpecRequestEvent" EntitySet="SpecRequestEvents" />
+    </AssociationSet>
+    <EntitySet Name="LeadTimeDetails" EntityType="PaoliPDWModel.LeadTimeDetail" />
+    <AssociationSet Name="FK_LeadTimeDetail_User" Association="PaoliPDWModel.FK_LeadTimeDetail_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="LeadTimeDetail" EntitySet="LeadTimeDetails" />
+    </AssociationSet>
+    <EntitySet Name="UserNotifications" EntityType="PaoliPDWModel.UserNotification" />
+    <AssociationSet Name="FK_User_Notifications" Association="PaoliPDWModel.FK_User_Notifications">
+      <End Role="User" EntitySet="Users" />
+      <End Role="UserNotification" EntitySet="UserNotifications" />
+    </AssociationSet>
+    <EntitySet Name="Projects" EntityType="PaoliPDWModel.Project" />
+    <AssociationSet Name="fkProject_Company" Association="PaoliPDWModel.fkProject_Company">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="Project" EntitySet="Projects" />
+    </AssociationSet>
+    <AssociationSet Name="fkProject_GSAContract" Association="PaoliPDWModel.fkProject_GSAContract">
+      <End Role="GSAContract" EntitySet="GSAContracts" />
+      <End Role="Project" EntitySet="Projects" />
+    </AssociationSet>
+    <AssociationSet Name="fkSpecRequest_Project" Association="PaoliPDWModel.fkSpecRequest_Project">
+      <End Role="Project" EntitySet="Projects" />
+      <End Role="SpecRequest" EntitySet="SpecRequests" />
+    </AssociationSet>
+    <AssociationSet Name="fkECollateral_Project" Association="PaoliPDWModel.fkECollateral_Project">
+      <End Role="Project" EntitySet="Projects" />
+      <End Role="eCollateralItem" EntitySet="eCollateralItems" />
+    </AssociationSet>
+    <AssociationSet Name="fkProject_EndCustomer" Association="PaoliPDWModel.fkProject_EndCustomer">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="Project" EntitySet="Projects" />
+    </AssociationSet>
+    <AssociationSet Name="fkProject_Territory" Association="PaoliPDWModel.fkProject_Territory">
+      <End Role="Territory" EntitySet="Territories" />
+      <End Role="Project" EntitySet="Projects" />
+    </AssociationSet>
+    <EntitySet Name="CompanyTripDatas" EntityType="PaoliPDWModel.CompanyTripData" />
+    <AssociationSet Name="fkTripData_Company" Association="PaoliPDWModel.fkTripData_Company">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="CompanyTripData" EntitySet="CompanyTripDatas" />
+    </AssociationSet>
+    <EntitySet Name="TerritoryTripDatas" EntityType="PaoliPDWModel.TerritoryTripData" />
+    <AssociationSet Name="fkTerritoryTripData_Company" Association="PaoliPDWModel.fkTerritoryTripData_Company">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="TerritoryTripData" EntitySet="TerritoryTripDatas" />
+    </AssociationSet>
+    <FunctionImport Name="spCanDeleteCompany" ReturnType="Collection(Int32)">
+      <Parameter Name="companyId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <AssociationSet Name="fkUsers_CreatedByUser" Association="PaoliPDWModel.fkUsers_CreatedByUser">
+      <End Role="User" EntitySet="Users" />
+      <End Role="User1" EntitySet="Users" />
+    </AssociationSet>
+    <EntitySet Name="ImageFileSerieses" EntityType="PaoliPDWModel.ImageFileSeries" />
+    <AssociationSet Name="FK_ImageFileSerieses_Image" Association="PaoliPDWModel.FK_ImageFileSerieses_Image">
+      <End Role="ImageFile" EntitySet="ImageFiles" />
+      <End Role="ImageFileSeries" EntitySet="ImageFileSerieses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ImageFileSerieses_Series" Association="PaoliPDWModel.FK_ImageFileSerieses_Series">
+      <End Role="Series" EntitySet="Serieses" />
+      <End Role="ImageFileSeries" EntitySet="ImageFileSerieses" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="AttributeOption">
+    <Key>
+      <PropertyRef Name="OptionID" />
+    </Key>
+    <Property Name="OptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
+    <Property Name="AttributeID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Attribute" Relationship="PaoliPDWModel.fkOption_Attribute" FromRole="AttributeOptions" ToRole="Attributes" />
+    <NavigationProperty Name="SeriesOptionAttributes" Relationship="PaoliPDWModel.fkSOA_AttributeOption" FromRole="AttributeOptions" ToRole="SeriesOptionAttributes" />
+  </EntityType>
+  <EntityType Name="Attribute">
+    <Key>
+      <PropertyRef Name="AttributeID" />
+    </Key>
+    <Property Name="AttributeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="AttributeOptions" Relationship="PaoliPDWModel.fkOption_Attribute" FromRole="Attributes" ToRole="AttributeOptions" />
+    <NavigationProperty Name="SeriesIntAttributes" Relationship="PaoliPDWModel.fkSIA_Attribute" FromRole="Attributes" ToRole="SeriesIntAttributes" />
+    <NavigationProperty Name="SeriesOptionAttributes" Relationship="PaoliPDWModel.fkSOA_Attribute" FromRole="Attributes" ToRole="SeriesOptionAttributes" />
+    <NavigationProperty Name="SeriesTextAttributes" Relationship="PaoliPDWModel.fkSTA_Attribute" FromRole="Attributes" ToRole="SeriesTextAttributes" />
+    <Property Type="Boolean" Name="DetailItem" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="CategoryID" />
+    </Key>
+    <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Serieses" Relationship="PaoliPDWModel.fkSeries_Category" FromRole="Category" ToRole="Series" />
+  </EntityType>
+  <EntityType Name="Series">
+    <Key>
+      <PropertyRef Name="SeriesID" />
+    </Key>
+    <Property Name="SeriesID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
+    <NavigationProperty Name="SeriesIntAttributes" Relationship="PaoliPDWModel.fkSIA_Series" FromRole="Serieses" ToRole="SeriesIntAttributes" />
+    <NavigationProperty Name="SeriesOptionAttributes" Relationship="PaoliPDWModel.fkSOA_Series" FromRole="Serieses" ToRole="SeriesOptionAttributes" />
+    <NavigationProperty Name="SeriesTextAttributes" Relationship="PaoliPDWModel.fkSTA_Series" FromRole="Serieses" ToRole="SeriesTextAttributes" />
+    <Property Type="Int32" Name="CategoryID" Nullable="false" />
+    <NavigationProperty Name="Category" Relationship="PaoliPDWModel.fkSeries_Category" FromRole="Series" ToRole="Category" />
+    <NavigationProperty Name="SeriesImageFiles" Relationship="PaoliPDWModel.fkSIF_Series" FromRole="Series" ToRole="SeriesImageFile" />
+    <NavigationProperty Name="ParentSerieses" Relationship="PaoliPDWModel.RelatedSeries" FromRole="Series" ToRole="Series1" />
+    <NavigationProperty Name="ChildSerieses" Relationship="PaoliPDWModel.RelatedSeries" FromRole="Series1" ToRole="Series" />
+    <NavigationProperty Name="SeriesTypicals" Relationship="PaoliPDWModel.fkST_Series" FromRole="Series" ToRole="SeriesTypical" />
+    <Property Type="String" Name="DBKeywords" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Boolean" Name="IsActive" Nullable="false" />
+    <NavigationProperty Name="ImageFileSerieses" Relationship="PaoliPDWModel.FK_ImageFileSerieses_Series" FromRole="Series" ToRole="ImageFileSeries" />
+  </EntityType>
+  <EntityType Name="SeriesIntAttribute">
+    <Key>
+      <PropertyRef Name="ValueID" />
+    </Key>
+    <Property Name="ValueID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Value" Type="Int32" Nullable="false" />
+    <Property Name="AttributeID" Type="Int32" Nullable="false" />
+    <Property Name="SeriesID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Attribute" Relationship="PaoliPDWModel.fkSIA_Attribute" FromRole="SeriesIntAttributes" ToRole="Attributes" />
+    <NavigationProperty Name="Series" Relationship="PaoliPDWModel.fkSIA_Series" FromRole="SeriesIntAttributes" ToRole="Serieses" />
+  </EntityType>
+  <EntityType Name="SeriesOptionAttribute">
+    <Key>
+      <PropertyRef Name="ValueID" />
+    </Key>
+    <Property Name="ValueID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OptionID" Type="Int32" Nullable="false" />
+    <Property Name="AttributeID" Type="Int32" Nullable="false" />
+    <Property Name="SeriesID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="AttributeOption" Relationship="PaoliPDWModel.fkSOA_AttributeOption" FromRole="SeriesOptionAttributes" ToRole="AttributeOptions" />
+    <NavigationProperty Name="Attribute" Relationship="PaoliPDWModel.fkSOA_Attribute" FromRole="SeriesOptionAttributes" ToRole="Attributes" />
+    <NavigationProperty Name="Series" Relationship="PaoliPDWModel.fkSOA_Series" FromRole="SeriesOptionAttributes" ToRole="Serieses" />
+  </EntityType>
+  <EntityType Name="SeriesTextAttribute">
+    <Key>
+      <PropertyRef Name="ValueID" />
+    </Key>
+    <Property Name="ValueID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Value" Type="String" Nullable="false" MaxLength="2000" Unicode="true" FixedLength="false" />
+    <Property Name="AttributeID" Type="Int32" Nullable="false" />
+    <Property Name="SeriesID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Attribute" Relationship="PaoliPDWModel.fkSTA_Attribute" FromRole="SeriesTextAttributes" ToRole="Attributes" />
+    <NavigationProperty Name="Series" Relationship="PaoliPDWModel.fkSTA_Series" FromRole="SeriesTextAttributes" ToRole="Serieses" />
+  </EntityType>
+  <Association Name="fkOption_Attribute">
+    <End Role="Attributes" Type="PaoliPDWModel.Attribute" Multiplicity="1" />
+    <End Role="AttributeOptions" Type="PaoliPDWModel.AttributeOption" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Attributes">
+        <PropertyRef Name="AttributeID" />
+      </Principal>
+      <Dependent Role="AttributeOptions">
+        <PropertyRef Name="AttributeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSOA_AttributeOption">
+    <End Role="AttributeOptions" Type="PaoliPDWModel.AttributeOption" Multiplicity="1" />
+    <End Role="SeriesOptionAttributes" Type="PaoliPDWModel.SeriesOptionAttribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AttributeOptions">
+        <PropertyRef Name="OptionID" />
+      </Principal>
+      <Dependent Role="SeriesOptionAttributes">
+        <PropertyRef Name="OptionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSIA_Attribute">
+    <End Role="Attributes" Type="PaoliPDWModel.Attribute" Multiplicity="1" />
+    <End Role="SeriesIntAttributes" Type="PaoliPDWModel.SeriesIntAttribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Attributes">
+        <PropertyRef Name="AttributeID" />
+      </Principal>
+      <Dependent Role="SeriesIntAttributes">
+        <PropertyRef Name="AttributeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSOA_Attribute">
+    <End Role="Attributes" Type="PaoliPDWModel.Attribute" Multiplicity="1" />
+    <End Role="SeriesOptionAttributes" Type="PaoliPDWModel.SeriesOptionAttribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Attributes">
+        <PropertyRef Name="AttributeID" />
+      </Principal>
+      <Dependent Role="SeriesOptionAttributes">
+        <PropertyRef Name="AttributeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSTA_Attribute">
+    <End Role="Attributes" Type="PaoliPDWModel.Attribute" Multiplicity="1" />
+    <End Role="SeriesTextAttributes" Type="PaoliPDWModel.SeriesTextAttribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Attributes">
+        <PropertyRef Name="AttributeID" />
+      </Principal>
+      <Dependent Role="SeriesTextAttributes">
+        <PropertyRef Name="AttributeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSIA_Series">
+    <End Role="Serieses" Type="PaoliPDWModel.Series" Multiplicity="1" />
+    <End Role="SeriesIntAttributes" Type="PaoliPDWModel.SeriesIntAttribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Serieses">
+        <PropertyRef Name="SeriesID" />
+      </Principal>
+      <Dependent Role="SeriesIntAttributes">
+        <PropertyRef Name="SeriesID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSOA_Series">
+    <End Role="Serieses" Type="PaoliPDWModel.Series" Multiplicity="1" />
+    <End Role="SeriesOptionAttributes" Type="PaoliPDWModel.SeriesOptionAttribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Serieses">
+        <PropertyRef Name="SeriesID" />
+      </Principal>
+      <Dependent Role="SeriesOptionAttributes">
+        <PropertyRef Name="SeriesID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSTA_Series">
+    <End Role="Serieses" Type="PaoliPDWModel.Series" Multiplicity="1" />
+    <End Role="SeriesTextAttributes" Type="PaoliPDWModel.SeriesTextAttribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Serieses">
+        <PropertyRef Name="SeriesID" />
+      </Principal>
+      <Dependent Role="SeriesTextAttributes">
+        <PropertyRef Name="SeriesID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSeries_Category">
+    <End Type="PaoliPDWModel.Category" Role="Category" Multiplicity="1" />
+    <End Type="PaoliPDWModel.Series" Role="Series" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="CategoryID" />
+      </Principal>
+      <Dependent Role="Series">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="ImageFile">
+    <Key>
+      <PropertyRef Name="ImageID" />
+    </Key>
+    <Property Type="Int32" Name="ImageID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="SeriesImageFiles" Relationship="PaoliPDWModel.fkSIF_Image" FromRole="ImageFile" ToRole="SeriesImageFile" />
+    <Property Type="String" Name="OriginalExtension" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Caption" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Type="Boolean" Name="HasPeople" Nullable="false" />
+    <Property Type="String" Name="ImageType" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Keyword" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
+    <NavigationProperty Name="TypicalImageFiles" Relationship="PaoliPDWModel.fkTIF_Image" FromRole="ImageFile" ToRole="TypicalImageFile" />
+    <Property Type="String" Name="MIMEType" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="FeaturedEdge" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="FeaturedPull" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="ImageContent" Nullable="false" />
+    <Property Type="Int32" Name="FinishType" />
+    <Property Type="String" Name="FeaturedFinish" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="DBKeywords" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="PublicationImages" Relationship="PaoliPDWModel.fkPI_Image" FromRole="ImageFile" ToRole="PublicationImage" />
+    <Property Type="String" Name="TableShape" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="TableBase" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ControlMechanism" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ControlDescription" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="GoToGuidePage" />
+    <Property Type="Int32" Name="Popularity" annotation:StoreGeneratedPattern="Computed" />
+    <NavigationProperty Name="Showrooms" Relationship="PaoliPDWModel.ShowroomImages" FromRole="ImageFile" ToRole="Company" />
+    <Property Type="Int32" Name="LaminatePattern" />
+    <Property Type="Int32" Name="VeneerGrade" />
+    <Property Type="Int32" Name="VeneerSpecies" />
+    <Property Type="Boolean" Name="LaminateIsHPL" Nullable="false" />
+    <Property Type="String" Name="FinishCode" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="eCollateralSections" Relationship="PaoliPDWModel.fkeCSection_Image" FromRole="ImageFile" ToRole="eCollateralSection" />
+    <Property Type="Int32" Name="SeatingGrade" />
+    <Property Type="Boolean" Name="LaminateIsTFL" Nullable="false" />
+    <Property Type="String" Name="FeaturedSeries" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="SeriesList" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ImageFileSerieses" Relationship="PaoliPDWModel.FK_ImageFileSerieses_Image" FromRole="ImageFile" ToRole="ImageFileSeries" />
+    <Property Type="String" Name="ImageApplicationList" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="SeriesImageFile">
+    <Key>
+      <PropertyRef Name="AssociationID" />
+    </Key>
+    <Property Type="Int32" Name="AssociationID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Boolean" Name="IsFeatured" Nullable="false" />
+    <Property Type="Int32" Name="ImageID" Nullable="false" />
+    <Property Type="Int32" Name="SeriesID" Nullable="false" />
+    <NavigationProperty Name="ImageFile" Relationship="PaoliPDWModel.fkSIF_Image" FromRole="SeriesImageFile" ToRole="ImageFile" />
+    <NavigationProperty Name="Series" Relationship="PaoliPDWModel.fkSIF_Series" FromRole="SeriesImageFile" ToRole="Series" />
+    <Property Type="Int32" Name="DisplayOrder" Nullable="false" />
+  </EntityType>
+  <Association Name="fkSIF_Image">
+    <End Type="PaoliPDWModel.ImageFile" Role="ImageFile" Multiplicity="1" />
+    <End Type="PaoliPDWModel.SeriesImageFile" Role="SeriesImageFile" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ImageFile">
+        <PropertyRef Name="ImageID" />
+      </Principal>
+      <Dependent Role="SeriesImageFile">
+        <PropertyRef Name="ImageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSIF_Series">
+    <End Type="PaoliPDWModel.Series" Role="Series" Multiplicity="1" />
+    <End Type="PaoliPDWModel.SeriesImageFile" Role="SeriesImageFile" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Series">
+        <PropertyRef Name="SeriesID" />
+      </Principal>
+      <Dependent Role="SeriesImageFile">
+        <PropertyRef Name="SeriesID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RelatedSeries">
+    <End Type="PaoliPDWModel.Series" Role="Series" Multiplicity="*" />
+    <End Type="PaoliPDWModel.Series" Role="Series1" Multiplicity="*" />
+  </Association>
+  <EntityType Name="TAttributeOption">
+    <Key>
+      <PropertyRef Name="OptionID" />
+    </Key>
+    <Property Type="Int32" Name="OptionID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="AttributeID" Nullable="false" />
+    <NavigationProperty Name="TypicalOptionAttributes" Relationship="PaoliPDWModel.fkTOA_AttributeOption" FromRole="TAttributeOption" ToRole="TypicalOptionAttribute" />
+    <NavigationProperty Name="TAttribute" Relationship="PaoliPDWModel.fkTOption_Attribute" FromRole="TAttributeOption" ToRole="TAttribute" />
+  </EntityType>
+  <EntityType Name="TAttribute">
+    <Key>
+      <PropertyRef Name="AttributeID" />
+    </Key>
+    <Property Type="Int32" Name="AttributeID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="TAttributeOptions" Relationship="PaoliPDWModel.fkTOption_Attribute" FromRole="TAttribute" ToRole="TAttributeOption" />
+    <NavigationProperty Name="TypicalIntAttributes" Relationship="PaoliPDWModel.fkTIA_Attribute" FromRole="TAttribute" ToRole="TypicalIntAttribute" />
+    <NavigationProperty Name="TypicalOptionAttributes" Relationship="PaoliPDWModel.fkTOA_Attribute" FromRole="TAttribute" ToRole="TypicalOptionAttribute" />
+    <NavigationProperty Name="TypicalTextAttributes" Relationship="PaoliPDWModel.fkTTA_Attribute" FromRole="TAttribute" ToRole="TypicalTextAttribute" />
+    <Property Type="Boolean" Name="DetailItem" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TypicalImageFile">
+    <Key>
+      <PropertyRef Name="AssociationID" />
+    </Key>
+    <Property Type="Int32" Name="AssociationID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Boolean" Name="IsFeatured" Nullable="false" />
+    <Property Type="Int32" Name="ImageID" Nullable="false" />
+    <Property Type="Int32" Name="TypicalID" Nullable="false" />
+    <NavigationProperty Name="ImageFile" Relationship="PaoliPDWModel.fkTIF_Image" FromRole="TypicalImageFile" ToRole="ImageFile" />
+    <NavigationProperty Name="Typical" Relationship="PaoliPDWModel.fkTIF_Typical" FromRole="TypicalImageFile" ToRole="Typical" />
+  </EntityType>
+  <EntityType Name="TypicalIntAttribute">
+    <Key>
+      <PropertyRef Name="ValueID" />
+    </Key>
+    <Property Type="Int32" Name="ValueID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="Value" Nullable="false" />
+    <Property Type="Int32" Name="AttributeID" Nullable="false" />
+    <Property Type="Int32" Name="TypicalID" Nullable="false" />
+    <NavigationProperty Name="TAttribute" Relationship="PaoliPDWModel.fkTIA_Attribute" FromRole="TypicalIntAttribute" ToRole="TAttribute" />
+    <NavigationProperty Name="Typical" Relationship="PaoliPDWModel.fkTIA_Typical" FromRole="TypicalIntAttribute" ToRole="Typical" />
+  </EntityType>
+  <EntityType Name="TypicalOptionAttribute">
+    <Key>
+      <PropertyRef Name="ValueID" />
+    </Key>
+    <Property Type="Int32" Name="ValueID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="OptionID" Nullable="false" />
+    <Property Type="Int32" Name="AttributeID" Nullable="false" />
+    <Property Type="Int32" Name="TypicalID" Nullable="false" />
+    <NavigationProperty Name="TAttributeOption" Relationship="PaoliPDWModel.fkTOA_AttributeOption" FromRole="TypicalOptionAttribute" ToRole="TAttributeOption" />
+    <NavigationProperty Name="TAttribute" Relationship="PaoliPDWModel.fkTOA_Attribute" FromRole="TypicalOptionAttribute" ToRole="TAttribute" />
+    <NavigationProperty Name="Typical" Relationship="PaoliPDWModel.fkTOA_Typical" FromRole="TypicalOptionAttribute" ToRole="Typical" />
+  </EntityType>
+  <EntityType Name="Typical">
+    <Key>
+      <PropertyRef Name="TypicalID" />
+    </Key>
+    <Property Type="Int32" Name="TypicalID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
+    <NavigationProperty Name="TypicalImageFiles" Relationship="PaoliPDWModel.fkTIF_Typical" FromRole="Typical" ToRole="TypicalImageFile" />
+    <NavigationProperty Name="TypicalIntAttributes" Relationship="PaoliPDWModel.fkTIA_Typical" FromRole="Typical" ToRole="TypicalIntAttribute" />
+    <NavigationProperty Name="TypicalOptionAttributes" Relationship="PaoliPDWModel.fkTOA_Typical" FromRole="Typical" ToRole="TypicalOptionAttribute" />
+    <NavigationProperty Name="TypicalTextAttributes" Relationship="PaoliPDWModel.fkTTA_Typical" FromRole="Typical" ToRole="TypicalTextAttribute" />
+    <NavigationProperty Name="SeriesTypicals" Relationship="PaoliPDWModel.fkST_Typical" FromRole="Typical" ToRole="SeriesTypical" />
+    <Property Type="String" Name="DBKeywords" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="SpecRequestID" />
+    <Property Type="String" Name="FeaturedSeries" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="SeriesList" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Boolean" Name="AvailableForIn2" />
+    <NavigationProperty Name="SpecRequest" Relationship="PaoliPDWModel.fkTypical_Spec" FromRole="Typical" ToRole="SpecRequest" />
+    <Property Type="String" Name="Notes" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Boolean" Name="IsPublished" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TypicalTextAttribute">
+    <Key>
+      <PropertyRef Name="ValueID" />
+    </Key>
+    <Property Type="Int32" Name="ValueID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Value" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="AttributeID" Nullable="false" />
+    <Property Type="Int32" Name="TypicalID" Nullable="false" />
+    <NavigationProperty Name="TAttribute" Relationship="PaoliPDWModel.fkTTA_Attribute" FromRole="TypicalTextAttribute" ToRole="TAttribute" />
+    <NavigationProperty Name="Typical" Relationship="PaoliPDWModel.fkTTA_Typical" FromRole="TypicalTextAttribute" ToRole="Typical" />
+  </EntityType>
+  <Association Name="fkTIF_Image">
+    <End Type="PaoliPDWModel.ImageFile" Role="ImageFile" Multiplicity="1" />
+    <End Type="PaoliPDWModel.TypicalImageFile" Role="TypicalImageFile" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ImageFile">
+        <PropertyRef Name="ImageID" />
+      </Principal>
+      <Dependent Role="TypicalImageFile">
+        <PropertyRef Name="ImageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkTOA_AttributeOption">
+    <End Type="PaoliPDWModel.TAttributeOption" Role="TAttributeOption" Multiplicity="1" />
+    <End Type="PaoliPDWModel.TypicalOptionAttribute" Role="TypicalOptionAttribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TAttributeOption">
+        <PropertyRef Name="OptionID" />
+      </Principal>
+      <Dependent Role="TypicalOptionAttribute">
+        <PropertyRef Name="OptionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkTOption_Attribute">
+    <End Type="PaoliPDWModel.TAttribute" Role="TAttribute" Multiplicity="1" />
+    <End Type="PaoliPDWModel.TAttributeOption" Role="TAttributeOption" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TAttribute">
+        <PropertyRef Name="AttributeID" />
+      </Principal>
+      <Dependent Role="TAttributeOption">
+        <PropertyRef Name="AttributeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkTIA_Attribute">
+    <End Type="PaoliPDWModel.TAttribute" Role="TAttribute" Multiplicity="1" />
+    <End Type="PaoliPDWModel.TypicalIntAttribute" Role="TypicalIntAttribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TAttribute">
+        <PropertyRef Name="AttributeID" />
+      </Principal>
+      <Dependent Role="TypicalIntAttribute">
+        <PropertyRef Name="AttributeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkTOA_Attribute">
+    <End Type="PaoliPDWModel.TAttribute" Role="TAttribute" Multiplicity="1" />
+    <End Type="PaoliPDWModel.TypicalOptionAttribute" Role="TypicalOptionAttribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TAttribute">
+        <PropertyRef Name="AttributeID" />
+      </Principal>
+      <Dependent Role="TypicalOptionAttribute">
+        <PropertyRef Name="AttributeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkTTA_Attribute">
+    <End Type="PaoliPDWModel.TAttribute" Role="TAttribute" Multiplicity="1" />
+    <End Type="PaoliPDWModel.TypicalTextAttribute" Role="TypicalTextAttribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TAttribute">
+        <PropertyRef Name="AttributeID" />
+      </Principal>
+      <Dependent Role="TypicalTextAttribute">
+        <PropertyRef Name="AttributeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkTIF_Typical">
+    <End Type="PaoliPDWModel.Typical" Role="Typical" Multiplicity="1" />
+    <End Type="PaoliPDWModel.TypicalImageFile" Role="TypicalImageFile" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Typical">
+        <PropertyRef Name="TypicalID" />
+      </Principal>
+      <Dependent Role="TypicalImageFile">
+        <PropertyRef Name="TypicalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkTIA_Typical">
+    <End Type="PaoliPDWModel.Typical" Role="Typical" Multiplicity="1" />
+    <End Type="PaoliPDWModel.TypicalIntAttribute" Role="TypicalIntAttribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Typical">
+        <PropertyRef Name="TypicalID" />
+      </Principal>
+      <Dependent Role="TypicalIntAttribute">
+        <PropertyRef Name="TypicalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkTOA_Typical">
+    <End Type="PaoliPDWModel.Typical" Role="Typical" Multiplicity="1" />
+    <End Type="PaoliPDWModel.TypicalOptionAttribute" Role="TypicalOptionAttribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Typical">
+        <PropertyRef Name="TypicalID" />
+      </Principal>
+      <Dependent Role="TypicalOptionAttribute">
+        <PropertyRef Name="TypicalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkTTA_Typical">
+    <End Type="PaoliPDWModel.Typical" Role="Typical" Multiplicity="1" />
+    <End Type="PaoliPDWModel.TypicalTextAttribute" Role="TypicalTextAttribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Typical">
+        <PropertyRef Name="TypicalID" />
+      </Principal>
+      <Dependent Role="TypicalTextAttribute">
+        <PropertyRef Name="TypicalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="SeriesTypical">
+    <Key>
+      <PropertyRef Name="AssociationID" />
+    </Key>
+    <Property Type="Int32" Name="AssociationID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Boolean" Name="IsPrimary" Nullable="false" />
+    <Property Type="Int32" Name="SeriesID" Nullable="false" />
+    <Property Type="Int32" Name="TypicalID" Nullable="false" />
+    <NavigationProperty Name="Series" Relationship="PaoliPDWModel.fkST_Series" FromRole="SeriesTypical" ToRole="Series" />
+    <NavigationProperty Name="Typical" Relationship="PaoliPDWModel.fkST_Typical" FromRole="SeriesTypical" ToRole="Typical" />
+  </EntityType>
+  <Association Name="fkST_Series">
+    <End Type="PaoliPDWModel.Series" Role="Series" Multiplicity="1" />
+    <End Type="PaoliPDWModel.SeriesTypical" Role="SeriesTypical" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Series">
+        <PropertyRef Name="SeriesID" />
+      </Principal>
+      <Dependent Role="SeriesTypical">
+        <PropertyRef Name="SeriesID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkST_Typical">
+    <End Type="PaoliPDWModel.Typical" Role="Typical" Multiplicity="1" />
+    <End Type="PaoliPDWModel.SeriesTypical" Role="SeriesTypical" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Typical">
+        <PropertyRef Name="TypicalID" />
+      </Principal>
+      <Dependent Role="SeriesTypical">
+        <PropertyRef Name="TypicalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="SearchResultsLog">
+    <Key>
+      <PropertyRef Name="LogID" />
+    </Key>
+    <Property Type="Int32" Name="LogID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="DateTime" Name="SearchDateTime" Nullable="false" />
+    <Property Type="String" Name="SearchTerm" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="SeriesCount" Nullable="false" />
+    <Property Type="Int32" Name="ImageCount" Nullable="false" />
+    <Property Type="Int32" Name="TypicalCount" Nullable="false" />
+    <Property Type="Int32" Name="PageCount" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PublicationImage">
+    <Key>
+      <PropertyRef Name="PublicationID" />
+      <PropertyRef Name="ImageID" />
+    </Key>
+    <Property Type="Int32" Name="PublicationID" Nullable="false" />
+    <Property Type="Int32" Name="ImageID" Nullable="false" />
+    <Property Type="Int32" Name="PageNumber" />
+    <NavigationProperty Name="ImageFile" Relationship="PaoliPDWModel.fkPI_Image" FromRole="PublicationImage" ToRole="ImageFile" />
+    <NavigationProperty Name="Publication" Relationship="PaoliPDWModel.fkPI_Publication" FromRole="PublicationImage" ToRole="Publication" />
+  </EntityType>
+  <EntityType Name="Publication">
+    <Key>
+      <PropertyRef Name="PublicationID" />
+    </Key>
+    <Property Type="Int32" Name="PublicationID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="PubDate" Nullable="false" />
+    <NavigationProperty Name="PublicationImages" Relationship="PaoliPDWModel.fkPI_Publication" FromRole="Publication" ToRole="PublicationImage" />
+    <Property Type="Boolean" Name="FilterVisible" Nullable="false" />
+  </EntityType>
+  <Association Name="fkPI_Image">
+    <End Type="PaoliPDWModel.ImageFile" Role="ImageFile" Multiplicity="1" />
+    <End Type="PaoliPDWModel.PublicationImage" Role="PublicationImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ImageFile">
+        <PropertyRef Name="ImageID" />
+      </Principal>
+      <Dependent Role="PublicationImage">
+        <PropertyRef Name="ImageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkPI_Publication">
+    <End Type="PaoliPDWModel.Publication" Role="Publication" Multiplicity="1" />
+    <End Type="PaoliPDWModel.PublicationImage" Role="PublicationImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Publication">
+        <PropertyRef Name="PublicationID" />
+      </Principal>
+      <Dependent Role="PublicationImage">
+        <PropertyRef Name="PublicationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Dealer">
+    <Key>
+      <PropertyRef Name="DealerID" />
+    </Key>
+    <Property Type="Int32" Name="DealerID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="URL" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="MainContent" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="PageLinks" Relationship="PaoliPDWModel.DealerPageLinks" FromRole="Dealer" ToRole="PageLink" />
+    <NavigationProperty Name="VideoLinks" Relationship="PaoliPDWModel.DealerVideoLinks" FromRole="Dealer" ToRole="VideoLink" />
+    <Property Type="Int32" Name="FeaturedVideoID" Nullable="false" />
+    <NavigationProperty Name="FeaturedVideo" Relationship="PaoliPDWModel.fkDealer_VideoLink" FromRole="Dealer" ToRole="VideoLink" />
+    <NavigationProperty Name="DealerFeaturedProducts" Relationship="PaoliPDWModel.fkDFP_Dealer" FromRole="Dealer" ToRole="DealerFeaturedProduct" />
+    <Property Type="String" Name="ProductsHeadline" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="PagesHeadline" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="VideosHeadline" MaxLength="200" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="PageLink">
+    <Key>
+      <PropertyRef Name="PageID" />
+    </Key>
+    <Property Type="Int32" Name="PageID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Display" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="URLLocation" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Dealers" Relationship="PaoliPDWModel.DealerPageLinks" FromRole="PageLink" ToRole="Dealer" />
+  </EntityType>
+  <EntityType Name="VideoLink">
+    <Key>
+      <PropertyRef Name="VideoID" />
+    </Key>
+    <Property Type="Int32" Name="VideoID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Display" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="YouTubeID" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Dealers" Relationship="PaoliPDWModel.DealerVideoLinks" FromRole="VideoLink" ToRole="Dealer" />
+    <NavigationProperty Name="DealersAsFeatured" Relationship="PaoliPDWModel.fkDealer_VideoLink" FromRole="VideoLink" ToRole="Dealer" />
+  </EntityType>
+  <Association Name="DealerPageLinks">
+    <End Type="PaoliPDWModel.Dealer" Role="Dealer" Multiplicity="*" />
+    <End Type="PaoliPDWModel.PageLink" Role="PageLink" Multiplicity="*" />
+  </Association>
+  <Association Name="DealerVideoLinks">
+    <End Type="PaoliPDWModel.Dealer" Role="Dealer" Multiplicity="*" />
+    <End Type="PaoliPDWModel.VideoLink" Role="VideoLink" Multiplicity="*" />
+  </Association>
+  <Association Name="fkDealer_VideoLink">
+    <End Type="PaoliPDWModel.VideoLink" Role="VideoLink" Multiplicity="1" />
+    <End Type="PaoliPDWModel.Dealer" Role="Dealer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VideoLink">
+        <PropertyRef Name="VideoID" />
+      </Principal>
+      <Dependent Role="Dealer">
+        <PropertyRef Name="FeaturedVideoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="DealerFeaturedProduct">
+    <Key>
+      <PropertyRef Name="DealerID" />
+      <PropertyRef Name="SeriesName" />
+    </Key>
+    <Property Type="Int32" Name="DealerID" Nullable="false" />
+    <Property Type="String" Name="SeriesName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Dealer" Relationship="PaoliPDWModel.fkDFP_Dealer" FromRole="DealerFeaturedProduct" ToRole="Dealer" />
+  </EntityType>
+  <Association Name="fkDFP_Dealer">
+    <End Type="PaoliPDWModel.Dealer" Role="Dealer" Multiplicity="1" />
+    <End Type="PaoliPDWModel.DealerFeaturedProduct" Role="DealerFeaturedProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dealer">
+        <PropertyRef Name="DealerID" />
+      </Principal>
+      <Dependent Role="DealerFeaturedProduct">
+        <PropertyRef Name="DealerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Type="Int32" Name="UserID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Address1" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Address2" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="City" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="State" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Zip" MaxLength="12" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Email" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="BusinessPhone" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="CellPhone" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Title" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Password" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="Boolean" Name="Enabled" Nullable="false" />
+    <Property Type="Int32" Name="AccountType" Nullable="false" />
+    <NavigationProperty Name="SpecRequests" Relationship="PaoliPDWModel.fkSpec_DealerSalesRep" FromRole="User" ToRole="SpecRequest" />
+    <NavigationProperty Name="SpecRequests1" Relationship="PaoliPDWModel.fkSpec_PaoliSpecTeam" FromRole="User" ToRole="SpecRequest" />
+    <Property Type="Int32" Name="CompanyID" Nullable="false" />
+    <NavigationProperty Name="Company" Relationship="PaoliPDWModel.fkUser_Company" FromRole="User" ToRole="Company" />
+    <Property Type="Boolean" Name="RecWelcomeEmail" Nullable="false" />
+    <Property Type="String" Name="ImageFileName" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="SpecRequests2" Relationship="PaoliPDWModel.fkSpecRequest_PSRMember" FromRole="User" ToRole="SpecRequest" />
+    <NavigationProperty Name="CollateralOrders" Relationship="PaoliPDWModel.fkCOrder_DealerMember" FromRole="User" ToRole="CollateralOrder" />
+    <NavigationProperty Name="CollateralOrders1" Relationship="PaoliPDWModel.fkCOrder_SalesRepMember" FromRole="User" ToRole="CollateralOrder" />
+    <NavigationProperty Name="CollateralOrders1_1" Relationship="PaoliPDWModel.fkCOrder_PaoliMember" FromRole="User" ToRole="CollateralOrder" />
+    <NavigationProperty Name="CollateralOrders_1" Relationship="PaoliPDWModel.fkCO_CreatedUser" FromRole="User" ToRole="CollateralOrder" />
+    <NavigationProperty Name="CollateralOrders_2" Relationship="PaoliPDWModel.fkCO_CanceledUser" FromRole="User" ToRole="CollateralOrder" />
+    <NavigationProperty Name="CollateralOrders5" Relationship="PaoliPDWModel.fkCOrder_SPDealerMember" FromRole="User" ToRole="CollateralOrder" />
+    <NavigationProperty Name="CollateralOrders6" Relationship="PaoliPDWModel.fkCOrder_SPPaoliMember" FromRole="User" ToRole="CollateralOrder" />
+    <NavigationProperty Name="CollateralOrders7" Relationship="PaoliPDWModel.fkCOrder_SPSalesRepMember" FromRole="User" ToRole="CollateralOrder" />
+    <NavigationProperty Name="CompaniesAsPaoliMember" Relationship="PaoliPDWModel.fkCompany_PaoliMember" FromRole="User" ToRole="Company" />
+    <Property Type="Boolean" Name="IsTempPassword" Nullable="false" />
+    <NavigationProperty Name="CompaniesAsPaoliSalesRep" Relationship="PaoliPDWModel.fkCompany_PaoliSalesRepMember" FromRole="User" ToRole="Company" />
+    <Property Type="Boolean" Name="IsActive" Nullable="false" />
+    <NavigationProperty Name="UserLogins" Relationship="PaoliPDWModel.fkLogin_User" FromRole="User" ToRole="UserLogin" />
+    <NavigationProperty Name="ScoopArticles" Relationship="PaoliPDWModel.fkScoopArticle_User" FromRole="User" ToRole="ScoopArticle" />
+    <Property Type="String" Name="AuthorCredit" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="eCollateralItems" Relationship="PaoliPDWModel.fkeCollateral_CreatedUser" FromRole="User" ToRole="eCollateralItem" />
+    <NavigationProperty Name="eCollateralItems1" Relationship="PaoliPDWModel.fkeCollateral_DealerUser" FromRole="User" ToRole="eCollateralItem" />
+    <NavigationProperty Name="eCollateralItems2" Relationship="PaoliPDWModel.fkeCollateral_ModifiedUser" FromRole="User" ToRole="eCollateralItem" />
+    <NavigationProperty Name="SpecRequestEvents" Relationship="PaoliPDWModel.FK_Events_Users" FromRole="User" ToRole="SpecRequestEvent" />
+    <NavigationProperty Name="LeadTimeDetails" Relationship="PaoliPDWModel.FK_LeadTimeDetail_User" FromRole="User" ToRole="LeadTimeDetail" />
+    <Property Type="Int32" Name="DefaultShippingAddress" Nullable="false" />
+    <Property Type="Boolean" Name="ViewPerfData" Nullable="false" />
+    <Property Type="String" Name="TierGroup" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="HomeAddress1" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="HomeAddress2" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="HomeCity" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="HomeState" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="HomeZip" MaxLength="12" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="HomePhone" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="PersonalCellPhone" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="FAX" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Extension" MaxLength="10" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="UserNotification" Relationship="PaoliPDWModel.FK_User_Notifications" FromRole="User" ToRole="UserNotification" />
+    <Property Type="Int32" Name="CreatedByUser" />
+    <Property Type="DateTime" Name="CreatedDateTime" />
+    <NavigationProperty Name="Users1" Relationship="PaoliPDWModel.fkUsers_CreatedByUser" FromRole="User" ToRole="User1" />
+    <NavigationProperty Name="User1" Relationship="PaoliPDWModel.fkUsers_CreatedByUser" FromRole="User1" ToRole="User" />
+    <Property Type="Boolean" Name="AllowNewsMgmt" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Company">
+    <Key>
+      <PropertyRef Name="CompanyID" />
+    </Key>
+    <Property Type="Int32" Name="CompanyID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Address1" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Address2" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="City" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="State" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Zip" MaxLength="12" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Phone" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="FAX" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="MasterID" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="SubCompanyIDs" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="CompanyType" Nullable="false" />
+    <NavigationProperty Name="SpecRequests" Relationship="PaoliPDWModel.fkSpec_Company" FromRole="Company" ToRole="SpecRequest" />
+    <NavigationProperty Name="SpecRequests1" Relationship="PaoliPDWModel.fkSpec_RepGroup" FromRole="Company" ToRole="SpecRequest" />
+    <NavigationProperty Name="Users" Relationship="PaoliPDWModel.fkUser_Company" FromRole="Company" ToRole="User" />
+    <Property Type="Int32" Name="TerritoryID" />
+    <NavigationProperty Name="Territory" Relationship="PaoliPDWModel.fkCompany_Territory" FromRole="Company" ToRole="Territory" />
+    <Property Type="String" Name="PublicAddress1" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="PublicAddress2" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="PublicCity" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="PublicState" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="PublicZip" MaxLength="12" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="PublicPhone" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="PublicFAX" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ContactEmail" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="WebSite" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="PublicContactEmail" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="PublicWebSite" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="PublicDisplayName" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Showroom" Relationship="PaoliPDWModel.fkShowroom_Company" FromRole="Company" ToRole="Showroom" />
+    <NavigationProperty Name="ShowroomImages" ToRole="ImageFile" FromRole="Company" Relationship="PaoliPDWModel.ShowroomImages" />
+    <NavigationProperty Name="CollateralOrders" Relationship="PaoliPDWModel.fkCOrder_Dealer" FromRole="Company" ToRole="CollateralOrder" />
+    <NavigationProperty Name="CollateralOrders1" Relationship="PaoliPDWModel.fkCOrder_SalesRep" FromRole="Company" ToRole="CollateralOrder" />
+    <NavigationProperty Name="CollateralOrders2" Relationship="PaoliPDWModel.fkCOrder_SPDealer" FromRole="Company" ToRole="CollateralOrder" />
+    <NavigationProperty Name="CollateralOrders3" Relationship="PaoliPDWModel.fkCOrder_SPSalesRep" FromRole="Company" ToRole="CollateralOrder" />
+    <Property Type="String" Name="BusinessUnitName" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="PaoliMemberID" />
+    <NavigationProperty Name="PaoliMember" Relationship="PaoliPDWModel.fkCompany_PaoliMember" FromRole="Company" ToRole="User" />
+    <Property Type="Int32" Name="PaoliSalesRepMemberID" />
+    <NavigationProperty Name="PaoliSalesRepMember" Relationship="PaoliPDWModel.fkCompany_PaoliSalesRepMember" FromRole="Company" ToRole="User" />
+    <NavigationProperty Name="eCollateralItems" Relationship="PaoliPDWModel.fkeCollateral_Dealership" FromRole="Company" ToRole="eCollateralItem" />
+    <Property Type="Boolean" Name="SignedUpForTrip" Nullable="false" />
+    <Property Type="String" Name="TripGroup" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="TierGroup" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ImageFileName" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Projects" Relationship="PaoliPDWModel.fkProject_Company" FromRole="Company" ToRole="Project" />
+    <NavigationProperty Name="Projects1" Relationship="PaoliPDWModel.fkProject_EndCustomer" FromRole="Company" ToRole="Project" />
+    <NavigationProperty Name="CompanyTripData" Relationship="PaoliPDWModel.fkTripData_Company" FromRole="Company" ToRole="CompanyTripData" />
+    <NavigationProperty Name="TerritoryTripData" Relationship="PaoliPDWModel.fkTerritoryTripData_Company" FromRole="Company" ToRole="TerritoryTripData" />
+    <Property Type="Boolean" Name="IsDisabled" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SpecRequestFile">
+    <Key>
+      <PropertyRef Name="FileID" />
+    </Key>
+    <Property Type="Int32" Name="FileID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="RequestID" Nullable="false" />
+    <Property Type="String" Name="Extension" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="VersionNumber" Nullable="false" />
+    <Property Type="DateTime" Name="UploadDate" Nullable="false" />
+    <NavigationProperty Name="SpecRequest" Relationship="PaoliPDWModel.fkSpecFile_Request" FromRole="SpecRequestFile" ToRole="SpecRequest" />
+    <Property Type="Boolean" Name="IsSpecTeam" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SpecRequest">
+    <Key>
+      <PropertyRef Name="RequestID" />
+    </Key>
+    <Property Type="Int32" Name="RequestID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="PaoliSalesRepGroupID" />
+    <Property Type="Int32" Name="PrimaryCompanyID" />
+    <Property Type="Int32" Name="DealerSalesRepID" />
+    <Property Type="Int32" Name="PaoliSpecTeamMemberID" />
+    <Property Type="String" Name="SavedLocation" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="ListPrice" />
+    <Property Type="String" Name="FeaturedSeries" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="SeriesList" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Boolean" Name="Received" />
+    <Property Type="String" Name="SPLQuote" Unicode="true" MaxLength="20" FixedLength="false" />
+    <Property Type="DateTime" Name="LastModifiedDate" />
+    <Property Type="String" Name="Material" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Finish" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="Boolean" Name="IsGoodForWeb" />
+    <Property Type="Boolean" Name="AvailableForIn2" />
+    <Property Type="String" Name="Footprint" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Notes" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="PrimaryCompany" Relationship="PaoliPDWModel.fkSpec_Company" FromRole="SpecRequest" ToRole="Company" />
+    <NavigationProperty Name="PaoliSalesRepGroup" Relationship="PaoliPDWModel.fkSpec_RepGroup" FromRole="SpecRequest" ToRole="Company" />
+    <NavigationProperty Name="SpecRequestFiles" Relationship="PaoliPDWModel.fkSpecFile_Request" FromRole="SpecRequest" ToRole="SpecRequestFile" />
+    <NavigationProperty Name="DealerSalesRep" Relationship="PaoliPDWModel.fkSpec_DealerSalesRep" FromRole="SpecRequest" ToRole="User" />
+    <NavigationProperty Name="SpecTeamMember" Relationship="PaoliPDWModel.fkSpec_PaoliSpecTeam" FromRole="SpecRequest" ToRole="User" />
+    <NavigationProperty Name="Typicals" Relationship="PaoliPDWModel.fkTypical_Spec" FromRole="SpecRequest" ToRole="Typical" />
+    <Property Type="Boolean" Name="IsCompleted" Nullable="false" />
+    <Property Type="Int32" Name="PaoliSalesRepMemberID" />
+    <Property Type="String" Name="ProjectSize" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="Boolean" Name="NeedFloorplanSpecs" Nullable="false" />
+    <Property Type="Boolean" Name="Need3DDrawing" Nullable="false" />
+    <Property Type="Boolean" Name="NeedValueEng" Nullable="false" />
+    <Property Type="Boolean" Name="NeedPhotoRendering" Nullable="false" />
+    <Property Type="Boolean" Name="Need2DDrawing" Nullable="false" />
+    <Property Type="Boolean" Name="NeedAuditSpecs" Nullable="false" />
+    <Property Type="String" Name="Casegoods" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Conferencing" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Seating" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Finishes" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Boolean" Name="Grommets" Nullable="false" />
+    <Property Type="String" Name="GrommetDetails" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="DrawerOption" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="FabricGrade" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="FabricDetails" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="SpecialRequests" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="PaoliSalesRepMember" Relationship="PaoliPDWModel.fkSpecRequest_PSRMember" FromRole="SpecRequest" ToRole="User" />
+    <Property Type="String" Name="OtherFinishDetails" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="LaminatePreference" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="DealerPOCText" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Boolean" Name="NeedDWGFiles" Nullable="false" />
+    <Property Type="Boolean" Name="NeedSP4Files" Nullable="false" />
+    <Property Type="Boolean" Name="NeedSIFFiles" Nullable="false" />
+    <Property Type="Boolean" Name="NeedXLSFiles" Nullable="false" />
+    <Property Type="Boolean" Name="NeedPDFFiles" Nullable="false" />
+    <Property Type="String" Name="GrommetPosition" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="SpecTeamNotes" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Boolean" Name="IsCanceled" Nullable="false" />
+    <Property Type="String" Name="DealerPOCEmail" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="DealerPOCPhone" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="DealerPOCAcctType" />
+    <Property Type="String" Name="InternalNotes" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Boolean" Name="IsOnHold" Nullable="false" />
+    <NavigationProperty Name="SpecRequestEvents" Relationship="PaoliPDWModel.FK_Events_SpecRequests" FromRole="SpecRequest" ToRole="SpecRequestEvent" />
+    <Property Type="Int32" Name="ProjectID" />
+    <Property Type="String" Name="OldProjectName" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="OldEndCustomer" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="Boolean" Name="OldIsGSA" />
+    <Property Type="Int32" Name="OldContractID" />
+    <NavigationProperty Name="Project" Relationship="PaoliPDWModel.fkSpecRequest_Project" FromRole="SpecRequest" ToRole="Project" />
+    <Property Type="String" Name="VeneerPreference" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ProjectScope" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ProjectListPrice" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Boolean" Name="IsPhasedProject" />
+    <Property Type="Int32" Name="NumberOfPhases" />
+    <Property Type="Boolean" Name="IsStandardsProgram" />
+    <Property Type="DateTime" Name="ProjectFirstOrderDate" />
+    <Property Type="String" Name="Competitors" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="CompetitorSeries" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Status" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="OrderPlacedDate" />
+    <Property Type="String" Name="OrderCost" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="AckNumber" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="LostReason" MaxLength="250" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="fkSpec_Company">
+    <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.SpecRequest" Role="SpecRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="SpecRequest">
+        <PropertyRef Name="PrimaryCompanyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSpec_RepGroup">
+    <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.SpecRequest" Role="SpecRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="SpecRequest">
+        <PropertyRef Name="PaoliSalesRepGroupID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSpecFile_Request">
+    <End Type="PaoliPDWModel.SpecRequest" Role="SpecRequest" Multiplicity="1" />
+    <End Type="PaoliPDWModel.SpecRequestFile" Role="SpecRequestFile" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SpecRequest">
+        <PropertyRef Name="RequestID" />
+      </Principal>
+      <Dependent Role="SpecRequestFile">
+        <PropertyRef Name="RequestID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSpec_DealerSalesRep">
+    <End Type="PaoliPDWModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.SpecRequest" Role="SpecRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="SpecRequest">
+        <PropertyRef Name="DealerSalesRepID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSpec_PaoliSpecTeam">
+    <End Type="PaoliPDWModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.SpecRequest" Role="SpecRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="SpecRequest">
+        <PropertyRef Name="PaoliSpecTeamMemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkUser_Company">
+    <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="1" />
+    <End Type="PaoliPDWModel.User" Role="User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="CompanyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkTypical_Spec">
+    <End Type="PaoliPDWModel.SpecRequest" Role="SpecRequest" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.Typical" Role="Typical" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SpecRequest">
+        <PropertyRef Name="RequestID" />
+      </Principal>
+      <Dependent Role="Typical">
+        <PropertyRef Name="SpecRequestID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Territory">
+    <Key>
+      <PropertyRef Name="TerritoryID" />
+    </Key>
+    <Property Type="Int32" Name="TerritoryID" Nullable="false" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Companies" Relationship="PaoliPDWModel.fkCompany_Territory" FromRole="Territory" ToRole="Company" />
+    <NavigationProperty Name="ZipCodeInfoes" Relationship="PaoliPDWModel.fkZip_Territory" FromRole="Territory" ToRole="ZipCodeInfo" />
+    <NavigationProperty Name="Projects" Relationship="PaoliPDWModel.fkProject_Territory" FromRole="Territory" ToRole="Project" />
+  </EntityType>
+  <Association Name="fkCompany_Territory">
+    <End Type="PaoliPDWModel.Territory" Role="Territory" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Territory">
+        <PropertyRef Name="TerritoryID" />
+      </Principal>
+      <Dependent Role="Company">
+        <PropertyRef Name="TerritoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Showroom">
+    <Key>
+      <PropertyRef Name="CompanyID" />
+    </Key>
+    <Property Type="Int32" Name="CompanyID" Nullable="false" />
+    <Property Type="String" Name="DisplayName" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Address1" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Address2" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="City" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="State" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Zip" MaxLength="12" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Phone" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="FAX" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="WebSite" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Hours" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Company" Relationship="PaoliPDWModel.fkShowroom_Company" FromRole="Showroom" ToRole="Company" />
+  </EntityType>
+  <EntityType Name="ZipCodeInfo">
+    <Key>
+      <PropertyRef Name="ZipCode" />
+    </Key>
+    <Property Type="String" Name="ZipCode" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="TerritoryID" Nullable="false" />
+    <Property Type="Double" Name="Longitude" Nullable="false" />
+    <Property Type="Double" Name="Latitude" Nullable="false" />
+    <NavigationProperty Name="Territory" Relationship="PaoliPDWModel.fkZip_Territory" FromRole="ZipCodeInfo" ToRole="Territory" />
+  </EntityType>
+  <Association Name="fkShowroom_Company">
+    <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="1" />
+    <End Type="PaoliPDWModel.Showroom" Role="Showroom" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="Showroom">
+        <PropertyRef Name="CompanyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkZip_Territory">
+    <End Type="PaoliPDWModel.Territory" Role="Territory" Multiplicity="1" />
+    <End Type="PaoliPDWModel.ZipCodeInfo" Role="ZipCodeInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Territory">
+        <PropertyRef Name="TerritoryID" />
+      </Principal>
+      <Dependent Role="ZipCodeInfo">
+        <PropertyRef Name="TerritoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ShowroomImages">
+    <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="*" />
+    <End Type="PaoliPDWModel.ImageFile" Role="ImageFile" Multiplicity="*" />
+  </Association>
+  <EntityType Name="CollateralItem">
+    <Key>
+      <PropertyRef Name="CollateralID" />
+    </Key>
+    <Property Type="Int32" Name="CollateralID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="LeadTime" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="StatusDate" />
+    <Property Type="Int32" Name="Quantity" Nullable="false" />
+    <Property Type="String" Name="ImageFileName" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="Double" Name="Price" />
+    <Property Type="Double" Name="Shipping" />
+    <Property Type="Double" Name="Weight" />
+    <Property Type="Boolean" Name="IsGroup" Nullable="false" />
+    <Property Type="Int32" Name="CollateralTypeID" />
+    <NavigationProperty Name="CollateralType" Relationship="PaoliPDWModel.fkCollateral_Type" FromRole="CollateralItem" ToRole="CollateralType" />
+    <NavigationProperty Name="CollateralGroups" Relationship="PaoliPDWModel.fkCGI_Children" FromRole="CollateralItem" ToRole="CollateralGroupItem" />
+    <NavigationProperty Name="CollateralGroupItems" Relationship="PaoliPDWModel.fkCGI_Parent" FromRole="CollateralItem" ToRole="CollateralGroupItem" />
+    <Property Type="Boolean" Name="IsActive" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CollateralType">
+    <Key>
+      <PropertyRef Name="CollateralTypeID" />
+    </Key>
+    <Property Type="Int32" Name="CollateralTypeID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="CollateralItems" Relationship="PaoliPDWModel.fkCollateral_Type" FromRole="CollateralType" ToRole="CollateralItem" />
+    <Property Type="Int32" Name="DisplayOrder" />
+  </EntityType>
+  <Association Name="fkCollateral_Type">
+    <End Type="PaoliPDWModel.CollateralType" Role="CollateralType" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.CollateralItem" Role="CollateralItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CollateralType">
+        <PropertyRef Name="CollateralTypeID" />
+      </Principal>
+      <Dependent Role="CollateralItem">
+        <PropertyRef Name="CollateralTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="CollateralGroupItem">
+    <Key>
+      <PropertyRef Name="GroupID" />
+      <PropertyRef Name="CollateralID" />
+    </Key>
+    <Property Type="Int32" Name="GroupID" Nullable="false" />
+    <Property Type="Int32" Name="CollateralID" Nullable="false" />
+    <Property Type="Int32" Name="Quantity" Nullable="false" />
+    <NavigationProperty Name="ChildCollateralItem" Relationship="PaoliPDWModel.fkCGI_Children" FromRole="CollateralGroupItem" ToRole="CollateralItem" />
+    <NavigationProperty Name="GroupCollateralItem" Relationship="PaoliPDWModel.fkCGI_Parent" FromRole="CollateralGroupItem" ToRole="CollateralItem" />
+  </EntityType>
+  <Association Name="fkCGI_Children">
+    <End Type="PaoliPDWModel.CollateralItem" Role="CollateralItem" Multiplicity="1" />
+    <End Type="PaoliPDWModel.CollateralGroupItem" Role="CollateralGroupItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CollateralItem">
+        <PropertyRef Name="CollateralID" />
+      </Principal>
+      <Dependent Role="CollateralGroupItem">
+        <PropertyRef Name="CollateralID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCGI_Parent">
+    <End Type="PaoliPDWModel.CollateralItem" Role="CollateralItem" Multiplicity="1" />
+    <End Type="PaoliPDWModel.CollateralGroupItem" Role="CollateralGroupItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CollateralItem">
+        <PropertyRef Name="CollateralID" />
+      </Principal>
+      <Dependent Role="CollateralGroupItem">
+        <PropertyRef Name="GroupID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSpecRequest_PSRMember">
+    <End Type="PaoliPDWModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.SpecRequest" Role="SpecRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="SpecRequest">
+        <PropertyRef Name="PaoliSalesRepMemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="CollateralOrderDetail">
+    <Key>
+      <PropertyRef Name="DetailID" />
+    </Key>
+    <Property Type="Int32" Name="DetailID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="OrderID" Nullable="false" />
+    <Property Type="Int32" Name="Quantity" Nullable="false" />
+    <NavigationProperty Name="CollateralOrder" Relationship="PaoliPDWModel.fkCODetail_Order" FromRole="CollateralOrderDetail" ToRole="CollateralOrder" />
+    <NavigationProperty Name="CollateralOrderShipmentDetails" Relationship="PaoliPDWModel.fkShipmentDetail_CODetail" FromRole="CollateralOrderDetail" ToRole="CollateralOrderShipmentDetail" />
+    <Property Type="String" Name="ItemName" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="GroupName" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="GroupQuantity" />
+    <Property Type="Int32" Name="CollateralTypeNKID" Nullable="false" />
+    <Property Type="String" Name="CollateralTypeName" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="CollateralNKID" Nullable="false" />
+    <Property Type="Int32" Name="GroupNKID" />
+  </EntityType>
+  <EntityType Name="CollateralOrder">
+    <Key>
+      <PropertyRef Name="OrderID" />
+    </Key>
+    <Property Type="Int32" Name="OrderID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="RequestingParty" Nullable="false" />
+    <Property Type="Int32" Name="PaoliRepGroupID" />
+    <Property Type="Int32" Name="DealerID" />
+    <Property Type="String" Name="EndUserFirstName" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="EndUserLastName" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="EndUserPhoneNumber" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="EndUserEMailAddress" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="ShippingType" Nullable="false" />
+    <Property Type="String" Name="ShippingFedexAccount" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ShippingCompanyName" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ShippingAddress1" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ShippingAddress2" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ShippingCity" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ShippingState" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ShippingZip" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ShippingPhoneNumber" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ShippingEmailAddress" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="CollateralOrderDetails" Relationship="PaoliPDWModel.fkCODetail_Order" FromRole="CollateralOrder" ToRole="CollateralOrderDetail" />
+    <NavigationProperty Name="Dealer" Relationship="PaoliPDWModel.fkCOrder_Dealer" FromRole="CollateralOrder" ToRole="Company" />
+    <NavigationProperty Name="PaoliSalesRep" Relationship="PaoliPDWModel.fkCOrder_SalesRep" FromRole="CollateralOrder" ToRole="Company" />
+    <Property Type="DateTime" Name="OrderDate" Nullable="false" />
+    <Property Type="Int32" Name="PaoliRepGroupMemberID" />
+    <Property Type="Int32" Name="DealerMemberID" />
+    <NavigationProperty Name="DealerMember" Relationship="PaoliPDWModel.fkCOrder_DealerMember" FromRole="CollateralOrder" ToRole="User" />
+    <NavigationProperty Name="PaoliSalesRepMember" Relationship="PaoliPDWModel.fkCOrder_SalesRepMember" FromRole="CollateralOrder" ToRole="User" />
+    <Property Type="Int32" Name="ShippingAddressType" Nullable="false" />
+    <Property Type="Int32" Name="PaoliMemberID" />
+    <NavigationProperty Name="PaoliMember" Relationship="PaoliPDWModel.fkCOrder_PaoliMember" FromRole="CollateralOrder" ToRole="User" />
+    <Property Type="Int32" Name="Status" Nullable="false" />
+    <Property Type="String" Name="ShippingAttn" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="CreatedByUserID" Nullable="false" />
+    <NavigationProperty Name="CreatedByUser" Relationship="PaoliPDWModel.fkCO_CreatedUser" FromRole="CollateralOrder" ToRole="User" />
+    <NavigationProperty Name="CollateralOrderShipments" Relationship="PaoliPDWModel.fkShipment_COrder" FromRole="CollateralOrder" ToRole="CollateralOrderShipment" />
+    <Property Type="Int32" Name="CanceledByUserID" />
+    <Property Type="DateTime" Name="CanceledOnDateTime" />
+    <NavigationProperty Name="CanceledByUser" Relationship="PaoliPDWModel.fkCO_CanceledUser" FromRole="CollateralOrder" ToRole="User" />
+    <Property Type="Int32" Name="ShippingParty" Nullable="false" />
+    <Property Type="Int32" Name="SPPaoliMemberID" />
+    <Property Type="Int32" Name="SPPaoliRepGroupID" />
+    <Property Type="Int32" Name="SPPaoliRepGroupMemberID" />
+    <Property Type="Int32" Name="SPDealerID" />
+    <Property Type="Int32" Name="SPDealerMemberID" />
+    <Property Type="String" Name="SPEndUserFirstName" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="SPEndUserLastName" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="SPEndUserPhoneNumber" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="SPEndUserEMailAddress" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="SPDealer" Relationship="PaoliPDWModel.fkCOrder_SPDealer" FromRole="CollateralOrder" ToRole="Company" />
+    <NavigationProperty Name="SPDealerMember" Relationship="PaoliPDWModel.fkCOrder_SPDealerMember" FromRole="CollateralOrder" ToRole="User" />
+    <NavigationProperty Name="SPPaoliMember" Relationship="PaoliPDWModel.fkCOrder_SPPaoliMember" FromRole="CollateralOrder" ToRole="User" />
+    <NavigationProperty Name="SPPaoliSalesRep" Relationship="PaoliPDWModel.fkCOrder_SPSalesRep" FromRole="CollateralOrder" ToRole="Company" />
+    <NavigationProperty Name="SPPaoliSalesRepMember" Relationship="PaoliPDWModel.fkCOrder_SPSalesRepMember" FromRole="CollateralOrder" ToRole="User" />
+    <Property Type="String" Name="RequestingPartyName" MaxLength="300" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
+    <Property Type="String" Name="ShippingPartyName" MaxLength="300" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
+  </EntityType>
+  <Association Name="fkCODetail_Order">
+    <End Type="PaoliPDWModel.CollateralOrder" Role="CollateralOrder" Multiplicity="1" />
+    <End Type="PaoliPDWModel.CollateralOrderDetail" Role="CollateralOrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CollateralOrder">
+        <PropertyRef Name="OrderID" />
+      </Principal>
+      <Dependent Role="CollateralOrderDetail">
+        <PropertyRef Name="OrderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCOrder_Dealer">
+    <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.CollateralOrder" Role="CollateralOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="CollateralOrder">
+        <PropertyRef Name="DealerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCOrder_SalesRep">
+    <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.CollateralOrder" Role="CollateralOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="CollateralOrder">
+        <PropertyRef Name="PaoliRepGroupID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCOrder_DealerMember">
+    <End Type="PaoliPDWModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.CollateralOrder" Role="CollateralOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="CollateralOrder">
+        <PropertyRef Name="DealerMemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCOrder_SalesRepMember">
+    <End Type="PaoliPDWModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.CollateralOrder" Role="CollateralOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="CollateralOrder">
+        <PropertyRef Name="PaoliRepGroupMemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCOrder_PaoliMember">
+    <End Type="PaoliPDWModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.CollateralOrder" Role="CollateralOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="CollateralOrder">
+        <PropertyRef Name="PaoliMemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCO_CreatedUser">
+    <End Type="PaoliPDWModel.User" Role="User" Multiplicity="1" />
+    <End Type="PaoliPDWModel.CollateralOrder" Role="CollateralOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="CollateralOrder">
+        <PropertyRef Name="CreatedByUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="CollateralOrderShipmentDetail">
+    <Key>
+      <PropertyRef Name="DetailID" />
+    </Key>
+    <Property Type="Int32" Name="DetailID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="ShipmentID" Nullable="false" />
+    <Property Type="Int32" Name="OrderDetailID" Nullable="false" />
+    <Property Type="Int32" Name="Quantity" Nullable="false" />
+    <NavigationProperty Name="CollateralOrderDetail" Relationship="PaoliPDWModel.fkShipmentDetail_CODetail" FromRole="CollateralOrderShipmentDetail" ToRole="CollateralOrderDetail" />
+    <NavigationProperty Name="CollateralOrderShipment" Relationship="PaoliPDWModel.fkShipmentDetail_Shipment" FromRole="CollateralOrderShipmentDetail" ToRole="CollateralOrderShipment" />
+  </EntityType>
+  <EntityType Name="CollateralOrderShipment">
+    <Key>
+      <PropertyRef Name="ShipmentID" />
+    </Key>
+    <Property Type="Int32" Name="ShipmentID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="OrderID" Nullable="false" />
+    <Property Type="String" Name="Vendor" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="GLCode" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ShippingType" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ShippingFedexAccount" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ShippingAttn" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ShippingCompanyName" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ShippingAddress1" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ShippingAddress2" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ShippingCity" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ShippingState" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ShippingZip" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ShippingPhoneNumber" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ShippingEmailAddress" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="CollateralOrder" Relationship="PaoliPDWModel.fkShipment_COrder" FromRole="CollateralOrderShipment" ToRole="CollateralOrder" />
+    <NavigationProperty Name="CollateralOrderShipmentDetails" Relationship="PaoliPDWModel.fkShipmentDetail_Shipment" FromRole="CollateralOrderShipment" ToRole="CollateralOrderShipmentDetail" />
+    <Property Type="DateTime" Name="ShipmentDate" Nullable="false" />
+    <Property Type="String" Name="TrackingNumber1" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="TrackingNumber2" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="TrackingNumber3" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="TrackingNumber4" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="fkShipmentDetail_CODetail">
+    <End Type="PaoliPDWModel.CollateralOrderDetail" Role="CollateralOrderDetail" Multiplicity="1" />
+    <End Type="PaoliPDWModel.CollateralOrderShipmentDetail" Role="CollateralOrderShipmentDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CollateralOrderDetail">
+        <PropertyRef Name="DetailID" />
+      </Principal>
+      <Dependent Role="CollateralOrderShipmentDetail">
+        <PropertyRef Name="OrderDetailID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkShipment_COrder">
+    <End Type="PaoliPDWModel.CollateralOrder" Role="CollateralOrder" Multiplicity="1" />
+    <End Type="PaoliPDWModel.CollateralOrderShipment" Role="CollateralOrderShipment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CollateralOrder">
+        <PropertyRef Name="OrderID" />
+      </Principal>
+      <Dependent Role="CollateralOrderShipment">
+        <PropertyRef Name="OrderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkShipmentDetail_Shipment">
+    <End Type="PaoliPDWModel.CollateralOrderShipment" Role="CollateralOrderShipment" Multiplicity="1" />
+    <End Type="PaoliPDWModel.CollateralOrderShipmentDetail" Role="CollateralOrderShipmentDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CollateralOrderShipment">
+        <PropertyRef Name="ShipmentID" />
+      </Principal>
+      <Dependent Role="CollateralOrderShipmentDetail">
+        <PropertyRef Name="ShipmentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCO_CanceledUser">
+    <End Type="PaoliPDWModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.CollateralOrder" Role="CollateralOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="CollateralOrder">
+        <PropertyRef Name="CanceledByUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCOrder_SPDealer">
+    <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.CollateralOrder" Role="CollateralOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="CollateralOrder">
+        <PropertyRef Name="SPDealerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCOrder_SPDealerMember">
+    <End Type="PaoliPDWModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.CollateralOrder" Role="CollateralOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="CollateralOrder">
+        <PropertyRef Name="SPDealerMemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCOrder_SPPaoliMember">
+    <End Type="PaoliPDWModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.CollateralOrder" Role="CollateralOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="CollateralOrder">
+        <PropertyRef Name="SPPaoliMemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCOrder_SPSalesRep">
+    <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.CollateralOrder" Role="CollateralOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="CollateralOrder">
+        <PropertyRef Name="SPPaoliRepGroupID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCOrder_SPSalesRepMember">
+    <End Type="PaoliPDWModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.CollateralOrder" Role="CollateralOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="CollateralOrder">
+        <PropertyRef Name="SPPaoliRepGroupMemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCompany_PaoliMember">
+    <End Type="PaoliPDWModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Company">
+        <PropertyRef Name="PaoliMemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCompany_PaoliSalesRepMember">
+    <End Type="PaoliPDWModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Company">
+        <PropertyRef Name="PaoliSalesRepMemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="GSAContract">
+    <Key>
+      <PropertyRef Name="ContractID" />
+    </Key>
+    <Property Type="Int32" Name="ContractID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Projects" Relationship="PaoliPDWModel.fkProject_GSAContract" FromRole="GSAContract" ToRole="Project" />
+  </EntityType>
+  <EntityType Name="UserLogin">
+    <Key>
+      <PropertyRef Name="LoginRecID" />
+    </Key>
+    <Property Type="Int32" Name="LoginRecID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="UserID" Nullable="false" />
+    <Property Type="DateTime" Name="LoginDate" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="PaoliPDWModel.fkLogin_User" FromRole="UserLogin" ToRole="User" />
+  </EntityType>
+  <Association Name="fkLogin_User">
+    <End Type="PaoliPDWModel.User" Role="User" Multiplicity="1" />
+    <End Type="PaoliPDWModel.UserLogin" Role="UserLogin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="UserLogin">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="HomePageContent">
+    <Key>
+      <PropertyRef Name="PageID" />
+    </Key>
+    <Property Type="Int32" Name="PageID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="ContentData" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="ScoopArticle">
+    <Key>
+      <PropertyRef Name="ArticleID" />
+    </Key>
+    <Property Type="Int32" Name="ArticleID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="BigHeadline" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="BigText" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="BigImageURL" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="SmallHeadline" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="SmallText" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="SmallImageURL" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ContentBlock" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Title" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="PubDate" />
+    <Property Type="Int32" Name="AuthorID" Nullable="false" />
+    <Property Type="Int32" Name="Rank" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="PaoliPDWModel.fkScoopArticle_User" FromRole="ScoopArticle" ToRole="User" />
+    <Property Type="Boolean" Name="ShowBigImage" Nullable="false" />
+    <Property Type="Int32" Name="ArticleType" Nullable="false" />
+    <Property Type="String" Name="Keywords" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="DBKeywords" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="fkScoopArticle_User">
+    <End Type="PaoliPDWModel.User" Role="User" Multiplicity="1" />
+    <End Type="PaoliPDWModel.ScoopArticle" Role="ScoopArticle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="ScoopArticle">
+        <PropertyRef Name="AuthorID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="eCollateralItem">
+    <Key>
+      <PropertyRef Name="ItemID" />
+    </Key>
+    <Property Type="Int32" Name="ItemID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="CreatedByUserID" Nullable="false" />
+    <Property Type="DateTime" Name="CreatedByDateTime" Nullable="false" />
+    <Property Type="Int32" Name="LastModifiedByUserID" Nullable="false" />
+    <Property Type="DateTime" Name="LastModifiedByDateTime" Nullable="false" />
+    <Property Type="Boolean" Name="IsTemplate" Nullable="false" />
+    <Property Type="String" Name="FileName" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="URLText" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="DealershipID" />
+    <Property Type="Int32" Name="DealershipPOCID" />
+    <Property Type="Int32" Name="LayoutID" />
+    <Property Type="Int32" Name="Status" Nullable="false" />
+    <NavigationProperty Name="Company" Relationship="PaoliPDWModel.fkeCollateral_Dealership" FromRole="eCollateralItem" ToRole="Company" />
+    <NavigationProperty Name="CreatedByUser" Relationship="PaoliPDWModel.fkeCollateral_CreatedUser" FromRole="eCollateralItem" ToRole="User" />
+    <NavigationProperty Name="DealershipPOC" Relationship="PaoliPDWModel.fkeCollateral_DealerUser" FromRole="eCollateralItem" ToRole="User" />
+    <NavigationProperty Name="ModifiedByUser" Relationship="PaoliPDWModel.fkeCollateral_ModifiedUser" FromRole="eCollateralItem" ToRole="User" />
+    <NavigationProperty Name="eCollateralSections" Relationship="PaoliPDWModel.fkeCSection_Item" FromRole="eCollateralItem" ToRole="eCollateralSection" />
+    <Property Type="Int32" Name="ContentType" />
+    <Property Type="Boolean" Name="IncludeDealerImage" Nullable="false" />
+    <Property Type="Int32" Name="ProjectID" />
+    <Property Type="String" Name="OldProjectName" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="OldEndCustomer" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Project" Relationship="PaoliPDWModel.fkECollateral_Project" FromRole="eCollateralItem" ToRole="Project" />
+    <Property Type="String" Name="OldDealershipPOCName" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="OldDealershipPOCEmail" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="OldDealershipPOCPhone" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="OldDealershipPOCAcctType" />
+  </EntityType>
+  <EntityType Name="eCollateralSection">
+    <Key>
+      <PropertyRef Name="SectionID" />
+    </Key>
+    <Property Type="Int32" Name="SectionID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="ItemID" Nullable="false" />
+    <Property Type="Int32" Name="ImageID" />
+    <Property Type="String" Name="Content" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="Sequence" Nullable="false" />
+    <NavigationProperty Name="eCollateralItem" Relationship="PaoliPDWModel.fkeCSection_Item" FromRole="eCollateralSection" ToRole="eCollateralItem" />
+    <NavigationProperty Name="ImageFile" Relationship="PaoliPDWModel.fkeCSection_Image" FromRole="eCollateralSection" ToRole="ImageFile" />
+  </EntityType>
+  <Association Name="fkeCollateral_Dealership">
+    <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.eCollateralItem" Role="eCollateralItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="eCollateralItem">
+        <PropertyRef Name="DealershipID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkeCollateral_CreatedUser">
+    <End Type="PaoliPDWModel.User" Role="User" Multiplicity="1" />
+    <End Type="PaoliPDWModel.eCollateralItem" Role="eCollateralItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="eCollateralItem">
+        <PropertyRef Name="CreatedByUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkeCollateral_DealerUser">
+    <End Type="PaoliPDWModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.eCollateralItem" Role="eCollateralItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="eCollateralItem">
+        <PropertyRef Name="DealershipPOCID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkeCollateral_ModifiedUser">
+    <End Type="PaoliPDWModel.User" Role="User" Multiplicity="1" />
+    <End Type="PaoliPDWModel.eCollateralItem" Role="eCollateralItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="eCollateralItem">
+        <PropertyRef Name="LastModifiedByUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkeCSection_Item">
+    <End Type="PaoliPDWModel.eCollateralItem" Role="eCollateralItem" Multiplicity="1" />
+    <End Type="PaoliPDWModel.eCollateralSection" Role="eCollateralSection" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="eCollateralItem">
+        <PropertyRef Name="ItemID" />
+      </Principal>
+      <Dependent Role="eCollateralSection">
+        <PropertyRef Name="ItemID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkeCSection_Image">
+    <End Type="PaoliPDWModel.ImageFile" Role="ImageFile" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.eCollateralSection" Role="eCollateralSection" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ImageFile">
+        <PropertyRef Name="ImageID" />
+      </Principal>
+      <Dependent Role="eCollateralSection">
+        <PropertyRef Name="ImageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="SpecRequestEvent">
+    <Key>
+      <PropertyRef Name="EventID" />
+    </Key>
+    <Property Type="Int32" Name="EventID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="RequestID" Nullable="false" />
+    <Property Type="Int32" Name="UserID" Nullable="false" />
+    <Property Type="DateTime" Name="EventDate" Nullable="false" />
+    <Property Type="Int32" Name="EventType" Nullable="false" />
+    <NavigationProperty Name="SpecRequest" Relationship="PaoliPDWModel.FK_Events_SpecRequests" FromRole="SpecRequestEvent" ToRole="SpecRequest" />
+    <NavigationProperty Name="User" Relationship="PaoliPDWModel.FK_Events_Users" FromRole="SpecRequestEvent" ToRole="User" />
+  </EntityType>
+  <Association Name="FK_Events_SpecRequests">
+    <End Type="PaoliPDWModel.SpecRequest" Role="SpecRequest" Multiplicity="1" />
+    <End Type="PaoliPDWModel.SpecRequestEvent" Role="SpecRequestEvent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SpecRequest">
+        <PropertyRef Name="RequestID" />
+      </Principal>
+      <Dependent Role="SpecRequestEvent">
+        <PropertyRef Name="RequestID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Events_Users">
+    <End Type="PaoliPDWModel.User" Role="User" Multiplicity="1" />
+    <End Type="PaoliPDWModel.SpecRequestEvent" Role="SpecRequestEvent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="SpecRequestEvent">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="LeadTimeDetail">
+    <Key>
+      <PropertyRef Name="LeadTimeID" />
+    </Key>
+    <Property Type="Int32" Name="LeadTimeID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Headline" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="PromoText" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="UserID" />
+    <Property Type="String" Name="LeftSide" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="RightSide" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="User" Relationship="PaoliPDWModel.FK_LeadTimeDetail_User" FromRole="LeadTimeDetail" ToRole="User" />
+  </EntityType>
+  <Association Name="FK_LeadTimeDetail_User">
+    <End Type="PaoliPDWModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.LeadTimeDetail" Role="LeadTimeDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="LeadTimeDetail">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="UserNotification">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Type="Int32" Name="UserID" Nullable="false" />
+    <Property Type="Boolean" Name="NewCollateralOrder" Nullable="false" />
+    <Property Type="Boolean" Name="NewCollateralOrderTerritory" Nullable="false" />
+    <Property Type="Boolean" Name="NewCollateralOrderShipment" Nullable="false" />
+    <Property Type="Boolean" Name="NewCollateralOrderShipmentTerritory" Nullable="false" />
+    <Property Type="Boolean" Name="NewSpecRequest" Nullable="false" />
+    <Property Type="Boolean" Name="NewSpecRequestTerritory" Nullable="false" />
+    <Property Type="Boolean" Name="CompleteSpecRequest" Nullable="false" />
+    <Property Type="Boolean" Name="CompleteSpecRequestTerritory" Nullable="false" />
+    <Property Type="Boolean" Name="UpdateSpecRequest" Nullable="false" />
+    <Property Type="Boolean" Name="UpdateSpecRequestTerritory" Nullable="false" />
+    <Property Type="Boolean" Name="ReOpenSpecRequest" Nullable="false" />
+    <Property Type="Boolean" Name="ReOpenSpecRequestTerritory" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="PaoliPDWModel.FK_User_Notifications" FromRole="UserNotification" ToRole="User" />
+    <Property Type="Boolean" Name="NewCollateralOrderMyDealers" Nullable="false" />
+    <Property Type="Boolean" Name="NewCollateralOrderShipmentMyDealers" Nullable="false" />
+    <Property Type="Boolean" Name="NewSpecRequestMyDealers" Nullable="false" />
+    <Property Type="Boolean" Name="CompleteSpecRequestMyDealers" Nullable="false" />
+    <Property Type="Boolean" Name="UpdateSpecRequestMyDealers" Nullable="false" />
+    <Property Type="Boolean" Name="ReOpenSpecRequestMyDealers" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_User_Notifications">
+    <End Type="PaoliPDWModel.User" Role="User" Multiplicity="1" />
+    <End Type="PaoliPDWModel.UserNotification" Role="UserNotification" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="UserNotification">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Project">
+    <Key>
+      <PropertyRef Name="ProjectID" />
+    </Key>
+    <Property Type="Int32" Name="ProjectID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="ProjectName" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="DealerID" />
+    <Property Type="Boolean" Name="IsGSA" />
+    <Property Type="Int32" Name="ContractID" />
+    <Property Type="Boolean" Name="HasADFirm" Nullable="false" />
+    <Property Type="String" Name="ADFirm" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="AnticipatedOrderDate" />
+    <Property Type="DateTime" Name="AnticipatedShipDate" />
+    <Property Type="String" Name="VeneerCasegoods" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Double" Name="NetVeneerCasegoods" />
+    <Property Type="String" Name="LaminateCasegoods" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Double" Name="NetLaminateCasegoods" />
+    <Property Type="String" Name="Conferencing" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Double" Name="NetConferencing" />
+    <Property Type="String" Name="Seating" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Double" Name="NetSeating" />
+    <Property Type="Boolean" Name="SPADone" Nullable="false" />
+    <Property Type="Int32" Name="Probability" />
+    <Property Type="String" Name="PrimaryCompetitor" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Comments" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="PipelineStatus" Nullable="false" />
+    <Property Type="Int32" Name="ProjectSuccess" Nullable="false" />
+    <NavigationProperty Name="Company" Relationship="PaoliPDWModel.fkProject_Company" FromRole="Project" ToRole="Company" />
+    <NavigationProperty Name="GSAContract" Relationship="PaoliPDWModel.fkProject_GSAContract" FromRole="Project" ToRole="GSAContract" />
+    <NavigationProperty Name="SpecRequests" Relationship="PaoliPDWModel.fkSpecRequest_Project" FromRole="Project" ToRole="SpecRequest" />
+    <NavigationProperty Name="eCollateralItems" Relationship="PaoliPDWModel.fkECollateral_Project" FromRole="Project" ToRole="eCollateralItem" />
+    <Property Type="Int32" Name="EndCustomerID" />
+    <NavigationProperty Name="EndCustomerCompany" Relationship="PaoliPDWModel.fkProject_EndCustomer" FromRole="Project" ToRole="Company" />
+    <Property Type="Int32" Name="TerritoryID" />
+    <NavigationProperty Name="Territory" Relationship="PaoliPDWModel.fkProject_Territory" FromRole="Project" ToRole="Territory" />
+  </EntityType>
+  <Association Name="fkProject_Company">
+    <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.Project" Role="Project" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="Project">
+        <PropertyRef Name="DealerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkProject_GSAContract">
+    <End Type="PaoliPDWModel.GSAContract" Role="GSAContract" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.Project" Role="Project" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GSAContract">
+        <PropertyRef Name="ContractID" />
+      </Principal>
+      <Dependent Role="Project">
+        <PropertyRef Name="ContractID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSpecRequest_Project">
+    <End Type="PaoliPDWModel.Project" Role="Project" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.SpecRequest" Role="SpecRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="ProjectID" />
+      </Principal>
+      <Dependent Role="SpecRequest">
+        <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkECollateral_Project">
+    <End Type="PaoliPDWModel.Project" Role="Project" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.eCollateralItem" Role="eCollateralItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="ProjectID" />
+      </Principal>
+      <Dependent Role="eCollateralItem">
+        <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkProject_EndCustomer">
+    <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.Project" Role="Project" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="Project">
+        <PropertyRef Name="EndCustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkProject_Territory">
+    <End Type="PaoliPDWModel.Territory" Role="Territory" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.Project" Role="Project" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Territory">
+        <PropertyRef Name="TerritoryID" />
+      </Principal>
+      <Dependent Role="Project">
+        <PropertyRef Name="TerritoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="CompanyTripData">
+    <Key>
+      <PropertyRef Name="CompanyID" />
+    </Key>
+    <Property Type="Int32" Name="CompanyID" Nullable="false" />
+    <Property Type="Decimal" Name="TotalSalesYTD" Precision="19" Scale="4" />
+    <Property Type="Int32" Name="TotalTripsYTD" />
+    <Property Type="Decimal" Name="SalesToNextTrip" Precision="19" Scale="4" />
+    <Property Type="Decimal" Name="ShakaThreshold" Precision="19" Scale="4" />
+    <Property Type="Decimal" Name="ShakaPercentGrowthYTD" Precision="19" Scale="4" />
+    <Property Type="Int32" Name="ShakaPercentGrowthRank" />
+    <Property Type="Decimal" Name="ShakaDollarGrowthYTD" Precision="19" Scale="4" />
+    <Property Type="Int32" Name="ShakaDollarGrowthRank" />
+    <Property Type="Decimal" Name="AlohaThreshold" Precision="19" Scale="4" />
+    <Property Type="Decimal" Name="AlohaPercentGrowthYTD" Precision="19" Scale="4" />
+    <Property Type="Int32" Name="AlohaPercentGrowthRank" />
+    <Property Type="Decimal" Name="AlohaDollarGrowthYTD" Precision="19" Scale="4" />
+    <Property Type="Int32" Name="AlohaDollarGrowthRank" />
+    <Property Type="Decimal" Name="MahaloThreshold" Precision="19" Scale="4" />
+    <Property Type="Decimal" Name="MahaloPercentGrowthYTD" Precision="19" Scale="4" />
+    <Property Type="Int32" Name="MahaloPercentGrowthRank" />
+    <Property Type="Decimal" Name="MahaloDollarGrowthYTD" Precision="19" Scale="4" />
+    <Property Type="Int32" Name="MahaloDollarGrowthRank" />
+    <NavigationProperty Name="Company" Relationship="PaoliPDWModel.fkTripData_Company" FromRole="CompanyTripData" ToRole="Company" />
+    <Property Type="DateTime" Name="ImportDate" Nullable="false" />
+  </EntityType>
+  <Association Name="fkTripData_Company">
+    <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="1" />
+    <End Type="PaoliPDWModel.CompanyTripData" Role="CompanyTripData" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="CompanyTripData">
+        <PropertyRef Name="CompanyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="TerritoryTripData">
+    <Key>
+      <PropertyRef Name="CompanyID" />
+    </Key>
+    <Property Type="Int32" Name="CompanyID" Nullable="false" />
+    <Property Type="Int32" Name="NewProductPoints" Nullable="false" />
+    <Property Type="Int32" Name="FocusDealerPoints" Nullable="false" />
+    <Property Type="Int32" Name="CurrentTerritoryVol" Nullable="false" />
+    <Property Type="Int32" Name="TerritoryPoints" Nullable="false" />
+    <Property Type="Int32" Name="NumDealerTripsAwarded" Nullable="false" />
+    <Property Type="Int32" Name="DealerTripPoints" Nullable="false" />
+    <Property Type="Int32" Name="EducationPoints" Nullable="false" />
+    <Property Type="Int32" Name="TotalTripPoints" Nullable="false" />
+    <NavigationProperty Name="Company" Relationship="PaoliPDWModel.fkTerritoryTripData_Company" FromRole="TerritoryTripData" ToRole="Company" />
+    <Property Type="DateTime" Name="ImportDate" Nullable="false" />
+  </EntityType>
+  <Association Name="fkTerritoryTripData_Company">
+    <End Type="PaoliPDWModel.Company" Role="Company" Multiplicity="1" />
+    <End Type="PaoliPDWModel.TerritoryTripData" Role="TerritoryTripData" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="TerritoryTripData">
+        <PropertyRef Name="CompanyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkUsers_CreatedByUser">
+    <End Type="PaoliPDWModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="PaoliPDWModel.User" Role="User1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="User1">
+        <PropertyRef Name="CreatedByUser" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="ImageFileSeries">
+    <Key>
+      <PropertyRef Name="AssociationID" />
+    </Key>
+    <Property Type="Int32" Name="AssociationID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Boolean" Name="IsFeatured" Nullable="false" />
+    <Property Type="Int32" Name="ImageID" Nullable="false" />
+    <Property Type="Int32" Name="SeriesID" Nullable="false" />
+    <NavigationProperty Name="ImageFile" Relationship="PaoliPDWModel.FK_ImageFileSerieses_Image" FromRole="ImageFileSeries" ToRole="ImageFile" />
+    <NavigationProperty Name="Series" Relationship="PaoliPDWModel.FK_ImageFileSerieses_Series" FromRole="ImageFileSeries" ToRole="Series" />
+  </EntityType>
+  <Association Name="FK_ImageFileSerieses_Image">
+    <End Type="PaoliPDWModel.ImageFile" Role="ImageFile" Multiplicity="1" />
+    <End Type="PaoliPDWModel.ImageFileSeries" Role="ImageFileSeries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ImageFile">
+        <PropertyRef Name="ImageID" />
+      </Principal>
+      <Dependent Role="ImageFileSeries">
+        <PropertyRef Name="ImageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ImageFileSerieses_Series">
+    <End Type="PaoliPDWModel.Series" Role="Series" Multiplicity="1" />
+    <End Type="PaoliPDWModel.ImageFileSeries" Role="ImageFileSeries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Series">
+        <PropertyRef Name="SeriesID" />
+      </Principal>
+      <Dependent Role="ImageFileSeries">
+        <PropertyRef Name="SeriesID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

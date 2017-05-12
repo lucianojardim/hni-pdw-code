@@ -30,7 +30,7 @@ namespace PDWInfrastructure.EmailSenders
 					template.Replace( "[{CompanyName}]", companyName );
 					template.Replace( "[{NewAddress}]", newAddress );
 
-					return SubmitEmail( new List<string>() { "mypaoli@paoli.com", "paoli@getvitaminj.com" }, null, null, GetSubject( template ), template );
+					return SubmitEmail( new List<string>() { "mypaoli@paoli.com" }, null, null, GetSubject( template ), template );
 				}
 			}
 			catch( Exception ex )

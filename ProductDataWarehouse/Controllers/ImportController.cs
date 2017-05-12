@@ -673,6 +673,10 @@ namespace ProductDataWarehouse.Controllers
 				new SelectListItem() { Text = "Rifted Oak", Value = ((int)ImageInformation.VeneerSpecieses.RiftedOak).ToString() },
 				new SelectListItem() { Text = "European Walnut", Value = ((int)ImageInformation.VeneerSpecieses.EuropeanWalnut).ToString() },
 				new SelectListItem() { Text = "Gray Oak", Value = ((int)ImageInformation.VeneerSpecieses.GrayOak).ToString() },
+				new SelectListItem() { Text = "Maple Stratawood", Value = ((int)ImageInformation.VeneerSpecieses.MapleStratawood).ToString() },
+				new SelectListItem() { Text = "White Stratawood", Value = ((int)ImageInformation.VeneerSpecieses.WhiteStratawood).ToString() },
+				new SelectListItem() { Text = "Cherry Stratawood", Value = ((int)ImageInformation.VeneerSpecieses.CherryStratawood).ToString() },
+				new SelectListItem() { Text = "Grey Stratawood", Value = ((int)ImageInformation.VeneerSpecieses.GreyStratawood).ToString() },
 			};
 		}
 

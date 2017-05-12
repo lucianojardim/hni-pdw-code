@@ -1,0 +1,8 @@
+C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWDBContext\bin\Release\PDWDBContext.dll.config
+C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWDBContext\bin\Release\PDWDBContext.dll
+C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWDBContext\bin\Release\PDWDBContext.pdb
+C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWDBContext\bin\Release\EntityFramework.dll
+C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWDBContext\bin\Release\EntityFramework.xml
+C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWDBContext\obj\Release\PDWDBContext.csprojResolveAssemblyReference.cache
+C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWDBContext\obj\Release\PDWDBContext.dll
+C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWDBContext\obj\Release\PDWDBContext.pdb
