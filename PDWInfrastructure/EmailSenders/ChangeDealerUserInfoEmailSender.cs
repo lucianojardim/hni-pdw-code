@@ -76,7 +76,7 @@ namespace PDWInfrastructure.EmailSenders
 					template.Replace( "[{HomePhone}]", homePhone );
 					template.Replace( "[{PersonalCellPhone}]", personalCellPhone );
 
-					return SubmitEmail( new List<string>() { "mypaoli@paoli.com", "paoli@getvitaminj.com" }, null, null, GetSubject( template ), template );
+					return SubmitEmail( new List<string>() { "mypaoli@paoli.com" }, null, null, GetSubject( template ), template );
 				}
 			}
 			catch( Exception ex )

@@ -1,0 +1,17 @@
+C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWInfrastructure\bin\Release\PDWInfrastructure.dll
+C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWInfrastructure\bin\Release\PDWInfrastructure.pdb
+C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWInfrastructure\bin\Release\MailChimp.dll
+C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWInfrastructure\bin\Release\Microsoft.Exchange.WebServices.dll
+C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWInfrastructure\bin\Release\Microsoft.Web.Infrastructure.dll
+C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWInfrastructure\bin\Release\ServiceStack.Text.dll
+C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWInfrastructure\bin\Release\System.Web.Helpers.dll
+C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWInfrastructure\bin\Release\System.Web.Mvc.dll
+C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWInfrastructure\bin\Release\System.Web.Razor.dll
+C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWInfrastructure\bin\Release\System.Web.WebPages.Deployment.dll
+C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWInfrastructure\bin\Release\System.Web.WebPages.dll
+C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWInfrastructure\bin\Release\System.Web.WebPages.Razor.dll
+C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWInfrastructure\bin\Release\Microsoft.Exchange.WebServices.xml
+C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWInfrastructure\bin\Release\ServiceStack.Text.xml
+C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWInfrastructure\obj\Release\PDWInfrastructure.csprojResolveAssemblyReference.cache
+C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWInfrastructure\obj\Release\PDWInfrastructure.dll
+C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWInfrastructure\obj\Release\PDWInfrastructure.pdb

@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductDataWarehouse", "ProductDataWarehouse\ProductDataWarehouse.csproj", "{AAA180C6-E957-4E36-8FE1-2D1629377BB6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDWDBContext", "PDWDBContext\PDWDBContext.csproj", "{E5529190-3BF8-40D3-A334-A47DC3F230DA}"

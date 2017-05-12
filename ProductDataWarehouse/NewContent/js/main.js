@@ -1,14 +1,8 @@
 ﻿function getSiteUrl() {
 	var hostName = window.location.hostname.toLowerCase();
 
-	if (hostName.indexOf('paoli-test01') >= 0)
-		return 'http://paoli-test01';
-	if (hostName.indexOf('jamesburnes') >= 0)
-		return 'http://paoli.getvitaminj.com';
-	if (hostName.indexOf('getvitaminj') >= 0)
-		return 'http://paoli.getvitaminj.com';
-	if (hostName.indexOf('matt3400') >= 0)
-		return 'http://matt3400.wdd.local:8787';
+	if (hostName.indexOf('qa') >= 0)
+	    return 'http://qa.paoli.com';
 	if (hostName.indexOf('localhost') >= 0)
 		return 'http://localhost:8787';
 	return 'http://www.paoli.com';

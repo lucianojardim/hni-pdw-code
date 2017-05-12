@@ -54,7 +54,7 @@ namespace PDWInfrastructure.EmailSenders
 					template.Replace( "[{IsActive}]", uInfo.IsActive );
 					template.Replace( "[{SendWelcomeEmail}]", uInfo.SendWelcomeEmail );
 
-					return SubmitEmail( new List<string>() { "james@getvitaminj.com" }, null, null, GetSubject( template ), template );
+					return SubmitEmail( new List<string>() { "mypaoli@paoli.com" }, null, null, GetSubject( template ), template );
 				}
 			}
 			catch( Exception ex )

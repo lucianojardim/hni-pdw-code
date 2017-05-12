@@ -36,7 +36,11 @@ namespace PDWModels.Images
 			Walnut = 3,
 			RiftedOak = 4,
 			EuropeanWalnut = 5,
-			GrayOak = 6
+			GrayOak = 6,
+            MapleStratawood = 7,
+            WhiteStratawood = 8,
+            CherryStratawood = 9,
+            GreyStratawood = 10
 		}
 
 		public enum VeneerGrades

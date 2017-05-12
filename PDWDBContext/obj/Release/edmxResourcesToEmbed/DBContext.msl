@@ -1,0 +1,871 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="PaoliPDWModelStoreContainer" CdmEntityContainer="PaoliPDWEntities">
+    <EntitySetMapping Name="AttributeOptions">
+      <EntityTypeMapping TypeName="PaoliPDWModel.AttributeOption">
+        <MappingFragment StoreEntitySet="AttributeOptions">
+          <ScalarProperty Name="OptionID" ColumnName="OptionID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Attributes">
+      <EntityTypeMapping TypeName="PaoliPDWModel.Attribute">
+        <MappingFragment StoreEntitySet="Attributes">
+          <ScalarProperty Name="DetailItem" ColumnName="DetailItem" />
+          <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="PaoliPDWModel.Category">
+        <MappingFragment StoreEntitySet="Categories">
+          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Serieses">
+      <EntityTypeMapping TypeName="PaoliPDWModel.Series">
+        <MappingFragment StoreEntitySet="Serieses">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="DBKeywords" ColumnName="DBKeywords" />
+          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+          <ScalarProperty Name="SeriesID" ColumnName="SeriesID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SeriesIntAttributes">
+      <EntityTypeMapping TypeName="PaoliPDWModel.SeriesIntAttribute">
+        <MappingFragment StoreEntitySet="SeriesIntAttributes">
+          <ScalarProperty Name="ValueID" ColumnName="ValueID" />
+          <ScalarProperty Name="Value" ColumnName="Value" />
+          <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
+          <ScalarProperty Name="SeriesID" ColumnName="SeriesID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SeriesOptionAttributes">
+      <EntityTypeMapping TypeName="PaoliPDWModel.SeriesOptionAttribute">
+        <MappingFragment StoreEntitySet="SeriesOptionAttributes">
+          <ScalarProperty Name="ValueID" ColumnName="ValueID" />
+          <ScalarProperty Name="OptionID" ColumnName="OptionID" />
+          <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
+          <ScalarProperty Name="SeriesID" ColumnName="SeriesID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SeriesTextAttributes">
+      <EntityTypeMapping TypeName="PaoliPDWModel.SeriesTextAttribute">
+        <MappingFragment StoreEntitySet="SeriesTextAttributes">
+          <ScalarProperty Name="ValueID" ColumnName="ValueID" />
+          <ScalarProperty Name="Value" ColumnName="Value" />
+          <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
+          <ScalarProperty Name="SeriesID" ColumnName="SeriesID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ImageFiles">
+      <EntityTypeMapping TypeName="PaoliPDWModel.ImageFile">
+        <MappingFragment StoreEntitySet="ImageFiles">
+          <ScalarProperty Name="ImageApplicationList" ColumnName="ImageApplicationList" />
+          <ScalarProperty Name="SeriesList" ColumnName="SeriesList" />
+          <ScalarProperty Name="FeaturedSeries" ColumnName="FeaturedSeries" />
+          <ScalarProperty Name="LaminateIsTFL" ColumnName="LaminateIsTFL" />
+          <ScalarProperty Name="SeatingGrade" ColumnName="SeatingGrade" />
+          <ScalarProperty Name="FinishCode" ColumnName="FinishCode" />
+          <ScalarProperty Name="LaminateIsHPL" ColumnName="LaminateIsHPL" />
+          <ScalarProperty Name="VeneerSpecies" ColumnName="VeneerSpecies" />
+          <ScalarProperty Name="VeneerGrade" ColumnName="VeneerGrade" />
+          <ScalarProperty Name="LaminatePattern" ColumnName="LaminatePattern" />
+          <ScalarProperty Name="Popularity" ColumnName="Popularity" />
+          <ScalarProperty Name="GoToGuidePage" ColumnName="GoToGuidePage" />
+          <ScalarProperty Name="ControlDescription" ColumnName="ControlDescription" />
+          <ScalarProperty Name="ControlMechanism" ColumnName="ControlMechanism" />
+          <ScalarProperty Name="TableBase" ColumnName="TableBase" />
+          <ScalarProperty Name="TableShape" ColumnName="TableShape" />
+          <ScalarProperty Name="DBKeywords" ColumnName="DBKeywords" />
+          <ScalarProperty Name="FeaturedFinish" ColumnName="FeaturedFinish" />
+          <ScalarProperty Name="FinishType" ColumnName="FinishType" />
+          <ScalarProperty Name="ImageContent" ColumnName="ImageContent" />
+          <ScalarProperty Name="FeaturedPull" ColumnName="FeaturedPull" />
+          <ScalarProperty Name="FeaturedEdge" ColumnName="FeaturedEdge" />
+          <ScalarProperty Name="MIMEType" ColumnName="MIMEType" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Keyword" ColumnName="Keyword" />
+          <ScalarProperty Name="ImageType" ColumnName="ImageType" />
+          <ScalarProperty Name="HasPeople" ColumnName="HasPeople" />
+          <ScalarProperty Name="Caption" ColumnName="Caption" />
+          <ScalarProperty Name="OriginalExtension" ColumnName="OriginalExtension" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SeriesImageFiles">
+      <EntityTypeMapping TypeName="PaoliPDWModel.SeriesImageFile">
+        <MappingFragment StoreEntitySet="SeriesImageFiles">
+          <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+          <ScalarProperty Name="SeriesID" ColumnName="SeriesID" />
+          <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+          <ScalarProperty Name="IsFeatured" ColumnName="IsFeatured" />
+          <ScalarProperty Name="AssociationID" ColumnName="AssociationID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="RelatedSeries" TypeName="PaoliPDWModel.RelatedSeries" StoreEntitySet="RelatedSeries">
+      <EndProperty Name="Series1">
+        <ScalarProperty Name="SeriesID" ColumnName="ParentSeriesID" />
+      </EndProperty>
+      <EndProperty Name="Series">
+        <ScalarProperty Name="SeriesID" ColumnName="ChildSeriesID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <EntitySetMapping Name="TAttributeOptions">
+      <EntityTypeMapping TypeName="PaoliPDWModel.TAttributeOption">
+        <MappingFragment StoreEntitySet="TAttributeOptions">
+          <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="OptionID" ColumnName="OptionID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TAttributes">
+      <EntityTypeMapping TypeName="PaoliPDWModel.TAttribute">
+        <MappingFragment StoreEntitySet="TAttributes">
+          <ScalarProperty Name="DetailItem" ColumnName="DetailItem" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TypicalImageFiles">
+      <EntityTypeMapping TypeName="PaoliPDWModel.TypicalImageFile">
+        <MappingFragment StoreEntitySet="TypicalImageFiles">
+          <ScalarProperty Name="TypicalID" ColumnName="TypicalID" />
+          <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+          <ScalarProperty Name="IsFeatured" ColumnName="IsFeatured" />
+          <ScalarProperty Name="AssociationID" ColumnName="AssociationID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TypicalIntAttributes">
+      <EntityTypeMapping TypeName="PaoliPDWModel.TypicalIntAttribute">
+        <MappingFragment StoreEntitySet="TypicalIntAttributes">
+          <ScalarProperty Name="TypicalID" ColumnName="TypicalID" />
+          <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
+          <ScalarProperty Name="Value" ColumnName="Value" />
+          <ScalarProperty Name="ValueID" ColumnName="ValueID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TypicalOptionAttributes">
+      <EntityTypeMapping TypeName="PaoliPDWModel.TypicalOptionAttribute">
+        <MappingFragment StoreEntitySet="TypicalOptionAttributes">
+          <ScalarProperty Name="TypicalID" ColumnName="TypicalID" />
+          <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
+          <ScalarProperty Name="OptionID" ColumnName="OptionID" />
+          <ScalarProperty Name="ValueID" ColumnName="ValueID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Typicals">
+      <EntityTypeMapping TypeName="PaoliPDWModel.Typical">
+        <MappingFragment StoreEntitySet="Typicals">
+          <ScalarProperty Name="IsPublished" ColumnName="IsPublished" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="AvailableForIn2" ColumnName="AvailableForIn2" />
+          <ScalarProperty Name="SeriesList" ColumnName="SeriesList" />
+          <ScalarProperty Name="FeaturedSeries" ColumnName="FeaturedSeries" />
+          <ScalarProperty Name="SpecRequestID" ColumnName="SpecRequestID" />
+          <ScalarProperty Name="DBKeywords" ColumnName="DBKeywords" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="TypicalID" ColumnName="TypicalID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TypicalTextAttributes">
+      <EntityTypeMapping TypeName="PaoliPDWModel.TypicalTextAttribute">
+        <MappingFragment StoreEntitySet="TypicalTextAttributes">
+          <ScalarProperty Name="TypicalID" ColumnName="TypicalID" />
+          <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
+          <ScalarProperty Name="Value" ColumnName="Value" />
+          <ScalarProperty Name="ValueID" ColumnName="ValueID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SeriesTypicals">
+      <EntityTypeMapping TypeName="PaoliPDWModel.SeriesTypical">
+        <MappingFragment StoreEntitySet="SeriesTypicals">
+          <ScalarProperty Name="TypicalID" ColumnName="TypicalID" />
+          <ScalarProperty Name="SeriesID" ColumnName="SeriesID" />
+          <ScalarProperty Name="IsPrimary" ColumnName="IsPrimary" />
+          <ScalarProperty Name="AssociationID" ColumnName="AssociationID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SearchResultsLogs">
+      <EntityTypeMapping TypeName="PaoliPDWModel.SearchResultsLog">
+        <MappingFragment StoreEntitySet="SearchResultsLog">
+          <ScalarProperty Name="PageCount" ColumnName="PageCount" />
+          <ScalarProperty Name="TypicalCount" ColumnName="TypicalCount" />
+          <ScalarProperty Name="ImageCount" ColumnName="ImageCount" />
+          <ScalarProperty Name="SeriesCount" ColumnName="SeriesCount" />
+          <ScalarProperty Name="SearchTerm" ColumnName="SearchTerm" />
+          <ScalarProperty Name="SearchDateTime" ColumnName="SearchDateTime" />
+          <ScalarProperty Name="LogID" ColumnName="LogID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PublicationImages">
+      <EntityTypeMapping TypeName="PaoliPDWModel.PublicationImage">
+        <MappingFragment StoreEntitySet="PublicationImages">
+          <ScalarProperty Name="PageNumber" ColumnName="PageNumber" />
+          <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+          <ScalarProperty Name="PublicationID" ColumnName="PublicationID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Publications">
+      <EntityTypeMapping TypeName="PaoliPDWModel.Publication">
+        <MappingFragment StoreEntitySet="Publications">
+          <ScalarProperty Name="FilterVisible" ColumnName="FilterVisible" />
+          <ScalarProperty Name="PubDate" ColumnName="PubDate" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="PublicationID" ColumnName="PublicationID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Dealers">
+      <EntityTypeMapping TypeName="PaoliPDWModel.Dealer">
+        <MappingFragment StoreEntitySet="Dealers">
+          <ScalarProperty Name="VideosHeadline" ColumnName="VideosHeadline" />
+          <ScalarProperty Name="PagesHeadline" ColumnName="PagesHeadline" />
+          <ScalarProperty Name="ProductsHeadline" ColumnName="ProductsHeadline" />
+          <ScalarProperty Name="FeaturedVideoID" ColumnName="FeaturedVideoID" />
+          <ScalarProperty Name="MainContent" ColumnName="MainContent" />
+          <ScalarProperty Name="URL" ColumnName="URL" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="DealerID" ColumnName="DealerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PageLinks">
+      <EntityTypeMapping TypeName="PaoliPDWModel.PageLink">
+        <MappingFragment StoreEntitySet="PageLinks">
+          <ScalarProperty Name="URLLocation" ColumnName="URLLocation" />
+          <ScalarProperty Name="Display" ColumnName="Display" />
+          <ScalarProperty Name="PageID" ColumnName="PageID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VideoLinks">
+      <EntityTypeMapping TypeName="PaoliPDWModel.VideoLink">
+        <MappingFragment StoreEntitySet="VideoLinks">
+          <ScalarProperty Name="YouTubeID" ColumnName="YouTubeID" />
+          <ScalarProperty Name="Display" ColumnName="Display" />
+          <ScalarProperty Name="VideoID" ColumnName="VideoID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="DealerPageLinks" TypeName="PaoliPDWModel.DealerPageLinks" StoreEntitySet="DealerPageLinks">
+      <EndProperty Name="PageLink">
+        <ScalarProperty Name="PageID" ColumnName="PageID" />
+      </EndProperty>
+      <EndProperty Name="Dealer">
+        <ScalarProperty Name="DealerID" ColumnName="DealerID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="DealerVideoLinks" TypeName="PaoliPDWModel.DealerVideoLinks" StoreEntitySet="DealerVideoLinks">
+      <EndProperty Name="VideoLink">
+        <ScalarProperty Name="VideoID" ColumnName="VideoID" />
+      </EndProperty>
+      <EndProperty Name="Dealer">
+        <ScalarProperty Name="DealerID" ColumnName="DealerID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <EntitySetMapping Name="DealerFeaturedProducts">
+      <EntityTypeMapping TypeName="PaoliPDWModel.DealerFeaturedProduct">
+        <MappingFragment StoreEntitySet="DealerFeaturedProducts">
+          <ScalarProperty Name="SeriesName" ColumnName="SeriesName" />
+          <ScalarProperty Name="DealerID" ColumnName="DealerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="PaoliPDWModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="AllowNewsMgmt" ColumnName="AllowNewsMgmt" />
+          <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+          <ScalarProperty Name="CreatedByUser" ColumnName="CreatedByUser" />
+          <ScalarProperty Name="Extension" ColumnName="Extension" />
+          <ScalarProperty Name="FAX" ColumnName="FAX" />
+          <ScalarProperty Name="PersonalCellPhone" ColumnName="PersonalCellPhone" />
+          <ScalarProperty Name="HomePhone" ColumnName="HomePhone" />
+          <ScalarProperty Name="HomeZip" ColumnName="HomeZip" />
+          <ScalarProperty Name="HomeState" ColumnName="HomeState" />
+          <ScalarProperty Name="HomeCity" ColumnName="HomeCity" />
+          <ScalarProperty Name="HomeAddress2" ColumnName="HomeAddress2" />
+          <ScalarProperty Name="HomeAddress1" ColumnName="HomeAddress1" />
+          <ScalarProperty Name="TierGroup" ColumnName="TierGroup" />
+          <ScalarProperty Name="ViewPerfData" ColumnName="ViewPerfData" />
+          <ScalarProperty Name="DefaultShippingAddress" ColumnName="DefaultShippingAddress" />
+          <ScalarProperty Name="AuthorCredit" ColumnName="AuthorCredit" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="IsTempPassword" ColumnName="IsTempPassword" />
+          <ScalarProperty Name="ImageFileName" ColumnName="ImageFileName" />
+          <ScalarProperty Name="RecWelcomeEmail" ColumnName="RecWelcomeEmail" />
+          <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+          <ScalarProperty Name="AccountType" ColumnName="AccountType" />
+          <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+          <ScalarProperty Name="BusinessPhone" ColumnName="BusinessPhone" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Zip" ColumnName="Zip" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Address2" ColumnName="Address2" />
+          <ScalarProperty Name="Address1" ColumnName="Address1" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Companies">
+      <EntityTypeMapping TypeName="PaoliPDWModel.Company">
+        <MappingFragment StoreEntitySet="Companies">
+          <ScalarProperty Name="IsDisabled" ColumnName="IsDisabled" />
+          <ScalarProperty Name="ImageFileName" ColumnName="ImageFileName" />
+          <ScalarProperty Name="TierGroup" ColumnName="TierGroup" />
+          <ScalarProperty Name="TripGroup" ColumnName="TripGroup" />
+          <ScalarProperty Name="SignedUpForTrip" ColumnName="SignedUpForTrip" />
+          <ScalarProperty Name="PaoliSalesRepMemberID" ColumnName="PaoliSalesRepMemberID" />
+          <ScalarProperty Name="PaoliMemberID" ColumnName="PaoliMemberID" />
+          <ScalarProperty Name="BusinessUnitName" ColumnName="BusinessUnitName" />
+          <ScalarProperty Name="PublicDisplayName" ColumnName="PublicDisplayName" />
+          <ScalarProperty Name="PublicWebSite" ColumnName="PublicWebSite" />
+          <ScalarProperty Name="PublicContactEmail" ColumnName="PublicContactEmail" />
+          <ScalarProperty Name="WebSite" ColumnName="WebSite" />
+          <ScalarProperty Name="ContactEmail" ColumnName="ContactEmail" />
+          <ScalarProperty Name="PublicFAX" ColumnName="PublicFAX" />
+          <ScalarProperty Name="PublicPhone" ColumnName="PublicPhone" />
+          <ScalarProperty Name="PublicZip" ColumnName="PublicZip" />
+          <ScalarProperty Name="PublicState" ColumnName="PublicState" />
+          <ScalarProperty Name="PublicCity" ColumnName="PublicCity" />
+          <ScalarProperty Name="PublicAddress2" ColumnName="PublicAddress2" />
+          <ScalarProperty Name="PublicAddress1" ColumnName="PublicAddress1" />
+          <ScalarProperty Name="TerritoryID" ColumnName="TerritoryID" />
+          <ScalarProperty Name="CompanyType" ColumnName="CompanyType" />
+          <ScalarProperty Name="SubCompanyIDs" ColumnName="SubCompanyIDs" />
+          <ScalarProperty Name="MasterID" ColumnName="MasterID" />
+          <ScalarProperty Name="FAX" ColumnName="FAX" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Zip" ColumnName="Zip" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Address2" ColumnName="Address2" />
+          <ScalarProperty Name="Address1" ColumnName="Address1" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SpecRequestFiles">
+      <EntityTypeMapping TypeName="PaoliPDWModel.SpecRequestFile">
+        <MappingFragment StoreEntitySet="SpecRequestFiles">
+          <ScalarProperty Name="IsSpecTeam" ColumnName="IsSpecTeam" />
+          <ScalarProperty Name="UploadDate" ColumnName="UploadDate" />
+          <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Extension" ColumnName="Extension" />
+          <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+          <ScalarProperty Name="FileID" ColumnName="FileID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SpecRequests">
+      <EntityTypeMapping TypeName="PaoliPDWModel.SpecRequest">
+        <MappingFragment StoreEntitySet="SpecRequests">
+          <ScalarProperty Name="LostReason" ColumnName="LostReason" />
+          <ScalarProperty Name="AckNumber" ColumnName="AckNumber" />
+          <ScalarProperty Name="OrderCost" ColumnName="OrderCost" />
+          <ScalarProperty Name="OrderPlacedDate" ColumnName="OrderPlacedDate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="CompetitorSeries" ColumnName="CompetitorSeries" />
+          <ScalarProperty Name="Competitors" ColumnName="Competitors" />
+          <ScalarProperty Name="ProjectFirstOrderDate" ColumnName="ProjectFirstOrderDate" />
+          <ScalarProperty Name="IsStandardsProgram" ColumnName="IsStandardsProgram" />
+          <ScalarProperty Name="NumberOfPhases" ColumnName="NumberOfPhases" />
+          <ScalarProperty Name="IsPhasedProject" ColumnName="IsPhasedProject" />
+          <ScalarProperty Name="ProjectListPrice" ColumnName="ProjectListPrice" />
+          <ScalarProperty Name="ProjectScope" ColumnName="ProjectScope" />
+          <ScalarProperty Name="VeneerPreference" ColumnName="VeneerPreference" />
+          <ScalarProperty Name="OldContractID" ColumnName="OldContractID" />
+          <ScalarProperty Name="OldIsGSA" ColumnName="OldIsGSA" />
+          <ScalarProperty Name="OldEndCustomer" ColumnName="OldEndCustomer" />
+          <ScalarProperty Name="OldProjectName" ColumnName="OldProjectName" />
+          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+          <ScalarProperty Name="IsOnHold" ColumnName="IsOnHold" />
+          <ScalarProperty Name="InternalNotes" ColumnName="InternalNotes" />
+          <ScalarProperty Name="DealerPOCAcctType" ColumnName="DealerPOCAcctType" />
+          <ScalarProperty Name="DealerPOCPhone" ColumnName="DealerPOCPhone" />
+          <ScalarProperty Name="DealerPOCEmail" ColumnName="DealerPOCEmail" />
+          <ScalarProperty Name="IsCanceled" ColumnName="IsCanceled" />
+          <ScalarProperty Name="SpecTeamNotes" ColumnName="SpecTeamNotes" />
+          <ScalarProperty Name="GrommetPosition" ColumnName="GrommetPosition" />
+          <ScalarProperty Name="NeedPDFFiles" ColumnName="NeedPDFFiles" />
+          <ScalarProperty Name="NeedXLSFiles" ColumnName="NeedXLSFiles" />
+          <ScalarProperty Name="NeedSIFFiles" ColumnName="NeedSIFFiles" />
+          <ScalarProperty Name="NeedSP4Files" ColumnName="NeedSP4Files" />
+          <ScalarProperty Name="NeedDWGFiles" ColumnName="NeedDWGFiles" />
+          <ScalarProperty Name="DealerPOCText" ColumnName="DealerPOCText" />
+          <ScalarProperty Name="LaminatePreference" ColumnName="LaminatePreference" />
+          <ScalarProperty Name="OtherFinishDetails" ColumnName="OtherFinishDetails" />
+          <ScalarProperty Name="SpecialRequests" ColumnName="SpecialRequests" />
+          <ScalarProperty Name="FabricDetails" ColumnName="FabricDetails" />
+          <ScalarProperty Name="FabricGrade" ColumnName="FabricGrade" />
+          <ScalarProperty Name="DrawerOption" ColumnName="DrawerOption" />
+          <ScalarProperty Name="GrommetDetails" ColumnName="GrommetDetails" />
+          <ScalarProperty Name="Grommets" ColumnName="Grommets" />
+          <ScalarProperty Name="Finishes" ColumnName="Finishes" />
+          <ScalarProperty Name="Seating" ColumnName="Seating" />
+          <ScalarProperty Name="Conferencing" ColumnName="Conferencing" />
+          <ScalarProperty Name="Casegoods" ColumnName="Casegoods" />
+          <ScalarProperty Name="NeedAuditSpecs" ColumnName="NeedAuditSpecs" />
+          <ScalarProperty Name="Need2DDrawing" ColumnName="Need2DDrawing" />
+          <ScalarProperty Name="NeedPhotoRendering" ColumnName="NeedPhotoRendering" />
+          <ScalarProperty Name="NeedValueEng" ColumnName="NeedValueEng" />
+          <ScalarProperty Name="Need3DDrawing" ColumnName="Need3DDrawing" />
+          <ScalarProperty Name="NeedFloorplanSpecs" ColumnName="NeedFloorplanSpecs" />
+          <ScalarProperty Name="ProjectSize" ColumnName="ProjectSize" />
+          <ScalarProperty Name="PaoliSalesRepMemberID" ColumnName="PaoliSalesRepMemberID" />
+          <ScalarProperty Name="IsCompleted" ColumnName="IsCompleted" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="Footprint" ColumnName="Footprint" />
+          <ScalarProperty Name="AvailableForIn2" ColumnName="AvailableForIn2" />
+          <ScalarProperty Name="IsGoodForWeb" ColumnName="IsGoodForWeb" />
+          <ScalarProperty Name="Finish" ColumnName="Finish" />
+          <ScalarProperty Name="Material" ColumnName="Material" />
+          <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+          <ScalarProperty Name="SPLQuote" ColumnName="SPLQuote" />
+          <ScalarProperty Name="Received" ColumnName="Received" />
+          <ScalarProperty Name="SeriesList" ColumnName="SeriesList" />
+          <ScalarProperty Name="FeaturedSeries" ColumnName="FeaturedSeries" />
+          <ScalarProperty Name="ListPrice" ColumnName="ListPrice" />
+          <ScalarProperty Name="SavedLocation" ColumnName="SavedLocation" />
+          <ScalarProperty Name="PaoliSpecTeamMemberID" ColumnName="PaoliSpecTeamMemberID" />
+          <ScalarProperty Name="DealerSalesRepID" ColumnName="DealerSalesRepID" />
+          <ScalarProperty Name="PrimaryCompanyID" ColumnName="PrimaryCompanyID" />
+          <ScalarProperty Name="PaoliSalesRepGroupID" ColumnName="PaoliSalesRepGroupID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Territories">
+      <EntityTypeMapping TypeName="PaoliPDWModel.Territory">
+        <MappingFragment StoreEntitySet="Territories">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="TerritoryID" ColumnName="TerritoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Showrooms">
+      <EntityTypeMapping TypeName="PaoliPDWModel.Showroom">
+        <MappingFragment StoreEntitySet="Showrooms">
+          <ScalarProperty Name="Hours" ColumnName="Hours" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="WebSite" ColumnName="WebSite" />
+          <ScalarProperty Name="FAX" ColumnName="FAX" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Zip" ColumnName="Zip" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Address2" ColumnName="Address2" />
+          <ScalarProperty Name="Address1" ColumnName="Address1" />
+          <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+          <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ZipCodeInfoes">
+      <EntityTypeMapping TypeName="PaoliPDWModel.ZipCodeInfo">
+        <MappingFragment StoreEntitySet="ZipCodeInfo">
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="TerritoryID" ColumnName="TerritoryID" />
+          <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="ClosestShowroom" FunctionName="PaoliPDWModel.Store.ClosestShowroom" />
+    <AssociationSetMapping Name="ShowroomImages" TypeName="PaoliPDWModel.ShowroomImages" StoreEntitySet="ShowroomImages">
+      <EndProperty Name="ImageFile">
+        <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+      </EndProperty>
+      <EndProperty Name="Company">
+        <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <EntitySetMapping Name="CollateralItems">
+      <EntityTypeMapping TypeName="PaoliPDWModel.CollateralItem">
+        <MappingFragment StoreEntitySet="CollateralItems">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="CollateralTypeID" ColumnName="CollateralTypeID" />
+          <ScalarProperty Name="IsGroup" ColumnName="IsGroup" />
+          <ScalarProperty Name="Weight" ColumnName="Weight" />
+          <ScalarProperty Name="Shipping" ColumnName="Shipping" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="ImageFileName" ColumnName="ImageFileName" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="StatusDate" ColumnName="StatusDate" />
+          <ScalarProperty Name="LeadTime" ColumnName="LeadTime" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CollateralID" ColumnName="CollateralID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CollateralTypes">
+      <EntityTypeMapping TypeName="PaoliPDWModel.CollateralType">
+        <MappingFragment StoreEntitySet="CollateralTypes">
+          <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CollateralTypeID" ColumnName="CollateralTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CollateralGroupItems">
+      <EntityTypeMapping TypeName="PaoliPDWModel.CollateralGroupItem">
+        <MappingFragment StoreEntitySet="CollateralGroupItems">
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="CollateralID" ColumnName="CollateralID" />
+          <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CollateralOrderDetails">
+      <EntityTypeMapping TypeName="PaoliPDWModel.CollateralOrderDetail">
+        <MappingFragment StoreEntitySet="CollateralOrderDetails">
+          <ScalarProperty Name="GroupNKID" ColumnName="GroupNKID" />
+          <ScalarProperty Name="CollateralNKID" ColumnName="CollateralNKID" />
+          <ScalarProperty Name="CollateralTypeName" ColumnName="CollateralTypeName" />
+          <ScalarProperty Name="CollateralTypeNKID" ColumnName="CollateralTypeNKID" />
+          <ScalarProperty Name="GroupQuantity" ColumnName="GroupQuantity" />
+          <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+          <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+          <ScalarProperty Name="DetailID" ColumnName="DetailID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CollateralOrders">
+      <EntityTypeMapping TypeName="PaoliPDWModel.CollateralOrder">
+        <MappingFragment StoreEntitySet="CollateralOrders">
+          <ScalarProperty Name="ShippingPartyName" ColumnName="ShippingPartyName" />
+          <ScalarProperty Name="RequestingPartyName" ColumnName="RequestingPartyName" />
+          <ScalarProperty Name="SPEndUserEMailAddress" ColumnName="SPEndUserEMailAddress" />
+          <ScalarProperty Name="SPEndUserPhoneNumber" ColumnName="SPEndUserPhoneNumber" />
+          <ScalarProperty Name="SPEndUserLastName" ColumnName="SPEndUserLastName" />
+          <ScalarProperty Name="SPEndUserFirstName" ColumnName="SPEndUserFirstName" />
+          <ScalarProperty Name="SPDealerMemberID" ColumnName="SPDealerMemberID" />
+          <ScalarProperty Name="SPDealerID" ColumnName="SPDealerID" />
+          <ScalarProperty Name="SPPaoliRepGroupMemberID" ColumnName="SPPaoliRepGroupMemberID" />
+          <ScalarProperty Name="SPPaoliRepGroupID" ColumnName="SPPaoliRepGroupID" />
+          <ScalarProperty Name="SPPaoliMemberID" ColumnName="SPPaoliMemberID" />
+          <ScalarProperty Name="ShippingParty" ColumnName="ShippingParty" />
+          <ScalarProperty Name="CanceledOnDateTime" ColumnName="CanceledOnDateTime" />
+          <ScalarProperty Name="CanceledByUserID" ColumnName="CanceledByUserID" />
+          <ScalarProperty Name="CreatedByUserID" ColumnName="CreatedByUserID" />
+          <ScalarProperty Name="ShippingAttn" ColumnName="ShippingAttn" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="PaoliMemberID" ColumnName="PaoliMemberID" />
+          <ScalarProperty Name="ShippingAddressType" ColumnName="ShippingAddressType" />
+          <ScalarProperty Name="DealerMemberID" ColumnName="DealerMemberID" />
+          <ScalarProperty Name="PaoliRepGroupMemberID" ColumnName="PaoliRepGroupMemberID" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="ShippingEmailAddress" ColumnName="ShippingEmailAddress" />
+          <ScalarProperty Name="ShippingPhoneNumber" ColumnName="ShippingPhoneNumber" />
+          <ScalarProperty Name="ShippingZip" ColumnName="ShippingZip" />
+          <ScalarProperty Name="ShippingState" ColumnName="ShippingState" />
+          <ScalarProperty Name="ShippingCity" ColumnName="ShippingCity" />
+          <ScalarProperty Name="ShippingAddress2" ColumnName="ShippingAddress2" />
+          <ScalarProperty Name="ShippingAddress1" ColumnName="ShippingAddress1" />
+          <ScalarProperty Name="ShippingCompanyName" ColumnName="ShippingCompanyName" />
+          <ScalarProperty Name="ShippingFedexAccount" ColumnName="ShippingFedexAccount" />
+          <ScalarProperty Name="ShippingType" ColumnName="ShippingType" />
+          <ScalarProperty Name="EndUserEMailAddress" ColumnName="EndUserEMailAddress" />
+          <ScalarProperty Name="EndUserPhoneNumber" ColumnName="EndUserPhoneNumber" />
+          <ScalarProperty Name="EndUserLastName" ColumnName="EndUserLastName" />
+          <ScalarProperty Name="EndUserFirstName" ColumnName="EndUserFirstName" />
+          <ScalarProperty Name="DealerID" ColumnName="DealerID" />
+          <ScalarProperty Name="PaoliRepGroupID" ColumnName="PaoliRepGroupID" />
+          <ScalarProperty Name="RequestingParty" ColumnName="RequestingParty" />
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CollateralOrderShipmentDetails">
+      <EntityTypeMapping TypeName="PaoliPDWModel.CollateralOrderShipmentDetail">
+        <MappingFragment StoreEntitySet="CollateralOrderShipmentDetails">
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="OrderDetailID" ColumnName="OrderDetailID" />
+          <ScalarProperty Name="ShipmentID" ColumnName="ShipmentID" />
+          <ScalarProperty Name="DetailID" ColumnName="DetailID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CollateralOrderShipments">
+      <EntityTypeMapping TypeName="PaoliPDWModel.CollateralOrderShipment">
+        <MappingFragment StoreEntitySet="CollateralOrderShipments">
+          <ScalarProperty Name="TrackingNumber4" ColumnName="TrackingNumber4" />
+          <ScalarProperty Name="TrackingNumber3" ColumnName="TrackingNumber3" />
+          <ScalarProperty Name="TrackingNumber2" ColumnName="TrackingNumber2" />
+          <ScalarProperty Name="TrackingNumber1" ColumnName="TrackingNumber1" />
+          <ScalarProperty Name="ShipmentDate" ColumnName="ShipmentDate" />
+          <ScalarProperty Name="ShippingEmailAddress" ColumnName="ShippingEmailAddress" />
+          <ScalarProperty Name="ShippingPhoneNumber" ColumnName="ShippingPhoneNumber" />
+          <ScalarProperty Name="ShippingZip" ColumnName="ShippingZip" />
+          <ScalarProperty Name="ShippingState" ColumnName="ShippingState" />
+          <ScalarProperty Name="ShippingCity" ColumnName="ShippingCity" />
+          <ScalarProperty Name="ShippingAddress2" ColumnName="ShippingAddress2" />
+          <ScalarProperty Name="ShippingAddress1" ColumnName="ShippingAddress1" />
+          <ScalarProperty Name="ShippingCompanyName" ColumnName="ShippingCompanyName" />
+          <ScalarProperty Name="ShippingAttn" ColumnName="ShippingAttn" />
+          <ScalarProperty Name="ShippingFedexAccount" ColumnName="ShippingFedexAccount" />
+          <ScalarProperty Name="ShippingType" ColumnName="ShippingType" />
+          <ScalarProperty Name="GLCode" ColumnName="GLCode" />
+          <ScalarProperty Name="Vendor" ColumnName="Vendor" />
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+          <ScalarProperty Name="ShipmentID" ColumnName="ShipmentID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GSAContracts">
+      <EntityTypeMapping TypeName="PaoliPDWModel.GSAContract">
+        <MappingFragment StoreEntitySet="GSAContracts">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ContractID" ColumnName="ContractID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserLogins">
+      <EntityTypeMapping TypeName="PaoliPDWModel.UserLogin">
+        <MappingFragment StoreEntitySet="UserLogins">
+          <ScalarProperty Name="LoginDate" ColumnName="LoginDate" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="LoginRecID" ColumnName="LoginRecID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HomePageContents">
+      <EntityTypeMapping TypeName="PaoliPDWModel.HomePageContent">
+        <MappingFragment StoreEntitySet="HomePageContent">
+          <ScalarProperty Name="ContentData" ColumnName="ContentData" />
+          <ScalarProperty Name="PageID" ColumnName="PageID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ScoopArticles">
+      <EntityTypeMapping TypeName="PaoliPDWModel.ScoopArticle">
+        <MappingFragment StoreEntitySet="ScoopArticles">
+          <ScalarProperty Name="DBKeywords" ColumnName="DBKeywords" />
+          <ScalarProperty Name="Keywords" ColumnName="Keywords" />
+          <ScalarProperty Name="ArticleType" ColumnName="ArticleType" />
+          <ScalarProperty Name="ShowBigImage" ColumnName="ShowBigImage" />
+          <ScalarProperty Name="Rank" ColumnName="Rank" />
+          <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
+          <ScalarProperty Name="PubDate" ColumnName="PubDate" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="ContentBlock" ColumnName="ContentBlock" />
+          <ScalarProperty Name="SmallImageURL" ColumnName="SmallImageURL" />
+          <ScalarProperty Name="SmallText" ColumnName="SmallText" />
+          <ScalarProperty Name="SmallHeadline" ColumnName="SmallHeadline" />
+          <ScalarProperty Name="BigImageURL" ColumnName="BigImageURL" />
+          <ScalarProperty Name="BigText" ColumnName="BigText" />
+          <ScalarProperty Name="BigHeadline" ColumnName="BigHeadline" />
+          <ScalarProperty Name="ArticleID" ColumnName="ArticleID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="eCollateralItems">
+      <EntityTypeMapping TypeName="PaoliPDWModel.eCollateralItem">
+        <MappingFragment StoreEntitySet="eCollateralItems">
+          <ScalarProperty Name="OldDealershipPOCAcctType" ColumnName="OldDealershipPOCAcctType" />
+          <ScalarProperty Name="OldDealershipPOCPhone" ColumnName="OldDealershipPOCPhone" />
+          <ScalarProperty Name="OldDealershipPOCEmail" ColumnName="OldDealershipPOCEmail" />
+          <ScalarProperty Name="OldDealershipPOCName" ColumnName="OldDealershipPOCName" />
+          <ScalarProperty Name="OldEndCustomer" ColumnName="OldEndCustomer" />
+          <ScalarProperty Name="OldProjectName" ColumnName="OldProjectName" />
+          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+          <ScalarProperty Name="IncludeDealerImage" ColumnName="IncludeDealerImage" />
+          <ScalarProperty Name="ContentType" ColumnName="ContentType" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="LayoutID" ColumnName="LayoutID" />
+          <ScalarProperty Name="DealershipPOCID" ColumnName="DealershipPOCID" />
+          <ScalarProperty Name="DealershipID" ColumnName="DealershipID" />
+          <ScalarProperty Name="URLText" ColumnName="URLText" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="IsTemplate" ColumnName="IsTemplate" />
+          <ScalarProperty Name="LastModifiedByDateTime" ColumnName="LastModifiedByDateTime" />
+          <ScalarProperty Name="LastModifiedByUserID" ColumnName="LastModifiedByUserID" />
+          <ScalarProperty Name="CreatedByDateTime" ColumnName="CreatedByDateTime" />
+          <ScalarProperty Name="CreatedByUserID" ColumnName="CreatedByUserID" />
+          <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="eCollateralSections">
+      <EntityTypeMapping TypeName="PaoliPDWModel.eCollateralSection">
+        <MappingFragment StoreEntitySet="eCollateralSections">
+          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+          <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+          <ScalarProperty Name="SectionID" ColumnName="SectionID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SpecRequestEvents">
+      <EntityTypeMapping TypeName="PaoliPDWModel.SpecRequestEvent">
+        <MappingFragment StoreEntitySet="SpecRequestEvents">
+          <ScalarProperty Name="EventType" ColumnName="EventType" />
+          <ScalarProperty Name="EventDate" ColumnName="EventDate" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+          <ScalarProperty Name="EventID" ColumnName="EventID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LeadTimeDetails">
+      <EntityTypeMapping TypeName="PaoliPDWModel.LeadTimeDetail">
+        <MappingFragment StoreEntitySet="LeadTimeDetail">
+          <ScalarProperty Name="RightSide" ColumnName="RightSide" />
+          <ScalarProperty Name="LeftSide" ColumnName="LeftSide" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="PromoText" ColumnName="PromoText" />
+          <ScalarProperty Name="Headline" ColumnName="Headline" />
+          <ScalarProperty Name="LeadTimeID" ColumnName="LeadTimeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserNotifications">
+      <EntityTypeMapping TypeName="PaoliPDWModel.UserNotification">
+        <MappingFragment StoreEntitySet="UserNotifications">
+          <ScalarProperty Name="ReOpenSpecRequestMyDealers" ColumnName="ReOpenSpecRequestMyDealers" />
+          <ScalarProperty Name="UpdateSpecRequestMyDealers" ColumnName="UpdateSpecRequestMyDealers" />
+          <ScalarProperty Name="CompleteSpecRequestMyDealers" ColumnName="CompleteSpecRequestMyDealers" />
+          <ScalarProperty Name="NewSpecRequestMyDealers" ColumnName="NewSpecRequestMyDealers" />
+          <ScalarProperty Name="NewCollateralOrderShipmentMyDealers" ColumnName="NewCollateralOrderShipmentMyDealers" />
+          <ScalarProperty Name="NewCollateralOrderMyDealers" ColumnName="NewCollateralOrderMyDealers" />
+          <ScalarProperty Name="ReOpenSpecRequestTerritory" ColumnName="ReOpenSpecRequestTerritory" />
+          <ScalarProperty Name="ReOpenSpecRequest" ColumnName="ReOpenSpecRequest" />
+          <ScalarProperty Name="UpdateSpecRequestTerritory" ColumnName="UpdateSpecRequestTerritory" />
+          <ScalarProperty Name="UpdateSpecRequest" ColumnName="UpdateSpecRequest" />
+          <ScalarProperty Name="CompleteSpecRequestTerritory" ColumnName="CompleteSpecRequestTerritory" />
+          <ScalarProperty Name="CompleteSpecRequest" ColumnName="CompleteSpecRequest" />
+          <ScalarProperty Name="NewSpecRequestTerritory" ColumnName="NewSpecRequestTerritory" />
+          <ScalarProperty Name="NewSpecRequest" ColumnName="NewSpecRequest" />
+          <ScalarProperty Name="NewCollateralOrderShipmentTerritory" ColumnName="NewCollateralOrderShipmentTerritory" />
+          <ScalarProperty Name="NewCollateralOrderShipment" ColumnName="NewCollateralOrderShipment" />
+          <ScalarProperty Name="NewCollateralOrderTerritory" ColumnName="NewCollateralOrderTerritory" />
+          <ScalarProperty Name="NewCollateralOrder" ColumnName="NewCollateralOrder" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Projects">
+      <EntityTypeMapping TypeName="PaoliPDWModel.Project">
+        <MappingFragment StoreEntitySet="Projects">
+          <ScalarProperty Name="TerritoryID" ColumnName="TerritoryID" />
+          <ScalarProperty Name="EndCustomerID" ColumnName="EndCustomerID" />
+          <ScalarProperty Name="ProjectSuccess" ColumnName="ProjectSuccess" />
+          <ScalarProperty Name="PipelineStatus" ColumnName="PipelineStatus" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="PrimaryCompetitor" ColumnName="PrimaryCompetitor" />
+          <ScalarProperty Name="Probability" ColumnName="Probability" />
+          <ScalarProperty Name="SPADone" ColumnName="SPADone" />
+          <ScalarProperty Name="NetSeating" ColumnName="NetSeating" />
+          <ScalarProperty Name="Seating" ColumnName="Seating" />
+          <ScalarProperty Name="NetConferencing" ColumnName="NetConferencing" />
+          <ScalarProperty Name="Conferencing" ColumnName="Conferencing" />
+          <ScalarProperty Name="NetLaminateCasegoods" ColumnName="NetLaminateCasegoods" />
+          <ScalarProperty Name="LaminateCasegoods" ColumnName="LaminateCasegoods" />
+          <ScalarProperty Name="NetVeneerCasegoods" ColumnName="NetVeneerCasegoods" />
+          <ScalarProperty Name="VeneerCasegoods" ColumnName="VeneerCasegoods" />
+          <ScalarProperty Name="AnticipatedShipDate" ColumnName="AnticipatedShipDate" />
+          <ScalarProperty Name="AnticipatedOrderDate" ColumnName="AnticipatedOrderDate" />
+          <ScalarProperty Name="ADFirm" ColumnName="ADFirm" />
+          <ScalarProperty Name="HasADFirm" ColumnName="HasADFirm" />
+          <ScalarProperty Name="ContractID" ColumnName="ContractID" />
+          <ScalarProperty Name="IsGSA" ColumnName="IsGSA" />
+          <ScalarProperty Name="DealerID" ColumnName="DealerID" />
+          <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CompanyTripDatas">
+      <EntityTypeMapping TypeName="PaoliPDWModel.CompanyTripData">
+        <MappingFragment StoreEntitySet="CompanyTripData">
+          <ScalarProperty Name="ImportDate" ColumnName="ImportDate" />
+          <ScalarProperty Name="MahaloDollarGrowthRank" ColumnName="MahaloDollarGrowthRank" />
+          <ScalarProperty Name="MahaloDollarGrowthYTD" ColumnName="MahaloDollarGrowthYTD" />
+          <ScalarProperty Name="MahaloPercentGrowthRank" ColumnName="MahaloPercentGrowthRank" />
+          <ScalarProperty Name="MahaloPercentGrowthYTD" ColumnName="MahaloPercentGrowthYTD" />
+          <ScalarProperty Name="MahaloThreshold" ColumnName="MahaloThreshold" />
+          <ScalarProperty Name="AlohaDollarGrowthRank" ColumnName="AlohaDollarGrowthRank" />
+          <ScalarProperty Name="AlohaDollarGrowthYTD" ColumnName="AlohaDollarGrowthYTD" />
+          <ScalarProperty Name="AlohaPercentGrowthRank" ColumnName="AlohaPercentGrowthRank" />
+          <ScalarProperty Name="AlohaPercentGrowthYTD" ColumnName="AlohaPercentGrowthYTD" />
+          <ScalarProperty Name="AlohaThreshold" ColumnName="AlohaThreshold" />
+          <ScalarProperty Name="ShakaDollarGrowthRank" ColumnName="ShakaDollarGrowthRank" />
+          <ScalarProperty Name="ShakaDollarGrowthYTD" ColumnName="ShakaDollarGrowthYTD" />
+          <ScalarProperty Name="ShakaPercentGrowthRank" ColumnName="ShakaPercentGrowthRank" />
+          <ScalarProperty Name="ShakaPercentGrowthYTD" ColumnName="ShakaPercentGrowthYTD" />
+          <ScalarProperty Name="ShakaThreshold" ColumnName="ShakaThreshold" />
+          <ScalarProperty Name="SalesToNextTrip" ColumnName="SalesToNextTrip" />
+          <ScalarProperty Name="TotalTripsYTD" ColumnName="TotalTripsYTD" />
+          <ScalarProperty Name="TotalSalesYTD" ColumnName="TotalSalesYTD" />
+          <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TerritoryTripDatas">
+      <EntityTypeMapping TypeName="PaoliPDWModel.TerritoryTripData">
+        <MappingFragment StoreEntitySet="TerritoryTripData">
+          <ScalarProperty Name="ImportDate" ColumnName="ImportDate" />
+          <ScalarProperty Name="TotalTripPoints" ColumnName="TotalTripPoints" />
+          <ScalarProperty Name="EducationPoints" ColumnName="EducationPoints" />
+          <ScalarProperty Name="DealerTripPoints" ColumnName="DealerTripPoints" />
+          <ScalarProperty Name="NumDealerTripsAwarded" ColumnName="NumDealerTripsAwarded" />
+          <ScalarProperty Name="TerritoryPoints" ColumnName="TerritoryPoints" />
+          <ScalarProperty Name="CurrentTerritoryVol" ColumnName="CurrentTerritoryVol" />
+          <ScalarProperty Name="FocusDealerPoints" ColumnName="FocusDealerPoints" />
+          <ScalarProperty Name="NewProductPoints" ColumnName="NewProductPoints" />
+          <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="spCanDeleteCompany" FunctionName="PaoliPDWModel.Store.spCanDeleteCompany" />
+    <EntitySetMapping Name="ImageFileSerieses">
+      <EntityTypeMapping TypeName="PaoliPDWModel.ImageFileSeries">
+        <MappingFragment StoreEntitySet="ImageFileSerieses">
+          <ScalarProperty Name="SeriesID" ColumnName="SeriesID" />
+          <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+          <ScalarProperty Name="IsFeatured" ColumnName="IsFeatured" />
+          <ScalarProperty Name="AssociationID" ColumnName="AssociationID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

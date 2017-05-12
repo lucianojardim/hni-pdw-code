@@ -291,6 +291,8 @@
 			}
 
 			$('#addlMultipleFiles').on('change', multipleFileChanged);
+
+			$('#AvailableForIn2').val('false');
 		});
 
 		function setSeriesList() {
@@ -492,10 +494,11 @@
 				$('#requestorList1 .coln3').append('<h5>What will we call this project?</h5>');
 				$('#requestorList1 .coln4').append('<h5>' + $("#ProjectID option[value='" + $('#ProjectID').val() + "']").text() + '</h5>');
     		}
-			if ($('#AvailableForIn2').is(':checked')) {
+
+			<!--if ($('#AvailableForIn2').is(':checked')) {
 				$('#requestorList2 .coln3').append('<h5>in2 Quick Ship</h5>');
 				$('#requestorList2 .coln4').append('<h5>Yes</h5>');
-			}
+			}-->
     		if ($('#ProjectScope').val() != null && $('#ProjectScope').val() != '') {
 				$('#requestorList2 .coln3').append('<h5>Project Scope</h5>');
 				$('#requestorList2 .coln4').append('<h5>' + $('#ProjectScope').val() + '</h5>');
@@ -974,14 +977,15 @@
 							 <div class="colmn1">
 								 @Html.DropDownListFor( m => m.ProjectScope, SpecRequestController.ProjectScopeDDList() )
 							 </div>
-							 <div class="colmn4">
+							 @Html.HiddenFor( m => m.AvailableForIn2 )
+							 <!--<div class="colmn4">
 								 <div class="colmn4_lt">
 									 <div class="checkbox">
 										 @Html.CheckBoxFor( m => m.AvailableForIn2 )
 										 <span>in2 Quick Ship</span>
 									 </div>
 								 </div>
-							 </div>
+							 </div>-->
 						 </div>
 					 </li>
 					 <li>

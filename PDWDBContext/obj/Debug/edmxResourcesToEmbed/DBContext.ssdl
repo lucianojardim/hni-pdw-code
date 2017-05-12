@@ -1,0 +1,2332 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PaoliPDWModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="PaoliPDWModelStoreContainer">
+    <EntitySet Name="AttributeOptions" EntityType="PaoliPDWModel.Store.AttributeOptions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Attributes" EntityType="PaoliPDWModel.Store.Attributes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Categories" EntityType="PaoliPDWModel.Store.Categories" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CollateralGroupItems" EntityType="PaoliPDWModel.Store.CollateralGroupItems" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CollateralItems" EntityType="PaoliPDWModel.Store.CollateralItems" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CollateralOrderDetails" EntityType="PaoliPDWModel.Store.CollateralOrderDetails" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CollateralOrders" EntityType="PaoliPDWModel.Store.CollateralOrders" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CollateralOrderShipmentDetails" EntityType="PaoliPDWModel.Store.CollateralOrderShipmentDetails" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CollateralOrderShipments" EntityType="PaoliPDWModel.Store.CollateralOrderShipments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CollateralTypes" EntityType="PaoliPDWModel.Store.CollateralTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Companies" EntityType="PaoliPDWModel.Store.Companies" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CompanyTripData" EntityType="PaoliPDWModel.Store.CompanyTripData" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DealerFeaturedProducts" EntityType="PaoliPDWModel.Store.DealerFeaturedProducts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DealerPageLinks" EntityType="PaoliPDWModel.Store.DealerPageLinks" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Dealers" EntityType="PaoliPDWModel.Store.Dealers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DealerVideoLinks" EntityType="PaoliPDWModel.Store.DealerVideoLinks" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="eCollateralItems" EntityType="PaoliPDWModel.Store.eCollateralItems" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="eCollateralSections" EntityType="PaoliPDWModel.Store.eCollateralSections" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GSAContracts" EntityType="PaoliPDWModel.Store.GSAContracts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="HomePageContent" EntityType="PaoliPDWModel.Store.HomePageContent" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ImageFiles" EntityType="PaoliPDWModel.Store.ImageFiles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ImageFileSerieses" EntityType="PaoliPDWModel.Store.ImageFileSerieses" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LeadTimeDetail" EntityType="PaoliPDWModel.Store.LeadTimeDetail" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PageLinks" EntityType="PaoliPDWModel.Store.PageLinks" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Projects" EntityType="PaoliPDWModel.Store.Projects" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PublicationImages" EntityType="PaoliPDWModel.Store.PublicationImages" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Publications" EntityType="PaoliPDWModel.Store.Publications" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RelatedSeries" EntityType="PaoliPDWModel.Store.RelatedSeries" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ScoopArticles" EntityType="PaoliPDWModel.Store.ScoopArticles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SearchResultsLog" EntityType="PaoliPDWModel.Store.SearchResultsLog" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Serieses" EntityType="PaoliPDWModel.Store.Serieses" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SeriesImageFiles" EntityType="PaoliPDWModel.Store.SeriesImageFiles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SeriesIntAttributes" EntityType="PaoliPDWModel.Store.SeriesIntAttributes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SeriesOptionAttributes" EntityType="PaoliPDWModel.Store.SeriesOptionAttributes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SeriesTextAttributes" EntityType="PaoliPDWModel.Store.SeriesTextAttributes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SeriesTypicals" EntityType="PaoliPDWModel.Store.SeriesTypicals" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ShowroomImages" EntityType="PaoliPDWModel.Store.ShowroomImages" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Showrooms" EntityType="PaoliPDWModel.Store.Showrooms" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SpecRequestEvents" EntityType="PaoliPDWModel.Store.SpecRequestEvents" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SpecRequestFiles" EntityType="PaoliPDWModel.Store.SpecRequestFiles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SpecRequests" EntityType="PaoliPDWModel.Store.SpecRequests" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TAttributeOptions" EntityType="PaoliPDWModel.Store.TAttributeOptions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TAttributes" EntityType="PaoliPDWModel.Store.TAttributes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Territories" EntityType="PaoliPDWModel.Store.Territories" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TerritoryTripData" EntityType="PaoliPDWModel.Store.TerritoryTripData" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TypicalImageFiles" EntityType="PaoliPDWModel.Store.TypicalImageFiles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TypicalIntAttributes" EntityType="PaoliPDWModel.Store.TypicalIntAttributes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TypicalOptionAttributes" EntityType="PaoliPDWModel.Store.TypicalOptionAttributes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Typicals" EntityType="PaoliPDWModel.Store.Typicals" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TypicalTextAttributes" EntityType="PaoliPDWModel.Store.TypicalTextAttributes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserLogins" EntityType="PaoliPDWModel.Store.UserLogins" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserNotifications" EntityType="PaoliPDWModel.Store.UserNotifications" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users" EntityType="PaoliPDWModel.Store.Users" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="VideoLinks" EntityType="PaoliPDWModel.Store.VideoLinks" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ZipCodeInfo" EntityType="PaoliPDWModel.Store.ZipCodeInfo" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Events_SpecRequests" Association="PaoliPDWModel.Store.FK_Events_SpecRequests">
+      <End Role="SpecRequests" EntitySet="SpecRequests" />
+      <End Role="SpecRequestEvents" EntitySet="SpecRequestEvents" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Events_Users" Association="PaoliPDWModel.Store.FK_Events_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="SpecRequestEvents" EntitySet="SpecRequestEvents" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ImageFileSerieses_Image" Association="PaoliPDWModel.Store.FK_ImageFileSerieses_Image">
+      <End Role="ImageFiles" EntitySet="ImageFiles" />
+      <End Role="ImageFileSerieses" EntitySet="ImageFileSerieses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ImageFileSerieses_Series" Association="PaoliPDWModel.Store.FK_ImageFileSerieses_Series">
+      <End Role="Serieses" EntitySet="Serieses" />
+      <End Role="ImageFileSerieses" EntitySet="ImageFileSerieses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LeadTimeDetail_User" Association="PaoliPDWModel.Store.FK_LeadTimeDetail_User">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="LeadTimeDetail" EntitySet="LeadTimeDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Notifications" Association="PaoliPDWModel.Store.FK_User_Notifications">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="UserNotifications" EntitySet="UserNotifications" />
+    </AssociationSet>
+    <AssociationSet Name="fkCGI_Children" Association="PaoliPDWModel.Store.fkCGI_Children">
+      <End Role="CollateralItems" EntitySet="CollateralItems" />
+      <End Role="CollateralGroupItems" EntitySet="CollateralGroupItems" />
+    </AssociationSet>
+    <AssociationSet Name="fkCGI_Parent" Association="PaoliPDWModel.Store.fkCGI_Parent">
+      <End Role="CollateralItems" EntitySet="CollateralItems" />
+      <End Role="CollateralGroupItems" EntitySet="CollateralGroupItems" />
+    </AssociationSet>
+    <AssociationSet Name="fkCO_CanceledUser" Association="PaoliPDWModel.Store.fkCO_CanceledUser">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="CollateralOrders" EntitySet="CollateralOrders" />
+    </AssociationSet>
+    <AssociationSet Name="fkCO_CreatedUser" Association="PaoliPDWModel.Store.fkCO_CreatedUser">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="CollateralOrders" EntitySet="CollateralOrders" />
+    </AssociationSet>
+    <AssociationSet Name="fkCODetail_Order" Association="PaoliPDWModel.Store.fkCODetail_Order">
+      <End Role="CollateralOrders" EntitySet="CollateralOrders" />
+      <End Role="CollateralOrderDetails" EntitySet="CollateralOrderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="fkCollateral_Type" Association="PaoliPDWModel.Store.fkCollateral_Type">
+      <End Role="CollateralTypes" EntitySet="CollateralTypes" />
+      <End Role="CollateralItems" EntitySet="CollateralItems" />
+    </AssociationSet>
+    <AssociationSet Name="fkCompany_PaoliMember" Association="PaoliPDWModel.Store.fkCompany_PaoliMember">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Companies" EntitySet="Companies" />
+    </AssociationSet>
+    <AssociationSet Name="fkCompany_PaoliSalesRepMember" Association="PaoliPDWModel.Store.fkCompany_PaoliSalesRepMember">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Companies" EntitySet="Companies" />
+    </AssociationSet>
+    <AssociationSet Name="fkCompany_Territory" Association="PaoliPDWModel.Store.fkCompany_Territory">
+      <End Role="Territories" EntitySet="Territories" />
+      <End Role="Companies" EntitySet="Companies" />
+    </AssociationSet>
+    <AssociationSet Name="fkCOrder_Dealer" Association="PaoliPDWModel.Store.fkCOrder_Dealer">
+      <End Role="Companies" EntitySet="Companies" />
+      <End Role="CollateralOrders" EntitySet="CollateralOrders" />
+    </AssociationSet>
+    <AssociationSet Name="fkCOrder_DealerMember" Association="PaoliPDWModel.Store.fkCOrder_DealerMember">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="CollateralOrders" EntitySet="CollateralOrders" />
+    </AssociationSet>
+    <AssociationSet Name="fkCOrder_PaoliMember" Association="PaoliPDWModel.Store.fkCOrder_PaoliMember">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="CollateralOrders" EntitySet="CollateralOrders" />
+    </AssociationSet>
+    <AssociationSet Name="fkCOrder_SalesRep" Association="PaoliPDWModel.Store.fkCOrder_SalesRep">
+      <End Role="Companies" EntitySet="Companies" />
+      <End Role="CollateralOrders" EntitySet="CollateralOrders" />
+    </AssociationSet>
+    <AssociationSet Name="fkCOrder_SalesRepMember" Association="PaoliPDWModel.Store.fkCOrder_SalesRepMember">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="CollateralOrders" EntitySet="CollateralOrders" />
+    </AssociationSet>
+    <AssociationSet Name="fkCOrder_SPDealer" Association="PaoliPDWModel.Store.fkCOrder_SPDealer">
+      <End Role="Companies" EntitySet="Companies" />
+      <End Role="CollateralOrders" EntitySet="CollateralOrders" />
+    </AssociationSet>
+    <AssociationSet Name="fkCOrder_SPDealerMember" Association="PaoliPDWModel.Store.fkCOrder_SPDealerMember">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="CollateralOrders" EntitySet="CollateralOrders" />
+    </AssociationSet>
+    <AssociationSet Name="fkCOrder_SPPaoliMember" Association="PaoliPDWModel.Store.fkCOrder_SPPaoliMember">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="CollateralOrders" EntitySet="CollateralOrders" />
+    </AssociationSet>
+    <AssociationSet Name="fkCOrder_SPSalesRep" Association="PaoliPDWModel.Store.fkCOrder_SPSalesRep">
+      <End Role="Companies" EntitySet="Companies" />
+      <End Role="CollateralOrders" EntitySet="CollateralOrders" />
+    </AssociationSet>
+    <AssociationSet Name="fkCOrder_SPSalesRepMember" Association="PaoliPDWModel.Store.fkCOrder_SPSalesRepMember">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="CollateralOrders" EntitySet="CollateralOrders" />
+    </AssociationSet>
+    <AssociationSet Name="fkDealer_VideoLink" Association="PaoliPDWModel.Store.fkDealer_VideoLink">
+      <End Role="VideoLinks" EntitySet="VideoLinks" />
+      <End Role="Dealers" EntitySet="Dealers" />
+    </AssociationSet>
+    <AssociationSet Name="fkDFP_Dealer" Association="PaoliPDWModel.Store.fkDFP_Dealer">
+      <End Role="Dealers" EntitySet="Dealers" />
+      <End Role="DealerFeaturedProducts" EntitySet="DealerFeaturedProducts" />
+    </AssociationSet>
+    <AssociationSet Name="fkDPL_Dealer" Association="PaoliPDWModel.Store.fkDPL_Dealer">
+      <End Role="Dealers" EntitySet="Dealers" />
+      <End Role="DealerPageLinks" EntitySet="DealerPageLinks" />
+    </AssociationSet>
+    <AssociationSet Name="fkDPL_PageLink" Association="PaoliPDWModel.Store.fkDPL_PageLink">
+      <End Role="PageLinks" EntitySet="PageLinks" />
+      <End Role="DealerPageLinks" EntitySet="DealerPageLinks" />
+    </AssociationSet>
+    <AssociationSet Name="fkDVL_Dealer" Association="PaoliPDWModel.Store.fkDVL_Dealer">
+      <End Role="Dealers" EntitySet="Dealers" />
+      <End Role="DealerVideoLinks" EntitySet="DealerVideoLinks" />
+    </AssociationSet>
+    <AssociationSet Name="fkDVL_VideoLink" Association="PaoliPDWModel.Store.fkDVL_VideoLink">
+      <End Role="VideoLinks" EntitySet="VideoLinks" />
+      <End Role="DealerVideoLinks" EntitySet="DealerVideoLinks" />
+    </AssociationSet>
+    <AssociationSet Name="fkeCollateral_CreatedUser" Association="PaoliPDWModel.Store.fkeCollateral_CreatedUser">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="eCollateralItems" EntitySet="eCollateralItems" />
+    </AssociationSet>
+    <AssociationSet Name="fkeCollateral_Dealership" Association="PaoliPDWModel.Store.fkeCollateral_Dealership">
+      <End Role="Companies" EntitySet="Companies" />
+      <End Role="eCollateralItems" EntitySet="eCollateralItems" />
+    </AssociationSet>
+    <AssociationSet Name="fkeCollateral_DealerUser" Association="PaoliPDWModel.Store.fkeCollateral_DealerUser">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="eCollateralItems" EntitySet="eCollateralItems" />
+    </AssociationSet>
+    <AssociationSet Name="fkeCollateral_ModifiedUser" Association="PaoliPDWModel.Store.fkeCollateral_ModifiedUser">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="eCollateralItems" EntitySet="eCollateralItems" />
+    </AssociationSet>
+    <AssociationSet Name="fkECollateral_Project" Association="PaoliPDWModel.Store.fkECollateral_Project">
+      <End Role="Projects" EntitySet="Projects" />
+      <End Role="eCollateralItems" EntitySet="eCollateralItems" />
+    </AssociationSet>
+    <AssociationSet Name="fkeCSection_Image" Association="PaoliPDWModel.Store.fkeCSection_Image">
+      <End Role="ImageFiles" EntitySet="ImageFiles" />
+      <End Role="eCollateralSections" EntitySet="eCollateralSections" />
+    </AssociationSet>
+    <AssociationSet Name="fkeCSection_Item" Association="PaoliPDWModel.Store.fkeCSection_Item">
+      <End Role="eCollateralItems" EntitySet="eCollateralItems" />
+      <End Role="eCollateralSections" EntitySet="eCollateralSections" />
+    </AssociationSet>
+    <AssociationSet Name="fkLogin_User" Association="PaoliPDWModel.Store.fkLogin_User">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="UserLogins" EntitySet="UserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="fkOption_Attribute" Association="PaoliPDWModel.Store.fkOption_Attribute">
+      <End Role="Attributes" EntitySet="Attributes" />
+      <End Role="AttributeOptions" EntitySet="AttributeOptions" />
+    </AssociationSet>
+    <AssociationSet Name="fkPI_Image" Association="PaoliPDWModel.Store.fkPI_Image">
+      <End Role="ImageFiles" EntitySet="ImageFiles" />
+      <End Role="PublicationImages" EntitySet="PublicationImages" />
+    </AssociationSet>
+    <AssociationSet Name="fkPI_Publication" Association="PaoliPDWModel.Store.fkPI_Publication">
+      <End Role="Publications" EntitySet="Publications" />
+      <End Role="PublicationImages" EntitySet="PublicationImages" />
+    </AssociationSet>
+    <AssociationSet Name="fkProject_Company" Association="PaoliPDWModel.Store.fkProject_Company">
+      <End Role="Companies" EntitySet="Companies" />
+      <End Role="Projects" EntitySet="Projects" />
+    </AssociationSet>
+    <AssociationSet Name="fkProject_EndCustomer" Association="PaoliPDWModel.Store.fkProject_EndCustomer">
+      <End Role="Companies" EntitySet="Companies" />
+      <End Role="Projects" EntitySet="Projects" />
+    </AssociationSet>
+    <AssociationSet Name="fkProject_GSAContract" Association="PaoliPDWModel.Store.fkProject_GSAContract">
+      <End Role="GSAContracts" EntitySet="GSAContracts" />
+      <End Role="Projects" EntitySet="Projects" />
+    </AssociationSet>
+    <AssociationSet Name="fkProject_Territory" Association="PaoliPDWModel.Store.fkProject_Territory">
+      <End Role="Territories" EntitySet="Territories" />
+      <End Role="Projects" EntitySet="Projects" />
+    </AssociationSet>
+    <AssociationSet Name="fkRelatedSeries_Child" Association="PaoliPDWModel.Store.fkRelatedSeries_Child">
+      <End Role="Serieses" EntitySet="Serieses" />
+      <End Role="RelatedSeries" EntitySet="RelatedSeries" />
+    </AssociationSet>
+    <AssociationSet Name="fkRelatedSeries_Parent" Association="PaoliPDWModel.Store.fkRelatedSeries_Parent">
+      <End Role="Serieses" EntitySet="Serieses" />
+      <End Role="RelatedSeries" EntitySet="RelatedSeries" />
+    </AssociationSet>
+    <AssociationSet Name="fkScoopArticle_User" Association="PaoliPDWModel.Store.fkScoopArticle_User">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="ScoopArticles" EntitySet="ScoopArticles" />
+    </AssociationSet>
+    <AssociationSet Name="fkSeries_Category" Association="PaoliPDWModel.Store.fkSeries_Category">
+      <End Role="Categories" EntitySet="Categories" />
+      <End Role="Serieses" EntitySet="Serieses" />
+    </AssociationSet>
+    <AssociationSet Name="fkShipment_COrder" Association="PaoliPDWModel.Store.fkShipment_COrder">
+      <End Role="CollateralOrders" EntitySet="CollateralOrders" />
+      <End Role="CollateralOrderShipments" EntitySet="CollateralOrderShipments" />
+    </AssociationSet>
+    <AssociationSet Name="fkShipmentDetail_CODetail" Association="PaoliPDWModel.Store.fkShipmentDetail_CODetail">
+      <End Role="CollateralOrderDetails" EntitySet="CollateralOrderDetails" />
+      <End Role="CollateralOrderShipmentDetails" EntitySet="CollateralOrderShipmentDetails" />
+    </AssociationSet>
+    <AssociationSet Name="fkShipmentDetail_Shipment" Association="PaoliPDWModel.Store.fkShipmentDetail_Shipment">
+      <End Role="CollateralOrderShipments" EntitySet="CollateralOrderShipments" />
+      <End Role="CollateralOrderShipmentDetails" EntitySet="CollateralOrderShipmentDetails" />
+    </AssociationSet>
+    <AssociationSet Name="fkShowroom_Company" Association="PaoliPDWModel.Store.fkShowroom_Company">
+      <End Role="Companies" EntitySet="Companies" />
+      <End Role="Showrooms" EntitySet="Showrooms" />
+    </AssociationSet>
+    <AssociationSet Name="fkSIA_Attribute" Association="PaoliPDWModel.Store.fkSIA_Attribute">
+      <End Role="Attributes" EntitySet="Attributes" />
+      <End Role="SeriesIntAttributes" EntitySet="SeriesIntAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkSIA_Series" Association="PaoliPDWModel.Store.fkSIA_Series">
+      <End Role="Serieses" EntitySet="Serieses" />
+      <End Role="SeriesIntAttributes" EntitySet="SeriesIntAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkSIF_Image" Association="PaoliPDWModel.Store.fkSIF_Image">
+      <End Role="ImageFiles" EntitySet="ImageFiles" />
+      <End Role="SeriesImageFiles" EntitySet="SeriesImageFiles" />
+    </AssociationSet>
+    <AssociationSet Name="fkSIF_Series" Association="PaoliPDWModel.Store.fkSIF_Series">
+      <End Role="Serieses" EntitySet="Serieses" />
+      <End Role="SeriesImageFiles" EntitySet="SeriesImageFiles" />
+    </AssociationSet>
+    <AssociationSet Name="fkSOA_Attribute" Association="PaoliPDWModel.Store.fkSOA_Attribute">
+      <End Role="Attributes" EntitySet="Attributes" />
+      <End Role="SeriesOptionAttributes" EntitySet="SeriesOptionAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkSOA_AttributeOption" Association="PaoliPDWModel.Store.fkSOA_AttributeOption">
+      <End Role="AttributeOptions" EntitySet="AttributeOptions" />
+      <End Role="SeriesOptionAttributes" EntitySet="SeriesOptionAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkSOA_Series" Association="PaoliPDWModel.Store.fkSOA_Series">
+      <End Role="Serieses" EntitySet="Serieses" />
+      <End Role="SeriesOptionAttributes" EntitySet="SeriesOptionAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkSpec_Company" Association="PaoliPDWModel.Store.fkSpec_Company">
+      <End Role="Companies" EntitySet="Companies" />
+      <End Role="SpecRequests" EntitySet="SpecRequests" />
+    </AssociationSet>
+    <AssociationSet Name="fkSpec_DealerSalesRep" Association="PaoliPDWModel.Store.fkSpec_DealerSalesRep">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="SpecRequests" EntitySet="SpecRequests" />
+    </AssociationSet>
+    <AssociationSet Name="fkSpec_PaoliSpecTeam" Association="PaoliPDWModel.Store.fkSpec_PaoliSpecTeam">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="SpecRequests" EntitySet="SpecRequests" />
+    </AssociationSet>
+    <AssociationSet Name="fkSpec_RepGroup" Association="PaoliPDWModel.Store.fkSpec_RepGroup">
+      <End Role="Companies" EntitySet="Companies" />
+      <End Role="SpecRequests" EntitySet="SpecRequests" />
+    </AssociationSet>
+    <AssociationSet Name="fkSpecFile_Request" Association="PaoliPDWModel.Store.fkSpecFile_Request">
+      <End Role="SpecRequests" EntitySet="SpecRequests" />
+      <End Role="SpecRequestFiles" EntitySet="SpecRequestFiles" />
+    </AssociationSet>
+    <AssociationSet Name="fkSpecRequest_Project" Association="PaoliPDWModel.Store.fkSpecRequest_Project">
+      <End Role="Projects" EntitySet="Projects" />
+      <End Role="SpecRequests" EntitySet="SpecRequests" />
+    </AssociationSet>
+    <AssociationSet Name="fkSpecRequest_PSRMember" Association="PaoliPDWModel.Store.fkSpecRequest_PSRMember">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="SpecRequests" EntitySet="SpecRequests" />
+    </AssociationSet>
+    <AssociationSet Name="fkSRI_Company" Association="PaoliPDWModel.Store.fkSRI_Company">
+      <End Role="Companies" EntitySet="Companies" />
+      <End Role="ShowroomImages" EntitySet="ShowroomImages" />
+    </AssociationSet>
+    <AssociationSet Name="fkSRI_Image" Association="PaoliPDWModel.Store.fkSRI_Image">
+      <End Role="ImageFiles" EntitySet="ImageFiles" />
+      <End Role="ShowroomImages" EntitySet="ShowroomImages" />
+    </AssociationSet>
+    <AssociationSet Name="fkST_Series" Association="PaoliPDWModel.Store.fkST_Series">
+      <End Role="Serieses" EntitySet="Serieses" />
+      <End Role="SeriesTypicals" EntitySet="SeriesTypicals" />
+    </AssociationSet>
+    <AssociationSet Name="fkST_Typical" Association="PaoliPDWModel.Store.fkST_Typical">
+      <End Role="Typicals" EntitySet="Typicals" />
+      <End Role="SeriesTypicals" EntitySet="SeriesTypicals" />
+    </AssociationSet>
+    <AssociationSet Name="fkSTA_Attribute" Association="PaoliPDWModel.Store.fkSTA_Attribute">
+      <End Role="Attributes" EntitySet="Attributes" />
+      <End Role="SeriesTextAttributes" EntitySet="SeriesTextAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkSTA_Series" Association="PaoliPDWModel.Store.fkSTA_Series">
+      <End Role="Serieses" EntitySet="Serieses" />
+      <End Role="SeriesTextAttributes" EntitySet="SeriesTextAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkTerritoryTripData_Company" Association="PaoliPDWModel.Store.fkTerritoryTripData_Company">
+      <End Role="Companies" EntitySet="Companies" />
+      <End Role="TerritoryTripData" EntitySet="TerritoryTripData" />
+    </AssociationSet>
+    <AssociationSet Name="fkTIA_Attribute" Association="PaoliPDWModel.Store.fkTIA_Attribute">
+      <End Role="TAttributes" EntitySet="TAttributes" />
+      <End Role="TypicalIntAttributes" EntitySet="TypicalIntAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkTIA_Typical" Association="PaoliPDWModel.Store.fkTIA_Typical">
+      <End Role="Typicals" EntitySet="Typicals" />
+      <End Role="TypicalIntAttributes" EntitySet="TypicalIntAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkTIF_Image" Association="PaoliPDWModel.Store.fkTIF_Image">
+      <End Role="ImageFiles" EntitySet="ImageFiles" />
+      <End Role="TypicalImageFiles" EntitySet="TypicalImageFiles" />
+    </AssociationSet>
+    <AssociationSet Name="fkTIF_Typical" Association="PaoliPDWModel.Store.fkTIF_Typical">
+      <End Role="Typicals" EntitySet="Typicals" />
+      <End Role="TypicalImageFiles" EntitySet="TypicalImageFiles" />
+    </AssociationSet>
+    <AssociationSet Name="fkTOA_Attribute" Association="PaoliPDWModel.Store.fkTOA_Attribute">
+      <End Role="TAttributes" EntitySet="TAttributes" />
+      <End Role="TypicalOptionAttributes" EntitySet="TypicalOptionAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkTOA_AttributeOption" Association="PaoliPDWModel.Store.fkTOA_AttributeOption">
+      <End Role="TAttributeOptions" EntitySet="TAttributeOptions" />
+      <End Role="TypicalOptionAttributes" EntitySet="TypicalOptionAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkTOA_Typical" Association="PaoliPDWModel.Store.fkTOA_Typical">
+      <End Role="Typicals" EntitySet="Typicals" />
+      <End Role="TypicalOptionAttributes" EntitySet="TypicalOptionAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkTOption_Attribute" Association="PaoliPDWModel.Store.fkTOption_Attribute">
+      <End Role="TAttributes" EntitySet="TAttributes" />
+      <End Role="TAttributeOptions" EntitySet="TAttributeOptions" />
+    </AssociationSet>
+    <AssociationSet Name="fkTripData_Company" Association="PaoliPDWModel.Store.fkTripData_Company">
+      <End Role="Companies" EntitySet="Companies" />
+      <End Role="CompanyTripData" EntitySet="CompanyTripData" />
+    </AssociationSet>
+    <AssociationSet Name="fkTTA_Attribute" Association="PaoliPDWModel.Store.fkTTA_Attribute">
+      <End Role="TAttributes" EntitySet="TAttributes" />
+      <End Role="TypicalTextAttributes" EntitySet="TypicalTextAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkTTA_Typical" Association="PaoliPDWModel.Store.fkTTA_Typical">
+      <End Role="Typicals" EntitySet="Typicals" />
+      <End Role="TypicalTextAttributes" EntitySet="TypicalTextAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="fkTypical_Spec" Association="PaoliPDWModel.Store.fkTypical_Spec">
+      <End Role="SpecRequests" EntitySet="SpecRequests" />
+      <End Role="Typicals" EntitySet="Typicals" />
+    </AssociationSet>
+    <AssociationSet Name="fkUser_Company" Association="PaoliPDWModel.Store.fkUser_Company">
+      <End Role="Companies" EntitySet="Companies" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="fkUsers_CreatedByUser" Association="PaoliPDWModel.Store.fkUsers_CreatedByUser">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Users1" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="fkZip_Territory" Association="PaoliPDWModel.Store.fkZip_Territory">
+      <End Role="Territories" EntitySet="Territories" />
+      <End Role="ZipCodeInfo" EntitySet="ZipCodeInfo" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="AttributeOptions">
+    <Key>
+      <PropertyRef Name="OptionID" />
+    </Key>
+    <Property Name="OptionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="500" />
+    <Property Name="AttributeID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Attributes">
+    <Key>
+      <PropertyRef Name="AttributeID" />
+    </Key>
+    <Property Name="AttributeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="DetailItem" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Categories">
+    <Key>
+      <PropertyRef Name="CategoryID" />
+    </Key>
+    <Property Name="CategoryID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="CollateralGroupItems">
+    <Key>
+      <PropertyRef Name="GroupID" />
+      <PropertyRef Name="CollateralID" />
+    </Key>
+    <Property Name="GroupID" Type="int" Nullable="false" />
+    <Property Name="CollateralID" Type="int" Nullable="false" />
+    <Property Name="Quantity" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CollateralItems">
+    <Key>
+      <PropertyRef Name="CollateralID" />
+    </Key>
+    <Property Name="CollateralID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="CollateralTypeID" Type="int" />
+    <Property Name="Description" Type="ntext" />
+    <Property Name="LeadTime" Type="nvarchar(max)" />
+    <Property Name="StatusDate" Type="datetime" />
+    <Property Name="Quantity" Type="int" Nullable="false" />
+    <Property Name="ImageFileName" Type="nvarchar" MaxLength="100" />
+    <Property Name="Price" Type="float" />
+    <Property Name="Shipping" Type="float" />
+    <Property Name="Weight" Type="float" />
+    <Property Name="IsGroup" Type="bit" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CollateralOrderDetails">
+    <Key>
+      <PropertyRef Name="DetailID" />
+    </Key>
+    <Property Name="DetailID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="OrderID" Type="int" Nullable="false" />
+    <Property Name="Quantity" Type="int" Nullable="false" />
+    <Property Name="ItemName" Type="nvarchar" MaxLength="100" />
+    <Property Name="GroupName" Type="nvarchar" MaxLength="100" />
+    <Property Name="GroupQuantity" Type="int" />
+    <Property Name="CollateralTypeNKID" Type="int" Nullable="false" />
+    <Property Name="CollateralTypeName" Type="nvarchar" MaxLength="100" />
+    <Property Name="CollateralNKID" Type="int" Nullable="false" />
+    <Property Name="GroupNKID" Type="int" />
+  </EntityType>
+  <EntityType Name="CollateralOrders">
+    <Key>
+      <PropertyRef Name="OrderID" />
+    </Key>
+    <Property Name="OrderID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="RequestingParty" Type="int" Nullable="false" />
+    <Property Name="PaoliRepGroupID" Type="int" />
+    <Property Name="PaoliRepGroupMemberID" Type="int" />
+    <Property Name="DealerID" Type="int" />
+    <Property Name="DealerMemberID" Type="int" />
+    <Property Name="EndUserFirstName" Type="nvarchar" MaxLength="50" />
+    <Property Name="EndUserLastName" Type="nvarchar" MaxLength="50" />
+    <Property Name="EndUserPhoneNumber" Type="nvarchar" MaxLength="20" />
+    <Property Name="EndUserEMailAddress" Type="nvarchar" MaxLength="50" />
+    <Property Name="ShippingType" Type="int" Nullable="false" />
+    <Property Name="ShippingAddressType" Type="int" Nullable="false" />
+    <Property Name="ShippingFedexAccount" Type="nvarchar" MaxLength="50" />
+    <Property Name="ShippingCompanyName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ShippingAddress1" Type="nvarchar" MaxLength="100" />
+    <Property Name="ShippingAddress2" Type="nvarchar" MaxLength="100" />
+    <Property Name="ShippingCity" Type="nvarchar" MaxLength="50" />
+    <Property Name="ShippingState" Type="nvarchar" MaxLength="5" />
+    <Property Name="ShippingZip" Type="nvarchar" MaxLength="15" />
+    <Property Name="ShippingPhoneNumber" Type="nvarchar" MaxLength="20" />
+    <Property Name="ShippingEmailAddress" Type="nvarchar" MaxLength="50" />
+    <Property Name="OrderDate" Type="datetime" Nullable="false" />
+    <Property Name="PaoliMemberID" Type="int" />
+    <Property Name="Status" Type="int" Nullable="false" />
+    <Property Name="ShippingAttn" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreatedByUserID" Type="int" Nullable="false" />
+    <Property Name="CanceledByUserID" Type="int" />
+    <Property Name="CanceledOnDateTime" Type="datetime" />
+    <Property Name="ShippingParty" Type="int" Nullable="false" />
+    <Property Name="SPPaoliMemberID" Type="int" />
+    <Property Name="SPPaoliRepGroupID" Type="int" />
+    <Property Name="SPPaoliRepGroupMemberID" Type="int" />
+    <Property Name="SPDealerID" Type="int" />
+    <Property Name="SPDealerMemberID" Type="int" />
+    <Property Name="SPEndUserFirstName" Type="nvarchar" MaxLength="50" />
+    <Property Name="SPEndUserLastName" Type="nvarchar" MaxLength="50" />
+    <Property Name="SPEndUserPhoneNumber" Type="nvarchar" MaxLength="20" />
+    <Property Name="SPEndUserEMailAddress" Type="nvarchar" MaxLength="50" />
+    <Property Name="RequestingPartyName" Type="nvarchar" MaxLength="300" StoreGeneratedPattern="Computed" />
+    <Property Name="ShippingPartyName" Type="nvarchar" MaxLength="300" StoreGeneratedPattern="Computed" />
+  </EntityType>
+  <EntityType Name="CollateralOrderShipmentDetails">
+    <Key>
+      <PropertyRef Name="DetailID" />
+    </Key>
+    <Property Name="DetailID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ShipmentID" Type="int" Nullable="false" />
+    <Property Name="OrderDetailID" Type="int" Nullable="false" />
+    <Property Name="Quantity" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CollateralOrderShipments">
+    <Key>
+      <PropertyRef Name="ShipmentID" />
+    </Key>
+    <Property Name="ShipmentID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="OrderID" Type="int" Nullable="false" />
+    <Property Name="Vendor" Type="nvarchar" MaxLength="100" />
+    <Property Name="GLCode" Type="nvarchar" MaxLength="100" />
+    <Property Name="ShippingType" Type="nvarchar" MaxLength="100" />
+    <Property Name="ShippingFedexAccount" Type="nvarchar" MaxLength="50" />
+    <Property Name="ShippingAttn" Type="nvarchar" MaxLength="200" />
+    <Property Name="ShippingCompanyName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ShippingAddress1" Type="nvarchar" MaxLength="100" />
+    <Property Name="ShippingAddress2" Type="nvarchar" MaxLength="100" />
+    <Property Name="ShippingCity" Type="nvarchar" MaxLength="50" />
+    <Property Name="ShippingState" Type="nvarchar" MaxLength="5" />
+    <Property Name="ShippingZip" Type="nvarchar" MaxLength="15" />
+    <Property Name="ShippingPhoneNumber" Type="nvarchar" MaxLength="20" />
+    <Property Name="ShippingEmailAddress" Type="nvarchar" MaxLength="100" />
+    <Property Name="ShipmentDate" Type="datetime" Nullable="false" />
+    <Property Name="TrackingNumber1" Type="nvarchar" MaxLength="100" />
+    <Property Name="TrackingNumber2" Type="nvarchar" MaxLength="100" />
+    <Property Name="TrackingNumber3" Type="nvarchar" MaxLength="100" />
+    <Property Name="TrackingNumber4" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="CollateralTypes">
+    <Key>
+      <PropertyRef Name="CollateralTypeID" />
+    </Key>
+    <Property Name="CollateralTypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="DisplayOrder" Type="int" />
+  </EntityType>
+  <EntityType Name="Companies">
+    <Key>
+      <PropertyRef Name="CompanyID" />
+    </Key>
+    <Property Name="CompanyID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="Address1" Type="nvarchar" MaxLength="100" />
+    <Property Name="Address2" Type="nvarchar" MaxLength="100" />
+    <Property Name="City" Type="nvarchar" MaxLength="50" />
+    <Property Name="State" Type="nvarchar" MaxLength="5" />
+    <Property Name="Zip" Type="nvarchar" MaxLength="12" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+    <Property Name="FAX" Type="nvarchar" MaxLength="20" />
+    <Property Name="MasterID" Type="nvarchar" MaxLength="20" />
+    <Property Name="SubCompanyIDs" Type="nvarchar" MaxLength="200" />
+    <Property Name="CompanyType" Type="int" Nullable="false" />
+    <Property Name="TerritoryID" Type="int" />
+    <Property Name="PublicAddress1" Type="nvarchar" MaxLength="100" />
+    <Property Name="PublicAddress2" Type="nvarchar" MaxLength="100" />
+    <Property Name="PublicCity" Type="nvarchar" MaxLength="50" />
+    <Property Name="PublicState" Type="nvarchar" MaxLength="5" />
+    <Property Name="PublicZip" Type="nvarchar" MaxLength="12" />
+    <Property Name="PublicPhone" Type="nvarchar" MaxLength="20" />
+    <Property Name="PublicFAX" Type="nvarchar" MaxLength="20" />
+    <Property Name="ContactEmail" Type="nvarchar" MaxLength="50" />
+    <Property Name="WebSite" Type="nvarchar" MaxLength="100" />
+    <Property Name="PublicContactEmail" Type="nvarchar" MaxLength="50" />
+    <Property Name="PublicWebSite" Type="nvarchar" MaxLength="100" />
+    <Property Name="PublicDisplayName" Type="nvarchar" MaxLength="100" />
+    <Property Name="BusinessUnitName" Type="nvarchar" MaxLength="200" />
+    <Property Name="PaoliMemberID" Type="int" />
+    <Property Name="PaoliSalesRepMemberID" Type="int" />
+    <Property Name="SignedUpForTrip" Type="bit" Nullable="false" />
+    <Property Name="TripGroup" Type="nvarchar" MaxLength="50" />
+    <Property Name="TierGroup" Type="nvarchar" MaxLength="50" />
+    <Property Name="ImageFileName" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsDisabled" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CompanyTripData">
+    <Key>
+      <PropertyRef Name="CompanyID" />
+    </Key>
+    <Property Name="CompanyID" Type="int" Nullable="false" />
+    <Property Name="TotalSalesYTD" Type="money" />
+    <Property Name="TotalTripsYTD" Type="int" />
+    <Property Name="SalesToNextTrip" Type="money" />
+    <Property Name="ShakaThreshold" Type="money" />
+    <Property Name="ShakaPercentGrowthYTD" Type="money" />
+    <Property Name="ShakaPercentGrowthRank" Type="int" />
+    <Property Name="ShakaDollarGrowthYTD" Type="money" />
+    <Property Name="ShakaDollarGrowthRank" Type="int" />
+    <Property Name="AlohaThreshold" Type="money" />
+    <Property Name="AlohaPercentGrowthYTD" Type="money" />
+    <Property Name="AlohaPercentGrowthRank" Type="int" />
+    <Property Name="AlohaDollarGrowthYTD" Type="money" />
+    <Property Name="AlohaDollarGrowthRank" Type="int" />
+    <Property Name="MahaloThreshold" Type="money" />
+    <Property Name="MahaloPercentGrowthYTD" Type="money" />
+    <Property Name="MahaloPercentGrowthRank" Type="int" />
+    <Property Name="MahaloDollarGrowthYTD" Type="money" />
+    <Property Name="MahaloDollarGrowthRank" Type="int" />
+    <Property Name="ImportDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DealerFeaturedProducts">
+    <Key>
+      <PropertyRef Name="DealerID" />
+      <PropertyRef Name="SeriesName" />
+    </Key>
+    <Property Name="DealerID" Type="int" Nullable="false" />
+    <Property Name="SeriesName" Type="nvarchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="DealerPageLinks">
+    <Key>
+      <PropertyRef Name="DealerID" />
+      <PropertyRef Name="PageID" />
+    </Key>
+    <Property Name="DealerID" Type="int" Nullable="false" />
+    <Property Name="PageID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Dealers">
+    <Key>
+      <PropertyRef Name="DealerID" />
+    </Key>
+    <Property Name="DealerID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="200" />
+    <Property Name="URL" Type="nvarchar" Nullable="false" MaxLength="200" />
+    <Property Name="MainContent" Type="ntext" Nullable="false" />
+    <Property Name="FeaturedVideoID" Type="int" Nullable="false" />
+    <Property Name="ProductsHeadline" Type="nvarchar" MaxLength="200" />
+    <Property Name="PagesHeadline" Type="nvarchar" MaxLength="200" />
+    <Property Name="VideosHeadline" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="DealerVideoLinks">
+    <Key>
+      <PropertyRef Name="DealerID" />
+      <PropertyRef Name="VideoID" />
+    </Key>
+    <Property Name="DealerID" Type="int" Nullable="false" />
+    <Property Name="VideoID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="eCollateralItems">
+    <Key>
+      <PropertyRef Name="ItemID" />
+    </Key>
+    <Property Name="ItemID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="CreatedByUserID" Type="int" Nullable="false" />
+    <Property Name="CreatedByDateTime" Type="datetime" Nullable="false" />
+    <Property Name="LastModifiedByUserID" Type="int" Nullable="false" />
+    <Property Name="LastModifiedByDateTime" Type="datetime" Nullable="false" />
+    <Property Name="IsTemplate" Type="bit" Nullable="false" />
+    <Property Name="FileName" Type="nvarchar" Nullable="false" MaxLength="200" />
+    <Property Name="URLText" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="DealershipID" Type="int" />
+    <Property Name="DealershipPOCID" Type="int" />
+    <Property Name="OldDealershipPOCName" Type="nvarchar" MaxLength="200" />
+    <Property Name="OldDealershipPOCEmail" Type="nvarchar" MaxLength="200" />
+    <Property Name="OldDealershipPOCPhone" Type="nvarchar" MaxLength="20" />
+    <Property Name="OldDealershipPOCAcctType" Type="int" />
+    <Property Name="LayoutID" Type="int" />
+    <Property Name="Status" Type="int" Nullable="false" />
+    <Property Name="ContentType" Type="int" />
+    <Property Name="IncludeDealerImage" Type="bit" Nullable="false" />
+    <Property Name="ProjectID" Type="int" />
+    <Property Name="OldProjectName" Type="nvarchar" MaxLength="50" />
+    <Property Name="OldEndCustomer" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="eCollateralSections">
+    <Key>
+      <PropertyRef Name="SectionID" />
+    </Key>
+    <Property Name="SectionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ItemID" Type="int" Nullable="false" />
+    <Property Name="ImageID" Type="int" />
+    <Property Name="Content" Type="ntext" />
+    <Property Name="Sequence" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GSAContracts">
+    <Key>
+      <PropertyRef Name="ContractID" />
+    </Key>
+    <Property Name="ContractID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="HomePageContent">
+    <Key>
+      <PropertyRef Name="PageID" />
+    </Key>
+    <Property Name="PageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ContentData" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="ImageFiles">
+    <Key>
+      <PropertyRef Name="ImageID" />
+    </Key>
+    <Property Name="ImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="OriginalExtension" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="Caption" Type="nvarchar" Nullable="false" MaxLength="1000" />
+    <Property Name="HasPeople" Type="bit" Nullable="false" />
+    <Property Name="ImageType" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="Keyword" Type="nvarchar" Nullable="false" MaxLength="1000" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="MIMEType" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="FeaturedEdge" Type="nvarchar" MaxLength="500" />
+    <Property Name="FeaturedPull" Type="nvarchar" MaxLength="500" />
+    <Property Name="ImageContent" Type="int" Nullable="false" />
+    <Property Name="FeaturedFinish" Type="nvarchar" MaxLength="500" />
+    <Property Name="FinishType" Type="int" />
+    <Property Name="DBKeywords" Type="ntext" />
+    <Property Name="TableShape" Type="nvarchar" MaxLength="500" />
+    <Property Name="TableBase" Type="nvarchar" MaxLength="500" />
+    <Property Name="ControlMechanism" Type="nvarchar" MaxLength="500" />
+    <Property Name="ControlDescription" Type="ntext" />
+    <Property Name="GoToGuidePage" Type="int" />
+    <Property Name="Popularity" Type="int" StoreGeneratedPattern="Computed" />
+    <Property Name="LaminatePattern" Type="int" />
+    <Property Name="VeneerGrade" Type="int" />
+    <Property Name="VeneerSpecies" Type="int" />
+    <Property Name="LaminateIsHPL" Type="bit" Nullable="false" />
+    <Property Name="FinishCode" Type="nvarchar" MaxLength="20" />
+    <Property Name="SeatingGrade" Type="int" />
+    <Property Name="LaminateIsTFL" Type="bit" Nullable="false" />
+    <Property Name="FeaturedSeries" Type="nvarchar" MaxLength="50" />
+    <Property Name="SeriesList" Type="ntext" />
+    <Property Name="ImageApplicationList" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="ImageFileSerieses">
+    <Key>
+      <PropertyRef Name="AssociationID" />
+    </Key>
+    <Property Name="AssociationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="IsFeatured" Type="bit" Nullable="false" />
+    <Property Name="ImageID" Type="int" Nullable="false" />
+    <Property Name="SeriesID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LeadTimeDetail">
+    <Key>
+      <PropertyRef Name="LeadTimeID" />
+    </Key>
+    <Property Name="LeadTimeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Headline" Type="ntext" />
+    <Property Name="PromoText" Type="ntext" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="LeftSide" Type="ntext" />
+    <Property Name="RightSide" Type="ntext" />
+  </EntityType>
+  <EntityType Name="PageLinks">
+    <Key>
+      <PropertyRef Name="PageID" />
+    </Key>
+    <Property Name="PageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Display" Type="nvarchar" Nullable="false" MaxLength="200" />
+    <Property Name="URLLocation" Type="nvarchar" Nullable="false" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="Projects">
+    <Key>
+      <PropertyRef Name="ProjectID" />
+    </Key>
+    <Property Name="ProjectID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ProjectName" Type="nvarchar" MaxLength="50" />
+    <Property Name="DealerID" Type="int" />
+    <Property Name="IsGSA" Type="bit" />
+    <Property Name="ContractID" Type="int" />
+    <Property Name="HasADFirm" Type="bit" Nullable="false" />
+    <Property Name="ADFirm" Type="nvarchar" MaxLength="50" />
+    <Property Name="AnticipatedOrderDate" Type="datetime" />
+    <Property Name="AnticipatedShipDate" Type="datetime" />
+    <Property Name="VeneerCasegoods" Type="nvarchar(max)" />
+    <Property Name="NetVeneerCasegoods" Type="float" />
+    <Property Name="LaminateCasegoods" Type="nvarchar(max)" />
+    <Property Name="NetLaminateCasegoods" Type="float" />
+    <Property Name="Conferencing" Type="nvarchar(max)" />
+    <Property Name="NetConferencing" Type="float" />
+    <Property Name="Seating" Type="nvarchar(max)" />
+    <Property Name="NetSeating" Type="float" />
+    <Property Name="SPADone" Type="bit" Nullable="false" />
+    <Property Name="Probability" Type="int" />
+    <Property Name="PrimaryCompetitor" Type="nvarchar" MaxLength="50" />
+    <Property Name="Comments" Type="ntext" />
+    <Property Name="PipelineStatus" Type="int" Nullable="false" />
+    <Property Name="ProjectSuccess" Type="int" Nullable="false" />
+    <Property Name="EndCustomerID" Type="int" />
+    <Property Name="TerritoryID" Type="int" />
+  </EntityType>
+  <EntityType Name="PublicationImages">
+    <Key>
+      <PropertyRef Name="PublicationID" />
+      <PropertyRef Name="ImageID" />
+    </Key>
+    <Property Name="PublicationID" Type="int" Nullable="false" />
+    <Property Name="ImageID" Type="int" Nullable="false" />
+    <Property Name="PageNumber" Type="int" />
+  </EntityType>
+  <EntityType Name="Publications">
+    <Key>
+      <PropertyRef Name="PublicationID" />
+    </Key>
+    <Property Name="PublicationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="PubDate" Type="datetime" Nullable="false" />
+    <Property Name="FilterVisible" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RelatedSeries">
+    <Key>
+      <PropertyRef Name="ParentSeriesID" />
+      <PropertyRef Name="ChildSeriesID" />
+    </Key>
+    <Property Name="ParentSeriesID" Type="int" Nullable="false" />
+    <Property Name="ChildSeriesID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ScoopArticles">
+    <Key>
+      <PropertyRef Name="ArticleID" />
+    </Key>
+    <Property Name="ArticleID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="BigHeadline" Type="nvarchar" MaxLength="500" />
+    <Property Name="BigText" Type="nvarchar(max)" />
+    <Property Name="BigImageURL" Type="nvarchar" MaxLength="200" />
+    <Property Name="SmallHeadline" Type="nvarchar" MaxLength="500" />
+    <Property Name="SmallText" Type="nvarchar(max)" />
+    <Property Name="SmallImageURL" Type="nvarchar" MaxLength="200" />
+    <Property Name="ContentBlock" Type="nvarchar(max)" />
+    <Property Name="Title" Type="nvarchar" MaxLength="200" />
+    <Property Name="PubDate" Type="datetime" />
+    <Property Name="AuthorID" Type="int" Nullable="false" />
+    <Property Name="Rank" Type="int" Nullable="false" />
+    <Property Name="ShowBigImage" Type="bit" Nullable="false" />
+    <Property Name="ArticleType" Type="int" Nullable="false" />
+    <Property Name="Keywords" Type="nvarchar(max)" />
+    <Property Name="DBKeywords" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="SearchResultsLog">
+    <Key>
+      <PropertyRef Name="LogID" />
+    </Key>
+    <Property Name="LogID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="SearchDateTime" Type="datetime" Nullable="false" />
+    <Property Name="SeriesCount" Type="int" Nullable="false" />
+    <Property Name="ImageCount" Type="int" Nullable="false" />
+    <Property Name="TypicalCount" Type="int" Nullable="false" />
+    <Property Name="PageCount" Type="int" Nullable="false" />
+    <Property Name="SearchTerm" Type="ntext" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Serieses">
+    <Key>
+      <PropertyRef Name="SeriesID" />
+    </Key>
+    <Property Name="SeriesID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="CategoryID" Type="int" Nullable="false" />
+    <Property Name="DBKeywords" Type="ntext" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SeriesImageFiles">
+    <Key>
+      <PropertyRef Name="AssociationID" />
+    </Key>
+    <Property Name="AssociationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="IsFeatured" Type="bit" Nullable="false" />
+    <Property Name="ImageID" Type="int" Nullable="false" />
+    <Property Name="SeriesID" Type="int" Nullable="false" />
+    <Property Name="DisplayOrder" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SeriesIntAttributes">
+    <Key>
+      <PropertyRef Name="ValueID" />
+    </Key>
+    <Property Name="ValueID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Value" Type="int" Nullable="false" />
+    <Property Name="AttributeID" Type="int" Nullable="false" />
+    <Property Name="SeriesID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SeriesOptionAttributes">
+    <Key>
+      <PropertyRef Name="ValueID" />
+    </Key>
+    <Property Name="ValueID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="OptionID" Type="int" Nullable="false" />
+    <Property Name="AttributeID" Type="int" Nullable="false" />
+    <Property Name="SeriesID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SeriesTextAttributes">
+    <Key>
+      <PropertyRef Name="ValueID" />
+    </Key>
+    <Property Name="ValueID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Value" Type="nvarchar" Nullable="false" MaxLength="2000" />
+    <Property Name="AttributeID" Type="int" Nullable="false" />
+    <Property Name="SeriesID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SeriesTypicals">
+    <Key>
+      <PropertyRef Name="AssociationID" />
+    </Key>
+    <Property Name="AssociationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="IsPrimary" Type="bit" Nullable="false" />
+    <Property Name="SeriesID" Type="int" Nullable="false" />
+    <Property Name="TypicalID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ShowroomImages">
+    <Key>
+      <PropertyRef Name="CompanyID" />
+      <PropertyRef Name="ImageID" />
+    </Key>
+    <Property Name="CompanyID" Type="int" Nullable="false" />
+    <Property Name="ImageID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Showrooms">
+    <Key>
+      <PropertyRef Name="CompanyID" />
+    </Key>
+    <Property Name="CompanyID" Type="int" Nullable="false" />
+    <Property Name="DisplayName" Type="nvarchar" MaxLength="100" />
+    <Property Name="Address1" Type="nvarchar" MaxLength="100" />
+    <Property Name="Address2" Type="nvarchar" MaxLength="100" />
+    <Property Name="City" Type="nvarchar" MaxLength="50" />
+    <Property Name="State" Type="nvarchar" MaxLength="5" />
+    <Property Name="Zip" Type="nvarchar" MaxLength="12" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+    <Property Name="FAX" Type="nvarchar" MaxLength="20" />
+    <Property Name="WebSite" Type="nvarchar" MaxLength="100" />
+    <Property Name="Description" Type="ntext" />
+    <Property Name="Hours" Type="ntext" />
+  </EntityType>
+  <EntityType Name="SpecRequestEvents">
+    <Key>
+      <PropertyRef Name="EventID" />
+    </Key>
+    <Property Name="EventID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="RequestID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="EventDate" Type="datetime" Nullable="false" />
+    <Property Name="EventType" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SpecRequestFiles">
+    <Key>
+      <PropertyRef Name="FileID" />
+    </Key>
+    <Property Name="FileID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Extension" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="VersionNumber" Type="int" Nullable="false" />
+    <Property Name="UploadDate" Type="datetime" Nullable="false" />
+    <Property Name="RequestID" Type="int" Nullable="false" />
+    <Property Name="IsSpecTeam" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SpecRequests">
+    <Key>
+      <PropertyRef Name="RequestID" />
+    </Key>
+    <Property Name="RequestID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" MaxLength="10" />
+    <Property Name="PaoliSalesRepGroupID" Type="int" />
+    <Property Name="PrimaryCompanyID" Type="int" />
+    <Property Name="DealerSalesRepID" Type="int" />
+    <Property Name="PaoliSpecTeamMemberID" Type="int" />
+    <Property Name="SavedLocation" Type="nvarchar" MaxLength="500" />
+    <Property Name="ListPrice" Type="int" />
+    <Property Name="FeaturedSeries" Type="nvarchar" MaxLength="50" />
+    <Property Name="SeriesList" Type="ntext" />
+    <Property Name="Received" Type="bit" />
+    <Property Name="SPLQuote" Type="nvarchar" MaxLength="20" />
+    <Property Name="LastModifiedDate" Type="datetime" />
+    <Property Name="Material" Type="nvarchar" MaxLength="100" />
+    <Property Name="Finish" Type="nvarchar" MaxLength="100" />
+    <Property Name="IsGoodForWeb" Type="bit" />
+    <Property Name="AvailableForIn2" Type="bit" />
+    <Property Name="Footprint" Type="nvarchar" MaxLength="100" />
+    <Property Name="Notes" Type="ntext" />
+    <Property Name="IsCompleted" Type="bit" Nullable="false" />
+    <Property Name="PaoliSalesRepMemberID" Type="int" />
+    <Property Name="ProjectSize" Type="nvarchar" MaxLength="100" />
+    <Property Name="NeedFloorplanSpecs" Type="bit" Nullable="false" />
+    <Property Name="Need3DDrawing" Type="bit" Nullable="false" />
+    <Property Name="NeedValueEng" Type="bit" Nullable="false" />
+    <Property Name="NeedPhotoRendering" Type="bit" Nullable="false" />
+    <Property Name="Need2DDrawing" Type="bit" Nullable="false" />
+    <Property Name="NeedAuditSpecs" Type="bit" Nullable="false" />
+    <Property Name="Casegoods" Type="nvarchar(max)" />
+    <Property Name="Conferencing" Type="nvarchar(max)" />
+    <Property Name="Seating" Type="nvarchar(max)" />
+    <Property Name="Finishes" Type="nvarchar(max)" />
+    <Property Name="OtherFinishDetails" Type="nvarchar(max)" />
+    <Property Name="Grommets" Type="bit" Nullable="false" />
+    <Property Name="GrommetDetails" Type="ntext" />
+    <Property Name="DrawerOption" Type="nvarchar" MaxLength="100" />
+    <Property Name="FabricGrade" Type="nvarchar" MaxLength="5" />
+    <Property Name="FabricDetails" Type="nvarchar" MaxLength="100" />
+    <Property Name="SpecialRequests" Type="ntext" />
+    <Property Name="LaminatePreference" Type="nvarchar" MaxLength="10" />
+    <Property Name="DealerPOCText" Type="nvarchar(max)" />
+    <Property Name="NeedDWGFiles" Type="bit" Nullable="false" />
+    <Property Name="NeedSP4Files" Type="bit" Nullable="false" />
+    <Property Name="NeedSIFFiles" Type="bit" Nullable="false" />
+    <Property Name="NeedXLSFiles" Type="bit" Nullable="false" />
+    <Property Name="NeedPDFFiles" Type="bit" Nullable="false" />
+    <Property Name="GrommetPosition" Type="ntext" />
+    <Property Name="IsCanceled" Type="bit" Nullable="false" />
+    <Property Name="SpecTeamNotes" Type="ntext" />
+    <Property Name="DealerPOCEmail" Type="nvarchar" MaxLength="200" />
+    <Property Name="DealerPOCPhone" Type="nvarchar" MaxLength="20" />
+    <Property Name="DealerPOCAcctType" Type="int" />
+    <Property Name="InternalNotes" Type="ntext" />
+    <Property Name="IsOnHold" Type="bit" Nullable="false" />
+    <Property Name="ProjectID" Type="int" />
+    <Property Name="OldProjectName" Type="nvarchar" MaxLength="50" />
+    <Property Name="OldEndCustomer" Type="nvarchar" MaxLength="100" />
+    <Property Name="OldIsGSA" Type="bit" />
+    <Property Name="OldContractID" Type="int" />
+    <Property Name="VeneerPreference" Type="nvarchar" MaxLength="10" />
+    <Property Name="ProjectScope" Type="nvarchar" MaxLength="50" />
+    <Property Name="ProjectListPrice" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsPhasedProject" Type="bit" />
+    <Property Name="NumberOfPhases" Type="int" />
+    <Property Name="IsStandardsProgram" Type="bit" />
+    <Property Name="ProjectFirstOrderDate" Type="date" />
+    <Property Name="Competitors" Type="nvarchar(max)" />
+    <Property Name="CompetitorSeries" Type="nvarchar" MaxLength="200" />
+    <Property Name="Status" Type="nvarchar" MaxLength="10" />
+    <Property Name="OrderPlacedDate" Type="date" />
+    <Property Name="OrderCost" Type="nvarchar" MaxLength="50" />
+    <Property Name="AckNumber" Type="nvarchar" MaxLength="50" />
+    <Property Name="LostReason" Type="nvarchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="TAttributeOptions">
+    <Key>
+      <PropertyRef Name="OptionID" />
+    </Key>
+    <Property Name="OptionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="500" />
+    <Property Name="AttributeID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TAttributes">
+    <Key>
+      <PropertyRef Name="AttributeID" />
+    </Key>
+    <Property Name="AttributeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="DetailItem" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Territories">
+    <Key>
+      <PropertyRef Name="TerritoryID" />
+    </Key>
+    <Property Name="TerritoryID" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="TerritoryTripData">
+    <Key>
+      <PropertyRef Name="CompanyID" />
+    </Key>
+    <Property Name="CompanyID" Type="int" Nullable="false" />
+    <Property Name="NewProductPoints" Type="int" Nullable="false" />
+    <Property Name="FocusDealerPoints" Type="int" Nullable="false" />
+    <Property Name="CurrentTerritoryVol" Type="int" Nullable="false" />
+    <Property Name="TerritoryPoints" Type="int" Nullable="false" />
+    <Property Name="NumDealerTripsAwarded" Type="int" Nullable="false" />
+    <Property Name="DealerTripPoints" Type="int" Nullable="false" />
+    <Property Name="EducationPoints" Type="int" Nullable="false" />
+    <Property Name="TotalTripPoints" Type="int" Nullable="false" />
+    <Property Name="ImportDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TypicalImageFiles">
+    <Key>
+      <PropertyRef Name="AssociationID" />
+    </Key>
+    <Property Name="AssociationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="IsFeatured" Type="bit" Nullable="false" />
+    <Property Name="ImageID" Type="int" Nullable="false" />
+    <Property Name="TypicalID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TypicalIntAttributes">
+    <Key>
+      <PropertyRef Name="ValueID" />
+    </Key>
+    <Property Name="ValueID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Value" Type="int" Nullable="false" />
+    <Property Name="AttributeID" Type="int" Nullable="false" />
+    <Property Name="TypicalID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TypicalOptionAttributes">
+    <Key>
+      <PropertyRef Name="ValueID" />
+    </Key>
+    <Property Name="ValueID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="OptionID" Type="int" Nullable="false" />
+    <Property Name="AttributeID" Type="int" Nullable="false" />
+    <Property Name="TypicalID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Typicals">
+    <Key>
+      <PropertyRef Name="TypicalID" />
+    </Key>
+    <Property Name="TypicalID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="DBKeywords" Type="ntext" />
+    <Property Name="Notes" Type="ntext" />
+    <Property Name="FeaturedSeries" Type="nvarchar" MaxLength="50" />
+    <Property Name="SeriesList" Type="ntext" />
+    <Property Name="AvailableForIn2" Type="bit" />
+    <Property Name="SpecRequestID" Type="int" />
+    <Property Name="IsPublished" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TypicalTextAttributes">
+    <Key>
+      <PropertyRef Name="ValueID" />
+    </Key>
+    <Property Name="ValueID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Value" Type="nvarchar" Nullable="false" MaxLength="2000" />
+    <Property Name="AttributeID" Type="int" Nullable="false" />
+    <Property Name="TypicalID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserLogins">
+    <Key>
+      <PropertyRef Name="LoginRecID" />
+    </Key>
+    <Property Name="LoginRecID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="LoginDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserNotifications">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="NewCollateralOrder" Type="bit" Nullable="false" />
+    <Property Name="NewCollateralOrderTerritory" Type="bit" Nullable="false" />
+    <Property Name="NewCollateralOrderShipment" Type="bit" Nullable="false" />
+    <Property Name="NewCollateralOrderShipmentTerritory" Type="bit" Nullable="false" />
+    <Property Name="NewSpecRequest" Type="bit" Nullable="false" />
+    <Property Name="NewSpecRequestTerritory" Type="bit" Nullable="false" />
+    <Property Name="CompleteSpecRequest" Type="bit" Nullable="false" />
+    <Property Name="CompleteSpecRequestTerritory" Type="bit" Nullable="false" />
+    <Property Name="UpdateSpecRequest" Type="bit" Nullable="false" />
+    <Property Name="UpdateSpecRequestTerritory" Type="bit" Nullable="false" />
+    <Property Name="ReOpenSpecRequest" Type="bit" Nullable="false" />
+    <Property Name="ReOpenSpecRequestTerritory" Type="bit" Nullable="false" />
+    <Property Name="NewCollateralOrderMyDealers" Type="bit" Nullable="false" />
+    <Property Name="NewCollateralOrderShipmentMyDealers" Type="bit" Nullable="false" />
+    <Property Name="NewSpecRequestMyDealers" Type="bit" Nullable="false" />
+    <Property Name="CompleteSpecRequestMyDealers" Type="bit" Nullable="false" />
+    <Property Name="UpdateSpecRequestMyDealers" Type="bit" Nullable="false" />
+    <Property Name="ReOpenSpecRequestMyDealers" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Address1" Type="nvarchar" MaxLength="100" />
+    <Property Name="Address2" Type="nvarchar" MaxLength="100" />
+    <Property Name="City" Type="nvarchar" MaxLength="50" />
+    <Property Name="State" Type="nvarchar" MaxLength="5" />
+    <Property Name="Zip" Type="nvarchar" MaxLength="12" />
+    <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="200" />
+    <Property Name="BusinessPhone" Type="nvarchar" MaxLength="20" />
+    <Property Name="CellPhone" Type="nvarchar" MaxLength="20" />
+    <Property Name="Title" Type="nvarchar" MaxLength="50" />
+    <Property Name="Enabled" Type="bit" Nullable="false" />
+    <Property Name="AccountType" Type="int" Nullable="false" />
+    <Property Name="CompanyID" Type="int" Nullable="false" />
+    <Property Name="RecWelcomeEmail" Type="bit" Nullable="false" />
+    <Property Name="ImageFileName" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsTempPassword" Type="bit" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="AuthorCredit" Type="nvarchar" MaxLength="500" />
+    <Property Name="DefaultShippingAddress" Type="int" Nullable="false" />
+    <Property Name="ViewPerfData" Type="bit" Nullable="false" />
+    <Property Name="TierGroup" Type="nvarchar" MaxLength="50" />
+    <Property Name="HomeAddress1" Type="nvarchar" MaxLength="100" />
+    <Property Name="HomeAddress2" Type="nvarchar" MaxLength="100" />
+    <Property Name="HomeCity" Type="nvarchar" MaxLength="50" />
+    <Property Name="HomeState" Type="nvarchar" MaxLength="5" />
+    <Property Name="HomeZip" Type="nvarchar" MaxLength="12" />
+    <Property Name="HomePhone" Type="nvarchar" MaxLength="20" />
+    <Property Name="PersonalCellPhone" Type="nvarchar" MaxLength="20" />
+    <Property Name="FAX" Type="nvarchar" MaxLength="20" />
+    <Property Name="Extension" Type="nvarchar" MaxLength="10" />
+    <Property Name="CreatedByUser" Type="int" />
+    <Property Name="CreatedDateTime" Type="datetime" />
+    <Property Name="AllowNewsMgmt" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VideoLinks">
+    <Key>
+      <PropertyRef Name="VideoID" />
+    </Key>
+    <Property Name="VideoID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Display" Type="nvarchar" Nullable="false" MaxLength="200" />
+    <Property Name="YouTubeID" Type="nvarchar" Nullable="false" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="ZipCodeInfo">
+    <Key>
+      <PropertyRef Name="ZipCode" />
+    </Key>
+    <Property Name="ZipCode" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="TerritoryID" Type="int" Nullable="false" />
+    <Property Name="Longitude" Type="float" Nullable="false" />
+    <Property Name="Latitude" Type="float" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Events_SpecRequests">
+    <End Role="SpecRequests" Type="PaoliPDWModel.Store.SpecRequests" Multiplicity="1" />
+    <End Role="SpecRequestEvents" Type="PaoliPDWModel.Store.SpecRequestEvents" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SpecRequests">
+        <PropertyRef Name="RequestID" />
+      </Principal>
+      <Dependent Role="SpecRequestEvents">
+        <PropertyRef Name="RequestID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Events_Users">
+    <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="1" />
+    <End Role="SpecRequestEvents" Type="PaoliPDWModel.Store.SpecRequestEvents" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="SpecRequestEvents">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ImageFileSerieses_Image">
+    <End Role="ImageFiles" Type="PaoliPDWModel.Store.ImageFiles" Multiplicity="1" />
+    <End Role="ImageFileSerieses" Type="PaoliPDWModel.Store.ImageFileSerieses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ImageFiles">
+        <PropertyRef Name="ImageID" />
+      </Principal>
+      <Dependent Role="ImageFileSerieses">
+        <PropertyRef Name="ImageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ImageFileSerieses_Series">
+    <End Role="Serieses" Type="PaoliPDWModel.Store.Serieses" Multiplicity="1" />
+    <End Role="ImageFileSerieses" Type="PaoliPDWModel.Store.ImageFileSerieses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Serieses">
+        <PropertyRef Name="SeriesID" />
+      </Principal>
+      <Dependent Role="ImageFileSerieses">
+        <PropertyRef Name="SeriesID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LeadTimeDetail_User">
+    <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="0..1" />
+    <End Role="LeadTimeDetail" Type="PaoliPDWModel.Store.LeadTimeDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="LeadTimeDetail">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Notifications">
+    <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="1" />
+    <End Role="UserNotifications" Type="PaoliPDWModel.Store.UserNotifications" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="UserNotifications">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCGI_Children">
+    <End Role="CollateralItems" Type="PaoliPDWModel.Store.CollateralItems" Multiplicity="1" />
+    <End Role="CollateralGroupItems" Type="PaoliPDWModel.Store.CollateralGroupItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CollateralItems">
+        <PropertyRef Name="CollateralID" />
+      </Principal>
+      <Dependent Role="CollateralGroupItems">
+        <PropertyRef Name="CollateralID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCGI_Parent">
+    <End Role="CollateralItems" Type="PaoliPDWModel.Store.CollateralItems" Multiplicity="1" />
+    <End Role="CollateralGroupItems" Type="PaoliPDWModel.Store.CollateralGroupItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CollateralItems">
+        <PropertyRef Name="CollateralID" />
+      </Principal>
+      <Dependent Role="CollateralGroupItems">
+        <PropertyRef Name="GroupID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCO_CanceledUser">
+    <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="0..1" />
+    <End Role="CollateralOrders" Type="PaoliPDWModel.Store.CollateralOrders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="CollateralOrders">
+        <PropertyRef Name="CanceledByUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCO_CreatedUser">
+    <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="1" />
+    <End Role="CollateralOrders" Type="PaoliPDWModel.Store.CollateralOrders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="CollateralOrders">
+        <PropertyRef Name="CreatedByUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCODetail_Order">
+    <End Role="CollateralOrders" Type="PaoliPDWModel.Store.CollateralOrders" Multiplicity="1" />
+    <End Role="CollateralOrderDetails" Type="PaoliPDWModel.Store.CollateralOrderDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CollateralOrders">
+        <PropertyRef Name="OrderID" />
+      </Principal>
+      <Dependent Role="CollateralOrderDetails">
+        <PropertyRef Name="OrderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCollateral_Type">
+    <End Role="CollateralTypes" Type="PaoliPDWModel.Store.CollateralTypes" Multiplicity="0..1" />
+    <End Role="CollateralItems" Type="PaoliPDWModel.Store.CollateralItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CollateralTypes">
+        <PropertyRef Name="CollateralTypeID" />
+      </Principal>
+      <Dependent Role="CollateralItems">
+        <PropertyRef Name="CollateralTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCompany_PaoliMember">
+    <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="0..1" />
+    <End Role="Companies" Type="PaoliPDWModel.Store.Companies" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Companies">
+        <PropertyRef Name="PaoliMemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCompany_PaoliSalesRepMember">
+    <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="0..1" />
+    <End Role="Companies" Type="PaoliPDWModel.Store.Companies" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Companies">
+        <PropertyRef Name="PaoliSalesRepMemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCompany_Territory">
+    <End Role="Territories" Type="PaoliPDWModel.Store.Territories" Multiplicity="0..1" />
+    <End Role="Companies" Type="PaoliPDWModel.Store.Companies" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Territories">
+        <PropertyRef Name="TerritoryID" />
+      </Principal>
+      <Dependent Role="Companies">
+        <PropertyRef Name="TerritoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCOrder_Dealer">
+    <End Role="Companies" Type="PaoliPDWModel.Store.Companies" Multiplicity="0..1" />
+    <End Role="CollateralOrders" Type="PaoliPDWModel.Store.CollateralOrders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Companies">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="CollateralOrders">
+        <PropertyRef Name="DealerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCOrder_DealerMember">
+    <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="0..1" />
+    <End Role="CollateralOrders" Type="PaoliPDWModel.Store.CollateralOrders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="CollateralOrders">
+        <PropertyRef Name="DealerMemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCOrder_PaoliMember">
+    <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="0..1" />
+    <End Role="CollateralOrders" Type="PaoliPDWModel.Store.CollateralOrders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="CollateralOrders">
+        <PropertyRef Name="PaoliMemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCOrder_SalesRep">
+    <End Role="Companies" Type="PaoliPDWModel.Store.Companies" Multiplicity="0..1" />
+    <End Role="CollateralOrders" Type="PaoliPDWModel.Store.CollateralOrders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Companies">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="CollateralOrders">
+        <PropertyRef Name="PaoliRepGroupID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCOrder_SalesRepMember">
+    <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="0..1" />
+    <End Role="CollateralOrders" Type="PaoliPDWModel.Store.CollateralOrders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="CollateralOrders">
+        <PropertyRef Name="PaoliRepGroupMemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCOrder_SPDealer">
+    <End Role="Companies" Type="PaoliPDWModel.Store.Companies" Multiplicity="0..1" />
+    <End Role="CollateralOrders" Type="PaoliPDWModel.Store.CollateralOrders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Companies">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="CollateralOrders">
+        <PropertyRef Name="SPDealerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCOrder_SPDealerMember">
+    <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="0..1" />
+    <End Role="CollateralOrders" Type="PaoliPDWModel.Store.CollateralOrders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="CollateralOrders">
+        <PropertyRef Name="SPDealerMemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCOrder_SPPaoliMember">
+    <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="0..1" />
+    <End Role="CollateralOrders" Type="PaoliPDWModel.Store.CollateralOrders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="CollateralOrders">
+        <PropertyRef Name="SPPaoliMemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCOrder_SPSalesRep">
+    <End Role="Companies" Type="PaoliPDWModel.Store.Companies" Multiplicity="0..1" />
+    <End Role="CollateralOrders" Type="PaoliPDWModel.Store.CollateralOrders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Companies">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="CollateralOrders">
+        <PropertyRef Name="SPPaoliRepGroupID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkCOrder_SPSalesRepMember">
+    <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="0..1" />
+    <End Role="CollateralOrders" Type="PaoliPDWModel.Store.CollateralOrders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="CollateralOrders">
+        <PropertyRef Name="SPPaoliRepGroupMemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkDealer_VideoLink">
+    <End Role="VideoLinks" Type="PaoliPDWModel.Store.VideoLinks" Multiplicity="1" />
+    <End Role="Dealers" Type="PaoliPDWModel.Store.Dealers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VideoLinks">
+        <PropertyRef Name="VideoID" />
+      </Principal>
+      <Dependent Role="Dealers">
+        <PropertyRef Name="FeaturedVideoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkDFP_Dealer">
+    <End Role="Dealers" Type="PaoliPDWModel.Store.Dealers" Multiplicity="1" />
+    <End Role="DealerFeaturedProducts" Type="PaoliPDWModel.Store.DealerFeaturedProducts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dealers">
+        <PropertyRef Name="DealerID" />
+      </Principal>
+      <Dependent Role="DealerFeaturedProducts">
+        <PropertyRef Name="DealerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkDPL_Dealer">
+    <End Role="Dealers" Type="PaoliPDWModel.Store.Dealers" Multiplicity="1" />
+    <End Role="DealerPageLinks" Type="PaoliPDWModel.Store.DealerPageLinks" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dealers">
+        <PropertyRef Name="DealerID" />
+      </Principal>
+      <Dependent Role="DealerPageLinks">
+        <PropertyRef Name="DealerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkDPL_PageLink">
+    <End Role="PageLinks" Type="PaoliPDWModel.Store.PageLinks" Multiplicity="1" />
+    <End Role="DealerPageLinks" Type="PaoliPDWModel.Store.DealerPageLinks" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PageLinks">
+        <PropertyRef Name="PageID" />
+      </Principal>
+      <Dependent Role="DealerPageLinks">
+        <PropertyRef Name="PageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkDVL_Dealer">
+    <End Role="Dealers" Type="PaoliPDWModel.Store.Dealers" Multiplicity="1" />
+    <End Role="DealerVideoLinks" Type="PaoliPDWModel.Store.DealerVideoLinks" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dealers">
+        <PropertyRef Name="DealerID" />
+      </Principal>
+      <Dependent Role="DealerVideoLinks">
+        <PropertyRef Name="DealerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkDVL_VideoLink">
+    <End Role="VideoLinks" Type="PaoliPDWModel.Store.VideoLinks" Multiplicity="1" />
+    <End Role="DealerVideoLinks" Type="PaoliPDWModel.Store.DealerVideoLinks" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VideoLinks">
+        <PropertyRef Name="VideoID" />
+      </Principal>
+      <Dependent Role="DealerVideoLinks">
+        <PropertyRef Name="VideoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkeCollateral_CreatedUser">
+    <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="1" />
+    <End Role="eCollateralItems" Type="PaoliPDWModel.Store.eCollateralItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="eCollateralItems">
+        <PropertyRef Name="CreatedByUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkeCollateral_Dealership">
+    <End Role="Companies" Type="PaoliPDWModel.Store.Companies" Multiplicity="0..1" />
+    <End Role="eCollateralItems" Type="PaoliPDWModel.Store.eCollateralItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Companies">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="eCollateralItems">
+        <PropertyRef Name="DealershipID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkeCollateral_DealerUser">
+    <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="0..1" />
+    <End Role="eCollateralItems" Type="PaoliPDWModel.Store.eCollateralItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="eCollateralItems">
+        <PropertyRef Name="DealershipPOCID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkeCollateral_ModifiedUser">
+    <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="1" />
+    <End Role="eCollateralItems" Type="PaoliPDWModel.Store.eCollateralItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="eCollateralItems">
+        <PropertyRef Name="LastModifiedByUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkECollateral_Project">
+    <End Role="Projects" Type="PaoliPDWModel.Store.Projects" Multiplicity="0..1" />
+    <End Role="eCollateralItems" Type="PaoliPDWModel.Store.eCollateralItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Projects">
+        <PropertyRef Name="ProjectID" />
+      </Principal>
+      <Dependent Role="eCollateralItems">
+        <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkeCSection_Image">
+    <End Role="ImageFiles" Type="PaoliPDWModel.Store.ImageFiles" Multiplicity="0..1" />
+    <End Role="eCollateralSections" Type="PaoliPDWModel.Store.eCollateralSections" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ImageFiles">
+        <PropertyRef Name="ImageID" />
+      </Principal>
+      <Dependent Role="eCollateralSections">
+        <PropertyRef Name="ImageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkeCSection_Item">
+    <End Role="eCollateralItems" Type="PaoliPDWModel.Store.eCollateralItems" Multiplicity="1" />
+    <End Role="eCollateralSections" Type="PaoliPDWModel.Store.eCollateralSections" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="eCollateralItems">
+        <PropertyRef Name="ItemID" />
+      </Principal>
+      <Dependent Role="eCollateralSections">
+        <PropertyRef Name="ItemID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkLogin_User">
+    <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="1" />
+    <End Role="UserLogins" Type="PaoliPDWModel.Store.UserLogins" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="UserLogins">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkOption_Attribute">
+    <End Role="Attributes" Type="PaoliPDWModel.Store.Attributes" Multiplicity="1" />
+    <End Role="AttributeOptions" Type="PaoliPDWModel.Store.AttributeOptions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Attributes">
+        <PropertyRef Name="AttributeID" />
+      </Principal>
+      <Dependent Role="AttributeOptions">
+        <PropertyRef Name="AttributeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkPI_Image">
+    <End Role="ImageFiles" Type="PaoliPDWModel.Store.ImageFiles" Multiplicity="1" />
+    <End Role="PublicationImages" Type="PaoliPDWModel.Store.PublicationImages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ImageFiles">
+        <PropertyRef Name="ImageID" />
+      </Principal>
+      <Dependent Role="PublicationImages">
+        <PropertyRef Name="ImageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkPI_Publication">
+    <End Role="Publications" Type="PaoliPDWModel.Store.Publications" Multiplicity="1" />
+    <End Role="PublicationImages" Type="PaoliPDWModel.Store.PublicationImages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Publications">
+        <PropertyRef Name="PublicationID" />
+      </Principal>
+      <Dependent Role="PublicationImages">
+        <PropertyRef Name="PublicationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkProject_Company">
+    <End Role="Companies" Type="PaoliPDWModel.Store.Companies" Multiplicity="0..1" />
+    <End Role="Projects" Type="PaoliPDWModel.Store.Projects" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Companies">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="Projects">
+        <PropertyRef Name="DealerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkProject_EndCustomer">
+    <End Role="Companies" Type="PaoliPDWModel.Store.Companies" Multiplicity="0..1" />
+    <End Role="Projects" Type="PaoliPDWModel.Store.Projects" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Companies">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="Projects">
+        <PropertyRef Name="EndCustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkProject_GSAContract">
+    <End Role="GSAContracts" Type="PaoliPDWModel.Store.GSAContracts" Multiplicity="0..1" />
+    <End Role="Projects" Type="PaoliPDWModel.Store.Projects" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GSAContracts">
+        <PropertyRef Name="ContractID" />
+      </Principal>
+      <Dependent Role="Projects">
+        <PropertyRef Name="ContractID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkProject_Territory">
+    <End Role="Territories" Type="PaoliPDWModel.Store.Territories" Multiplicity="0..1" />
+    <End Role="Projects" Type="PaoliPDWModel.Store.Projects" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Territories">
+        <PropertyRef Name="TerritoryID" />
+      </Principal>
+      <Dependent Role="Projects">
+        <PropertyRef Name="TerritoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkRelatedSeries_Child">
+    <End Role="Serieses" Type="PaoliPDWModel.Store.Serieses" Multiplicity="1" />
+    <End Role="RelatedSeries" Type="PaoliPDWModel.Store.RelatedSeries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Serieses">
+        <PropertyRef Name="SeriesID" />
+      </Principal>
+      <Dependent Role="RelatedSeries">
+        <PropertyRef Name="ChildSeriesID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkRelatedSeries_Parent">
+    <End Role="Serieses" Type="PaoliPDWModel.Store.Serieses" Multiplicity="1" />
+    <End Role="RelatedSeries" Type="PaoliPDWModel.Store.RelatedSeries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Serieses">
+        <PropertyRef Name="SeriesID" />
+      </Principal>
+      <Dependent Role="RelatedSeries">
+        <PropertyRef Name="ParentSeriesID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkScoopArticle_User">
+    <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="1" />
+    <End Role="ScoopArticles" Type="PaoliPDWModel.Store.ScoopArticles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="ScoopArticles">
+        <PropertyRef Name="AuthorID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSeries_Category">
+    <End Role="Categories" Type="PaoliPDWModel.Store.Categories" Multiplicity="1" />
+    <End Role="Serieses" Type="PaoliPDWModel.Store.Serieses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categories">
+        <PropertyRef Name="CategoryID" />
+      </Principal>
+      <Dependent Role="Serieses">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkShipment_COrder">
+    <End Role="CollateralOrders" Type="PaoliPDWModel.Store.CollateralOrders" Multiplicity="1" />
+    <End Role="CollateralOrderShipments" Type="PaoliPDWModel.Store.CollateralOrderShipments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CollateralOrders">
+        <PropertyRef Name="OrderID" />
+      </Principal>
+      <Dependent Role="CollateralOrderShipments">
+        <PropertyRef Name="OrderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkShipmentDetail_CODetail">
+    <End Role="CollateralOrderDetails" Type="PaoliPDWModel.Store.CollateralOrderDetails" Multiplicity="1" />
+    <End Role="CollateralOrderShipmentDetails" Type="PaoliPDWModel.Store.CollateralOrderShipmentDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CollateralOrderDetails">
+        <PropertyRef Name="DetailID" />
+      </Principal>
+      <Dependent Role="CollateralOrderShipmentDetails">
+        <PropertyRef Name="OrderDetailID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkShipmentDetail_Shipment">
+    <End Role="CollateralOrderShipments" Type="PaoliPDWModel.Store.CollateralOrderShipments" Multiplicity="1" />
+    <End Role="CollateralOrderShipmentDetails" Type="PaoliPDWModel.Store.CollateralOrderShipmentDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CollateralOrderShipments">
+        <PropertyRef Name="ShipmentID" />
+      </Principal>
+      <Dependent Role="CollateralOrderShipmentDetails">
+        <PropertyRef Name="ShipmentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkShowroom_Company">
+    <End Role="Companies" Type="PaoliPDWModel.Store.Companies" Multiplicity="1" />
+    <End Role="Showrooms" Type="PaoliPDWModel.Store.Showrooms" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Companies">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="Showrooms">
+        <PropertyRef Name="CompanyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSIA_Attribute">
+    <End Role="Attributes" Type="PaoliPDWModel.Store.Attributes" Multiplicity="1" />
+    <End Role="SeriesIntAttributes" Type="PaoliPDWModel.Store.SeriesIntAttributes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Attributes">
+        <PropertyRef Name="AttributeID" />
+      </Principal>
+      <Dependent Role="SeriesIntAttributes">
+        <PropertyRef Name="AttributeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSIA_Series">
+    <End Role="Serieses" Type="PaoliPDWModel.Store.Serieses" Multiplicity="1" />
+    <End Role="SeriesIntAttributes" Type="PaoliPDWModel.Store.SeriesIntAttributes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Serieses">
+        <PropertyRef Name="SeriesID" />
+      </Principal>
+      <Dependent Role="SeriesIntAttributes">
+        <PropertyRef Name="SeriesID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSIF_Image">
+    <End Role="ImageFiles" Type="PaoliPDWModel.Store.ImageFiles" Multiplicity="1" />
+    <End Role="SeriesImageFiles" Type="PaoliPDWModel.Store.SeriesImageFiles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ImageFiles">
+        <PropertyRef Name="ImageID" />
+      </Principal>
+      <Dependent Role="SeriesImageFiles">
+        <PropertyRef Name="ImageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSIF_Series">
+    <End Role="Serieses" Type="PaoliPDWModel.Store.Serieses" Multiplicity="1" />
+    <End Role="SeriesImageFiles" Type="PaoliPDWModel.Store.SeriesImageFiles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Serieses">
+        <PropertyRef Name="SeriesID" />
+      </Principal>
+      <Dependent Role="SeriesImageFiles">
+        <PropertyRef Name="SeriesID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSOA_Attribute">
+    <End Role="Attributes" Type="PaoliPDWModel.Store.Attributes" Multiplicity="1" />
+    <End Role="SeriesOptionAttributes" Type="PaoliPDWModel.Store.SeriesOptionAttributes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Attributes">
+        <PropertyRef Name="AttributeID" />
+      </Principal>
+      <Dependent Role="SeriesOptionAttributes">
+        <PropertyRef Name="AttributeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSOA_AttributeOption">
+    <End Role="AttributeOptions" Type="PaoliPDWModel.Store.AttributeOptions" Multiplicity="1" />
+    <End Role="SeriesOptionAttributes" Type="PaoliPDWModel.Store.SeriesOptionAttributes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AttributeOptions">
+        <PropertyRef Name="OptionID" />
+      </Principal>
+      <Dependent Role="SeriesOptionAttributes">
+        <PropertyRef Name="OptionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSOA_Series">
+    <End Role="Serieses" Type="PaoliPDWModel.Store.Serieses" Multiplicity="1" />
+    <End Role="SeriesOptionAttributes" Type="PaoliPDWModel.Store.SeriesOptionAttributes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Serieses">
+        <PropertyRef Name="SeriesID" />
+      </Principal>
+      <Dependent Role="SeriesOptionAttributes">
+        <PropertyRef Name="SeriesID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSpec_Company">
+    <End Role="Companies" Type="PaoliPDWModel.Store.Companies" Multiplicity="0..1" />
+    <End Role="SpecRequests" Type="PaoliPDWModel.Store.SpecRequests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Companies">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="SpecRequests">
+        <PropertyRef Name="PrimaryCompanyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSpec_DealerSalesRep">
+    <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="0..1" />
+    <End Role="SpecRequests" Type="PaoliPDWModel.Store.SpecRequests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="SpecRequests">
+        <PropertyRef Name="DealerSalesRepID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSpec_PaoliSpecTeam">
+    <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="0..1" />
+    <End Role="SpecRequests" Type="PaoliPDWModel.Store.SpecRequests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="SpecRequests">
+        <PropertyRef Name="PaoliSpecTeamMemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSpec_RepGroup">
+    <End Role="Companies" Type="PaoliPDWModel.Store.Companies" Multiplicity="0..1" />
+    <End Role="SpecRequests" Type="PaoliPDWModel.Store.SpecRequests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Companies">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="SpecRequests">
+        <PropertyRef Name="PaoliSalesRepGroupID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSpecFile_Request">
+    <End Role="SpecRequests" Type="PaoliPDWModel.Store.SpecRequests" Multiplicity="1" />
+    <End Role="SpecRequestFiles" Type="PaoliPDWModel.Store.SpecRequestFiles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SpecRequests">
+        <PropertyRef Name="RequestID" />
+      </Principal>
+      <Dependent Role="SpecRequestFiles">
+        <PropertyRef Name="RequestID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSpecRequest_Project">
+    <End Role="Projects" Type="PaoliPDWModel.Store.Projects" Multiplicity="0..1" />
+    <End Role="SpecRequests" Type="PaoliPDWModel.Store.SpecRequests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Projects">
+        <PropertyRef Name="ProjectID" />
+      </Principal>
+      <Dependent Role="SpecRequests">
+        <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSpecRequest_PSRMember">
+    <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="0..1" />
+    <End Role="SpecRequests" Type="PaoliPDWModel.Store.SpecRequests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="SpecRequests">
+        <PropertyRef Name="PaoliSalesRepMemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSRI_Company">
+    <End Role="Companies" Type="PaoliPDWModel.Store.Companies" Multiplicity="1" />
+    <End Role="ShowroomImages" Type="PaoliPDWModel.Store.ShowroomImages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Companies">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="ShowroomImages">
+        <PropertyRef Name="CompanyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSRI_Image">
+    <End Role="ImageFiles" Type="PaoliPDWModel.Store.ImageFiles" Multiplicity="1" />
+    <End Role="ShowroomImages" Type="PaoliPDWModel.Store.ShowroomImages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ImageFiles">
+        <PropertyRef Name="ImageID" />
+      </Principal>
+      <Dependent Role="ShowroomImages">
+        <PropertyRef Name="ImageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkST_Series">
+    <End Role="Serieses" Type="PaoliPDWModel.Store.Serieses" Multiplicity="1" />
+    <End Role="SeriesTypicals" Type="PaoliPDWModel.Store.SeriesTypicals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Serieses">
+        <PropertyRef Name="SeriesID" />
+      </Principal>
+      <Dependent Role="SeriesTypicals">
+        <PropertyRef Name="SeriesID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkST_Typical">
+    <End Role="Typicals" Type="PaoliPDWModel.Store.Typicals" Multiplicity="1" />
+    <End Role="SeriesTypicals" Type="PaoliPDWModel.Store.SeriesTypicals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Typicals">
+        <PropertyRef Name="TypicalID" />
+      </Principal>
+      <Dependent Role="SeriesTypicals">
+        <PropertyRef Name="TypicalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSTA_Attribute">
+    <End Role="Attributes" Type="PaoliPDWModel.Store.Attributes" Multiplicity="1" />
+    <End Role="SeriesTextAttributes" Type="PaoliPDWModel.Store.SeriesTextAttributes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Attributes">
+        <PropertyRef Name="AttributeID" />
+      </Principal>
+      <Dependent Role="SeriesTextAttributes">
+        <PropertyRef Name="AttributeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkSTA_Series">
+    <End Role="Serieses" Type="PaoliPDWModel.Store.Serieses" Multiplicity="1" />
+    <End Role="SeriesTextAttributes" Type="PaoliPDWModel.Store.SeriesTextAttributes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Serieses">
+        <PropertyRef Name="SeriesID" />
+      </Principal>
+      <Dependent Role="SeriesTextAttributes">
+        <PropertyRef Name="SeriesID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkTerritoryTripData_Company">
+    <End Role="Companies" Type="PaoliPDWModel.Store.Companies" Multiplicity="1" />
+    <End Role="TerritoryTripData" Type="PaoliPDWModel.Store.TerritoryTripData" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Companies">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="TerritoryTripData">
+        <PropertyRef Name="CompanyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkTIA_Attribute">
+    <End Role="TAttributes" Type="PaoliPDWModel.Store.TAttributes" Multiplicity="1" />
+    <End Role="TypicalIntAttributes" Type="PaoliPDWModel.Store.TypicalIntAttributes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TAttributes">
+        <PropertyRef Name="AttributeID" />
+      </Principal>
+      <Dependent Role="TypicalIntAttributes">
+        <PropertyRef Name="AttributeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkTIA_Typical">
+    <End Role="Typicals" Type="PaoliPDWModel.Store.Typicals" Multiplicity="1" />
+    <End Role="TypicalIntAttributes" Type="PaoliPDWModel.Store.TypicalIntAttributes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Typicals">
+        <PropertyRef Name="TypicalID" />
+      </Principal>
+      <Dependent Role="TypicalIntAttributes">
+        <PropertyRef Name="TypicalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkTIF_Image">
+    <End Role="ImageFiles" Type="PaoliPDWModel.Store.ImageFiles" Multiplicity="1" />
+    <End Role="TypicalImageFiles" Type="PaoliPDWModel.Store.TypicalImageFiles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ImageFiles">
+        <PropertyRef Name="ImageID" />
+      </Principal>
+      <Dependent Role="TypicalImageFiles">
+        <PropertyRef Name="ImageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkTIF_Typical">
+    <End Role="Typicals" Type="PaoliPDWModel.Store.Typicals" Multiplicity="1" />
+    <End Role="TypicalImageFiles" Type="PaoliPDWModel.Store.TypicalImageFiles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Typicals">
+        <PropertyRef Name="TypicalID" />
+      </Principal>
+      <Dependent Role="TypicalImageFiles">
+        <PropertyRef Name="TypicalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkTOA_Attribute">
+    <End Role="TAttributes" Type="PaoliPDWModel.Store.TAttributes" Multiplicity="1" />
+    <End Role="TypicalOptionAttributes" Type="PaoliPDWModel.Store.TypicalOptionAttributes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TAttributes">
+        <PropertyRef Name="AttributeID" />
+      </Principal>
+      <Dependent Role="TypicalOptionAttributes">
+        <PropertyRef Name="AttributeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkTOA_AttributeOption">
+    <End Role="TAttributeOptions" Type="PaoliPDWModel.Store.TAttributeOptions" Multiplicity="1" />
+    <End Role="TypicalOptionAttributes" Type="PaoliPDWModel.Store.TypicalOptionAttributes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TAttributeOptions">
+        <PropertyRef Name="OptionID" />
+      </Principal>
+      <Dependent Role="TypicalOptionAttributes">
+        <PropertyRef Name="OptionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkTOA_Typical">
+    <End Role="Typicals" Type="PaoliPDWModel.Store.Typicals" Multiplicity="1" />
+    <End Role="TypicalOptionAttributes" Type="PaoliPDWModel.Store.TypicalOptionAttributes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Typicals">
+        <PropertyRef Name="TypicalID" />
+      </Principal>
+      <Dependent Role="TypicalOptionAttributes">
+        <PropertyRef Name="TypicalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkTOption_Attribute">
+    <End Role="TAttributes" Type="PaoliPDWModel.Store.TAttributes" Multiplicity="1" />
+    <End Role="TAttributeOptions" Type="PaoliPDWModel.Store.TAttributeOptions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TAttributes">
+        <PropertyRef Name="AttributeID" />
+      </Principal>
+      <Dependent Role="TAttributeOptions">
+        <PropertyRef Name="AttributeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkTripData_Company">
+    <End Role="Companies" Type="PaoliPDWModel.Store.Companies" Multiplicity="1" />
+    <End Role="CompanyTripData" Type="PaoliPDWModel.Store.CompanyTripData" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Companies">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="CompanyTripData">
+        <PropertyRef Name="CompanyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkTTA_Attribute">
+    <End Role="TAttributes" Type="PaoliPDWModel.Store.TAttributes" Multiplicity="1" />
+    <End Role="TypicalTextAttributes" Type="PaoliPDWModel.Store.TypicalTextAttributes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TAttributes">
+        <PropertyRef Name="AttributeID" />
+      </Principal>
+      <Dependent Role="TypicalTextAttributes">
+        <PropertyRef Name="AttributeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkTTA_Typical">
+    <End Role="Typicals" Type="PaoliPDWModel.Store.Typicals" Multiplicity="1" />
+    <End Role="TypicalTextAttributes" Type="PaoliPDWModel.Store.TypicalTextAttributes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Typicals">
+        <PropertyRef Name="TypicalID" />
+      </Principal>
+      <Dependent Role="TypicalTextAttributes">
+        <PropertyRef Name="TypicalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkTypical_Spec">
+    <End Role="SpecRequests" Type="PaoliPDWModel.Store.SpecRequests" Multiplicity="0..1" />
+    <End Role="Typicals" Type="PaoliPDWModel.Store.Typicals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SpecRequests">
+        <PropertyRef Name="RequestID" />
+      </Principal>
+      <Dependent Role="Typicals">
+        <PropertyRef Name="SpecRequestID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkUser_Company">
+    <End Role="Companies" Type="PaoliPDWModel.Store.Companies" Multiplicity="1" />
+    <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Companies">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="CompanyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkUsers_CreatedByUser">
+    <End Role="Users" Type="PaoliPDWModel.Store.Users" Multiplicity="0..1" />
+    <End Role="Users1" Type="PaoliPDWModel.Store.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Users1">
+        <PropertyRef Name="CreatedByUser" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkZip_Territory">
+    <End Role="Territories" Type="PaoliPDWModel.Store.Territories" Multiplicity="1" />
+    <End Role="ZipCodeInfo" Type="PaoliPDWModel.Store.ZipCodeInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Territories">
+        <PropertyRef Name="TerritoryID" />
+      </Principal>
+      <Dependent Role="ZipCodeInfo">
+        <PropertyRef Name="TerritoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="CanDeleteCompany" ReturnType="int" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CompanyID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ClosestShowroom" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="lat" Type="float" Mode="In" />
+    <Parameter Name="long" Type="float" Mode="In" />
+  </Function>
+  <Function Name="DistanceBetweenPoints" ReturnType="float" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Latitude1" Type="float" Mode="In" />
+    <Parameter Name="Longitude1" Type="float" Mode="In" />
+    <Parameter Name="Latitude2" Type="float" Mode="In" />
+    <Parameter Name="Longitude2" Type="float" Mode="In" />
+  </Function>
+  <Function Name="spCanDeleteCompany" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="companyId" Type="int" Mode="In" />
+  </Function>
+</Schema>
