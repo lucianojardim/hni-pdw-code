@@ -6,3 +6,11 @@ C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWDBContext\bin\Release\EntityFramew
 C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWDBContext\obj\Release\PDWDBContext.csprojResolveAssemblyReference.cache
 C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWDBContext\obj\Release\PDWDBContext.dll
 C:\BitBucket\paoli-pdw-code\paoli-pdw-code\PDWDBContext\obj\Release\PDWDBContext.pdb
+C:\GitHub\hni-pdw-code\PDWDBContext\bin\Release\PDWDBContext.dll.config
+C:\GitHub\hni-pdw-code\PDWDBContext\bin\Release\PDWDBContext.dll
+C:\GitHub\hni-pdw-code\PDWDBContext\bin\Release\PDWDBContext.pdb
+C:\GitHub\hni-pdw-code\PDWDBContext\bin\Release\EntityFramework.dll
+C:\GitHub\hni-pdw-code\PDWDBContext\bin\Release\EntityFramework.xml
+C:\GitHub\hni-pdw-code\PDWDBContext\obj\Release\PDWDBContext.csprojResolveAssemblyReference.cache
+C:\GitHub\hni-pdw-code\PDWDBContext\obj\Release\PDWDBContext.dll
+C:\GitHub\hni-pdw-code\PDWDBContext\obj\Release\PDWDBContext.pdb
