@@ -34,9 +34,6 @@ namespace PDWModels.Images
 			Cherry = 1,
 			Maple = 2,
 			Walnut = 3,
-			RiftedOak = 4,
-			EuropeanWalnut = 5,
-			GrayOak = 6,
             MapleStratawood = 7,
             WhiteStratawood = 8,
             CherryStratawood = 9,
@@ -45,8 +42,7 @@ namespace PDWModels.Images
 
 		public enum VeneerGrades
 		{
-			Standard = 1,
-			Premium = 2
+			Standard = 1
 		}
 
 		public enum LaminatePatterns
@@ -57,8 +53,7 @@ namespace PDWModels.Images
 
 		public enum SeatingGrades
 		{
-			Standard = 1,
-			Premium = 2
+			Standard = 1
 		}
 
 		public enum ImageApplications

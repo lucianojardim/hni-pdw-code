@@ -644,7 +644,6 @@ namespace ProductDataWarehouse.Controllers
 			return new List<SelectListItem>()
 			{
 				new SelectListItem() { Text = "Standard", Value = ((int)ImageInformation.SeatingGrades.Standard).ToString() },
-				new SelectListItem() { Text = "Premium", Value = ((int)ImageInformation.SeatingGrades.Premium).ToString() },
 			};
 		}
 
@@ -659,7 +658,6 @@ namespace ProductDataWarehouse.Controllers
 			return new List<SelectListItem>()
 			{
 				new SelectListItem() { Text = "Standard", Value = ((int)ImageInformation.VeneerGrades.Standard).ToString() },
-				new SelectListItem() { Text = "Premium", Value = ((int)ImageInformation.VeneerGrades.Premium).ToString() },
 			};
 		}
 
@@ -670,9 +668,6 @@ namespace ProductDataWarehouse.Controllers
 				new SelectListItem() { Text = "Cherry", Value = ((int)ImageInformation.VeneerSpecieses.Cherry).ToString() },
 				new SelectListItem() { Text = "Maple", Value = ((int)ImageInformation.VeneerSpecieses.Maple).ToString() },
 				new SelectListItem() { Text = "Walnut", Value = ((int)ImageInformation.VeneerSpecieses.Walnut).ToString() },
-				new SelectListItem() { Text = "Rifted Oak", Value = ((int)ImageInformation.VeneerSpecieses.RiftedOak).ToString() },
-				new SelectListItem() { Text = "European Walnut", Value = ((int)ImageInformation.VeneerSpecieses.EuropeanWalnut).ToString() },
-				new SelectListItem() { Text = "Gray Oak", Value = ((int)ImageInformation.VeneerSpecieses.GrayOak).ToString() },
 				new SelectListItem() { Text = "Maple Stratawood", Value = ((int)ImageInformation.VeneerSpecieses.MapleStratawood).ToString() },
 				new SelectListItem() { Text = "White Stratawood", Value = ((int)ImageInformation.VeneerSpecieses.WhiteStratawood).ToString() },
 				new SelectListItem() { Text = "Cherry Stratawood", Value = ((int)ImageInformation.VeneerSpecieses.CherryStratawood).ToString() },
